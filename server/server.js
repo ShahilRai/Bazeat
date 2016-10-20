@@ -6,8 +6,8 @@ import bodyParser from 'body-parser';
 import path from 'path';
 import IntlWrapper from '../client/modules/Intl/IntlWrapper';
 // import twilio from 'twilio';
-import nodeMailer from 'nodemailer';
-import mandrillTransport from 'nodemailer-mandrill-transport';
+// import nodeMailer from 'nodemailer';
+// import mandrillTransport from 'nodemailer-mandrill-transport';
 
 // Webpack Requirements
 import webpack from 'webpack';
@@ -59,7 +59,7 @@ mongoose.connect(serverConfig.mongoURL, (error) => {
 // Apply body Parser and server public assets and routes
 app.use(compression());
 app.use(bodyParser.json({ limit: '20mb' }));
-app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
+app.use(bodyParser.urlencoded({ limit: '20mb', extended: true }));
 app.use(Express.static(path.resolve(__dirname, '../dist')));
 app.use('/api', posts);
 app.use('/api', users);

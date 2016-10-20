@@ -30,7 +30,7 @@ export function getProduct(req, res) {
       res.status(500).send(err);
     }
     res.json({ product });
-  })
+  });
 }
 
 

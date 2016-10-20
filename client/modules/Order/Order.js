@@ -1,29 +1,29 @@
-import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+// import React, { Component, PropTypes } from 'react';
+// import { connect } from 'react-redux';
+// import { bindActionCreators } from 'redux';
 
-// Import Style
-import styles from './Order.css';
+// // Import Style
+// import styles from './Order.css';
 
-class Order extends Component {
-  render() {
-    return (
-    );
-  }
-}
+// class Order extends Component {
+//   render() {
+//     return (
+//     );
+//   }
+// }
 
-const mapStateToProps = (state) => {
-  return {};
-};
+// const mapStateToProps = (state) => {
+//   return {};
+// };
 
-const mapDispatchToProps = (dispatch) => {
-  return {};
-};
+// const mapDispatchToProps = (dispatch) => {
+//   return {};
+// };
 
-Order.propTypes = {
-};
+// Order.propTypes = {
+// };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Order);
+// export default connect(
+//   mapStateToProps,
+//   mapDispatchToProps
+// )(Order);

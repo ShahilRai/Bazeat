@@ -2,6 +2,12 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
+const orderItems = new Schema({
+  price: Number,
+  qty: Number,
+  productId: ObjectId,
+});
+
 const orderSchema = new Schema({
   orderStatus: { type: 'String' },
   orderDate: { type: 'Date' },
@@ -11,6 +17,8 @@ const orderSchema = new Schema({
   shipmentPrice: { type: 'String' },
   orderSum: { type: 'String' },
   deliveryDate: { type: 'Date' },
+  orderitems: [orderItems],
+  // meta: { price: 'String', quantity: 'Number'},
 });
 
 export default mongoose.model('Order', orderSchema);

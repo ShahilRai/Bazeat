@@ -5,7 +5,7 @@ const ObjectId = Schema.ObjectId;
 const productSchema = new Schema({
   productName: { type: 'String' },
   photo: { type: 'String' },
-  description: { type: 'String'},
+  description: { type: 'String' },
   producerId: ObjectId,
   SKU: { type: 'String' },
   price: { type: 'Date' },

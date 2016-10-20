@@ -4,10 +4,13 @@ import cuid from 'cuid';
 export function addOrder(req, res) {
   const newOrder = new Order(req.body);
   newOrder.cuid = cuid();
+  // newOrder.orderitems.create( req.body.orderitems );
   newOrder.save((err, saved) => {
     if (err) {
+      // res.json(500, { err: err });
       res.status(500).send(err);
     }
+    saved.orderitems.push(req.body.orderitems);
     res.json({ order: saved });
   });
 }
