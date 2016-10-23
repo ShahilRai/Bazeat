@@ -1,0 +1,112 @@
+.grid_single_item {
+  display: block;
+  border-radius: 5px;
+  margin:15px;
+  transition: all 220ms;
+  border:10px solid transparent;
+  background:transparent;
+      float: left;
+	  position:relative;
+
+}
+
+.grid_single_item:hover {
+   border:10px solid #f2f2f2;
+  transition: all 220ms;
+  background:#f2f2f2;
+}
+
+.grid_single_item > a > img {
+  display: block;
+  width: 100%;
+  
+}
+.grid_single_item:hover > .hover_box{ opacity:1; top:0;}
+.hover_box{    position: absolute;
+    z-index: 1;
+    top: -20px;
+    width: 100%;
+	opacity:0;
+    height: 60px;
+    padding: 10px 10px 10px 6px;}
+	.like_btn_bg{       width: 30px;
+    height: 25px;
+    float: left;
+    background: #fff;
+    border-radius: 4px;
+    text-align: center;
+    line-height: 30px;
+    margin: 0 4px ;}
+	.like_btn_bg i{     color: #666666;
+    font-size: 17px;}
+	
+	.buy_btn{    width: auto;
+    float: right;
+    height: 25px;
+    background: #00aca2;
+    border-radius: 4px;
+    text-align: center;
+    line-height: 26px;
+    color: #fff;
+    font-weight: 600;
+    padding: 0 15px;
+    letter-spacing: 1.4px;
+	}
+.grid_tile_desc{ width:100%; float:left; position:relative; margin: 10px 0 0px 0;}
+.grid_single_item h2 {
+        font-size: 15px;
+    color: #666666;
+    font-family: 'HelveticaNeue LT 65';
+    padding-right: 70px;
+    margin-bottom: 10px;
+}
+.grid_single_item .price_tag{    font-family: 'HelveticaNeue LT 65';
+    font-size: 15px;
+    color: #4d4d4d;
+    position: absolute;
+    right: 0;
+    top: 0;}
+.grid_single_item p{    color: #999999;
+    font-size: 12px;
+    letter-spacing: 1.20px;}
+.grid_wall_wrapper {
+  display: block;
+  position: relative;
+}
+
+.wall-column {
+  display: block;
+  position: relative;
+  width: 25%;
+  float: left;
+   background:transparent;
+  box-sizing: border-box;
+}
+@media only screen and (min-width:250px) and (max-width:760px) {
+
+.wall-column { width: 50%; }
+.grid_single_item {
+    margin: 15px 0;
+	width:100%;
+}
+}
+
+@media only screen and (min-width:761px) and (max-width:959px) {
+
+.grid_single_item {
+
+    margin: 15px 0;
+
+}
+
+}
+
+@media only screen and (min-width:1000px) and (max-width:1200px) {
+	.grid_single_item {
+
+    margin: 15px 0;
+
+}
+
+	
+}
