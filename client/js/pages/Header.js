@@ -24,14 +24,16 @@ export default class Header extends React.Component {
                 <li><a href="#">Help</a></li>
                 <NotAuthenticated>
                   <li>
-                    <Link to="/register" activeClassName="active">Join Bazeat</Link>
+                    <a href="#" data-toggle="modal" data-target="#register_modal">Join Bazeat</a>                    
                   </li>
                 </NotAuthenticated>
                 <NotAuthenticated>
-                  <li><a href="#" data-toggle="modal" data-target="#login_modal">Log in</a></li>
+                  <li>
+                    <a href="#" data-toggle="modal" data-target="#login_modal">Log in</a>
+                  </li>
                 </NotAuthenticated>
                 <Authenticated>
-                  <LogoutLink />
+                  <li><LogoutLink>Log out</LogoutLink></li>
                 </Authenticated>
                 <li className="cart_icon"><a href="#">Cart</a></li>
               </ul>

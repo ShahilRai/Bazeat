@@ -1,9 +1,25 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import { LoginLink, LogoutLink, NotAuthenticated, Authenticated } from 'react-stormpath';
+import { LoginForm, LoginLink, LogoutLink, NotAuthenticated, Authenticated } from 'react-stormpath';
 
 export default class LoginModal extends React.Component {
+
+  onFormSubmit(e, next) {
+    var data = e.data;
+
+    // Require passwords to be at least 10 characters.
+    // if (data.password.length < 10) {
+    //   return next(new Error('Password must be at least 10 characters long.'));
+    // }
+ 
+    // Force usernames to be in lowercase.
+    data.username = data.username.toLowerCase();
+ 
+    next(null, data);
+    $("#login_modal").modal('hide')
+  }
+
   render() {
     return (
      	 <div className="modal login_modal" id="login_modal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -20,17 +36,18 @@ export default class LoginModal extends React.Component {
               <h5><span>or </span><a href="#">Register</a></h5>
             </div>
             <div className="modal-body">
-             	<p>Alle skal ha mulighet å spise mat laget av hender</p>
+              <p>Alle skal ha mulighet å spise mat laget av hender</p>
+              <LoginForm onSubmit={this.onFormSubmit.bind(this)} className="login_form">              
                 <p spIf="form.error">
-    				<strong>Error:</strong> <span spBind="form.errorMessage" />
-  				</p>
-             <form className="login_form">
+    				      <strong>Error:</strong> <span spBind="form.errorMessage" />
+  				      </p>
+             
                 <div className="form-group">
-                  <input type="text" className="form-control" placeholder="User name"  name="username"/>
+                  <input type="text" className="form-control" placeholder="User name"  name="login"/>
                   <i className="fa fa-envelope-o" aria-hidden="true"></i>
                 </div>
                 <div className="form-group">
-                  <input type="text" className="form-control passwrd_txt" name="password" placeholder="******" />
+                  <input type="password" className="form-control passwrd_txt" name="password" placeholder="******" />
                   <i className="fa fa-lock" aria-hidden="true"></i>
                 </div>
 
@@ -42,16 +59,16 @@ export default class LoginModal extends React.Component {
                 </div>
                 <input type="submit" value="Log in" className="login_sbmit" />
                 <span className="error_txt"><a href="#">Have you forgotten your password?</a></span>
-              </form>
-              <span className="or_txt">or</span>
-              <div className="social_btn">
-                <i className="fa fa-facebook" aria-hidden="true"></i>
-                <a href="#"  className="modal_btns fb_btn">Log in with <b>Facebook</b></a>
-              </div>
-              <div className="social_btn">
-                <a href="#" className="modal_btns google_btn">Log in with <b>Google</b></a>
-              </div>
-            </div>
+                <span className="or_txt">or</span>
+                <div className="social_btn">
+                  <i className="fa fa-facebook" aria-hidden="true"></i>
+                  <a href="#"  className="modal_btns fb_btn">Log in with <b>Facebook</b></a>
+                </div>
+                <div className="social_btn">
+                  <a href="#" className="modal_btns google_btn">Log in with <b>Google</b></a>
+                </div>
+              </LoginForm>
+            </div>            
             <div className="modal-footer">
             </div>
           </div>
