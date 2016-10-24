@@ -6,6 +6,7 @@ const orderItems = new Schema({
   price: Number,
   qty: Number,
   productId: ObjectId,
+  authorId: ObjectId
 });
 
 const orderSchema = new Schema({

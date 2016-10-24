@@ -9,7 +9,10 @@ const productSchema = new Schema({
   producerId: ObjectId,
   SKU: { type: 'String' },
   price: { type: 'Date' },
-  cuid: { type: 'String', required: true },
+  cuid: { type: 'String' },
+  // user: { type: ObjectId, ref:"User", childPath: "products" }
+  _producer: { type: ObjectId, ref: 'User' },
+  buyers: [{ type: ObjectId, ref: 'User' }]
 });
 
 export default mongoose.model('Product', productSchema);

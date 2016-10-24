@@ -14,7 +14,8 @@ export function addUser(req, res) {
 
 
 export function getUsers(req, res) {
-  User.find().sort('-dateAdded').exec((err, users) => {
+  // User.find().sort('-dateAdded').exec((err, users) => {
+  User.find().populate('products').exec((err, users) => {
     if (err) {
       res.status(500).send(err);
     }

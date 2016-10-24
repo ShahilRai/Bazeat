@@ -40,6 +40,7 @@ import users from './routes/user.routes';
 import producers from './routes/producer.routes';
 import orders from './routes/order.routes';
 import products from './routes/product.routes';
+import profiles from './routes/profile.routes';
 import dummyData from './dummyData';
 import serverConfig from './config';
 
@@ -65,7 +66,8 @@ app.use('/api', posts);
 app.use('/api', users);
 app.use('/api', producers);
 app.use('/api', orders);
-app.use('/api/producers', products);
+app.use('/api', products);
+app.use('/api/profiles', profiles);
 app.use(ExpressStrompath.init(app, {
   expand: {
     customData: true
