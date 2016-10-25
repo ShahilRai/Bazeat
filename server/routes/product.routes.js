@@ -5,8 +5,14 @@ const router = new Router();
 // Add a new Product
 router.route('/products').post(ProductController.addProduct);
 
+// Buy a new Product
+router.route('/purchase_products').post(ProductController.purchaseProduct);
+
 // Get all Products
 router.route('/products').get(ProductController.getProducts);
+
+// Get all buyers of Product
+router.route('/product_buyers/:cuid').get(ProductController.getBuyers);
 
 // Get one Product by cuid
 router.route('/products/:cuid').get(ProductController.getProduct);

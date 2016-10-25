@@ -13,4 +13,10 @@ router.route('/orders/:cuid').get(OrderController.getOrder);
 // Delete Order by cuid
 router.route('/orders/:cuid').delete(OrderController.deleteOrder);
 
+// Add to cart
+router.route('/carts').post(OrderController.addCart);
+
+// Add to cart
+router.route('/remove/cart_items').delete(OrderController.removeCartItems);
+
 export default router;
