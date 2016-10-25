@@ -11,6 +11,7 @@ ReactDOM.render(
     <HomeRoute path='/' component={MasterPage}>
       <IndexRoute component={IndexPage} />      
       <Route path='/verify' component={VerifyEmailPage} />
+      <Route path='/passwordReset' component={ResetPasswordPage} />
       <Route path='/change' component={ChangePasswordPage} />
       <Route path='/forgot' component={ResetPasswordPage} />
       <AuthenticatedRoute>
