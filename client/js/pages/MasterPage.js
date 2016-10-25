@@ -5,6 +5,7 @@ import DocumentTitle from 'react-document-title';
 import Header from './Header';
 import LoginModal from './LoginModal';
 import RegisterModal from './RegisterModal';
+import ResetPasswordModal from './ResetPasswordModal';
 import { LoginLink, LogoutLink, NotAuthenticated, Authenticated } from 'react-stormpath';
 
 export default class MasterPage extends React.Component {
@@ -19,6 +20,7 @@ export default class MasterPage extends React.Component {
           <NotAuthenticated>
               <LoginModal />
               <RegisterModal />
+              <ResetPasswordModal />
           </NotAuthenticated>
         </div>
       </DocumentTitle>

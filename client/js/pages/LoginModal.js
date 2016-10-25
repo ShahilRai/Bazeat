@@ -55,7 +55,7 @@ export default class LoginModal extends React.Component {
                 <p className="alert alert-danger" data-spIf="form.error">
                   <span data-spBind="form.errorMessage" />
                 </p>
-                <span className="error_txt"><a href="#">Have you forgotten your password?</a></span>
+                <span className="error_txt"><a href="#" data-toggle="modal" data-target="#forgot_modal">Have you forgotten your password?</a></span>
                 <span className="or_txt">or</span>
                 <div className="social_btn">
                   <i className="fa fa-facebook" aria-hidden="true"></i>

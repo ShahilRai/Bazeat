@@ -8,7 +8,16 @@ export default class RegisterModal extends React.Component {
     var data = e.data;
 
     if (data.password.length < 8) {
-      return next(new Error('Password must be at least 10 characters long.'));
+      return next(new Error('Password must be at least 8 characters long.'));
+    }
+    if (data.password.search(/\d/) == -1){
+    return next(new Error('Password must contain one digit.'));
+    }
+    if (data.password.search(/^(?=.*[a-z]).+$/) == -1) {
+    return next(new Error('Password must contain one lower case character.'));
+    }
+    if (data.password.search(/^(?=.*[A-Z]).+$/) == -1) {
+    return next(new Error('Password must contain one upper case character.'));
     }
 
     next(null, data);
