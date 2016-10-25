@@ -6,8 +6,8 @@ import bodyParser from 'body-parser';
 import path from 'path';
 // import IntlWrapper from '../client/modules/Intl/IntlWrapper';
 // import twilio from 'twilio';
-import nodeMailer from 'nodemailer';
-import mandrillTransport from 'nodemailer-mandrill-transport';
+// import nodeMailer from 'nodemailer';
+// import mandrillTransport from 'nodemailer-mandrill-transport';
 
 // Webpack Requirements
 import webpack from 'webpack';
@@ -44,6 +44,7 @@ import users from './routes/user.routes';
 import producers from './routes/producer.routes';
 import orders from './routes/order.routes';
 import products from './routes/product.routes';
+import profiles from './routes/profile.routes';
 import dummyData from './dummyData';
 import serverConfig from './config';
 
@@ -63,13 +64,14 @@ mongoose.connect(serverConfig.mongoURL, (error) => {
 // Apply body Parser and server public assets and routes
 app.use(compression());
 app.use(bodyParser.json({ limit: '20mb' }));
-app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
+app.use(bodyParser.urlencoded({ limit: '20mb', extended: true }));
 app.use(Express.static(path.resolve(__dirname, '../dist')));
 app.use('/api', posts);
 app.use('/api', users);
 app.use('/api', producers);
 app.use('/api', orders);
-app.use('/api/producers', products);
+app.use('/api', products);
+app.use('/api/profiles', profiles);
 app.use(ExpressStrompath.init(app, {
   expand: {
     customData: true

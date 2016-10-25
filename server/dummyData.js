@@ -1,4 +1,5 @@
 import Post from './models/post';
+import Role from './models/role';
 
 export default function () {
   Post.count().exec((err, count) => {
@@ -38,6 +39,20 @@ export default function () {
     const post2 = new Post({ name: 'Admin', title: 'Lorem Ipsum', slug: 'lorem-ipsum', cuid: 'cikqgkv4q01ck7453ualdn3hf', content: content2 });
 
     Post.create([post1, post2], (error) => {
+      if (!error) {
+        // console.log('ready to go....');
+      }
+    });
+  });
+
+  Role.count().exec((err, count) => {
+    if (count > 0) {
+      return;
+    }
+    const role1 = new Role({ name: 'Admin' });
+    const role2 = new Role({ name: 'Producer' });
+    const role3 = new Role({ name: 'User' });
+    Role.create([role1, role2, role3], (error) => {
       if (!error) {
         // console.log('ready to go....');
       }
