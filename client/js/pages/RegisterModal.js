@@ -1,8 +1,19 @@
 import React from 'react';
 
-import { RegistrationForm } from 'react-stormpath';
+import { RegistrationForm, SocialLoginLink } from 'react-stormpath';
 
 export default class RegisterModal extends React.Component {
+
+  onFormSubmit(e, next){
+    var data = e.data;
+
+    if (data.password.length < 8) {
+      return next(new Error('Password must be at least 10 characters long.'));
+    }
+
+    next(null, data);
+    $("#register_modal").modal('hide')
+  }
 
   render() {
     return (            
@@ -21,7 +32,7 @@ export default class RegisterModal extends React.Component {
               <h5 className="register_heading"><a href="#">Er du en produsent?</a></h5>
             </div>
             <div className="modal-body">
-              <RegistrationForm className="login_form mtop0">
+              <RegistrationForm onSubmit={this.onFormSubmit.bind(this)} className="login_form mtop0">
                 <div className="form-group">
                   <input type="text" className="form-control" id="givenName" name="firstName" placeholder="First Name" required={ true } />
                 </div>
@@ -34,17 +45,19 @@ export default class RegisterModal extends React.Component {
                 <div className="form-group">
                   <input type="password" className="form-control" id="password" name="password" placeholder="Password" required={ true } />
                 </div>
-                <p className="alert alert-danger" data-spIf="form.error"><span data-spBind="form.errorMessage" /></p>
+                <p className="alert alert-danger" data-spIf="form.error">
+                  <span data-spBind="form.errorMessage" />
+                </p>
                 
                 <input type="submit" value="Bli en Bazeater" className="login_sbmit" />
               </RegistrationForm>
               <span className="or_txt mtop10">eller</span>
               <div className="social_btn">
                 <i className="fa fa-facebook" aria-hidden="true"></i>
-                <a href="#"  className="modal_btns fb_btn">Register with <b>Facebook</b></a>
+                <SocialLoginLink providerId='facebook' className="modal_btns fb_btn">Register with <b>Facebook</b></SocialLoginLink>
               </div>
               <div className="social_btn">
-                <a href="#" className="modal_btns google_btn">Register with <b>Google</b></a>
+                <SocialLoginLink providerId='google' className="modal_btns google_btn">Register with <b>Google</b></SocialLoginLink>
               </div>
             </div>  
             <div className="modal-footer">

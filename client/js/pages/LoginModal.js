@@ -1,22 +1,19 @@
 import React from 'react';
-import { Link } from 'react-router';
 
-import { LoginForm, LoginLink, LogoutLink, NotAuthenticated, Authenticated } from 'react-stormpath';
+import { LoginForm, SocialLoginLink } from 'react-stormpath';
 
 export default class LoginModal extends React.Component {
 
   onFormSubmit(e, next) {
     var data = e.data;
-
-    // Require passwords to be at least 10 characters.
-    // if (data.password.length < 10) {
-    //   return next(new Error('Password must be at least 10 characters long.'));
-    // }
- 
-    // Force usernames to be in lowercase.
     data.username = data.username.toLowerCase();
- 
     next(null, data);
+  }
+
+  onSuccess(e, next){
+    var data = e.data;
+    next(null, data);
+
     $("#login_modal").modal('hide')
   }
 
@@ -37,10 +34,7 @@ export default class LoginModal extends React.Component {
             </div>
             <div className="modal-body">
               <p>Alle skal ha mulighet å spise mat laget av hender</p>
-              <LoginForm onSubmit={this.onFormSubmit.bind(this)} className="login_form">              
-                <p spIf="form.error">
-    				      <strong>Error:</strong> <span spBind="form.errorMessage" />
-  				      </p>
+              <LoginForm onSubmit={this.onFormSubmit.bind(this)} onSuccess={this.onSuccess.bind(this)} className="login_form">
              
                 <div className="form-group">
                   <input type="text" className="form-control" placeholder="User name"  name="login"/>
@@ -58,14 +52,17 @@ export default class LoginModal extends React.Component {
                   </label>
                 </div>
                 <input type="submit" value="Log in" className="login_sbmit" />
+                <p className="alert alert-danger" data-spIf="form.error">
+                  <span data-spBind="form.errorMessage" />
+                </p>
                 <span className="error_txt"><a href="#">Have you forgotten your password?</a></span>
                 <span className="or_txt">or</span>
                 <div className="social_btn">
                   <i className="fa fa-facebook" aria-hidden="true"></i>
-                  <a href="#"  className="modal_btns fb_btn">Log in with <b>Facebook</b></a>
+                  <SocialLoginLink providerId='facebook' className="modal_btns fb_btn">Log in with <b>Facebook</b></SocialLoginLink>
                 </div>
                 <div className="social_btn">
-                  <a href="#" className="modal_btns google_btn">Log in with <b>Google</b></a>
+                  <SocialLoginLink providerId='google' className="modal_btns google_btn">Log in with <b>Google</b></SocialLoginLink>
                 </div>
               </LoginForm>
             </div>            
