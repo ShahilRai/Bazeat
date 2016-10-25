@@ -40,7 +40,8 @@ const userSchema = new Schema({
   dateJoined: { type: 'Date', default: Date.now },
   producerInfo: [ifProducer],
   userInfo: [ifUser],
-  products: [{ type: Schema.ObjectId, ref: 'Product' }]
+  products: [{ type: Schema.ObjectId, ref: 'Product' }],
+  orderitems: [{ type: Schema.ObjectId, ref: 'OrderItem' }],
 });
 
 export default mongoose.model('User', userSchema);
