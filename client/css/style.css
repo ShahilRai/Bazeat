@@ -45,7 +45,7 @@ p {
 a:hover {
 	text-decoration: none;
 }
-
+.margin_auto{margin: 0 auto; float: none}
 .plft_zero {
 	padding-left: 0px;
 }
@@ -288,7 +288,11 @@ a:hover {
 
 /*=====LOGIN==========*/
 
-
+.login_form.reset_form{   margin-top: 120px;
+    float: left;
+    width: 100%;
+    box-shadow: 0 0 8px rgba(0,0,0,.2);
+    padding: 20px;}
 .login_modal .modal-dialog {
 	max-width: 400px;
 	    margin: 100px auto;
