@@ -11,7 +11,7 @@ export function addProduct(req, res) {
     if (err) {
       res.status(500).send(err);
     }
-    User.findOne({  cuid: req.body.cuid }).exec( (error, user) => {
+    User.findOne({  cuid: req.body.cuid }).exec((error, user) => {
       user.products.push(saved);
       user.save((error, user) => {
         if (error) {
@@ -26,8 +26,8 @@ export function addProduct(req, res) {
 
 
 export function purchaseProduct(req, res) {
-  Product.findOne({ cuid: req.body.cuid }).exec(( err, product)=>{
-    User.findOne({ cuid: req.body.buyer_cuid}).exec( (err, user)=> {
+  Product.findOne({ cuid: req.body.cuid }).exec((err, product) =>{
+    User.findOne({ cuid: req.body.buyer_cuid}).exec((err, user) => {
         product.buyers.push(user);
         product.save((err, product1) => {
           // console.log(err)

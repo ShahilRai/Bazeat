@@ -9,7 +9,7 @@ ReactStormpath.init();
 ReactDOM.render(
   <Router history={browserHistory}>
     <HomeRoute path='/' component={MasterPage}>
-      <IndexRoute component={IndexPage} />      
+      <IndexRoute component={IndexPage} />
       <Route path='/verify' component={VerifyEmailPage} />
       <Route path='/passwordReset' component={ResetPasswordPage} />
       <Route path='/change' component={ChangePasswordPage} />

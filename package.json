@@ -16,9 +16,6 @@
     "slate": "rimraf node_modules && npm install",
     "lint": "eslint client server"
   },
-  "pre-commit": [
-    "lint"
-  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alifetouni/bazeat.git"
