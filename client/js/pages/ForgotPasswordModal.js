@@ -5,6 +5,12 @@ import { ResetPasswordForm } from 'react-stormpath';
 
 export default class ForgotPasswordModal extends React.Component {
 
+  onFormSubmit(e, next){
+    var data = e.data;
+    $("#forgot_modal").modal('hide')
+    next(null, data);
+  }
+
   render() {
     return (
             <div className="modal fade login_modal" id="forgot_modal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -23,11 +29,11 @@ export default class ForgotPasswordModal extends React.Component {
                 </div>
                 <div className="modal-body">
                   <p>Alle skal ha mulighet å spise mat laget av hender</p>
-                  <ResetPasswordForm className="login_form">
+                  <ResetPasswordForm className="login_form" id="reset_form" onSubmit={this.onFormSubmit.bind(this)} >
                     <div className="form-group">
                       <input type="text" className="form-control"  name="email"  placeholder="E-post" />
                     </div>
-                    <input type="submit" value="Bli en Bazeater" className="login_sbmit"  data-dismiss="modal" />
+                    <button className="login_sbmit" type="submit" >Bli en Bazeater</button>
                   </ResetPasswordForm>
                 </div>
                 <div className="modal-footer">

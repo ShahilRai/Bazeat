@@ -12,11 +12,11 @@ export default class ResetPasswordPage extends React.Component {
         <form id="resetPasswordForm" method="post" action="/passwordReset" novalidate="novalidate"  className="login_form reset_form">
           <div class="form-group">
             <label for="password" path="password">Password</label>
-            <input type="password" path="password" className="form-control" id="password" name="password" placeholder="Password" required={ true } />
+            <input type="password" path="password" className="form-control" id="password" name="password"  required={ true } />
           </div>
           <div class="form-group">
             <label for="confirmedPassword" path="confirmedPassword">Password (confirm)</label>
-            <input type="password" className="form-control" id="confirmedPassword" name="confirmedPassword" placeholder="Confirm Password" required={ true } />
+            <input type="password" className="form-control" id="confirmedPassword" name="confirmedPassword"  required={ true } />
           </div>
           <input path="sptoken" type="hidden" id="sptoken" name="sptoken" value={spToken} />
           <input name="csrfToken" type="hidden" value="" />
