@@ -51,7 +51,7 @@ export function deleteOrder(req, res) {
 }
 
 export function addCart(req, res) {
-  Cart.findOne({ cuid: req.body.cuid, user: req.body.user_id }, =>( err, cart ){
+  Cart.findOne({ cuid: req.body.cuid, user: req.body.user_id },function ( err, cart ){
     if (err) {
       res.json(500,{error_msg: "Cart not found"});
     }

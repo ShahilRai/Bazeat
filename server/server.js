@@ -47,7 +47,8 @@ import products from './routes/product.routes';
 import profiles from './routes/profile.routes';
 import dummyData from './dummyData';
 import serverConfig from './config';
-
+import User from './models/user';
+import cuid from 'cuid';
 // Set native promises as mongoose promise
 mongoose.Promise = global.Promise;
 
@@ -71,12 +72,36 @@ app.use('/api', users);
 app.use('/api', producers);
 app.use('/api', orders);
 app.use('/api', products);
-app.use('/api/profiles', profiles);
+app.use('/api', profiles);
 app.use(ExpressStrompath.init(app, {
-  expand: {
-    customData: true
+  // web: {
+  //   me: {
+  //     expand: {
+  //       customData: true
+  //     }
+  //   }
+  // }
+
+
+  postRegistrationHandler: function (account, req, res, next) {
+    console.log('User:', account.email, 'just registered!');
+    const newUser = new User({fullName: account.fullName, uniqueId: account.href, email: account.email});
+    newUser.cuid = cuid();
+    newUser.save((err, saved) => {
+      if (err) {
+        console.log('err')
+        console.log(err)
+        res.status(500).send(err);
+      }
+      res.json({ user: saved });
+    });
   }
 }));
+
+
+// app.get('/', ExpressStrompath.loginRequired, function(req, res) {
+//   res.send('Welcome back: ' + res.locals.user.email);
+// });
 
 // let client = new twilio.RestClient(process.env.TwilioSid, process.env.TwilioToken);
 

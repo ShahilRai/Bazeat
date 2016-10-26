@@ -2,6 +2,7 @@ import User from '../models/user';
 import cuid from 'cuid';
 
 export function addProfile(req, res) {
+  console.log("hhhh")
   const newUser = new User(req.body);
   newUser.cuid = cuid();
   console.log(req.body.producerinfo);
