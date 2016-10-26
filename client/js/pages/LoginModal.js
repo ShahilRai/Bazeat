@@ -7,14 +7,8 @@ export default class LoginModal extends React.Component {
   onFormSubmit(e, next) {
     var data = e.data;
     data.username = data.username.toLowerCase();
-    next(null, data);
-  }
-
-  onSuccess(e, next){
-    var data = e.data;
-    next(null, data);
-
     $("#login_modal").modal('hide')
+    next(null, data);
   }
 
   render() {
@@ -30,11 +24,11 @@ export default class LoginModal extends React.Component {
                 <img src={require('../../images/login_logo.png')} />
               </a>
               <h4 className="modal-title" id="myModalLabel">LOG IN</h4>
-              <h5><span>or </span><a href="#">Register</a></h5>
+              <h5><span>or </span><a href="#login_modal" data-dismiss="modal" data-toggle="modal" data-target="#register_modal">Register</a></h5>
             </div>
             <div className="modal-body">
               <p>Alle skal ha mulighet å spise mat laget av hender</p>
-              <LoginForm onSubmit={this.onFormSubmit.bind(this)} onSuccess={this.onSuccess.bind(this)} className="login_form">
+              <LoginForm onSubmit={this.onFormSubmit.bind(this)} className="login_form">
              
                 <div className="form-group">
                   <input type="text" className="form-control" placeholder="User name"  name="login"/>
@@ -55,7 +49,7 @@ export default class LoginModal extends React.Component {
                 <p className="alert alert-danger" data-spIf="form.error">
                   <span data-spBind="form.errorMessage" />
                 </p>
-                <span className="error_txt"><a href="#" data-toggle="modal" data-target="#forgot_modal">Have you forgotten your password?</a></span>
+                <span className="error_txt"><a href="#login_modal" data-dismiss="modal" data-toggle="modal" data-target="#forgot_modal">Have you forgotten your password?</a></span>
                 <span className="or_txt">or</span>
                 <div className="social_btn">
                   <i className="fa fa-facebook" aria-hidden="true"></i>

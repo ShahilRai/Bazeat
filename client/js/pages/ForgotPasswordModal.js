@@ -18,7 +18,7 @@ export default class ForgotPasswordModal extends React.Component {
                     <img src={require('../../images/login_logo.png')}/>
                   </a>
                   <h4 className="modal-title" id="myModalLabel">REGISTRER DEG</h4>
-                  <h5><span>eller </span><a href="#">Logg inn</a></h5>
+                  <h5><span>eller </span><a href="#register_modal" data-dismiss="modal" data-toggle="modal" data-target="#login_modal">Log in</a></h5>
                                    
                 </div>
                 <div className="modal-body">
@@ -27,7 +27,7 @@ export default class ForgotPasswordModal extends React.Component {
                     <div className="form-group">
                       <input type="text" className="form-control"  name="email"  placeholder="E-post" />
                     </div>
-                    <input type="submit" value="Bli en Bazeater" className="login_sbmit" />
+                    <input type="submit" value="Bli en Bazeater" className="login_sbmit"  data-dismiss="modal" />
                   </ResetPasswordForm>
                 </div>
                 <div className="modal-footer">
