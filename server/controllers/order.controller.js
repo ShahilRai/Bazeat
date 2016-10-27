@@ -12,8 +12,10 @@ export function addOrder(req, res) {
       // res.json(500, { err: err });
       res.status(500).send(err);
     }
-  order.orderitems.push(req.body.orderitems);
-  res.json({ order: order });
+      order.orderitems.push(req.body.orderitems);
+      order.save(function (err, order) {
+        res.json({ order: order });
+      });
   });
 }
 
@@ -51,29 +53,31 @@ export function deleteOrder(req, res) {
 }
 
 export function addCart(req, res) {
-  Cart.findOne({ cuid: req.body.cuid, user: req.body.user_id },function ( err, cart ){
-    if (err) {
-      res.json(500,{error_msg: "Cart not found"});
-    }
-    if (!cart){
-      const newCart = new Cart(req.body);
-      newCart.cuid = cuid();
-      newCart.user = req.body.user_id;
-      newCart.save((error, savedcart) => {
-        if (error) {
-          res.status(500).send(error);
-        }
-        savedcart.cartitems.push(req.body.cartitems);
-        cart.save(function (err, post) {
-          res.json({ cart: savedcart });
+  User.findOne({  email: req.body.email }).exec((error, user) => {
+    Cart.findOne({ cuid: req.body.cuid, user: user._id },function ( err, cart ){
+      if (err) {
+        res.json(500,{error_msg: "Cart not found"});
+      }
+      if (!cart){
+        const newCart = new Cart(req.body);
+        newCart.cuid = cuid();
+        newCart.user = user._id;
+        newCart.save((error, savedcart) => {
+          if (error) {
+            res.status(500).send(error);
+          }
+          savedcart.cartitems.push(req.body.cartitems);
+          cart.save(function (err, post) {
+            res.json({ cart: savedcart });
+          });
         });
-      });
-    }else{
-      cart.cartitems.push(req.body.cartitems);
-      cart.save(function (err, post) {
-        res.json({ cart: cart });
-      });
-    }
+      }else{
+        cart.cartitems.push(req.body.cartitems);
+        cart.save(function (err, post) {
+          res.json({ cart: cart });
+        });
+      }
+    });
   });
 }
 
