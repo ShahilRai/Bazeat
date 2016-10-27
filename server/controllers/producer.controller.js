@@ -4,7 +4,6 @@ import cuid from 'cuid';
 export function addProducer(req, res) {
   const newproducer = new Producer(req.body);
   newproducer.cuid = cuid();
-
   newproducer.save((err, saved) => {
     if (err) {
       res.status(500).send(err);

@@ -9,14 +9,14 @@ const ObjectId = Schema.ObjectId;
 // });
 
 const orderSchema = new Schema({
-  orderStatus: { type: 'String' },
-  orderDate: { type: 'Date' },
+  order_status: { type: 'String' },
+  order_date: { type: 'Date' },
   _buyer: ObjectId,
   cuid: { type: 'String', required: true },
-  deliveryMethod: { type: 'String' },
-  shipmentPrice: { type: 'String' },
-  orderSum: { type: 'String' },
-  deliveryDate: { type: 'Date' },
+  delivery_method: { type: 'String' },
+  shipment_price: { type: 'String' },
+  order_sum: { type: 'String' },
+  delivery_date: { type: 'Date' },
   orderitems: [{ type: Schema.ObjectId, ref: 'OrderItem' }],
   status: { type: Number, default: 0 }
 });

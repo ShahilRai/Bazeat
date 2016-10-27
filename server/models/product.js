@@ -3,10 +3,10 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
 const productSchema = new Schema({
-  productName: { type: 'String' },
+  product_name: { type: 'String' },
   photo: { type: 'String' },
   description: { type: 'String' },
-  producerId: ObjectId,
+  producer_d: ObjectId,
   SKU: { type: 'String' },
   price: { type: 'Date' },
   cuid: { type: 'String' },

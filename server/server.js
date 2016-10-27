@@ -74,18 +74,17 @@ app.use('/api', orders);
 app.use('/api', products);
 app.use('/api', profiles);
 app.use(ExpressStrompath.init(app, {
-  // web: {
-  //   me: {
-  //     expand: {
-  //       customData: true
-  //     }
-  //   }
-  // }
-
-
+    web: {
+    produces: ['application/json'],
+    me: {
+      expand: {
+        customData: true
+      }
+    },
+  },
   postRegistrationHandler: function (account, req, res, next) {
     console.log('User:', account.email, 'just registered!');
-    const newUser = new User({fullName: account.fullName, uniqueId: account.href, email: account.email});
+    const newUser = new User({full_name: account.fullName, unique_id: account.href, email: account.email, if_producer: account.if_producer});
     newUser.cuid = cuid();
     newUser.save((err, saved) => {
       if (err) {
@@ -97,6 +96,64 @@ app.use(ExpressStrompath.init(app, {
     });
   }
 }));
+
+app.post('/profile', bodyParser.json(), ExpressStrompath.loginRequired,
+  function (req, res) {
+  console.log("Good vgood")
+  function writeError(message) {
+    res.status(400);
+    res.json({ message: message, status: 400 });
+    res.end();
+  }
+
+  function saveAccount() {
+    console.log("Good")
+    req.user.givenName = req.body.givenName;
+    req.user.surname = req.body.surname;
+    req.user.email = req.body.email;
+
+    req.user.save(function (err) {
+      if (err) {
+        return writeError(err.userMessage || err.message);
+      }
+      // res.end();
+      User.findOne({ email: req.params.email }).exec((err, user) => {
+        user.photo = req.body.photo;
+        user.description = req.body.description;
+        user.city = req.body.city;
+        user.save((error, saveduser) => {
+          if (error) {
+            res.status(500).send(error);
+          }
+          saveduser.producerInfo.push(req.body.ifProducer);
+          saveduser.userInfo.push(req.body.ifUser);
+          saveduser.save(function (err, post) {
+            res.json({ user: saveduser });
+          });
+        });
+      });
+    });
+  }
+
+  if (req.body.password) {
+    var application = req.app.get('stormpathApplication');
+
+    application.authenticateAccount({
+      username: req.user.username,
+      password: req.body.existingPassword
+    }, function (err) {
+      if (err) {
+        return writeError('The existing password that you entered was incorrect.');
+      }
+
+      req.user.password = req.body.password;
+
+      saveAccount();
+    });
+  } else {
+    saveAccount();
+  }
+});
 
 
 // app.get('/', ExpressStrompath.loginRequired, function(req, res) {

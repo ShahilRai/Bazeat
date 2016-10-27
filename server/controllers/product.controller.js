@@ -3,21 +3,19 @@ import User from '../models/user';
 import cuid from 'cuid';
 
 export function addProduct(req, res) {
-  const newproduct = new Product(req.body);
-  newproduct.cuid = cuid();
-  newproduct._producer = req.body.user_id;
-  // newproduct.save((err, saved) => {
-  newproduct.save((err, saved) => {
-    if (err) {
-      res.status(500).send(err);
-    }
-    User.findOne({  cuid: req.body.cuid }).exec((error, user) => {
+  User.findOne({  email: req.body.email }).exec((error, user) => {
+    const newproduct = new Product(req.body);
+    newproduct.cuid = cuid();
+    newproduct._producer = user._id;
+    newproduct.save((err, saved) => {
+      if (err) {
+        res.status(500).send(err);
+      }
       user.products.push(saved);
       user.save((error, user) => {
         if (error) {
           res.status(500).send(error);
         }
-        // res.json({ user: user });
         res.json({ product: saved });
       });
     });
@@ -27,14 +25,12 @@ export function addProduct(req, res) {
 
 export function purchaseProduct(req, res) {
   Product.findOne({ cuid: req.body.cuid }).exec((err, product) =>{
-    User.findOne({ cuid: req.body.buyer_cuid}).exec((err, user) => {
+    User.findOne({ email: req.body.email}).exec((err, user) => {
         product.buyers.push(user);
         product.save((err, product1) => {
-          // console.log(err)
           if (err) {
             res.status(500).send(err);
           }
-          // res.json({ product: user });
         res.json({ product: product1 });
         });
     });

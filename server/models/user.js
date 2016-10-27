@@ -3,12 +3,12 @@ const Schema = mongoose.Schema;
 
 const ifProducer = new Schema({
   logo: String,
-  bgImage: String,
-  isValidated: Boolean,
+  bg_image: String,
+  is_validated: Boolean,
   website: String,
-  geoPosition: String,
-  numLikes: Number,
-  numRatings: [],
+  geo_position: String,
+  num_likes: Number,
+  num_ratings: [],
   products: [],
   ratings: [],
 });
@@ -18,25 +18,27 @@ const ifUser = new Schema({
   photo: String,
   gender: String,
   website: String,
-  lastLogin: Date,
-  deliveryPrice: Number,
+  last_login: Date,
+  delivery_price: Number,
   tlfNumber: Number,
   favourites: [],
 });
 
 const userSchema = new Schema({
-  fullName: { type: 'String' },
+  full_name: { type: 'String' },
   email: { type: 'String' },
   photo: { type: 'String' },
   description: { type: 'String' },
   cuid: { type: 'String' },
   city: { type: 'String' },
-  dateJoined: { type: 'Date', default: Date.now },
-  producerInfo: [ifProducer],
-  userInfo: [ifUser],
+  date_joined: { type: 'Date', default: Date.now },
+  if_producer: { type: 'Boolean', default: true },
+  if_user: { type: 'Boolean', default: true },
+  producer_info: [ifProducer],
+  user_info: [ifUser],
   products: [{ type: Schema.ObjectId, ref: 'Product' }],
   orderitems: [{ type: Schema.ObjectId, ref: 'OrderItem' }],
-  uniqueId: { type: String }
+  unique_id: { type: String }
 });
 
 export default mongoose.model('User', userSchema);
