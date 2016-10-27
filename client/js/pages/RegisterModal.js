@@ -19,9 +19,8 @@ export default class RegisterModal extends React.Component {
     if (data.password.search(/^(?=.*[A-Z]).+$/) == -1) {
     return next(new Error('Password must contain one upper case character.'));
     }
-
-    next(null, data);
     $("#register_modal").modal('hide')
+    next(null, data);
   }
 
   render() {
@@ -37,7 +36,7 @@ export default class RegisterModal extends React.Component {
                 <img src={require('../../images/login_logo.png')} />
               </a>
               <h4 className="modal-title" id="myModalLabel">REGISTRER DEG</h4>
-              <h5><span>eller </span><a href="#">Logg inn</a></h5>
+              <h5><span>eller </span><a href="#register_modal" data-dismiss="modal" data-toggle="modal" data-target="#login_modal">Log in</a></h5>
               <h5 className="register_heading"><a href="#">Er du en produsent?</a></h5>
             </div>
             <div className="modal-body">
@@ -63,7 +62,7 @@ export default class RegisterModal extends React.Component {
               <span className="or_txt mtop10">eller</span>
               <div className="social_btn">
                 <i className="fa fa-facebook" aria-hidden="true"></i>
-                <SocialLoginLink providerId='facebook' className="modal_btns fb_btn">Register with <b>Facebook</b></SocialLoginLink>
+                <SocialLoginLink providerId='facebook'  appId="" className="modal_btns fb_btn">Register with <b>Facebook</b></SocialLoginLink>
               </div>
               <div className="social_btn">
                 <SocialLoginLink providerId='google' className="modal_btns google_btn">Register with <b>Google</b></SocialLoginLink>
