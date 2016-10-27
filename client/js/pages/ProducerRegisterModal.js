@@ -2,7 +2,7 @@ import React from 'react';
 
 import { RegistrationForm, SocialLoginLink } from 'react-stormpath';
 
-export default class RegisterModal extends React.Component {
+export default class ProducerRegisterModal extends React.Component {
 
   onFormSubmit(e, next){
     var data = e.data;
@@ -19,13 +19,13 @@ export default class RegisterModal extends React.Component {
     if (data.password.search(/^(?=.*[A-Z]).+$/) == -1) {
     return next(new Error('Password must contain one upper case character.'));
     }
-    $("#register_modal").modal('hide')
+    $("#producer_modal").modal('hide')
     next(null, data);
   }
 
   render() {
     return (            
-      <div className="modal login_modal" id="register_modal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div className="modal login_modal" id="producer_modal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div className="modal-dialog" role="document">
           <div className="modal-content">
             <div className="modal-header">
@@ -37,7 +37,6 @@ export default class RegisterModal extends React.Component {
               </a>
               <h4 className="modal-title" id="myModalLabel">REGISTRER DEG</h4>
               <h5><span>eller </span><a href="#register_modal" data-dismiss="modal" data-toggle="modal" data-target="#login_modal">Log in</a></h5>
-              <h5 className="register_heading"><a href="#register_modal" data-dismiss="modal" data-toggle="modal" data-target="#producer_modal">Er du en produsent?</a></h5>
             </div>
             <div className="modal-body">
               <RegistrationForm onSubmit={this.onFormSubmit.bind(this)} className="login_form mtop0">
@@ -56,18 +55,9 @@ export default class RegisterModal extends React.Component {
                 <p className="alert alert-danger" data-spIf="form.error">
                   <span data-spBind="form.errorMessage" />
                 </p>
-                
-                <input type="hidden" className="form-control" id="customData.is_producer" name="customData.is_producer" value="false"/>
+                <input type="hidden" className="form-control" id="customData.is_producer" name="customData.is_producer" value="true"/>
                 <input type="submit" value="Bli en Bazeater" className="login_sbmit" />
               </RegistrationForm>
-              <span className="or_txt mtop10">eller</span>
-              <div className="social_btn">
-                <i className="fa fa-facebook" aria-hidden="true"></i>
-                <SocialLoginLink providerId='facebook'  appId="" className="modal_btns fb_btn">Register with <b>Facebook</b></SocialLoginLink>
-              </div>
-              <div className="social_btn">
-                <SocialLoginLink providerId='google' className="modal_btns google_btn">Register with <b>Google</b></SocialLoginLink>
-              </div>
             </div>  
             <div className="modal-footer">
             </div>

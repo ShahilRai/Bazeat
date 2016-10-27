@@ -74,13 +74,29 @@ app.use('/api', orders);
 app.use('/api', products);
 app.use('/api', profiles);
 app.use(ExpressStrompath.init(app, {
-  // web: {
-  //   me: {
-  //     expand: {
-  //       customData: true
-  //     }
-  //   }
-  // }
+  web: {
+    produces: ['application/json'],
+    me: {
+      expand: {
+        customData: true
+      }
+    },
+    register: {
+      form: {
+        fields: {
+          is_producer: {
+            enabled: true,
+            type: 'hidden'
+          }
+        }
+      }
+    }
+  },
+  preRegistrationHandler: function (formData, req, res, next) {
+    console.log('Got registration request', formData);
+    next();
+  },
+
 
 
   postRegistrationHandler: function (account, req, res, next) {
