@@ -112,7 +112,7 @@ app.use(ExpressStrompath.init(app, {
   }
 }));
 
-app.post('/profile', bodyParser.json(), ExpressStrompath.loginRequired,
+app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
   function (req, res) {
   console.log("Good vgood")
   function writeError(message) {
@@ -123,25 +123,29 @@ app.post('/profile', bodyParser.json(), ExpressStrompath.loginRequired,
 
   function saveAccount() {
     console.log("Good")
+    console.log(req.user)
     req.user.givenName = req.body.givenName;
     req.user.surname = req.body.surname;
     req.user.email = req.body.email;
 
     req.user.save(function (err) {
       if (err) {
-        return writeError(err.userMessage || err.message);
+        // return writeError(err.userMessage || err.message);
+        res.json({ error: err });
       }
+      // res.json({ user: req.user });
       // res.end();
-      User.findOne({ email: req.params.email }).exec((err, user) => {
-        user.photo = req.body.photo;
-        user.description = req.body.description;
-        user.city = req.body.city;
+      User.findOne({ email: req.body.email }).exec((err, user) => {
+        user.email = req.body.email;
+        // user.photo = req.body.photo;
+        // user.description = req.body.description;
+        // user.city = req.body.city;
         user.save((error, saveduser) => {
           if (error) {
             res.status(500).send(error);
           }
-          saveduser.producerInfo.push(req.body.ifProducer);
-          saveduser.userInfo.push(req.body.ifUser);
+          // saveduser.producerInfo.push(req.body.ifProducer);
+          // saveduser.userInfo.push(req.body.ifUser);
           saveduser.save(function (err, post) {
             res.json({ user: saveduser });
           });

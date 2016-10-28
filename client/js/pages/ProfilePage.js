@@ -15,7 +15,7 @@ export default class ProfilePage extends React.Component {
           </div>
           <div className="row">
             <div className="col-xs-12">
-              <UserProfileForm>
+              <UserProfileForm method = "post">
                 <div className='sp-update-profile-form'>
                   <div className="row">
                     <div className="col-xs-12">
@@ -42,12 +42,6 @@ export default class ProfilePage extends React.Component {
                           <label htmlFor="customData.color" className="col-xs-12 col-sm-4 control-label">Color</label>
                           <div className="col-xs-12 col-sm-4">
                             <input type="customData.color" className="form-control" id="customData.color" name="customData.color" placeholder="Color" />
-                          </div>
-                        </div>
-                        <div className="form-group">
-                          <label htmlFor="password" className="col-xs-12 col-sm-4 control-label">Password</label>
-                          <div className="col-xs-12 col-sm-4">
-                            <input type="password" className="form-control" id="password" name="password" placeholder="Password" />
                           </div>
                         </div>
                         <div key="update-button" className="form-group">
