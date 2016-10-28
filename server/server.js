@@ -26,7 +26,7 @@ if (process.env.NODE_ENV === 'development') {
 
 console.log(__dirname)
 app.use('/css', Express.static(path.resolve(__dirname, '../client/css')));
-// app.use('/fonts', express.static(__dirname + '/client/fonts'));
+app.use('/images', Express.static(path.resolve(__dirname, '../client/images')));
 app.use('/javascript', Express.static(path.resolve(__dirname, '../client/javascript')));
 // React And Redux Setup
 // import { configureStore } from '../client/store';
@@ -114,7 +114,6 @@ app.use(ExpressStrompath.init(app, {
 
 app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
   function (req, res) {
-  console.log("Good vgood")
   function writeError(message) {
     res.status(400);
     res.json({ message: message, status: 400 });
@@ -122,8 +121,6 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
   }
 
   function saveAccount() {
-    console.log("Good")
-    console.log(req.user)
     req.user.givenName = req.body.givenName;
     req.user.surname = req.body.surname;
     req.user.email = req.body.email;

@@ -13,7 +13,7 @@ export default class MasterPage extends React.Component {
   render() {
     return (
       <DocumentTitle title='BAZEAT'>
-        <div className='MasterPage'>
+        <div className='page_wrapper'>
           <Header />
           
           { this.props.children }

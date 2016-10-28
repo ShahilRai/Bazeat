@@ -20,25 +20,29 @@ export default class Header extends React.Component {
               </form>
             </div>
             <div className="col-lg-5 pull-right">
-              <ul className="header_rht_menu">
+              <ul className="header_rht_menu profile_rht_header">
                 <li><a href="#">Help</a></li>
                 <NotAuthenticated>
                   <li>
                     <a href="#" data-toggle="modal" data-target="#register_modal">Join Bazeat</a>                    
                   </li>
-                </NotAuthenticated>
-                <NotAuthenticated>
                   <li>
                     <a href="#" data-toggle="modal" data-target="#login_modal">Log in</a>
                   </li>
+                    <li className="cart_icon"><a href="#">Cart</a></li>
                 </NotAuthenticated>
                 <Authenticated>
-                  <li><Link to="/profile">Profile</Link></li>
+                  <li><a href="#" className="message_icon">Messages</a></li>
+                  <li data-toggle="collapse" data-target="#user_toggle">
+                    <a href="#" className="user_icon">Baker Hans</a>
+                    <ul className="user_toggle_div collapse" id="user_toggle" >
+                      <li><Link to="/profile">Edit Profile</Link></li>
+                      <li><a href="#">Settings</a></li>
+                      <li><a href="#">Guides</a></li>
+                      <li><LogoutLink>Log out</LogoutLink></li>
+                    </ul>
+                  </li>
                 </Authenticated>
-                <Authenticated>
-                  <li><LogoutLink>Log out</LogoutLink></li>
-                </Authenticated>
-                <li className="cart_icon"><a href="#">Cart</a></li>
               </ul>
             </div>
           </div>
