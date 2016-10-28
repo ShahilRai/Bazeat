@@ -33,6 +33,9 @@ export default class Header extends React.Component {
                   </li>
                 </NotAuthenticated>
                 <Authenticated>
+                  <li><Link to="/profile">Profile</Link></li>
+                </Authenticated>
+                <Authenticated>
                   <li><LogoutLink>Log out</LogoutLink></li>
                 </Authenticated>
                 <li className="cart_icon"><a href="#">Cart</a></li>
