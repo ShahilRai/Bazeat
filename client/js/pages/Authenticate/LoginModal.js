@@ -21,7 +21,7 @@ export default class LoginModal extends React.Component {
                 <span aria-hidden="true">X</span>
               </button>
               <a href="login.html" className="login_logo">
-                <img src={require('../../images/login_logo.png')} />
+                <img src={require('../../../images/login_logo.png')} />
               </a>
               <h4 className="modal-title" id="myModalLabel">LOG IN</h4>
               <h5><span>or </span><a href="#login_modal" data-dismiss="modal" data-toggle="modal" data-target="#register_modal">Register</a></h5>
@@ -29,7 +29,7 @@ export default class LoginModal extends React.Component {
             <div className="modal-body">
               <p>Alle skal ha mulighet å spise mat laget av hender</p>
               <LoginForm onSubmit={this.onFormSubmit.bind(this)} className="login_form">
-             
+
                 <div className="form-group">
                   <input type="text" className="form-control" placeholder="User name"  name="login"/>
                   <i className="fa fa-envelope-o" aria-hidden="true"></i>
@@ -42,7 +42,7 @@ export default class LoginModal extends React.Component {
                 <div className="checkbox custom_checkbox">
                   <input type="checkbox" id="checkbox1" />
                   <label>
-                    Remember me 
+                    Remember me
                   </label>
                 </div>
                 <input type="submit" value="Log in" className="login_sbmit" />
@@ -59,7 +59,7 @@ export default class LoginModal extends React.Component {
                   <SocialLoginLink providerId='google' className="modal_btns google_btn">Log in with <b>Google</b></SocialLoginLink>
                 </div>
               </LoginForm>
-            </div>            
+            </div>
             <div className="modal-footer">
             </div>
           </div>

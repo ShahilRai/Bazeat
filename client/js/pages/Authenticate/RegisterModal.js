@@ -24,7 +24,7 @@ export default class RegisterModal extends React.Component {
   }
 
   render() {
-    return (            
+    return (
       <div className="modal login_modal" id="register_modal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div className="modal-dialog" role="document">
           <div className="modal-content">
@@ -33,7 +33,7 @@ export default class RegisterModal extends React.Component {
                 <span aria-hidden="true">X</span>
               </button>
               <a href="login.html" className="login_logo">
-                <img src={require('../../images/login_logo.png')} />
+                <img src={require('../../../images/login_logo.png')} />
               </a>
               <h4 className="modal-title" id="myModalLabel">REGISTRER DEG</h4>
               <h5><span>eller </span><a href="#register_modal" data-dismiss="modal" data-toggle="modal" data-target="#login_modal">Log in</a></h5>
@@ -56,7 +56,7 @@ export default class RegisterModal extends React.Component {
                 <p className="alert alert-danger" data-spIf="form.error">
                   <span data-spBind="form.errorMessage" />
                 </p>
-                
+
                 <input type="hidden" className="form-control" id="customData.is_producer" name="customData.is_producer" value="false"/>
                 <input type="submit" value="Bli en Bazeater" className="login_sbmit" />
               </RegistrationForm>
@@ -68,7 +68,7 @@ export default class RegisterModal extends React.Component {
               <div className="social_btn">
                 <SocialLoginLink providerId='google' className="modal_btns google_btn">Register with <b>Google</b></SocialLoginLink>
               </div>
-            </div>  
+            </div>
             <div className="modal-footer">
             </div>
           </div>

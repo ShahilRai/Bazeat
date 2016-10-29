@@ -2,11 +2,11 @@ import { Link } from 'react-router';
 import React, { PropTypes } from 'react';
 import DocumentTitle from 'react-document-title';
 
-import Header from './Header';
-import LoginModal from './LoginModal';
-import RegisterModal from './RegisterModal';
-import ForgotPasswordModal from './ForgotPasswordModal';
-import ProducerRegisterModal from './ProducerRegisterModal';
+import Header from './Header/Header';
+import LoginModal from './Authenticate/LoginModal';
+import RegisterModal from './Authenticate/RegisterModal';
+import ForgotPasswordModal from './Authenticate/ForgotPasswordModal';
+import ProducerRegisterModal from './Authenticate/ProducerRegisterModal';
 import { LoginLink, LogoutLink, NotAuthenticated, Authenticated } from 'react-stormpath';
 
 export default class MasterPage extends React.Component {
@@ -15,9 +15,9 @@ export default class MasterPage extends React.Component {
       <DocumentTitle title='BAZEAT'>
         <div className='page_wrapper'>
           <Header />
-          
+
           { this.props.children }
-           
+
           <NotAuthenticated>
               <LoginModal />
               <RegisterModal />

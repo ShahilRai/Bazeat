@@ -14,7 +14,7 @@ export default class ProfilePage extends React.Component {
                 <div className="form-group row">
                   <label for="example-text-input" className="col-md-4 col-xs-12 col-form-label">Company logo</label>
                   <div className="col-md-8 col-xs-12">
-                    <a href="#"><img src={require('../../images/producer_logo.png')}/></a>
+                    <a href="#"><img src={require('../../../images/producer_logo.png')}/></a>
                     <div className="box__input">
                       <input name="file-1[]" id="file-1" className="inputfile inputfile-1" data-multiple-caption="{count} files selected" multiple="" type="file" />
                       <label for="file-1" className="input_upload">
@@ -59,7 +59,7 @@ export default class ProfilePage extends React.Component {
                   </div>
                 </div>
               </div>
-              <div key="update-button" className="profile_gry_bot_bar">               
+              <div key="update-button" className="profile_gry_bot_bar">
                   <p className="alert alert-danger" data-spIf="form.error"><span data-spBind="form.errorMessage" /></p>
                   <p className="alert alert-success" data-spIf="form.successful">Profile updated.</p>
                   <button type="submit" className="btn pull-right">

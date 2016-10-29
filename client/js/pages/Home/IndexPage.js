@@ -12,10 +12,10 @@ export default class IndexPage extends React.Component {
     return (
       <div>
         <div className="banner_wrapper">
-          <img src={require("../../images/banner.jpg")}  />
+          <img src={require("../../../images/banner.jpg")}  />
         </div>
-        <MidContainer />            
-      </div> 
+        <MidContainer />
+      </div>
     );
   }
 }

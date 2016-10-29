@@ -21,11 +21,11 @@ export default class ForgotPasswordModal extends React.Component {
                     <span aria-hidden="true">X</span>
                   </button>
                   <a href="login.html" className="login_logo">
-                    <img src={require('../../images/login_logo.png')}/>
+                    <img src={require('../../../images/login_logo.png')}/>
                   </a>
                   <h4 className="modal-title" id="myModalLabel">REGISTRER DEG</h4>
                   <h5><span>eller </span><a href="#register_modal" data-dismiss="modal" data-toggle="modal" data-target="#login_modal">Log in</a></h5>
-                                   
+
                 </div>
                 <div className="modal-body">
                   <p>Alle skal ha mulighet å spise mat laget av hender</p>

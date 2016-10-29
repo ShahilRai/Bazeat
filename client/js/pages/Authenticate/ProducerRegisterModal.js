@@ -24,7 +24,7 @@ export default class ProducerRegisterModal extends React.Component {
   }
 
   render() {
-    return (            
+    return (
       <div className="modal login_modal" id="producer_modal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div className="modal-dialog" role="document">
           <div className="modal-content">
@@ -33,7 +33,7 @@ export default class ProducerRegisterModal extends React.Component {
                 <span aria-hidden="true">X</span>
               </button>
               <a href="login.html" className="login_logo">
-                <img src={require('../../images/login_logo.png')} />
+                <img src={require('../../../images/login_logo.png')} />
               </a>
               <h4 className="modal-title" id="myModalLabel">REGISTRER DEG</h4>
               <h5><span>eller </span><a href="#register_modal" data-dismiss="modal" data-toggle="modal" data-target="#login_modal">Log in</a></h5>
@@ -58,7 +58,7 @@ export default class ProducerRegisterModal extends React.Component {
                 <input type="hidden" className="form-control" id="customData.is_producer" name="customData.is_producer" value="true"/>
                 <input type="submit" value="Bli en Bazeater" className="login_sbmit" />
               </RegistrationForm>
-            </div>  
+            </div>
             <div className="modal-footer">
             </div>
           </div>
