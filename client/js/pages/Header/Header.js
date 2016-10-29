@@ -5,11 +5,6 @@ import Menu from './Menu';
 import Logo from './Logo';
 
 export default class Header extends React.Component {
-  static contextTypes = {
-    authenticated: React.PropTypes.bool,
-    user: React.PropTypes.object
-  };
-
   render() {
     return (
       <div className="header_wrapper">

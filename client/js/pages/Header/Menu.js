@@ -4,11 +4,15 @@ import { Link } from 'react-router';
 import { LoginLink, LogoutLink, NotAuthenticated, Authenticated } from 'react-stormpath';
 
 export default class Menu extends React.Component {
-
+  static contextTypes = {
+    authenticated: React.PropTypes.bool,
+    user: React.PropTypes.object
+  };
   render() {
+    var profileHead = this.context.authenticated ? "header_rht_menu profile_rht_header" : "header_rht_menu";
     return (
-      <ul className="header_rht_menu profile_rht_header">
-        <li><a href="#">Help</a></li>
+      <ul className={profileHead}>
+        <li><a href="#" className="help_icon">Help</a></li>
         <NotAuthenticated>
           <li>
             <a href="#" data-toggle="modal" data-target="#register_modal">Join Bazeat</a>
@@ -21,7 +25,7 @@ export default class Menu extends React.Component {
         <Authenticated>
           <li><a href="#" className="message_icon">Messages</a></li>
           <li data-toggle="collapse" data-target="#user_toggle">
-            <a href="#" className="user_icon">Baker Hans</a>
+            <a href="#" className="user_icon">{this.context.user ? this.context.user.givenName : ""}</a>
             <ul className="user_toggle_div collapse" id="user_toggle" >
               <li><Link to="/profile">Edit Profile</Link></li>
               <li><a href="#">Settings</a></li>

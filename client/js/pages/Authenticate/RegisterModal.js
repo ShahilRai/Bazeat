@@ -63,7 +63,7 @@ export default class RegisterModal extends React.Component {
               <span className="or_txt mtop10">eller</span>
               <div className="social_btn">
                 <i className="fa fa-facebook" aria-hidden="true"></i>
-                <SocialLoginLink providerId='facebook'  appId="" className="modal_btns fb_btn">Register with <b>Facebook</b></SocialLoginLink>
+                <SocialLoginLink providerId='facebook' className="modal_btns fb_btn">Register with <b>Facebook</b></SocialLoginLink>
               </div>
               <div className="social_btn">
                 <SocialLoginLink providerId='google' className="modal_btns google_btn">Register with <b>Google</b></SocialLoginLink>

@@ -3,6 +3,11 @@ import DocumentTitle from 'react-document-title';
 import { UserProfileForm } from 'react-stormpath';
 
 export default class ProfilePage extends React.Component {
+  static contextTypes = {
+    authenticated: React.PropTypes.bool,
+    user: React.PropTypes.object
+  };
+
   render() {
     return (
       <DocumentTitle title={`My Profile`}>
@@ -12,48 +17,48 @@ export default class ProfilePage extends React.Component {
             <UserProfileForm method = "post">
               <div className="edt_prf_inner_detail">
                 <div className="form-group row">
-                  <label for="example-text-input" className="col-md-4 col-xs-12 col-form-label">Company logo</label>
+                  <label htmlFor="file-1" className="col-md-4 col-xs-12 col-form-label">Company logo</label>
                   <div className="col-md-8 col-xs-12">
                     <a href="#"><img src={require('../../../images/producer_logo.png')}/></a>
                     <div className="box__input">
                       <input name="file-1[]" id="file-1" className="inputfile inputfile-1" data-multiple-caption="{count} files selected" multiple="" type="file" />
-                      <label for="file-1" className="input_upload">
+                      <label className="input_upload">
                       <span className="file_text">Select one of the files from your computer <br/><span className="drop_txt">or drag and drop them here</span></span></label>
                     </div>
                   </div>
                 </div>
                 <div className="form-group row">
-                  <label htmlFor="example-search-input" className="col-md-4 col-xs-12 col-form-label">Producer name</label>
+                  <label htmlFor="givenName" className="col-md-4 col-xs-12 col-form-label">Producer name</label>
                   <div className="col-md-8 col-xs-12">
                     <input type="text" className="form-control" id="givenName" name="givenName" required />
                   </div>
                 </div>
                 <div className="form-group row">
-                  <label htmlFor="example-email-input" className="col-md-4 col-xs-12 col-form-label">Contact person</label>
+                  <label htmlFor="contactPerson" className="col-md-4 col-xs-12 col-form-label">Contact person</label>
                   <div className="col-md-8 col-xs-12">
                     <input type="text" className="form-control" id="contactPerson" name="contactPerson" required />
                   </div>
                 </div>
                 <div className="form-group row">
-                  <label htmlFor="example-url-input" className="col-md-4 col-xs-12 col-form-label">E-mail address</label>
+                  <label htmlFor="email" className="col-md-4 col-xs-12 col-form-label">E-mail address</label>
                   <div className="col-md-8 col-xs-12">
                     <input type="email" className="form-control" id="email" name="email" required />
                   </div>
                 </div>
                 <div className="form-group row">
-                  <label htmlFor="example-tel-input" className="col-md-4 col-xs-12 col-form-label">Phone number</label>
+                  <label htmlFor="phone" className="col-md-4 col-xs-12 col-form-label">Phone number</label>
                   <div className="col-md-8 col-xs-12">
                     <input type="tel" className="form-control" id="phone" name="phone" />
                   </div>
                 </div>
                 <div className="form-group row">
-                  <label htmlFor="example-password-input" className="col-md-4 col-xs-12 col-form-label">Company web site</label>
+                  <label htmlFor="pass" className="col-md-4 col-xs-12 col-form-label">Company web site</label>
                   <div className="col-md-8 col-xs-12">
                     <input type="text" className="form-control" id="pass" name="pass" />
                   </div>
                 </div>
                 <div className="form-group row">
-                  <label htmlFor="example-number-input" className="col-md-4 col-xs-12 col-form-label">Company description</label>
+                  <label htmlFor="desc" className="col-md-4 col-xs-12 col-form-label">Company description</label>
                   <div className="col-md-8 col-xs-12">
                     <textarea className="form-control" id="desc" name="desc" ></textarea>
                   </div>
