@@ -3,6 +3,7 @@ import cuid from 'cuid';
 import Express from 'express';
 import ExpressStrompath from 'express-stormpath';
 import bodyParser from 'body-parser';
+import Knox from 'knox';
 const app = new Express();
 
 export function addProfile(req, res) {
@@ -29,6 +30,28 @@ export function getProfile(req, res) {
     }
     res.json({ user });
   });
+}
+
+
+export function updateProfile(req, res) {
+  let client = Knox.createClient({key: process.env.AWSKey, secret: process.env.AWSSecret, bucket: process.env.AWSBucket});
+  console.log('req.file')
+  // console.log(req)
+  var file = req.body
+  // console.log(file)
+  var string = JSON.stringify(file);
+  var req = client.put(string, {
+      'Content-Length': Buffer.byteLength(string)
+    , 'Content-Type': 'application/json'
+  });
+  console.log('abc');
+  req.on('response', function(res){
+  console.log(res);
+    if (200 == res.statusCode) {
+      console.log('saved to %s', req.url);
+    }
+  });
+  req.end(string)
 }
 
 // export function updateProfile(req, res) {
