@@ -3,10 +3,35 @@ import DocumentTitle from 'react-document-title';
 import { UserProfileForm } from 'react-stormpath';
 
 export default class ProfilePage extends React.Component {
+
   static contextTypes = {
     authenticated: React.PropTypes.bool,
     user: React.PropTypes.object
   };
+
+  constructor(props, context) {
+    super(props, context);
+    this.state = {
+      userData : {}
+    };
+  }
+
+  componentDidMount() {
+    var userEmail = this.context.user.email
+    this.loadUserData(userEmail).then((response) => {
+        this.setState({userData: response.data});
+    }).catch((err) => {
+        console.log(err);
+    });
+  }
+
+  loadUserData(emailAddress) {
+    return axios.get("/api/edit" , {
+      params: {
+        email: emailAddress
+      }
+    });
+  }
 
   render() {
     return (
