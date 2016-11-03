@@ -4,6 +4,7 @@ import Express from 'express';
 import ExpressStrompath from 'express-stormpath';
 import bodyParser from 'body-parser';
 import Knox from 'knox';
+import AWS from 'aws-sdk';
 const app = new Express();
 
 export function addProfile(req, res) {
@@ -33,25 +34,59 @@ export function getProfile(req, res) {
 }
 
 
+// export function updateProfile(req, res) {
+//   let client = Knox.createClient({key: process.env.AWSKey, secret: process.env.AWSSecret, bucket: process.env.AWSBucket});
+//   console.log('req.file')
+//   // console.log(req)
+//   var file = req.body
+//   // console.log(file)
+//   var string = JSON.stringify(file);
+//   var req = client.put(string, {
+//       'Content-Length': Buffer.byteLength(string)
+//     , 'Content-Type': 'application/json'
+//   });
+//   console.log('abc');
+//   req.on('response', function(res){
+//   console.log(res);
+//     if (200 == res.statusCode) {
+//       console.log('saved to %s', req.url);
+//     }
+//   });
+//   req.end(string)
+// }
+
 export function updateProfile(req, res) {
-  let client = Knox.createClient({key: process.env.AWSKey, secret: process.env.AWSSecret, bucket: process.env.AWSBucket});
-  console.log('req.file')
-  // console.log(req)
-  var file = req.body
-  // console.log(file)
-  var string = JSON.stringify(file);
-  var req = client.put(string, {
-      'Content-Length': Buffer.byteLength(string)
-    , 'Content-Type': 'application/json'
+  var s3 = require('s3');
+  var awsS3Client = new AWS.S3({
+    accessKeyId: process.env.AWSKey,
+    secretAccessKey: process.env.AWSSecret,
+    Bucket: process.env.AWSBucket,
+    region: "us-west-1"
   });
-  console.log('abc');
-  req.on('response', function(res){
-  console.log(res);
-    if (200 == res.statusCode) {
-      console.log('saved to %s', req.url);
-    }
-  });
-  req.end(string)
+  var options = {
+    s3Client: awsS3Client,
+  };
+  var client = s3.createClient(options);
+  console.log(client);
+  var params = {
+    localFile: req.body
+  };
+console.log('params');
+console.log(params);
+console.log('client.uploadFile');
+console.log(client);
+var uploader = client.uploadFile(params);
+console.log('uploader');
+console.log(uploader);
+uploader.on('error', function(err) {
+  console.error("unable to upload:", err.stack);
+});
+uploader.on('progress', function() {
+  console.log("progress");
+});
+uploader.on('end', function() {
+  console.log("done uploading");
+});
 }
 
 // export function updateProfile(req, res) {
