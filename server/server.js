@@ -49,6 +49,7 @@ import dummyData from './dummyData';
 import serverConfig from './config';
 import User from './models/user';
 import cuid from 'cuid';
+import Knox from 'knox';
 // Set native promises as mongoose promise
 mongoose.Promise = global.Promise;
 
@@ -143,15 +144,29 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
           }
           let producer_info = saveduser.producer_info.id(params(id));
           let user_info = saveduser.user_info.id(params(id));
-          producer_info.logo = req.body.logo;
-          producer_info.website = req.body.website;
-          producer_info.contact_person = req.body.contactPerson;
-          // saveduser.producer_info.push(req.body.producer_info);
-          // saveduser.user_info.push(req.body.ifUser);
-          saveduser.save(function (err, saveduser1) {
-            console.log(saveduser1)
-            res.json({ user: saveduser1 });
-          });
+          let producer_website = req.body.website;
+          let producer_contactperson = req.body.contactPerson;
+          let client = Knox.createClient({key: process.env.AWSKey, secret: process.env.AWSSecret, bucket: process.env.AWSBucket});
+            var file = req.body
+            var string = JSON.stringify(file);
+            var req = client.put(string, {
+                'Content-Length': Buffer.byteLength(string)
+              , 'Content-Type': 'application/json'
+            });
+            req.on('response', function(res){
+              if (200 == res.statusCode) {
+                console.log('saved to %s', req.url);
+              }
+              producer_info.logo = req.url;
+              producer_info.website = producer_website;
+              producer_info.contact_person = producer_contactperson;
+              // saveduser.producer_info.push(req.body.producer_info);
+              // saveduser.user_info.push(req.body.ifUser);
+              saveduser.save(function (err, saveduser1) {
+                console.log(saveduser1)
+                res.json({ user: saveduser1 });
+              });
+            });
         });
       });
     });
