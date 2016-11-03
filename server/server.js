@@ -134,17 +134,23 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
       // res.end();
       User.findOne({ email: req.body.email }).exec((err, user) => {
         user.email = req.body.email;
-        // user.photo = req.body.photo;
-        // user.description = req.body.description;
+        user.phone = req.body.phone;
+        user.description = req.body.desc;
         // user.city = req.body.city;
         user.save((error, saveduser) => {
           if (error) {
             res.status(500).send(error);
           }
-          // saveduser.producerInfo.push(req.body.ifProducer);
-          // saveduser.userInfo.push(req.body.ifUser);
-          saveduser.save(function (err, post) {
-            res.json({ user: saveduser });
+          let producer_info = saveduser.producer_info.id(params(id));
+          let user_info = saveduser.user_info.id(params(id));
+          producer_info.logo = req.body.logo;
+          producer_info.website = req.body.website;
+          producer_info.contact_person = req.body.contactPerson;
+          // saveduser.producer_info.push(req.body.producer_info);
+          // saveduser.user_info.push(req.body.ifUser);
+          saveduser.save(function (err, saveduser1) {
+            console.log(saveduser1)
+            res.json({ user: saveduser1 });
           });
         });
       });

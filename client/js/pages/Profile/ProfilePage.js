@@ -21,7 +21,7 @@ export default class ProfilePage extends React.Component {
                   <div className="col-md-8 col-xs-12">
                     <a href="#"><img src={require('../../../images/producer_logo.png')}/></a>
                     <div className="box__input">
-                      <input name="file-1[]" id="file-1" className="inputfile inputfile-1" data-multiple-caption="{count} files selected" multiple="" type="file" />
+                      <input name="file-1[]" id="file-1" className="logo" data-multiple-caption="{count} files selected" multiple="" type="file" />
                       <label className="input_upload">
                       <span className="file_text">Select one of the files from your computer <br/><span className="drop_txt">or drag and drop them here</span></span></label>
                     </div>
@@ -54,7 +54,7 @@ export default class ProfilePage extends React.Component {
                 <div className="form-group row">
                   <label htmlFor="pass" className="col-md-4 col-xs-12 col-form-label">Company web site</label>
                   <div className="col-md-8 col-xs-12">
-                    <input type="text" className="form-control" id="pass" name="pass" />
+                    <input type="text" className="form-control" id="website" name="website" />
                   </div>
                 </div>
                 <div className="form-group row">

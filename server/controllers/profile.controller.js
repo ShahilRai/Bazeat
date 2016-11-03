@@ -22,6 +22,15 @@ export function addProfile(req, res) {
   });
 }
 
+export function getProfile(req, res) {
+  User.findOne({ email: req.params.email }).exec((err, user) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+    res.json({ user });
+  });
+}
+
 // export function updateProfile(req, res) {
 //   console.log("teedf;dmf"),
 //   app.post('/profile', bodyParser.json(), ExpressStrompath.loginRequired, function (req, res) {

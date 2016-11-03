@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const ifProducer = new Schema({
   logo: String,
+  contact_person: String,
   bg_image: String,
   is_validated: Boolean,
   website: String,
@@ -20,7 +21,6 @@ const ifUser = new Schema({
   website: String,
   last_login: Date,
   delivery_price: Number,
-  tlfNumber: Number,
   favourites: [],
 });
 
@@ -29,12 +29,13 @@ const userSchema = new Schema({
   email: { type: 'String' },
   photo: { type: 'String' },
   description: { type: 'String' },
+  phone: { type: 'Number' },
   cuid: { type: 'String' },
   city: { type: 'String' },
   date_joined: { type: 'Date', default: Date.now },
   if_producer: { type: 'Boolean', default: true },
   if_user: { type: 'Boolean', default: true },
-  producer_info: [ifProducer],
+  producer_info: { type: ifProducer, default: ifProducer },
   user_info: [ifUser],
   products: [{ type: Schema.ObjectId, ref: 'Product' }],
   orderitems: [{ type: Schema.ObjectId, ref: 'OrderItem' }],
