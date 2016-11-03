@@ -12,14 +12,14 @@ export default class ProfilePage extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      userData : {}
+      user : {}
     };
   }
 
   componentDidMount() {
     var userEmail = this.context.user.email
     this.loadUserData(userEmail).then((response) => {
-        this.setState({userData: response.data});
+        this.setState({user: response.data.user});
     }).catch((err) => {
         console.log(err);
     });
@@ -34,11 +34,13 @@ export default class ProfilePage extends React.Component {
   }
 
   render() {
+    console.log(JSON.stringify(this.state.user));
     return (
       <DocumentTitle title={`My Profile`}>
         <div className="col-lg-9 col-md-8 col-sm-10 col-xs-12 edit_profile_rht_sidebar">
           <div className="edit_prfile_detail_form">
-            <h3>Profile details </h3>
+            <h3>Profile details {this.state.user._id} </h3>
+
             <UserProfileForm method = "post">
               <div className="edt_prf_inner_detail">
                 <div className="form-group row">
@@ -89,6 +91,7 @@ export default class ProfilePage extends React.Component {
                   </div>
                 </div>
               </div>
+              <input type="hidden" className="form-control" id="customData.producer_info_id" name="customData.producer_info_id" value="24234"/>
               <div key="update-button" className="profile_gry_bot_bar">
                   <p className="alert alert-danger" data-spIf="form.error"><span data-spBind="form.errorMessage" /></p>
                   <p className="alert alert-success" data-spIf="form.successful">Profile updated.</p>

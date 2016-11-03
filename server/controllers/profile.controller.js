@@ -25,7 +25,8 @@ export function addProfile(req, res) {
 }
 
 export function getProfile(req, res) {
-  User.findOne({ email: req.params.email }).exec((err, user) => {
+  console.log(req.query.email);
+  User.findOne({ email: req.query.email }).exec((err, user) => {
     if (err) {
       res.status(500).send(err);
     }

@@ -78,8 +78,20 @@ app.use(ExpressStrompath.init(app, {
   web: {
     produces: ['application/json'],
     me: {
-      expand: {
-        customData: true
+      // expand: {
+      //   customData: true
+      // }
+      form: {
+        fields: {
+          producer_info_id: {
+            enabled: true,
+            type: 'hidden'
+          },
+          user_info_id: {
+            enabled: true,
+            type: 'hidden'
+          }
+        }
       }
     },
     register: {
@@ -120,7 +132,7 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
     res.json({ message: message, status: 400 });
     res.end();
   }
-
+  console.log(req.body);
   function saveAccount() {
     req.user.givenName = req.body.givenName;
     req.user.surname = req.body.surname;
