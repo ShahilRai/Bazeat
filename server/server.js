@@ -119,19 +119,17 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
     res.json({ message: message, status: 400 });
     res.end();
   }
-  console.log(req.body);
   function saveAccount() {
     req.user.givenName = req.body.givenName;
     req.user.surname = req.body.surname;
     req.user.email = req.body.email;
-
     req.user.save(function (err) {
+    let producer_website = req.body.website;
+    let producer_contactperson = req.body.contactPerson;
       if (err) {
         // return writeError(err.userMessage || err.message);
         res.json({ error: err });
       }
-      // res.json({ user: req.user });
-      // res.end();
       User.findOne({ email: req.body.email }).exec((err, user) => {
         user.email = req.body.email;
         user.phone = req.body.phone;
@@ -141,31 +139,22 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
           if (error) {
             res.status(500).send(error);
           }
-          let producer_info = saveduser.producer_info.id(params(id));
-          let user_info = saveduser.user_info.id(params(id));
-          let producer_website = req.body.website;
-          let producer_contactperson = req.body.contactPerson;
-          let client = Knox.createClient({key: process.env.AWSKey, secret: process.env.AWSSecret, bucket: process.env.AWSBucket});
-            var file = req.body
-            var string = JSON.stringify(file);
-            var req = client.put(string, {
-                'Content-Length': Buffer.byteLength(string)
-              , 'Content-Type': 'application/json'
-            });
-            req.on('response', function(res){
-              if (200 == res.statusCode) {
-                console.log('saved to %s', req.url);
-              }
-              producer_info.logo = req.url;
-              producer_info.website = producer_website;
-              producer_info.contact_person = producer_contactperson;
-              // saveduser.producer_info.push(req.body.producer_info);
-              // saveduser.user_info.push(req.body.ifUser);
-              saveduser.save(function (err, saveduser1) {
-                console.log(saveduser1)
-                res.json({ user: saveduser1 });
-              });
-            });
+          if(saveduser.if_producer == true ){
+            let producer_info = saveduser.producer_info;
+            producer_info.website = producer_website;
+            producer_info.contact_person = producer_contactperson;
+          }
+          else{
+            // To be added for user profile
+            // let user_info = saveduser.user_info;
+            // user_info.website = ;
+            // user_info.contact_person = ;
+            // To be added for user profile
+          }
+          saveduser.save(function (err, saveduser1) {
+            console.log(saveduser1)
+            res.json({ user: saveduser1 });
+          });
         });
       });
     });

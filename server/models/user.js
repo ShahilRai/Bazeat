@@ -34,9 +34,9 @@ const userSchema = new Schema({
   city: { type: 'String' },
   date_joined: { type: 'Date', default: Date.now },
   if_producer: { type: 'Boolean', default: true },
-  if_user: { type: 'Boolean', default: true },
+  if_user: { type: 'Boolean', default: false },
   producer_info: { type: ifProducer, default: ifProducer },
-  user_info: [ifUser],
+  user_info: { type: ifUser, default: ifUser },
   products: [{ type: Schema.ObjectId, ref: 'Product' }],
   orderitems: [{ type: Schema.ObjectId, ref: 'OrderItem' }],
   unique_id: { type: String }
