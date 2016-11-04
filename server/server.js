@@ -81,19 +81,6 @@ app.use(ExpressStrompath.init(app, {
       // expand: {
       //   customData: true
       // }
-      form: {
-        fields: {
-          producer_info_id: {
-            enabled: true,
-            type: 'hidden'
-          },
-          user_info_id: {
-            enabled: true,
-            type: 'hidden'
-          }
-        }
-      }
-    },
     register: {
       form: {
         fields: {
