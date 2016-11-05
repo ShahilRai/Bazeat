@@ -113,6 +113,7 @@ app.use(ExpressStrompath.init(app, {
 }));
 app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
   function (req, res) {
+    console.log(req.body);
   function writeError(message) {
     res.status(400);
     res.json({ message: message, status: 400 });
@@ -134,6 +135,9 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
         user.email = req.body.email;
         user.phone = req.body.phone;
         user.description = req.body.desc;
+        user.city = req.body.city;
+        user.country = req.body.country;
+        user.adress = req.body.address;
         // user.city = req.body.city;
         user.save((error, saveduser) => {
           if (error) {

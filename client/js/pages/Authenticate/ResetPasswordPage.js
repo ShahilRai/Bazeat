@@ -16,12 +16,12 @@ export default class ResetPasswordPage extends React.Component {
     return (
       <div className="col-lg-4 margin_auto mtop30" id="" >
         <form id="resetPasswordForm" method="get" action="/passwordReset" onSubmit={this.onFormSubmit.bind(this)} novalidate="novalidate"  className="login_form reset_form">
-          <div class="form-group">
-            <label for="password" path="password">Password</label>
+          <div className="form-group">
+            <label htmlFor="password" path="password">Password</label>
             <input type="password" path="password" className="form-control" id="password" name="password" />
           </div>
-          <div class="form-group">
-            <label for="confirmedPassword" path="confirmedPassword">Password (confirm)</label>
+          <div className="form-group">
+            <label htmlFor="confirmedPassword" path="confirmedPassword">Password (confirm)</label>
             <input type="password" className="form-control" id="confirmedPassword" name="confirmedPassword" />
           </div>
           <input path="sptoken" type="hidden" id="sptoken" name="sptoken" value={spToken} />
