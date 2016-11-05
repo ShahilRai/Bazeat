@@ -12,14 +12,21 @@ export default class ProfilePage extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      user : {}
+      user : {},
+      producer_info: {},
+      user_info: {},
     };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleProducerInfoChange = this.handleProducerInfoChange.bind(this);
+    this.handleUserInfoChange = this.handleUserInfoChange.bind(this);
   }
 
   componentDidMount() {
     var userEmail = this.context.user.email
     this.loadUserData(userEmail).then((response) => {
         this.setState({user: response.data.user});
+        this.setState({producer_info: response.data.user.producer_info});
+        this.setState({user_info: response.data.user.user_info});
     }).catch((err) => {
         console.log(err);
     });
@@ -29,6 +36,24 @@ export default class ProfilePage extends React.Component {
     return axios.get("/api/edit" , {
       params: {
         email: emailAddress
+      }
+    });
+  }
+
+  handleChange(event){
+    this.setState({[event.target.name]: event.target.value});
+  }
+  handleProducerInfoChange(event){
+    this.setState({
+      producer_info: {
+        [event.target.name]: event.target.value
+      }
+    });
+  }
+  handleUserInfoChange(event){
+    this.setState({
+      user_info: {
+        [event.target.name]: event.target.value
       }
     });
   }
@@ -63,7 +88,7 @@ export default class ProfilePage extends React.Component {
                 <div className="form-group row">
                   <label htmlFor="contactPerson" className="col-md-4 col-xs-12 col-form-label">Contact person</label>
                   <div className="col-md-8 col-xs-12">
-                    <input type="text" className="form-control" id="contactPerson" name="contactPerson" required />
+                    <input type="text" className="form-control" id="contact_person" name="contact_person" value = {this.state.producer_info.contact_person} onChange={this.handleProducerInfoChange} />
                   </div>
                 </div>
                 <div className="form-group row">
@@ -75,19 +100,19 @@ export default class ProfilePage extends React.Component {
                 <div className="form-group row">
                   <label htmlFor="phone" className="col-md-4 col-xs-12 col-form-label">Phone number</label>
                   <div className="col-md-8 col-xs-12">
-                    <input type="tel" className="form-control" id="phone" name="phone" />
+                    <input type="tel" className="form-control" id="phone" name="phone" value = {this.state.user.phone} onChange={this.handleChange} />
                   </div>
                 </div>
                 <div className="form-group row">
                   <label htmlFor="pass" className="col-md-4 col-xs-12 col-form-label">Company web site</label>
                   <div className="col-md-8 col-xs-12">
-                    <input type="text" className="form-control" id="website" name="website" />
+                    <input type="text" className="form-control" id="website" name="website" value = {this.state.producer_info.website} onChange={this.handleProducerInfoChange} />
                   </div>
                 </div>
                 <div className="form-group row">
                   <label htmlFor="desc" className="col-md-4 col-xs-12 col-form-label">Company description</label>
                   <div className="col-md-8 col-xs-12">
-                    <textarea className="form-control" id="desc" name="desc" ></textarea>
+                    <textarea className="form-control" id="desc" name="desc" onChange={this.handleChange} ></textarea>
                   </div>
                 </div>
               </div>

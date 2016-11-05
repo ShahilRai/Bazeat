@@ -77,10 +77,10 @@ app.use('/api', profiles);
 app.use(ExpressStrompath.init(app, {
   web: {
     produces: ['application/json'],
-    me: {
-      // expand: {
-      //   customData: true
-      // }
+    // me: {
+    //   expand: {
+    //     customData: true
+    //   }
     register: {
       form: {
         fields: {
@@ -111,7 +111,6 @@ app.use(ExpressStrompath.init(app, {
     });
   }
 }));
-
 app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
   function (req, res) {
   function writeError(message) {
@@ -125,7 +124,7 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
     req.user.email = req.body.email;
     req.user.save(function (err) {
     let producer_website = req.body.website;
-    let producer_contactperson = req.body.contactPerson;
+    let producer_contactperson = req.body.contact_person;
       if (err) {
         // return writeError(err.userMessage || err.message);
         res.json({ error: err });
