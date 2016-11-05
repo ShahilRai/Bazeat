@@ -1,5 +1,6 @@
 import Post from './models/post';
 import Role from './models/role';
+import ProductCategory from './models/productcategory';
 
 export default function () {
   Post.count().exec((err, count) => {
@@ -53,6 +54,21 @@ export default function () {
     const role2 = new Role({ name: 'Producer' });
     const role3 = new Role({ name: 'User' });
     Role.create([role1, role2, role3], (error) => {
+      if (!error) {
+        // console.log('ready to go....');
+      }
+    });
+  });
+
+
+  ProductCategory.count().exec((err, count) => {
+    if (count > 0) {
+      return;
+    }
+    const productcategory1 = new ProductCategory({ name: 'Spicy' });
+    const productcategory2 = new ProductCategory({ name: 'Crunchy' });
+    const productcategory3 = new ProductCategory({ name: 'Roasted' });
+    ProductCategory.create([productcategory1, productcategory2, productcategory3], (error) => {
       if (!error) {
         // console.log('ready to go....');
       }
