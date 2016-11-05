@@ -125,6 +125,7 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
     req.user.save(function (err) {
     let producer_website = req.body.website;
     let producer_contactperson = req.body.contact_person;
+    let producer_companydescription = req.body.company_description;
       if (err) {
         // return writeError(err.userMessage || err.message);
         res.json({ error: err });
@@ -142,6 +143,7 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
             let producer_info = saveduser.producer_info;
             producer_info.website = producer_website;
             producer_info.contact_person = producer_contactperson;
+            producer_info.company_description = producer_companydescription;
           }
           else{
             // To be added for user profile

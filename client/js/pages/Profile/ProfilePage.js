@@ -112,7 +112,7 @@ export default class ProfilePage extends React.Component {
                 <div className="form-group row">
                   <label htmlFor="desc" className="col-md-4 col-xs-12 col-form-label">Company description</label>
                   <div className="col-md-8 col-xs-12">
-                    <textarea className="form-control" id="desc" name="desc" onChange={this.handleChange} ></textarea>
+                    <textarea className="form-control" id="desc" name="company_description" onChange={this.handleChange} ></textarea>
                   </div>
                 </div>
               </div>
