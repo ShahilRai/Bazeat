@@ -137,7 +137,7 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
         user.description = req.body.desc;
         user.city = req.body.city;
         user.country = req.body.country;
-        user.adress = req.body.address;
+        user.address = req.body.address;
         // user.city = req.body.city;
         user.save((error, saveduser) => {
           if (error) {
