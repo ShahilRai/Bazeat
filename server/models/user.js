@@ -8,7 +8,6 @@ const ifProducer = new Schema({
   is_validated: Boolean,
   website: String,
   geo_position: String,
-  company_description: String,
   num_likes: Number,
   num_ratings: [],
   products: [],
