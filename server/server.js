@@ -28,6 +28,7 @@ console.log(__dirname)
 app.use('/css', Express.static(path.resolve(__dirname, '../client/css')));
 app.use('/images', Express.static(path.resolve(__dirname, '../client/images')));
 app.use('/javascript', Express.static(path.resolve(__dirname, '../client/javascript')));
+app.use('/fonts', Express.static(path.resolve(__dirname, '../client/fonts')));
 // React And Redux Setup
 // import { configureStore } from '../client/store';
 import { Provider } from 'react-redux';
@@ -107,12 +108,13 @@ app.use(ExpressStrompath.init(app, {
         console.log(err)
         res.status(500).send(err);
       }
-      res.json({ user: saved });
+      res.redirect('/');
     });
   }
 }));
 app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
   function (req, res) {
+    console.log(req.body);
   function writeError(message) {
     res.status(400);
     res.json({ message: message, status: 400 });
@@ -134,6 +136,9 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
         user.email = req.body.email;
         user.phone = req.body.phone;
         user.description = req.body.desc;
+        user.city = req.body.city;
+        user.country = req.body.country;
+        user.address = req.body.address;
         // user.city = req.body.city;
         user.save((error, saveduser) => {
           if (error) {

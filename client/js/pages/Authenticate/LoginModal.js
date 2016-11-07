@@ -7,8 +7,16 @@ export default class LoginModal extends React.Component {
   onFormSubmit(e, next) {
     var data = e.data;
     data.username = data.username.toLowerCase();
-    $("#login_modal").modal('hide')
     next(null, data);
+  }
+
+  onFormSubmitSuccess(e, next) {
+    $("#login_modal").modal('hide')
+    next();
+  }
+
+  onFormSubmitError(e, next) {
+    next();
   }
 
   render() {
@@ -28,7 +36,7 @@ export default class LoginModal extends React.Component {
             </div>
             <div className="modal-body">
               <p>Alle skal ha mulighet å spise mat laget av hender</p>
-              <LoginForm onSubmit={this.onFormSubmit.bind(this)} className="login_form">
+              <LoginForm onSubmit={this.onFormSubmit.bind(this)} onSubmitSuccess={this.onFormSubmitSuccess.bind(this)} onSubmitError={this.onFormSubmitError.bind(this)} className="login_form">
 
                 <div className="form-group">
                   <input type="text" className="form-control" placeholder="User name"  name="login"/>
@@ -40,8 +48,8 @@ export default class LoginModal extends React.Component {
                 </div>
 
                 <div className="checkbox custom_checkbox">
-                  <input type="checkbox" id="checkbox1" />
-                  <label>
+                  <input type="checkbox" id="rememberMe" name="rememberMe"/>
+                  <label htmlFor="rememberMe">
                     Remember me
                   </label>
                 </div>

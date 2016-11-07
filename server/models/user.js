@@ -33,6 +33,8 @@ const userSchema = new Schema({
   phone: { type: 'Number' },
   cuid: { type: 'String' },
   city: { type: 'String' },
+  country: { type: 'String' },
+  address: { type: 'String' },
   date_joined: { type: 'Date', default: Date.now },
   if_producer: { type: 'Boolean', default: true },
   if_user: { type: 'Boolean', default: false },
