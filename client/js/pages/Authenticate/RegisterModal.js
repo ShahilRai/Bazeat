@@ -24,7 +24,9 @@ export default class RegisterModal extends React.Component {
 
 
   onFormSubmitSuccess(e, next) {
-    $("#register_modal").modal('hide')
+    $("#login_modal").modal('hide')
+    $(".modal-backdrop.in").remove()
+    $(".modal-open").removeClass("modal-open")
     next();
   }
 
