@@ -19,8 +19,17 @@ export default class RegisterModal extends React.Component {
     if (data.password.search(/^(?=.*[A-Z]).+$/) == -1) {
     return next(new Error('Password must contain one upper case character.'));
     }
-    $("#register_modal").modal('hide')
     next(null, data);
+  }
+
+
+  onFormSubmitSuccess(e, next) {
+    $("#register_modal").modal('hide')
+    next();
+  }
+
+  onFormSubmitError(e, next) {
+    next();
   }
 
   render() {
@@ -40,7 +49,7 @@ export default class RegisterModal extends React.Component {
               <h5 className="register_heading"><a href="#register_modal" data-dismiss="modal" data-toggle="modal" data-target="#producer_modal">Er du en produsent?</a></h5>
             </div>
             <div className="modal-body">
-              <RegistrationForm onSubmit={this.onFormSubmit.bind(this)} className="login_form mtop0">
+              <RegistrationForm onSubmit={this.onFormSubmit.bind(this)}  onSubmitSuccess={this.onFormSubmitSuccess.bind(this)} onSubmitError={this.onFormSubmitError.bind(this)} className="login_form mtop0">
                 <div className="form-group">
                   <input type="text" className="form-control" id="givenName" name="firstName" placeholder="First Name" required={ true } />
                 </div>
@@ -57,7 +66,7 @@ export default class RegisterModal extends React.Component {
                   <span data-spBind="form.errorMessage" />
                 </p>
 
-                <input type="hidden" className="form-control" id="customData.is_producer" name="customData.is_producer" value="false"/>
+                <input type="hidden" className="form-control" id="customData.is_producer" name="customData.is_producer" value="false" onChange={function() {}}/>
                 <input type="submit" value="Bli en Bazeater" className="login_sbmit" />
               </RegistrationForm>
               <span className="or_txt mtop10">eller</span>

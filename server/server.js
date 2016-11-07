@@ -28,6 +28,7 @@ console.log(__dirname)
 app.use('/css', Express.static(path.resolve(__dirname, '../client/css')));
 app.use('/images', Express.static(path.resolve(__dirname, '../client/images')));
 app.use('/javascript', Express.static(path.resolve(__dirname, '../client/javascript')));
+app.use('/fonts', Express.static(path.resolve(__dirname, '../client/fonts')));
 // React And Redux Setup
 // import { configureStore } from '../client/store';
 import { Provider } from 'react-redux';

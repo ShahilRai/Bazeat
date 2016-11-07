@@ -19,7 +19,7 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['', '.js', '.jsx'],
+    extensions: ['', '.js', '.jsx', '.css', '.eot', '.woff2', '.woff', '.ttf', '.svg'],
     modules: [
       'client',
       'node_modules',
