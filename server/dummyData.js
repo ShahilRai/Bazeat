@@ -1,5 +1,7 @@
 import Post from './models/post';
 import Role from './models/role';
+import ProductCategory from './models/productcategory';
+import Allergen from './models/allergen';
 
 export default function () {
   Post.count().exec((err, count) => {
@@ -53,6 +55,35 @@ export default function () {
     const role2 = new Role({ name: 'Producer' });
     const role3 = new Role({ name: 'User' });
     Role.create([role1, role2, role3], (error) => {
+      if (!error) {
+        // console.log('ready to go....');
+      }
+    });
+  });
+
+
+  ProductCategory.count().exec((err, count) => {
+    if (count > 0) {
+      return;
+    }
+    const productcategory1 = new ProductCategory({ name: 'Spicy' });
+    const productcategory2 = new ProductCategory({ name: 'Crunchy' });
+    const productcategory3 = new ProductCategory({ name: 'Roasted' });
+    ProductCategory.create([productcategory1, productcategory2, productcategory3], (error) => {
+      if (!error) {
+        // console.log('ready to go....');
+      }
+    });
+  });
+
+  Allergen.count().exec((err, count) => {
+    if (count > 0) {
+      return;
+    }
+    const allergen1 = new Allergen({ name: 'Fish' });
+    const allergen2 = new Allergen({ name: 'Milk'});
+    const allergen3 = new Allergen({ name: 'Nuts' });
+    Allergen.create([allergen1, allergen2, allergen3], (error) => {
       if (!error) {
         // console.log('ready to go....');
       }
