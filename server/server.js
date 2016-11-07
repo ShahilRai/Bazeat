@@ -108,7 +108,7 @@ app.use(ExpressStrompath.init(app, {
         console.log(err)
         res.status(500).send(err);
       }
-      res.json({ user: saved });
+      res.redirect('/');
     });
   }
 }));
@@ -148,7 +148,7 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
             let producer_info = saveduser.producer_info;
             producer_info.website = producer_website;
             producer_info.contact_person = producer_contactperson;
-            producer_info.company_description = producer_companydescription;
+            // producer_info.company_description = producer_companydescription;
           }
           else{
             // To be added for user profile

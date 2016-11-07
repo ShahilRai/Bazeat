@@ -19,7 +19,7 @@ export default class MasterPage extends React.Component {
           { this.props.children }
 
           <NotAuthenticated>
-              <LoginModal />
+              <LoginModal pathname={this.props.location.pathname}/>
               <RegisterModal />
               <ForgotPasswordModal />
               <ProducerRegisterModal />

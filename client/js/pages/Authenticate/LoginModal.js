@@ -2,6 +2,7 @@ import React from 'react';
 
 import { LoginForm, SocialLoginLink } from 'react-stormpath';
 
+
 export default class LoginModal extends React.Component {
 
   onFormSubmit(e, next) {
@@ -12,6 +13,8 @@ export default class LoginModal extends React.Component {
 
   onFormSubmitSuccess(e, next) {
     $("#login_modal").modal('hide')
+    $(".modal-backdrop.in").remove()
+    $(".modal-open").removeClass("modal-open")
     next();
   }
 
