@@ -1,6 +1,7 @@
 import React from 'react';
 import DocumentTitle from 'react-document-title';
 import { UserProfileForm } from 'react-stormpath';
+import InputField from '../components/InputField';
 export default class ProfilePage extends React.Component {
 
   static contextTypes = {

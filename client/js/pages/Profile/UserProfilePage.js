@@ -1,0 +1,120 @@
+import React from 'react';
+import DocumentTitle from 'react-document-title';
+import { UserProfileForm } from 'react-stormpath';
+
+export default class UserProfilePage extends React.Component {
+  
+  static contextTypes = {
+    authenticated: React.PropTypes.bool,
+    user: React.PropTypes.object
+  };
+
+  render() {
+    return (
+      <DocumentTitle title={`My Profile`}>
+        <div className="col-lg-9 col-md-8 col-sm-10 col-xs-12 edit_profile_rht_sidebar">
+          <UserProfileForm method = "post">
+            <div className="edit_prfile_detail_form">
+              <h3>Profile details </h3>
+                
+                <div className="edt_prf_inner_detail">
+                  <div className="form-group row">
+                    <label htmlFor="file-1" className="col-md-4 col-xs-12 col-form-label">Profile picture</label>
+                    <div className="col-md-8 col-xs-12">
+                      <a href="#"><img src={require('../../../images/producer_logo.png')}/></a>
+                      <div className="box__input">
+                        <input id="file-1" className="logo" data-multiple-caption="{count} files selected" multiple="" type="file" />
+                        <label className="input_upload">
+                        <span className="file_text">Select one of the files from your computer <br/><span className="drop_txt">or drag and drop them here</span></span></label>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="form-group row">
+                    <label htmlFor="firstName" className="col-md-4 col-xs-12 col-form-label">First name</label>
+                    <div className="col-md-8 col-xs-12">
+                      <input type="text" className="form-control" id="firstName" name ="firstName" required/>
+                    </div>
+                  </div>
+                  <div className="form-group row">
+                    <label htmlFor="lastName" className="col-md-4 col-xs-12 col-form-label">Last name</label>
+                    <div className="col-md-8 col-xs-12">
+                      <input type="text" className="form-control" id="lastName" name="lastName" required/>
+                    </div>
+                  </div>
+                  <div className="form-group row">
+                    <label htmlFor="gender" className="col-md-4 col-xs-12 col-form-label">Gender</label>
+                    <div className="col-md-8 col-xs-12">  
+                      <select className="form-control gender_selct" name="gender">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className="form-group row">
+                    <label htmlFor="Birth date" className="col-md-4 col-xs-12 col-form-label">Birth date</label>
+                    <div className="col-md-8 col-xs-12">  
+                      <select className="form-control custom_selct date_selct">
+                        <option value="male">Day</option>
+                      </select>
+
+                      <select className="form-control custom_selct mnth_selct">
+                        <option value="male">Month</option>
+                      </select>
+
+                      <select className="form-control custom_selct date_selct">
+                        <option value="male">Year</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className="form-group row">
+                    <label htmlFor="email" className="col-md-4 col-xs-12 col-form-label">E-mail address</label>
+                    <div className="col-md-8 col-xs-12">
+                      <input type="email" className="form-control" id="email" name="email" required />
+                    </div>
+                  </div>
+                  <div className="form-group row">
+                    <label htmlFor="phone" className="col-md-4 col-xs-12 col-form-label">Phone number</label>
+                    <div className="col-md-8 col-xs-12">
+                      <input type="tel" className="form-control" id="phone" name="phone" />
+                    </div>
+                  </div>
+                  <div className="form-group row">
+                    <label htmlFor="example-search-input" className="col-md-4 col-xs-12 col-form-label">Address</label>
+                    <div className="col-md-8 col-xs-12">
+                      <input className="form-control" type="search" id="address" name="address" />
+                    </div>
+                  </div>
+                  <div className="form-group row">
+                      <label htmlFor="example-email-input" className="col-md-4 col-xs-12 col-form-label">City</label>
+                      <div className="col-md-8 col-xs-12">
+                      <input className="form-control" type="text" id="city" name="city" />
+                      </div>
+                  </div>
+                  <div className="form-group row">
+                      <label htmlFor="example-url-input" className="col-md-4 col-xs-12 col-form-label">Country</label>
+                      <div className="col-md-8 col-xs-12">
+                      <input className="form-control" type="text" id="country" name="country"/>
+                      </div>
+                  </div>
+                  <div className="form-group row">
+                    <label htmlFor="desc" className="col-md-4 col-xs-12 col-form-label">Description</label>
+                    <div className="col-md-8 col-xs-12">
+                      <textarea className="form-control" id="desc" name="desc"></textarea>
+                    </div>
+                  </div>
+                </div>
+                <div key="update-button" className="profile_gry_bot_bar">
+                    <p className="alert alert-danger" data-spIf="form.error"><span data-spBind="form.errorMessage" /></p>
+                    <p className="alert alert-success" data-spIf="form.successful">Profile updated.</p>
+                    <button type="submit" className="btn pull-right">
+                      <span data-spIf="!form.processing">Save details</span>
+                      <span data-spIf="form.processing">Updating...</span>
+                    </button>
+                </div>
+            </div>
+          </UserProfileForm>
+        </div>
+      </DocumentTitle>
+    );
+  }
+}

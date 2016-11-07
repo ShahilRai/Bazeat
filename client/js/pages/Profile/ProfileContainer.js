@@ -2,8 +2,15 @@ import { Link } from 'react-router';
 import React, { PropTypes } from 'react';
 
 import ProfilePage from './ProfilePage';
+import UserProfilePage from './UserProfilePage';
 
 export default class ProfileContainer extends React.Component {
+
+  static contextTypes = {
+    authenticated: React.PropTypes.bool,
+    user: React.PropTypes.object
+  };
+
   render() {
     return ( <div>
         <div className="menu_wrapper">
@@ -32,7 +39,7 @@ export default class ProfileContainer extends React.Component {
                   <li><a href="#">See profile</a></li>
                 </ul>
               </div>
-          		<ProfilePage />
+          		<UserProfilePage />
             </div>
           </div>
         </div>

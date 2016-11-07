@@ -1607,3 +1607,18 @@ ul.edit_sidbar_list li a:hover, ul.edit_sidbar_list li.active a {
     font-size: 10px;
   }
 }
+
+.gender_selct {
+width:30%;
+}
+
+.date_selct {
+width:22%;
+}
+
+.mnth_selct {
+width:27%;
+}
+.custom_selct {
+  display: inline-block;margin-right: 20px;
+}
