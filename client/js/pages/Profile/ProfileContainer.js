@@ -19,10 +19,10 @@ export default class ProfileContainer extends React.Component {
   }
 
   render() {
-    if(this.context.user.is_user){
-      this.state.profile = <UserProfilePage />;
-    }else{
+    if(this.context.user.is_producer){
       this.state.profile = <ProfilePage />;
+    }else{
+      this.state.profile = <UserProfilePage />;
     }
     return ( <div>
         <div className="menu_wrapper">

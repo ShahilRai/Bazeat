@@ -78,10 +78,11 @@ app.use('/api', profiles);
 app.use(ExpressStrompath.init(app, {
   web: {
     produces: ['application/json'],
-    // me: {
-    //   expand: {
-    //     customData: true
-    //   }
+    me: {
+      expand: {
+        customData: true
+      }
+    },
     register: {
       form: {
         fields: {
