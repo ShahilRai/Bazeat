@@ -9,7 +9,64 @@ export default class UserProfilePage extends React.Component {
     user: React.PropTypes.object
   };
 
+  constructor(props, context) {
+    super(props, context);
+    this.state = {
+      user : {},
+      producer_info: {},
+      user_info: {},
+      data_loaded: false
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleProducerInfoChange = this.handleProducerInfoChange.bind(this);
+  }
+
+  componentDidMount() {
+    var userEmail = this.context.user.email
+    this.loadUserData(userEmail).then((response) => {
+        if(response.data.user) {
+          this.setState({
+            user: response.data.user,
+            producer_info: response.data.user.producer_info,
+            user_info: response.data.user.user_info,
+            data_loaded: true
+          });
+        }
+    }).catch((err) => {
+        console.log(err);
+    });
+  }
+
+  loadUserData(emailAddress) {
+    return axios.get("/api/edit" , {
+      params: {
+        email: emailAddress
+      }
+    });
+  }
+
+  handleChange(event){
+    this.setState({
+      user: {
+        [event.target.name]: event.target.value
+      }
+    });
+  }
+
+  handleProducerInfoChange(event){
+    this.setState({
+      producer_info: {
+        [event.target.name]: event.target.value
+      }
+    });
+  }
+
   render() {
+
+    if (!this.state.data_loaded) {
+      return (<div></div>);
+    }
+
     return (
       <DocumentTitle title={`My Profile`}>
         <div className="col-lg-9 col-md-8 col-sm-10 col-xs-12 edit_profile_rht_sidebar">
@@ -30,21 +87,22 @@ export default class UserProfilePage extends React.Component {
                     </div>
                   </div>
                   <div className="form-group row">
-                    <label htmlFor="firstName" className="col-md-4 col-xs-12 col-form-label">First name</label>
+                    <label htmlFor="givenName" className="col-md-4 col-xs-12 col-form-label">First name</label>
                     <div className="col-md-8 col-xs-12">
-                      <input type="text" className="form-control" id="firstName" name ="firstName" required/>
+                      <input type="text" className="form-control" id="givenName" name="givenName" required />
                     </div>
                   </div>
                   <div className="form-group row">
                     <label htmlFor="lastName" className="col-md-4 col-xs-12 col-form-label">Last name</label>
                     <div className="col-md-8 col-xs-12">
-                      <input type="text" className="form-control" id="lastName" name="lastName" required/>
+                      <input type="text" className="form-control" id="surname" name="surname" required/>
                     </div>
                   </div>
                   <div className="form-group row">
                     <label htmlFor="gender" className="col-md-4 col-xs-12 col-form-label">Gender</label>
                     <div className="col-md-8 col-xs-12">  
-                      <select className="form-control gender_selct" name="gender">
+                      <select className="form-control gender_selct" id="gender" name="gender" value={this.state.user.gender} onChange = {this.handleChange}>
+                        <option value="Select one">Select one</option>
                         <option value="male">Male</option>
                         <option value="female">Female</option>
                       </select>
@@ -75,31 +133,31 @@ export default class UserProfilePage extends React.Component {
                   <div className="form-group row">
                     <label htmlFor="phone" className="col-md-4 col-xs-12 col-form-label">Phone number</label>
                     <div className="col-md-8 col-xs-12">
-                      <input type="tel" className="form-control" id="phone" name="phone" />
+                      <input type="tel" className="form-control" id="phone" name="phone" value = {this.state.user.phone} onChange = {this.handleChange} />
                     </div>
                   </div>
                   <div className="form-group row">
                     <label htmlFor="example-search-input" className="col-md-4 col-xs-12 col-form-label">Address</label>
                     <div className="col-md-8 col-xs-12">
-                      <input className="form-control" type="search" id="address" name="address" />
+                      <input className="form-control" type="search" id="address" name="address" value = {this.state.user.address} onChange = {this.handleChange} />
                     </div>
                   </div>
                   <div className="form-group row">
                       <label htmlFor="example-email-input" className="col-md-4 col-xs-12 col-form-label">City</label>
                       <div className="col-md-8 col-xs-12">
-                      <input className="form-control" type="text" id="city" name="city" />
+                      <input className="form-control" type="text" id="city" name="city" value = {this.state.user.city} onChange = {this.handleChange} />
                       </div>
                   </div>
                   <div className="form-group row">
                       <label htmlFor="example-url-input" className="col-md-4 col-xs-12 col-form-label">Country</label>
                       <div className="col-md-8 col-xs-12">
-                      <input className="form-control" type="text" id="country" name="country"/>
+                      <input className="form-control" type="text" id="country" name="country" value = {this.state.user.country} onChange = {this.handleChange} />
                       </div>
                   </div>
                   <div className="form-group row">
                     <label htmlFor="desc" className="col-md-4 col-xs-12 col-form-label">Description</label>
                     <div className="col-md-8 col-xs-12">
-                      <textarea className="form-control" id="desc" name="desc"></textarea>
+                      <textarea className="form-control" id="desc" name="desc" value = {this.state.user.desc} onChange = {this.handleChange} ></textarea>
                     </div>
                   </div>
                 </div>

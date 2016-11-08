@@ -128,7 +128,7 @@ export default class ProfilePage extends React.Component {
                   <div className="form-group row">
                     <label htmlFor="desc" className="col-md-4 col-xs-12 col-form-label">Company description</label>
                     <div className="col-md-8 col-xs-12">
-                      <textarea className="form-control" id="company_description" name="company_description" defaultValue = {this.state.producer_info.company_description} onChange = {this.handleProducerInfoChange} />
+                      <textarea className="form-control" id="des" name="des" defaultValue = {this.state.user.desc} onChange = {this.handleChange} />
                     </div>
                   </div>
                 </div>
@@ -151,7 +151,7 @@ export default class ProfilePage extends React.Component {
                   <div className="form-group row">
                       <label htmlFor="example-url-input" className="col-md-4 col-xs-12 col-form-label">Country</label>
                       <div className="col-md-8 col-xs-12">
-                      <input className="form-control" type="text" id="country" name="country" value = {this.state.user.country} onChange = {this.handleChange}/>
+                      <input className="form-control" type="text" id="country" name="country" value = {this.state.user.country} onChange = {this.handleChange} />
                       </div>
                   </div>
                   <div className="form-group row">
