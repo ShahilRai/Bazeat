@@ -1,5 +1,6 @@
 import Order from '../models/order';
 import Cart from '../models/cart';
+import User from '../models/user';
 import cuid from 'cuid';
 
 
@@ -55,9 +56,11 @@ export function deleteOrder(req, res) {
 export function addCart(req, res) {
   User.findOne({  email: req.body.email }).exec((error, user) => {
     Cart.findOne({ cuid: req.body.cuid, user: user._id },function ( err, cart ){
+      // console.log(req.body);
       if (err) {
         res.json(500,{error_msg: "Cart not found"});
       }
+        console.log(!cart);
       if (!cart){
         const newCart = new Cart(req.body);
         newCart.cuid = cuid();
@@ -67,15 +70,20 @@ export function addCart(req, res) {
             res.status(500).send(error);
           }
           savedcart.cartitems.push(req.body.cartitems);
-          cart.save(function (err, post) {
-            res.json({ cart: savedcart });
+          savedcart.save(function (err, savedcart1) {
+          res.json({ cart: savedcart1 });
           });
         });
-      }else{
-        cart.cartitems.push(req.body.cartitems);
-        cart.save(function (err, post) {
-          res.json({ cart: cart });
-        });
+      }
+      else{
+        console.log(req.body.cartitems)
+        cart.update(
+            {$pushAll: {"cartitems": req.body.cartitems}},
+            {safe: true, upsert: true},
+            function(err, savedcart) {
+            }
+        );
+        res.json({ cart: cart });
       }
     });
   });
