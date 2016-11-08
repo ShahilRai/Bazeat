@@ -57,6 +57,7 @@ export function getProfile(req, res) {
 // }
 
 export function updateProfile(req, res) {
+  console.log(req.files)
   var s3 = require('s3');
   var awsS3Client = new AWS.S3({
     accessKeyId: process.env.AWSKey,
