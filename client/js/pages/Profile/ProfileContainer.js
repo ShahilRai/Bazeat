@@ -19,9 +19,9 @@ export default class ProfileContainer extends React.Component {
   }
 
   render() {
-    if(this.context.user.is_producer){
+    if(this.context.user.customData.is_producer){
       this.state.profile = <ProfilePage />;
-    }else{
+    }else {
       this.state.profile = <UserProfilePage />;
     }
     return ( <div>
