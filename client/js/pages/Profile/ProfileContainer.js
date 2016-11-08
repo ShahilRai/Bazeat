@@ -11,7 +11,19 @@ export default class ProfileContainer extends React.Component {
     user: React.PropTypes.object
   };
 
+  constructor(props, context) {
+    super(props, context);
+    this.state = {
+      profile: ''
+    }
+  }
+
   render() {
+    if(this.context.user.is_user){
+      this.state.profile = <UserProfilePage />;
+    }else{
+      this.state.profile = <ProfilePage />;
+    }
     return ( <div>
         <div className="menu_wrapper">
           <div className="container padd_87">
@@ -39,7 +51,7 @@ export default class ProfileContainer extends React.Component {
                   <li><a href="#">See profile</a></li>
                 </ul>
               </div>
-          		<UserProfilePage />
+              {this.state.profile}
             </div>
           </div>
         </div>
