@@ -14,6 +14,7 @@ const productSchema = new Schema({
   // user: { type: ObjectId, ref:"User", childPath: "products" }
   _producer: { type: ObjectId, ref: 'User' },
   buyers: [{ type: ObjectId, ref: 'User' }],
+  food_type: { type: 'String' },
   nutrition_fact: {
     kJ: { type: String, lowercase: true, trim: true },
     kcal: { type: String, lowercase: true, trim: true },

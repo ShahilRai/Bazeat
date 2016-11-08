@@ -5,19 +5,16 @@ import Allergen from '../models/allergen';
 import cuid from 'cuid';
 
 export function addProduct(req, res) {
-  console.log(req.body.product_category);
   User.findOne({  email: req.body.email }).exec((error, user) => {
     ProductCategory.findOne({  name: req.body.product_category }).exec((error, product_category) => {
-      console.log('product_category')
-      console.log(product_category)
       Allergen.find({'name': { $in: req.body.allergens}}, function(err, allergens){
         var allergens_array = allergens.map(function(a) {return a._id;});
         const newproduct = new Product();
         newproduct.cuid = cuid();
+        newproduct.food_type = req.body.food_type;
         newproduct._producer = user._id;
         newproduct.product_category =  product_category._id;
         newproduct.save((err, saved) => {
-          console.log(allergens_array);
             if (err) {
               res.status(500).send(err);
             }else{
@@ -26,8 +23,6 @@ export function addProduct(req, res) {
                 if (error) {
                   res.status(500).send(error);
                 }
-                  console.log('saved_product_category');
-                  console.log(saved_product_category);
               });
               for (var i in allergens_array) {
                 var allergen_id = allergens_array[i];
@@ -38,8 +33,6 @@ export function addProduct(req, res) {
                     if (error) {
                       res.status(500).send(error);
                     }
-                    console.log('allergen1');
-                    console.log(allergen1);
                   });
                 });
               }
