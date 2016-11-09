@@ -2,6 +2,7 @@ import React from 'react';
 import DocumentTitle from 'react-document-title';
 import { UserProfileForm } from 'react-stormpath';
 import InputField from '../components/InputField';
+import ImageUploader from './ImageUploader';
 export default class ProfilePage extends React.Component {
 
   static contextTypes = {
@@ -79,22 +80,13 @@ export default class ProfilePage extends React.Component {
     return (
       <DocumentTitle title={`My Profile`}>
         <div className="col-lg-9 col-md-8 col-sm-10 col-xs-12 edit_profile_rht_sidebar">
+        <ImageUploader />
           <UserProfileForm method = "post">
             <div className="edit_prfile_detail_form">
               <h3>Profile details </h3>
 
                 <div className="edt_prf_inner_detail">
-                  <div className="form-group row">
-                    <label htmlFor="file-1" className="col-md-4 col-xs-12 col-form-label">Company logo</label>
-                    <div className="col-md-8 col-xs-12">
-                      <a href="#"><img src={require('../../../images/producer_logo.png')}/></a>
-                      <div className="box__input">
-                        <input name="file-1[]" id="file-1" className="logo" data-multiple-caption="{count} files selected" multiple="" type="file" />
-                        <label className="input_upload">
-                        <span className="file_text">Select one of the files from your computer <br/><span className="drop_txt">or drag and drop them here</span></span></label>
-                      </div>
-                    </div>
-                  </div>
+                 
                   <div className="form-group row">
                     <label htmlFor="givenName" className="col-md-4 col-xs-12 col-form-label">Producer name</label>
                     <div className="col-md-8 col-xs-12">
@@ -128,7 +120,7 @@ export default class ProfilePage extends React.Component {
                   <div className="form-group row">
                     <label htmlFor="desc" className="col-md-4 col-xs-12 col-form-label">Company description</label>
                     <div className="col-md-8 col-xs-12">
-                      <textarea className="form-control" id="company_description" name="company_description" defaultValue = {this.state.producer_info.company_description} onChange = {this.handleProducerInfoChange} />
+                      <textarea className="form-control" id="des" name="des" defaultValue = {this.state.user.desc} onChange = {this.handleChange} />
                     </div>
                   </div>
                 </div>
@@ -151,7 +143,7 @@ export default class ProfilePage extends React.Component {
                   <div className="form-group row">
                       <label htmlFor="example-url-input" className="col-md-4 col-xs-12 col-form-label">Country</label>
                       <div className="col-md-8 col-xs-12">
-                      <input className="form-control" type="text" id="country" name="country" value = {this.state.user.country} onChange = {this.handleChange}/>
+                      <input className="form-control" type="text" id="country" name="country" value = {this.state.user.country} onChange = {this.handleChange} />
                       </div>
                   </div>
                   <div className="form-group row">
