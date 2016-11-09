@@ -12,9 +12,6 @@ export default class ImageUploader extends React.Component {
   render() {
     return <div>
       <h1>Upload Images</h1>
-      <div>
-        {this.state.uploadedImages.map(i => <img src={i} />)}
-      </div>
       
       <form onSubmit={this._onSubmit.bind(this)}>
         <input type="file" name="image" accept=".jpg,.jpeg,.png,.gif" 

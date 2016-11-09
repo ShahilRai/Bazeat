@@ -11,9 +11,10 @@ module.exports = {
     path: __dirname,
     filename: 'app.js',
     publicPath: '/js/'
+  
   },
   resolve: {
-    extensions: ['', '.js', '.jsx', '.css', '.eot', '.woff2', '.woff', '.ttf', '.svg' ],
+    extensions: ['', '.js', '.jsx', '.css', '.eot', '.woff2', '.woff', '.ttf', '.svg','.json'],
     modules: [
       'client',
       'node_modules',
@@ -21,6 +22,9 @@ module.exports = {
   },
   module: {
     loaders: [{
+      include: [
+          path.resolve(__dirname, 'src')
+        ],
       test: /\.js$/,
       loaders: ['babel'],
       include: path.join(__dirname, 'client/js')
@@ -36,6 +40,8 @@ module.exports = {
       {
        test: /\.(png|jpg)$/,
         loader: 'url-loader?limit=8192'
-      }]
+      }
+    
+      ]
   }
 };
