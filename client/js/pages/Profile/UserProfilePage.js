@@ -2,6 +2,8 @@ import React from 'react';
 import DocumentTitle from 'react-document-title';
 import { UserProfileForm } from 'react-stormpath';
 import ImageUploader from './ImageUploader';
+import InputField from '../components/InputField';
+import TextAreaField from '../components/TextAreaField';
 export default class UserProfilePage extends React.Component {
   
   static contextTypes = {
@@ -123,10 +125,8 @@ export default class UserProfilePage extends React.Component {
                   </div>
                   <div className="form-group row">
                     <label htmlFor="phone" className="col-md-4 col-xs-12 col-form-label">Phone number</label>
-                    <div className="col-md-8 col-xs-12">
-                      <input type="tel" className="form-control" id="phone" name="phone" value = {this.state.user.phone} onChange = {this.handleChange} />
-                    </div>
-                  </div>
+                      <InputField type="tel" name="phone" value = {this.state.user.phone} />
+                   </div>
                   <div className="form-group row">
                     <label htmlFor="example-search-input" className="col-md-4 col-xs-12 col-form-label">Address</label>
                     <div className="col-md-8 col-xs-12">
@@ -147,9 +147,7 @@ export default class UserProfilePage extends React.Component {
                   </div>
                   <div className="form-group row">
                     <label htmlFor="desc" className="col-md-4 col-xs-12 col-form-label">Description</label>
-                    <div className="col-md-8 col-xs-12">
-                      <textarea className="form-control" id="desc" name="desc" value = {this.state.user.desc} onChange = {this.handleChange} ></textarea>
-                    </div>
+                      <TextAreaField name="desc" value = {this.state.user.desc} />
                   </div>
                 </div>
                 <div key="update-button" className="profile_gry_bot_bar">
