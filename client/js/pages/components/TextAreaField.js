@@ -10,10 +10,11 @@ export default class TextAreaField extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
     
-  handleChange(evt) {
-    this.setState({
-      value: evt.target.value
-    });
+  handleChange(event) {
+    this.setState({ value: event.target.value });
+    if (this.props.onChange){
+            this.props.onChange(event);
+        }
   }
 
   render() {
