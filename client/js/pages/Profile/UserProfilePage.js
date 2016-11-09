@@ -1,7 +1,10 @@
 import React from 'react';
 import DocumentTitle from 'react-document-title';
-import { UserProfileForm } from 'react-stormpath';
+import { UserProfileForm } from 'react-stormpath';
 import ImageUploader from './ImageUploader';
+import TextAreaField from '../components/TextAreaField';
+import InputField from '../components/InputField';
+import CustomDatePicker from '../components/CustomDatePicker';
 export default class UserProfilePage extends React.Component {
   
   static contextTypes = {
@@ -101,19 +104,7 @@ export default class UserProfilePage extends React.Component {
                   </div>
                   <div className="form-group row">
                     <label htmlFor="Birth date" className="col-md-4 col-xs-12 col-form-label">Birth date</label>
-                    <div className="col-md-8 col-xs-12">  
-                      <select className="form-control custom_selct date_selct">
-                        <option value="male">Day</option>
-                      </select>
-
-                      <select className="form-control custom_selct mnth_selct">
-                        <option value="male">Month</option>
-                      </select>
-
-                      <select className="form-control custom_selct date_selct">
-                        <option value="male">Year</option>
-                      </select>
-                    </div>
+                    <CustomDatePicker className="form-control custom_selct date_selct" />
                   </div>
                   <div className="form-group row">
                     <label htmlFor="email" className="col-md-4 col-xs-12 col-form-label">E-mail address</label>
@@ -147,9 +138,7 @@ export default class UserProfilePage extends React.Component {
                   </div>
                   <div className="form-group row">
                     <label htmlFor="desc" className="col-md-4 col-xs-12 col-form-label">Description</label>
-                    <div className="col-md-8 col-xs-12">
-                      <textarea className="form-control" id="desc" name="desc" value = {this.state.user.desc} onChange = {this.handleChange} ></textarea>
-                    </div>
+                      <TextAreaField name="desc" value={this.state.user.desc}/>
                   </div>
                 </div>
                 <div key="update-button" className="profile_gry_bot_bar">
