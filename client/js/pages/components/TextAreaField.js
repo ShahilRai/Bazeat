@@ -11,7 +11,6 @@ export default class TextAreaField extends React.Component {
   }
     
   handleChange(evt) {
-    console.log(evt.target.name +":"+ evt.target.value);
     this.setState({
       value: evt.target.value
     });
@@ -20,7 +19,7 @@ export default class TextAreaField extends React.Component {
   render() {
     return(
       <div className="col-md-8 col-xs-12">
-        <textarea className="form-control" id={this.props.name} name={this.props.name} onChange={this.handleChange}>{this.state.value}</textarea>
+        <textarea className="form-control" id={this.props.name} name={this.props.name}  onChange={this.handleChange} >{this.state.value}</textarea>
       </div>
     );
   }      
