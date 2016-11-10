@@ -22,7 +22,7 @@ export default class CustomDatePicker extends React.Component {
   render() {
     return(
       <div className="col-md-8 col-xs-12">
-        <DatePicker selected={this.state.startDate} onChange={this.handleChange} />
+        <DatePicker selected={this.state.startDate} onChange={this.handleChange} name="date"/>
       </div>
     );
   }
