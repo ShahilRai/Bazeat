@@ -5,7 +5,7 @@ import ImageUploader from './ImageUploader';
 import InputField from '../components/InputField';
 import TextAreaField from '../components/TextAreaField';
 export default class UserProfilePage extends React.Component {
-  
+
   static contextTypes = {
     authenticated: React.PropTypes.bool,
     user: React.PropTypes.object
@@ -70,15 +70,16 @@ export default class UserProfilePage extends React.Component {
     }
 
     return (
+
       <DocumentTitle title={`My Profile`}>
         <div className="col-lg-9 col-md-8 col-sm-10 col-xs-12 edit_profile_rht_sidebar">
-        <ImageUploader />
+           <ImageUploader />
           <UserProfileForm method = "post">
             <div className="edit_prfile_detail_form">
               <h3>Profile details </h3>
-                
+
                 <div className="edt_prf_inner_detail">
-                 
+
                   <div className="form-group row">
                     <label htmlFor="givenName" className="col-md-4 col-xs-12 col-form-label">First name</label>
                     <div className="col-md-8 col-xs-12">
@@ -93,7 +94,7 @@ export default class UserProfilePage extends React.Component {
                   </div>
                   <div className="form-group row">
                     <label htmlFor="gender" className="col-md-4 col-xs-12 col-form-label">Gender</label>
-                    <div className="col-md-8 col-xs-12">  
+                    <div className="col-md-8 col-xs-12">
                       <select className="form-control gender_selct" id="gender" name="gender" value={this.state.user.gender} onChange = {this.handleChange}>
                         <option value="Select one">Select one</option>
                         <option value="male">Male</option>
@@ -103,7 +104,7 @@ export default class UserProfilePage extends React.Component {
                   </div>
                   <div className="form-group row">
                     <label htmlFor="Birth date" className="col-md-4 col-xs-12 col-form-label">Birth date</label>
-                    <div className="col-md-8 col-xs-12">  
+                    <div className="col-md-8 col-xs-12">
                       <select className="form-control custom_selct date_selct">
                         <option value="male">Day</option>
                       </select>

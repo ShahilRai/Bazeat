@@ -52,7 +52,6 @@ import dummyData from './dummyData';
 import serverConfig from './config';
 import User from './models/user';
 import cuid from 'cuid';
-import Knox from 'knox';
 // Set native promises as mongoose promise
 mongoose.Promise = global.Promise;
 
