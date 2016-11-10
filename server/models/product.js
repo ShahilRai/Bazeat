@@ -1,4 +1,6 @@
 import mongoose from 'mongoose';
+import ProductCategory from '../models/productcategory';
+import Allergen from '../models/allergen';
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
@@ -6,17 +8,15 @@ const productSchema = new Schema({
   product_name: { type: 'String' },
   photo: { type: 'String' },
   description: { type: 'String' },
-  producer_id: ObjectId,
   SKU: { type: 'String' },
-  price: { type: 'Date' },
+  price: { type: 'Number' },
   cuid: { type: 'String' },
   orderitems: [{ type: Schema.ObjectId, ref: 'OrderItem' }],
-  // user: { type: ObjectId, ref:"User", childPath: "products" }
   _producer: { type: ObjectId, ref: 'User' },
   buyers: [{ type: ObjectId, ref: 'User' }],
   food_type: { type: 'String' },
   nutrition_fact: {
-    kJ: { type: String, lowercase: true, trim: true },
+    kj: { type: String, lowercase: true, trim: true },
     kcal: { type: String, lowercase: true, trim: true },
     carbs: { type: String, lowercase: true, trim: true },
     fiber: { type: String, lowercase: true, trim: true },
@@ -24,7 +24,14 @@ const productSchema = new Schema({
     fat: { type: String, lowercase: true, trim: true },
   },
   product_category: { type: Schema.ObjectId, ref: 'ProductCategory' },
-  allergens: [{ type: Schema.ObjectId, ref: 'ProductCategory' }]
+  allergens: [{ type: Schema.ObjectId, ref: 'Allergen' }]
+});
+
+productSchema.post('save', function(product) {
+  ProductCategory.findByIdAndUpdate(product.product_category, {$push: {_products: product}} , function(err, model) {
+  })
+  Allergen.update({_id: {"$in": product.allergens }}, { $pushAll: {_products: [product] }}, {multi: true}, function(err) {
+  });
 });
 
 export default mongoose.model('Product', productSchema);
