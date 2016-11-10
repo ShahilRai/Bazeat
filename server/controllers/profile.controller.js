@@ -143,8 +143,8 @@ export function getProfile(req, res) {
 // });
 // uploader.on('end', function() {
 //   console.log("done uploading");
-});
-}
+// });
+// }
 
 // export function updateProfile(req, res) {
 //   console.log("teedf;dmf"),
