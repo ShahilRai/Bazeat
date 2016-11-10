@@ -4,7 +4,6 @@ import compression from 'compression';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import path from 'path';
-import fileUpload from 'express-fileupload';
 // import IntlWrapper from '../client/modules/Intl/IntlWrapper';
 // import twilio from 'twilio';
 // import nodeMailer from 'nodemailer';
@@ -18,7 +17,6 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 
 // Initialize the Express App
 const app = new Express();
-app.use(fileUpload());
 // Run Webpack dev server in development mode
 if (process.env.NODE_ENV === 'development') {
   const compiler = webpack(config);
