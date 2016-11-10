@@ -1,9 +1,12 @@
 import React from 'react';
 import DocumentTitle from 'react-document-title';
-import { UserProfileForm } from 'react-stormpath';
+import { UserProfileForm } from 'react-stormpath';
 import ImageUploader from './ImageUploader';
-import InputField from '../components/InputField';
 import TextAreaField from '../components/TextAreaField';
+import InputField from '../components/InputField';
+import CustomDatePicker from '../components/CustomDatePicker';
+import LabelField from '../components/LabelField';
+
 export default class UserProfilePage extends React.Component {
 
   static contextTypes = {
@@ -81,19 +84,19 @@ export default class UserProfilePage extends React.Component {
                 <div className="edt_prf_inner_detail">
 
                   <div className="form-group row">
-                    <label htmlFor="givenName" className="col-md-4 col-xs-12 col-form-label">First name</label>
+                    <LabelField htmlFor="givenName" label="First name" />
                     <div className="col-md-8 col-xs-12">
                       <input type="text" className="form-control" id="givenName" name="givenName" required />
                     </div>
                   </div>
                   <div className="form-group row">
-                    <label htmlFor="lastName" className="col-md-4 col-xs-12 col-form-label">Last name</label>
+                    <LabelField htmlFor="lastName" label="Last name" />
                     <div className="col-md-8 col-xs-12">
                       <input type="text" className="form-control" id="surname" name="surname" required/>
                     </div>
                   </div>
                   <div className="form-group row">
-                    <label htmlFor="gender" className="col-md-4 col-xs-12 col-form-label">Gender</label>
+                    <LabelField htmlFor="gender" label="Gender" />
                     <div className="col-md-8 col-xs-12">
                       <select className="form-control gender_selct" id="gender" name="gender" value={this.state.user.gender} onChange = {this.handleChange}>
                         <option value="Select one">Select one</option>
@@ -103,52 +106,34 @@ export default class UserProfilePage extends React.Component {
                     </div>
                   </div>
                   <div className="form-group row">
-                    <label htmlFor="Birth date" className="col-md-4 col-xs-12 col-form-label">Birth date</label>
-                    <div className="col-md-8 col-xs-12">
-                      <select className="form-control custom_selct date_selct">
-                        <option value="male">Day</option>
-                      </select>
-
-                      <select className="form-control custom_selct mnth_selct">
-                        <option value="male">Month</option>
-                      </select>
-
-                      <select className="form-control custom_selct date_selct">
-                        <option value="male">Year</option>
-                      </select>
-                    </div>
+                    <LabelField htmlFor="Birth date" label="Birth date" />
+                    <CustomDatePicker className="form-control custom_selct date_selct" />
                   </div>
                   <div className="form-group row">
-                    <label htmlFor="email" className="col-md-4 col-xs-12 col-form-label">E-mail address</label>
+                    <LabelField htmlFor="email" label="E-mail address" />
                     <div className="col-md-8 col-xs-12">
                       <input type="email" className="form-control" id="email" name="email" required />
                     </div>
                   </div>
                   <div className="form-group row">
-                    <label htmlFor="phone" className="col-md-4 col-xs-12 col-form-label">Phone number</label>
-                      <InputField type="tel" name="phone" value = {this.state.user.phone} />
-                   </div>
-                  <div className="form-group row">
-                    <label htmlFor="example-search-input" className="col-md-4 col-xs-12 col-form-label">Address</label>
-                    <div className="col-md-8 col-xs-12">
-                      <input className="form-control" type="search" id="address" name="address" value = {this.state.user.address} onChange = {this.handleChange} />
-                    </div>
+                    <LabelField htmlFor="phone" label="Phone number" />
+                    <InputField type="tel" name="phone" value = {this.state.user.phone} />
                   </div>
                   <div className="form-group row">
-                      <label htmlFor="example-email-input" className="col-md-4 col-xs-12 col-form-label">City</label>
-                      <div className="col-md-8 col-xs-12">
-                      <input className="form-control" type="text" id="city" name="city" value = {this.state.user.city} onChange = {this.handleChange} />
-                      </div>
+                    <LabelField htmlFor="example-search-input" label="Address" />
+                    <InputField type="search" name="address" value = {this.state.user.address} />
                   </div>
                   <div className="form-group row">
-                      <label htmlFor="example-url-input" className="col-md-4 col-xs-12 col-form-label">Country</label>
-                      <div className="col-md-8 col-xs-12">
-                      <input className="form-control" type="text" id="country" name="country" value = {this.state.user.country} onChange = {this.handleChange} />
-                      </div>
+                    <LabelField htmlFor="example-email-input" label="City" />
+                    <InputField name="city" value = {this.state.user.city} />
                   </div>
                   <div className="form-group row">
-                    <label htmlFor="desc" className="col-md-4 col-xs-12 col-form-label">Description</label>
-                      <TextAreaField name="desc" value = {this.state.user.desc} />
+                    <LabelField htmlFor="example-url-input" label="Country" />
+                    <InputField name="country" value = {this.state.user.country} />
+                  </div>
+                  <div className="form-group row">
+                    <LabelField htmlFor="desc" label="Description" />
+                    <TextAreaField name="desc" value = {this.state.user.desc} />
                   </div>
                 </div>
                 <div key="update-button" className="profile_gry_bot_bar">
