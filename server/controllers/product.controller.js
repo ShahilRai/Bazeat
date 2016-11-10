@@ -2,9 +2,11 @@ import Product from '../models/product';
 import User from '../models/user';
 import ProductCategory from '../models/productcategory';
 import Allergen from '../models/allergen';
+import Ingredient from '../models/ingredient';
 import cuid from 'cuid';
 
 export function addProduct(req, res) {
+  console.log(req.body)
   User.findOne({ email: req.body.email }).exec((error, user) => {
     const newProduct = new Product(req.body);
     newProduct.cuid = cuid();
@@ -34,6 +36,14 @@ export function updateProduct(req, res) {
       });
 
       Allergen.update({_id: {"$in": product.allergens }}, { $pushAll: {_products: [product] }}, {multi: true}, function(err) {
+      });
+
+      Ingredient.update({ _products: product._id }, { $pullAll: { _products : [product._id] }},
+        { safe: true, multi: true },
+        function removeConnectionsCB(err, obj) {
+      });
+
+      Ingredient.update({_id: {"$in": product.ingredients }}, { $pushAll: {_products: [product] }}, {multi: true}, function(err) {
       });
 
       res.json({ product });

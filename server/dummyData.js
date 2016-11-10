@@ -2,6 +2,7 @@ import Post from './models/post';
 import Role from './models/role';
 import ProductCategory from './models/productcategory';
 import Allergen from './models/allergen';
+import Ingredient from './models/ingredient';
 
 export default function () {
   Post.count().exec((err, count) => {
@@ -84,6 +85,20 @@ export default function () {
     const allergen2 = new Allergen({ name: 'Milk'});
     const allergen3 = new Allergen({ name: 'Nuts' });
     Allergen.create([allergen1, allergen2, allergen3], (error) => {
+      if (!error) {
+        // console.log('ready to go....');
+      }
+    });
+  });
+
+  Ingredient.count().exec((err, count) => {
+    if (count > 0) {
+      return;
+    }
+    const ingredient1 = new Ingredient({ name: 'Salt' });
+    const ingredient2 = new Ingredient({ name: 'Olive Oil'});
+    const ingredient3 = new Ingredient({ name: 'Eggs' });
+    Ingredient.create([ingredient1, ingredient2, ingredient3], (error) => {
       if (!error) {
         // console.log('ready to go....');
       }

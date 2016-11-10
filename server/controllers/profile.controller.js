@@ -28,10 +28,10 @@ app.use('/api/profiles', mutilpart());
 //   })
 // });
 
-console.log("uploader")
-console.log(uploader);
-console.log("S3Strategy");
-console.log(S3Strategy);
+// console.log("uploader")
+// console.log(uploader);
+// console.log("S3Strategy");
+// console.log(S3Strategy);
 
 uploader.use(new S3Strategy({
   uploadPath: '/user-pic',

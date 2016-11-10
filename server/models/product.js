@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import ProductCategory from '../models/productcategory';
 import Allergen from '../models/allergen';
+import Ingredient from '../models/ingredient';
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
@@ -24,13 +25,16 @@ const productSchema = new Schema({
     fat: { type: String, lowercase: true, trim: true },
   },
   product_category: { type: Schema.ObjectId, ref: 'ProductCategory' },
-  allergens: [{ type: Schema.ObjectId, ref: 'Allergen' }]
+  allergens: [{ type: Schema.ObjectId, ref: 'Allergen' }],
+  ingredients: [{ type: Schema.ObjectId, ref: 'Ingredient' }],
 });
 
 productSchema.post('save', function(product) {
   ProductCategory.findByIdAndUpdate(product.product_category, {$push: {_products: product}} , function(err, model) {
   })
   Allergen.update({_id: {"$in": product.allergens }}, { $pushAll: {_products: [product] }}, {multi: true}, function(err) {
+  });
+  Ingredient.update({_id: {"$in": product.allergens }}, { $pushAll: {_products: [product] }}, {multi: true}, function(err) {
   });
 });
 
