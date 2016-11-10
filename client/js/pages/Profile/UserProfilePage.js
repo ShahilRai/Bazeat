@@ -80,9 +80,7 @@ export default class UserProfilePage extends React.Component {
           <UserProfileForm method = "post">
             <div className="edit_prfile_detail_form">
               <h3>Profile details </h3>
-
                 <div className="edt_prf_inner_detail">
-
                   <div className="form-group row">
                     <LabelField htmlFor="givenName" label="First name" />
                     <div className="col-md-8 col-xs-12">
@@ -133,7 +131,7 @@ export default class UserProfilePage extends React.Component {
                   </div>
                   <div className="form-group row">
                     <LabelField htmlFor="desc" label="Description" />
-                    <TextAreaField name="desc" value = {this.state.user.desc} />
+                    <TextAreaField name="desc" value = {this.state.user.description} />
                   </div>
                 </div>
                 <div key="update-button" className="profile_gry_bot_bar">
