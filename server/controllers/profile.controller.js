@@ -3,14 +3,14 @@ import cuid from 'cuid';
 import Express from 'express';
 import ExpressStrompath from 'express-stormpath';
 import bodyParser from 'body-parser';
-var mutilpart = require('connect-multiparty');
-var uploader = require('express-fileuploader');
-var S3Strategy = require('express-fileuploader-s3');
+// var mutilpart = require('connect-multiparty');
+// var uploader = require('express-fileuploader');
+// var S3Strategy = require('express-fileuploader-s3');
 // import AWS from 'aws-sdk';
 // import Multer from 'multer';
 // import Multers3 from 'multer-s3';
 const app = new Express();
-app.use('/api/profiles', mutilpart());
+// app.use('/api/profiles', mutilpart());
 // const s3 = new AWS.S3({
 //   accessKeyId: process.env.AWSKey,
 //   secretAccessKey: process.env.AWSSecret,
@@ -33,17 +33,17 @@ app.use('/api/profiles', mutilpart());
 // console.log("S3Strategy");
 // console.log(S3Strategy);
 
-uploader.use(new S3Strategy({
-  uploadPath: '/user-pic',
-  headers: {
-    'x-amz-acl': 'public-read'
-  },
-  options: {
-    key: process.env.AWSKey,
-    secret: process.env.AWSSecret,
-    bucket: process.env.AWSBucket
-  }
-}));
+// uploader.use(new S3Strategy({
+//   uploadPath: '/user-pic',
+//   headers: {
+//     'x-amz-acl': 'public-read'
+//   },
+//   options: {
+//     key: process.env.AWSKey,
+//     secret: process.env.AWSSecret,
+//     bucket: process.env.AWSBucket
+//   }
+// }));
 
 // uploader.use(new uploader.LocalStrategy({
 //   uploadPath: '/uploads',
