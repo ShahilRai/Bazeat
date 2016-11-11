@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { IndexRoute, Route, browserHistory } from 'react-router';
 import ReactStormpath, { Router, HomeRoute, LoginRoute, AuthenticatedRoute } from 'react-stormpath';
-import { ChangePasswordPage, ForgotPasswordModal, MasterPage, IndexPage, LoginModal, RegisterPage, ResetPasswordPage, VerifyEmailPage, ProfilePage, ProfileContainer } from './pages';
+import { ChangePasswordPage, ForgotPasswordModal, MasterPage, IndexPage, LoginModal, RegisterPage, ResetPasswordPage, VerifyEmailPage, ProfilePage, ProfileContainer, ReactSlider } from './pages';
 
 ReactStormpath.init();
 
@@ -43,6 +43,7 @@ ReactDOM.render(
       <Route path='/passwordReset' component={ChangePasswordPage} />
       <Route path='/change' component={ChangePasswordPage} />
       <Route path='/forgot' component={ForgotPasswordModal} />
+      <Route path='/addProductForm' component={ReactSlider} />
       <AuthenticatedRoute>
         <Route path='/profile' component={ProfileContainer} />
       </AuthenticatedRoute>
