@@ -10,7 +10,6 @@ SaveAndContinue(){
 	render() {
 		return (
 		<div>
-			<a className="shopping_bag" href="#"  data-toggle="modal" data-target="#step_1"><img src={require("../../../images/shopping_bag.png")}/></a>
 			<div class="modal fade prod_modal" id="step_1" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">						
 				<div className="modal-dialog" role="document">
 					<div className="modal-content">

@@ -14,7 +14,6 @@ export default class Ingredients extends React.Component {
 	render() {
 		return (
 		<div>
-			<a href="#" className="shopping_bag" data-toggle="modal" data-target="#step_2"><img src={require("../../../images/shopping_bag.png")}/></a>
 			<div class="modal fade prod_modal prod_modal2" id="step_2" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				<div className="modal-dialog" role="document">
 					<div className="modal-content">

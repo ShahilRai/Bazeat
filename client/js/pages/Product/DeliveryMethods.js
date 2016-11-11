@@ -10,7 +10,6 @@ export default class DeliveryMethods extends React.Component {
 	render() {
 		return (
 		<div>
-			<a href="#" className="shopping_bag" data-toggle="modal" data-target="#step_3"><img src={require("../../../images/shopping_bag.png")}/></a>
 			<div class="modal fade prod_modal" id="step_3" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				<div className="modal-dialog" role="document">
 					<div className="modal-content">
