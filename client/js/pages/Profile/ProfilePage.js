@@ -88,7 +88,7 @@ export default class ProfilePage extends React.Component {
               <h3>Profile details </h3>
 
                 <div className="edt_prf_inner_detail">
-                 
+
                   <div className="form-group row">
                     <LabelField htmlFor="givenName" className="col-md-4 col-xs-12 col-form-label" label="Producer name" />
                     <div className="col-md-8 col-xs-12">

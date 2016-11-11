@@ -2,11 +2,18 @@ import React from 'react';
 import request from 'superagent';
 import _ from 'lodash';
 export default class ImageUploader extends React.Component {
+
+  static contextTypes = {
+    authenticated: React.PropTypes.bool,
+    user: React.PropTypes.object
+  };
+
   constructor(props) {
     super(props);
     this.state = {
       selectedImage: null,
-      uploadedImages: []
+      uploadedImages: [],
+      user: this.props.user
     }
   }
   render() {
@@ -39,6 +46,7 @@ export default class ImageUploader extends React.Component {
 
     const formData = new FormData();
     formData.append('image', this.state.selectedImage);
+    formData.append('email', this.context.user.email);
     // var data = {data: {'file': this.state.selectedImage},
     //         file: this.state.selectedImage,
     //         fileName: "image"};

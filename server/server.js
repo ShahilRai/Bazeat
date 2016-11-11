@@ -222,8 +222,15 @@ let upload = multer({
 })
 
 app.post('/api/profile_image', upload.single('image'), function (req, res, next){
-  console.log(req.file.location)
-  res.json({ image_src: req.file.location });
+  User.findOne({ email: req.body.email }).exec((err, user) => {
+    user.photo = req.file.location
+    user.save((error, saveduser) => {
+      if (error) {
+        res.status(500).send(error);
+      }
+      res.json({ image_url: saveduser.photo });
+    });
+  });
 })
 
 // app.get('/', ExpressStrompath.loginRequired, function(req, res) {
