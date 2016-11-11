@@ -16,7 +16,6 @@ const ifProducer = new Schema({
 
 const ifUser = new Schema({
   birthDate: Date,
-  photo: String,
   gender: String,
   website: String,
   last_login: Date,

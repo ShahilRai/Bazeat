@@ -3,63 +3,8 @@ import cuid from 'cuid';
 import Express from 'express';
 import ExpressStrompath from 'express-stormpath';
 import bodyParser from 'body-parser';
-// var mutilpart = require('connect-multiparty');
-// var uploader = require('express-fileuploader');
-// var S3Strategy = require('express-fileuploader-s3');
-// import AWS from 'aws-sdk';
-// import Multer from 'multer';
-// import Multers3 from 'multer-s3';
-const app = new Express();
-// app.use('/api/profiles', mutilpart());
-// const s3 = new AWS.S3({
-//   accessKeyId: process.env.AWSKey,
-//   secretAccessKey: process.env.AWSSecret,
-//   Bucket: process.env.AWSBucket,
-//   region: "us-west-1"
-// });
-// const upload = Multer({
-//   storage: Multers3({
-//     s3: s3,
-//     bucket: process.env.AWSBucket,
-//     contentType: Multers3.AUTO_CONTENT_TYPE,
-//     transformFile: function (req, file, cb) {
-//     cb(null, pump(file.stream, resizeMyImage(file)))
-//     }
-//   })
-// });
-
-// console.log("uploader")
-// console.log(uploader);
-// console.log("S3Strategy");
-// console.log(S3Strategy);
-
-// uploader.use(new S3Strategy({
-//   uploadPath: '/user-pic',
-//   headers: {
-//     'x-amz-acl': 'public-read'
-//   },
-//   options: {
-//     key: process.env.AWSKey,
-//     secret: process.env.AWSSecret,
-//     bucket: process.env.AWSBucket
-//   }
-// }));
-
-// uploader.use(new uploader.LocalStrategy({
-//   uploadPath: '/uploads',
-//   baseUrl: 'http://127.0.0.1:3000/uploads/'
-// }));
-
-export function updateProfile(req, res) {
-  console.log(req.files)
-  console.log(req.files['image'])
-  // uploader.upload('s3', req.files['image']['data'], function(err, files) {
-  //   if (err) {
-  //     return next(err);
-  //   }
-    // res.send(JSON.stringify(files));
-  // });
-}
+import multer from 'multer';
+import multerS3 from 'multer-s3';
 
 export function addProfile(req, res) {
   const newUser = new User(req.body);

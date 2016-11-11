@@ -47,7 +47,7 @@ export default class ImageUploader extends React.Component {
     // console.log(image)
     console.log("formData")
     // console.log(formData)
-    request.post('/api/profiles')
+    request.post('/api/profile_image')
       .send(formData)
       .end((err, res) => {
 

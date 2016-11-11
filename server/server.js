@@ -4,11 +4,12 @@ import compression from 'compression';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import path from 'path';
+import aws from 'aws-sdk';
+
 // import IntlWrapper from '../client/modules/Intl/IntlWrapper';
 // import twilio from 'twilio';
 // import nodeMailer from 'nodemailer';
 // import mandrillTransport from 'nodemailer-mandrill-transport';
-
 // Webpack Requirements
 import webpack from 'webpack';
 import config from '../webpack.config';
@@ -24,7 +25,6 @@ if (process.env.NODE_ENV === 'development') {
   // app.use(webpackHotMiddleware(compiler));
 }
 
-console.log(__dirname)
 app.use('/css', Express.static(path.resolve(__dirname, '../client/css')));
 app.use('/images', Express.static(path.resolve(__dirname, '../client/images')));
 app.use('/javascript', Express.static(path.resolve(__dirname, '../client/javascript')));
@@ -50,6 +50,8 @@ import dummyData from './dummyData';
 import serverConfig from './config';
 import User from './models/user';
 import cuid from 'cuid';
+import multer from 'multer';
+import multerS3 from 'multer-s3';
 // Set native promises as mongoose promise
 mongoose.Promise = global.Promise;
 
@@ -112,6 +114,7 @@ app.use(ExpressStrompath.init(app, {
     });
   }
 }));
+
 app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
   function (req, res) {
     console.log(req.body);
@@ -186,6 +189,29 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
   }
 });
 
+app.on('ExpressStrompath.ready', () => {
+  // console.log('Stormpath Ready');
+});
+
+// upload profile image
+
+let s3 = new aws.S3({ accessKeyId: process.env.AWSKey, secretAccessKey: process.env.AWSSecret })
+
+let upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: process.env.AWSBucket,
+    acl: 'public-read',
+    key: function (req, file, cb) {
+      cb(null, 'profile-image/'+ Date.now().toString() + file.originalname);
+    }
+  })
+})
+
+app.post('/api/profile_image', upload.single('image'), function (req, res, next){
+  console.log(req.file.location)
+  res.json({ image_src: req.file.location });
+})
 
 // app.get('/', ExpressStrompath.loginRequired, function(req, res) {
 //   res.send('Welcome back: ' + res.locals.user.email);
@@ -217,10 +243,6 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
 //     }
 // });
 
-app.on('ExpressStrompath.ready', () => {
-  // console.log('Stormpath Ready');
-});
-
 // const transport = nodeMailer.createTransport(mandrillTransport({
 //   auth: {
 //     apiKey: process.env.MandrilKey
@@ -241,92 +263,9 @@ app.on('ExpressStrompath.ready', () => {
 //   }
 // });
 
-
-// Render Initial HTML
-// const renderFullPage = (html, initialState) => {
-//   const head = Helmet.rewind();
-
-//   // Import Manifests
-//   const assetsManifest = process.env.webpackAssets && JSON.parse(process.env.webpackAssets);
-//   const chunkManifest = process.env.webpackChunkAssets && JSON.parse(process.env.webpackChunkAssets);
-
-//   return `
-//     <!doctype html>
-//     <html>
-//       <head>
-//         ${head.base.toString()}
-//         ${head.title.toString()}
-//         ${head.meta.toString()}
-//         ${head.link.toString()}
-//         ${head.script.toString()}
-
-//         ${process.env.NODE_ENV === 'production' ? `<link rel='stylesheet' href='${assetsManifest['/app.css']}' />` : ''}
-//         <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'/>
-//         <link rel="shortcut icon" href="http://res.cloudinary.com/hashnode/image/upload/v1455629445/static_imgs/mern/mern-favicon-circle-fill.png" type="image/png" />
-//       </head>
-//       <body>
-//         <div id="root">${html}</div>
-//         <script>
-//           window.__INITIAL_STATE__ = ${JSON.stringify(initialState)};
-//           ${process.env.NODE_ENV === 'production' ?
-//           `//<![CDATA[
-//           window.webpackManifest = ${JSON.stringify(chunkManifest)};
-//           //]]>` : ''}
-//         </script>
-//         <script src='${process.env.NODE_ENV === 'production' ? assetsManifest['/vendor.js'] : '/vendor.js'}'></script>
-//         <script src='${process.env.NODE_ENV === 'production' ? assetsManifest['/app.js'] : '/app.js'}'></script>
-//       </body>
-//     </html>
-//   `;
-// };
-
-// const renderError = err => {
-//   const softTab = '&#32;&#32;&#32;&#32;';
-//   const errTrace = process.env.NODE_ENV !== 'production' ?
-//     `:<br><br><pre style="color:red">${softTab}${err.stack.replace(/\n/g, `<br>${softTab}`)}</pre>` : '';
-//   return renderFullPage(`Server Error${errTrace}`, {});
-// };
-
 app.get('*', function (req, res) {
   res.sendFile(path.join(__dirname, '../client/html/index.html'));
 });
-
-// Server Side Rendering based on routes matched by React-router.
-// app.use((req, res, next) => {
-//   match({ routes, location: req.url }, (err, redirectLocation, renderProps) => {
-//     if (err) {
-//       return res.status(500).end(renderError(err));
-//     }
-
-//     if (redirectLocation) {
-//       return res.redirect(302, redirectLocation.pathname + redirectLocation.search);
-//     }
-
-//     if (!renderProps) {
-//       return next();
-//     }
-
-//     const store = configureStore();
-
-//     return fetchComponentData(store, renderProps.components, renderProps.params)
-//       .then(() => {
-//         const initialView = renderToString(
-//           <Provider store={store}>
-//             <IntlWrapper>
-//               <RouterContext {...renderProps} />
-//             </IntlWrapper>
-//           </Provider>
-//         );
-//         const finalState = store.getState();
-
-//         res
-//           .set('Content-Type', 'text/html')
-//           .status(200)
-//           .end(renderFullPage(initialView, finalState));
-//       })
-//       .catch((error) => next(error));
-//   });
-// });
 
 // start app
 app.listen(serverConfig.port, (error) => {
