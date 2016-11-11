@@ -23,6 +23,7 @@ export default class Menu extends React.Component {
           <li className="cart_icon"><a href="#">Cart</a></li>
         </NotAuthenticated>
         <Authenticated>
+          <li><Link to="/addProductForm">Add Product</Link></li>
           <li><a href="#" className="message_icon">Messages</a></li>
           <li data-toggle="collapse" data-target="#user_toggle">
             <a href="#" className="user_icon">{this.context.user ? this.context.user.givenName : ""}</a>
