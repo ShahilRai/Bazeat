@@ -46,12 +46,14 @@ import producers from './routes/producer.routes';
 import orders from './routes/order.routes';
 import products from './routes/product.routes';
 import profiles from './routes/profile.routes';
+import admins from './routes/admin.routes';
 import dummyData from './dummyData';
 import serverConfig from './config';
 import User from './models/user';
 import cuid from 'cuid';
 import multer from 'multer';
 import multerS3 from 'multer-s3';
+import passport from 'passport';
 // Set native promises as mongoose promise
 mongoose.Promise = global.Promise;
 
@@ -70,12 +72,21 @@ app.use(compression());
 app.use(bodyParser.json({ limit: '20mb' }));
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: true }));
 app.use(Express.static(path.resolve(__dirname, '../dist')));
+
 app.use('/api', posts);
 app.use('/api', users);
 app.use('/api', producers);
 app.use('/api', orders);
 app.use('/api', products);
 app.use('/api', profiles);
+
+
+
+// Admin Routes Defination
+  app.use('/api/admin', admins);
+// Admin Routes Defination
+
+
 app.use(ExpressStrompath.init(app, {
   web: {
     produces: ['application/json'],

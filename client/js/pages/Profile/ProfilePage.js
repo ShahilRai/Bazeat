@@ -2,7 +2,9 @@ import React from 'react';
 import DocumentTitle from 'react-document-title';
 import { UserProfileForm } from 'react-stormpath';
 import InputField from '../components/InputField';
+import TextAreaField from '../components/TextAreaField';
 import ImageUploader from './ImageUploader';
+import LabelField from '../components/LabelField';
 export default class ProfilePage extends React.Component {
 
   static contextTypes = {
@@ -88,66 +90,52 @@ export default class ProfilePage extends React.Component {
                 <div className="edt_prf_inner_detail">
                  
                   <div className="form-group row">
-                    <label htmlFor="givenName" className="col-md-4 col-xs-12 col-form-label">Producer name</label>
+                    <LabelField htmlFor="givenName" className="col-md-4 col-xs-12 col-form-label" label="Producer name" />
                     <div className="col-md-8 col-xs-12">
                       <input type="text" className="form-control" id="givenName" name="givenName" required />
                     </div>
                   </div>
                   <div className="form-group row">
-                    <label htmlFor="contactPerson" className="col-md-4 col-xs-12 col-form-label">Contact person</label>
-                    <div className="col-md-8 col-xs-12">
-                      <input type="text" className="form-control" id="contact_person" name="contact_person" value = {this.state.producer_info.contact_person} onChange = {this.handleProducerInfoChange} />
-                    </div>
+                    <LabelField htmlFor="contactPerson" className="col-md-4 col-xs-12 col-form-label" label="Contact person" />
+                      <InputField  name="contact_person" value = {this.state.producer_info.contact_person} />
                   </div>
                   <div className="form-group row">
-                    <label htmlFor="email" className="col-md-4 col-xs-12 col-form-label">E-mail address</label>
+                    <LabelField htmlFor="email" className="col-md-4 col-xs-12 col-form-label" label="E-mail address" />
                     <div className="col-md-8 col-xs-12">
                       <input type="email" className="form-control" id="email" name="email" required />
                     </div>
                   </div>
                   <div className="form-group row">
-                    <label htmlFor="phone" className="col-md-4 col-xs-12 col-form-label">Phone number</label>
-                    <div className="col-md-8 col-xs-12">
-                      <input type="tel" className="form-control" id="phone" name="phone" value = {this.state.user.phone} onChange = {this.handleChange} />
-                    </div>
+                    <LabelField htmlFor="phone" className="col-md-4 col-xs-12 col-form-label" label="Phone number" />
+                    <InputField  name="phone" value = {this.state.user.phone} />
                   </div>
                   <div className="form-group row">
-                    <label htmlFor="pass" className="col-md-4 col-xs-12 col-form-label">Company web site</label>
-                    <div className="col-md-8 col-xs-12">
-                      <input type="text" className="form-control" id="website" name="website" value = {this.state.producer_info.website} onChange = {this.handleProducerInfoChange} />
-                    </div>
+                    <LabelField htmlFor="pass" className="col-md-4 col-xs-12 col-form-label" label="Company web site" />
+                    <InputField name="website" value = {this.state.producer_info.website} required/>
                   </div>
                   <div className="form-group row">
-                    <label htmlFor="desc" className="col-md-4 col-xs-12 col-form-label">Company description</label>
-                    <div className="col-md-8 col-xs-12">
-                      <textarea className="form-control" id="des" name="des" defaultValue = {this.state.user.desc} onChange = {this.handleChange} />
+                    <LabelField htmlFor="desc" className="col-md-4 col-xs-12 col-form-label" label="Company description" />
+                      <TextAreaField  name="des" defaultValue = {this.state.user.description} />
                     </div>
-                  </div>
                 </div>
             </div>
             <div className="edit_prfile_detail_form">
               <h3>Location and visiting details</h3>
                 <div className="edt_prf_inner_detail">
                   <div className="form-group row">
-                    <label htmlFor="example-search-input" className="col-md-4 col-xs-12 col-form-label">Visiting address</label>
-                    <div className="col-md-8 col-xs-12">
-                      <input className="form-control" type="search" id="address" name="address" value = {this.state.user.address} onChange = {this.handleChange} />
-                    </div>
+                    <LabelField htmlFor="example-search-input" className="col-md-4 col-xs-12 col-form-label" label="Visiting address" />
+                     <InputField type="search"  name="address" value = {this.state.user.address}  />
                   </div>
                   <div className="form-group row">
-                      <label htmlFor="example-email-input" className="col-md-4 col-xs-12 col-form-label">City</label>
-                      <div className="col-md-8 col-xs-12">
-                      <input className="form-control" type="text" id="city" name="city" value = {this.state.user.city} onChange = {this.handleChange} />
+                      <LabelField htmlFor="example-email-input" className="col-md-4 col-xs-12 col-form-label" label="city" />
+                         <InputField  name="city" value = {this.state.user.city}  />
                       </div>
-                  </div>
                   <div className="form-group row">
-                      <label htmlFor="example-url-input" className="col-md-4 col-xs-12 col-form-label">Country</label>
-                      <div className="col-md-8 col-xs-12">
-                      <input className="form-control" type="text" id="country" name="country" value = {this.state.user.country} onChange = {this.handleChange} />
+                      <LabelField htmlFor="example-url-input" className="col-md-4 col-xs-12 col-form-label" label="Country"/>
+                        <InputField  name="country" value = {this.state.user.country} />
                       </div>
-                  </div>
                   <div className="form-group row">
-                      <label htmlFor="example-tel-input" className="col-md-4 col-xs-12 col-form-label">Visiting hours</label>
+                      <LabelField htmlFor="example-tel-input" className="col-md-4 col-xs-12 col-form-label" label="Visiting hours"/>
                       <div className="col-md-8 col-xs-12">
                       <a href="#" className="add_hrs_btn">+ Add hours</a>
                       <span className="visting_hr_time_col">
