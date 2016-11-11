@@ -54,6 +54,8 @@ import cuid from 'cuid';
 import multer from 'multer';
 import multerS3 from 'multer-s3';
 import passport from 'passport';
+import './models/admin'
+import './config/passport'
 // Set native promises as mongoose promise
 mongoose.Promise = global.Promise;
 
