@@ -2,7 +2,7 @@ import Admin from '../../models/admin';
 import User from '../../models/user';
 
 
-export function allUsers(req, res) {
+export function getUsers(req, res) {
   User.find().sort('-dateAdded').exec((err, users) => {
     if (err) {
       res.status(500).send(err);
@@ -11,8 +11,13 @@ export function allUsers(req, res) {
   });
 }
 
+export function updateUser(req, res) {
+  User.update({ email: req.body.email }, req.body, function(err, user) {
+    res.json({ user });
+  })
+}
 
-export function destroyUser(req, res) {
+export function deleteUser(req, res) {
   User.findOne({ email: req.params.email }).exec((err, user) => {
     if (err) {
       res.status(500).send(err);
@@ -26,8 +31,3 @@ export function destroyUser(req, res) {
 
 
 
-export function editUser(req, res) {
-  User.update({ email: req.body.email }, req.body, function(err, user) {
-    res.json({ user });
-  })
-}
