@@ -1,6 +1,6 @@
 import passport from 'passport';
 import mongoose from 'mongoose';
-import Admin from '../models/admin';
+import Admin from '../../models/admin';
 
 
 export function addAdmin(req, res) {

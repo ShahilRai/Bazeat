@@ -46,7 +46,9 @@ import producers from './routes/producer.routes';
 import orders from './routes/order.routes';
 import products from './routes/product.routes';
 import profiles from './routes/profile.routes';
-import admins from './routes/admin.routes';
+import admin from './routes/admin/authenticate.routes';
+import admin_users from './routes/admin/users.routes';
+import admin_products from './routes/admin/products.routes';
 import dummyData from './dummyData';
 import serverConfig from './config';
 import User from './models/user';
@@ -85,7 +87,9 @@ app.use('/api', profiles);
 
 
 // Admin Routes Defination
-  app.use('/api/admin', admins);
+  app.use('/api/admin/authenticate', admin);
+  app.use('/api/admin/users', admin_users);
+  app.use('/api/admin/products', admin_products);
 // Admin Routes Defination
 
 
@@ -123,8 +127,8 @@ app.use(ExpressStrompath.init(app, {
         console.log(err)
         res.status(500).send(err);
       }
-      res.redirect('/');
     });
+    next()
   }
 }));
 

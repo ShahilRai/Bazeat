@@ -98,7 +98,6 @@ export function deleteProduct(req, res) {
     if (err) {
       res.status(500).send(err);
     }
-
     product.remove(() => {
       res.status(200).end();
     });
