@@ -24,13 +24,13 @@ function loadScript(scriptName, callback) {
 }
 
 function loadJquery() {
-  loadScript('/javascript/jquery-1.11.1.js', function() {
-    loadScript('/javascript/bootstrap.min.js', function() {
-      loadScript('/javascript/jaliswall.js', function() {
-        $('.grid_wall_wrapper').jaliswall({item:'.grid_single_item'});
-      });
-    });
-  });
+  // loadScript('/javascript/jquery-1.11.1.js', function() {
+    // loadScript('/javascript/bootstrap.min.js', function() {
+      //loadScript('/javascript/jaliswall.js', function() {
+       // $('.grid_wall_wrapper').jaliswall({item:'.grid_single_item'});
+     // });
+    // });
+  // });
 }
 
 ReactDOM.render(
