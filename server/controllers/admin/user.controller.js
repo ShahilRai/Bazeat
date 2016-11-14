@@ -12,7 +12,7 @@ export function getUsers(req, res) {
 }
 
 export function updateUser(req, res) {
-  User.update({ email: req.body.email }, req.body, function(err, user) {
+  User.update({ email: req.params.email }, req.body, function(err, user) {
     res.json({ user });
   })
 }

@@ -4,9 +4,8 @@ const router = new Router();
 
 router.route('/allproducts').get(ProductController.getProducts);
 
+router.route('/edit/:cuid').post(ProductController.updateProduct);
 
-router.route('/product/edit').post(ProductController.updateProduct);
-
-router.route('/product/destroy').delete(ProductController.deleteProduct);
+router.route('/delete/:cuid').delete(ProductController.deleteProduct);
 
 export default router;

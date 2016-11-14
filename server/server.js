@@ -127,8 +127,8 @@ app.use(ExpressStrompath.init(app, {
         console.log(err)
         res.status(500).send(err);
       }
-      res.redirect('/');
     });
+    next()
   }
 }));
 

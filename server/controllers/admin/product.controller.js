@@ -1,5 +1,8 @@
 import Admin from '../../models/admin';
 import Product from '../../models/product';
+import ProductCategory from '../../models/productcategory';
+import Allergen from '../../models/allergen';
+import Ingredient from '../../models/ingredient';
 
 
 export function getProducts(req, res) {
@@ -46,8 +49,7 @@ export function deleteProduct(req, res) {
     if (err) {
       res.status(500).send(err);
     }
-
-    product.remove(() => {
+    product.remove((product) => {
       res.status(200).end();
     });
   });
