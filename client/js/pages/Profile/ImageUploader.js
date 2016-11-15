@@ -1,60 +1,79 @@
 import React from 'react';
+import Dropzone from 'react-dropzone';
 import request from 'superagent';
-import _ from 'lodash';
-export default class ImageUploader extends React.Component {
-
-  static contextTypes = {
+export default class ImageUploader extends React.Component{
+    static contextTypes = {
     authenticated: React.PropTypes.bool,
     user: React.PropTypes.object
   };
-
-  constructor(props) {
+ constructor(props) {
     super(props);
     this.state = {
-      selectedImage: null,
-      uploadedImages: [],
+      file:null,
+      uploadedImages:null,
       user: this.props.user
     }
   }
   render() {
-    return <div>
-      <h1>Upload Images</h1>
-      <div>
-        {this.state.uploadedImages.map(i => <img src={i} />)}
-      </div>
+    if(this.state.uploadedImages){
+      var url = this.state.uploadedImages;
 
-      <form onSubmit={this._onSubmit.bind(this)} encType="multipart/form-data" >
-        <input type="file" ref="file" name="image" accept=".jpg,.jpeg,.png,.gif"
-          onChange={(e) => this._handleImageChange(e)} />
-        <input type='submit' value='Upload!' />
-      </form>
-    </div>;
-  }
+    }
+    let $imagePreview=null;
+    if(url)
+    {
+      $imagePreview = (<img src={url} height="101" width="101" />);
+    }
+    else{
+      $imagePreview = (<img src={require('../../../images/producer_logo.png')} />);
+    }
+    console.log(url)
+ return (
+  
+    
+      <div className="form-group row">
+          
+         <label htmlFor="file-1" className="col-md-4 col-xs-12 col-form-label">Company logo<br/>{$imagePreview}</label>
+            
 
-  _handleImageChange(event) {
-    const file = event.target.files[0];
-    console.log(file);
-    this.setState({
-      selectedImage: file
-    });
-  }
+            <div className="col-md-8 col-xs-12">
+              <div className="box__input">
 
-  _onSubmit(event) {
-     // var fd = new FormData();
-     // fd.append('file', this.refs.file.getDOMNode().files[0]);
+               <Dropzone type="file" accept=".jpg,.jpeg,.png,.gif" onDrop={this.onDrop.bind(this)}>
+                
+               
+                    
+                    <label className="input_upload">
+                      <span className="file_text">Select one of the files from your computer <br/><span className="drop_txt">or drag and drop them here</span></span></label>
+                  
+                 </Dropzone>
 
+                 </div>
 
+              </div>
+        </div>
+      );
+      }
+
+      onDrop(files) {
+    
+    // event.preventDefault();
+       
+      console.log('Received files: ', files[0]);
+      var file = files[0];
+       this.setState({
+        file: file
+      });
+    console.log(this.state.file)
+    console.log("file")
+    console.log(file)
     const formData = new FormData();
-    formData.append('image', this.state.selectedImage);
+    formData.append('image', file);
     formData.append('email', this.context.user.email);
-    // var data = {data: {'file': this.state.selectedImage},
-    //         file: this.state.selectedImage,
-    //         fileName: "image"};
-    var image = this.state.selectedImage;
-    console.log("image")
-    // console.log(image)
+    
     console.log("formData")
-    // console.log(formData)
+    console.log(formData)
+   
     request.post('/api/profile_image')
       .send(formData)
       .end((err, res) => {
@@ -63,11 +82,15 @@ export default class ImageUploader extends React.Component {
           console.log("checking error---", err);
           return alert('uploading failed!');
       }
-        const uploadedImagePath = res.text;
+        const uploadedImagePath = JSON.parse(res.text);
+        //console.log(uploadedImagePath.image_url);
         this.setState({
-          uploadedImages: _.concat(this.state.uploadedImages, uploadedImagePath)
+          uploadedImages: uploadedImagePath.image_url
         });
       })
-      event.preventDefault();
-  }
+    }
 }
+
+
+
+
