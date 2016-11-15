@@ -7,7 +7,7 @@ const ObjectId = Schema.ObjectId;
 
 const productSchema = new Schema({
   product_name: { type: 'String', required: true },
-  photo: { type: 'String', required: true },
+  photo: { type: 'String' },
   description: { type: 'String', required: true },
   // SKU: { type: 'String' },
   price: { type: 'Number', required: true },
