@@ -52,6 +52,7 @@ import admin_products from './routes/admin/products.routes';
 import dummyData from './dummyData';
 import serverConfig from './config';
 import User from './models/user';
+import Product from './models/product';
 import cuid from 'cuid';
 import multer from 'multer';
 import multerS3 from 'multer-s3';
@@ -232,7 +233,37 @@ app.post('/api/profile_image', upload.single('image'), function (req, res, next)
       if (error) {
         res.status(500).send(error);
       }
+      console.log(saveduser.photo)
       res.json({ image_url: saveduser.photo });
+    });
+  });
+})
+
+app.post('/api/products', upload.single('image'), function (req, res, next){
+  User.findOne({ email: req.body.email }).exec((error, user) => {
+    const newProduct = new Product(req.body);
+    newProduct.cuid = cuid();
+    newProduct._producer = user._id;
+    newProduct.photo = req.file.location;
+    newProduct.save((err, product) => {
+     if (err) {
+       res.status(500).send(err);
+     }
+     res.json({ product: product });;
+    });
+  });
+})
+
+
+app.post('/api/product_image', upload.single('image'), function (req, res, next){
+  Product.findOne({ cuid: req.body.cuid }).exec((err, product) => {
+    product.photo = req.file.location
+    product.save((error, savedproduct) => {
+      if (error) {
+        res.status(500).send(error);
+      }
+      console.log(savedproduct.photo)
+      res.json({ image_url: savedproduct.photo });
     });
   });
 })

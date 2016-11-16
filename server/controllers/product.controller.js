@@ -4,45 +4,24 @@ import ProductCategory from '../models/productcategory';
 import Allergen from '../models/allergen';
 import Ingredient from '../models/ingredient';
 import cuid from 'cuid';
+// import aws from 'aws-sdk';
+// import multer from 'multer';
+// import multerS3 from 'multer-s3';
 
-
-export function getIngrdients(req, res){
-let re = new RegExp(req.query.search, 'i');
-  Ingredient.find().or([{ 'name': { $regex: re }}]).sort('name').select("-_products -__v").exec(function
-    (err, ingredients) {
-    res.json(ingredients: ingredients);
-})
-}
-
-
-export function getDetails(req, res){
-Allergen.find().sort('-dateAdded').select("-_products -__v").exec((err, allergens) => {
-  if (err) {
-    res.status(500).send(err);
-  }
-   ProductCategory.find().sort('-dateAdded').select("-_products -_product -__v").exec((err, productcategories) => {
-    if (err) {
-      res.status(500).send(err);
-    }
-    res.json({allergens_list: allergens, product_category_list: productcategories  });
-    });
-  });
-}
-
-export function addProduct(req, res) {
-  console.log(req.body)
-  User.findOne({ email: req.body.email }).exec((error, user) => {
-    const newProduct = new Product(req.body);
-    newProduct.cuid = cuid();
-    newProduct._producer = user._id;
-    newProduct.save((err, product) => {
-     if (err) {
-       res.status(500).send(err);
-     }
-     res.json({ product: product });;
-    });
-  });
-}
+// export function addProduct(req, res) {
+//   console.log(req.body)
+//   User.findOne({ email: req.body.email }).exec((error, user) => {
+//     const newProduct = new Product(req.body);
+//     newProduct.cuid = cuid();
+//     newProduct._producer = user._id;
+//     newProduct.save((err, product) => {
+//      if (err) {
+//        res.status(500).send(err);
+//      }
+//      res.json({ product: product });;
+//     });
+//   });
+// }
 
 export function updateProduct(req, res) {
   Product.findOne({ cuid: req.params.cuid }).exec((err, product) => {
@@ -124,6 +103,28 @@ export function deleteProduct(req, res) {
     }
     product.remove(() => {
       res.status(200).end();
+    });
+  });
+}
+
+export function getIngrdients(req, res){
+  let re = new RegExp(req.query.search, 'i');
+  Ingredient.find().or([{ 'name': { $regex: re }}]).sort('name').select("-_products -__v").exec(function
+    (err, ingredients) {
+    res.json(ingredients: ingredients);
+  })
+}
+
+export function getDetails(req, res){
+  Allergen.find().sort('-dateAdded').select("-_products -__v").exec((err, allergens) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+    ProductCategory.find().sort('-dateAdded').select("-_products -_product -__v").exec((err, productcategories) => {
+      if (err) {
+        res.status(500).send(err);
+      }
+      res.json({allergens_list: allergens, product_category_list: productcategories  });
     });
   });
 }
