@@ -23,4 +23,9 @@ router.route('/products/:cuid').post(ProductController.updateProduct);
 // Delete Product by cuid
 router.route('/products/:cuid').delete(ProductController.deleteProduct);
 
+// Get Ingredients
+router.route('/ingredients').get(ProductController.getIngrdients);
+
+// Get Product details
+router.route('/details').get(ProductController.getDetails);
 export default router;

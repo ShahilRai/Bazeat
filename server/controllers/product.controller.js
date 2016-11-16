@@ -5,6 +5,30 @@ import Allergen from '../models/allergen';
 import Ingredient from '../models/ingredient';
 import cuid from 'cuid';
 
+
+export function getIngrdients(req, res){
+let re = new RegExp(req.query.search, 'i');
+  Ingredient.find().or([{ 'name': { $regex: re }}]).sort('name').select("-_products -__v").exec(function
+    (err, ingredients) {
+    res.json(ingredients: ingredients);
+})
+}
+
+
+export function getDetails(req, res){
+Allergen.find().sort('-dateAdded').select("-_products -__v").exec((err, allergens) => {
+  if (err) {
+    res.status(500).send(err);
+  }
+   ProductCategory.find().sort('-dateAdded').select("-_products -_product -__v").exec((err, productcategories) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+    res.json({allergens_list: allergens, product_category_list: productcategories  });
+    });
+  });
+}
+
 export function addProduct(req, res) {
   console.log(req.body)
   User.findOne({ email: req.body.email }).exec((error, user) => {
