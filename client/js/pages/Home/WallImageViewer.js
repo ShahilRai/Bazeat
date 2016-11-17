@@ -13,11 +13,11 @@ export default class WallImageViewer extends React.Component {
       <div className="wall-column">
         <div className="grid_single_item">
           <div className="hover_box">
-              <a href="#" className="like_btn_bg"><i className="fa fa-heart" aria-hidden="true"></i></a>
-                <a href="#" className="like_btn_bg"><i className="fa fa-facebook" aria-hidden="true"></i></a>
-                <a href="#" className="buy_btn">Buy</a>
+              <a href="javascript:void(0)" className="like_btn_bg"><i className="fa fa-heart" aria-hidden="true"></i></a>
+                <a href="javascript:void(0)" className="like_btn_bg"><i className="fa fa-facebook" aria-hidden="true"></i></a>
+                <a href="javascript:void(0)" className="buy_btn">Buy</a>
             </div>
-            <a href="#">
+            <a href="javascript:void(0)">
             <img src={require("../../../images/" +this.props.wallImages.name)} />
             <div className="grid_tile_desc">
               <h2>{this.props.wallImages.product_price}</h2>
