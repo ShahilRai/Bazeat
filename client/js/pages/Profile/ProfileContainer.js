@@ -34,8 +34,8 @@ export default class ProfileContainer extends React.Component {
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <ul>
                 <li className="active"><a href="/profile">Profile</a></li>
-                <li><a href="#">Settings</a></li>
-                <li><a href="#">Guides</a></li>
+                <li><a href="javascript:void(0)">Settings</a></li>
+                <li><a href="javascript:void(0)">Guides</a></li>
                 </ul>
               </div>
             </div>
@@ -47,11 +47,11 @@ export default class ProfileContainer extends React.Component {
               <div className="col-lg-3 col-md-2 col-sm-2 col-xs-12 edit_profile_sidebar">
                 <ul className="edit_sidbar_list">
                   <li className="active"><a href="/profile">Edit Profile</a></li>
-                  <li><a href="#">Verification</a></li>
-                  <li><a href="#">Reviews</a></li>
-                  <li><a href="#">Messages</a></li>
-                  <li><a href="#">Test</a></li>
-                  <li><a href="#">See profile</a></li>
+                  <li><a href="javascript:void(0)">Verification</a></li>
+                  <li><a href="javascript:void(0)">Reviews</a></li>
+                  <li><a href="javascript:void(0)">Messages</a></li>
+                  <li><a href="javascript:void(0)">Test</a></li>
+                  <li><a href="javascript:void(0)">See profile</a></li>
                 </ul>
               </div>
               {this.state.profile}
