@@ -6,6 +6,7 @@ import TextAreaField from '../components/TextAreaField';
 import InputField from '../components/InputField';
 import CustomDatePicker from '../components/CustomDatePicker';
 import LabelField from '../components/LabelField';
+import SelectField from '../components/SelectField';
 
 export default class UserProfilePage extends React.Component {
 
@@ -97,16 +98,12 @@ export default class UserProfilePage extends React.Component {
                   <div className="form-group row">
                     <LabelField htmlFor="gender" label="Gender" />
                     <div className="col-md-8 col-xs-12">
-                      <select className="form-control gender_selct" id="gender" name="gender" value={this.state.user.gender} onChange = {this.handleChange}>
-                        <option value="Select one">Select one</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                      </select>
+                      <SelectField className="form-control gender_selct" name="gender" value = {this.state.user.gender} />
                     </div>
                   </div>
                   <div className="form-group row">
                     <LabelField htmlFor="Birth date" label="Birth date" />
-                    <CustomDatePicker className="form-control custom_selct date_selct" />
+                    <CustomDatePicker className="form-control custom_selct date_selct" id="birthDate" name="birthDate" value={this.state.user.birthDate} />
                   </div>
                   <div className="form-group row">
                     <LabelField htmlFor="email" label="E-mail address" />
