@@ -135,20 +135,27 @@ app.use(ExpressStrompath.init(app, {
 
 app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
   function (req, res) {
-    console.log(req.body);
   function writeError(message) {
     res.status(400);
     res.json({ message: message, status: 400 });
     res.end();
   }
+    console.log(req.body)
   function saveAccount() {
     req.user.givenName = req.body.givenName;
     req.user.surname = req.body.surname;
     req.user.email = req.body.email;
     req.user.save(function (err) {
-    let producer_website = req.body.website;
-    let producer_contactperson = req.body.contact_person;
-    let producer_companydescription = req.body.company_description;
+    let business_name = req.body.business_name;
+    let org_number = req.body.org_number;
+    let sub_to_vat = req.body.sub_to_vat;
+    let cmp_web_site = req.body.cmp_web_site;
+    let cmp_description = req.body.cmp_description;
+    let cmp_phone_number = req.body.cmp_phone_number;
+    let cmp_city = req.body.cmp_city;
+    let cmp_address = req.body.cmp_address;
+    let cmp_postal_code = req.body.cmp_postal_code;
+    let cmp_delivery_options = req.body.cmp_delivery_options;
       if (err) {
         // return writeError(err.userMessage || err.message);
         res.json({ error: err });
@@ -167,13 +174,21 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
           }
           if(saveduser.if_producer == true ){
             let producer_info = saveduser.producer_info;
-            producer_info.website = producer_website;
-            producer_info.contact_person = producer_contactperson;
+            producer_info.business_name = business_name;
+            producer_info.org_number = org_number;
+            producer_info.sub_to_vat = sub_to_vat;
+            producer_info.cmp_web_site = cmp_web_site;
+            producer_info.cmp_description = cmp_description;
+            producer_info.cmp_phone_number = cmp_phone_number;
+            producer_info.cmp_city = cmp_city;
+            producer_info.cmp_address = cmp_address;
+            producer_info.cmp_postal_code = cmp_postal_code;
+            producer_info.cmp_delivery_options = cmp_delivery_options;
             // producer_info.company_description = producer_companydescription;
           }
           else{
             // To be added for user profile
-            // let user_info = saveduser.user_info;
+            let user_info = saveduser.user_info;
             // user_info.website = ;
             // user_info.contact_person = ;
             // To be added for user profile
