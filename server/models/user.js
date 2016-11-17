@@ -2,16 +2,6 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const ifProducer = new Schema({
-  // logo: String,
-  // contact_person: String,
-  // bg_image: String,
-  // is_validated: Boolean,
-  // website: String,
-  // geo_position: String,
-  // num_likes: Number,
-  // num_ratings: [],
-  // products: [],
-  // ratings: [],
   business_name: String,
   org_number: String,
   account_number: String,
@@ -23,6 +13,18 @@ const ifProducer = new Schema({
   cmp_address: { type: 'String' },
   cmp_postal_code: { type: 'String' },
   cmp_delivery_options: String,
+  days: [{ type: Schema.Types.ObjectId, ref: 'slotDays' }],
+});
+
+
+const slotDays = new Schema({
+  name: { type: 'String' },
+  time_slots: [{ type: Schema.Types.ObjectId, ref: 'slotTimings' }],
+});
+
+const slotTimings = new Schema({
+  start_time: Date,
+  end_time: Date
 });
 
 const ifUser = new Schema({
