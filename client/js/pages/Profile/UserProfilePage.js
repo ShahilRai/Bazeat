@@ -78,7 +78,7 @@ export default class UserProfilePage extends React.Component {
         <div className="col-lg-9 col-md-8 col-sm-10 col-xs-12 edit_profile_rht_sidebar">
            
           <UserProfileForm method = "post">
-          <ImageUploader  />
+          <ImageUploader image={this.state.user.photo} />
             <div className="edit_prfile_detail_form">
               <h3>Profile details </h3>
                 <div className="edt_prf_inner_detail">
