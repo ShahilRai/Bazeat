@@ -1,9 +1,35 @@
 import React from 'react';
 import DocumentTitle from 'react-document-title';
+import IngredientsList from './IngredientsList';
 
 export default class Ingredients extends React.Component {
+	constructor(props) {
+    super(props);
+    this.state = {
+      algrnList: this.props.allrgnval
+    };
+  }
 
 	SaveAndContinue(){
+		this.state = {
+		data : {
+	      ingredients : this.refs.ingredients.value,
+	      nutrition_fact:{
+			    kj : this.refs.kj.value,
+				carbs : this.refs.carbs.value,
+				kcal : this.refs.kcal.value,
+				fiber : this.refs.fiber.value,
+				fat : this.refs.fat.value,
+				protein : this.refs.protein.value,
+			},
+		  allergens: this.refs.allergens.value,
+		  bought_items: this.refs.bought_items.value,
+		  locally_produced_items: this.refs.locally_produced_items.value
+
+    }
+}
+
+    this.props.saveValues(this.state.data)
 	this.props.nextStep()
 }
 
@@ -12,6 +38,7 @@ export default class Ingredients extends React.Component {
 }
 
 	render() {
+		console.log("========"+JSON.stringify(this.state.algrnList))
 		return (
 		<div>
 			<div class="modal fade prod_modal prod_modal2" id="step_2" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -49,7 +76,8 @@ export default class Ingredients extends React.Component {
 									<h5>Ingredients</h5>
 									<div className="form-group">
 										<label htmlFor="" className="col-form-label ingrdnt_label">Ingredient</label>
-										<input type="text" className="form-control" placeholder=""/>
+										<input type="text" className="form-control" name="ingredients" list="ingredientList" ref="ingredients" defaultValue={this.props.fieldValues.ingredients} placeholder=""/>
+										<IngredientsList />
 										<button type="button" className="btn btn-default nxt_btn ingrdnt_btn">Add ingredient</button>
 										<ul className="ingrdnt_options">
 										
@@ -60,13 +88,13 @@ export default class Ingredients extends React.Component {
 									<h5>Production</h5>
 									<div className="chkbox_col production_col">
 										<div className="checkbox custom_checkbox">
-											<input id="checkbox17" type="checkbox"/>
+											<input id="checkbox17" type="checkbox" ref="bought_items" name="bought_items"/>
 											<label htmlFor="checkbox17">
 												Contains bought items 
 											</label>
 										</div>
 										<div className="checkbox custom_checkbox">
-											<input id="checkbox18" type="checkbox"/>
+											<input id="checkbox18" type="checkbox" ref="locally_produced_items" name="locally_produced_items"/>
 											<label htmlFor="checkbox18">
 												Contains locally produced items 
 											</label>
@@ -78,29 +106,29 @@ export default class Ingredients extends React.Component {
 									<div className="form-col">
 										<div className="form-group">
 											<label htmlFor="" className="col-form-label">kJ</label>
-											<input type="text" className="form-control" placeholder=""/>
+											<input type="text" className="form-control" name="kj" ref="kj" defaultValue={this.props.fieldValues.nutrition_fact.kj} placeholder=""/>
 										</div>
 										<div className="form-group">
 											<label htmlFor="" className="col-form-label">kcal</label>
-											<input type="text" className="form-control" placeholder=""/>
+											<input type="text" className="form-control" name="kcal" ref="kcal" defaultValue={this.props.fieldValues.nutrition_fact.kcal} placeholder=""/>
 										</div>
 										<div className="form-group">
 											<label htmlFor="" className="col-form-label">Fat</label>
-											<input type="text" className="form-control" placeholder=""/>
+											<input type="text" className="form-control" name="fat" ref="fat" defaultValue={this.props.fieldValues.nutrition_fact.fat} placeholder=""/>
 										</div>
 									</div>
 									<div className="form-col">
 										<div className="form-group">
 											<label htmlFor="" className="col-form-label">Carbs</label>
-											<input type="text" className="form-control" placeholder=""/>
+											<input type="text" className="form-control" name="carbs" ref="carbs" defaultValue={this.props.fieldValues.nutrition_fact.carbs} placeholder=""/>
 										</div>
 										<div className="form-group">
 											<label htmlFor="" className="col-form-label">Fiber</label>
-											<input type="text" className="form-control" placeholder=""/>
+											<input type="text" className="form-control" name="fiber" ref="fiber" defaultValue={this.props.fieldValues.nutrition_fact.fiber} placeholder=""/>
 										</div>
 										<div className="form-group">
 											<label htmlFor="" className="col-form-label">Protein</label>
-											<input type="text" className="form-control" placeholder=""/>
+											<input type="text" className="form-control" name="protein" ref="protein" defaultValue={this.props.fieldValues.nutrition_fact.protein} placeholder=""/>
 										</div>
 									</div>
 								</div>
@@ -108,105 +136,19 @@ export default class Ingredients extends React.Component {
 									<h5>Allergens</h5>
 									<div className="chkbox_col">
 										<div className="checkbox custom_checkbox">
-											<input id="checkbox2" type="checkbox"/>
-											<label htmlFor="checkbox2">
-												Celery 
-											</label>
-										</div>
-										<div className="checkbox custom_checkbox">
-											<input id="checkbox3" type="checkbox"/>
-											<label htmlFor="checkbox3">
-												Crustaceans 
-											</label>
-										</div>
-										<div className="checkbox custom_checkbox">
-											<input id="checkbox4" type="checkbox"/>
-											<label htmlFor="checkbox4">
-												Eggs 
-											</label>
-										</div>
+											{this.state.algrnList.map((allergens_list, index) => {
+											return (	
+													<div>
+														<input id={allergens_list._id} type="checkbox" defaultValue={allergens_list.name} ref="allergens" name="allergens" key={ index } />
+														<label htmlFor={allergens_list._id}>
+															{allergens_list.name }
+														</label>
+													</div>	
+												);
+					                  		})}
+					                  	</div>
 									</div>
-									<div className="chkbox_col">
-										<div className="checkbox custom_checkbox">
-											<input id="checkbox5" type="checkbox"/>
-											<label htmlFor="checkbox5">
-												Fish 
-											</label>
-										</div>
-										<div className="checkbox custom_checkbox">
-											<input id="checkbox6" type="checkbox"/>
-											<label htmlFor="checkbox6">
-												Gluten 
-											</label>
-										</div>
-										<div className="checkbox custom_checkbox">
-											<input id="checkbox7" type="checkbox"/>
-											<label htmlFor="checkbox7">
-												Lupin 
-											</label>
-											</div>
-										</div>
-										<div className="chkbox_col">
-											<div className="checkbox custom_checkbox">
-												<input id="checkbox8" type="checkbox"/>
-												<label htmlFor="checkbox8">
-													Milk 
-												</label>
-											</div>
-											<div className="checkbox custom_checkbox">
-												<input id="checkbox9" type="checkbox"/>
-												<label htmlFor="checkbox9">
-													Molluscs 
-												</label>
-											</div>
-											<div className="checkbox custom_checkbox">
-												<input id="checkbox10" type="checkbox"/>
-												<label htmlFor="checkbox10">
-												    Mustard 
-												</label>
-											</div>
-										</div>
-										<div className="chkbox_col">
-											<div className="checkbox custom_checkbox">
-												<input id="checkbox11" type="checkbox"/>
-												<label htmlFor="checkbox11">
-													Nuts 
-												</label>
-											</div>
-											<div className="checkbox custom_checkbox">
-												<input id="checkbox12" type="checkbox"/>
-												<label htmlFor="checkbox12">
-													Peanuts 
-												</label>
-											</div>
-											<div className="checkbox custom_checkbox">
-												<input id="checkbox13" type="checkbox"/>
-												<label htmlFor="checkbox13">
-													Sesame 
-												</label>
-											</div>
-										</div>
-										<div className="chkbox_col">
-											<div className="checkbox custom_checkbox">
-												<input id="checkbox14" type="checkbox"/>
-												<label htmlFor="checkbox14">
-													Soy 
-												</label>
-											</div>
-											<div className="checkbox custom_checkbox">
-												<input id="checkbox15" type="checkbox"/>
-												<label htmlFor="checkbox15">
-													Sulphur Dioxide 
-												</label>
-											</div>
-											<div className="checkbox custom_checkbox">
-												<input id="checkbox16" type="checkbox"/>
-												<label htmlFor="checkbox16">
-													None 
-												</label>
-											</div>
-										</div>
-									</div>				
+								</div>				
 							</form>
 						</div>
 						<div className="modal-footer">

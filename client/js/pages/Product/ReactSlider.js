@@ -2,38 +2,87 @@ import React from 'react';
 import AddProduct from './AddProduct';
 import Ingredients from './Ingredients';
 import DeliveryMethods from './DeliveryMethods';
+import assign from 'object-assign';
 
+var fieldValues = {
+  nutrition_fact:{}
+}
 
 export default class ReactSlider extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      step : 1
+      step : 1,
+      allergens_list : [],
+      product_category_list :[]
     };
     this.nextStep = this.nextStep.bind(this);
     this.previousStep = this.previousStep.bind(this);
+    this.saveValues = this.saveValues.bind(this);
+    this.submitProduct = this.submitProduct.bind(this);
   }
 
-    nextStep() {
+  componentDidMount() {
+    this.loadCategories().then((response) => {
+      console.log("response.data"+JSON.stringify(response.data))
+        if(response.data) {
+          this.setState({
+            allergens_list: response.data.allergens_list,
+            product_category_list: response.data.product_category_list
+          });
+        }
+    }).catch((err) => {
+        console.log(err);
+    });
+  }
+
+  loadCategories() {
+    return axios.get("/api/details" , {
+    });
+  }
+
+  nextStep() {
     this.setState({
       step : this.state.step + 1
     })
   }
 
-    previousStep() {
+  previousStep() {
     this.setState({
     step : this.state.step - 1
     })
   }
 
+  saveValues(field_value){
+     fieldValues =  assign({}, fieldValues, field_value)
+  }
+
+  submitProduct(){
+    this.loadProductData(fieldValues).then((response) => {
+        if(response.data) {
+          console.log("Api response: "+ response.data);
+        }
+    }).catch((err) => {
+        console.log(err);
+    });
+  }
+
+  loadProductData(fieldValues) {
+    console.log("fieldValues" + JSON.stringify(fieldValues));
+      return axios.post("/api/products" , {
+        params: {fieldValues}
+      });
+  }
+
+
   showStep() {
       switch (this.state.step) {
         case 1:
-          return <AddProduct  nextStep={this.nextStep} />
+          return <AddProduct fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} prod_categ_val = {this.state.product_category_list} />
         case 2:
-          return <Ingredients nextStep={this.nextStep} previousStep={this.previousStep} />
+          return <Ingredients fieldValues={fieldValues} nextStep={this.nextStep} previousStep={this.previousStep} saveValues={this.saveValues} allrgnval ={this.state.allergens_list} />
         case 3:
-          return <DeliveryMethods addProduct={this.addProduct} previousStep={this.previousStep} />
+          return <DeliveryMethods fieldValues={fieldValues} previousStep={this.previousStep} saveValues={this.saveValues} submitProduct={this.submitProduct} />
       }
     }
 
