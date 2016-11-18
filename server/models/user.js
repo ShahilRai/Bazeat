@@ -28,7 +28,6 @@ const slotTimings = new Schema({
 });
 
 const ifUser = new Schema({
-  birthDate: Date,
   gender: String,
   website: String,
   last_login: Date,
@@ -46,6 +45,8 @@ const userSchema = new Schema({
   city: { type: 'String' },
   address: { type: 'String' },
   country: { type: 'String' },
+  postal_code: { type: 'String' },
+  birth_date: { type: 'Date', default: Date.now },
   date_joined: { type: 'Date', default: Date.now },
   if_producer: { type: 'Boolean', default: false },
   if_user: { type: 'Boolean', default: false },
