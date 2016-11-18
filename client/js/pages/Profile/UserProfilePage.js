@@ -4,7 +4,7 @@ import { UserProfileForm } from 'react-stormpath';
 import ImageUploader from './ImageUploader';
 import TextAreaField from '../components/TextAreaField';
 import InputField from '../components/InputField';
-import CustomDatePicker from '../components/CustomDatePicker';
+import DateComponent from '../components/DateComponent';
 import LabelField from '../components/LabelField';
 import SelectField from '../components/SelectField';
 
@@ -68,13 +68,11 @@ export default class UserProfilePage extends React.Component {
   }
 
   render() {
-
     if (!this.state.data_loaded) {
       return (<div></div>);
     }
 
     return (
-
       <DocumentTitle title={`My Profile`}>
         <div className="col-lg-9 col-md-8 col-sm-10 col-xs-12 edit_profile_rht_sidebar">
            
@@ -98,12 +96,12 @@ export default class UserProfilePage extends React.Component {
                   <div className="form-group row">
                     <LabelField htmlFor="gender" label="Gender" />
                     <div className="col-md-8 col-xs-12">
-                      <SelectField className="form-control gender_selct" name="gender" value = {this.state.user.gender} />
+                      <SelectField className="form-control gender_selct" name="gender" value = {this.state.user_info.gender} />
                     </div>
                   </div>
                   <div className="form-group row">
                     <LabelField htmlFor="Birth date" label="Birth date" />
-                    <CustomDatePicker className="form-control custom_selct date_selct" id="birthDate" name="birthDate" value={this.state.user.birthDate} />
+                    <DateComponent className="form-control custom_selct date_selct" id="birth_date" name="birth_date" value={this.state.user.birth_date} />
                   </div>
                   <div className="form-group row">
                     <LabelField htmlFor="email" label="E-mail address" />
