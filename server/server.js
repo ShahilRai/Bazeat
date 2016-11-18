@@ -146,6 +146,7 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
     req.user.surname = req.body.surname;
     req.user.email = req.body.email;
     req.user.save(function (err) {
+    // Producer info params
     let business_name = req.body.business_name;
     let org_number = req.body.org_number;
     let sub_to_vat = req.body.sub_to_vat;
@@ -156,6 +157,11 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
     let cmp_address = req.body.cmp_address;
     let cmp_postal_code = req.body.cmp_postal_code;
     let cmp_delivery_options = req.body.cmp_delivery_options;
+    // Producer info params
+    // User info params
+    let gender = req.body.gender;
+    // User info params
+
       if (err) {
         // return writeError(err.userMessage || err.message);
         res.json({ error: err });
@@ -189,7 +195,7 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
           else{
             // To be added for user profile
             let user_info = saveduser.user_info;
-            // user_info.website = ;
+            user_info.gender = gender;
             // user_info.contact_person = ;
             // To be added for user profile
           }
