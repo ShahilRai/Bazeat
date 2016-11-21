@@ -13,15 +13,13 @@ export default class ImageUploader extends React.Component{
       uploadedImages:null,
       user: this.props.user,
       image1:this.props.image
-      
+
     }
   }
 
   render() {
-
     if(this.state.uploadedImages){
       var url = this.state.uploadedImages;
-
     }
     console.log(url)
     let $imagePreview=null;
@@ -37,12 +35,12 @@ export default class ImageUploader extends React.Component{
     }
    console.log("imageprop")
    console.log(this.state.image1)
-   
 
-  
+
+
  return (
  <div>
-   
+
    <div className="form-group row">
       <label htmlFor="file-1" className="col-md-4 col-xs-12 col-form-label">Company logo<br/>{$imagePreview}</label>
           <div className="col-md-8 col-xs-12">
@@ -66,21 +64,20 @@ export default class ImageUploader extends React.Component{
       });
     console.log("updated image")
     console.log(this.state.image1)
-    
+
     const formData = new FormData();
     formData.append('image', file);
     formData.append('email', this.context.user.email);
-   
+
     request.post('/api/profile_image')
       .send(formData)
       .end((err, res) => {
-
         if (err) {
           console.log("checking error---", err);
           return alert('uploading failed!');
       }
         const uploadedImagePath = JSON.parse(res.text);
-        
+
         this.setState({
           uploadedImages: uploadedImagePath.image_url
         });

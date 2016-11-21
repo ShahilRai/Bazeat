@@ -243,12 +243,18 @@ let upload = multer({
     bucket: process.env.AWSBucket,
     acl: 'public-read',
     key: function (req, file, cb) {
+      console.log('file')
+      console.log(file)
+      console.log('cb')
+      console.log(cb)
       cb(null, 'profile-image/'+ Date.now().toString() + file.originalname);
     }
   })
 })
 
-app.post('/api/profile_image', upload.single('image'), function (req, res, next){
+app.post('/api/profile_image', upload.single('image'), function (cb, res, next){
+  console.log('req.body')
+  console.log(req.body)
   User.findOne({ email: req.body.email }).exec((err, user) => {
     user.photo = req.file.location
     user.save((error, saveduser) => {
@@ -261,7 +267,7 @@ app.post('/api/profile_image', upload.single('image'), function (req, res, next)
   });
 })
 
-app.post('/api/products', upload.multiple('image'), function (req, res, next){
+app.post('/api/products', upload.any('image'), function (req, res, next){
   User.findOne({ email: req.body.email }).exec((error, user) => {
     const newProduct = new Product(req.body);
     newProduct.cuid = cuid();
