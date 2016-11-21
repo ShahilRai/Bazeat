@@ -262,11 +262,13 @@ app.post('/api/profile_image', upload.single('image'), function (req, res, next)
 })
 
 app.post('/api/products', upload.single('image'), function (req, res, next){
-  User.findOne({ email: req.body.email }).exec((error, user) => {
-    const newProduct = new Product(req.body);
+  console.log("req")
+  console.log(req.body.fieldValues)
+  User.findOne({ email: req.body.fieldValues.email }).exec((error, user) => {
+    const newProduct = new Product(req.body.fieldValues);
     newProduct.cuid = cuid();
     newProduct._producer = user._id;
-    newProduct.photo = req.file.location;
+    // newProduct.photo = req.file.location;
     newProduct.save((err, product) => {
      if (err) {
        res.status(500).send(err);
