@@ -1,21 +1,26 @@
 import React from 'react';
 import DocumentTitle from 'react-document-title';
 import IngredientsList from './IngredientsList';
+import Tags from './Tags';
 
 export default class Ingredients extends React.Component {
 	constructor(props) {
     super(props);
     this.state = {
+    	data:{
+    		ingredients : []
+    	},
       algrnList: this.props.allrgnval
     };
   }
 
 	SaveAndContinue(){
+		var ingredientsid = this.state.data.ingredients.map((item) => item._id);
 		this.state = {
 		data : {
-	      ingredients : this.refs.ingredients.value,
-	      nutrition_fact:{
-			    kj : this.refs.kj.value,
+      ingredients : ingredientsid,
+      nutrition_fact:{
+			  kj : this.refs.kj.value,
 				carbs : this.refs.carbs.value,
 				kcal : this.refs.kcal.value,
 				fiber : this.refs.fiber.value,
@@ -25,17 +30,48 @@ export default class Ingredients extends React.Component {
 		  allergens: this.refs.allergens.value,
 		  bought_items: this.refs.bought_items.value,
 		  locally_produced_items: this.refs.locally_produced_items.value
-
     }
-}
+  }
 
-    this.props.saveValues(this.state.data)
+  this.props.saveValues(this.state.data)
 	this.props.nextStep()
 }
 
-	PreviousSteps(){
-	this.props.previousStep()
-}
+	PreviousSteps() {
+		this.props.previousStep()
+	}
+
+	addItem() {
+		var newElement = this.refs.ingredients.value;
+		var ingredientList = this.state.data.ingredients;
+		var ingredient = this.refs.IngredientsList.ingredients(newElement)
+
+		if (ingredientList.length == 0){
+			ingredientList.push(ingredient);
+		} else {
+			var found = false;
+
+			for(var i=0; i < ingredientList.length; i++) {
+				console.log(ingredientList[i][name])
+	      if(ingredientList[i][name] == newElement) {
+	        found = true;
+	      }
+    	}
+
+    	if(found == false){
+    		
+    		ingredientList.push(ingredient);
+    	}
+		}
+
+		var newState = {data:{}};
+		newState.data.ingredients = ingredientList;
+		this.setState(newState);
+	}
+
+	removeTag(e) {
+		console.log(this.state.data.ingredients)
+	}
 
 	render() {
 		console.log("========"+JSON.stringify(this.state.algrnList))
@@ -77,8 +113,9 @@ export default class Ingredients extends React.Component {
 									<div className="form-group">
 										<label htmlFor="" className="col-form-label ingrdnt_label">Ingredient</label>
 										<input type="text" className="form-control" name="ingredients" list="ingredientList" ref="ingredients" defaultValue={this.props.fieldValues.ingredients} placeholder=""/>
-										<IngredientsList />
-										<button type="button" className="btn btn-default nxt_btn ingrdnt_btn">Add ingredient</button>
+										<IngredientsList ref="IngredientsList" />
+										<button type="button" className="btn btn-default nxt_btn ingrdnt_btn" onClick={this.addItem.bind(this)}>Add ingredient</button>
+										<Tags allIngredients={this.state.data.ingredients}/>
 										<ul className="ingrdnt_options">
 										
 										</ul>
@@ -139,7 +176,7 @@ export default class Ingredients extends React.Component {
 											{this.state.algrnList.map((allergens_list, index) => {
 											return (	
 													<div>
-														<input id={allergens_list._id} type="checkbox" defaultValue={allergens_list.name} ref="allergens" name="allergens" key={ index } />
+														<input id={allergens_list._id} type="checkbox" defaultValue={allergens_list._id} ref="allergens" name="allergens" key={ index } />
 														<label htmlFor={allergens_list._id}>
 															{allergens_list.name }
 														</label>

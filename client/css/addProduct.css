@@ -965,28 +965,28 @@ width: 12px;
 	list-style:none;
 	margin-top: 10px;
 }
-.ingrdnt_options li {
-	border: 1px solid #808080;
-	border-radius: 3px;
-	display: inline-flex;
-	float: left;
-	margin-right: 10px;
-	padding: 0 5px 0 2px;
-	margin-bottom: 5px;
+.ingrdnt_options li {	
+
 }
 .ingrdnt_options li a {
 	float: left;
 	line-height: normal;
-	padding: 1px 3px;
+	
 	width: 100%;
 }
 .ingrdnt_name {
+	margin-right: 10px;
+	padding: 0 5px 0 2px;
+	margin-bottom: 5px;
+	border: 1px solid #808080;
+	border-radius: 3px;
+	display: inline-flex;
 	color: #5A646D;
 	float: left;
 	font-size: 9px;
 	font-weight: 700;
 	text-align: left;
-	padding-right: 7px;
+	padding: 1px 3px;
 }
 .close_ingrdnt {
 	color: #808080;
@@ -994,6 +994,7 @@ width: 12px;
 	font-size: 8px;
 	font-weight: 700;
 	text-align: right;
+	margin-left: 5px;
 }
 .production_col .custom_checkbox label::before {
  left: -9px;

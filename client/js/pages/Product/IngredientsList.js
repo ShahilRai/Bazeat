@@ -6,6 +6,7 @@ export default class IngredientsList extends React.Component {
     super(props);
     this.state = { data: [] };
     this.getIngredients = this.getIngredients.bind(this);
+    this.ingredients = this.ingredients.bind(this);
   }
 
 	componentDidMount() {
@@ -19,13 +20,19 @@ export default class IngredientsList extends React.Component {
 	}
 
 	getIngredients() {
-		console.log(this.state.data)
 		return this.state.data.map((ingredient) => {
-      		return <option key={ingredient._id}>{ingredient.name}</option>;
-     		});
+  		return <option key={ingredient._id} id={ingredient._id}>{ingredient.name}</option>;
+ 		});
+	}
+
+	ingredients(name) {
+		return this.state.data.filter(function ( obj ) {
+		    return obj.name === name;
+		})[0];
 	}
 
 	render() {
+		console.log(this.ingredients("Eggs"))
 		return(
 			<datalist id="ingredientList">{this.getIngredients()}</datalist>
 			)
