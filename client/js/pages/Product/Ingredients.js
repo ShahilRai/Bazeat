@@ -27,7 +27,7 @@ export default class Ingredients extends React.Component {
 				fat : this.refs.fat.value,
 				protein : this.refs.protein.value,
 			},
-		  allergens: this.refs.allergens.value,
+		  allergens: this.state.chckboxVal,
 		  bought_items: this.refs.bought_items.value,
 		  locally_produced_items: this.refs.locally_produced_items.value
     }
@@ -71,6 +71,23 @@ export default class Ingredients extends React.Component {
 
 	removeTag(e) {
 		console.log(this.state.data.ingredients)
+	}
+
+	handleCheckBox(event){
+		const chckboxVal=this.state.chckboxVal
+		let index
+		if (event.target.checked)
+			chckboxVal.push(event.target.value)
+		else {
+      index = chckboxVal.indexOf(event.target.value)
+      chckboxVal.splice(index, 1)
+    }
+
+		this.setState({
+			chckboxVal:chckboxVal
+		})
+		console.log(this.state.chckboxVal)
+
 	}
 
 	render() {

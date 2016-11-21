@@ -70,7 +70,7 @@ export default class ReactSlider extends React.Component {
   loadProductData(fieldValues) {
     console.log("fieldValues" + JSON.stringify(fieldValues));
       return axios.post("/api/products" , {
-        params: {fieldValues}
+        fieldValues: fieldValues
       });
   }
 

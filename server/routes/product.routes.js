@@ -28,4 +28,8 @@ router.route('/ingredients').get(ProductController.getIngrdients);
 
 // Get Product details
 router.route('/details').get(ProductController.getDetails);
+
+// Get Producer Product details
+router.route('/user_products/:email').get(ProductController.getUserProducts);
+
 export default router;
