@@ -128,3 +128,16 @@ export function getDetails(req, res){
     });
   });
 }
+
+
+
+export function getUserProducts(req, res) {
+  User.findOne({ email: req.params.email }).exec((err, user) => {
+    User.findOne({ email: req.params.email }).populate('products').exec((err, products) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+      res.json({producer: user, products: products });
+    });
+  });
+}

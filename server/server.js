@@ -277,6 +277,7 @@ app.post('/api/products', upload.any('image'), function (req, res, next){
     // newProduct.photo = req.file.location;
     newProduct.save((err, product) => {
      if (err) {
+      console.log(err)
        res.status(500).send(err);
      }
      res.json({ product: product });;
