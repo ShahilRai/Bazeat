@@ -4,12 +4,38 @@ import Dropzone from 'react-dropzone';
 
 export default class AddProduct extends React.Component {
 
+	static contextTypes = {
+    authenticated: React.PropTypes.bool,
+    user: React.PropTypes.object
+  };
+
+  componentDidMount() {
+    var userEmail = this.context.user.email
+    this.loadUserData(userEmail).then((response) => {
+        if(response.data.user) {
+          this.setState({
+            user: response.data.user
+          });
+        }
+    }).catch((err) => {
+        console.log(err);
+    });
+  }
+
+  loadUserData(emailAddress) {
+    return axios.get("/api/edit" , {
+      params: {
+        email: emailAddress
+      }
+    });
+  }
+
 	constructor(props, context) {
 	    super(props, context);
 	    this.state = {
 	    	prod_cate_List: this.props.prod_categ_val,
 		    data : {
-				photo:null
+				image:null
 		      },
 		    };
 	    this.handleChange = this.handleChange.bind(this);
@@ -26,7 +52,8 @@ export default class AddProduct extends React.Component {
 		      	product_category: this.refs.product_category.value,
 		        expiry_date: this.refs.expiry_date.value,
 		        food_type: this.refs.food_type.value,
-		        photo: this.state.photo
+		        image: this.state.image,
+		        email: this.state.user.email
 	    	}
 		}
 	    this.props.saveValues(this.state.data)
@@ -34,10 +61,11 @@ export default class AddProduct extends React.Component {
 	}
 
 	onDrop(files) {
-	    var photo = files[0];
+	    var image = files[0];
 	    this.setState({
-	        photo: photo
+	        image: image
 	    });
+	    console.log(image)
 	}
 
 	handleChange(e){
@@ -82,13 +110,13 @@ export default class AddProduct extends React.Component {
 										</span>
 									</div>
 								</div>
-								<form className="prod_form" enctype="multipart/form-data" method="post">
+								<form className="prod_form" enctype="multipart/form-data" method="post" action="http://localhost:3000/">
 				 					<div className="lt_prod_sec">
 				 						<div className="box__input">
-										  <Dropzone type="file" name="photo" ref="photo" accept=".jpg,.jpeg,.png,.gif" onDrop={this.onDrop.bind(this)}>
-			                   <label className="input_upload">
-		                      <span className="file_text">Select one of the files from your computer <br/><span className="drop_txt">or drag and drop them here</span></span></label>
-			                </Dropzone>
+											 <Dropzone type="file" name="image" ref="image" accept=".jpg,.jpeg,.png,.gif" onDrop={this.onDrop.bind(this)}>
+							                   <label className="input_upload">
+							                      <span className="file_text">Select one of the files from your computer <br/><span className="drop_txt">or drag and drop them here</span></span></label>
+							                </Dropzone>
 										</div>
 										<div className="form-group m_top20 m_lt9">
 											<div className="form-check">
@@ -131,7 +159,7 @@ export default class AddProduct extends React.Component {
 											<select className="form-control" name="product_category" ref="product_category" id="product_category" name="product_category" defaultValue={this.props.fieldValues.product_category} onChange={this.handleChange}>
 												{
 													this.props.prod_categ_val.map((product_category_list, index) => {
-													return <option key={ index } id={product_category_list._id} defaultValue={product_category_list.name}>{product_category_list.name}</option>
+													return <option key={ index } id={product_category_list._id} value={product_category_list._id}>{product_category_list.name}</option>
 												})}
 											</select>
 											<span className="select_bg"><small className="select__arrow"></small></span>

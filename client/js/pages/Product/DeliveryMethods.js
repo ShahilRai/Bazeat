@@ -69,7 +69,7 @@ export default class DeliveryMethods extends React.Component {
 									</span>
 								</div>
 							</div>
-							<form className="prod_form"  method="post" onSubmit ={this.props.submitProduct}>
+							<form className="prod_form"  enctype="multipart/form-data" method="post" onSubmit ={this.props.submitProduct}>
 								<div className="nutrition_fact">
 								    <h5>Delivery methods</h5>
 								    <div className="chkbox_col del_chkbox">
