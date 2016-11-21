@@ -80,7 +80,7 @@ export default class AddProduct extends React.Component {
 	render() {
 		return (
 			<div>
-				<div class="modal fade prod_modal" id="step_1" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">						
+				<div class="modal fade prod_modal" id="step_1" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 					<div className="modal-dialog" role="document">
 						<div className="modal-content">
 							<div className="modal-header">
@@ -92,19 +92,19 @@ export default class AddProduct extends React.Component {
 							<div className="modal-body">
 								<div className="prod_steps">
 									<div className="step_1 right_border orange_bg">
-										<span className="complt_steps">	
+										<span className="complt_steps">
 											<span className="step_nos orange_bg">1</span>
 											<span className="step_descrip">Product <br/> details</span>
 										</span>
 									</div>
 									<div className="step_1 right_border">
-										<span className="complt_steps">	
+										<span className="complt_steps">
 											<span className="step_nos">2</span>
 											<span className="step_descrip inactive">Nutrition &amp; <br/> allergens</span>
 										</span>
 									</div>
 									<div className="step_1">
-										<span className="complt_steps">	
+										<span className="complt_steps">
 											<span className="step_nos">3</span>
 											<span className="step_descrip inactive">Delivery <br/> methods</span>
 										</span>
@@ -182,8 +182,8 @@ export default class AddProduct extends React.Component {
 							</div>
 						</div>
 					</div>
-				</div> 	
-			</div>				
+				</div>
+			</div>
 		);
 	}
 }
