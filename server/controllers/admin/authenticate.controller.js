@@ -8,12 +8,12 @@ export function addAdmin(req, res) {
   newadmin.full_name = req.body.full_name;
   newadmin.email = req.body.email;
   newadmin.setPassword(req.body.password);
-  newadmin.save(function(err) {
+  newadmin.save((err, admin) => {
     var token;
-    token = newadmin.generateJwt();
+    token = admin.generateJwt();
     res.status(200);
     res.json({
-      "token" : token
+      admin: admin
     });
   });
 }
@@ -35,7 +35,7 @@ export function adminLogin(req, res) {
       token = admin.generateJwt();
       res.status(200);
       res.json({
-        "token" : token
+        admin: admin
       });
     } else {
       // If admin is not found

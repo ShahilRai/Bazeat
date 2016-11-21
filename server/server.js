@@ -261,7 +261,7 @@ app.post('/api/profile_image', upload.single('image'), function (req, res, next)
   });
 })
 
-app.post('/api/products', upload.single('image'), function (req, res, next){
+app.post('/api/products', upload.multiple('image'), function (req, res, next){
   User.findOne({ email: req.body.email }).exec((error, user) => {
     const newProduct = new Product(req.body);
     newProduct.cuid = cuid();
