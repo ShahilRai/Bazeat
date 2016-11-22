@@ -35,6 +35,7 @@ const productSchema = new Schema({
   locally_produced_items: { type: 'Boolean', default: false },
   shipment: { type: 'String' },
   additional_items: { type: 'String' },
+  delivery_method: { type: 'String' },
   pickup_time: { type: 'Date', default: Date.now },
   product_category: { type: Schema.ObjectId, ref: 'ProductCategory' },
   allergens: [{ type: Schema.ObjectId, ref: 'Allergen' }],

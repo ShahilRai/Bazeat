@@ -32,7 +32,6 @@ export default class IngredientsList extends React.Component {
 	}
 
 	render() {
-		console.log(this.ingredients("Eggs"))
 		return(
 			<datalist id="ingredientList">{this.getIngredients()}</datalist>
 		)

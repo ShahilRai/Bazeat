@@ -965,13 +965,13 @@ width: 12px;
 	list-style:none;
 	margin-top: 10px;
 }
-.ingrdnt_options li {	
+.ingrdnt_options li {
 
 }
 .ingrdnt_options li a {
 	float: left;
 	line-height: normal;
-	
+
 	width: 100%;
 }
 .ingrdnt_name {
@@ -983,7 +983,7 @@ width: 12px;
 	display: inline-flex;
 	color: #5A646D;
 	float: left;
-	font-size: 9px;
+	font-size: 12px;
 	font-weight: 700;
 	text-align: left;
 	padding: 1px 3px;

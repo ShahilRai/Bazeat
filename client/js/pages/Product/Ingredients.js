@@ -29,8 +29,8 @@ export default class Ingredients extends React.Component {
 				protein : this.refs.protein.value,
 			},
 		  allergens: this.state.chckboxVal,
-		  bought_items: this.refs.bought_items.value,
-		  locally_produced_items: this.refs.locally_produced_items.value
+		  bought_items: this.refs.bought_items.checked,
+		  locally_produced_items: this.refs.locally_produced_items.checked
     }
   }
 
@@ -42,37 +42,47 @@ export default class Ingredients extends React.Component {
 		this.props.previousStep()
 	}
 
-	addItem() {
-		var newElement = this.refs.ingredients.value;
-		var ingredientList = this.state.data.ingredients;
-		var ingredient = this.refs.IngredientsList.ingredients(newElement)
+  addItem() {
+    var newElement = this.refs.ingredients.value;
+    var ingredientList = this.state.data.ingredients;
+    var ingredient = this.refs.IngredientsList.ingredients(newElement);
 
-		if (ingredientList.length == 0){
-			ingredientList.push(ingredient);
-		} else {
-			var found = false;
+    if (ingredientList.length == 0){
+      ingredientList.push(ingredient);
+    } else {
+      var found = false;
 
-			for(var i=0; i < ingredientList.length; i++) {
-				console.log(ingredientList[i][name])
-	      if(ingredientList[i][name] == newElement) {
-	        found = true;
-	      }
-    	}
+      for(var i=0; i < ingredientList.length; i++) {
+        if(ingredientList[i].name == newElement) {
+          found = true;
+        }
+      }
 
-    	if(found == false){
-    		
-    		ingredientList.push(ingredient);
-    	}
-		}
+      if(found == false){
+        ingredientList.push(ingredient);
+      }
+    }
 
-		var newState = {data:{}};
-		newState.data.ingredients = ingredientList;
-		this.setState(newState);
-	}
+    var newState = {data:{}};
+    newState.data.ingredients = ingredientList;
+    this.setState(newState);
+  }
 
-	removeTag(e) {
-		console.log(this.state.data.ingredients)
-	}
+  removeTag(e) {
+    e.preventDefault();
+    var ingredientList = this.state.data.ingredients;
+    var ingredientName = e.target.previousSibling.previousSibling.textContent;
+
+    for(var i=0; i < ingredientList.length; i++) {
+      if(ingredientList[i].name == ingredientName) {
+        ingredientList.splice(i, 1);
+      }
+    }
+
+    var newState = {data:{}};
+    newState.data.ingredients = ingredientList;
+    this.setState(newState);
+  }
 
 	handleCheckBox(event){
 		const chckboxVal=this.state.chckboxVal
@@ -104,19 +114,19 @@ export default class Ingredients extends React.Component {
 				<div className="modal-body">
 					<div className="prod_steps">
 						<div className="step_1 right_border">
-							<span className="complt_steps">	
+							<span className="complt_steps">
 								<span className="step_nos">1</span>
 								<span className="step_descrip inactive">Product <br/> details</span>
 							</span>
 						</div>
 						<div className="step_1 right_border">
-							<span className="complt_steps">	
+							<span className="complt_steps">
 								<span className="step_nos orange_bg">2</span>
 								<span className="step_descrip">Ingredients &amp; <br/> nutrition</span>
 							</span>
 						</div>
 						<div className="step_1">
-							<span className="complt_steps">	
+							<span className="complt_steps">
 								<span className="step_nos">3</span>
 								<span className="step_descrip inactive">Delivery <br/> methods</span>
 							</span>
@@ -130,10 +140,9 @@ export default class Ingredients extends React.Component {
 										<input type="text" className="form-control" name="ingredients" list="ingredientList" ref="ingredients" defaultValue={this.props.fieldValues.ingredients} placeholder=""/>
 										<IngredientsList ref="IngredientsList" />
 										<button type="button" className="btn btn-default nxt_btn ingrdnt_btn" onClick={this.addItem.bind(this)}>Add ingredient</button>
-										<Tags allIngredients={this.state.data.ingredients}/>
 										<ul className="ingrdnt_options">
-										
 										</ul>
+                    <Tags allIngredients={this.state.data.ingredients} onClick={this.removeTag.bind(this)}/>
 									</div>
 								</div>
 								<div className="nutrition_fact">
@@ -142,13 +151,13 @@ export default class Ingredients extends React.Component {
 										<div className="checkbox custom_checkbox">
 											<input id="checkbox17" type="checkbox" ref="bought_items" name="bought_items"/>
 											<label htmlFor="checkbox17">
-												Contains bought items 
+												Contains bought items
 											</label>
 										</div>
 										<div className="checkbox custom_checkbox">
 											<input id="checkbox18" type="checkbox" ref="locally_produced_items" name="locally_produced_items"/>
 											<label htmlFor="checkbox18">
-												Contains locally produced items 
+												Contains locally produced items
 											</label>
 										</div>
 									</div>
@@ -189,25 +198,25 @@ export default class Ingredients extends React.Component {
 									<div className="chkbox_col">
 										<div className="checkbox custom_checkbox">
 											{this.state.algrnList.map((allergens_list, index) => {
-											return (	
+											return (
 													<div>
 														<input id={allergens_list._id} type="checkbox" defaultValue={allergens_list._id} ref="allergens" name="allergens" key={ index }  onChange={this.handleCheckBox.bind(this)}/>
 														<label htmlFor={allergens_list._id}>
 															{allergens_list.name }
 														</label>
-													</div>	
+													</div>
 												);
-					                  		})}
-					                  	</div>
+					            })}
+					          </div>
 									</div>
-								</div>				
+								</div>
 							</form>
 				</div>
 				<div className="modal-footer">
 				    <button type="button" className="btn btn-default nxt_btn" onClick={this.PreviousSteps.bind(this)}>Previous</button>
 					<button type="button" className="btn btn-default nxt_btn" onClick={this.SaveAndContinue.bind(this)}>Next</button>
 				</div>
-			</div>				
+			</div>
 	  	);
 	}
 }

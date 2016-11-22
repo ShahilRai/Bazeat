@@ -6,6 +6,7 @@ export default class DeliveryMethods extends React.Component {
 	SaveAndContinue(){
 		this.state = {
 			data : {
+          delivery_method : this.refs.delivery_method.checked,
 		      shipment : this.refs.shipment.value,
 		      additional_items : this.refs.additional_items.value,
 		      pickup_time : this.refs.pickup_time.value
@@ -70,7 +71,7 @@ export default class DeliveryMethods extends React.Component {
 								    <h5>Delivery methods</h5>
 								    <div className="chkbox_col del_chkbox">
 										<div className="checkbox custom_checkbox">
-											<input id="checkbox3" type="checkbox" />
+											<input id="checkbox3" type="checkbox" name="delivery_method" ref="delivery_method"/>
 											<label htmlFor="checkbox3">
 												Send
 											</label>
@@ -78,7 +79,7 @@ export default class DeliveryMethods extends React.Component {
 									</div>
 									<div className="chkbox_col del_chkbox">
 										<div className="checkbox custom_checkbox">
-											<input id="checkbox4" type="checkbox"/>
+											<input id="checkbox4" type="checkbox" name="delivery_method" ref="delivery_method"/>
 											<label htmlFor="checkbox4">
 												Pick up
 											</label>
