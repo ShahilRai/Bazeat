@@ -4,6 +4,10 @@ import DocumentTitle from 'react-document-title';
 
 import Header from './Header/Header';
 import LoginModal from './Authenticate/LoginModal';
+import AddProduct from './Product/AddProduct';
+import Ingredients from './Product/Ingredients'
+import DeliveryMethods from './Product/DeliveryMethods'
+import ReactSlider from './Product/ReactSlider'
 import RegisterModal from './Authenticate/RegisterModal';
 import ForgotPasswordModal from './Authenticate/ForgotPasswordModal';
 import ProducerRegisterModal from './Authenticate/ProducerRegisterModal';
@@ -24,6 +28,9 @@ export default class MasterPage extends React.Component {
               <ForgotPasswordModal />
               <ProducerRegisterModal />
           </NotAuthenticated>
+          <Authenticated>
+            <ReactSlider />
+          </Authenticated>
         </div>
       </DocumentTitle>
     );
