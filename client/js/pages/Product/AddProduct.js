@@ -80,9 +80,7 @@ export default class AddProduct extends React.Component {
 	render() {
 		return (
 			<div>
-				<div class="modal fade prod_modal" id="step_1" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-					<div className="modal-dialog" role="document">
-						<div className="modal-content">
+
 							<div className="modal-header">
 								<button type="button" className="close" data-dismiss="modal" aria-label="Close">
 									<span aria-hidden="true">X</span>
@@ -110,7 +108,7 @@ export default class AddProduct extends React.Component {
 										</span>
 									</div>
 								</div>
-								<form className="prod_form" enctype="multipart/form-data" method="post" action="http://localhost:3000/">
+								<form className="prod_form" enctype="multipart/form-data" method="post">
 				 					<div className="lt_prod_sec">
 				 						<div className="box__input">
 											 <Dropzone type="file" name="image" ref="image" accept=".jpg,.jpeg,.png,.gif" onDrop={this.onDrop.bind(this)}>
@@ -180,9 +178,7 @@ export default class AddProduct extends React.Component {
 							<div className="modal-footer">
 								<button type="button" className="btn btn-default nxt_btn" onClick={this.SaveAndContinue.bind(this)}>Next</button>
 							</div>
-						</div>
-					</div>
-				</div>
+
 			</div>
 		);
 	}
