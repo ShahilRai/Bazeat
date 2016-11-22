@@ -6,7 +6,8 @@ export default class DeliveryMethods extends React.Component {
 	SaveAndContinue(){
 		this.state = {
 			data : {
-          delivery_method : this.refs.delivery_method.checked,
+          send : this.refs.send.checked,
+          pickup : this.refs.pickup.checked,
 		      shipment : this.refs.shipment.value,
 		      additional_items : this.refs.additional_items.value,
 		      pickup_time : this.refs.pickup_time.value
@@ -14,23 +15,6 @@ export default class DeliveryMethods extends React.Component {
   		}
 		this.props.saveValues(this.state.data)
  	}
-
-	/*SubmitProductData(){
-		this.loadProductData(this.props.fieldValues).then((response) => {
-        if(response.data) {
-          console.log("Api response: "+ response.data);
-        }
-    }).catch((err) => {
-        console.log(err);
-    });
-	}
-
-	loadProductData(fieldValues) {
-		console.log("fieldValues" + JSON.stringify(fieldValues));
-	    return axios.post("/api/products" , {
-	      params: {fieldValues}
-	    });
-	}*/
 
 	PreviousSteps() {
     this.props.previousStep()
@@ -71,7 +55,7 @@ export default class DeliveryMethods extends React.Component {
 								    <h5>Delivery methods</h5>
 								    <div className="chkbox_col del_chkbox">
 										<div className="checkbox custom_checkbox">
-											<input id="checkbox3" type="checkbox" name="delivery_method" ref="delivery_method"/>
+											<input id="checkbox3" type="checkbox" name="send" ref="send"/>
 											<label htmlFor="checkbox3">
 												Send
 											</label>
@@ -79,7 +63,7 @@ export default class DeliveryMethods extends React.Component {
 									</div>
 									<div className="chkbox_col del_chkbox">
 										<div className="checkbox custom_checkbox">
-											<input id="checkbox4" type="checkbox" name="delivery_method" ref="delivery_method"/>
+											<input id="checkbox4" type="checkbox" name="pickup" ref="pickup"/>
 											<label htmlFor="checkbox4">
 												Pick up
 											</label>

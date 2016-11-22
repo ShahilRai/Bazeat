@@ -97,12 +97,10 @@ export default class Ingredients extends React.Component {
 		this.setState({
 			chckboxVal:chckboxVal
 		})
-		console.log(this.state.chckboxVal)
 
 	}
 
 	render() {
-		console.log("========"+JSON.stringify(this.state.algrnList))
 		return (
 			<div>
 				<div className="modal-header">

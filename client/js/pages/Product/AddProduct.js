@@ -69,12 +69,11 @@ export default class AddProduct extends React.Component {
 	}
 
 	handleChange(e){
-	console.log(e.target.value);
-        this.setState({
+    this.setState({
 			data:{
 				[e.target.name] :  e.target.value
-        	}
-        })
+      }
+    })
 	}
 
 	render() {
@@ -111,10 +110,11 @@ export default class AddProduct extends React.Component {
 								<form className="prod_form" enctype="multipart/form-data" method="post">
 				 					<div className="lt_prod_sec">
 				 						<div className="box__input">
-											 <Dropzone type="file" name="image" ref="image" accept=".jpg,.jpeg,.png,.gif" onDrop={this.onDrop.bind(this)}>
-							                   <label className="input_upload">
-							                      <span className="file_text">Select one of the files from your computer <br/><span className="drop_txt">or drag and drop them here</span></span></label>
-							                </Dropzone>
+											<Dropzone type="file" name="image" ref="image" accept=".jpg,.jpeg,.png,.gif" onDrop={this.onDrop.bind(this)}>
+							          <label className="input_upload">
+							            <span className="file_text">Select one of the files from your computer <br/><span className="drop_txt">or drag and drop them here</span></span>
+                        </label>
+							        </Dropzone>
 										</div>
 										<div className="form-group m_top20 m_lt9">
 											<div className="form-check">
