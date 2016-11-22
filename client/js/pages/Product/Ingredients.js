@@ -10,7 +10,8 @@ export default class Ingredients extends React.Component {
     	data:{
     		ingredients : []
     	},
-      algrnList: this.props.allrgnval
+      algrnList: this.props.allrgnval,
+      chckboxVal:[]
     };
   }
 
@@ -193,7 +194,7 @@ export default class Ingredients extends React.Component {
 											{this.state.algrnList.map((allergens_list, index) => {
 											return (	
 													<div>
-														<input id={allergens_list._id} type="checkbox" defaultValue={allergens_list._id} ref="allergens" name="allergens" key={ index } />
+														<input id={allergens_list._id} type="checkbox" defaultValue={allergens_list._id} ref="allergens" name="allergens" key={ index }  onChange={this.handleCheckBox.bind(this)}/>
 														<label htmlFor={allergens_list._id}>
 															{allergens_list.name }
 														</label>
