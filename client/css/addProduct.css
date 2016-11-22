@@ -310,6 +310,7 @@ a:hover {
 	position: relative;
 	padding: 10px 24px;
 }
+
 .home_top_category ul li img {
 	width: 100%;
 }
@@ -326,6 +327,8 @@ a:hover {
 	line-height: 31px;
 	text-shadow: 0 1px 1px #000;
 }
+
+
 /*.home_top_category ul li.wdt50 {*/
   /*width: 50%*/
 /*}*/
