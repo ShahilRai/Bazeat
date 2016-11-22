@@ -4,7 +4,6 @@ import DocumentTitle from 'react-document-title';
 export default class DeliveryMethods extends React.Component {
 	
 	SaveAndContinue(){
-		console.log("Button clicked")
 		this.state = {
 			data : {
 		      shipment : this.refs.shipment.value,
@@ -39,9 +38,7 @@ export default class DeliveryMethods extends React.Component {
 	render() {
 		return (
 		<div>
-			<div class="modal fade prod_modal" id="step_3" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-				<div className="modal-dialog" role="document">
-					<div className="modal-content">
+			
 						<div className="modal-header">
 							<button type="button" className="close" data-dismiss="modal" aria-label="Close">
 								<span aria-hidden="true">X</span>
