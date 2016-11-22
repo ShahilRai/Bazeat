@@ -34,10 +34,8 @@ export default class AddProduct extends React.Component {
 	    super(props, context);
 	    this.state = {
 	    	prod_cate_List: this.props.prod_categ_val,
-		    data : {
 				image:null
-		      },
-		    };
+		  };
 	    this.handleChange = this.handleChange.bind(this);
 	}
 
