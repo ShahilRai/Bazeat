@@ -31,9 +31,9 @@ export default class DeliveryMethods extends React.Component {
 	    });
 	}*/
 
-	PreviousSteps(){
-	this.props.previousStep()
-}
+	PreviousSteps() {
+    this.props.previousStep()
+  }
 
 	render() {
 		return (
