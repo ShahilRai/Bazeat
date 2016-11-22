@@ -94,37 +94,34 @@ export default class Ingredients extends React.Component {
 	render() {
 		console.log("========"+JSON.stringify(this.state.algrnList))
 		return (
-		<div>
-			<div class="modal fade prod_modal prod_modal2" id="step_2" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-				<div className="modal-dialog" role="document">
-					<div className="modal-content">
-						<div className="modal-header">
-							<button type="button" className="close" data-dismiss="modal" aria-label="Close">
-								<span aria-hidden="true">X</span>
-							</button>
-							<h3 className="modal-title" id="myModalLabel">Add new product</h3>
+			<div>
+				<div className="modal-header">
+					<button type="button" className="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">X</span>
+					</button>
+					<h3 className="modal-title" id="myModalLabel">Add new product</h3>
+				</div>
+				<div className="modal-body">
+					<div className="prod_steps">
+						<div className="step_1 right_border">
+							<span className="complt_steps">	
+								<span className="step_nos">1</span>
+								<span className="step_descrip inactive">Product <br/> details</span>
+							</span>
 						</div>
-						<div className="modal-body">
-							<div className="prod_steps">
-								<div className="step_1 right_border">
-									<span className="complt_steps">	
-										<span className="step_nos">1</span>
-										<span className="step_descrip inactive">Product <br/> details</span>
-									</span>
-								</div>
-								<div className="step_1 right_border">
-									<span className="complt_steps">	
-										<span className="step_nos orange_bg">2</span>
-										<span className="step_descrip">Ingredients &amp; <br/> nutrition</span>
-									</span>
-								</div>
-								<div className="step_1">
-									<span className="complt_steps">	
-										<span className="step_nos">3</span>
-										<span className="step_descrip inactive">Delivery <br/> methods</span>
-									</span>
-								</div>
-							</div>
+						<div className="step_1 right_border">
+							<span className="complt_steps">	
+								<span className="step_nos orange_bg">2</span>
+								<span className="step_descrip">Ingredients &amp; <br/> nutrition</span>
+							</span>
+						</div>
+						<div className="step_1">
+							<span className="complt_steps">	
+								<span className="step_nos">3</span>
+								<span className="step_descrip inactive">Delivery <br/> methods</span>
+							</span>
+						</div>
+					</div>
 							<form className="prod_form">
 								<div className="nutrition_fact nutrition_fact_top">
 									<h5>Ingredients</h5>
@@ -205,15 +202,12 @@ export default class Ingredients extends React.Component {
 									</div>
 								</div>				
 							</form>
-						</div>
-						<div className="modal-footer">
-						    <button type="button" className="btn btn-default nxt_btn" onClick={this.PreviousSteps.bind(this)}>Previous</button>
-							<button type="button" className="btn btn-default nxt_btn" onClick={this.SaveAndContinue.bind(this)}>Next</button>
-						</div>
-					</div>
 				</div>
-			</div>	
-		</div>				
-	  );
+				<div className="modal-footer">
+				    <button type="button" className="btn btn-default nxt_btn" onClick={this.PreviousSteps.bind(this)}>Previous</button>
+					<button type="button" className="btn btn-default nxt_btn" onClick={this.SaveAndContinue.bind(this)}>Next</button>
+				</div>
+			</div>				
+	  	);
 	}
 }
