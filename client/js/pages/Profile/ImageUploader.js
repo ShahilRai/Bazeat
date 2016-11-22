@@ -59,8 +59,8 @@ export default class ImageUploader extends React.Component {
     }
     return (
       <div>
-        <div className="form-group row">
-          <label htmlFor="file-1" className="col-md-4 col-xs-12 col-form-label">Company logo<br/>{$imagePreview}</label>
+        <div>
+          <label htmlFor="file-1" className="col-md-4 col-xs-12 col-form-label"><br/>{$imagePreview}</label>
           <div className="col-md-8 col-xs-12">
             <div>
               <Dropzone type="file" accept=".jpg,.jpeg,.png,.gif" onDrop={this.onDrop.bind(this)}>

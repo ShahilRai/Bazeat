@@ -29,7 +29,7 @@ export default class Menu extends React.Component {
             <ul className="user_toggle_div collapse" id="user_toggle" >
               <li><Link to="/profile">Edit Profile</Link></li>
               <li>
-                <a href="javascript:void(0)" data-toggle="modal" data-target="#step_1">Add Product</a>
+                <Link to="/addProductPage">AddProductPage</Link>
               </li>
               <li><a href="javascript:void(0)">Settings</a></li>
               <li><a href="javascript:void(0)">Orders</a></li>
