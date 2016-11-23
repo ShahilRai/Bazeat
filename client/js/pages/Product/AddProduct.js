@@ -13,10 +13,12 @@ export default class AddProduct extends React.Component {
 	constructor(props, context) {
 	    super(props, context);
 	    this.state = {
+        food_type : "",
 	    	prod_cate_List: this.props.prod_categ_val,
 				image: null
 		  };
 	    this.handleChange = this.handleChange.bind(this);
+      this.handleRadioChange = this.handleRadioChange.bind(this);
 	}
 
 	SaveAndContinue(){
@@ -29,7 +31,7 @@ export default class AddProduct extends React.Component {
 		        portion: this.refs.portion.value,
 		      	product_category: this.refs.product_category.value,
 		        expiry_date: this.refs.expiry_date.value,
-		        food_type: this.refs.food_type.checked,
+		        food_type: this.state.food_type,
 		        image: this.state.image,
 		        email: this.context.user.email
 	    	}
@@ -46,8 +48,19 @@ export default class AddProduct extends React.Component {
     })
 	}
 
+  handleRadioChange(e){
+    if(e.target.dataset.foodstate == "hotFood"){
+      this.setState({
+        food_type :  "Hot"
+      });
+    }else if(e.target.dataset.foodstate == "coldFood"){
+      this.setState({
+        food_type :  "Cold"
+      })
+    }
+  }
+
 	render() {
-		console.log("--"+this.refs.product_image);
 		return (
 			<div>
 				<div className="modal-header">
@@ -83,14 +96,14 @@ export default class AddProduct extends React.Component {
 							<div className="form-group m_top20 m_lt9">
 								<div className="form-check">
 									<label className="form-check-label control control--radio">
-										<input className="form-check-input custom_radio" name="food_type" ref= 'food_type' type="radio" onChange={this.handleChange} />
+										<input className="form-check-input custom_radio" name="food_type" data-foodstate="hotFood" type="radio" onChange={this.handleRadioChange} />
 										Hot food
 										<div className="control__indicator"></div>
 									</label>
 								</div>
 								<div className="form-check">
 									<label className="form-check-label control control--radio">
-										<input className="form-check-input custom_radio" name="food_type" ref= 'food_type' type="radio" onChange={this.handleChange} />
+										<input className="form-check-input custom_radio" name="food_type" data-foodstate="coldFood" type="radio" onChange={this.handleRadioChange} />
 										Cold food
 										<div className="control__indicator"></div>
 									</label>

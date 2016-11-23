@@ -51,7 +51,6 @@ export default class ImageUploader extends React.Component {
 
     return (
       <div className="box__input">
-        // <input type="hidden" ref="url" name="url" value={this.state.uploadedImages} />
         {imagePreview}
       </div>
     );
