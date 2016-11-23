@@ -60,8 +60,8 @@ export function addCart(req, res) {
       if (err) {
         res.json(500,{error_msg: "Cart not found"});
       }
-        console.log(!cart);
       if (!cart){
+        console.log(req.body.cartitems)
         const newCart = new Cart(req.body);
         newCart.cuid = cuid();
         newCart.user = user._id;
@@ -80,10 +80,11 @@ export function addCart(req, res) {
         cart.update(
             {$pushAll: {"cartitems": req.body.cartitems}},
             {safe: true, upsert: true},
-            function(err, savedcart) {
+            function(err, cart) {
+            console.log(cart)
+            res.json({ cart: cart });
             }
         );
-        res.json({ cart: cart });
       }
     });
   });
