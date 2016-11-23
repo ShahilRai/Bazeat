@@ -237,7 +237,7 @@ app.on('ExpressStrompath.ready', () => {
 
 let s3 = new aws.S3({ accessKeyId: process.env.AWSKey, secretAccessKey: process.env.AWSSecret })
 
-let upload = multer({
+let profileupload = multer({
   storage: multerS3({
     s3: s3,
     bucket: process.env.AWSBucket,
@@ -248,7 +248,19 @@ let upload = multer({
   })
 })
 
-app.post('/api/profile_image', upload.single('image'), function (req, res, next){
+let productupload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: process.env.AWSBucket,
+    acl: 'public-read',
+    key: function (req, file, cb) {
+      cb(null, 'products/'+ Date.now().toString() + file.originalname);
+    }
+  })
+})
+
+
+app.post('/api/profile_image', profileupload.single('image'), function (req, res, next){
   console.log('req.body')
   console.log(req)
   User.findOne({ email: req.body.email }).exec((err, user) => {
@@ -263,13 +275,16 @@ app.post('/api/profile_image', upload.single('image'), function (req, res, next)
   });
 })
 
-app.post('/api/products', upload.single('image'), function (req, res, next){
+app.post('/api/product_image', productupload.single('image'), function (req, res, next){
+  res.json({ image_url: req.file.location });
+})
+
+app.post('/api/products', function (req, res){
   console.log(req.body.fieldValues)
   User.findOne({ email: req.body.fieldValues.email }).exec((error, user) => {
     const newProduct = new Product(req.body.fieldValues);
     newProduct.cuid = cuid();
     newProduct._producer = user._id;
-    // newProduct.photo = req.file.location;
     newProduct.save((err, product) => {
      if (err) {
       console.log(err)
@@ -281,7 +296,7 @@ app.post('/api/products', upload.single('image'), function (req, res, next){
 })
 
 
-app.post('/api/product_image', upload.single('image'), function (req, res, next){
+app.post('/api/update_product_image', productupload.single('image'), function (req, res, next){
   Product.findOne({ cuid: req.body.cuid }).exec((err, product) => {
     product.photo = req.file.location
     product.save((error, savedproduct) => {
