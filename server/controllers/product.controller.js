@@ -10,8 +10,8 @@ import cuid from 'cuid';
 
 // export function addProduct(req, res) {
 //   console.log(req.body)
-//   User.findOne({ email: req.body.email }).exec((error, user) => {
-//     const newProduct = new Product(req.body);
+//   User.findOne({ email: req.body.fieldValues.email }).exec((error, user) => {
+//     const newProduct = new Product(req.body.fieldValues);
 //     newProduct.cuid = cuid();
 //     newProduct._producer = user._id;
 //     newProduct.save((err, product) => {
