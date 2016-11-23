@@ -132,12 +132,16 @@ export function getDetails(req, res){
 
 
 export function getUserProducts(req, res) {
-  User.findOne({ email: req.params.email }).exec((err, user) => {
-    User.findOne({ email: req.params.email }).populate('products').exec((err, products) => {
+  // User.findOne({ email: req.params.email }).exec((err, user) => {
+    console.log('user')
+    // console.log(user)
+    User.findOne({ email: req.params.email }).populate('products').exec((err, user) => {
+      console.log('products')
+      console.log(user)
     if (err) {
       res.status(500).send(err);
     }
-      res.json({producer: user, products: products });
+      res.json({producer: user, products: user.products });
     });
-  });
+  // });
 }
