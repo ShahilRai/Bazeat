@@ -2,6 +2,8 @@ import Order from '../models/order';
 import Cart from '../models/cart';
 import User from '../models/user';
 import OrderItem from '../models/orderitem';
+import Product from '../models/product';
+import async from 'async';
 import cuid from 'cuid';
 
 
@@ -53,6 +55,28 @@ export function getOrder(req, res) {
     }
     res.json({ order });
   });
+  // var totalweight = 0;
+  // Cart.find({cuid: req.params.cuid}).select("cartitems -_id").exec(function(err,data) {
+  //   console.log('data')
+  //   let cartitems = data[0]['cartitems']
+  //   console.log(data[0]['cartitems'])
+  //   if (err) return handleError(err);
+  //   async.forEach(cartitems,function(item,callback) {
+  //     Product.find({_id: item.product_id}).exec(function(err, product) {
+  //       console.log('product')
+  //       console.log(product.portion)
+  //         if (err) {
+  //           throw err;
+  //           callback();
+  //         } // or do something
+  //         totalweight = totalweight + product.weight;
+  //     // console.log(product.portion)
+  //     });
+  //   }, function(err) {
+  //       res.json(totalweight);
+  //   });
+
+  // });
 }
 
 
