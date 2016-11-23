@@ -1,11 +1,12 @@
 import Order from '../models/order';
 import Cart from '../models/cart';
 import User from '../models/user';
+import OrderItem from '../models/orderitem';
 import cuid from 'cuid';
 
 
 export function addOrder(req, res) {
-  const newOrder = new Order(req.body);
+  const newOrder = new Order();
   newOrder.cuid = cuid();
   // newOrder.orderitems.create( req.body.orderitems );
   newOrder.save((err, order) => {
@@ -13,10 +14,24 @@ export function addOrder(req, res) {
       // res.json(500, { err: err });
       res.status(500).send(err);
     }
-      order.orderitems.push(req.body.orderitems);
-      order.save(function (err, order) {
-        res.json({ order: order });
-      });
+    req.body.orderitems.forEach(function(item) {
+      const newOrderItem = new OrderItem();
+        newOrderItem.cuid = cuid();
+        newOrderItem._order = order._id
+        newOrderItem._product = item._product
+        newOrderItem.price = item.price
+        newOrderItem.qty = item.qty
+        newOrderItem.save((err, orderitem) => {
+          console.log(orderitem)
+          if (err) {
+            res.status(500).send(err);
+          }
+        });
+    });
+      // order.orderitems.push(req.body.orderitems);
+      // order.save(function (err, order) {
+        res.json({ order: order});
+      // })
   });
 }
 
@@ -81,9 +96,10 @@ export function addCart(req, res) {
             {$pushAll: {"cartitems": req.body.cartitems}},
             {safe: true, upsert: true},
             function(err, savedcart) {
+              res.json({ cart: savedcart });
             }
         );
-        res.json({ cart: cart });
+        // res.json({ cart: cart });
       }
     });
   });
