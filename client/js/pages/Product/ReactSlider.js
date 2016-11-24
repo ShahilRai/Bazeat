@@ -4,9 +4,7 @@ import Ingredients from './Ingredients';
 import DeliveryMethods from './DeliveryMethods';
 import assign from 'object-assign';
 
-var fieldValues = {
-  nutrition_fact:{}
-}
+var fieldValues = {}
 
 export default class ReactSlider extends React.Component {
   constructor(props) {
