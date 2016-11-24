@@ -1,6 +1,7 @@
 import React from 'react';
 import Dropzone from 'react-dropzone';
 import request from 'superagent';
+import ProducerLogo from '../AddProduct/ProducerLogo';
 export default class ImageUploader extends React.Component {
 
   static contextTypes = {
@@ -49,13 +50,13 @@ export default class ImageUploader extends React.Component {
 
     if(url)
     {
-      $imagePreview = (<img src={url} height="101" width="101" />);
+      $imagePreview = (<ProducerLogo url={url} height="101" width="101" />);
     }
     else if(this.props.image){
-      $imagePreview = (<img src={this.state.image1} height="101" width="101"/>);
+      $imagePreview = (<ProducerLogo url={this.state.image1} height="101" width="101" />);
     }
     else {
-      $imagePreview = (<img src={require('../../../images/producer_logo.png')} />);
+      $imagePreview = (<ProducerLogo url={require('../../../images/producer_logo.png')} />);
     }
     return (
       <div>
