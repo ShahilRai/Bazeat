@@ -6,7 +6,7 @@ export default class DateComponent extends React.Component{
       super(props);
       this.state={
       	date: this.props.value
-        //value: 
+        //value:
       };
 }
 handleChange(event) {

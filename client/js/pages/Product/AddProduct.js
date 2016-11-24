@@ -15,7 +15,7 @@ export default class AddProduct extends React.Component {
 	    this.state = {
         food_type : "",
 	    	prod_cate_List: this.props.prod_categ_val,
-				image: null
+				photo: null
 		  };
 	    this.handleChange = this.handleChange.bind(this);
       this.handleRadioChange = this.handleRadioChange.bind(this);
@@ -32,7 +32,7 @@ export default class AddProduct extends React.Component {
 		      	product_category: this.refs.product_category.value,
 		        expiry_date: this.refs.expiry_date.value,
 		        food_type: this.state.food_type,
-		        image: this.state.image,
+		        photo: this.state.photo,
 		        email: this.context.user.email
 	    	}
 		}
@@ -58,6 +58,12 @@ export default class AddProduct extends React.Component {
         food_type :  "Cold"
       })
     }
+  }
+
+  onPicUpdate(e){
+    this.setState({
+     photo: e
+    })
   }
 
 	render() {
@@ -92,7 +98,7 @@ export default class AddProduct extends React.Component {
 					</div>
 					<form className="prod_form" enctype="multipart/form-data" method="post">
 	 					<div className="lt_prod_sec">
-	 						<UploadProductImage ref="product_image"/>
+							<UploadProductImage ref="product_image" onPicUpdate={this.onPicUpdate.bind(this)}/>
 							<div className="form-group m_top20 m_lt9">
 								<div className="form-check">
 									<label className="form-check-label control control--radio">

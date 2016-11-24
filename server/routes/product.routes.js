@@ -3,7 +3,7 @@ import * as ProductController from '../controllers/product.controller';
 
 const router = new Router();
 // Add a new Product
-// router.route('/products').post(ProductController.addProduct);
+router.route('/products').post(ProductController.addProduct);
 
 // Buy a new Product
 router.route('/purchase_products').post(ProductController.purchaseProduct);
@@ -30,6 +30,6 @@ router.route('/ingredients').get(ProductController.getIngrdients);
 router.route('/details').get(ProductController.getDetails);
 
 // Get Producer Product details
-router.route('/user_products/:email').get(ProductController.getUserProducts);
+router.route('/user_products/:cuid').get(ProductController.getUserProducts);
 
 export default router;
