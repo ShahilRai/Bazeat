@@ -60,6 +60,12 @@ export default class AddProduct extends React.Component {
     }
   }
 
+  onPicUpdate(e){
+    this.setState({
+     photo: e
+    })
+  }
+
 	render() {
 		return (
 			<div>
@@ -92,7 +98,7 @@ export default class AddProduct extends React.Component {
 					</div>
 					<form className="prod_form" enctype="multipart/form-data" method="post">
 	 					<div className="lt_prod_sec">
-	 						<UploadProductImage ref="product_image"/>
+							<UploadProductImage ref="product_image" onPicUpdate={this.onPicUpdate.bind(this)}/>
 							<div className="form-group m_top20 m_lt9">
 								<div className="form-check">
 									<label className="form-check-label control control--radio">
