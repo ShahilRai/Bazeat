@@ -21,7 +21,7 @@ export default class AddnewProducts extends React.Component {
                <img src="images/grid_img_1.png" />
         <div className="grid_tile_desc">
           <h2>Speltbaguetter</h2>
-            <span class="price_tag">kr 35.00</span>
+            <span className="price_tag">kr 35.00</span>
               <p>Tradisjonelle franske baguetter laget med spelt og i vedovn...</p>
         </div>
               </a>
