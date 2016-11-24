@@ -166,29 +166,29 @@ export default class Ingredients extends React.Component {
 									<div className="form-col">
 										<div className="form-group">
 											<label htmlFor="" className="col-form-label">kJ</label>
-											<input type="text" className="form-control" name="kj" ref="kj" defaultValue={this.props.fieldValues.nutrition_fact.kj} placeholder=""/>
+											<input type="text" className="form-control" name="kj" ref="kj" defaultValue={this.props.fieldValues.kj} placeholder=""/>
 										</div>
 										<div className="form-group">
 											<label htmlFor="" className="col-form-label">kcal</label>
-											<input type="text" className="form-control" name="kcal" ref="kcal" defaultValue={this.props.fieldValues.nutrition_fact.kcal} placeholder=""/>
+											<input type="text" className="form-control" name="kcal" ref="kcal" defaultValue={this.props.fieldValues.kcal} placeholder=""/>
 										</div>
 										<div className="form-group">
 											<label htmlFor="" className="col-form-label">Fat</label>
-											<input type="text" className="form-control" name="fat" ref="fat" defaultValue={this.props.fieldValues.nutrition_fact.fat} placeholder=""/>
+											<input type="text" className="form-control" name="fat" ref="fat" defaultValue={this.props.fieldValues.fat} placeholder=""/>
 										</div>
 									</div>
 									<div className="form-col">
 										<div className="form-group">
 											<label htmlFor="" className="col-form-label">Carbs</label>
-											<input type="text" className="form-control" name="carbs" ref="carbs" defaultValue={this.props.fieldValues.nutrition_fact.carbs} placeholder=""/>
+											<input type="text" className="form-control" name="carbs" ref="carbs" defaultValue={this.props.fieldValues.carbs} placeholder=""/>
 										</div>
 										<div className="form-group">
 											<label htmlFor="" className="col-form-label">Fiber</label>
-											<input type="text" className="form-control" name="fiber" ref="fiber" defaultValue={this.props.fieldValues.nutrition_fact.fiber} placeholder=""/>
+											<input type="text" className="form-control" name="fiber" ref="fiber" defaultValue={this.props.fieldValues.fiber} placeholder=""/>
 										</div>
 										<div className="form-group">
 											<label htmlFor="" className="col-form-label">Protein</label>
-											<input type="text" className="form-control" name="protein" ref="protein" defaultValue={this.props.fieldValues.nutrition_fact.protein} placeholder=""/>
+											<input type="text" className="form-control" name="protein" ref="protein" defaultValue={this.props.fieldValues.protein} placeholder=""/>
 										</div>
 									</div>
 								</div>

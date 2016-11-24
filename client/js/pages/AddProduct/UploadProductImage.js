@@ -37,7 +37,6 @@ export default class ImageUploader extends React.Component {
   }
 
   render() {
-    console.log(this.state.uploadedImages);
     var imagePreview = null;
 
     if(this.state.uploadedImages) {
