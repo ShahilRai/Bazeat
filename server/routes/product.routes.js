@@ -30,6 +30,6 @@ router.route('/ingredients').get(ProductController.getIngrdients);
 router.route('/details').get(ProductController.getDetails);
 
 // Get Producer Product details
-router.route('/user_products/:email').get(ProductController.getUserProducts);
+router.route('/user_products/:cuid').get(ProductController.getUserProducts);
 
 export default router;
