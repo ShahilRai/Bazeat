@@ -279,23 +279,6 @@ app.post('/api/product_image', productupload.single('image'), function (req, res
   res.json({ image_url: req.file.location });
 })
 
-app.post('/api/products', function (req, res){
-  console.log(req.body.fieldValues)
-  User.findOne({ email: req.body.fieldValues.email }).exec((error, user) => {
-    const newProduct = new Product(req.body.fieldValues);
-    newProduct.cuid = cuid();
-    newProduct._producer = user._id;
-    newProduct.save((err, product) => {
-     if (err) {
-      console.log(err)
-       res.status(500).send(err);
-     }
-     res.json({ product: product });;
-    });
-  });
-})
-
-
 app.post('/api/update_product_image', productupload.single('image'), function (req, res, next){
   Product.findOne({ cuid: req.body.cuid }).exec((err, product) => {
     product.photo = req.file.location
