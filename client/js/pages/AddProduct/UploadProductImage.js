@@ -32,6 +32,7 @@ export default class ImageUploader extends React.Component {
         uploadedImages: uploadedImagePath.image_url,
          file: file
       });
+      this.props.onPicUpdate(this.state.uploadedImages)
     });
   }
 
