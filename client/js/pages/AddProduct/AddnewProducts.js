@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from './Button';
+import ProductList from './ProductList';
 
 export default class AddnewProducts extends React.Component {
   render(){
@@ -15,72 +16,8 @@ export default class AddnewProducts extends React.Component {
             </a>
           </div>
         </div>
-      <div className="grid_single_item">
-              <Button/>
-              <a href="#">
-               <img src="images/grid_img_1.png" />
-        <div className="grid_tile_desc">
-          <h2>Speltbaguetter</h2>
-            <span className="price_tag">kr 35.00</span>
-              <p>Tradisjonelle franske baguetter laget med spelt og i vedovn...</p>
-        </div>
-              </a>
+        <ProductList />
       </div>
-       <div className="grid_single_item">
-         <Button />
-        <a href="#">
-        <img src="images/grid_img_2.png" />
-        <div className="grid_tile_desc">
-          <h2>Julekake</h2>
-        <p>Tradisjonelle franske baguetter laget med spelt og i vedovn...</p>
-        </div>
-        </a>
-       </div>
-        <div className="grid_single_item">
-            <Button />
-         <a href="#">
-         <img src="images/grid_img_2.png" />
-         <div className="grid_tile_desc">
-          <h2>Julekake</h2>
-           <p>Tradisjonelle franske baguetter laget med spelt og i vedovn...</p>
-        </div>
-         </a>
-        </div>
-
-        <div className="grid_single_item">
-               <Button />
-            <a href="#">
-            <img src="images/grid_img_3.png" />
-             <div className="grid_tile_desc">
-              <a href="#" data-toggle="modal" data-target="#prod1_Modal"><h2>Klassisk baguette</h2></a>
-              <p>Tradisjonelle franske baguetter laget med spelt og i vedovn...</p>
-        </div>
-              </a>
-        </div>
-
-        <div className="grid_single_item">
-                <Button />
-             <a href="#">
-              <img src="images/grid_img_9.png" />
-                 <div className="grid_tile_desc">
-                   <h2>Surdeigsbrød</h2>
-                    <p>Tradisjonelle franske baguetter laget med spelt og i vedovn...</p>
-                 </div>
-                </a>
-        </div>
-
-              <div className="grid_single_item">
-                    <Button />
-                <a href="#">
-                  <img src="images/grid_img_5.png" />
-                  <div className="grid_tile_desc">
-                    <h2>Farmors spelt</h2>
-                    <p>Tradisjonelle franske baguetter laget med spelt og i vedovn...</p>
-                  </div>
-                </a>
-              </div>
-       </div>
-
     )
   }
 }

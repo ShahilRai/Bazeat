@@ -3,11 +3,17 @@ import User from '../../models/user';
 
 
 export function getUsers(req, res) {
-  User.find().sort('-dateAdded').exec((err, users) => {
+  console.log('req')
+  console.log(req)
+  User.find().limit('req.params._end').skip('req.params._start').sort('-req.params.id').exec((err, users) => {
     if (err) {
       res.status(500).send(err);
     }
-    res.json({ users });
+    console.log(users.count)
+    res.setHeader('X-Total-Count', 10);
+    res.setHeader('Access-Control-Expose-Headers', 'X-Total-Count');
+    res.setHeader('X-Content-Type-Options', 'npsniff');
+    res.json( users );
   });
 }
 
