@@ -4,24 +4,21 @@ import ProductCategory from '../models/productcategory';
 import Allergen from '../models/allergen';
 import Ingredient from '../models/ingredient';
 import cuid from 'cuid';
-// import aws from 'aws-sdk';
-// import multer from 'multer';
-// import multerS3 from 'multer-s3';
 
-// export function addProduct(req, res) {
-//   console.log(req.body)
-//   User.findOne({ email: req.body.email }).exec((error, user) => {
-//     const newProduct = new Product(req.body);
-//     newProduct.cuid = cuid();
-//     newProduct._producer = user._id;
-//     newProduct.save((err, product) => {
-//      if (err) {
-//        res.status(500).send(err);
-//      }
-//      res.json({ product: product });;
-//     });
-//   });
-// }
+export function addProduct(req, res) {
+  console.log(req.body)
+  User.findOne({ email: req.body.fieldValues.email }).exec((error, user) => {
+    const newProduct = new Product(req.body.fieldValues);
+    newProduct.cuid = cuid();
+    newProduct._producer = user._id;
+    newProduct.save((err, product) => {
+      if (err) {
+       res.status(500).send(err);
+      }
+      res.json({ product: product });;
+    });
+  });
+}
 
 export function updateProduct(req, res) {
   Product.findOne({ cuid: req.params.cuid }).exec((err, product) => {
@@ -132,12 +129,12 @@ export function getDetails(req, res){
 
 
 export function getUserProducts(req, res) {
-  User.findOne({ email: req.params.email }).exec((err, user) => {
-    User.findOne({ email: req.params.email }).populate('products').exec((err, products) => {
+  // User.findOne({ email: req.params.email }).exec((err, user) => {
+    User.findOne({ cuid: req.params.cuid }).populate('products').exec((err, user) => {
     if (err) {
       res.status(500).send(err);
     }
-      res.json({producer: user, products: products });
+      res.json({producer: user});
     });
-  });
+  // });
 }

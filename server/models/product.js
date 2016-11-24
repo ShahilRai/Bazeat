@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import ProductCategory from '../models/productcategory';
 import Allergen from '../models/allergen';
 import Ingredient from '../models/ingredient';
+import User from '../models/user';
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
@@ -35,6 +36,8 @@ const productSchema = new Schema({
   locally_produced_items: { type: 'Boolean', default: false },
   shipment: { type: 'String' },
   additional_items: { type: 'String' },
+  pickup: { type: 'Boolean', default: false },
+  send: { type: 'Boolean', default: false },
   pickup_time: { type: 'Date', default: Date.now },
   product_category: { type: Schema.ObjectId, ref: 'ProductCategory' },
   allergens: [{ type: Schema.ObjectId, ref: 'Allergen' }],
@@ -48,6 +51,8 @@ productSchema.post('save', function(product) {
   });
   Ingredient.update({_id: {"$in": product.allergens }}, { $pushAll: {_products: [product] }}, {multi: true}, function(err) {
   });
+  User.update({_id: {"$in": product._producer }}, { $pushAll: {products: [product] }}, {multi: true}, function(err) {
+  });
 });
 
 
@@ -59,6 +64,10 @@ productSchema.post('remove', function(product) {
     function removeConnectionsCB(err, obj) {
     });
   Ingredient.update({ _products: product._id }, { $pullAll: { _products : [product._id] }},
+    { safe: true, multi: true },
+    function removeConnectionsCB(err, obj) {
+    });
+  User.update({ products: product._id }, { $pullAll: { products : [product._id] }},
     { safe: true, multi: true },
     function removeConnectionsCB(err, obj) {
     });

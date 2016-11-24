@@ -12,13 +12,13 @@ export function getUsers(req, res) {
 }
 
 export function updateUser(req, res) {
-  User.update({ email: req.params.email }, req.body, function(err, user) {
+  User.update({ cuid: req.params.cuid }, req.body, function(err, user) {
     res.json({ user });
   })
 }
 
 export function deleteUser(req, res) {
-  User.findOne({ email: req.params.email }).exec((err, user) => {
+  User.findOne({ cuid: req.params.cuid }).exec((err, user) => {
     if (err) {
       res.status(500).send(err);
     }

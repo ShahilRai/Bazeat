@@ -68,12 +68,10 @@ export default class ReactSlider extends React.Component {
   }
 
   loadProductData(fieldValues) {
-    console.log("fieldValues" + JSON.stringify(fieldValues));
       return axios.post("/api/products" , {
         fieldValues: fieldValues
       });
   }
-
 
   showStep() {
       switch (this.state.step) {
@@ -87,10 +85,10 @@ export default class ReactSlider extends React.Component {
     }
 
   render(){
-      
+
       return (
         <div>
-          <div className="modal prod_modal" id="step_1" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">            
+          <div className="modal prod_modal" id="step_1" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div className="modal-dialog" role="document">
               <div className="modal-content">
                 {this.showStep()}

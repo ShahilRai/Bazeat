@@ -75,11 +75,10 @@ export default class UserProfilePage extends React.Component {
     return (
       <DocumentTitle title={`My Profile`}>
         <div className="col-lg-9 col-md-8 col-sm-10 col-xs-12 edit_profile_rht_sidebar">
-           
-          <UserProfileForm method = "post">
-          <ImageUploader image={this.state.user.photo} />
             <div className="edit_prfile_detail_form">
               <h3>Profile details </h3>
+              <ImageUploader image={this.state.user.photo} />
+              <UserProfileForm method = "post">
                 <div className="edt_prf_inner_detail">
                   <div className="form-group row">
                     <LabelField htmlFor="givenName" label="First name" />
@@ -138,8 +137,8 @@ export default class UserProfilePage extends React.Component {
                       <span data-spIf="form.processing">Updating...</span>
                     </button>
                 </div>
+              </UserProfileForm>
             </div>
-          </UserProfileForm>
         </div>
       </DocumentTitle>
     );

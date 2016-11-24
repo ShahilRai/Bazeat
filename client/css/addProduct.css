@@ -310,6 +310,7 @@ a:hover {
 	position: relative;
 	padding: 10px 24px;
 }
+
 .home_top_category ul li img {
 	width: 100%;
 }
@@ -326,6 +327,8 @@ a:hover {
 	line-height: 31px;
 	text-shadow: 0 1px 1px #000;
 }
+
+
 /*.home_top_category ul li.wdt50 {*/
   /*width: 50%*/
 /*}*/
@@ -965,13 +968,13 @@ width: 12px;
 	list-style:none;
 	margin-top: 10px;
 }
-.ingrdnt_options li {	
+.ingrdnt_options li {
 
 }
 .ingrdnt_options li a {
 	float: left;
 	line-height: normal;
-	
+
 	width: 100%;
 }
 .ingrdnt_name {
@@ -983,7 +986,7 @@ width: 12px;
 	display: inline-flex;
 	color: #5A646D;
 	float: left;
-	font-size: 9px;
+	font-size: 12px;
 	font-weight: 700;
 	text-align: left;
 	padding: 1px 3px;
