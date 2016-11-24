@@ -66,6 +66,7 @@ export default class Ingredients extends React.Component {
     var newState = {data:{}};
     newState.data.ingredients = ingredientList;
     this.setState(newState);
+    this.refs.ingredients.value = "";
   }
 
   removeTag(e) {

@@ -1,3 +1,5 @@
+export AdminLoginModal from './admin/AdminLoginModal'
+export AdminRegisterModal from './admin/AdminRegisterModal'
 export MasterPage from './MasterPage'
 export IndexPage from './Home/IndexPage'
 export RegisterModal from './Authenticate/RegisterModal'
