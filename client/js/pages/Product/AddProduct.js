@@ -15,7 +15,7 @@ export default class AddProduct extends React.Component {
 	    this.state = {
         food_type : "",
 	    	prod_cate_List: this.props.prod_categ_val,
-				image: null
+				photo: null
 		  };
 	    this.handleChange = this.handleChange.bind(this);
       this.handleRadioChange = this.handleRadioChange.bind(this);
@@ -32,7 +32,7 @@ export default class AddProduct extends React.Component {
 		      	product_category: this.refs.product_category.value,
 		        expiry_date: this.refs.expiry_date.value,
 		        food_type: this.state.food_type,
-		        image: this.state.image,
+		        photo: this.state.photo,
 		        email: this.context.user.email
 	    	}
 		}
