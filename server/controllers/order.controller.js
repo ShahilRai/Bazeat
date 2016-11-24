@@ -5,6 +5,7 @@ import OrderItem from '../models/orderitem';
 import Product from '../models/product';
 import async from 'async';
 import cuid from 'cuid';
+import request from 'request';
 
 
 export function addOrder(req, res) {
@@ -55,29 +56,63 @@ export function getOrder(req, res) {
     }
     res.json({ order });
   });
-  // var totalweight = 0;
-  // Cart.find({cuid: req.params.cuid}).select("cartitems -_id").exec(function(err,data) {
-  //   console.log('data')
-  //   let cartitems = data[0]['cartitems']
-  //   console.log(data[0]['cartitems'])
-  //   if (err) return handleError(err);
-  //   async.forEach(cartitems,function(item,callback) {
-  //     Product.find({_id: item.product_id}).exec(function(err, product) {
-  //       console.log('product')
-  //       console.log(product.portion)
-  //         if (err) {
-  //           throw err;
-  //           callback();
-  //         } // or do something
-  //         totalweight = totalweight + product.weight;
-  //     // console.log(product.portion)
-  //     });
-  //   }, function(err) {
-  //       res.json(totalweight);
-  //   });
-
-  // });
 }
+
+
+export  function cartCheckout (req, res) {
+  var totalweight = 1000;
+  Cart.find({cuid: req.params.cuid}).select("cartitems user -_id").exec(function(err,data) {
+    let cartitems = data[0].cartitems
+    let user_id = data[0].user
+    if (err) return handleError(err);
+    User.findOne({ _id: user_id }).exec((err, user) =>{
+      // let to_pin = user.postal_code
+      let to_pin = '7600'
+      async.forEach(cartitems,function(item,callback) {
+        Product.findOne({_id: item.product_id}).populate('_producer').exec(function(err, product) {
+          // console.log(product._producer.postal_code)
+          // let from_pin = product._producer.postal_code
+          let from_pin = '1407'
+            if (err) {
+              throw err;
+              callback();
+            }
+            getShippingPrice(to_pin, from_pin, totalweight)
+        });
+      });
+    });
+  });
+}
+
+export  function getShippingPrice(to_pin, from_pin, totalweight){
+  console.log('to_pin')
+  console.log(to_pin)
+  console.log('from_pin')
+  console.log(from_pin)
+  console.log(totalweight)
+  let clientUrl = 'http://localhost:3000'
+  let options = {
+        uri : "https://api.bring.com/shippingguide/products/price.json?from="+from_pin+"&to="+to_pin+"&clientUrl="+clientUrl+"&weightInGrams="+totalweight+"",
+        method : 'GET'
+    };
+    let res = '';
+    request(options, function (error, response, body) {
+      console.log('body')
+      console.log(body)
+      console.log('response')
+      console.log(response)
+        if (!error && response.statusCode == 200) {
+          console.log(!error && response.statusCode == 200)
+          res = body;
+        }
+        else {
+          res = 'Not Found';
+        }
+        // callback(res);
+    });
+}
+
+
 
 
 export function deleteOrder(req, res) {
