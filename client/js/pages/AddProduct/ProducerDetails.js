@@ -10,11 +10,11 @@ export default class ProducerDetails extends React.Component {
   render(){
 
     var img;
-    // if(this.props.userInfo.photo){
-    //   img = this.props.userInfo.photo
-    // }else{
+    if(this.props.userInfo.photo){
+      img = this.props.userInfo.photo
+    }else{
       img ="images/review_logo.png"
-    // }
+    }
 
     return(
       <div className="container">
