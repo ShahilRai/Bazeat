@@ -12,16 +12,18 @@ export default class ProducerPage extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      user : {}
+      user : {},
+      data_loaded: false
     };
   }
 
   componentDidMount() {
     var userEmail = this.context.user.email;
     this.loadUserData(userEmail).then((response) => {
-      if(response.data.producer) {
+       if(response.data.producer) {
         this.setState({
           user: response.data.producer,
+          data_loaded: true
         });
       }
     })
@@ -35,6 +37,9 @@ export default class ProducerPage extends React.Component {
   }
 
   render(){
+    if (!this.state.data_loaded) {
+      return (<div></div>);
+    }
     return(
       <div className="page_wrapper">
         <Banner name="review_banner.jpg"/>

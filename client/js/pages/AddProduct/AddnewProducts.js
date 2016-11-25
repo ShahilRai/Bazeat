@@ -7,7 +7,8 @@ export default class AddnewProducts extends React.Component {
   render(){
     console.log("products:- " + JSON.stringify(this.props.productInfo))
     return(
-      <div className="grid_wall_wrapper prod_producer_grid products_section">
+      <div>
+      <div className="wall-column">
         <div className="grid_single_item no_brdr add_item_pduct">
           <div className="add_prod_div">
             <a href="javascript:void(0)" data-toggle="modal" data-target="#step_1">
@@ -18,8 +19,10 @@ export default class AddnewProducts extends React.Component {
             </a>
           </div>
         </div>
-        <ProductList />
       </div>
+      {this.props.productInfo.products.map((image, index) =>
+       <ProductList key = {index} imageData = {image}/>)}
+    </div>
     )
   }
 }

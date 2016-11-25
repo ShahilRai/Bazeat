@@ -130,7 +130,7 @@ export function getDetails(req, res){
 
 export function getUserProducts(req, res) {
   User.findOne({ email: req.params.email }).populate('products').exec((err, user) => {
-    if (err) {
+    if (err){
       res.status(500).send(err);
     }
       res.json({producer: user});
