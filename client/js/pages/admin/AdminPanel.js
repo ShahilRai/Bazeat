@@ -1,6 +1,6 @@
 import React from 'react';
 import { jsonServerRestClient, Admin, Resource } from 'admin-on-rest';
-import { UserList } from './users';
+import { UserList } from './Users';
 
 export default class AdminPanel extends React.Component{
 
@@ -9,9 +9,8 @@ export default class AdminPanel extends React.Component{
   }
 
   render(){
-    console.log(UserList)
     return(
-      <Admin restClient={jsonServerRestClient('http://localhost:3000/api/admin/users/allusers')} >
+      <Admin title="Admin Dashboard" restClient={jsonServerRestClient('http://localhost:3000/api/admin/users')} >
         <Resource name="allusers" list={UserList} />
       </Admin>
     );

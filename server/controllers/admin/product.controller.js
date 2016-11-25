@@ -9,7 +9,6 @@ export function getProducts(req, res) {
   let end = parseInt(req.query._end, 10);
   let start = parseInt(req.query._start, 10);
   let sort = req.query._sort;
-  let sort1 = -req.query._sort;
   let order = '';
   console.log(req.query._order == 'DESC')
   if (req.query._order == 'DESC'){

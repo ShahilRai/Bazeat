@@ -6,7 +6,6 @@ export function getUsers(req, res) {
   let end = parseInt(req.query._end, 10);
   let start = parseInt(req.query._start, 10);
   let sort = req.query._sort;
-  let sort1 = -req.query._sort;
   let order = '';
   console.log(req.query._order == 'DESC')
   if (req.query._order == 'DESC'){
@@ -21,7 +20,6 @@ export function getUsers(req, res) {
     if (err) {
       res.status(500).send(err);
     }
-    console.log(User.count)
     res.setHeader('X-Total-Count', 10);
     res.setHeader('Access-Control-Expose-Headers', 'X-Total-Count');
     res.setHeader('X-Content-Type-Options', 'npsniff');
