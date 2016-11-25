@@ -4,8 +4,20 @@ import ProductList from './ProductList';
 
 export default class AddnewProducts extends React.Component {
 
+  constructor(props, context) {
+    super(props, context)
+      this.state = {
+        products : []
+    };
+  }
+
+  componentDidMount() {
+    this.setState({
+      products: this.props.productInfo.products
+    });
+  }
+
   render(){
-    console.log("products:- " + JSON.stringify(this.props.productInfo))
     return(
       <div>
       <div className="wall-column">
@@ -20,8 +32,8 @@ export default class AddnewProducts extends React.Component {
           </div>
         </div>
       </div>
-      {this.props.productInfo.products.map((image, index) =>
-       <ProductList key = {index} imageData = {image}/>)}
+      {this.state.products.map((product, index) =>
+       <ProductList key = {index} productData = {product}/>)}
     </div>
     )
   }

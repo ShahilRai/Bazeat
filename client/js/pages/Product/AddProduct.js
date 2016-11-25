@@ -42,9 +42,7 @@ export default class AddProduct extends React.Component {
 
 	handleChange(e){
     this.setState({
-			data:{
-				[e.target.name] :  e.target.value
-      }
+			[e.target.name] :  e.target.value
     })
 	}
 
