@@ -6,21 +6,15 @@ import ProducerLogo from './ProducerLogo';
 import ProducerDescription from './ProducerDescription';
 
 export default class ProducerDetails extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      imgSrc : this.props.userInfo,
-    };
-  }
 
   render(){
 
     var img;
-    if(this.state.imgSrc){
-      img = this.props.userInfo.photo
-    }else{
+    // if(this.props.userInfo.photo){
+    //   img = this.props.userInfo.photo
+    // }else{
       img ="images/review_logo.png"
-    }
+    // }
 
     return(
       <div className="container">
