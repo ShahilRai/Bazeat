@@ -5,7 +5,7 @@ import User from '../../models/user';
 export function getUsers(req, res) {
   console.log('req')
   console.log(req)
-  User.find().limit('req.params._end').skip('req.params._start').sort('-req.params.id').exec((err, users) => {
+  User.find().limit(req.query._end).skip(req.query._start).sort(-req.query.id).exec((err, users) => {
     if (err) {
       res.status(500).send(err);
     }
