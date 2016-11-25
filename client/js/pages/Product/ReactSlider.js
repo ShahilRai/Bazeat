@@ -22,7 +22,6 @@ export default class ReactSlider extends React.Component {
 
   componentDidMount() {
     this.loadCategories().then((response) => {
-      console.log("response.data"+JSON.stringify(response.data))
         if(response.data) {
           this.setState({
             allergens_list: response.data.allergens_list,

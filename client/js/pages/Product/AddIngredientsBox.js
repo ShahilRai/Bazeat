@@ -17,7 +17,6 @@ export default class AddIngredientsBox extends React.Component {
 
   componentDidMount() {
     this.loadCategories().then((response) => {
-      console.log("response.data"+JSON.stringify(response.data))
         if(response.data) {
           this.setState({
             ingredients_list: response.data
@@ -34,7 +33,6 @@ export default class AddIngredientsBox extends React.Component {
   }
 
   render(){
-      console.log("ingredients_list========"+JSON.stringify(this.state.ingredients_list))
       return (
         <div className="nutrition_fact nutrition_fact_top">
                   <h5>Ingredients</h5>

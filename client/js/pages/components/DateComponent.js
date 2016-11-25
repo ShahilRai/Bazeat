@@ -16,7 +16,6 @@ handleChange(event) {
         }
   }
 render(){
-  console.log("--------this.props.name----")
         console.log(this.props.name)
     	return(
         	<div className="col-md-8 col-xs-12">
