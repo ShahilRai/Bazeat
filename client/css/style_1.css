@@ -1139,11 +1139,12 @@ ul.edit_sidbar_list li a:hover, ul.edit_sidbar_list li.active a {
 :::::::::::::::::::::::::::::::::::::::::::::::::::::*/
 
 .product_detail_lft {
-	width: 100%;
+	width: 204px;
 	float: left;
-	padding-right: 20px;
+
 }
 .prduct_thumb_lft_img {
+	object-fit: fill;
 	position: relative;
 	max-width: 100%;
 	border: 3px solid #fff;
