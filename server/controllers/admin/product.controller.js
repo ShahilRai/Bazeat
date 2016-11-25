@@ -6,11 +6,29 @@ import Ingredient from '../../models/ingredient';
 
 
 export function getProducts(req, res) {
-  Product.find().sort('-dateAdded').exec((err, products) => {
+  let end = parseInt(req.query._end, 10);
+  let start = parseInt(req.query._start, 10);
+  let sort = req.query._sort;
+  let sort1 = -req.query._sort;
+  let order = '';
+  console.log(req.query._order == 'DESC')
+  if (req.query._order == 'DESC'){
+    order = 'descending';
+  }
+  if (req.query._order == 'ASC')
+  {
+    order = 'ascending';
+  }
+  console.log(order)
+  Product.find().sort([[sort, order]]).limit(end).skip(start).exec((err, products) => {
     if (err) {
       res.status(500).send(err);
     }
-    res.json({ products });
+    console.log(res)
+    res.setHeader('X-Total-Count', 10);
+    res.setHeader('Access-Control-Expose-Headers', 'X-Total-Count');
+    res.setHeader('X-Content-Type-Options', 'npsniff');
+    res.json( products );
   });
 }
 
