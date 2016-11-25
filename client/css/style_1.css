@@ -1142,6 +1142,8 @@ ul.edit_sidbar_list li a:hover, ul.edit_sidbar_list li.active a {
 	width: 204px;
 	height: 204px;
 	float: left;
+	margin-top: -191px;
+  margin-bottom: 22px
 }
 .prduct_thumb_lft_img {
 	object-fit: fill;
@@ -1149,9 +1151,7 @@ ul.edit_sidbar_list li a:hover, ul.edit_sidbar_list li.active a {
 	width: 100%;
 	height: 100%;
 	border: 3px solid #fff;
-	margin-top: -191px;
 	border-radius: 10px;
-	margin-bottom: 22px;
 }
 ul.prod_lft_details {
 	list-style:none;
