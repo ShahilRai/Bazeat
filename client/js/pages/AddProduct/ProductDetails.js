@@ -14,7 +14,7 @@ export default class ProductDetails extends React.Component {
 						<div className="modal-body clearfix">
 							<div className="add_new_prodct_col">
 								<div className="lt_prod_sec">
-									<img src="/images/img_1.jpg" alt="Product Image here"/>
+									<img src="/images/img_1.jpg" alt="Product Image here" className="img-responsive"/>
 								</div>
 								<div className="rt_prod_sec">
 									<div id="priceTage">
@@ -37,7 +37,7 @@ export default class ProductDetails extends React.Component {
 										<i className="fa fa-clock-o pull-left" aria-hidden="true"></i>
 										<p>Mon-Sat: 08.00-15.00</p>
 										<i className="fa fa-truck fa-flip-horizontal pull-left" aria-hidden="true"></i>
-										<p>
+										<p className="mlft20">
 											Can be delivered<br/>
 											Can be picked up<br/>
 										</p>

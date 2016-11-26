@@ -989,7 +989,8 @@ width: 12px;
 	font-size: 12px;
 	font-weight: 700;
 	text-align: left;
-	padding: 1px 3px;
+	position: relative;
+	padding: 2px 30px 2px 5px;
 }
 .close_ingrdnt {
 	color: #808080;
