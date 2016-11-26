@@ -3,6 +3,7 @@ import EditProductBtn from '../Button/EditProductBtn';
 import DeleteProductBtn from '../Button/DeleteProductBtn';
 import HideProductBtn from '../Button/HideProductBtn';
 import DisableProductBtn from '../Button/DisableProductBtn';
+import ProductDetails from './ProductDetails';
 
   export default class ProductList extends React.Component {
 
@@ -42,7 +43,7 @@ import DisableProductBtn from '../Button/DisableProductBtn';
               <HideProductBtn />
               <DisableProductBtn />
             </div>
-            <a href="#">
+            <a href="#" data-target="#product_desc" data-toggle="modal">
               <img src= {this.props.productData.photo}/>
             </a>
             <div className="grid_tile_desc">
@@ -51,6 +52,7 @@ import DisableProductBtn from '../Button/DisableProductBtn';
               <p>Tradisjonelle franske baguetter laget med spelt og i vedovn...</p>
             </div>
           </div>
+          <ProductDetails />
         </div>
     );
   }
