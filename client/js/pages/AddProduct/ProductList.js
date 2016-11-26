@@ -52,6 +52,6 @@ import DisableProductBtn from '../Button/DisableProductBtn';
             </div>
           </div>
         </div>
-      );
-    }
+    );
   }
+}

@@ -7,6 +7,7 @@ import assign from 'object-assign';
 var fieldValues = {}
 
 export default class ReactSlider extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -49,8 +50,9 @@ export default class ReactSlider extends React.Component {
 
   submitProduct(){
     this.loadProductData(fieldValues).then((response) => {
+      window.location.reload(true);
         if(response.data) {
-          console.log("Api response: "+ response.data);
+          console.log("redirect-to");
         }
     }).catch((err) => {
         console.log(err);
@@ -58,9 +60,9 @@ export default class ReactSlider extends React.Component {
   }
 
   loadProductData(fieldValues) {
-      return axios.post("/api/products" , {
-        fieldValues: fieldValues
-      });
+    return axios.post("/api/products" , {
+      fieldValues: fieldValues
+    });
   }
 
   showStep() {
@@ -72,21 +74,19 @@ export default class ReactSlider extends React.Component {
         case 3:
           return <DeliveryMethods fieldValues={fieldValues} saveValues={this.saveValues} submitProduct={this.submitProduct} />
       }
-    }
+  }
 
   render(){
-
-      return (
-        <div>
-          <div className="modal prod_modal" id="step_1" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div className="modal-dialog" role="document">
-              <div className="modal-content">
-                {this.showStep()}
-              </div>
+    return (
+      <div>
+        <div className="modal prod_modal" id="step_1" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              {this.showStep()}
             </div>
           </div>
         </div>
-      );
-    }
-
+      </div>
+    );
   }
+}
