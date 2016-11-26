@@ -7,6 +7,7 @@ import assign from 'object-assign';
 var fieldValues = {}
 
 export default class ReactSlider extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -56,8 +57,9 @@ export default class ReactSlider extends React.Component {
 
   submitProduct(){
     this.loadProductData(fieldValues).then((response) => {
+      window.location.reload(true);
         if(response.data) {
-          console.log("Api response: "+ response.data);
+          console.log("redirect-to");
         }
     }).catch((err) => {
         console.log(err);
@@ -65,35 +67,33 @@ export default class ReactSlider extends React.Component {
   }
 
   loadProductData(fieldValues) {
-      return axios.post("/api/products" , {
-        fieldValues: fieldValues
-      });
+    return axios.post("/api/products" , {
+      fieldValues: fieldValues
+    });
   }
 
   showStep() {
-      switch (this.state.step) {
-        case 1:
-          return <AddProduct fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} prod_categ_val = {this.state.product_category_list} />
-        case 2:
-          return <Ingredients fieldValues={fieldValues} nextStep={this.nextStep} previousStep={this.previousStep} saveValues={this.saveValues} allrgnval ={this.state.allergens_list} />
-        case 3:
-          return <DeliveryMethods fieldValues={fieldValues} previousStep={this.previousStep} saveValues={this.saveValues} submitProduct={this.submitProduct} />
-      }
+    switch (this.state.step) {
+      case 1:
+        return <AddProduct fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} prod_categ_val = {this.state.product_category_list} />
+      case 2:
+        return <Ingredients fieldValues={fieldValues} nextStep={this.nextStep} previousStep={this.previousStep} saveValues={this.saveValues} allrgnval ={this.state.allergens_list} />
+      case 3:
+        return <DeliveryMethods fieldValues={fieldValues} previousStep={this.previousStep} saveValues={this.saveValues} submitProduct={this.submitProduct} />
     }
+  }
 
   render(){
-
-      return (
-        <div>
-          <div className="modal prod_modal" id="step_1" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div className="modal-dialog" role="document">
-              <div className="modal-content">
-                {this.showStep()}
-              </div>
+    return (
+      <div>
+        <div className="modal prod_modal" id="step_1" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              {this.showStep()}
             </div>
           </div>
         </div>
-      );
-    }
-
+      </div>
+    );
   }
+}
