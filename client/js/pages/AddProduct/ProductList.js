@@ -37,7 +37,7 @@ import DisableProductBtn from '../Button/DisableProductBtn';
         <div className="wall-column">
           <div className="grid_single_item">
             <div className="hover_box">
-              <DeleteProductBtn />
+              <DeleteProductBtn index={this.props.index} onClick={this.props.onClick}/>
               <EditProductBtn handlerForEdit = {this.EditProdBtnClck}/>
               <HideProductBtn />
               <DisableProductBtn />

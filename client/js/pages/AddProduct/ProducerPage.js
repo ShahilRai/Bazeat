@@ -43,7 +43,7 @@ export default class ProducerPage extends React.Component {
     return(
       <div className="page_wrapper">
         <Banner name="review_banner.jpg"/>
-        <ProducerDetails userInfo = {this.state.user}/>
+        <ProducerDetails userInfo = {this.state.user} />
       </div>
     )
   }
