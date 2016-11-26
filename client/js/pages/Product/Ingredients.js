@@ -136,7 +136,7 @@ export default class Ingredients extends React.Component {
 									<h5>Ingredients</h5>
 									<div className="form-group">
 										<label htmlFor="" className="col-form-label ingrdnt_label">Ingredient</label>
-										<input type="text" className="form-control" name="ingredients" list="ingredientList" ref="ingredients" defaultValue={this.props.fieldValues.ingredients} placeholder=""/>
+										<input type="text" className="form-control" name="ingredients" list="ingredientList" ref="ingredients" placeholder=""/>
 										<IngredientsList ref="IngredientsList" />
 										<button type="button" className="btn btn-default nxt_btn ingrdnt_btn" onClick={this.addItem.bind(this)}>Add ingredient</button>
 										<ul className="ingrdnt_options">
@@ -166,29 +166,29 @@ export default class Ingredients extends React.Component {
 									<div className="form-col">
 										<div className="form-group">
 											<label htmlFor="" className="col-form-label">kJ</label>
-											<input type="text" className="form-control" name="kj" ref="kj" defaultValue={this.props.fieldValues.kj} placeholder=""/>
+											<input type="text" className="form-control" name="kj" ref="kj" placeholder=""/>
 										</div>
 										<div className="form-group">
 											<label htmlFor="" className="col-form-label">kcal</label>
-											<input type="text" className="form-control" name="kcal" ref="kcal" defaultValue={this.props.fieldValues.kcal} placeholder=""/>
+											<input type="text" className="form-control" name="kcal" ref="kcal" placeholder=""/>
 										</div>
 										<div className="form-group">
 											<label htmlFor="" className="col-form-label">Fat</label>
-											<input type="text" className="form-control" name="fat" ref="fat" defaultValue={this.props.fieldValues.fat} placeholder=""/>
+											<input type="text" className="form-control" name="fat" ref="fat" placeholder=""/>
 										</div>
 									</div>
 									<div className="form-col">
 										<div className="form-group">
 											<label htmlFor="" className="col-form-label">Carbs</label>
-											<input type="text" className="form-control" name="carbs" ref="carbs" defaultValue={this.props.fieldValues.carbs} placeholder=""/>
+											<input type="text" className="form-control" name="carbs" ref="carbs" placeholder=""/>
 										</div>
 										<div className="form-group">
 											<label htmlFor="" className="col-form-label">Fiber</label>
-											<input type="text" className="form-control" name="fiber" ref="fiber" defaultValue={this.props.fieldValues.fiber} placeholder=""/>
+											<input type="text" className="form-control" name="fiber" ref="fiber" placeholder=""/>
 										</div>
 										<div className="form-group">
 											<label htmlFor="" className="col-form-label">Protein</label>
-											<input type="text" className="form-control" name="protein" ref="protein" defaultValue={this.props.fieldValues.protein} placeholder=""/>
+											<input type="text" className="form-control" name="protein" ref="protein" placeholder=""/>
 										</div>
 									</div>
 								</div>
@@ -212,7 +212,6 @@ export default class Ingredients extends React.Component {
 							</form>
 				</div>
 				<div className="modal-footer">
-				    <button type="button" className="btn btn-default nxt_btn" onClick={this.PreviousSteps.bind(this)}>Previous</button>
 					<button type="button" className="btn btn-default nxt_btn" onClick={this.SaveAndContinue.bind(this)}>Next</button>
 				</div>
 			</div>

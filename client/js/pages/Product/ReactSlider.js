@@ -15,7 +15,6 @@ export default class ReactSlider extends React.Component {
       product_category_list :[]
     };
     this.nextStep = this.nextStep.bind(this);
-    this.previousStep = this.previousStep.bind(this);
     this.saveValues = this.saveValues.bind(this);
     this.submitProduct = this.submitProduct.bind(this);
   }
@@ -44,12 +43,6 @@ export default class ReactSlider extends React.Component {
     })
   }
 
-  previousStep() {
-    this.setState({
-    step : this.state.step - 1
-    })
-  }
-
   saveValues(field_value){
      fieldValues =  assign({}, fieldValues, field_value)
   }
@@ -75,9 +68,9 @@ export default class ReactSlider extends React.Component {
         case 1:
           return <AddProduct fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} prod_categ_val = {this.state.product_category_list} />
         case 2:
-          return <Ingredients fieldValues={fieldValues} nextStep={this.nextStep} previousStep={this.previousStep} saveValues={this.saveValues} allrgnval ={this.state.allergens_list} />
+          return <Ingredients fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} allrgnval ={this.state.allergens_list} />
         case 3:
-          return <DeliveryMethods fieldValues={fieldValues} previousStep={this.previousStep} saveValues={this.saveValues} submitProduct={this.submitProduct} />
+          return <DeliveryMethods fieldValues={fieldValues} saveValues={this.saveValues} submitProduct={this.submitProduct} />
       }
     }
 

@@ -114,28 +114,23 @@ export default class AddProduct extends React.Component {
 								</div>
 								<div className="form-group m_lt19">
 									<label htmlFor="" className="col-form-label qty_label">Quantity available</label>
-									<input type="text" className="form-control qty_input" id="quantity" name="quantity" ref="quantity" defaultValue={this.props.fieldValues.quantity} onChange={this.handleChange} placeholder="" />
+									<input type="text" className="form-control qty_input" id="quantity" name="quantity" ref="quantity" onChange={this.handleChange} placeholder="" />
 								</div>
 							</div>
 	 					</div>
 	 					<div className="rt_prod_sec">
 							<div className="form-group">
-								<input type="text" className="form-control prod_label" ref="product_name" id="product_name" name="product_name" defaultValue={this.props.fieldValues.product_name} onChange={this.handleChange} placeholder="Product name" />
+								<input type="text" className="form-control prod_label" ref="product_name" id="product_name" name="product_name" onChange={this.handleChange} placeholder="Product name" />
 							</div>
 							<div className="form-group nok_form">
 								<label htmlFor="" className="col-form-label nok_label">NOK</label>
-								<input type="text" ref="price" id="price" name="price" defaultValue={this.props.fieldValues.price} className="form-control" onChange={this.handleChange} placeholder="" />
+								<input type="text" ref="price" id="price" name="price" className="form-control" onChange={this.handleChange} placeholder="" />
 							</div>
 							<div className="form-group portion_form custom_select">
-								<select className="form-control" ref="portion" id="portion" name="portion" defaultValue={this.props.fieldValues.portion} onChange={this.handleChange} >
-									<option>portion</option>
-									<option>Default select</option>
-									<option>Default select</option>
-								</select>
-								<span className="select_bg"><small className="select__arrow"></small></span>
-							</div>
+                <input type="text" className="form-control" ref="portion" id="portion" name="portion" onChange={this.handleChange} />
+              </div>
 							<div className="form-group custom_select">
-								<select className="form-control" name="product_category" ref="product_category" id="product_category" name="product_category" defaultValue={this.props.fieldValues.product_category} onChange={this.handleChange}>
+								<select className="form-control" name="product_category" ref="product_category" id="product_category" name="product_category" onChange={this.handleChange}>
 									{
 										this.props.prod_categ_val.map((product_category_list, index) => {
 										return <option key={ index } id={product_category_list._id} value={product_category_list._id}>{product_category_list.name}</option>
@@ -144,13 +139,13 @@ export default class AddProduct extends React.Component {
 								<span className="select_bg"><small className="select__arrow"></small></span>
 							</div>
 							<div className="form-group prod_txtarea">
-								<textarea ref="description" id="description" name="description" defaultValue={this.props.fieldValues.description} onChange={this.handleChange} placeholder="Product description"></textarea>
+								<textarea ref="description" id="description" name="description" onChange={this.handleChange} placeholder="Product description"></textarea>
 							</div>
 						</div>
 						<div className="form-group m_lt55 " id="">
 							<label htmlFor="" className="col-form-label qty_label">Expiry date</label>
 							<div id="datetimepicker1" className="date_section">
-								<input type="text" id="example1" id="expiry_date" name="expiry_date" className="form-control date_input" ref="expiry_date" defaultValue={this.props.fieldValues.expiry_date} onChange={this.handleChange}/>
+								<input type="text" id="example1" id="expiry_date" name="expiry_date" className="form-control date_input" ref="expiry_date" onChange={this.handleChange}/>
 								<span className="add-on"><i className="fa fa-calendar" aria-hidden="true"></i></span>
 							</div>
 						</div>
