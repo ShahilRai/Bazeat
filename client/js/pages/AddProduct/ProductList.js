@@ -21,7 +21,6 @@ import ProductDetails from './ProductDetails';
           this.setState({
             Prod_to_edit: response.data
           });
-          console.log("Prod_to_edit"+JSON.stringify(this.state.Prod_to_edit))
         }
       })
       .catch((err) => {
@@ -52,7 +51,7 @@ import ProductDetails from './ProductDetails';
               <p>Tradisjonelle franske baguetter laget med spelt og i vedovn...</p>
             </div>
           </div>
-          <ProductDetails />
+          <ProductDetails product_details={this.props.productData}/>
         </div>
     );
   }

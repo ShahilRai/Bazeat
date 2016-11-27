@@ -50,7 +50,7 @@ export default class ReactSlider extends React.Component {
 
   submitProduct(){
     this.loadProductData(fieldValues).then((response) => {
-      window.location.reload(true);
+      window.location="http://localhost:3000/addProductPage";
         if(response.data) {
           console.log("redirect-to");
         }

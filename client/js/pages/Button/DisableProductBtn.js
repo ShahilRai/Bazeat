@@ -3,7 +3,7 @@ export default class DisableProductBtn extends React.Component {
 
   render(){
     return(
-      <input type="button" className="buy_btn disable_btn" value="Disable" />
+      <a href="javascript:void()" className="buy_btn disable_btn">Disable</a>
     )
   }
 }

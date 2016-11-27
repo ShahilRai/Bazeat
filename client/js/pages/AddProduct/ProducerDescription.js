@@ -5,6 +5,7 @@ export default class ProducerDescription extends React.Component {
     authenticated: React.PropTypes.bool,
     user: React.PropTypes.object
   }
+
   render(){
       if(this.context.user.is_producer){
     return(
@@ -23,10 +24,10 @@ export default class ProducerDescription extends React.Component {
             <a href="#">Became a Bazeater<br/>12.11.2016</a>
           </li>
         </ul>
-            <div className="product_left_dsc">
-              <h4>Presentation </h4>
-              <p>{this.props.userInfo.description}</p>
-            </div>
+        <div className="product_left_dsc">
+          <h4>Presentation </h4>
+          <p>{this.props.userInfo.description}</p>
+        </div>
       </div>
       )
     }
@@ -34,13 +35,13 @@ export default class ProducerDescription extends React.Component {
         return(
         <div>
           <ul className="prod_lft_details">
-          <li className="review_date">
-            <a href="#">Man-Lør: 08-15</a>
+          <li className="pin_intrest">
+            <a href="#">{this.props.userInfo.city},{this.props.userInfo.country}</a>
           </li>
           <li className="review_cal">
-            <a href="#">Became a Bazeater<br/>12.11.2016</a>
+            <a href="javascript:void()">Became a Bazeater<br/>12.11.2016</a>
           </li>
-        </ul>
+          </ul>
             <div className="product_left_dsc">
               <h4>Presentation </h4>
               <p>{this.props.userInfo.description}</p>
