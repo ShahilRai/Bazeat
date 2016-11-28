@@ -48,10 +48,10 @@ import ProductDetails from './ProductDetails';
             <div className="grid_tile_desc">
               <h2>Speltbaguetter</h2>
               <span className="price_tag">{this.props.productData.price}</span>
-              <p>Tradisjonelle franske baguetter laget med spelt og i vedovn...</p>
+              <p>{this.props.productData.description}</p>
             </div>
           </div>
-          <ProductDetails product_details={this.props.productData}/>
+          <ProductDetails productDetails={this.props.productData}/>
         </div>
     );
   }
