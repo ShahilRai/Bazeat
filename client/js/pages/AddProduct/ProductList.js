@@ -4,6 +4,7 @@ import DeleteProductBtn from '../Button/DeleteProductBtn';
 import HideProductBtn from '../Button/HideProductBtn';
 import DisableProductBtn from '../Button/DisableProductBtn';
 import ProductDetails from './ProductDetails';
+import ReactSlider from '../Product/ReactSlider';
 
   export default class ProductList extends React.Component {
 
@@ -16,7 +17,8 @@ import ProductDetails from './ProductDetails';
     }
 
     EditProdBtnClck() {
-      this.loadEditProdData().then((response) => {
+      var prodToEditCuid = this.props.productData.cuid;
+      this.loadEditProdData(prodToEditCuid).then((response) => {
          if(response.data) {
           this.setState({
             Prod_to_edit: response.data
@@ -28,8 +30,8 @@ import ProductDetails from './ProductDetails';
       });
     }
 
-    loadEditProdData() {
-      return axios.post("/api/products/" + this.props.productData.cuid);
+    loadEditProdData(prodToEditCuid) {
+      return axios.post("/api/products/" + prodToEditCuid);
     }
 
     render(){
@@ -48,10 +50,11 @@ import ProductDetails from './ProductDetails';
             <div className="grid_tile_desc">
               <h2>Speltbaguetter</h2>
               <span className="price_tag">{this.props.productData.price}</span>
-              <p>Tradisjonelle franske baguetter laget med spelt og i vedovn...</p>
+              <p>{this.props.productData.description}</p>
             </div>
           </div>
           <ProductDetails product_details={this.props.productData}/>
+          <ReactSlider prod_to_edit={this.state.Prod_to_edit}/>
         </div>
     );
   }

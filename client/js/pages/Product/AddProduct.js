@@ -1,7 +1,7 @@
 import React from 'react';
 import DocumentTitle from 'react-document-title';
 import Dropzone from 'react-dropzone';
-import UploadProductImage from '../AddProduct/UploadProductImage'
+import UploadProductImage from '../AddProduct/UploadProductImage';
 
 export default class AddProduct extends React.Component {
 
@@ -11,30 +11,31 @@ export default class AddProduct extends React.Component {
   };
 
 	constructor(props, context) {
-	    super(props, context);
-	    this.state = {
-        food_type : "",
-	    	prod_cate_List: this.props.prod_categ_val,
-				photo: null
-		  };
-	    this.handleChange = this.handleChange.bind(this);
-      this.handleRadioChange = this.handleRadioChange.bind(this);
+    super(props, context);
+    this.state = {
+      food_type : "",
+  		prod_cate_List: this.props.prod_categ_val,
+			photo: null,
+      all_prod_details: this.props.editProdHandler
+	  };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleRadioChange = this.handleRadioChange.bind(this);
 	}
 
 	SaveAndContinue(){
 		this.state = {
-			 data : {
-		        product_name: this.refs.product_name.value,
-		        description: this.refs.description.value,
-		        quantity: this.refs.quantity.value,
-		        price: this.refs.price.value,
-		        portion: this.refs.portion.value,
-		      	product_category: this.refs.product_category.value,
-		        expiry_date: this.refs.expiry_date.value,
-		        food_type: this.state.food_type,
-		        photo: this.state.photo,
-		        email: this.context.user.email
-	    	}
+			data : {
+        product_name: this.refs.product_name.value,
+        description: this.refs.description.value,
+        quantity: this.refs.quantity.value,
+        price: this.refs.price.value,
+        portion: this.refs.portion.value,
+        product_category: this.refs.product_category.value,
+        expiry_date: this.refs.expiry_date.value,
+        food_type: this.state.food_type,
+        photo: this.state.photo,
+        email: this.context.user.email
+	    }
 		}
 	  this.props.saveValues(this.state.data)
 		this.props.nextStep()

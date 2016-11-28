@@ -6,7 +6,7 @@ import Ingredient from '../models/ingredient';
 import cuid from 'cuid';
 
 export function addProduct(req, res) {
-  console.log(req.body)
+  console.log(req.session)
   User.findOne({ email: req.body.fieldValues.email }).exec((error, user) => {
     const newProduct = new Product(req.body.fieldValues);
     newProduct.cuid = cuid();
@@ -130,9 +130,15 @@ export function getDetails(req, res){
 
 export function getUserProducts(req, res) {
   User.findOne({ email: req.params.email }).populate('products').exec((err, user) => {
-    if (err){
-      res.status(500).send(err);
-    }
-      res.json({producer: user});
+    user.products.forEach(function(item, index){
+      Product.findOne({ cuid: item.cuid }).populate('allergens').populate('ingredients').populate('product_category').exec((err, product) =>{
+        user.products[index].allergens = product.allergens;
+        user.products[index].ingredients = product.ingredients
+        user.products[index].product_category = product.product_category
+        if(user.products.length == index+1){
+          res.json({producer: user});
+        }
+      })
+    });
   });
 }
