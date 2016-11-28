@@ -1,7 +1,7 @@
 import React from 'react';
 import DocumentTitle from 'react-document-title';
 import Dropzone from 'react-dropzone';
-import UploadProductImage from '../AddProduct/UploadProductImage'
+import UploadProductImage from '../AddProduct/UploadProductImage';
 
 export default class AddProduct extends React.Component {
 
@@ -15,7 +15,8 @@ export default class AddProduct extends React.Component {
 	    this.state = {
         food_type : "",
 	    	prod_cate_List: this.props.prod_categ_val,
-				photo: null
+				photo: null,
+        all_prod_details: this.props.editProdHandler
 		  };
 	    this.handleChange = this.handleChange.bind(this);
       this.handleRadioChange = this.handleRadioChange.bind(this);
