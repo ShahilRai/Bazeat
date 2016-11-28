@@ -1,6 +1,7 @@
 import React from 'react';
 export default class ProductDetails extends React.Component {
 	render(){
+          console.log("propsData is"+JSON.stringify(this.props.productDetails.photo));
 		return(
 			<div className="modal fade prod_modal" id="product_desc" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				<div className="modal-dialog add_prduct_modal" role="document">
@@ -9,7 +10,7 @@ export default class ProductDetails extends React.Component {
 							<button type="button" className="close modal_close" data-dismiss="modal" aria-label="Close">
 							</button>
 							<h3 className="modal-title" id="myModalLabel">Product Name</h3>
-							<p className="review_num">kari norman</p>
+							<p className="review_num">{this.props.productDetails.product_name}</p>
 						</div>
 						<div className="modal-body clearfix">
 							<div className="add_new_prodct_col">
@@ -32,11 +33,11 @@ export default class ProductDetails extends React.Component {
 									<div id="deliverDetails" className="mtop15">
 										<button type="button" className="btn btn-default nxt_btn pull-right">open</button>
 										<i className="fa fa-clock-o pull-left" aria-hidden="true"></i>
-										<p>Mon-Sat: 8.00-15.00</p>
+										<p>Mon-Sat: 08.00-15.00</p>
 										<i className="fa fa-truck fa-flip-horizontal pull-left" aria-hidden="true"></i>
 										<p className="mlft20">
 											Can be delivered<br/>
-											Can be picked up- {this.props.productDetails.pickup_time}<br/>
+											Can be picked up<br/>
 										</p>
 										<i className="fa fa-tree" aria-hidden="true"></i>
 										<i className="fa fa-home" aria-hidden="true"></i>
@@ -49,9 +50,9 @@ export default class ProductDetails extends React.Component {
 								<h4 className="text-left">Product details</h4>
 							</div>
 							<div className="padd_30">
-								<p className="mtop15"><b>Category:</b>  <span className="mlft20">Bread</span> </p>
-								<p className="mtop15"><b>Ingredient:</b> <span className="mlft20">water, flor, yeast,</span> </p>
-								<p className="mtop15"><b>Allergens:</b> <span className="mlft20"><i className="fa fa-exclamation-triangle" aria-hidden="true"></i> {this.props.productDetails.allergens}</span> </p>
+								<p className="mtop15"><b>Category:</b> <span className="mlft20">{this.props.productDetails.product_category.name}</span> </p>
+								<p className="mtop15"><b>Ingredient:</b> {this.props.productDetails.ingredients.map((ingredientsName, index) => <span className="mlft20" key={index}> {ingredientsName.name}</span>)}</p>
+								<p className="mtop15"><b>Allergens:</b> {this.props.productDetails.allergens.map((allergensName, index) =><span className="mlft20" key={index}><i className="fa fa-exclamation-triangle" aria-hidden="true"></i> {allergensName.name}</span>)} </p>
 							</div>
 						</div>
 					</div>
