@@ -1800,7 +1800,7 @@ z-index:9;
 
   float: left;
   list-style: outside none none;
-  min-height: 740px;
+  min-height: auto;
   width: 100%;
 }
 .items_list_info ul li {
