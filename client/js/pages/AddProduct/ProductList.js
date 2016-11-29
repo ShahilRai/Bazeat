@@ -48,7 +48,7 @@ import ReactSlider from '../Product/ReactSlider';
               <img src= {this.props.productData.photo}/>
             </a>
             <div className="grid_tile_desc">
-              <h2>Speltbaguetter</h2>
+              <h2>{this.props.productData.product_name}</h2>
               <span className="price_tag">{this.props.productData.price}</span>
               <p>{this.props.productData.description}</p>
             </div>
