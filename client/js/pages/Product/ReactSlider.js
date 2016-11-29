@@ -18,7 +18,7 @@ export default class ReactSlider extends React.Component {
       step : 1,
       allergens_list : [],
       product_category_list :[],
-      detailsOfProd: this.props.prod_to_edit
+      prodDetails: {}
     };
     this.nextStep = this.nextStep.bind(this);
     this.saveValues = this.saveValues.bind(this);
@@ -73,7 +73,7 @@ export default class ReactSlider extends React.Component {
   showStep() {
       switch (this.state.step) {
         case 1:
-          return <AddProduct fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} prod_categ_val = {this.state.product_category_list} editProdHandler={this.props.prod_to_edit}/>
+          return <AddProduct fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} prod_categ_val = {this.state.product_category_list} prodDetails={this.state.prodDetails}/>
         case 2:
           return <Ingredients fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} allrgnval ={this.state.allergens_list} />
         case 3:
