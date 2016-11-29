@@ -10,13 +10,18 @@ export default class AddProduct extends React.Component {
     user: React.PropTypes.object
   };
 
+  componentDidMount(){
+    this.setState({
+    prodDetails : this.props.prodDetails
+    })
+  }
+
 	constructor(props, context) {
     super(props, context);
     this.state = {
+      prodDetails : {},
       food_type : "",
-  		prod_cate_List: this.props.prod_categ_val,
-			photo: null,
-      all_prod_details: this.props.editProdHandler
+      photo: null
 	  };
     this.handleChange = this.handleChange.bind(this);
     this.handleRadioChange = this.handleRadioChange.bind(this);
@@ -66,6 +71,9 @@ export default class AddProduct extends React.Component {
   }
 
 	render() {
+    if(this.state.prodDetails){
+    console.log(JSON.stringify(this.state.prodDetails))
+    }
 		return (
 			<div>
 				<div className="modal-header">
@@ -121,7 +129,7 @@ export default class AddProduct extends React.Component {
 	 					</div>
 	 					<div className="rt_prod_sec">
 							<div className="form-group">
-								<input type="text" className="form-control prod_label" ref="product_name" id="product_name" name="product_name" onChange={this.handleChange} placeholder="Product name" />
+								<input type="text" className="form-control prod_label" ref="product_name" id="product_name" name="product_name" onChange={this.handleChange} placeholder="Product name" value={this.state.prodDetails ? this.state.prodDetails.product_name : ""}/>
 							</div>
 							<div className="form-group nok_form">
 								<label htmlFor="" className="col-form-label nok_label">NOK</label>
