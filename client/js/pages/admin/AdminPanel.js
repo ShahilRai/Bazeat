@@ -11,9 +11,9 @@ export default class AdminPanel extends React.Component{
   }
   render(){
     return(
-      <Admin title="Admin Dashboard" restClient={jsonServerRestClient("http://localhost:3000")} >
-      <Resource name="allusers" list={UserList} edit={UserEdit} create={UserCreate} remove={Delete} icon={UserIcon} />
-      <Resource name="allproducts" list={ProductList} edit={UserEdit} remove={Delete} icon={UserIcon} />
+      <Admin title="Admin Dashboard" restClient={jsonServerRestClient("http://localhost:3000/admin")} >
+      <Resource name="users" list={UserList} edit={UserEdit} create={UserCreate} remove={Delete} icon={UserIcon} />
+      <Resource name="products" list={ProductList} edit={UserEdit} remove={Delete} icon={UserIcon} />
       </Admin>
     );
   }
