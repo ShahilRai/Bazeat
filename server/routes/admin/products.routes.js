@@ -2,7 +2,7 @@ import { Router } from 'express';
 import * as ProductController from '../../controllers/admin/product.controller';
 const router = new Router();
 
-router.route('/allproducts').get(ProductController.getProducts);
+router.route('/products').get(ProductController.getProducts);
 
 router.route('/edit/:cuid').post(ProductController.updateProduct);
 

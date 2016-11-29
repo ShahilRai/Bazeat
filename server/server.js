@@ -59,6 +59,7 @@ import multerS3 from 'multer-s3';
 import passport from 'passport';
 import './models/admin'
 import './config/passport'
+import logout from 'express-passport-logout'
 // Set native promises as mongoose promise
 mongoose.Promise = global.Promise;
 
@@ -88,9 +89,9 @@ app.use('/api', profiles);
 
 
 // Admin Routes Defination
-  app.use('/api/admin/authenticate', admin);
-  app.use('/api/admin/users', admin_users);
-  app.use('/api/admin/products', admin_products);
+  app.use('/admin/authenticate', admin);
+  app.use('/admin', admin_users);
+  app.use('/admin', admin_products);
 // Admin Routes Defination
 
 
@@ -292,57 +293,8 @@ app.post('/api/update_product_image', productupload.single('image'), function (r
   });
 })
 
-
-app.get('/allusers', function (req, res, next){
-  let end = parseInt(req.query._end, 10);
-  let start = parseInt(req.query._start, 10);
-  let sort = req.query._sort;
-  let order = '';
-  console.log(req.query._order == 'DESC')
-  if (req.query._order == 'DESC'){
-    order = 'descending';
-  }
-  if (req.query._order == 'ASC')
-  {
-    order = 'ascending';
-  }
-  console.log(order)
-  User.find().sort([[sort, order]]).limit(end).skip(start).exec((err, users) => {
-    if (err) {
-      res.status(500).send(err);
-    }
-    res.setHeader('X-Total-Count', 10);
-    res.setHeader('Access-Control-Expose-Headers', 'X-Total-Count');
-    res.setHeader('X-Content-Type-Options', 'npsniff');
-    res.json( users );
-  });
-})
-
-app.get('/allproducts', function (req, res, next){
-  let end = parseInt(req.query._end, 10);
-  let start = parseInt(req.query._start, 10);
-  let sort = req.query._sort;
-  let order = '';
-  console.log(req.query._order == 'DESC')
-  if (req.query._order == 'DESC'){
-    order = 'descending';
-  }
-  if (req.query._order == 'ASC')
-  {
-    order = 'ascending';
-  }
-  console.log(order)
-  Product.find().sort([[sort, order]]).limit(end).skip(start).exec((err, products) => {
-    if (err) {
-      res.status(500).send(err);
-    }
-    console.log(res)
-    res.setHeader('X-Total-Count', 10);
-    res.setHeader('Access-Control-Expose-Headers', 'X-Total-Count');
-    res.setHeader('X-Content-Type-Options', 'npsniff');
-    res.json( products );
-  });
-})
+// Admin Logout
+app.get('/api/admin/authenticate/logout', logout());
 
 // app.get('/', ExpressStrompath.loginRequired, function(req, res) {
 //   res.send('Welcome back: ' + res.locals.user.email);

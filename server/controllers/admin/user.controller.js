@@ -15,7 +15,6 @@ export function getUsers(req, res) {
   {
     order = 'ascending';
   }
-  console.log(order)
   User.find().sort([[sort, order]]).limit(end).skip(start).exec((err, users) => {
     if (err) {
       res.status(500).send(err);
