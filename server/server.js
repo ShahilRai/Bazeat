@@ -89,9 +89,9 @@ app.use('/api', profiles);
 
 
 // Admin Routes Defination
-  app.use('/api/admin/authenticate', admin);
-  app.use('/api/admin/users', admin_users);
-  app.use('/api/admin/products', admin_products);
+  app.use('/admin/authenticate', admin);
+  app.use('/admin', admin_users);
+  app.use('/admin', admin_products);
 // Admin Routes Defination
 
 
