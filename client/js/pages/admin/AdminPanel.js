@@ -11,8 +11,6 @@ export default class AdminPanel extends React.Component{
     super(props);
   }
   render(){
-    console.log("Delete--")
-    console.log(Delete)
     return(
       <Admin title="Admin Dashboard" restClient={jsonServerRestClient("http://localhost:3000/admin")} >
       <Resource name="users" list={UserList} edit={UserEdit} create={UserCreate} remove={Delete} icon={UserIcon} />
