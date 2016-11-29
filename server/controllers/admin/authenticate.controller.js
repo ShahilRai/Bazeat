@@ -43,3 +43,11 @@ export function adminLogin(req, res) {
     }
   })(req, res);
 }
+
+
+// export  function adminLogout (req, res) {
+//   logout()
+//     res.send(bye)
+//   // if (res.status == 200){
+//   // }
+// }

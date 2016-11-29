@@ -59,6 +59,7 @@ import multerS3 from 'multer-s3';
 import passport from 'passport';
 import './models/admin'
 import './config/passport'
+import logout from 'express-passport-logout'
 // Set native promises as mongoose promise
 mongoose.Promise = global.Promise;
 
@@ -291,6 +292,9 @@ app.post('/api/update_product_image', productupload.single('image'), function (r
     });
   });
 })
+
+// Admin Logout
+app.get('/api/admin/authenticate/logout', logout());
 
 // app.get('/', ExpressStrompath.loginRequired, function(req, res) {
 //   res.send('Welcome back: ' + res.locals.user.email);
