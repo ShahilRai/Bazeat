@@ -1,9 +1,8 @@
 import React from 'react';
 export default class ProductDetails extends React.Component {
 	render(){
-          console.log("propsData is"+JSON.stringify(this.props.product_details.photo));
 		return(
-			<div className="modal fade prod_modal" id="product_desc" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div className="modal fade prod_modal" id="product_desc" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				<div className="modal-dialog add_prduct_modal" role="document">
 					<div className="modal-content">
 						<div className="modal-header">

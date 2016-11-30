@@ -2,6 +2,8 @@ import React from 'react';
 import DocumentTitle from 'react-document-title';
 import Dropzone from 'react-dropzone';
 import UploadProductImage from '../AddProduct/UploadProductImage';
+import ProductHeading from './ProductHeading';
+import ProductStep from './ProductStep';
 
 export default class AddProduct extends React.Component {
 
@@ -71,39 +73,12 @@ export default class AddProduct extends React.Component {
   }
 
 	render() {
-    if(this.state.prodDetails){
-    console.log(JSON.stringify(this.state.prodDetails))
-    }
 		return (
 			<div>
-				<div className="modal-header">
-					<button type="button" className="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">X</span>
-					</button>
-					<h3 className="modal-title" id="myModalLabel">Add new product</h3>
-				</div>
+				<ProductHeading />
 				<div className="modal-body">
-					<div className="prod_steps">
-						<div className="step_1 right_border orange_bg">
-							<span className="complt_steps">
-								<span className="step_nos orange_bg">1</span>
-								<span className="step_descrip">Product <br/> details</span>
-							</span>
-						</div>
-						<div className="step_1 right_border">
-							<span className="complt_steps">
-								<span className="step_nos">2</span>
-								<span className="step_descrip inactive">Nutrition &amp; <br/> allergens</span>
-							</span>
-						</div>
-						<div className="step_1">
-							<span className="complt_steps">
-								<span className="step_nos">3</span>
-								<span className="step_descrip inactive">Delivery <br/> methods</span>
-							</span>
-						</div>
-					</div>
-					<form className="prod_form" enctype="multipart/form-data" method="post">
+					<ProductStep />
+					<form className="prod_form" method="post">
 	 					<div className="lt_prod_sec">
 							<UploadProductImage ref="product_image" onPicUpdate={this.onPicUpdate.bind(this)}/>
 							<div className="form-group m_top20 m_lt9">

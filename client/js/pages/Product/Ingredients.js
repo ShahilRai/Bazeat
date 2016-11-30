@@ -1,6 +1,7 @@
 import React from 'react';
 import DocumentTitle from 'react-document-title';
 import IngredientsList from './IngredientsList';
+import ProductHeading from './ProductHeading';
 import Tags from './Tags';
 
 export default class Ingredients extends React.Component {
@@ -104,12 +105,7 @@ export default class Ingredients extends React.Component {
 	render() {
 		return (
 			<div>
-				<div className="modal-header">
-					<button type="button" className="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">X</span>
-					</button>
-					<h3 className="modal-title" id="myModalLabel">Add new product</h3>
-				</div>
+				<ProductHeading />
 				<div className="modal-body">
 					<div className="prod_steps">
 						<div className="step_1 right_border">
@@ -131,90 +127,90 @@ export default class Ingredients extends React.Component {
 							</span>
 						</div>
 					</div>
-							<form className="prod_form">
-								<div className="nutrition_fact nutrition_fact_top">
-									<h5>Ingredients</h5>
+						<form className="prod_form">
+							<div className="nutrition_fact nutrition_fact_top">
+								<h5>Ingredients</h5>
+								<div className="form-group">
+									<label htmlFor="" className="col-form-label ingrdnt_label">Ingredient</label>
+									<input type="text" className="form-control" name="ingredients" list="ingredientList" ref="ingredients" placeholder=""/>
+									<IngredientsList ref="IngredientsList" />
+									<button type="button" className="btn btn-default nxt_btn ingrdnt_btn" onClick={this.addItem.bind(this)}>Add ingredient</button>
+									<ul className="ingrdnt_options">
+									</ul>
+                  <Tags allIngredients={this.state.data.ingredients} onClick={this.removeTag.bind(this)}/>
+								</div>
+							</div>
+							<div className="nutrition_fact">
+								<h5>Production</h5>
+								<div className="chkbox_col production_col">
+									<div className="checkbox custom_checkbox">
+										<input id="checkbox17" type="checkbox" ref="bought_items" name="bought_items"/>
+										<label htmlFor="checkbox17">
+											Contains bought items
+										</label>
+									</div>
+									<div className="checkbox custom_checkbox">
+										<input id="checkbox18" type="checkbox" ref="locally_produced_items" name="locally_produced_items"/>
+										<label htmlFor="checkbox18">
+											Contains locally produced items
+										</label>
+									</div>
+								</div>
+							</div>
+							<div className="nutrition_fact nutrition_fact_top">
+								<h5>Nutrition facts</h5>
+								<div className="form-col">
 									<div className="form-group">
-										<label htmlFor="" className="col-form-label ingrdnt_label">Ingredient</label>
-										<input type="text" className="form-control" name="ingredients" list="ingredientList" ref="ingredients" placeholder=""/>
-										<IngredientsList ref="IngredientsList" />
-										<button type="button" className="btn btn-default nxt_btn ingrdnt_btn" onClick={this.addItem.bind(this)}>Add ingredient</button>
-										<ul className="ingrdnt_options">
-										</ul>
-                    <Tags allIngredients={this.state.data.ingredients} onClick={this.removeTag.bind(this)}/>
+										<label htmlFor="" className="col-form-label">kJ</label>
+										<input type="text" className="form-control" name="kj" ref="kj" placeholder=""/>
+									</div>
+									<div className="form-group">
+										<label htmlFor="" className="col-form-label">kcal</label>
+										<input type="text" className="form-control" name="kcal" ref="kcal" placeholder=""/>
+									</div>
+									<div className="form-group">
+										<label htmlFor="" className="col-form-label">Fat</label>
+										<input type="text" className="form-control" name="fat" ref="fat" placeholder=""/>
 									</div>
 								</div>
-								<div className="nutrition_fact">
-									<h5>Production</h5>
-									<div className="chkbox_col production_col">
-										<div className="checkbox custom_checkbox">
-											<input id="checkbox17" type="checkbox" ref="bought_items" name="bought_items"/>
-											<label htmlFor="checkbox17">
-												Contains bought items
-											</label>
-										</div>
-										<div className="checkbox custom_checkbox">
-											<input id="checkbox18" type="checkbox" ref="locally_produced_items" name="locally_produced_items"/>
-											<label htmlFor="checkbox18">
-												Contains locally produced items
-											</label>
-										</div>
+								<div className="form-col">
+									<div className="form-group">
+										<label htmlFor="" className="col-form-label">Carbs</label>
+										<input type="text" className="form-control" name="carbs" ref="carbs" placeholder=""/>
+									</div>
+									<div className="form-group">
+										<label htmlFor="" className="col-form-label">Fiber</label>
+										<input type="text" className="form-control" name="fiber" ref="fiber" placeholder=""/>
+									</div>
+									<div className="form-group">
+										<label htmlFor="" className="col-form-label">Protein</label>
+										<input type="text" className="form-control" name="protein" ref="protein" placeholder=""/>
 									</div>
 								</div>
-								<div className="nutrition_fact nutrition_fact_top">
-									<h5>Nutrition facts</h5>
-									<div className="form-col">
-										<div className="form-group">
-											<label htmlFor="" className="col-form-label">kJ</label>
-											<input type="text" className="form-control" name="kj" ref="kj" placeholder=""/>
-										</div>
-										<div className="form-group">
-											<label htmlFor="" className="col-form-label">kcal</label>
-											<input type="text" className="form-control" name="kcal" ref="kcal" placeholder=""/>
-										</div>
-										<div className="form-group">
-											<label htmlFor="" className="col-form-label">Fat</label>
-											<input type="text" className="form-control" name="fat" ref="fat" placeholder=""/>
-										</div>
-									</div>
-									<div className="form-col">
-										<div className="form-group">
-											<label htmlFor="" className="col-form-label">Carbs</label>
-											<input type="text" className="form-control" name="carbs" ref="carbs" placeholder=""/>
-										</div>
-										<div className="form-group">
-											<label htmlFor="" className="col-form-label">Fiber</label>
-											<input type="text" className="form-control" name="fiber" ref="fiber" placeholder=""/>
-										</div>
-										<div className="form-group">
-											<label htmlFor="" className="col-form-label">Protein</label>
-											<input type="text" className="form-control" name="protein" ref="protein" placeholder=""/>
-										</div>
-									</div>
+							</div>
+							<div className="nutrition_fact">
+								<h5>Allergens</h5>
+								<div className="chkbox_col">
+									<div className="checkbox custom_checkbox">
+										{this.state.algrnList.map((allergens_list, index) => {
+										return (
+												<div>
+													<input id={allergens_list._id} type="checkbox" defaultValue={allergens_list._id} ref="allergens" name="allergens" key={ index }  onChange={this.handleCheckBox.bind(this)}/>
+													<label htmlFor={allergens_list._id}>
+														{allergens_list.name }
+													</label>
+												</div>
+											);
+				            })}
+				          </div>
 								</div>
-								<div className="nutrition_fact">
-									<h5>Allergens</h5>
-									<div className="chkbox_col">
-										<div className="checkbox custom_checkbox">
-											{this.state.algrnList.map((allergens_list, index) => {
-											return (
-													<div>
-														<input id={allergens_list._id} type="checkbox" defaultValue={allergens_list._id} ref="allergens" name="allergens" key={ index }  onChange={this.handleCheckBox.bind(this)}/>
-														<label htmlFor={allergens_list._id}>
-															{allergens_list.name }
-														</label>
-													</div>
-												);
-					            })}
-					          </div>
-									</div>
-								</div>
-							</form>
+							</div>
+						</form>
 				</div>
 				<div className="modal-footer">
 					<button type="button" className="btn btn-default nxt_btn" onClick={this.SaveAndContinue.bind(this)}>Next</button>
 				</div>
 			</div>
-	  	);
+	  );
 	}
 }

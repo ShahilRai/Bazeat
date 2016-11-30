@@ -84,7 +84,7 @@ export default class ReactSlider extends React.Component {
   render(){
     return (
       <div>
-        <div className="modal prod_modal" id="step_1" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div className="modal prod_modal" id="step_1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               {this.showStep()}
