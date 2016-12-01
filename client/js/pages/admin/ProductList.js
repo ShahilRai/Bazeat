@@ -8,6 +8,7 @@ export const ProductList = (props) => (
       <TextField source="product_name" />
       <TextField source="quantity" />
       <TextField source="price" />
+      <TextField source="description" />
       <EditButton />
       <DeleteButton />
     </Datagrid>
@@ -18,5 +19,6 @@ export const ProductEdit = (props) => (
     <TextInput label="product_Name" source="product_name" required="true"/>
     <TextInput source="quantity" />
     <TextInput source="price" />
+    <TextInput source="description" />
   </Edit>
 );
