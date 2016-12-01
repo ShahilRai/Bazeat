@@ -29,8 +29,8 @@ export function getProducts(req, res) {
 }
 
 export function updateProduct(req, res) {
-  Product.findOne({ cuid: req.params.cuid }).exec((err, product) => {
-    Product.update({ cuid: req.params.cuid }, req.body, function(err, model) {
+  Product.findOne({ _id: req.params._id }).exec((err, product) => {
+    Product.update({ _id: req.params._id }, req.body, function(err, model) {
       ProductCategory.update({ _products: product._id }, {$pullAll: {_products: [product._id]}}, { safe: true, multi: true }, function(err, model) {
       })
 
@@ -59,7 +59,7 @@ export function updateProduct(req, res) {
 }
 
 export function deleteProduct(req, res) {
-  Product.findOne({ cuid: req.params.cuid }).exec((err, product) => {
+  Product.findOne({ _id: req.params._id }).exec((err, product) => {
     if (err) {
       res.status(500).send(err);
     }
