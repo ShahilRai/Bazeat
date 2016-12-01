@@ -2,6 +2,8 @@ import React from 'react';
 import DocumentTitle from 'react-document-title';
 import Dropzone from 'react-dropzone';
 import UploadProductImage from '../AddProduct/UploadProductImage';
+import ProductHeading from './ProductHeading';
+import ProductStep from './ProductStep';
 
 export default class AddProduct extends React.Component {
 
@@ -10,13 +12,18 @@ export default class AddProduct extends React.Component {
     user: React.PropTypes.object
   };
 
+  componentDidMount(){
+    this.setState({
+    prodDetails : this.props.prodDetails
+    })
+  }
+
 	constructor(props, context) {
     super(props, context);
     this.state = {
+      prodDetails : {},
       food_type : "",
-  		prod_cate_List: this.props.prod_categ_val,
-			photo: null,
-      all_prod_details: this.props.editProdHandler
+      photo: null
 	  };
     this.handleChange = this.handleChange.bind(this);
     this.handleRadioChange = this.handleRadioChange.bind(this);
@@ -68,34 +75,10 @@ export default class AddProduct extends React.Component {
 	render() {
 		return (
 			<div>
-				<div className="modal-header">
-					<button type="button" className="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">X</span>
-					</button>
-					<h3 className="modal-title" id="myModalLabel">Add new product</h3>
-				</div>
+				<ProductHeading />
 				<div className="modal-body">
-					<div className="prod_steps">
-						<div className="step_1 right_border orange_bg">
-							<span className="complt_steps">
-								<span className="step_nos orange_bg">1</span>
-								<span className="step_descrip">Product <br/> details</span>
-							</span>
-						</div>
-						<div className="step_1 right_border">
-							<span className="complt_steps">
-								<span className="step_nos">2</span>
-								<span className="step_descrip inactive">Nutrition &amp; <br/> allergens</span>
-							</span>
-						</div>
-						<div className="step_1">
-							<span className="complt_steps">
-								<span className="step_nos">3</span>
-								<span className="step_descrip inactive">Delivery <br/> methods</span>
-							</span>
-						</div>
-					</div>
-					<form className="prod_form" enctype="multipart/form-data" method="post">
+					<ProductStep />
+					<form className="prod_form" method="post">
 	 					<div className="lt_prod_sec">
 							<UploadProductImage ref="product_image" onPicUpdate={this.onPicUpdate.bind(this)}/>
 							<div className="form-group m_top20 m_lt9">
@@ -121,7 +104,7 @@ export default class AddProduct extends React.Component {
 	 					</div>
 	 					<div className="rt_prod_sec">
 							<div className="form-group">
-								<input type="text" className="form-control prod_label" ref="product_name" id="product_name" name="product_name" onChange={this.handleChange} placeholder="Product name" />
+								<input type="text" className="form-control prod_label" ref="product_name" id="product_name" name="product_name" onChange={this.handleChange} placeholder="Product name" value={this.state.prodDetails ? this.state.prodDetails.product_name : ""}/>
 							</div>
 							<div className="form-group nok_form">
 								<label htmlFor="" className="col-form-label nok_label">NOK</label>

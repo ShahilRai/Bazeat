@@ -21,7 +21,7 @@ import ReactSlider from '../Product/ReactSlider';
       this.loadEditProdData(prodToEditCuid).then((response) => {
          if(response.data) {
           this.setState({
-            Prod_to_edit: response.data
+            Prod_to_edit: response.data.product
           });
         }
       })
@@ -31,7 +31,7 @@ import ReactSlider from '../Product/ReactSlider';
     }
 
     loadEditProdData(prodToEditCuid) {
-      return axios.post("/api/products/" + prodToEditCuid);
+      return axios.get("/api/products/" + prodToEditCuid);
     }
 
     render(){

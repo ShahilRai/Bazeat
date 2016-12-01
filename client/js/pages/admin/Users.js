@@ -23,11 +23,10 @@ export const UserEdit = (props) => (
 );
 
 export const UserCreate = (props) => (
-    <Create {...props}>
-        <ReferenceInput label="User" source="_id" reference="allusers" allowEmpty>
-            <SelectInput optionText="full_name" />
-        </ReferenceInput>
-        <TextInput source="full_name" />
-        <LongTextInput source="address" />
-    </Create>
+  <Create {...props}>
+    <TextInput label="id" source="_id" />
+    <TextInput source="full_name" />
+    <TextInput source="address" />
+    <TextInput source="email" />
+  </Create>
 );

@@ -68,7 +68,7 @@ export default class RegisterModal extends React.Component {
                   <span data-spBind="form.errorMessage" />
                 </p>
 
-                <input type="hidden" className="form-control" id="customData.is_producer" name="customData.is_producer" value="false" onChange={function() {}}/>
+                <input type="hidden" className="form-control" id="customData.is_producer" name="customData.is_producer" defaultValue="false" />
                 <input type="submit" value="Bli en Bazeater" className="login_sbmit" />
               </RegistrationForm>
               <span className="or_txt mtop10">eller</span>
