@@ -2,7 +2,6 @@ import React from 'react';
 import { jsonServerRestClient, Admin, Resource } from 'admin-on-rest';
 import { UserList, UserCreate, UserEdit } from './Users';
 import { ProductList, ProductEdit } from './ProductList';
-import { convertRESTRequestToHTTP, convertHTTPResponseToREST, apiUrl } from './simple';
 import { Delete } from 'admin-on-rest/lib/mui';
 import UserIcon from 'material-ui/svg-icons/social/group';
 import ProductIcon from 'material-ui/svg-icons/action/book';

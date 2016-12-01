@@ -42,6 +42,7 @@
     "jsonwebtoken": "^7.1.9",
     "limax": "^1.3.0",
     "lodash": "^4.16.6",
+    "meanie-mongoose-to-json": "^1.0.5",
     "mongoose": "^4.4.20",
     "multer": "^1.2.0",
     "multer-s3": "^2.4.0",
