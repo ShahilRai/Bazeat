@@ -28,6 +28,7 @@ if (process.env.NODE_ENV === 'development') {
 app.use('/css', Express.static(path.resolve(__dirname, '../client/css')));
 app.use('/images', Express.static(path.resolve(__dirname, '../client/images')));
 app.use('/javascript', Express.static(path.resolve(__dirname, '../client/javascript')));
+app.use('/js', Express.static(path.resolve(__dirname, '../client/js')));
 app.use('/fonts', Express.static(path.resolve(__dirname, '../client/fonts')));
 // React And Redux Setup
 // import { configureStore } from '../client/store';
@@ -89,7 +90,7 @@ app.use('/api', profiles);
 
 
 // Admin Routes Defination
-  app.use('/admin/authenticate', admin);
+  app.use('/api/admin/authenticate', admin);
   app.use('/admin', admin_users);
   app.use('/admin', admin_products);
 // Admin Routes Defination
