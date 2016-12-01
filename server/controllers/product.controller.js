@@ -22,7 +22,7 @@ export function addProduct(req, res) {
 
 export function updateProduct(req, res) {
   Product.findOne({ cuid: req.params.cuid }).exec((err, product) => {
-    Product.update({ cuid: req.params.cuid }, req.body, function(err, model) {
+    Product.update({ cuid: req.params.cuid }, req.body.fieldValues, function(err, model) {
       ProductCategory.update({ _products: product._id }, {$pullAll: {_products: [product._id]}}, { safe: true, multi: true }, function(err, model) {
       })
 

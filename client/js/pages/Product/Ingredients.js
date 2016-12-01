@@ -12,8 +12,16 @@ export default class Ingredients extends React.Component {
     		ingredients : []
     	},
       algrnList: this.props.allrgnval,
-      chckboxVal:[]
+      chckboxVal:[],
+      prodDetails:{}
     };
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  componentDidMount() {
+      this.setState({
+        prodDetails: this.props.prodDetails
+      })
   }
 
 	SaveAndContinue(){
@@ -42,6 +50,16 @@ export default class Ingredients extends React.Component {
 	PreviousSteps() {
 		this.props.previousStep()
 	}
+
+  handleChange(e){
+    this.setState({
+      prodDetails:{
+      nutrition_fact : {
+      [e.target.name] :  e.target.value
+      }
+    }
+    })
+  }
 
   addItem() {
     var newElement = this.refs.ingredients.value;
@@ -162,29 +180,29 @@ export default class Ingredients extends React.Component {
 								<div className="form-col">
 									<div className="form-group">
 										<label htmlFor="" className="col-form-label">kJ</label>
-										<input type="text" className="form-control" name="kj" ref="kj" placeholder=""/>
+										<input type="text" className="form-control" name="kj" ref="kj" value={this.state.prodDetails.nutrition_fact ? this.state.prodDetails.nutrition_fact.kj : ""} onChange={this.handleChange} placeholder=""/>
 									</div>
 									<div className="form-group">
 										<label htmlFor="" className="col-form-label">kcal</label>
-										<input type="text" className="form-control" name="kcal" ref="kcal" placeholder=""/>
+										<input type="text" className="form-control" name="kcal" ref="kcal" value={this.state.prodDetails.nutrition_fact ? this.state.prodDetails.nutrition_fact.kcal : ""} onChange={this.handleChange} placeholder=""/>
 									</div>
 									<div className="form-group">
 										<label htmlFor="" className="col-form-label">Fat</label>
-										<input type="text" className="form-control" name="fat" ref="fat" placeholder=""/>
+										<input type="text" className="form-control" name="fat" ref="fat" value={this.state.prodDetails.nutrition_fact ? this.state.prodDetails.nutrition_fact.fat : ""} onChange={this.handleChange} placeholder=""/>
 									</div>
 								</div>
 								<div className="form-col">
 									<div className="form-group">
 										<label htmlFor="" className="col-form-label">Carbs</label>
-										<input type="text" className="form-control" name="carbs" ref="carbs" placeholder=""/>
+										<input type="text" className="form-control" name="carbs" ref="carbs" value={this.state.prodDetails.nutrition_fact ? this.state.prodDetails.nutrition_fact.carbs : ""} onChange={this.handleChange} placeholder=""/>
 									</div>
 									<div className="form-group">
 										<label htmlFor="" className="col-form-label">Fiber</label>
-										<input type="text" className="form-control" name="fiber" ref="fiber" placeholder=""/>
+										<input type="text" className="form-control" name="fiber" ref="fiber" value={this.state.prodDetails.nutrition_fact ? this.state.prodDetails.nutrition_fact.fiber : ""} onChange={this.handleChange} placeholder=""/>
 									</div>
 									<div className="form-group">
 										<label htmlFor="" className="col-form-label">Protein</label>
-										<input type="text" className="form-control" name="protein" ref="protein" placeholder=""/>
+										<input type="text" className="form-control" name="protein" ref="protein" value={this.state.prodDetails.nutrition_fact ? this.state.prodDetails.nutrition_fact.protein : ""} onChange={this.handleChange} placeholder=""/>
 									</div>
 								</div>
 							</div>
@@ -195,7 +213,7 @@ export default class Ingredients extends React.Component {
 										{this.state.algrnList.map((allergens_list, index) => {
 										return (
 												<div>
-													<input id={allergens_list._id} type="checkbox" defaultValue={allergens_list._id} ref="allergens" name="allergens" key={ index }  onChange={this.handleCheckBox.bind(this)}/>
+													<input id={allergens_list._id} type="checkbox" defaultValue={allergens_list._id} ref="allergens" name="allergens" key={ index } onChange={this.handleCheckBox.bind(this)}/>
 													<label htmlFor={allergens_list._id}>
 														{allergens_list.name }
 													</label>

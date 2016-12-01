@@ -6,6 +6,7 @@ import DisableProductBtn from '../Button/DisableProductBtn';
 import ProductDetails from './ProductDetails';
 import ReactSlider from '../Product/ReactSlider';
 
+
   export default class ProductList extends React.Component {
 
     constructor(props, context) {
@@ -40,11 +41,11 @@ import ReactSlider from '../Product/ReactSlider';
           <div className="grid_single_item">
             <div className="hover_box">
               <DeleteProductBtn index={this.props.index} onClick={this.props.onClick}/>
-              <EditProductBtn handlerForEdit = {this.EditProdBtnClck}/>
+              <EditProductBtn index={this.props.index} handlerForEdit = {this.EditProdBtnClck}/>
               <HideProductBtn />
               <DisableProductBtn />
             </div>
-            <a href="#" data-target="#product_desc" data-toggle="modal">
+            <a href="#" data-target={"#id1" + this.props.index} data-toggle="modal">
               <img src= {this.props.productData.photo}/>
             </a>
             <div className="grid_tile_desc">
@@ -53,8 +54,8 @@ import ReactSlider from '../Product/ReactSlider';
               <p>{this.props.productData.description}</p>
             </div>
           </div>
-          <ProductDetails product_details={this.props.productData}/>
-          <ReactSlider prod_to_edit={this.state.Prod_to_edit}/>
+          <ProductDetails product_details={this.props.productData} index={this.props.index}/>
+          <ReactSlider prod_to_edit={this.state.Prod_to_edit} index={this.props.index}/>
         </div>
     );
   }
