@@ -5,7 +5,7 @@ import { List, Edit, Create, Datagrid, ReferenceField, TextField, EditButton,Del
 export const UserList = (props) => (
   <List {...props}>
     <Datagrid>
-      <TextField label="id" source="_id" />
+      <TextField label="id" source="id" />
       <TextField source="full_name" />
       <TextField source="address" />
       <TextField source="email" />
@@ -24,7 +24,7 @@ export const UserEdit = (props) => (
 
 export const UserCreate = (props) => (
   <Create {...props}>
-    <TextInput label="id" source="_id" />
+    <TextInput label="id" source="id" />
     <TextInput source="full_name" />
     <TextInput source="address" />
     <TextInput source="email" />
