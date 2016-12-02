@@ -1,6 +1,17 @@
 import Admin from '../../models/admin';
 import User from '../../models/user';
+import cuid from 'cuid';
 
+export function addUser(req, res) {
+  const newUser = new User(req.body);
+  newUser.cuid = cuid();
+  newUser.save((err, saved) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+    res.json({ user: saved });
+  });
+}
 
 export function getUsers(req, res) {
   let end = parseInt(req.query._end, 10);
@@ -19,7 +30,7 @@ export function getUsers(req, res) {
     if (err) {
       res.status(500).send(err);
     }
-    res.setHeader('X-Total-Count', 10);
+    res.setHeader('X-Total-Count', 5);
     res.setHeader('Access-Control-Expose-Headers', 'X-Total-Count');
     res.setHeader('X-Content-Type-Options', 'npsniff');
     res.json( users );
