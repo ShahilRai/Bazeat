@@ -4,6 +4,7 @@ import Dropzone from 'react-dropzone';
 import UploadProductImage from '../AddProduct/UploadProductImage';
 import ProductHeading from './ProductHeading';
 import ProductStep from './ProductStep';
+import LabelField from '../components/LabelField';
 
 export default class AddProduct extends React.Component {
 
@@ -39,7 +40,7 @@ export default class AddProduct extends React.Component {
         portion: this.refs.portion.value,
         product_category: this.refs.product_category.value,
         expiry_date: this.refs.expiry_date.value,
-        food_type: this.state.prodDetails.food_type,
+        food_type: this.state.food_type,
         photo: this.state.photo,
         email: this.context.user.email
 	    }
@@ -59,15 +60,11 @@ export default class AddProduct extends React.Component {
   handleRadioChange(e){
     if(e.target.dataset.foodstate == "hotFood"){
       this.setState({
-        prodDetails:{
         food_type :  "Hot"
-      }
       });
     }else if(e.target.dataset.foodstate == "coldFood"){
       this.setState({
-        prodDetails:{
         food_type :  "Cold"
-      }
       })
     }
   }
@@ -90,14 +87,14 @@ export default class AddProduct extends React.Component {
 							<div className="form-group m_top20 m_lt9">
 								<div className="form-check">
 									<label className="form-check-label control control--radio">
-										<input className="form-check-input custom_radio" name="food_type" data-foodstate="hotFood" type="radio" checked={this.state.prodDetails ? (this.state.prodDetails.food_type == "Hot" ? "checked" : ""):""} onChange={this.handleRadioChange} />
+										<input className="form-check-input custom_radio" name="food_type" data-foodstate="hotFood" type="radio" onChange={this.handleRadioChange} />
 										Hot food
 										<div className="control__indicator"></div>
 									</label>
 								</div>
 								<div className="form-check">
 									<label className="form-check-label control control--radio">
-										<input className="form-check-input custom_radio" name="food_type" data-foodstate="coldFood" type="radio" checked={this.state.prodDetails ? (this.state.prodDetails.food_type == "Cold" ? "checked" : "") : ""} onChange={this.handleRadioChange} />
+										<input className="form-check-input custom_radio" name="food_type" data-foodstate="coldFood" type="radio" onChange={this.handleRadioChange} />
 										Cold food
 										<div className="control__indicator"></div>
 									</label>
@@ -113,7 +110,7 @@ export default class AddProduct extends React.Component {
 								<input type="text" className="form-control prod_label" ref="product_name" id="product_name" name="product_name" value={this.state.prodDetails ? this.state.prodDetails.product_name : ""} onChange={this.handleChange} placeholder="Product name" />
 							</div>
 							<div className="form-group nok_form">
-								<label htmlFor="" className="col-form-label nok_label">NOK</label>
+								<LabelField htmlFor="" className="col-form-label nok_label" label="NOK" />
 								<input type="text" ref="price" id="price" name="price" className="form-control" onChange={this.handleChange} placeholder="" value={this.state.prodDetails ? this.state.prodDetails.price : ""}/>
 							</div>
 							<div className="form-group portion_form custom_select">
@@ -123,7 +120,7 @@ export default class AddProduct extends React.Component {
 								<select className="form-control" name="product_category" ref="product_category" id="product_category" name="product_category" onChange={this.handleChange}>
 									{
 										this.props.prod_categ_val.map((product_category_list, index) => {
-										return <option key={ index } id={product_category_list._id} value={product_category_list._id} >{product_category_list.name}</option>
+										return <option key={ index } id={product_category_list.id} value={product_category_list.id} >{product_category_list.name}</option>
 									})}
 								</select>
 								<span className="select_bg"><small className="select__arrow"></small></span>

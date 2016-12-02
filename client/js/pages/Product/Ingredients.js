@@ -3,6 +3,8 @@ import DocumentTitle from 'react-document-title';
 import IngredientsList from './IngredientsList';
 import ProductHeading from './ProductHeading';
 import Tags from './Tags';
+import CheckBoxField from '../components/CheckBoxField';
+import LabelField from '../components/LabelField';
 
 export default class Ingredients extends React.Component {
 	constructor(props) {
@@ -15,7 +17,6 @@ export default class Ingredients extends React.Component {
       chckboxVal:[],
       prodDetails:{}
     };
-    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
@@ -25,7 +26,7 @@ export default class Ingredients extends React.Component {
   }
 
 	SaveAndContinue(){
-		var ingredientsid = this.state.data.ingredients.map((item) => item._id);
+		var ingredientsid = this.state.data.ingredients.map((item) => item.id);
 		this.state = {
 		data : {
       ingredients : ingredientsid,
@@ -38,8 +39,8 @@ export default class Ingredients extends React.Component {
 				protein : this.refs.protein.value,
 			},
 		  allergens: this.state.chckboxVal,
-		  bought_items: this.refs.bought_items.checked,
-		  locally_produced_items: this.refs.locally_produced_items.checked
+		  bought_items: this.refs.bought_items.refs.prdctn_col.checked,
+		  locally_produced_items: this.refs.locally_produced_items.refs.prdctn_col.checked
     }
   }
 
@@ -50,16 +51,6 @@ export default class Ingredients extends React.Component {
 	PreviousSteps() {
 		this.props.previousStep()
 	}
-
-  handleChange(e){
-    this.setState({
-      prodDetails:{
-      nutrition_fact : {
-      [e.target.name] :  e.target.value
-      }
-    }
-    })
-  }
 
   addItem() {
     var newElement = this.refs.ingredients.value;
@@ -161,48 +152,38 @@ export default class Ingredients extends React.Component {
 							<div className="nutrition_fact">
 								<h5>Production</h5>
 								<div className="chkbox_col production_col">
-									<div className="checkbox custom_checkbox">
-										<input id="checkbox17" type="checkbox" ref="bought_items" name="bought_items"/>
-										<label htmlFor="checkbox17">
-											Contains bought items
-										</label>
-									</div>
-									<div className="checkbox custom_checkbox">
-										<input id="checkbox18" type="checkbox" ref="locally_produced_items" name="locally_produced_items"/>
-										<label htmlFor="checkbox18">
-											Contains locally produced items
-										</label>
-									</div>
-								</div>
+									<CheckBoxField id="checkbox17" ref="bought_items" name="bought_items" htmlFor="checkbox17" label="Contains bought items" prodDetails={this.state.prodDetails.bought_items} />
+									<CheckBoxField id="checkbox18" ref="locally_produced_items" name="locally_produced_items" htmlFor="checkbox18" label="Contains locally produced items" prodDetails={this.state.prodDetails.locally_produced_items} />
+                </div>
 							</div>
 							<div className="nutrition_fact nutrition_fact_top">
 								<h5>Nutrition facts</h5>
 								<div className="form-col">
 									<div className="form-group">
-										<label htmlFor="" className="col-form-label">kJ</label>
-										<input type="text" className="form-control" name="kj" ref="kj" value={this.state.prodDetails.nutrition_fact ? this.state.prodDetails.nutrition_fact.kj : ""} onChange={this.handleChange} placeholder=""/>
+										<LabelField htmlFor="" className="col-form-label" label="kJ" />
+										<input type="text" className="form-control" name="kj" ref="kj" />
 									</div>
 									<div className="form-group">
-										<label htmlFor="" className="col-form-label">kcal</label>
-										<input type="text" className="form-control" name="kcal" ref="kcal" value={this.state.prodDetails.nutrition_fact ? this.state.prodDetails.nutrition_fact.kcal : ""} onChange={this.handleChange} placeholder=""/>
+										<LabelField htmlFor="" className="col-form-label"label="kcal" />
+										<input type="text" className="form-control" name="kcal" ref="kcal" />
 									</div>
 									<div className="form-group">
-										<label htmlFor="" className="col-form-label">Fat</label>
-										<input type="text" className="form-control" name="fat" ref="fat" value={this.state.prodDetails.nutrition_fact ? this.state.prodDetails.nutrition_fact.fat : ""} onChange={this.handleChange} placeholder=""/>
+										<LabelField htmlFor="" className="col-form-label" label="Fat" />
+										<input type="text" className="form-control" name="fat" ref="fat" />
 									</div>
 								</div>
 								<div className="form-col">
 									<div className="form-group">
-										<label htmlFor="" className="col-form-label">Carbs</label>
-										<input type="text" className="form-control" name="carbs" ref="carbs" value={this.state.prodDetails.nutrition_fact ? this.state.prodDetails.nutrition_fact.carbs : ""} onChange={this.handleChange} placeholder=""/>
+										<LabelField htmlFor="" className="col-form-label" label="Carbs" />
+										<input type="text" className="form-control" name="carbs" ref="carbs" />
 									</div>
 									<div className="form-group">
-										<label htmlFor="" className="col-form-label">Fiber</label>
-										<input type="text" className="form-control" name="fiber" ref="fiber" value={this.state.prodDetails.nutrition_fact ? this.state.prodDetails.nutrition_fact.fiber : ""} onChange={this.handleChange} placeholder=""/>
+										<LabelField htmlFor="" className="col-form-label" label="Fiber" />
+										<input type="text" className="form-control" name="fiber" ref="fiber" />
 									</div>
 									<div className="form-group">
-										<label htmlFor="" className="col-form-label">Protein</label>
-										<input type="text" className="form-control" name="protein" ref="protein" value={this.state.prodDetails.nutrition_fact ? this.state.prodDetails.nutrition_fact.protein : ""} onChange={this.handleChange} placeholder=""/>
+										<LabelField htmlFor="" className="col-form-label" label="Protein" />
+										<input type="text" className="form-control" name="protein" ref="protein" />
 									</div>
 								</div>
 							</div>
@@ -213,10 +194,8 @@ export default class Ingredients extends React.Component {
 										{this.state.algrnList.map((allergens_list, index) => {
 										return (
 												<div>
-													<input id={allergens_list._id} type="checkbox" defaultValue={allergens_list._id} ref="allergens" name="allergens" key={ index } onChange={this.handleCheckBox.bind(this)}/>
-													<label htmlFor={allergens_list._id}>
-														{allergens_list.name }
-													</label>
+													<input id={allergens_list.id} type="checkbox" defaultValue={allergens_list.id} ref="allergens" name="allergens" key={ index } onChange={this.handleCheckBox.bind(this)}/>
+													<LabelField htmlFor={allergens_list.id} label={allergens_list.name } />
 												</div>
 											);
 				            })}
