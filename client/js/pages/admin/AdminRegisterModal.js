@@ -21,6 +21,38 @@ export default class AdminRegisterModal extends React.Component {
     })
   }
 
+
+  SubmitAfterValidate(e) {
+    if(this.validateFormField()){
+      this.submit(e)
+    }
+  }
+
+  validateFormField(){
+    alert("sdddddddsad");
+      var valid = true
+      var password = this.refs.pwd.value
+       console.log("......................password")
+      console.log(password)
+    if (password.length < 8) {
+      valid = false
+      alert('Password must be at least 8 characters long.');
+    }
+    if (password.search(/\d/) == -1){
+      valid = false
+       alert('Password must contain one digit.');
+    }
+    if (password.search(/^(?=.*[a-z]).+$/) == -1) {
+      valid = false
+      alert('Password must contain one lower case character.');
+    }
+    if (password.search(/^(?=.*[A-Z]).+$/) == -1) {
+       valid = false
+       alert('Password must contain one upper case character.');
+    }
+    return valid
+  }
+
   submit(e){
     e.preventDefault()
     var self = this
@@ -57,15 +89,15 @@ export default class AdminRegisterModal extends React.Component {
             <h4 className="modal-title">REGISTER</h4>
           </div>
           <div className="modal-body">
-            <form onSubmit={this.submit.bind(this)} className="login_form">
+            <form onSubmit={this.SubmitAfterValidate.bind(this)} className="login_form">
               <div className="form-group">
-                <input type="text" className="form-control" id="full_name" name="full_name" placeholder="Full Name" required={ true } onChange={this.handleChange.bind(this)} value={this.state.full_name} />
+                <input type="text" className="form-control" id="full_name" name="full_name" placeholder="full name" onChange={this.handleChange.bind(this)} required="true"/>
               </div>
               <div className="form-group">
-                <input type="text" className="form-control" id="email" name="email" placeholder="Email" required={ true } onChange={this.handleChange.bind(this)} value={this.state.email} />
+                <input type="email" className="form-control" id="email" name="email" placeholder="email"  onChange={this.handleChange.bind(this)} required="true"/>
               </div>
               <div className="form-group">
-                <input type="password" className="form-control" id="password" name="password" placeholder="Password" required={ true } onChange={this.handleChange.bind(this)} value={this.state.password} />
+                <input type="password" ref="pwd"className="form-control" id="password" name="password" placeholder="password"  onChange={this.handleChange.bind(this)} required="true" />
               </div>
               <input type="submit" value="Register" className="login_sbmit form-group" />
               {successMessage}
