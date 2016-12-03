@@ -1038,7 +1038,7 @@ ul.edit_sidbar_list li a:hover, ul.edit_sidbar_list li.active a {
 }
 .custom_radio_edit input[type=radio]:checked + label:before {
 	content: "";
-	background: #fff none repeat scroll 0 0;
+    background: #fff none repeat scroll 0 0;
 }
 .end_form .form-check-label {
 	color: #808080;
@@ -1139,17 +1139,19 @@ ul.edit_sidbar_list li a:hover, ul.edit_sidbar_list li.active a {
 :::::::::::::::::::::::::::::::::::::::::::::::::::::*/
 
 .product_detail_lft {
-	width: 100%;
+	width: 204px;
+	height: 204px;
 	float: left;
-	padding-right: 20px;
+	margin-top: -191px;
+  margin-bottom: 22px
 }
 .prduct_thumb_lft_img {
+	object-fit: fill;
 	position: relative;
-	max-width: 100%;
+	width: 100%;
+	height: 100%;
 	border: 3px solid #fff;
-	margin-top: -191px;
 	border-radius: 10px;
-	margin-bottom: 22px;
 }
 ul.prod_lft_details {
 	list-style:none;
@@ -1798,6 +1800,10 @@ z-index:9;
 
   float: left;
   list-style: outside none none;
+<<<<<<< HEAD
+=======
+  min-height: auto;
+>>>>>>> d06d250403dc4516b2a46537b2aaf4e0ff44a50a
   width: 100%;
 }
 .items_list_info ul li {

@@ -7,6 +7,7 @@
   background:transparent;
       float: left;
 	  position:relative;
+    width: 100%;
 
 }
 
@@ -19,7 +20,7 @@
 .grid_single_item > a > img {
   display: block;
   width: 100%;
-  
+
 }
 .grid_single_item:hover > .hover_box{ opacity:1; top:21px;}
 .hover_box{    position: absolute;
@@ -27,7 +28,7 @@
     top: -20px;
     width: 100%;
 	opacity:0;
-    height: 53px;
+       height: 45px;
     padding: 10px 14px 10px 14px;
 	text-align:center;
 	background:rgba(90,100,109,0.8);}
@@ -42,9 +43,8 @@
     margin: 0 4px ;}
 	.like_btn_bg i{     color: #666666;
     font-size: 17px;}
-	
-	.buy_btn{    width: auto;
-    float: right;
+
+	.buy_btn{       width: auto;
     height: 25px;
     background: #00aca2;
     border-radius: 4px;
@@ -52,8 +52,11 @@
     line-height: 26px;
     color: #fff;
     font-weight: 600;
-    padding: 0 15px;
+    padding: 0 9px;
     letter-spacing: 1.4px;
+    font-size: 10px;
+    display: inline-block;
+    margin: 0 2px;
 	}
 .hover_icon{
 	margin-right:28px;
@@ -116,5 +119,5 @@
 
 }
 
-	
+
 }

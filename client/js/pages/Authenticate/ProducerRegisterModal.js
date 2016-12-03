@@ -55,7 +55,7 @@ export default class ProducerRegisterModal extends React.Component {
                 <p className="alert alert-danger" data-spIf="form.error">
                   <span data-spBind="form.errorMessage" />
                 </p>
-                <input type="hidden" className="form-control" id="customData.is_producer" name="customData.is_producer" value="true"/>
+                <input type="hidden" className="form-control" id="customData.is_producer" name="customData.is_producer" defaultValue="true"/>
                 <input type="submit" value="Bli en Bazeater" className="login_sbmit" />
               </RegistrationForm>
             </div>

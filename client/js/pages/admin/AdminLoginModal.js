@@ -1,6 +1,11 @@
 import React from 'react';
 
 export default class AdminLoginModal extends React.Component {
+
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -44,7 +49,7 @@ export default class AdminLoginModal extends React.Component {
       data: data
     })
     .done(function(data) {
-      this.clearForm.bind(this);
+      self.context.router.push('/admin-dashboard');
     })
     .fail(function(jqXhr) {
       console.log('failed to register');

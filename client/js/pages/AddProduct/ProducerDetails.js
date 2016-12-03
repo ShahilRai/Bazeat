@@ -6,17 +6,11 @@ import ProducerLogo from './ProducerLogo';
 import ProducerDescription from './ProducerDescription';
 
 export default class ProducerDetails extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      imgSrc : this.props.userInfo,
-    };
-  }
 
   render(){
 
     var img;
-    if(this.state.imgSrc){
+    if(this.props.userInfo.photo){
       img = this.props.userInfo.photo
     }else{
       img ="images/review_logo.png"
@@ -28,8 +22,8 @@ export default class ProducerDetails extends React.Component {
           <div className="col-lg-3 col-md-3 col-sm-3 col-xs-12">
             <div className="product_detail_lft">
               <ProducerLogo url={img} p_class="prduct_thumb_lft_img" />
+              <ProducerDescription userInfo={this.props.userInfo} />
             </div>
-               <ProducerDescription userInfo={this.props.userInfo} />
           </div>
           <div className="col-lg-8 col-md-8 col-sm-9 col-xs-12 prht43">
             <div className="prduct_detail_rht">

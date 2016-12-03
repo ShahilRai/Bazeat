@@ -5,6 +5,7 @@ import Ingredient from '../models/ingredient';
 import User from '../models/user';
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
+mongoose.plugin(require('meanie-mongoose-to-json'));
 
 const productSchema = new Schema({
   product_name: { type: 'String', required: true },

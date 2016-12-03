@@ -28,6 +28,7 @@ if (process.env.NODE_ENV === 'development') {
 app.use('/css', Express.static(path.resolve(__dirname, '../client/css')));
 app.use('/images', Express.static(path.resolve(__dirname, '../client/images')));
 app.use('/javascript', Express.static(path.resolve(__dirname, '../client/javascript')));
+app.use('/js', Express.static(path.resolve(__dirname, '../client/js')));
 app.use('/fonts', Express.static(path.resolve(__dirname, '../client/fonts')));
 // React And Redux Setup
 // import { configureStore } from '../client/store';
@@ -59,6 +60,7 @@ import multerS3 from 'multer-s3';
 import passport from 'passport';
 import './models/admin'
 import './config/passport'
+import logout from 'express-passport-logout'
 // Set native promises as mongoose promise
 mongoose.Promise = global.Promise;
 
@@ -89,8 +91,8 @@ app.use('/api', profiles);
 
 // Admin Routes Defination
   app.use('/api/admin/authenticate', admin);
-  app.use('/api/admin/users', admin_users);
-  app.use('/api/admin/products', admin_products);
+  app.use('/admin', admin_users);
+  app.use('/admin', admin_products);
 // Admin Routes Defination
 
 
@@ -291,6 +293,9 @@ app.post('/api/update_product_image', productupload.single('image'), function (r
     });
   });
 })
+
+// Admin Logout
+app.get('/api/admin/authenticate/logout', logout());
 
 // app.get('/', ExpressStrompath.loginRequired, function(req, res) {
 //   res.send('Welcome back: ' + res.locals.user.email);
