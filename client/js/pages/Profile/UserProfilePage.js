@@ -7,6 +7,7 @@ import InputField from '../components/InputField';
 import DateComponent from '../components/DateComponent';
 import LabelField from '../components/LabelField';
 import SelectField from '../components/SelectField';
+var moment = require('moment');
 
 export default class UserProfilePage extends React.Component {
 
@@ -19,12 +20,14 @@ export default class UserProfilePage extends React.Component {
     super(props, context);
     this.state = {
       user : {},
+      birth_date: {},      
       producer_info: {},
       user_info: {},
       data_loaded: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleProducerInfoChange = this.handleProducerInfoChange.bind(this);
+    this.handleDateChange = this.handleDateChange.bind(this);
   }
 
   componentDidMount() {
@@ -33,15 +36,23 @@ export default class UserProfilePage extends React.Component {
         if(response.data.user) {
           this.setState({
             user: response.data.user,
+            birth_date: moment(response.data.user.birth_date).format('YYYY-MM-DD'),
             producer_info: response.data.user.producer_info,
             user_info: response.data.user.user_info,
             data_loaded: true
+          });
+        }else{
+          this.setState({
+            birth_date: moment(Date()).format('YYYY-MM-DD')
+
           });
         }
     }).catch((err) => {
         console.log(err);
     });
   }
+  
+
 
   loadUserData(emailAddress) {
     return axios.get("/api/edit" , {
@@ -58,6 +69,13 @@ export default class UserProfilePage extends React.Component {
       }
     });
   }
+  
+  handleDateChange(event) {
+    this.setState({ birth_date: event.target.value});
+    if (this.state.onChange){
+      this.state.onChange(event);
+    }
+  }
 
   handleProducerInfoChange(event){
     this.setState({
@@ -68,10 +86,11 @@ export default class UserProfilePage extends React.Component {
   }
 
   render() {
+
     if (!this.state.data_loaded) {
       return (<div></div>);
     }
-
+  
     return (
       <DocumentTitle title={`My Profile`}>
         <div className="col-lg-9 col-md-8 col-sm-10 col-xs-12 edit_profile_rht_sidebar">
@@ -95,13 +114,16 @@ export default class UserProfilePage extends React.Component {
                   <div className="form-group row">
                     <LabelField htmlFor="gender" label="Gender" />
                     <div className="col-md-8 col-xs-12">
-                      <SelectField className="form-control gender_selct" name="gender" value = {this.state.user_info.gender} />
+                      <SelectField className="form-control" name="gender" value = {this.state.user_info.gender} />
                     </div>
                   </div>
                   <div className="form-group row">
                     <LabelField htmlFor="Birth date" label="Birth date" />
-                    <DateComponent className="form-control custom_selct date_selct" id="birth_date" name="birth_date" value={this.state.user.birth_date} />
+                    <div className="col-md-8 col-xs-12">
+                      <input type="date" id="birth_date" name="birth_date"  onChange={this.handleDateChange} value={this.state.birth_date}/>
+                    </div>
                   </div>
+                 
                   <div className="form-group row">
                     <LabelField htmlFor="email" label="E-mail address" />
                     <div className="col-md-8 col-xs-12">
@@ -126,7 +148,7 @@ export default class UserProfilePage extends React.Component {
                   </div>
                   <div className="form-group row">
                     <LabelField htmlFor="desc" label="Description" />
-                    <TextAreaField name="desc" value = {this.state.user.description} />
+                    <TextAreaField name="desc">{this.state.user.description}</TextAreaField>
                   </div>
                 </div>
                 <div key="update-button" className="profile_gry_bot_bar">

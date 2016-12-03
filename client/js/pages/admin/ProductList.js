@@ -22,3 +22,13 @@ export const ProductEdit = (props) => (
     <TextInput source="description" />
   </Edit>
 );
+export const ProductCreate = (props) => (
+  <Create {...props} >
+    <DisabledInput source="_producer"/>
+    <TextInput source="product_name" />
+    <TextInput source="quantity" />
+    <TextInput source="price" />
+    <TextInput source="description" />
+  </Create>
+);
+

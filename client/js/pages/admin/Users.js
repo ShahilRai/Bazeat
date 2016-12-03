@@ -28,7 +28,6 @@ export const UserEdit = (props) => (
 
 export const UserCreate = (props) => (
   <Create {...props}>
-    <TextInput label="id" source="id" />
     <TextInput source="full_name" />
     <TextInput source="address" />
     <TextInput source="email" />
