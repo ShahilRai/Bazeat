@@ -26,7 +26,7 @@ export default class CheckBoxField extends React.Component {
     if(this.props.prodDetails){
       ad = this.props.prodDetails
     }else{
-      console.log("da: " + ad);
+      ad = false
     }
     return(
       <div className="checkbox custom_checkbox">

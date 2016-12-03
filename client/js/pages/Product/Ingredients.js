@@ -152,8 +152,8 @@ export default class Ingredients extends React.Component {
 							<div className="nutrition_fact">
 								<h5>Production</h5>
 								<div className="chkbox_col production_col">
-									<CheckBoxField id="checkbox17" ref="bought_items" name="bought_items" htmlFor="checkbox17" label="Contains bought items" prodDetails={this.state.prodDetails.bought_items} />
-									<CheckBoxField id="checkbox18" ref="locally_produced_items" name="locally_produced_items" htmlFor="checkbox18" label="Contains locally produced items" prodDetails={this.state.prodDetails.locally_produced_items} />
+									<CheckBoxField id="checkbox17" ref="bought_items" name="bought_items" htmlFor="checkbox17" label="Contains bought items" prodDetails={this.state.prodDetails.bought_items ? this.state.prodDetails.bought_items : false} />
+									<CheckBoxField id="checkbox18" ref="locally_produced_items" name="locally_produced_items" htmlFor="checkbox18" label="Contains locally produced items" prodDetails={this.state.prodDetails.locally_produced_items ? this.state.prodDetails.locally_produced_items : false} />
                 </div>
 							</div>
 							<div className="nutrition_fact nutrition_fact_top">

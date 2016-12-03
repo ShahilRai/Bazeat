@@ -4,12 +4,12 @@ import { Link } from 'react-router';
 import { LoginLink, LogoutLink, NotAuthenticated, Authenticated } from 'react-stormpath';
 
 export default class Menu extends React.Component {
-  
+
   static contextTypes = {
     authenticated: React.PropTypes.bool,
     user: React.PropTypes.object
   };
-  
+
   render() {
     var profileHead = this.context.authenticated ? "header_rht_menu profile_rht_header" : "header_rht_menu";
     return (
