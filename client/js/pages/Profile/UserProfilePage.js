@@ -27,6 +27,7 @@ export default class UserProfilePage extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleProducerInfoChange = this.handleProducerInfoChange.bind(this);
+    this.handleDateChange = this.handleDateChange.bind(this);
   }
 
   componentDidMount() {
@@ -35,7 +36,6 @@ export default class UserProfilePage extends React.Component {
         if(response.data.user) {
           this.setState({
             user: response.data.user,
-           // birth_date: response.data.user.birth_date,
             birth_date: moment(response.data.user.birth_date).format('YYYY-MM-DD'),
             producer_info: response.data.user.producer_info,
             user_info: response.data.user.user_info,
@@ -72,13 +72,9 @@ export default class UserProfilePage extends React.Component {
   
   handleDateChange(event) {
     this.setState({ birth_date: event.target.value});
-    alert('hii')
-    //if (this.state.onChange){
-      //      this.state.onChange(event);
-            //moment().format();
-        //}
-    //var d = new Date();
-    //document.getElementById("birth_date").innerHTML = d.getFullYear();
+    if (this.state.onChange){
+      this.state.onChange(event);
+    }
   }
 
   handleProducerInfoChange(event){
@@ -90,17 +86,10 @@ export default class UserProfilePage extends React.Component {
   }
 
   render() {
-    console.log( moment(Date()).format('YYYY-MM-DD'))
-    console.log(this.state.user.birth_date)
-    console.log("user===")
-    console.log(this.state.user)
-    console.log("producer_info----")
-    console.log(this.state.producer_info)
-    console.log("user_info---")
-    console.log(this.state.user_info)
-    // if (!this.state.data_loaded) {
-    //   return (<div></div>);
-    // }
+
+    if (!this.state.data_loaded) {
+      return (<div></div>);
+    }
   
     return (
       <DocumentTitle title={`My Profile`}>
@@ -125,7 +114,7 @@ export default class UserProfilePage extends React.Component {
                   <div className="form-group row">
                     <LabelField htmlFor="gender" label="Gender" />
                     <div className="col-md-8 col-xs-12">
-                      <SelectField className="form-control gender_selct" name="gender" value = {this.state.user_info.gender} />
+                      <SelectField className="form-control" name="gender" value = {this.state.user_info.gender} />
                     </div>
                   </div>
                   <div className="form-group row">
@@ -159,7 +148,7 @@ export default class UserProfilePage extends React.Component {
                   </div>
                   <div className="form-group row">
                     <LabelField htmlFor="desc" label="Description" />
-                    <TextAreaField name="desc" value = {this.state.user.description} />
+                    <TextAreaField name="desc">{this.state.user.description}</TextAreaField>
                   </div>
                 </div>
                 <div key="update-button" className="profile_gry_bot_bar">
