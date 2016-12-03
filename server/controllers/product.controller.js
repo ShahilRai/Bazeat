@@ -6,17 +6,20 @@ import Ingredient from '../models/ingredient';
 import cuid from 'cuid';
 
 export function addProduct(req, res) {
-  console.log(req.session)
   User.findOne({ email: req.body.fieldValues.email }).exec((error, user) => {
-    const newProduct = new Product(req.body.fieldValues);
-    newProduct.cuid = cuid();
-    newProduct._producer = user._id;
-    newProduct.save((err, product) => {
-      if (err) {
-       res.status(500).send(err);
-      }
-      res.json({ product: product });;
-    });
+    ProductCategory.findOne({name: req.body.fieldValues.product_category}).exec(function(err, pc){
+      const newProduct = new Product(req.body.fieldValues);
+      newProduct.cuid = cuid();
+      newProduct._producer = user._id;
+      newProduct.product_category = pc._id;
+      newProduct.save((err, product) => {
+        console.log(err)
+        if (err) {
+         res.status(500).send(err);
+        }
+        res.json({ product: product });;
+      });
+    })
   });
 }
 
