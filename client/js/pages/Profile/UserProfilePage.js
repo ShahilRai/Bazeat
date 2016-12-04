@@ -21,12 +21,8 @@ export default class UserProfilePage extends React.Component {
     this.state = {
       user : {},
       birth_date: {},      
-      producer_info: {},
-      user_info: {},
       data_loaded: false
     };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleProducerInfoChange = this.handleProducerInfoChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
   }
 
@@ -37,14 +33,11 @@ export default class UserProfilePage extends React.Component {
           this.setState({
             user: response.data.user,
             birth_date: moment(response.data.user.birth_date).format('YYYY-MM-DD'),
-            producer_info: response.data.user.producer_info,
-            user_info: response.data.user.user_info,
             data_loaded: true
           });
         }else{
           this.setState({
             birth_date: moment(Date()).format('YYYY-MM-DD')
-
           });
         }
     }).catch((err) => {
@@ -52,20 +45,10 @@ export default class UserProfilePage extends React.Component {
     });
   }
   
-
-
   loadUserData(emailAddress) {
     return axios.get("/api/edit" , {
       params: {
         email: emailAddress
-      }
-    });
-  }
-
-  handleChange(event){
-    this.setState({
-      user: {
-        [event.target.name]: event.target.value
       }
     });
   }
@@ -75,14 +58,6 @@ export default class UserProfilePage extends React.Component {
     if (this.state.onChange){
       this.state.onChange(event);
     }
-  }
-
-  handleProducerInfoChange(event){
-    this.setState({
-      producer_info: {
-        [event.target.name]: event.target.value
-      }
-    });
   }
 
   render() {
@@ -114,16 +89,15 @@ export default class UserProfilePage extends React.Component {
                   <div className="form-group row">
                     <LabelField htmlFor="gender" label="Gender" />
                     <div className="col-md-8 col-xs-12">
-                      <SelectField className="form-control" name="gender" value = {this.state.user_info.gender} />
+                      <SelectField className="form-control" name="gender" value = {this.state.user.user_info.gender} />
                     </div>
                   </div>
                   <div className="form-group row">
                     <LabelField htmlFor="Birth date" label="Birth date" />
                     <div className="col-md-8 col-xs-12">
-                      <input type="date" id="birth_date" name="birth_date"  onChange={this.handleDateChange} value={this.state.birth_date}/>
+                      <input type="date" id="birth_date" name="birth_date"  onChange={this.handleDateChange} value = {this.state.birth_date}/>
                     </div>
                   </div>
-                 
                   <div className="form-group row">
                     <LabelField htmlFor="email" label="E-mail address" />
                     <div className="col-md-8 col-xs-12">

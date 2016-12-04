@@ -5,7 +5,7 @@ import InputField from '../components/InputField';
 import TextAreaField from '../components/TextAreaField';
 import ImageUploader from './ImageUploader';
 import LabelField from '../components/LabelField';
-export default class ProfilePage extends React.Component {
+export default class ProducerProfilePage extends React.Component {
 
   static contextTypes = {
     authenticated: React.PropTypes.bool,
@@ -20,9 +20,6 @@ export default class ProfilePage extends React.Component {
       user_info: {},
       data_loaded: false
     };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleProducerInfoChange = this.handleProducerInfoChange.bind(this);
-    this.handleUserInfoChange = this.handleUserInfoChange.bind(this);
   }
 
   componentDidMount() {
@@ -45,30 +42,6 @@ export default class ProfilePage extends React.Component {
     return axios.get("/api/edit" , {
       params: {
         email: emailAddress
-      }
-    });
-  }
-
-  handleChange(event){
-    this.setState({
-      user: {
-        [event.target.name]: event.target.value
-      }
-    });
-  }
-
-  handleProducerInfoChange(event){
-    this.setState({
-      producer_info: {
-        [event.target.name]: event.target.value
-      }
-    });
-  }
-
-  handleUserInfoChange(event){
-    this.setState({
-      user_info: {
-        [event.target.name]: event.target.value
       }
     });
   }
@@ -113,8 +86,8 @@ export default class ProfilePage extends React.Component {
                 </div>
                 <div className="form-group row">
                   <LabelField htmlFor="desc" className="col-md-4 col-xs-12 col-form-label" label="Company description" />
-                    <TextAreaField  name="des" defaultValue = {this.state.user.description} />
-                  </div>
+                  <TextAreaField  name="desc">{this.state.user.description}</TextAreaField>
+                </div>
               </div>
             </div>
             <div className="edit_prfile_detail_form">
@@ -172,12 +145,12 @@ export default class ProfilePage extends React.Component {
               </div>
             </div>
             <div key="update-button" className="profile_gry_bot_bar">
-                    <p className="alert alert-danger" data-spIf="form.error"><span data-spBind="form.errorMessage" /></p>
-                    <p className="alert alert-success" data-spIf="form.successful">Profile updated.</p>
-                    <button type="submit" className="btn pull-right">
-                      <span data-spIf="!form.processing">Save details</span>
-                      <span data-spIf="form.processing">Updating...</span>
-                    </button>
+              <p className="alert alert-danger" data-spIf="form.error"><span data-spBind="form.errorMessage" /></p>
+              <p className="alert alert-success" data-spIf="form.successful">Profile updated.</p>
+              <button type="submit" className="btn pull-right">
+                <span data-spIf="!form.processing">Save details</span>
+                <span data-spIf="form.processing">Updating...</span>
+              </button>
             </div>
           </UserProfileForm>
         </div>
@@ -185,5 +158,3 @@ export default class ProfilePage extends React.Component {
     );
   }
 }
-
-

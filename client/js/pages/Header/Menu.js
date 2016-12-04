@@ -17,12 +17,12 @@ export default class Menu extends React.Component {
         <li><a href="javascript:void(0)" className="help_icon">Help</a></li>
         <NotAuthenticated>
           <li>
-            <a href="javascript:void(0)" data-toggle="modal" data-target="#register_modal">Join Bazeat</a>
+            <a href="#" data-toggle="modal" data-target="#register_modal">Join Bazeat</a>
           </li>
           <li>
-            <a href="javascript:void(0)" data-toggle="modal" data-target="#login_modal">Log in</a>
+            <a href="#" data-toggle="modal" data-target="#login_modal">Log in</a>
           </li>
-          <li className="cart_icon"><a href="javascript:void(0)">Cart</a></li>
+          <li className="cart_icon"><a href="#">Cart</a></li>
           <li className="next_list" id="demo">
             <a href="#">
               <div className="items_list_info">
