@@ -26,14 +26,15 @@ export function getUsers(req, res) {
   {
     order = 'ascending';
   }
-  User.find().sort([[sort, order]]).limit(end).skip(start).exec((err, users) => {
-    if (err) {
-      res.status(500).send(err);
-    }
-    res.setHeader('X-Total-Count', 5);
-    res.setHeader('Access-Control-Expose-Headers', 'X-Total-Count');
-    res.setHeader('X-Content-Type-Options', 'npsniff');
-    res.json( users );
+  User.find().exec((err, total_users) => {
+    User.find().sort([[sort, order]]).limit(end).skip(start).exec((err, users) => {
+      if (err) {
+        res.status(500).send(err);
+      }
+      res.setHeader('X-Total-Count', total_users.length);
+      res.setHeader('Access-Control-Expose-Headers', 'X-Total-Count');
+      res.setHeader('X-Content-Type-Options', 'npsniff');
+      res.json( users );
      // res.json([{
      //    "id": "5837dd7fd4888a155ae8e001",
      //    "cuid": "civxf8q7y00017ucstymgs0uv",
@@ -54,6 +55,7 @@ export function getUsers(req, res) {
      //    "date_joined": "2016-11-25T06:43:11.416Z",
      //    "birth_date": "2016-11-25T06:43:11.416Z"
      //    }] );
+    });
   });
 }
 
