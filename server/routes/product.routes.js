@@ -18,7 +18,7 @@ router.route('/product_buyers/:cuid').get(ProductController.getBuyers);
 router.route('/products/:cuid').get(ProductController.getProduct);
 
 // Update product
-router.route('/products/:cuid').post(ProductController.updateProduct);
+router.route('/products/:cuid').put(ProductController.updateProduct);
 
 // Delete Product by cuid
 router.route('/products/:cuid').delete(ProductController.deleteProduct);
