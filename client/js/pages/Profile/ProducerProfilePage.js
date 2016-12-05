@@ -68,7 +68,7 @@ export default class ProducerProfilePage extends React.Component {
                 </div>
                 <div className="form-group row">
                   <LabelField htmlFor="contactPerson" className="col-md-4 col-xs-12 col-form-label" label="Contact person" />
-                    <InputField  name="contact_person" value = {this.state.producer_info.contact_person} />
+                    <InputField  name="cmp_contact_person" value = {this.state.producer_info.cmp_contact_person} />
                 </div>
                 <div className="form-group row">
                   <LabelField htmlFor="email" className="col-md-4 col-xs-12 col-form-label" label="E-mail address" />
@@ -78,15 +78,15 @@ export default class ProducerProfilePage extends React.Component {
                 </div>
                 <div className="form-group row">
                   <LabelField htmlFor="phone" className="col-md-4 col-xs-12 col-form-label" label="Phone number" />
-                  <InputField  name="phone" value = {this.state.user.phone} />
+                  <InputField  name="cmp_phone_number" value = {this.state.producer_info.cmp_phone_number} />
                 </div>
                 <div className="form-group row">
                   <LabelField htmlFor="pass" className="col-md-4 col-xs-12 col-form-label" label="Company web site" />
-                  <InputField name="website" value = {this.state.producer_info.website} required/>
+                  <InputField name="cmp_web_site" value = {this.state.producer_info.cmp_web_site} required/>
                 </div>
                 <div className="form-group row">
                   <LabelField htmlFor="desc" className="col-md-4 col-xs-12 col-form-label" label="Company description" />
-                  <TextAreaField  name="desc">{this.state.user.description}</TextAreaField>
+                  <TextAreaField  name="cmp_description">{this.state.producer_info.cmp_description}</TextAreaField>
                 </div>
               </div>
             </div>
@@ -95,11 +95,11 @@ export default class ProducerProfilePage extends React.Component {
               <div className="edt_prf_inner_detail">
                 <div className="form-group row">
                   <LabelField htmlFor="example-search-input" className="col-md-4 col-xs-12 col-form-label" label="Visiting address" />
-                   <InputField type="search"  name="address" value = {this.state.user.address}  />
+                   <InputField type="search"  name="cmp_address" value = {this.state.producer_info.cmp_address}  />
                 </div>
                 <div className="form-group row">
                   <LabelField htmlFor="example-email-input" className="col-md-4 col-xs-12 col-form-label" label="city" />
-                  <InputField  name="city" value = {this.state.user.city}  />
+                  <InputField  name="cmp_city" value = {this.state.producer_info.cmp_city}  />
                 </div>
                 <div className="form-group row">
                   <LabelField htmlFor="example-url-input" className="col-md-4 col-xs-12 col-form-label" label="Country"/>
