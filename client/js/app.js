@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { IndexRoute, Route, browserHistory } from 'react-router';
 import ReactStormpath, { Router, HomeRoute, LoginRoute, AuthenticatedRoute } from 'react-stormpath';
-import { ChangePasswordPage, ForgotPasswordModal, MasterPage, IndexPage, LoginModal, RegisterPage, ResetPasswordPage, VerifyEmailPage, ProfilePage, ProfileContainer, ReactSlider,ProducerPage, AdminLoginModal, AdminRegisterModal, AdminPanel } from './pages';
+import { ChangePasswordPage, ForgotPasswordModal, MasterPage, IndexPage, LoginModal, RegisterPage, ResetPasswordPage, VerifyEmailPage, ProfilePage, ProfileContainer, ReactSlider,ProducerPage, AdminLoginModal, AdminRegisterModal, AdminPanel} from './pages';
 
 ReactStormpath.init();
 
@@ -36,9 +36,6 @@ function loadJquery() {
 
 ReactDOM.render(
   <Router history={browserHistory} onUpdate={() => loadJquery()}>
-      <Route path='/admin-login' component={AdminLoginModal} />
-      <Route path='/admin-register' component={AdminRegisterModal} />
-      <Route path='/admin-dashboard' component={AdminPanel} />
     <HomeRoute path='/' component={MasterPage}>
       <IndexRoute component={IndexPage} />
       <Route path='/login' component={IndexPage} />
@@ -53,6 +50,9 @@ ReactDOM.render(
         <Route path='/addProductPage' component={ProducerPage} />
       </AuthenticatedRoute>
     </HomeRoute>
+    <Route path='/admin-login' component={AdminLoginModal} />
+    <Route path='/admin-register' component={AdminRegisterModal} />
+    <Route path='/admin-dashboard' component={AdminPanel} />
   </Router>,
   document.getElementById('app-container')
 );

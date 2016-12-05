@@ -2,7 +2,7 @@ import React from 'react';
 export default class ProductDetails extends React.Component {
 	render(){
 		return(
-			<div className="modal fade prod_modal" id="product_desc" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div className="modal fade prod_modal" id={"id1" + this.props.index} role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				<div className="modal-dialog add_prduct_modal" role="document">
 					<div className="modal-content">
 						<div className="modal-header">

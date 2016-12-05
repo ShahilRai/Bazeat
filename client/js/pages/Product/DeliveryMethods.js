@@ -2,8 +2,17 @@ import React from 'react';
 import DocumentTitle from 'react-document-title';
 import ProductHeading from './ProductHeading';
 import ProductStep from './ProductStep';
+import LabelField from '../components/LabelField';
 
 export default class DeliveryMethods extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      prodDetails: {}
+    };
+    this.handleChange = this.handleChange.bind(this);
+  }
 
 	SaveAndContinue(){
 		this.state = {
@@ -18,6 +27,20 @@ export default class DeliveryMethods extends React.Component {
 		this.props.saveValues(this.state.data)
  	}
 
+  componentDidMount() {
+      this.setState({
+        prodDetails: this.props.prodDetails
+      })
+  }
+
+  handleChange(e){
+    this.setState({
+      prodDetails : {
+      [e.target.name] :  e.target.value
+      }
+    })
+  }
+
 	render() {
 		return (
 		<div>
@@ -30,32 +53,28 @@ export default class DeliveryMethods extends React.Component {
 					  <div className="chkbox_col del_chkbox">
 							<div className="checkbox custom_checkbox">
 								<input id="checkbox3" type="checkbox" name="send" ref="send"/>
-								<label htmlFor="checkbox3">
-									Send
-								</label>
+								<LabelField htmlFor="checkbox3" label="Send" />
 							</div>
 						</div>
 						<div className="chkbox_col del_chkbox">
 							<div className="checkbox custom_checkbox">
 								<input id="checkbox4" type="checkbox" name="pickup" ref="pickup"/>
-								<label htmlFor="checkbox4">
-									Pick up
-								</label>
+								<LabelField htmlFor="checkbox4" label="Pick up" />
 							</div>
 						</div>
 					</div>
 					<div className="nutrition_fact shipment_sec">
 						<div className="form-col">
 							<div className="form-group">
-								<label htmlFor="" className="col-form-label">Shipment</label>
-								<input className="form-control" name="shipment" ref="shipment" placeholder="" type="text"/>
+								<LabelField htmlFor="" className="col-form-label" label="Shipment" />
+								<input className="form-control" name="shipment" ref="shipment" value={this.state.prodDetails? this.state.prodDetails.shipment : ""} onChange={this.handleChange} placeholder="" type="text"/>
 								<p>How much will you charge<br/> for your shipment?</p>
 							</div>
 						</div>
 						<div className="form-col">
 							<div className="form-group">
 								<label htmlFor="" className="col-form-label text_right">Additional<br/> items</label>
-								<input className="form-control" name="additional_items" ref="additional_items" placeholder="" type="text"/>
+								<input className="form-control" name="additional_items" ref="additional_items" placeholder="" value={this.state.prodDetails? this.state.prodDetails.additional_items : ""} onChange={this.handleChange} type="text"/>
 								<p>How much will you charge<br/> for the packaging?</p>
 							</div>
 						</div>
@@ -63,8 +82,8 @@ export default class DeliveryMethods extends React.Component {
 					<div className="nutrition_fact shipment_sec">
 						<div className="form-col pickup_wdth">
 							<div className="form-group">
-								<label htmlFor="" className="col-form-label">Pick up time</label>
-								<input className="form-control" name="pickup_time" ref="pickup_time" placeholder="" type="text"/>
+								<LabelField htmlFor="" className="col-form-label" label="Pick up time" />
+								<input className="form-control" name="pickup_time" ref="pickup_time" placeholder="" value={this.state.prodDetails? this.state.prodDetails.pickup_time : ""} onChange={this.handleChange} type="text"/>
 								<p>Tell your customers when the product can be picked up.<br/> Dont edit if product can be picked up during opening hours</p>
 							</div>
 						</div>

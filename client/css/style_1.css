@@ -1038,7 +1038,7 @@ ul.edit_sidbar_list li a:hover, ul.edit_sidbar_list li.active a {
 }
 .custom_radio_edit input[type=radio]:checked + label:before {
 	content: "";
-	background: #fff none repeat scroll 0 0;
+    background: #fff none repeat scroll 0 0;
 }
 .end_form .form-check-label {
 	color: #808080;
@@ -1100,7 +1100,7 @@ ul.edit_sidbar_list li a:hover, ul.edit_sidbar_list li.active a {
 }
 .custom_select_box select {
 	padding: 5px 8px;
-	width: 130%;
+	width: 160%;
 	border: none;
 	cursor:pointer;
 	box-shadow: none;
@@ -1800,7 +1800,10 @@ z-index:9;
 
   float: left;
   list-style: outside none none;
+<<<<<<< HEAD
+=======
   min-height: auto;
+>>>>>>> d06d250403dc4516b2a46537b2aaf4e0ff44a50a
   width: 100%;
 }
 .items_list_info ul li {

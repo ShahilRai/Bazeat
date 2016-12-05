@@ -17,8 +17,7 @@ export default class ReactSlider extends React.Component {
     this.state = {
       step : 1,
       allergens_list : [],
-      product_category_list :[],
-      prodDetails: {}
+      product_category_list :[]
     };
     this.nextStep = this.nextStep.bind(this);
     this.saveValues = this.saveValues.bind(this);
@@ -54,18 +53,38 @@ export default class ReactSlider extends React.Component {
   }
 
   submitProduct(){
-    this.loadProductData(fieldValues).then((response) => {
-      this.context.router.push('/addProductPage');
-        if(response.data) {
-          console.log("redirect-to");
-        }
-    }).catch((err) => {
-        console.log(err);
+    if(this.props.prod_to_edit){
+      var prodToEditCuid = this.props.prod_to_edit.cuid;
+      this.updateProductData(prodToEditCuid,fieldValues).then((response) => {
+        this.context.router.push('/addProductPage');
+          if(response.data) {
+            console.log("redirect-to");
+          }
+      }).catch((err) => {
+            console.log(err);
+      });
+    }
+    else
+      {
+        this.saveProductData(fieldValues).then((response) => {
+          this.context.router.push('/addProductPage');
+            if(response.data) {
+              console.log("redirect-to");
+            }
+        }).catch((err) => {
+            console.log(err);
+        });
+      }
+  }
+
+  saveProductData(fieldValues) {
+    return axios.post("/api/products" , {
+      fieldValues: fieldValues
     });
   }
 
-  loadProductData(fieldValues) {
-    return axios.post("/api/products" , {
+  updateProductData(prodToEditCuid,fieldValues) {
+    return axios.post("/api/products/" + prodToEditCuid , {
       fieldValues: fieldValues
     });
   }
@@ -73,18 +92,18 @@ export default class ReactSlider extends React.Component {
   showStep() {
       switch (this.state.step) {
         case 1:
-          return <AddProduct fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} prod_categ_val = {this.state.product_category_list} prodDetails={this.state.prodDetails}/>
+          return <AddProduct fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} prod_categ_val = {this.state.product_category_list} prodDetails={this.props.prod_to_edit} />
         case 2:
-          return <Ingredients fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} allrgnval ={this.state.allergens_list} />
+          return <Ingredients fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} allrgnval ={this.state.allergens_list} prodDetails={this.props.prod_to_edit} />
         case 3:
-          return <DeliveryMethods fieldValues={fieldValues} saveValues={this.saveValues} submitProduct={this.submitProduct} />
+          return <DeliveryMethods fieldValues={fieldValues} saveValues={this.saveValues} submitProduct={this.submitProduct} prodDetails={this.props.prod_to_edit} />
       }
   }
 
   render(){
     return (
       <div>
-        <div className="modal prod_modal" id="step_1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div className="modal prod_modal" id={this.props.id ? this.props.id : this.props.index} role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               {this.showStep()}

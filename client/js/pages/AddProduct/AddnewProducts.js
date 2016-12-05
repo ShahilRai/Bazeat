@@ -1,6 +1,7 @@
 
 import React from 'react';
 import ProductList from './ProductList';
+import ReactSlider from '../Product/ReactSlider';
 
 export default class AddnewProducts extends React.Component {
   constructor(props, context) {
@@ -38,12 +39,16 @@ export default class AddnewProducts extends React.Component {
   }
 
   render(){
+    if(this.state.products){
+      var allProducts = this.state.products.map((product, index) =>
+        <ProductList key = {index} index={index} productData = {product} onClick={this.removeImage.bind(this)}/>)
+    }
     return(
       <div>
         <div className="wall-column">
           <div className="grid_single_item no_brdr add_item_pduct">
             <div className="add_prod_div">
-              <a href="javascript:void(0)" data-toggle="modal" data-target="#step_1">
+              <a href="#" data-toggle="modal" data-target="#add">
                  <img src="images/add_prod.png" />
                   <div className="grid_tile_desc">
                    <h3>Add new <br/> product</h3>
@@ -52,8 +57,8 @@ export default class AddnewProducts extends React.Component {
             </div>
           </div>
         </div>
-        {this.state.products.map((product, index) =>
-         <ProductList key = {index} index={index} productData = {product} onClick={this.removeImage.bind(this)}/>)}
+        <ReactSlider id="add" />
+        {allProducts}
       </div>
     )
   }

@@ -6,23 +6,26 @@ import Ingredient from '../models/ingredient';
 import cuid from 'cuid';
 
 export function addProduct(req, res) {
-  console.log(req.session)
   User.findOne({ email: req.body.fieldValues.email }).exec((error, user) => {
-    const newProduct = new Product(req.body.fieldValues);
-    newProduct.cuid = cuid();
-    newProduct._producer = user._id;
-    newProduct.save((err, product) => {
-      if (err) {
-       res.status(500).send(err);
-      }
-      res.json({ product: product });;
-    });
+    ProductCategory.findOne({name: req.body.fieldValues.product_category}).exec(function(err, pc){
+      const newProduct = new Product(req.body.fieldValues);
+      newProduct.cuid = cuid();
+      newProduct._producer = user._id;
+      newProduct.product_category = pc._id;
+      newProduct.save((err, product) => {
+        console.log(err)
+        if (err) {
+         res.status(500).send(err);
+        }
+        res.json({ product: product });;
+      });
+    })
   });
 }
 
 export function updateProduct(req, res) {
   Product.findOne({ cuid: req.params.cuid }).exec((err, product) => {
-    Product.update({ cuid: req.params.cuid }, req.body, function(err, model) {
+    Product.update({ cuid: req.params.cuid }, req.body.fieldValues, function(err, model) {
       ProductCategory.update({ _products: product._id }, {$pullAll: {_products: [product._id]}}, { safe: true, multi: true }, function(err, model) {
       })
 

@@ -19,7 +19,7 @@ export default class ProducerPage extends React.Component {
 
   componentDidMount() {
     var userEmail = this.context.user.email;
-    this.loadUserData(userEmail).then((response) => {
+    this.loadUserProductsData(userEmail).then((response) => {
        if(response.data.producer) {
         this.setState({
           user: response.data.producer,
@@ -32,19 +32,20 @@ export default class ProducerPage extends React.Component {
     });
   }
 
-  loadUserData(emailAddress) {
+  loadUserProductsData(emailAddress) {
     return axios.get("/api/user_products/"+emailAddress);
   }
 
   render(){
-    if (!this.state.data_loaded) {
-      return (<div></div>);
+    if (this.state.data_loaded) {
+      return(
+        <div className="page_wrapper">
+          <Banner name="review_banner.jpg"/>
+          <ProducerDetails userInfo = {this.state.user} />
+        </div>
+      )
+    } else {
+      return <div></div>
     }
-    return(
-      <div className="page_wrapper">
-        <Banner name="review_banner.jpg"/>
-        <ProducerDetails userInfo = {this.state.user} />
-      </div>
-    )
   }
 }

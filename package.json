@@ -43,6 +43,7 @@
     "limax": "^1.3.0",
     "lodash": "^4.16.6",
     "meanie-mongoose-to-json": "^1.0.5",
+    "moment": "^2.17.0",
     "mongoose": "^4.4.20",
     "multer": "^1.2.0",
     "multer-s3": "^2.4.0",

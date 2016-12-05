@@ -21,7 +21,7 @@ export default class IngredientsList extends React.Component {
 
 	getIngredients() {
 		return this.state.data.map((ingredient) => {
-  		return <option key={ingredient._id} id={ingredient._id}>{ingredient.name}</option>;
+      return <option key={ingredient.id} id={ingredient.id}>{ingredient.name}</option>;
  		});
 	}
 

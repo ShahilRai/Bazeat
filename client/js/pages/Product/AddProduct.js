@@ -4,6 +4,7 @@ import Dropzone from 'react-dropzone';
 import UploadProductImage from '../AddProduct/UploadProductImage';
 import ProductHeading from './ProductHeading';
 import ProductStep from './ProductStep';
+import LabelField from '../components/LabelField';
 
 export default class AddProduct extends React.Component {
 
@@ -12,13 +13,7 @@ export default class AddProduct extends React.Component {
     user: React.PropTypes.object
   };
 
-  componentDidMount(){
-    this.setState({
-    prodDetails : this.props.prodDetails
-    })
-  }
-
-	constructor(props, context) {
+  constructor(props, context) {
     super(props, context);
     this.state = {
       prodDetails : {},
@@ -28,6 +23,12 @@ export default class AddProduct extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleRadioChange = this.handleRadioChange.bind(this);
 	}
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      prodDetails: nextProps.prodDetails
+    })
+  }
 
 	SaveAndContinue(){
 		this.state = {
@@ -50,7 +51,9 @@ export default class AddProduct extends React.Component {
 
 	handleChange(e){
     this.setState({
+      prodDetails : {
 			[e.target.name] :  e.target.value
+    }
     })
 	}
 
@@ -98,38 +101,38 @@ export default class AddProduct extends React.Component {
 								</div>
 								<div className="form-group m_lt19">
 									<label htmlFor="" className="col-form-label qty_label">Quantity available</label>
-									<input type="text" className="form-control qty_input" id="quantity" name="quantity" ref="quantity" onChange={this.handleChange} placeholder="" />
+									<input type="text" className="form-control qty_input" id="quantity" name="quantity" ref="quantity" onChange={this.handleChange} placeholder="" value={this.state.prodDetails ? this.state.prodDetails.quantity : ""} />
 								</div>
 							</div>
 	 					</div>
 	 					<div className="rt_prod_sec">
 							<div className="form-group">
-								<input type="text" className="form-control prod_label" ref="product_name" id="product_name" name="product_name" onChange={this.handleChange} placeholder="Product name" value={this.state.prodDetails ? this.state.prodDetails.product_name : ""}/>
+								<input type="text" className="form-control prod_label" ref="product_name" id="product_name" name="product_name" value={this.state.prodDetails ? this.state.prodDetails.product_name : ""} onChange={this.handleChange} placeholder="Product name" />
 							</div>
 							<div className="form-group nok_form">
-								<label htmlFor="" className="col-form-label nok_label">NOK</label>
-								<input type="text" ref="price" id="price" name="price" className="form-control" onChange={this.handleChange} placeholder="" />
+								<LabelField htmlFor="" className="col-form-label nok_label" label="NOK" />
+								<input type="text" ref="price" id="price" name="price" className="form-control" onChange={this.handleChange} placeholder="" value={this.state.prodDetails ? this.state.prodDetails.price : ""}/>
 							</div>
 							<div className="form-group portion_form custom_select">
-                <input type="text" className="form-control" ref="portion" id="portion" name="portion" onChange={this.handleChange} />
+                <input type="text" className="form-control" ref="portion" id="portion" name="portion" onChange={this.handleChange} value={this.state.prodDetails ? this.state.prodDetails.portion : ""} />
               </div>
 							<div className="form-group custom_select">
 								<select className="form-control" name="product_category" ref="product_category" id="product_category" name="product_category" onChange={this.handleChange}>
 									{
 										this.props.prod_categ_val.map((product_category_list, index) => {
-										return <option key={ index } id={product_category_list._id} value={product_category_list._id}>{product_category_list.name}</option>
+										return <option key={ index } id={product_category_list.id} value={product_category_list.id} >{product_category_list.name}</option>
 									})}
 								</select>
 								<span className="select_bg"><small className="select__arrow"></small></span>
 							</div>
 							<div className="form-group prod_txtarea">
-								<textarea ref="description" id="description" name="description" onChange={this.handleChange} placeholder="Product description"></textarea>
+								<textarea ref="description" id="description" name="description" onChange={this.handleChange} placeholder="Product description" value={this.state.prodDetails ? this.state.prodDetails.description : ""}></textarea>
 							</div>
 						</div>
 						<div className="form-group m_lt55 " id="">
 							<label htmlFor="" className="col-form-label qty_label">Expiry date</label>
 							<div id="datetimepicker1" className="date_section">
-								<input type="text" id="example1" id="expiry_date" name="expiry_date" className="form-control date_input" ref="expiry_date" onChange={this.handleChange}/>
+								<input type="text" id="example1" id="expiry_date" name="expiry_date" className="form-control date_input" ref="expiry_date" value={this.state.prodDetails ? this.state.prodDetails.expiry_date : ""} onChange={this.handleChange}/>
 								<span className="add-on"><i className="fa fa-calendar" aria-hidden="true"></i></span>
 							</div>
 						</div>

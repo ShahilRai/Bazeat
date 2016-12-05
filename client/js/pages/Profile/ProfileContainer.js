@@ -1,7 +1,7 @@
 import { Link } from 'react-router';
 import React, { PropTypes } from 'react';
 
-import ProfilePage from './ProfilePage';
+import ProducerProfilePage from './ProducerProfilePage';
 import UserProfilePage from './UserProfilePage';
 
 export default class ProfileContainer extends React.Component {
@@ -22,7 +22,11 @@ export default class ProfileContainer extends React.Component {
     if(this.context.user)
     {
       if(this.context.user.customData.is_producer == "true"){
+<<<<<<< HEAD
         this.state.profile = <UserProfilePage />;
+=======
+        this.state.profile = <ProducerProfilePage />;
+>>>>>>> ab53d77a6c34ec7b59aadcc1746ef6f5014eac4a
       }else {
         this.state.profile = <UserProfilePage />;
       }

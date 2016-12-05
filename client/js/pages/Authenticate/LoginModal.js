@@ -1,7 +1,5 @@
 import React from 'react';
-
 import { LoginForm, SocialLoginLink } from 'react-stormpath';
-
 
 export default class LoginModal extends React.Component {
 
