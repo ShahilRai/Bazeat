@@ -22,7 +22,7 @@ export default class ProfileContainer extends React.Component {
     if(this.context.user)
     {
       if(this.context.user.customData.is_producer == "true"){
-        this.state.profile = <ProfilePage />;
+        this.state.profile = <UserProfilePage />;
       }else {
         this.state.profile = <UserProfilePage />;
       }
