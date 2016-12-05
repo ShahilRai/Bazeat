@@ -1,5 +1,5 @@
 import React from 'react';
-export default class ProducerDescription extends React.Component {
+export default class UserPersonalInfo extends React.Component {
 
   static contextTypes = {
     authenticated: React.PropTypes.bool,
@@ -24,7 +24,7 @@ export default class ProducerDescription extends React.Component {
       <div>
         <ul className="prod_lft_details">
           <li className="pin_intrest">
-            <a href="javascript:void(0)">{this.props.userInfo.city},{this.props.userInfo.country}</a>
+            <a href="javascript:void(0)">{this.props.userInfo.city?this.props.userInfo.city + ', ': ""}{this.props.userInfo.country}</a>
           </li>
             {source}
           <li className="review_cal">
