@@ -10,6 +10,7 @@ const ifProducer = new Schema({
   cmp_web_site: String,
   cmp_description: String,
   cmp_phone_number: Number,
+  cmp_contact_person: String,
   cmp_city: { type: 'String' },
   cmp_address: { type: 'String' },
   cmp_postal_code: { type: 'String' },
