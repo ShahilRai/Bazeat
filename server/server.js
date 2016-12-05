@@ -155,6 +155,7 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
     let cmp_web_site = req.body.cmp_web_site;
     let cmp_description = req.body.cmp_description;
     let cmp_phone_number = req.body.cmp_phone_number;
+    let cmp_contact_person = req.body.cmp_contact_person;
     let cmp_city = req.body.cmp_city;
     let cmp_address = req.body.cmp_address;
     let cmp_postal_code = req.body.cmp_postal_code;
