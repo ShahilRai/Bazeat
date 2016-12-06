@@ -17,16 +17,19 @@ export function getProducts(req, res) {
   {
     order = 'ascending';
   }
+  Product.find().exec((err, total_products) => {
   Product.find().sort([[sort, order]]).limit(end).skip(start).exec((err, products) => {
     if (err) {
       res.status(500).send(err);
     }
-    res.setHeader('X-Total-Count', 10);
+    res.setHeader('X-Total-Count', total_products.length);
     res.setHeader('Access-Control-Expose-Headers', 'X-Total-Count');
     res.setHeader('X-Content-Type-Options', 'npsniff');
     res.json( products );
   });
+});
 }
+
 
 export function updateProduct(req, res) {
   Product.findOne({ _id: req.params._id }).exec((err, product) => {
