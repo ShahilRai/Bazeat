@@ -11,7 +11,7 @@ export default class IngredientsList extends React.Component {
 
 	componentDidMount() {
 		$.ajax({
-      url: "http://localhost:3000/api/ingredients",
+      url: "/api/ingredients",
       dataType: 'json',
       success: (data) => {
         this.setState({data: data});
