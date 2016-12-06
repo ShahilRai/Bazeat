@@ -11,12 +11,10 @@ export default class AdminPanel extends React.Component{
   }
   render(){
     return(
-      <Admin title="Admin Dashboard" restClient={jsonServerRestClient("http://localhost:3000/admin")} >
+      <Admin title="Admin Dashboard" restClient={jsonServerRestClient("/admin")} >
       <Resource name="users" list={UserList} edit={UserEdit} create={UserCreate} remove={Delete} icon={UserIcon} />
       <Resource name="products" list={ProductList} edit={ProductEdit} create={ProductCreate} remove={Delete} icon={ProductIcon} />
       </Admin>
     );
-
-
   }
 }
