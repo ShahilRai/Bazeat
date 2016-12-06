@@ -84,7 +84,7 @@ export default class ReactSlider extends React.Component {
   }
 
   updateProductData(prodToEditCuid,fieldValues) {
-    return axios.post("/api/products/" + prodToEditCuid , {
+    return axios.put("/api/products/" + prodToEditCuid , {
       fieldValues: fieldValues
     });
   }
@@ -103,7 +103,7 @@ export default class ReactSlider extends React.Component {
   render(){
     return (
       <div>
-        <div className="modal prod_modal" id={this.props.id ? this.props.id : this.props.index} role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div className="modal prod_modal" id={this.props.id? this.props.id: this.props.index? this.props.index:"add"} role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               {this.showStep()}

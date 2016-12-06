@@ -5,6 +5,7 @@ import ProductHeading from './ProductHeading';
 import Tags from './Tags';
 import CheckBoxField from '../components/CheckBoxField';
 import LabelField from '../components/LabelField';
+import NutrtnInputField from '../components/NutrtnInputField';
 
 export default class Ingredients extends React.Component {
 	constructor(props) {
@@ -31,12 +32,12 @@ export default class Ingredients extends React.Component {
 		data : {
       ingredients : ingredientsid,
       nutrition_fact:{
-			  kj : this.refs.kj.value,
-				carbs : this.refs.carbs.value,
-				kcal : this.refs.kcal.value,
-				fiber : this.refs.fiber.value,
-				fat : this.refs.fat.value,
-				protein : this.refs.protein.value,
+			  kj : this.refs.kj.refs.ntrtn.value,
+				carbs : this.refs.carbs.refs.ntrtn.value,
+				kcal : this.refs.kcal.refs.ntrtn.value,
+				fiber : this.refs.fiber.refs.ntrtn.value,
+				fat : this.refs.fat.refs.ntrtn.value,
+				protein : this.refs.protein.refs.ntrtn.value,
 			},
 		  allergens: this.state.chckboxVal,
 		  bought_items: this.refs.bought_items.refs.prdctn_col.checked,
@@ -152,8 +153,8 @@ export default class Ingredients extends React.Component {
 							<div className="nutrition_fact">
 								<h5>Production</h5>
 								<div className="chkbox_col production_col">
-									<CheckBoxField id="checkbox17" ref="bought_items" name="bought_items" htmlFor="checkbox17" label="Contains bought items" prodDetails={this.state.prodDetails.bought_items ? this.state.prodDetails.bought_items : false} />
-									<CheckBoxField id="checkbox18" ref="locally_produced_items" name="locally_produced_items" htmlFor="checkbox18" label="Contains locally produced items" prodDetails={this.state.prodDetails.locally_produced_items ? this.state.prodDetails.locally_produced_items : false} />
+									<CheckBoxField id="checkbox17" ref="bought_items" name="bought_items" htmlFor="checkbox17" label="Contains bought items" prodDetails={this.state.prodDetails ? this.state.prodDetails.bought_items : false} />
+									<CheckBoxField id="checkbox18" ref="locally_produced_items" name="locally_produced_items" htmlFor="checkbox18" label="Contains locally produced items" prodDetails={this.state.prodDetails ? this.state.prodDetails.locally_produced_items : false} />
                 </div>
 							</div>
 							<div className="nutrition_fact nutrition_fact_top">
@@ -161,29 +162,29 @@ export default class Ingredients extends React.Component {
 								<div className="form-col">
 									<div className="form-group">
 										<LabelField htmlFor="" className="col-form-label" label="kJ" />
-										<input type="text" className="form-control" name="kj" ref="kj" />
+										<NutrtnInputField name="kj" ref="kj" prodDetails={this.props.prodDetails ? this.props.prodDetails.nutrition_fact.kj : ""} />
 									</div>
 									<div className="form-group">
 										<LabelField htmlFor="" className="col-form-label"label="kcal" />
-										<input type="text" className="form-control" name="kcal" ref="kcal" />
+										<NutrtnInputField name="kcal" ref="kcal" prodDetails={this.props.prodDetails ? this.props.prodDetails.nutrition_fact.kcal : ""} />
 									</div>
 									<div className="form-group">
 										<LabelField htmlFor="" className="col-form-label" label="Fat" />
-										<input type="text" className="form-control" name="fat" ref="fat" />
+										<NutrtnInputField name="fat" ref="fat" prodDetails={this.props.prodDetails ? this.props.prodDetails.nutrition_fact.fat : ""} />
 									</div>
 								</div>
 								<div className="form-col">
 									<div className="form-group">
 										<LabelField htmlFor="" className="col-form-label" label="Carbs" />
-										<input type="text" className="form-control" name="carbs" ref="carbs" />
+										<NutrtnInputField name="carbs" ref="carbs" prodDetails={this.props.prodDetails ? this.props.prodDetails.nutrition_fact.carbs : ""} />
 									</div>
 									<div className="form-group">
 										<LabelField htmlFor="" className="col-form-label" label="Fiber" />
-										<input type="text" className="form-control" name="fiber" ref="fiber" />
+										<NutrtnInputField name="fiber" ref="fiber" prodDetails={this.props.prodDetails ? this.props.prodDetails.nutrition_fact.fiber : ""} />
 									</div>
 									<div className="form-group">
 										<LabelField htmlFor="" className="col-form-label" label="Protein" />
-										<input type="text" className="form-control" name="protein" ref="protein" />
+										<NutrtnInputField name="protein" ref="protein" prodDetails={this.props.prodDetails ? this.props.prodDetails.nutrition_fact.protein : ""} />
 									</div>
 								</div>
 							</div>

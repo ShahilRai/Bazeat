@@ -5,6 +5,7 @@ import UploadProductImage from '../AddProduct/UploadProductImage';
 import ProductHeading from './ProductHeading';
 import ProductStep from './ProductStep';
 import LabelField from '../components/LabelField';
+import RadioButton from '../components/RadioButton';
 
 export default class AddProduct extends React.Component {
 
@@ -85,20 +86,8 @@ export default class AddProduct extends React.Component {
 	 					<div className="lt_prod_sec">
 							<UploadProductImage ref="product_image" onPicUpdate={this.onPicUpdate.bind(this)}/>
 							<div className="form-group m_top20 m_lt9">
-								<div className="form-check">
-									<label className="form-check-label control control--radio">
-										<input className="form-check-input custom_radio" name="food_type" data-foodstate="hotFood" type="radio" onChange={this.handleRadioChange} />
-										Hot food
-										<div className="control__indicator"></div>
-									</label>
-								</div>
-								<div className="form-check">
-									<label className="form-check-label control control--radio">
-										<input className="form-check-input custom_radio" name="food_type" data-foodstate="coldFood" type="radio" onChange={this.handleRadioChange} />
-										Cold food
-										<div className="control__indicator"></div>
-									</label>
-								</div>
+								<RadioButton foodstate="hotFood" label="Hot food" prodDetails={this.state.prodDetails ? (this.state.prodDetails.food_type == "Hot" ? true : false) : false} onChange={this.handleRadioChange} />
+                <RadioButton foodstate="coldFood" label="Cold food" prodDetails={this.state.prodDetails ? (this.state.prodDetails.food_type == "Cold" ? true : false) : false} onChange={this.handleRadioChange} />
 								<div className="form-group m_lt19">
 									<label htmlFor="" className="col-form-label qty_label">Quantity available</label>
 									<input type="text" className="form-control qty_input" id="quantity" name="quantity" ref="quantity" onChange={this.handleChange} placeholder="" value={this.state.prodDetails ? this.state.prodDetails.quantity : ""} />
@@ -114,7 +103,7 @@ export default class AddProduct extends React.Component {
 								<input type="text" ref="price" id="price" name="price" className="form-control" onChange={this.handleChange} placeholder="" value={this.state.prodDetails ? this.state.prodDetails.price : ""}/>
 							</div>
 							<div className="form-group portion_form custom_select">
-                <input type="text" className="form-control" ref="portion" id="portion" name="portion" onChange={this.handleChange} value={this.state.prodDetails ? this.state.prodDetails.portion : ""} />
+                <input type="text" className="form-control" ref="portion" id="portion" name="portion" placeholder="portion" onChange={this.handleChange} value={this.state.prodDetails ? this.state.prodDetails.portion : ""} />
               </div>
 							<div className="form-group custom_select">
 								<select className="form-control" name="product_category" ref="product_category" id="product_category" name="product_category" onChange={this.handleChange}>
