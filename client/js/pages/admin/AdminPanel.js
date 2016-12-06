@@ -48,7 +48,7 @@ submit(e){
       <div>
       <button onClick={this.submit.bind(this)} style={{"marginLeft": "1200px" }}>Logout</button>
         <Admin title="Admin Dashboard" theme={getMuiTheme(darkBaseTheme)} restClient={jsonServerRestClient("/admin") } >
-         <Resource name="users" list={UserList} edit={UserEdit} create={UserCreate} remove={Delete} icon={UserIcon} } />
+         <Resource name="users" list={UserList} edit={UserEdit} create={UserCreate} remove={Delete} icon={UserIcon} />
          <Resource name="products" list={ProductList} edit={ProductEdit} create={ProductCreate} remove={Delete} icon={ProductIcon} />
         </Admin>
       </div>
