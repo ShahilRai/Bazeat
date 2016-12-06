@@ -1,7 +1,7 @@
 
 import React from 'react';
 import ProductList from './ProductList';
-
+import ReactSlider from '../Product/ReactSlider';
 
 export default class AddnewProducts extends React.Component {
   constructor(props, context) {
@@ -45,7 +45,8 @@ export default class AddnewProducts extends React.Component {
     }
     return(
       <div>
-        {allProducts}
+        <ReactSlider id="add" />
+          {allProducts}
       </div>
     )
   }

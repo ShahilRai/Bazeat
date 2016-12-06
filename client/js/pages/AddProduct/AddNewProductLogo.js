@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactSlider from '../Product/ReactSlider';
 
 export default class AddNewProductLogo extends React.Component {
 
@@ -16,7 +15,6 @@ export default class AddNewProductLogo extends React.Component {
           </a>
         </div>
       </div>
-      <ReactSlider id="add"/>
     </div>
     )
   }
