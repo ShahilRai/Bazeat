@@ -3,6 +3,7 @@ import DocumentTitle from 'react-document-title';
 import ProductHeading from './ProductHeading';
 import ProductStep from './ProductStep';
 import LabelField from '../components/LabelField';
+import CheckBoxField from '../components/CheckBoxField';
 
 export default class DeliveryMethods extends React.Component {
 
@@ -17,8 +18,8 @@ export default class DeliveryMethods extends React.Component {
 	SaveAndContinue(){
 		this.state = {
 			data : {
-        send : this.refs.send.checked,
-        pickup : this.refs.pickup.checked,
+        send : this.refs.send.refs.prdctn_col.checked,
+        pickup : this.refs.pickup.refs.prdctn_col.checked,
 	      shipment : this.refs.shipment.value,
 	      additional_items : this.refs.additional_items.value,
 	      pickup_time : this.refs.pickup_time.value
@@ -51,16 +52,10 @@ export default class DeliveryMethods extends React.Component {
 					<div className="nutrition_fact">
 						<h5>Delivery methods</h5>
 					  <div className="chkbox_col del_chkbox">
-							<div className="checkbox custom_checkbox">
-								<input id="checkbox3" type="checkbox" name="send" ref="send"/>
-								<LabelField htmlFor="checkbox3" label="Send" />
-							</div>
+							<CheckBoxField id="checkbox3" name="send" ref="send" htmlFor="checkbox3" label="Send" prodDetails={this.state.prodDetails ? this.state.prodDetails.send : false}/>
 						</div>
 						<div className="chkbox_col del_chkbox">
-							<div className="checkbox custom_checkbox">
-								<input id="checkbox4" type="checkbox" name="pickup" ref="pickup"/>
-								<LabelField htmlFor="checkbox4" label="Pick up" />
-							</div>
+							<CheckBoxField id="checkbox4" name="pickup" ref="pickup" htmlFor="checkbox4" label="Pick up" prodDetails={this.state.prodDetails ? this.state.prodDetails.pickup : false}/>
 						</div>
 					</div>
 					<div className="nutrition_fact shipment_sec">
