@@ -1,15 +1,14 @@
 import React from 'react';
-import { List, Edit, Create, Datagrid, ReferenceField,DateField, TextField, EmailField,  EditButton,DeleteButton, DisabledInput, LongTextInput, ReferenceInput, SelectInput, TextInput } from 'admin-on-rest/lib/mui';
+import { List, Edit, Create, Datagrid, ReferenceField,DateField, TextField, EmailField, EditButton,DeleteButton, DisabledInput, LongTextInput, ReferenceInput, SelectInput, TextInput } from 'admin-on-rest/lib/mui';
 
 
 export const UserList = (props) => (
-  <List {...props}>
+  <List {...props} >
     <Datagrid>
-      <TextField label="id" source="id" />
+      <TextField label="id" source="id" style={{ "color":"red" }} />
       <TextField source="full_name" />
       <TextField source="address" />
       <EmailField source="email" />
-      <TextField source="phone" />
       <DateField label="Joining Date"source="date_joined" style={{ fontStyle: 'italic' }} />
       <EditButton />
       <DeleteButton />
@@ -33,3 +32,4 @@ export const UserCreate = (props) => (
     <TextInput source="email" />
   </Create>
 );
+
