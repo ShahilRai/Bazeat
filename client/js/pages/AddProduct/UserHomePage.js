@@ -6,6 +6,7 @@ import AddnewProducts from './AddnewProducts';
 import ReviewsAndLikes from './ReviewsAndLikes';
 import UserLogo from './UserLogo';
 import UserPersonalInfo from './UserPersonalInfo';
+import AddNewProductLogo from './AddNewProductLogo';
 export default class UserHomePage extends React.Component {
 
   static contextTypes = {
@@ -42,14 +43,15 @@ export default class UserHomePage extends React.Component {
 
   render(){
     var img;
+    var uData;
     if(this.state.user.photo){
       img = this.state.user.photo
     }else{
       img ="images/review_logo.png"
     }
 
-    if (!this.state.data_loaded) {
-      return <div></div>
+    if (this.state.data_loaded) {
+      uData = <AddnewProducts productInfo = {this.state.user}/>
     }
 
     return(
@@ -68,7 +70,8 @@ export default class UserHomePage extends React.Component {
                 <ReviewsAndLikes userInfo = {this.state.user}/>
                 <CategoryMenu />
                 <div className="grid_wall_wrapper prod_producer_grid products_section">
-                  <AddnewProducts productInfo = {this.state.user}/>
+                  <AddNewProductLogo />
+                  {uData}
                 </div>
               </div>
             </div>
