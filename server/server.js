@@ -109,6 +109,7 @@ app.use(ExpressStrompath.init(app, {
         fields: {
           is_producer: {
             enabled: true,
+            name: 'is_producer',
             type: 'hidden'
           }
         }
@@ -119,19 +120,24 @@ app.use(ExpressStrompath.init(app, {
     console.log('Got registration request', formData);
     next();
   },
-
+  expandCustomData: true,
   postRegistrationHandler: function (account, req, res, next) {
-    console.log('User:', account.email, 'just registered!');
-    const newUser = new User({full_name: account.fullName, unique_id: account.href, email: account.email, if_producer: account.if_producer});
-    newUser.cuid = cuid();
-    newUser.save((err, saved) => {
-      if (err) {
-        console.log('err')
-        console.log(err)
-        res.status(500).send(err);
+    account.getCustomData(function(err, data) {
+      console.log('User:', account.email, 'just registered!');
+      const newUser = new User({full_name: account.fullName, unique_id: account.href, email: account.email});
+      newUser.cuid = cuid();
+      if (data.is_producer == 'true'){
+        newUser.if_producer = true;
       }
+      newUser.save((err, saved) => {
+        if (err) {
+          console.log('err')
+          console.log(err)
+          res.status(500).send(err);
+        }
+      });
+      next()
     });
-    next()
   }
 }));
 
