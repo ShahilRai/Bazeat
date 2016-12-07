@@ -19,10 +19,15 @@ export default class AddProduct extends React.Component {
     this.state = {
       prodDetails : {},
       food_type : "",
-      photo: null
+      photo: null,
+      price: "",
+      portion : "",
+      foodType: ""
+
 	  };
     this.handleChange = this.handleChange.bind(this);
     this.handleRadioChange = this.handleRadioChange.bind(this);
+    this.isValidate= this.isValidate.bind(this);
 	}
 
   componentWillReceiveProps(nextProps) {
@@ -30,10 +35,81 @@ export default class AddProduct extends React.Component {
       prodDetails: nextProps.prodDetails
     })
   }
+  isValidate(){
+    var valid = true;
+    var numbers = /^[0-9]+$/;
+    if(this.refs.product_name.value){
+      $("#product_name").removeClass("error")
+    }
+    else{
+      $("#product_name").addClass("error")
+      valid = false
+    }
+    if(this.refs.description.value){
+      $("#description").removeClass("error")
+    }
+    else{
+      $("#description").addClass("error")
+      valid = false
+    }
+    if(this.refs.price.value && this.refs.price.value.match(numbers)){
+      $("#price").removeClass("error")
+      this.setState({
+      price:""
+      })
+    }
+    else if(!this.refs.price.value){
+      $("#price").addClass("error")
+      valid = false
+      this.setState({
+      portion:""
+      })
+    }
+    else{
+      $("#price").addClass("error")
+      valid = false
+      this.setState({
+      price:(<p> Please enter numbers </p>)
+      })
+    }
+    if(this.refs.portion.value && this.refs.portion.value.match(numbers)){
+      $("#portion").removeClass("error")
+      this.setState({
+      portion:""
+      })
+    }
+    else if(!this.refs.portion.value){
+      $("#portion").addClass("error")
+      valid = false
+      this.setState({
+      portion:""
+      })
+    }
+    else{
+      $("#portion").addClass("error")
+      valid = false
+      this.setState({
+      portion:(<p> Please enter numbers </p>)
+      })
+    }
+    if ($(".checkBox:checked").length > 0) {
+      this.setState({
+      foodType:""
+    })
+    }
+    else{
+      valid = false
+       this.setState({
+      foodType:(<p> select atleast one food type</p>)
+    })
+    }
+    return valid;
+  }
 
-	SaveAndContinue(){
-		this.state = {
-			data : {
+  SaveAndContinue(){
+    var self = this
+    this.state = {
+      data : {
         product_name: this.refs.product_name.value,
         description: this.refs.description.value,
         quantity: this.refs.quantity.value,
@@ -44,11 +120,13 @@ export default class AddProduct extends React.Component {
         food_type: this.state.food_type,
         photo: this.state.photo,
         email: this.context.user.email
-	    }
-		}
-	  this.props.saveValues(this.state.data)
-		this.props.nextStep()
-	}
+      }
+    }
+    if(self.isValidate()){
+      this.props.nextStep()
+      this.props.saveValues(this.state.data)
+    }
+  }
 
 	handleChange(e){
     this.setState({
@@ -88,22 +166,25 @@ export default class AddProduct extends React.Component {
 							<div className="form-group m_top20 m_lt9">
 								<RadioButton foodstate="hotFood" label="Hot food" prodDetails={this.state.prodDetails ? (this.state.prodDetails.food_type == "Hot" ? true : false) : false} onChange={this.handleRadioChange} />
                 <RadioButton foodstate="coldFood" label="Cold food" prodDetails={this.state.prodDetails ? (this.state.prodDetails.food_type == "Cold" ? true : false) : false} onChange={this.handleRadioChange} />
+                {this.state.foodType}
 								<div className="form-group m_lt19">
 									<label htmlFor="" className="col-form-label qty_label">Quantity available</label>
-									<input type="text" className="form-control qty_input" id="quantity" name="quantity" ref="quantity" onChange={this.handleChange} placeholder="" value={this.state.prodDetails ? this.state.prodDetails.quantity : ""} />
+									<input type="text" className="form-control qty_input" id="quantity" name="quantity" ref="quantity" onChange={this.handleChange} placeholder="" value={this.state.prodDetails ? this.state.prodDetails.quantity : this.refs.quantity.value} />
 								</div>
 							</div>
 	 					</div>
 	 					<div className="rt_prod_sec">
 							<div className="form-group">
-								<input type="text" className="form-control prod_label" ref="product_name" id="product_name" name="product_name" value={this.state.prodDetails ? this.state.prodDetails.product_name : ""} onChange={this.handleChange} placeholder="Product name" />
+								<input type="text" className="form-control prod_label" ref="product_name" id="product_name" name="product_name" value={this.state.prodDetails ? this.state.prodDetails.product_name : this.refs.product_name.value} onChange={this.handleChange} placeholder="Product name"/>
 							</div>
 							<div className="form-group nok_form">
 								<LabelField htmlFor="" className="col-form-label nok_label" label="NOK" />
-								<input type="text" ref="price" id="price" name="price" className="form-control" onChange={this.handleChange} placeholder="" value={this.state.prodDetails ? this.state.prodDetails.price : ""}/>
+								<input type="text" ref="price" id="price" name="price" className="form-control" onChange={this.handleChange} placeholder="" value={this.state.prodDetails ? this.state.prodDetails.price : this.refs.price.value}/>
+                 {this.state.price}
 							</div>
 							<div className="form-group portion_form custom_select">
-                <input type="text" className="form-control" ref="portion" id="portion" name="portion" placeholder="portion" onChange={this.handleChange} value={this.state.prodDetails ? this.state.prodDetails.portion : ""} />
+                <input type="text" className="form-control" ref="portion" id="portion" name="portion" onChange={this.handleChange} value={this.state.prodDetails ? this.state.prodDetails.portion : this.refs.portion.value} />
+                {this.state.portion}
               </div>
 							<div className="form-group custom_select">
 								<select className="form-control" name="product_category" ref="product_category" id="product_category" name="product_category" onChange={this.handleChange}>
@@ -115,13 +196,13 @@ export default class AddProduct extends React.Component {
 								<span className="select_bg"><small className="select__arrow"></small></span>
 							</div>
 							<div className="form-group prod_txtarea">
-								<textarea ref="description" id="description" name="description" onChange={this.handleChange} placeholder="Product description" value={this.state.prodDetails ? this.state.prodDetails.description : ""}></textarea>
+								<textarea ref="description" id="description" name="description" onChange={this.handleChange} placeholder="Product description" value={this.state.prodDetails ? this.state.prodDetails.description : this.refs.description.value}></textarea>
 							</div>
 						</div>
 						<div className="form-group m_lt55 " id="">
 							<label htmlFor="" className="col-form-label qty_label">Expiry date</label>
 							<div id="datetimepicker1" className="date_section">
-								<input type="text" id="example1" id="expiry_date" name="expiry_date" className="form-control date_input" ref="expiry_date" value={this.state.prodDetails ? this.state.prodDetails.expiry_date : ""} onChange={this.handleChange}/>
+								<input type="text" id="example1" id="expiry_date" name="expiry_date" className="form-control date_input" ref="expiry_date" value={this.state.prodDetails ? this.state.prodDetails.expiry_date : this.refs.expiry_date.value} onChange={this.handleChange}/>
 								<span className="add-on"><i className="fa fa-calendar" aria-hidden="true"></i></span>
 							</div>
 						</div>
