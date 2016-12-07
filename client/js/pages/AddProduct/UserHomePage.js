@@ -2,7 +2,7 @@ import { Link } from 'react-router';
 import React, { PropTypes } from 'react';
 import Banner from './Banner';
 import CategoryMenu from './CategoryMenu';
-import AddnewProducts from './AddnewProducts';
+import ProductCollection from './ProductCollection';
 import ReviewsAndLikes from './ReviewsAndLikes';
 import UserLogo from './UserLogo';
 import UserPersonalInfo from './UserPersonalInfo';
@@ -51,7 +51,7 @@ export default class UserHomePage extends React.Component {
     }
 
     if (this.state.data_loaded) {
-      uData = <AddnewProducts productInfo = {this.state.user}/>
+      uData = <ProductCollection productInfo = {this.state.user}/>
     }
 
     return(
