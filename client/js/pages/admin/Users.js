@@ -9,7 +9,7 @@ export const UserList = (props) => (
       <TextField source="full_name" />
       <TextField source="address" />
       <EmailField source="email" />
-      <DateField label="Joining Date"source="date_joined" style={{ fontStyle: 'italic' }} />
+      <DateField label="Joining Date" source="date_joined" style={{ fontStyle: 'italic' }} />
       <EditButton />
       <DeleteButton />
     </Datagrid>
@@ -32,4 +32,3 @@ export const UserCreate = (props) => (
     <TextInput source="email" />
   </Create>
 );
-
