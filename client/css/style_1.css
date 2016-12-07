@@ -190,6 +190,12 @@ a:hover {
 	color:#fff;
 	display:block;
 }
+.prod_modal .form-control.error{
+ border:1px solid #f00;
+}
+.prod_txtarea textarea.error{
+  border:1px solid #f00;
+}
 /*:::::::::::::::::::::::::::::::::::::::::::::::::::::
  ===============HEADER START====================
 :::::::::::::::::::::::::::::::::::::::::::::::::::::*/
@@ -1635,7 +1641,7 @@ width: 48%;
     position: absolute;
     top: 1px;
     width: auto;
-    height: 92%;
+    height: auto;
     border-radius: 3px 0 0px 3px;
 	    margin-bottom: 0;
 }

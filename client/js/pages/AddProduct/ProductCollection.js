@@ -3,7 +3,7 @@ import React from 'react';
 import ProductList from './ProductList';
 import ReactSlider from '../Product/ReactSlider';
 
-export default class AddnewProducts extends React.Component {
+export default class ProductCollection extends React.Component {
   constructor(props, context) {
     super(props, context)
       this.state = {
