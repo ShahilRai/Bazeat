@@ -47,7 +47,26 @@ export default class DeliveryMethods extends React.Component {
 		<div>
 			<ProductHeading />
 			<div className="modal-body delivery_modal_body">
-				<ProductStep />
+				<div className="prod_steps">
+						<div className="step_1 right_border">
+							<span className="complt_steps">
+								<span className="step_nos">1</span>
+								<span className="step_descrip inactive">Product <br/> details</span>
+							</span>
+						</div>
+						<div className="step_1 right_border">
+							<span className="complt_steps">
+								<span className="step_nos">2</span>
+								<span className="step_descrip">Ingredients &amp; <br/> nutrition</span>
+							</span>
+						</div>
+						<div className="step_1">
+							<span className="complt_steps">
+								<span className="step_nos orange_bg">3</span>
+								<span className="step_descrip inactive">Delivery <br/> methods</span>
+							</span>
+						</div>
+					</div>
 				<form className="prod_form" onSubmit ={this.props.submitProduct}>
 					<div className="nutrition_fact">
 						<h5>Delivery methods</h5>
