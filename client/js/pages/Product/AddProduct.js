@@ -42,7 +42,7 @@ export default class AddProduct extends React.Component {
         product_category: this.refs.product_category.value,
         expiry_date: this.refs.expiry_date.value,
         food_type: this.state.food_type,
-        photo: this.state.photo,
+        photo: this.state.photo ? this.state.photo : (this.props.prodDetails ? this.props.prodDetails.photo : ""),
         email: this.context.user.email
 	    }
 		}
@@ -84,7 +84,7 @@ export default class AddProduct extends React.Component {
 					<ProductStep />
 					<form className="prod_form" method="post">
 	 					<div className="lt_prod_sec">
-							<UploadProductImage ref="product_image" onPicUpdate={this.onPicUpdate.bind(this)}/>
+							<UploadProductImage ref="product_image" onPicUpdate={this.onPicUpdate.bind(this)} prodDetails={this.props.prodDetails ? this.props.prodDetails.photo : ""} />
 							<div className="form-group m_top20 m_lt9">
 								<RadioButton foodstate="hotFood" label="Hot food" prodDetails={this.state.prodDetails ? (this.state.prodDetails.food_type == "Hot" ? true : false) : false} onChange={this.handleRadioChange} />
                 <RadioButton foodstate="coldFood" label="Cold food" prodDetails={this.state.prodDetails ? (this.state.prodDetails.food_type == "Cold" ? true : false) : false} onChange={this.handleRadioChange} />
@@ -109,7 +109,7 @@ export default class AddProduct extends React.Component {
 								<select className="form-control" name="product_category" ref="product_category" id="product_category" name="product_category" onChange={this.handleChange}>
 									{
 										this.props.prod_categ_val.map((product_category_list, index) => {
-										return <option key={ index } id={product_category_list.id} value={product_category_list.id} >{product_category_list.name}</option>
+                      return <option key={ index } id={product_category_list.id} value={product_category_list.id} >{product_category_list.name}</option>
 									})}
 								</select>
 								<span className="select_bg"><small className="select__arrow"></small></span>
