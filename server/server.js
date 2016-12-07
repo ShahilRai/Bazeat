@@ -303,7 +303,7 @@ app.post('/api/update_product_image', productupload.single('image'), function (r
 })
 
 // Admin Logout
-app.get('/api/admin/authenticate/logout', logout());
+app.get('/admin/logouts', logout());
 
 // app.get('/', ExpressStrompath.loginRequired, function(req, res) {
 //   res.send('Welcome back: ' + res.locals.user.email);
