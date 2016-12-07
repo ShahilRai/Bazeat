@@ -22,8 +22,14 @@ export default class Ingredients extends React.Component {
 
   componentDidMount() {
       this.setState({
-        prodDetails: this.props.prodDetails
+        prodDetails: this.props.prodDetails,
       })
+  }
+
+   SubmitAfterValidate() {
+    if(this.refs.ingredients.value){
+      this.addItem()
+    }
   }
 
 	SaveAndContinue(){
@@ -44,7 +50,6 @@ export default class Ingredients extends React.Component {
 		  locally_produced_items: this.refs.locally_produced_items.refs.prdctn_col.checked
     }
   }
-
   this.props.saveValues(this.state.data)
 	this.props.nextStep()
 }
@@ -144,7 +149,7 @@ export default class Ingredients extends React.Component {
 									<label htmlFor="" className="col-form-label ingrdnt_label">Ingredient</label>
 									<input type="text" className="form-control" name="ingredients" list="ingredientList" ref="ingredients" placeholder=""/>
 									<IngredientsList ref="IngredientsList" />
-									<button type="button" className="btn btn-default nxt_btn ingrdnt_btn" onClick={this.addItem.bind(this)}>Add ingredient</button>
+									<button type="button" className="btn btn-default nxt_btn ingrdnt_btn" onClick={this.SubmitAfterValidate.bind(this)}>Add ingredient</button>
 									<ul className="ingrdnt_options">
 									</ul>
                   <Tags allIngredients={this.state.data.ingredients} onClick={this.removeTag.bind(this)}/>
