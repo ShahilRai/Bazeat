@@ -37,6 +37,16 @@ export default class ImageUploader extends React.Component {
   }
 
   render() {
+    var savedImage;
+      if(this.props.prodDetails){
+          savedImage = <img src={this.props.prodDetails} height="200" width="200" />;
+            return (
+              <div className="box__input">
+                {savedImage}
+              </div>
+            );
+      }
+
     var imagePreview = null;
 
     if(this.state.uploadedImages) {
