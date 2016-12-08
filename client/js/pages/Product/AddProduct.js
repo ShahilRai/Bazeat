@@ -96,23 +96,6 @@ export default class AddProduct extends React.Component {
       portion:(<p> Please enter numbers </p>)
       })
     }
-    if(this.refs.quantity.value && this.refs.quantity.value.match(numbers)){
-      this.setState({
-      quantity:""
-      })
-    }
-    else if(!this.refs.quantity.value){
-      valid = false
-      this.setState({
-      quantity:""
-      })
-    }
-    else{
-      this.setState({
-      quantity:(<p>Please fill numbers only</p>)
-      })
-      valid = false
-    }
     if ($(".checkBox:checked").length > 0) {
       this.setState({
       foodType:""
@@ -190,7 +173,7 @@ export default class AddProduct extends React.Component {
                 {this.state.foodType}
 								<div className="form-group m_lt19">
 									<label htmlFor="" className="col-form-label qty_label">Quantity available</label>
-									<input type="text" className="form-control qty_input" id="quantity" name="quantity" ref="quantity" onChange={this.handleChange} placeholder="" value={this.state.prodDetails ? this.state.prodDetails.quantity : this.refs.quantity.value} />
+									<input type="numbers" className="form-control qty_input" id="quantity" name="quantity" ref="quantity" onChange={this.handleChange} placeholder="" value={this.state.prodDetails ? this.state.prodDetails.quantity : this.refs.quantity.value} />
                   {this.state.quantity}
 								</div>
 							</div>
