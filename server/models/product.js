@@ -19,7 +19,7 @@ const productSchema = new Schema({
   buyers: [{ type: ObjectId, ref: 'User' }],
   food_type: { type: 'String', required: true },
   quantity: { type: 'Number' },
-  portion: { type: 'String', required: true },
+  portion: { type: 'Number', required: true },
   expiry_date: { type: 'Date', default: Date.now },
   nutrition_fact: {
     kj: { type: String, lowercase: true, trim: true },
