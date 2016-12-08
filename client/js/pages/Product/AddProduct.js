@@ -73,7 +73,6 @@ export default class AddProduct extends React.Component {
       })
     }
     else{
-      $("#price").addClass("error")
       valid = false
       this.setState({
       price:(<p> Please enter numbers </p>)
@@ -91,7 +90,6 @@ export default class AddProduct extends React.Component {
       })
     }
     else{
-      $("#portion").addClass("error")
       valid = false
       this.setState({
       portion:(<p> Please enter numbers </p>)
@@ -113,6 +111,7 @@ export default class AddProduct extends React.Component {
 
   SaveAndContinue(){
     var self = this
+    if(self.isValidate()){
     this.state = {
       data : {
         product_name: this.refs.product_name.value,
@@ -127,7 +126,6 @@ export default class AddProduct extends React.Component {
         email: this.context.user.email
       }
     }
-    if(self.isValidate()){
       this.props.nextStep()
       this.props.saveValues(this.state.data)
     }
