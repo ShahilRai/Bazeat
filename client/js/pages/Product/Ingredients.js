@@ -118,6 +118,11 @@ export default class Ingredients extends React.Component {
 	}
 
 	render() {
+    var self = this
+    if(this.props.prodDetails){
+      var ingr = this.props.prodDetails.ingredients
+      self.state.data.ingredients = ingr
+    }
 		return (
 			<div>
 				<ProductHeading prodDetails = {this.props.prodDetails ? this.props.prodDetails : ""} />
