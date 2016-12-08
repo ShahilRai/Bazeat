@@ -117,7 +117,7 @@ export default class AddProduct extends React.Component {
         portion: this.refs.portion.value,
         product_category: this.refs.product_category.value,
         expiry_date: this.refs.expiry_date.value,
-        food_type: this.state.food_type,
+        food_type: this.state.food_type ? this.state.food_type : (this.props.prodDetails ? this.props.prodDetails.food_type : ""),
         photo: this.state.photo ? this.state.photo : (this.props.prodDetails ? this.props.prodDetails.photo : ""),
         email: this.context.user.email
       }
