@@ -226,7 +226,7 @@ export default class AddProduct extends React.Component {
 						<div className="form-group m_lt55 " id="">
 							<label htmlFor="" className="col-form-label qty_label">Expiry date</label>
 							<div id="datetimepicker1" className="date_section">
-								<input type="date" id="example1" id="expiry_date" name="expiry_date" className="form-control date_input" ref="expiry_date" value={this.state.prodDetails ? this.state.prodDetails.expiry_date : this.refs.expiry_date.value} onChange={this.handleChange}/>
+								<input type="text" id="example1" id="expiry_date" name="expiry_date" className="form-control date_input" ref="expiry_date" value={this.state.prodDetails ? this.state.prodDetails.expiry_date : this.refs.expiry_date.value} onChange={this.handleChange}/>
 								<span className="add-on"><i className="fa fa-calendar" aria-hidden="true"></i></span>
 							</div>
 						</div>
