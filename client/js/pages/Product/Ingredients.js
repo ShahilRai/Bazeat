@@ -120,7 +120,7 @@ export default class Ingredients extends React.Component {
 	render() {
 		return (
 			<div>
-				<ProductHeading />
+				<ProductHeading prodDetails = {this.props.prodDetails ? this.props.prodDetails : ""} />
 				<div className="modal-body">
 					<div className="prod_steps">
 						<div className="step_1 right_border">
