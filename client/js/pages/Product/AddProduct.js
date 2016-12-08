@@ -24,7 +24,8 @@ export default class AddProduct extends React.Component {
       portion : "",
       foodType: "",
       Product_name: "",
-      description: ""
+      description: "",
+      quantity: ""
 	  };
     this.handleChange = this.handleChange.bind(this);
     this.handleRadioChange = this.handleRadioChange.bind(this);
@@ -95,6 +96,23 @@ export default class AddProduct extends React.Component {
       portion:(<p> Please enter numbers </p>)
       })
     }
+    if(this.refs.quantity.value && this.refs.quantity.value.match(numbers)){
+      this.setState({
+      quantity:""
+      })
+    }
+    else if(!this.refs.quantity.value){
+      valid = false
+      this.setState({
+      quantity:""
+      })
+    }
+    else{
+      this.setState({
+      quantity:(<p>Please fill numbers only</p>)
+      })
+      valid = false
+    }
     if ($(".checkBox:checked").length > 0) {
       this.setState({
       foodType:""
@@ -158,7 +176,6 @@ export default class AddProduct extends React.Component {
   }
 
 	render() {
-    console.log(this.props.id)
 		return (
 			<div>
 				<ProductHeading prodDetails = {this.props.prodDetails ? this.props.prodDetails : ""} />
@@ -174,6 +191,7 @@ export default class AddProduct extends React.Component {
 								<div className="form-group m_lt19">
 									<label htmlFor="" className="col-form-label qty_label">Quantity available</label>
 									<input type="text" className="form-control qty_input" id="quantity" name="quantity" ref="quantity" onChange={this.handleChange} placeholder="" value={this.state.prodDetails ? this.state.prodDetails.quantity : this.refs.quantity.value} />
+                  {this.state.quantity}
 								</div>
 							</div>
 	 					</div>
@@ -208,7 +226,7 @@ export default class AddProduct extends React.Component {
 						<div className="form-group m_lt55 " id="">
 							<label htmlFor="" className="col-form-label qty_label">Expiry date</label>
 							<div id="datetimepicker1" className="date_section">
-								<input type="text" id="example1" id="expiry_date" name="expiry_date" className="form-control date_input" ref="expiry_date" value={this.state.prodDetails ? this.state.prodDetails.expiry_date : this.refs.expiry_date.value} onChange={this.handleChange}/>
+								<input type="date" id="example1" id="expiry_date" name="expiry_date" className="form-control date_input" ref="expiry_date" value={this.state.prodDetails ? this.state.prodDetails.expiry_date : this.refs.expiry_date.value} onChange={this.handleChange}/>
 								<span className="add-on"><i className="fa fa-calendar" aria-hidden="true"></i></span>
 							</div>
 						</div>
