@@ -25,8 +25,6 @@ export default class AddProduct extends React.Component {
       foodType: "",
       Product_name: "",
       description: ""
-
-
 	  };
     this.handleChange = this.handleChange.bind(this);
     this.handleRadioChange = this.handleRadioChange.bind(this);
@@ -189,7 +187,7 @@ export default class AddProduct extends React.Component {
 							<div className="form-group nok_form">
 								<LabelField htmlFor="" className="col-form-label nok_label" label="NOK" />
 								<input type="text" ref="price" id="price" name="price" className="form-control" onChange={this.handleChange} placeholder="" value={this.state.prodDetails ? this.state.prodDetails.price : this.refs.price.value}/>
-                 {this.state.price}
+                {this.state.price}
 							</div>
 							<div className="form-group portion_form custom_select">
                 <input type="text" className="form-control" ref="portion" id="portion" name="portion" onChange={this.handleChange} value={this.state.prodDetails ? this.state.prodDetails.portion : this.refs.portion.value} />
