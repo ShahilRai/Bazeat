@@ -157,7 +157,7 @@ export default class AddProduct extends React.Component {
 	render() {
 		return (
 			<div>
-				<ProductHeading />
+				<ProductHeading prodDetails = {this.props.prodDetails ? this.props.prodDetails : ""} />
 				<div className="modal-body">
 					<ProductStep />
 					<form className="prod_form" method="post">
