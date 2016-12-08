@@ -159,6 +159,11 @@ export default class AddProduct extends React.Component {
   }
 
 	render() {
+    var categ = [];
+    var chckd = false
+    if(this.props.prodDetails){
+      categ = this.props.prodDetails.product_category
+    }
 		return (
 			<div>
 				<ProductHeading prodDetails = {this.props.prodDetails ? this.props.prodDetails : ""} />
@@ -196,7 +201,8 @@ export default class AddProduct extends React.Component {
 								<select className="form-control" name="product_category" ref="product_category" id="product_category" name="product_category" onChange={this.handleChange}>
 									{
 										this.props.prod_categ_val.map((product_category_list, index) => {
-                      return <option key={ index } id={product_category_list.id} value={product_category_list.id} >{product_category_list.name}</option>
+                      chckd = (categ == product_category_list.id)
+                      return <option key={ index } id={product_category_list.id} value={product_category_list.id} selected={this.props.prodDetails ? chckd : ""} >{product_category_list.name}</option>
 									})}
 								</select>
 								<span className="select_bg"><small className="select__arrow"></small></span>
