@@ -25,7 +25,6 @@ export default class AddProduct extends React.Component {
       foodType: "",
       Product_name: "",
       description: "",
-      quantity: ""
 	  };
     this.handleChange = this.handleChange.bind(this);
     this.handleRadioChange = this.handleRadioChange.bind(this);
@@ -76,7 +75,7 @@ export default class AddProduct extends React.Component {
     else{
       valid = false
       this.setState({
-      price:(<p> Please enter numbers </p>)
+      price:""
       })
     }
     if(this.refs.portion.value && this.refs.portion.value.match(numbers)){
@@ -93,7 +92,7 @@ export default class AddProduct extends React.Component {
     else{
       valid = false
       this.setState({
-      portion:(<p> Please enter numbers </p>)
+      portion:""
       })
     }
     if ($(".checkBox:checked").length > 0) {
@@ -159,6 +158,11 @@ export default class AddProduct extends React.Component {
   }
 
 	render() {
+    var categ = [];
+    var chckd = false
+    if(this.props.prodDetails){
+      categ = this.props.prodDetails.product_category
+    }
 		return (
 			<div>
 				<ProductHeading prodDetails = {this.props.prodDetails ? this.props.prodDetails : ""} />
@@ -174,7 +178,6 @@ export default class AddProduct extends React.Component {
 								<div className="form-group m_lt19">
 									<label htmlFor="" className="col-form-label qty_label">Quantity available</label>
 									<input type="number" className="form-control qty_input" id="quantity" name="quantity" ref="quantity" onChange={this.handleChange} placeholder="" value={this.state.prodDetails ? this.state.prodDetails.quantity : this.refs.quantity.value} />
-                  {this.state.quantity}
 								</div>
 							</div>
 	 					</div>
@@ -185,18 +188,19 @@ export default class AddProduct extends React.Component {
 							</div>
 							<div className="form-group nok_form">
 								<LabelField htmlFor="" className="col-form-label nok_label" label="NOK" />
-								<input type="text" ref="price" id="price" name="price" className="form-control" onChange={this.handleChange} placeholder="" value={this.state.prodDetails ? this.state.prodDetails.price : this.refs.price.value}/>
+								<input type="number" ref="price" id="price" name="price" className="form-control" onChange={this.handleChange} placeholder="" value={this.state.prodDetails ? this.state.prodDetails.price : this.refs.price.value}/>
                 {this.state.price}
 							</div>
 							<div className="form-group portion_form custom_select">
-                <input type="text" className="form-control" ref="portion" id="portion" name="portion" onChange={this.handleChange} value={this.state.prodDetails ? this.state.prodDetails.portion : this.refs.portion.value} />
+                <input type="number" className="form-control" ref="portion" id="portion" name="portion" onChange={this.handleChange} value={this.state.prodDetails ? this.state.prodDetails.portion : this.refs.portion.value} />
                 {this.state.portion}
               </div>
 							<div className="form-group custom_select">
 								<select className="form-control" name="product_category" ref="product_category" id="product_category" name="product_category" onChange={this.handleChange}>
 									{
 										this.props.prod_categ_val.map((product_category_list, index) => {
-                      return <option key={ index } id={product_category_list.id} value={product_category_list.id} >{product_category_list.name}</option>
+                      chckd = (categ == product_category_list.id)
+                      return <option key={ index } id={product_category_list.id} value={product_category_list.id} selected={this.props.prodDetails ? chckd : ""} >{product_category_list.name}</option>
 									})}
 								</select>
 								<span className="select_bg"><small className="select__arrow"></small></span>
