@@ -11,9 +11,6 @@ const ifProducer = new Schema({
   cmp_description: String,
   cmp_phone_number: Number,
   cmp_contact_person: String,
-  cmp_city: { type: 'String' },
-  cmp_address: { type: 'String' },
-  cmp_postal_code: { type: 'String' },
   cmp_delivery_options: String,
   days: [{ type: Schema.Types.ObjectId, ref: 'slotDays' }],
 });
@@ -56,7 +53,9 @@ const userSchema = new Schema({
   user_info: { type: ifUser, default: ifUser },
   products: [{ type: Schema.ObjectId, ref: 'Product' }],
   orderitems: [{ type: Schema.ObjectId, ref: 'OrderItem' }],
-  unique_id: { type: String }
+  unique_id: { type: String },
+  latitude: { type: 'Number' },
+  longitude: { type: 'Number' },
 });
 
 export default mongoose.model('User', userSchema);

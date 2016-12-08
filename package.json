@@ -47,6 +47,7 @@
     "mongoose": "^4.4.20",
     "multer": "^1.2.0",
     "multer-s3": "^2.4.0",
+    "node-geocoder": "^3.15.1",
     "nodemailer": "^2.6.4",
     "nodemailer-mandrill-transport": "^1.2.0",
     "passport": "^0.3.2",
