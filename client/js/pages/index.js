@@ -13,6 +13,7 @@ export UserProfilePage from './Profile/UserProfilePage'
 export ProducerProfilePage from './Profile/ProducerProfilePage'
 export ProfileContainer from './Profile/ProfileContainer'
 export AddProduct from './Product/AddProduct'
+export UserSettingPage from './UserSetting/UserSettingPage';
 export Ingredients from './Product/Ingredients'
 export DeliveryMethods from './Product/DeliveryMethods'
 export ReactSlider from './Product/ReactSlider'
