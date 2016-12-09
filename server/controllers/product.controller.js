@@ -80,7 +80,7 @@ export function getProducts(req, res) {
 
 
 export function getProduct(req, res) {
-  Product.findOne({ cuid: req.params.cuid }).populate('allergens').populate('ingredients').exec((err, product) => {
+  Product.findOne({ cuid: req.params.cuid }).populate('ingredients').exec((err, product) => {
     if (err) {
       res.status(500).send(err);
     }

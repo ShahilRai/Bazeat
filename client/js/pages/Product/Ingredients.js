@@ -119,9 +119,13 @@ export default class Ingredients extends React.Component {
 
 	render() {
     var self = this
+    var alrgn= [];
+    var chckd;
     if(this.props.prodDetails){
       var ingr = this.props.prodDetails.ingredients
       self.state.data.ingredients = ingr
+      alrgn = this.props.prodDetails.allergens
+      self.state.chckboxVal = alrgn
     }
 		return (
 			<div>
@@ -203,9 +207,13 @@ export default class Ingredients extends React.Component {
 								<div className="chkbox_col">
 									<div className="checkbox custom_checkbox">
 										{this.state.algrnList.map((allergens_list, index) => {
+                      {alrgn.map((alrgn_id, index) => {
+                        if (allergens_list.id == alrgn_id)
+                          chckd=alrgn_id
+                        })}
 										return (
 												<div>
-													<input id={allergens_list.id} type="checkbox" defaultValue={allergens_list.id} ref="allergens" name="allergens" key={ index } onChange={this.handleCheckBox.bind(this)}/>
+													<input id={allergens_list.id} type="checkbox" defaultChecked={allergens_list.id == chckd} defaultValue={allergens_list.id} ref="allergens" name="allergens" key={ index } onChange={this.handleCheckBox.bind(this)}/>
 													<LabelField htmlFor={allergens_list.id} label={allergens_list.name } />
 												</div>
 											);
