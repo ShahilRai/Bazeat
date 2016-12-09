@@ -116,6 +116,9 @@ app.use(ExpressStrompath.init(app, {
           }
         }
       }
+    },
+    changePassword: {
+      autoLogin: false,
     }
   },
   preRegistrationHandler: function (formData, req, res, next) {
