@@ -9,12 +9,14 @@ export function addAdmin(req, res) {
   newadmin.email = req.body.email;
   newadmin.setPassword(req.body.password);
   newadmin.save(function(err) {
-    var token;
-    token = newadmin.generateJwt();
-    res.status(200);
-    res.json({
-      "token" : token
-    });
+    if(err){
+      return res.status(500).send(err);
+    }
+    else{
+      var token;
+      token = newadmin.generateJwt();
+      return res.json({"token" : token});
+    }
   });
 }
 
@@ -33,13 +35,10 @@ export function adminLogin(req, res) {
     // If a admin is found
     if(admin){
       token = admin.generateJwt();
-      res.status(200);
-      res.json({
-        "token" : token
-      });
+       return res.json({"token" : token});
     } else {
       // If admin is not found
-      res.status(401).json(info);
+      return res.status(401).json(info);
     }
   })(req, res);
 }

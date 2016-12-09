@@ -15,9 +15,11 @@ export function addProduct(req, res) {
       newProduct.save((err, product) => {
         console.log(err)
         if (err) {
-         res.status(500).send(err);
+         return res.status(500).send(err);
         }
-        res.json({ product: product });;
+        else{
+          return res.json({ product: product });;
+        }
       // });
     })
   });
@@ -60,9 +62,11 @@ export function purchaseProduct(req, res) {
         product.buyers.push(user);
         product.save((err, product1) => {
           if (err) {
-            res.status(500).send(err);
+            return  res.status(500).send(err);
           }
-        res.json({ product: product1 });
+          else{
+            return res.json({ product: product1 });
+          }
         });
     });
   });
@@ -72,9 +76,11 @@ export function purchaseProduct(req, res) {
 export function getProducts(req, res) {
   Product.find().sort('-dateAdded').exec((err, products) => {
     if (err) {
-      res.status(500).send(err);
+      return res.status(500).send(err);
     }
-    res.json({ products });
+    else{
+      return res.json({ products });
+    }
   });
 }
 
@@ -82,25 +88,29 @@ export function getProducts(req, res) {
 export function getProduct(req, res) {
   Product.findOne({ cuid: req.params.cuid }).populate('ingredients').exec((err, product) => {
     if (err) {
-      res.status(500).send(err);
+      return res.status(500).send(err);
     }
-    res.json({ product });
+    else{
+     return res.json({ product });
+    }
   });
 }
 
 export function getBuyers(req, res) {
   Product.findOne({ cuid: req.params.cuid }).populate('buyers _producer').exec((err, buyers) => {
     if (err) {
-      res.status(500).send(err);
+      return res.status(500).send(err);
     }
-      res.json({ product: buyers });
+    else{
+      return res.json({ product: buyers });
+    }
     });
 }
 
 export function deleteProduct(req, res) {
   Product.findOne({ cuid: req.params.cuid }).exec((err, product) => {
     if (err) {
-      res.status(500).send(err);
+      return res.status(500).send(err);
     }
     product.remove(() => {
       res.status(200).end();
@@ -112,20 +122,25 @@ export function getIngrdients(req, res){
   let re = new RegExp(req.query.search, 'i');
   Ingredient.find().or([{ 'name': { $regex: re }}]).sort('name').select("-_products -__v").exec(function
     (err, ingredients) {
-    res.json(ingredients: ingredients);
+      if (err){
+        return res.status(500).send(err);
+      }
+      else {
+        return res.json(ingredients: ingredients);
+      }
   })
 }
 
 export function getDetails(req, res){
   Allergen.find().sort('-dateAdded').select("-_products -__v").exec((err, allergens) => {
     if (err) {
-      res.status(500).send(err);
+      return res.status(500).send(err);
     }
     ProductCategory.find().sort('-dateAdded').select("-_products -_product -__v").exec((err, productcategories) => {
       if (err) {
-        res.status(500).send(err);
+        return res.status(500).send(err);
       }
-      res.json({allergens_list: allergens, product_category_list: productcategories  });
+      return res.json({allergens_list: allergens, product_category_list: productcategories  });
     });
   });
 }
@@ -134,15 +149,20 @@ export function getDetails(req, res){
 
 export function getUserProducts(req, res) {
   User.findOne({ email: req.params.email }).populate('products').exec((err, user) => {
-    user.products.forEach(function(item, index){
-      Product.findOne({ cuid: item.cuid }).populate('allergens').populate('ingredients').populate('product_category').exec((err, product) =>{
-        user.products[index].allergens = product.allergens;
-        user.products[index].ingredients = product.ingredients
-        user.products[index].product_category = product.product_category
-        if(user.products.length == index+1){
-          res.json({producer: user});
-        }
-      })
-    });
+    if (user.products.length > 0) {
+      user.products.forEach(function(item, index){
+        Product.findOne({ cuid: item.cuid }).populate('allergens').populate('ingredients').populate('product_category').exec((err, product) =>{
+          user.products[index].allergens = product.allergens;
+          user.products[index].ingredients = product.ingredients
+          user.products[index].product_category = product.product_category
+          if(user.products.length == index+1){
+            res.json({producer: user});
+          }
+        })
+      });
+    }
+    else {
+      res.json({producer: user});
+     }
   });
 }
