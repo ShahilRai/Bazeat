@@ -106,7 +106,7 @@ export default class UserProfilePage extends React.Component {
                   </div>
                   <div className="form-group row">
                     <LabelField htmlFor="phone" label="Phone number" />
-                    <InputField type="tel" name="phone" value = {this.state.user.phone} />
+                    <InputField type="number" name="phone" value = {this.state.user.phone} />
                   </div>
                   <div className="form-group row">
                     <LabelField htmlFor="example-search-input" label="Address" />
@@ -119,6 +119,10 @@ export default class UserProfilePage extends React.Component {
                   <div className="form-group row">
                     <LabelField htmlFor="example-url-input" label="Country" />
                     <InputField name="country" value = {this.state.user.country} />
+                  </div>
+                  <div className="form-group row">
+                    <LabelField htmlFor="example-url-input" label="Postal code" />
+                    <InputField type="number" name="postal_code" value = {this.state.user.postal_code} />
                   </div>
                   <div className="form-group row">
                     <LabelField htmlFor="desc" label="Description" />
