@@ -53,11 +53,13 @@ export function getOrder(req, res) {
 export function deleteOrder(req, res) {
   Order.findOne({ cuid: req.params.cuid }).exec((err, order) => {
     if (err) {
-      return
-
-    order.remove(() => {
-      res.status(200).end();
-    });
+      return res.status(500).send(err);
+     }
+    else{
+      order.remove(() => {
+        res.status(200).end();
+      });
+    }
   });
 }
 
