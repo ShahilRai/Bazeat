@@ -149,20 +149,31 @@ export function getDetails(req, res){
 
 export function getUserProducts(req, res) {
   User.findOne({ email: req.params.email }).populate('products').exec((err, user) => {
-    if (user.products.length > 0) {
-      user.products.forEach(function(item, index){
-        Product.findOne({ cuid: item.cuid }).populate('allergens').populate('ingredients').populate('product_category').exec((err, product) =>{
-          user.products[index].allergens = product.allergens;
-          user.products[index].ingredients = product.ingredients
-          user.products[index].product_category = product.product_category
-          if(user.products.length == index+1){
-            res.json({producer: user});
-          }
-        })
-      });
+    if(err){
+      return res.status(500).send(err);
     }
     else {
-      res.json({producer: user});
-     }
+      if (user.products.length > 0) {
+        user.products.forEach(function(item, index){
+          Product.findOne({ cuid: item.cuid }).populate('allergens').populate('ingredients').populate('product_category').exec((err, product) =>{
+
+            if(err){
+              return res.status(500).send(err);
+            }
+            else{
+              user.products[index].allergens = product.allergens;
+              user.products[index].ingredients = product.ingredients
+              user.products[index].product_category = product.product_category
+              if(user.products.length == index+1){
+                return res.json({producer: user});
+              }
+            }
+          })
+        });
+      }
+      else {
+        res.json({producer: user});
+      }
+    }
   });
 }
