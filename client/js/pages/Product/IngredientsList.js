@@ -20,8 +20,8 @@ export default class IngredientsList extends React.Component {
 	}
 
 	getIngredients() {
-		return this.state.data.map((ingredient) => {
-      return <option key={ingredient.id} id={ingredient.id}>{ingredient.name}</option>;
+		return this.state.data.map((ingredient,index) => {
+      return <option key={index} id={ingredient.id}>{ingredient.name}</option>;
  		});
 	}
 

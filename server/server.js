@@ -131,9 +131,7 @@ app.use(ExpressStrompath.init(app, {
       }
       newUser.save((err, saved) => {
         if (err) {
-          console.log('err')
-          console.log(err)
-          res.status(500).send(err);
+           return res.status(500).send(err);
         }
       });
       next()
@@ -145,10 +143,8 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
   function (req, res) {
   function writeError(message) {
     res.status(400);
-    res.json({ message: message, status: 400 });
-    res.end();
+    return res.json({ message: message, status: 400 });
   }
-    console.log(req.body)
   function saveAccount() {
     req.user.givenName = req.body.givenName;
     req.user.surname = req.body.surname;
@@ -186,33 +182,39 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
         user.postal_code = req.body.postal_code;
         user.save((error, saveduser) => {
           if (error) {
-            res.status(500).send(error);
-          }
-          if(saveduser.if_producer == true ){
-            let producer_info = saveduser.producer_info;
-            producer_info.business_name = business_name;
-            producer_info.org_number = org_number;
-            producer_info.sub_to_vat = sub_to_vat;
-            producer_info.cmp_web_site = cmp_web_site;
-            producer_info.cmp_description = cmp_description;
-            producer_info.cmp_phone_number = cmp_phone_number;
-            producer_info.cmp_contact_person = cmp_contact_person;
-            producer_info.cmp_city = cmp_city;
-            producer_info.cmp_address = cmp_address;
-            producer_info.cmp_postal_code = cmp_postal_code;
-            producer_info.cmp_delivery_options = cmp_delivery_options;
-            // producer_info.company_description = producer_companydescription;
+            return res.status(500).send(error) ;
           }
           else{
-            // To be added for user profile
-            let user_info = saveduser.user_info;
-            user_info.gender = gender;
-            // user_info.contact_person = ;
-            // To be added for user profile
+            if(saveduser.if_producer == true ){
+              let producer_info = saveduser.producer_info;
+              producer_info.business_name = business_name;
+              producer_info.org_number = org_number;
+              producer_info.sub_to_vat = sub_to_vat;
+              producer_info.cmp_web_site = cmp_web_site;
+              producer_info.cmp_description = cmp_description;
+              producer_info.cmp_phone_number = cmp_phone_number;
+              producer_info.cmp_contact_person = cmp_contact_person;
+              producer_info.cmp_city = cmp_city;
+              producer_info.cmp_address = cmp_address;
+              producer_info.cmp_postal_code = cmp_postal_code;
+              producer_info.cmp_delivery_options = cmp_delivery_options;
+              // producer_info.company_description = producer_companydescription;
+            }
+            else{
+              // To be added for user profile
+              let user_info = saveduser.user_info;
+              user_info.gender = gender;
+              // user_info.contact_person = ;
+              // To be added for user profile
+            }
           }
           saveduser.save(function (err, saveduser1) {
-            console.log(saveduser1)
-            res.json({ user: saveduser1 });
+            if (err) {
+              return res.status(500).send(error);
+            }
+            else{
+              return res.json({ user: saveduser1 });
+            }
           });
         });
       });
@@ -221,7 +223,6 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
 
   if (req.body.password) {
     var application = req.app.get('stormpathApplication');
-
     application.authenticateAccount({
       username: req.user.username,
       password: req.body.existingPassword
@@ -229,12 +230,11 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
       if (err) {
         return writeError('The existing password that you entered was incorrect.');
       }
-
       req.user.password = req.body.password;
-
       saveAccount();
     });
-  } else {
+  }
+  else {
     saveAccount();
   }
 });
@@ -277,10 +277,11 @@ app.post('/api/profile_image', profileupload.single('image'), function (req, res
     user.photo = req.file.location
     user.save((error, saveduser) => {
       if (error) {
-        res.status(500).send(error);
+        return  res.status(500).send(error);
       }
-      console.log(saveduser.photo)
-      res.json({ image_url: saveduser.photo });
+      else {
+        return res.json({ image_url: saveduser.photo });
+      }
     });
   });
 })
@@ -294,10 +295,11 @@ app.post('/api/update_product_image', productupload.single('image'), function (r
     product.photo = req.file.location
     product.save((error, savedproduct) => {
       if (error) {
-        res.status(500).send(error);
+        return res.status(500).send(error);
       }
-      console.log(savedproduct.photo)
-      res.json({ image_url: savedproduct.photo });
+      else {
+        return res.json({ image_url: savedproduct.photo });
+      }
     });
   });
 })

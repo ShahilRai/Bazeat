@@ -22,8 +22,14 @@ export default class Ingredients extends React.Component {
 
   componentDidMount() {
       this.setState({
-        prodDetails: this.props.prodDetails
+        prodDetails: this.props.prodDetails,
       })
+  }
+
+   SubmitAfterValidate() {
+    if(this.refs.ingredients.value){
+      this.addItem()
+    }
   }
 
 	SaveAndContinue(){
@@ -44,7 +50,6 @@ export default class Ingredients extends React.Component {
 		  locally_produced_items: this.refs.locally_produced_items.refs.prdctn_col.checked
     }
   }
-
   this.props.saveValues(this.state.data)
 	this.props.nextStep()
 }
@@ -113,9 +118,18 @@ export default class Ingredients extends React.Component {
 	}
 
 	render() {
+    var self = this
+    var alrgn= [];
+    var chckd;
+    if(this.props.prodDetails){
+      var ingr = this.props.prodDetails.ingredients
+      self.state.data.ingredients = ingr
+      alrgn = this.props.prodDetails.allergens
+      self.state.chckboxVal = alrgn
+    }
 		return (
 			<div>
-				<ProductHeading />
+				<ProductHeading prodDetails = {this.props.prodDetails ? this.props.prodDetails : ""} />
 				<div className="modal-body">
 					<div className="prod_steps">
 						<div className="step_1 right_border">
@@ -144,7 +158,7 @@ export default class Ingredients extends React.Component {
 									<label htmlFor="" className="col-form-label ingrdnt_label">Ingredient</label>
 									<input type="text" className="form-control" name="ingredients" list="ingredientList" ref="ingredients" placeholder=""/>
 									<IngredientsList ref="IngredientsList" />
-									<button type="button" className="btn btn-default nxt_btn ingrdnt_btn" onClick={this.addItem.bind(this)}>Add ingredient</button>
+									<button type="button" className="btn btn-default nxt_btn ingrdnt_btn" onClick={this.SubmitAfterValidate.bind(this)}>Add ingredient</button>
 									<ul className="ingrdnt_options">
 									</ul>
                   <Tags allIngredients={this.state.data.ingredients} onClick={this.removeTag.bind(this)}/>
@@ -193,9 +207,13 @@ export default class Ingredients extends React.Component {
 								<div className="chkbox_col">
 									<div className="checkbox custom_checkbox">
 										{this.state.algrnList.map((allergens_list, index) => {
+                      {alrgn.map((alrgn_id, index) => {
+                        if (allergens_list.id == alrgn_id)
+                          chckd=alrgn_id
+                        })}
 										return (
 												<div>
-													<input id={allergens_list.id} type="checkbox" defaultValue={allergens_list.id} ref="allergens" name="allergens" key={ index } onChange={this.handleCheckBox.bind(this)}/>
+													<input id={allergens_list.id} type="checkbox" defaultChecked={allergens_list.id == chckd} defaultValue={allergens_list.id} ref="allergens" name="allergens" key={ index } onChange={this.handleCheckBox.bind(this)}/>
 													<LabelField htmlFor={allergens_list.id} label={allergens_list.name } />
 												</div>
 											);
