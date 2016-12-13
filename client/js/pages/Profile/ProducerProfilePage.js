@@ -47,7 +47,6 @@ export default class ProducerProfilePage extends React.Component {
   }
 
   render() {
-
     if (!this.state.data_loaded) {
       return (<div></div>);
     }
@@ -78,7 +77,7 @@ export default class ProducerProfilePage extends React.Component {
                 </div>
                 <div className="form-group row">
                   <LabelField htmlFor="phone" className="col-md-4 col-xs-12 col-form-label" label="Phone number" />
-                  <InputField  name="cmp_phone_number" value = {this.state.producer_info.cmp_phone_number} />
+                  <InputField type="number" name="cmp_phone_number" value = {this.state.producer_info.cmp_phone_number} />
                 </div>
                 <div className="form-group row">
                   <LabelField htmlFor="pass" className="col-md-4 col-xs-12 col-form-label" label="Company web site" />
@@ -95,15 +94,19 @@ export default class ProducerProfilePage extends React.Component {
               <div className="edt_prf_inner_detail">
                 <div className="form-group row">
                   <LabelField htmlFor="example-search-input" className="col-md-4 col-xs-12 col-form-label" label="Visiting address" />
-                   <InputField type="search"  name="cmp_address" value = {this.state.producer_info.cmp_address}  />
+                   <InputField type="search"  name="address" value = {this.state.user.address}  />
                 </div>
                 <div className="form-group row">
-                  <LabelField htmlFor="example-email-input" className="col-md-4 col-xs-12 col-form-label" label="city" />
-                  <InputField  name="cmp_city" value = {this.state.producer_info.cmp_city}  />
+                  <LabelField htmlFor="example-email-input" className="col-md-4 col-xs-12 col-form-label" label="City" />
+                  <InputField  name="city" value = {this.state.user.city}  />
                 </div>
                 <div className="form-group row">
                   <LabelField htmlFor="example-url-input" className="col-md-4 col-xs-12 col-form-label" label="Country"/>
                   <InputField  name="country" value = {this.state.user.country} />
+                </div>
+                <div className="form-group row">
+                  <LabelField htmlFor="example-url-input" className="col-md-4 col-xs-12 col-form-label" label="Postal code"/>
+                  <InputField type="number" name="postal_code" value = {this.state.user.postal_code} />
                 </div>
                 <div className="form-group row">
                   <LabelField htmlFor="example-tel-input" className="col-md-4 col-xs-12 col-form-label" label="Visiting hours"/>
