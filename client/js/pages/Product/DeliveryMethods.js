@@ -43,6 +43,10 @@ export default class DeliveryMethods extends React.Component {
   }
 
 	render() {
+    var btnType = <button type="submit" className="btn btn-default nxt_btn" onClick={this.SaveAndContinue.bind(this)} >Add product</button>
+    if(this.props.prodDetails){
+      var btnType = <button type="submit" className="btn btn-default nxt_btn" onClick={this.SaveAndContinue.bind(this)} >Update product</button>
+    }
 		return (
 		<div>
 			<ProductHeading prodDetails={this.props.prodDetails ? this.props.prodDetails : ""} />
@@ -103,7 +107,7 @@ export default class DeliveryMethods extends React.Component {
 						</div>
 					</div>
 					<div className="modal-footer">
-						<button type="submit" className="btn btn-default nxt_btn" onClick={this.SaveAndContinue.bind(this)} >Add product</button>
+          {btnType}
 					</div>
 				</form>
 			</div>

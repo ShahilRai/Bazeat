@@ -8,7 +8,7 @@ export default class UserPersonalInfo extends React.Component {
 
   render(){
     var source;
-    if(this.context.user.is_producer){
+    if(this.context.user.customData.is_producer == "true"){
       source = (
         <div>
           <li className="mail_adrrs">
