@@ -54,8 +54,10 @@ const userSchema = new Schema({
   products: [{ type: Schema.ObjectId, ref: 'Product' }],
   orderitems: [{ type: Schema.ObjectId, ref: 'OrderItem' }],
   unique_id: { type: String },
-  latitude: { type: 'Number' },
-  longitude: { type: 'Number' },
+  loc: {
+    type: [Number],
+    index: '2d'
+  }
 });
 
 export default mongoose.model('User', userSchema);

@@ -187,8 +187,10 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
         user.postal_code = req.body.postal_code;
         user.save((error, saveduser) => {
           geocoder.geocode({address: saveduser.address, country: saveduser.country, zipcode: saveduser.postal_code}, function(err, response) {
-            saveduser.latitude= response[0].latitude
-            saveduser.longitude=response[0].longitude
+            console.log(response[0].longitude)
+            saveduser.loc= [response[0].longitude, response[0].latitude]
+            console.log('saveduser.loc')
+            console.log(saveduser.loc)
             saveduser.save (function (err, user1) {
               if (error) {
                 res.status(500).send(error);
@@ -241,17 +243,24 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
 });
 
 app.get('/geocode/location', function (req, res){
-  console.log('req')
-  console.log('req')
-  console.log('req')
-  console.log('req')
-  console.log(req)
-  User.findOne({ email: req.query.email }).exec((err, user) => {
-    geocoder.reverse({lat:user.latitude, lon:user.longitude}, function(err, response) {
-      console.log(response);
-      res.json({ address: response[0].formattedAddress});
+  let limit = req.query.limit || 10;
+  let maxDistance = req.query.distance || 8;
+  maxDistance /= 6371;
+  let coords = [];
+    coords[0] = req.query.longitude;
+    coords[1] = req.query.latitude;
+    console.log(coords)
+  User.find({
+      loc: {
+        $near: coords,
+        $maxDistance: maxDistance
+      }
+    }).limit(limit).exec(function(err, users) {
+      if (err) {
+        return res.json(500, err);
+      }
+      res.json (users);
     });
-  });
 });
 
 
