@@ -33,7 +33,7 @@ export default class ProducerRegisterModal extends React.Component {
               <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">X</span>
               </button>
-              <a href="login.html" className="login_logo">
+              <a href="javascript:void(0)" className="login_logo">
                 <img src={require('../../../images/login_logo.png')} />
               </a>
               <h4 className="modal-title" id="myModalLabel">REGISTRER DEG</h4>
