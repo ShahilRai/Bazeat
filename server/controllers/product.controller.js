@@ -7,6 +7,7 @@ import cuid from 'cuid';
 
 export function addProduct(req, res) {
   User.findOne({ email: req.body.fieldValues.email }).exec((error, user) => {
+    console.log(req.body.fieldValues)
     // ProductCategory.findOne({name: req.body.fieldValues.product_category}).exec(function(err, pc){
       const newProduct = new Product(req.body.fieldValues);
       newProduct.cuid = cuid();

@@ -6,6 +6,7 @@ import ProductHeading from './ProductHeading';
 import ProductStep from './ProductStep';
 import LabelField from '../components/LabelField';
 import RadioButton from '../components/RadioButton';
+import moment from 'moment';
 
 export default class AddProduct extends React.Component {
 
@@ -24,9 +25,11 @@ export default class AddProduct extends React.Component {
       portion : "",
       foodType: "",
       Product_name: "",
-      description: "",
+      description: ""
+
 	  };
     this.handleChange = this.handleChange.bind(this);
+    this.handleDateChange = this.handleDateChange.bind(this);
     this.handleRadioChange = this.handleRadioChange.bind(this);
     this.isValidate= this.isValidate.bind(this);
 	}
@@ -36,6 +39,7 @@ export default class AddProduct extends React.Component {
       prodDetails: nextProps.prodDetails
     })
   }
+
   isValidate(){
     var valid = true;
     var numbers = /^[0-9]+$/;
@@ -132,12 +136,23 @@ export default class AddProduct extends React.Component {
   }
 
 	handleChange(e){
-    this.setState({
-      prodDetails : {
-			[e.target.name] :  e.target.value
+    if(!(e.target.name == "expiry_date")){
+      this.setState({
+        prodDetails : {
+			    [e.target.name]:  e.target.value
+        }
+      })
     }
+  }
+
+  handleDateChange(e){
+    this.setState({
+      prodDetails: {
+        [e.target.name]:  e.target.value
+      }
     })
-	}
+  }
+
 
   handleRadioChange(e){
     if(e.target.dataset.foodstate == "hotFood"){
@@ -213,7 +228,7 @@ export default class AddProduct extends React.Component {
 						<div className="form-group m_lt55 " id="">
 							<label htmlFor="" className="col-form-label qty_label">Expiry date</label>
 							<div id="datetimepicker1" className="date_section">
-								<input type="text" id="example1" id="expiry_date" name="expiry_date" className="form-control date_input" ref="expiry_date" value={this.state.prodDetails ? this.state.prodDetails.expiry_date : this.refs.expiry_date.value} onChange={this.handleChange}/>
+								<input type="date" id="expiry_date" name="expiry_date" className="form-control date_input" ref="expiry_date" value={this.state.prodDetails? moment(this.state.prodDetails.expiry_date,'YYYY-MM-DD').format('YYYY-MM-DD'):this.refs.expiry_date.value} onChange={this.handleDateChange}/>
 								<span className="add-on"><i className="fa fa-calendar" aria-hidden="true"></i></span>
 							</div>
 						</div>
