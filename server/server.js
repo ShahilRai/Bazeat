@@ -139,9 +139,7 @@ app.use(ExpressStrompath.init(app, {
       }
       newUser.save((err, saved) => {
         if (err) {
-          console.log('err')
-          console.log(err)
-          res.status(500).send(err);
+           return res.status(500).send(err);
         }
       });
       next()
@@ -153,8 +151,7 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
   function (req, res) {
   function writeError(message) {
     res.status(400);
-    res.json({ message: message, status: 400 });
-    res.end();
+    return res.json({ message: message, status: 400 });
   }
   function saveAccount() {
     req.user.givenName = req.body.givenName;
@@ -227,7 +224,6 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
   }
   if (req.body.password) {
     var application = req.app.get('stormpathApplication');
-
     application.authenticateAccount({
       username: req.user.username,
       password: req.body.existingPassword
@@ -235,12 +231,11 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
       if (err) {
         return writeError('The existing password that you entered was incorrect.');
       }
-
       req.user.password = req.body.password;
-
       saveAccount();
     });
-  } else {
+  }
+  else {
     saveAccount();
   }
 });
@@ -297,10 +292,11 @@ app.post('/api/profile_image', profileupload.single('image'), function (req, res
     user.photo = req.file.location
     user.save((error, saveduser) => {
       if (error) {
-        res.status(500).send(error);
+        return  res.status(500).send(error);
       }
-      console.log(saveduser.photo)
-      res.json({ image_url: saveduser.photo });
+      else {
+        return res.json({ image_url: saveduser.photo });
+      }
     });
   });
 })
@@ -314,10 +310,11 @@ app.post('/api/update_product_image', productupload.single('image'), function (r
     product.photo = req.file.location
     product.save((error, savedproduct) => {
       if (error) {
-        res.status(500).send(error);
+        return res.status(500).send(error);
       }
-      console.log(savedproduct.photo)
-      res.json({ image_url: savedproduct.photo });
+      else {
+        return res.json({ image_url: savedproduct.photo });
+      }
     });
   });
 })

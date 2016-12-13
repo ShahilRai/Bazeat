@@ -6,9 +6,11 @@ export function addProducer(req, res) {
   newproducer.cuid = cuid();
   newproducer.save((err, saved) => {
     if (err) {
-      res.status(500).send(err);
+      return res.status(500).send(err);
     }
-    res.json({ producer: saved });
+    else {
+     return res.json({ producer: saved });
+    }
   });
 }
 
@@ -16,9 +18,11 @@ export function addProducer(req, res) {
 export function getProducers(req, res) {
   Producer.find().sort('-dateAdded').exec((err, producers) => {
     if (err) {
-      res.status(500).send(err);
+      return res.status(500).send(err);
     }
-    res.json({ producers });
+    else{
+      return res.json({ producers });
+    }
   });
 }
 
@@ -26,9 +30,11 @@ export function getProducers(req, res) {
 export function getProducer(req, res) {
   Producer.findOne({ cuid: req.params.cuid }).exec((err, producer) => {
     if (err) {
-      res.status(500).send(err);
+      return res.status(500).send(err);
     }
-    res.json({ producer });
+    else{
+      return res.json({ producer });
+    }
   });
 }
 
@@ -36,7 +42,7 @@ export function getProducer(req, res) {
 export function deleteProducer(req, res) {
   Producer.findOne({ cuid: req.params.cuid }).exec((err, producer) => {
     if (err) {
-      res.status(500).send(err);
+      return res.status(500).send(err);
     }
 
     producer.remove(() => {

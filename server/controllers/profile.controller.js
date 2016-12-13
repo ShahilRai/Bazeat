@@ -15,11 +15,13 @@ export function addProfile(req, res) {
   newUser.save((err, saved) => {
     if (err) {
       // res.json(500, { err: err });
-      res.status(500).send(err);
+      return res.status(500).send(err);
     }
-    saved.producerInfo.push(req.body.producerinfo);
-    saved.userInfo.push(req.body.userinfo);
-    res.json({ user: saved });
+    else{
+      saved.producerInfo.push(req.body.producerinfo);
+      saved.userInfo.push(req.body.userinfo);
+      return res.json({ user: saved });
+    }
   });
 }
 
@@ -27,9 +29,11 @@ export function getProfile(req, res) {
   console.log(req.query.email);
   User.findOne({ email: req.query.email }).exec((err, user) => {
     if (err) {
-      res.status(500).send(err);
+      return res.status(500).send(err);
     }
-    res.json({ user });
+    else{
+      return res.json({ user });
+    }
   });
 }
 
