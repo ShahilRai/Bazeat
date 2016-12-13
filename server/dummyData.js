@@ -116,7 +116,7 @@ export default function () {
     const page3 = new Page({ type: 'Terms' });
     const page4 = new Page({ type: 'Privacy'});
     const page5 = new Page({ type: 'FAQ' });
-    Page.create([page1, page2, page3, page4, page5, page6], (error) => {
+    Page.create([page1, page2, page3, page4, page5], (error) => {
       if (!error) {
         console.log('ready to go....');
       }
