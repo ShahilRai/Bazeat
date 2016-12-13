@@ -3,6 +3,7 @@ import Role from './models/role';
 import ProductCategory from './models/productcategory';
 import Allergen from './models/allergen';
 import Ingredient from './models/ingredient';
+import Page from './models/page';
 
 export default function () {
   Post.count().exec((err, count) => {
@@ -101,6 +102,26 @@ export default function () {
     Ingredient.create([ingredient1, ingredient2, ingredient3], (error) => {
       if (!error) {
         // console.log('ready to go....');
+      }
+    });
+  });
+
+
+  Page.count().exec((err, count) => {
+    if (count > 0) {
+      return;
+    }
+    const page1 = new Page({ type: 'Help' });
+    const page2 = new Page({ type: 'About' });
+    const page3 = new Page({ type: 'Terms' });
+    const page4 = new Page({ type: 'Privacy'});
+    const page5 = new Page({ type: 'FAQ' });
+    Page.create([page1, page2, page3, page4, page5, page6], (error) => {
+      if (!error) {
+        console.log('ready to go....');
+      }
+      else{
+        console.log(error);
       }
     });
   });
