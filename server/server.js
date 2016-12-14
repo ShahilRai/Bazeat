@@ -47,6 +47,7 @@ import producers from './routes/producer.routes';
 import orders from './routes/order.routes';
 import products from './routes/product.routes';
 import profiles from './routes/profile.routes';
+import search from './routes/search.routes';
 import admin from './routes/admin/authenticate.routes';
 import admin_users from './routes/admin/users.routes';
 import admin_products from './routes/admin/products.routes';
@@ -87,8 +88,7 @@ app.use('/api', producers);
 app.use('/api', orders);
 app.use('/api', products);
 app.use('/api', profiles);
-
-
+app.use('/api', search);
 
 // Admin Routes Defination
   app.use('/api/admin/authenticate', admin);
@@ -242,28 +242,6 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
   }
 });
 
-app.get('/geocode/location', function (req, res){
-  let limit = req.query.limit || 10;
-  let maxDistance = req.query.distance || 8;
-  maxDistance /= 6371;
-  let coords = [];
-    coords[0] = req.query.longitude;
-    coords[1] = req.query.latitude;
-    console.log(coords)
-  User.find({
-      loc: {
-        $near: coords,
-        $maxDistance: maxDistance
-      }
-    }).limit(limit).exec(function(err, users) {
-      if (err) {
-        return res.json(500, err);
-      }
-      res.json (users);
-    });
-});
-
-
 app.on('ExpressStrompath.ready', () => {
   // console.log('Stormpath Ready');
 });
@@ -292,7 +270,6 @@ let productupload = multer({
     }
   })
 })
-
 
 app.post('/api/profile_image', profileupload.single('image'), function (req, res, next){
   console.log('req.body')
@@ -391,5 +368,4 @@ app.listen(serverConfig.port, (error) => {
     console.log(`MERN is running on port: ${serverConfig.port}! Build something amazing!`); // eslint-disable-line
   }
 });
-
 export default app;
