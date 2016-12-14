@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { IndexRoute, Route, browserHistory } from 'react-router';
 import ReactStormpath, { Router, HomeRoute, LoginRoute, AuthenticatedRoute } from 'react-stormpath';
-import { ChangePasswordPage, ForgotPasswordModal, MasterPage, IndexPage, LoginModal, RegisterPage, ResetPasswordPage, VerifyEmailPage, ProfileContainer, ReactSlider, UserHomePage, AdminLoginModal, AdminRegisterModal, AdminPanel} from './pages';
+import { ChangePasswordPage, ForgotPasswordModal, MasterPage, IndexPage, LoginModal, RegisterPage, ResetPasswordPage, VerifyEmailPage, ProfileContainer, ReactSlider, UserHomePage, AdminLoginModal, AdminRegisterModal, AdminPanel, UserSettingPage} from './pages';
 
 ReactStormpath.init();
 
@@ -48,6 +48,7 @@ ReactDOM.render(
       <AuthenticatedRoute>
         <Route path='/profile' component={ProfileContainer} />
         <Route path='/addProductPage' component={UserHomePage} />
+        <Route path='/settingPage' component={UserSettingPage} />
       </AuthenticatedRoute>
     </HomeRoute>
     <Route path='/admin-login' component={AdminLoginModal} />

@@ -20,6 +20,12 @@ router.route('/products/:cuid').get(ProductController.getProduct);
 // Update product
 router.route('/products/:cuid').put(ProductController.updateProduct);
 
+// Diable product
+router.route('/diasble_product/:cuid').put(ProductController.disableProduct);
+
+// Hide product
+router.route('/hide_product/:cuid').put(ProductController.hideProduct);
+
 // Delete Product by cuid
 router.route('/products/:cuid').delete(ProductController.deleteProduct);
 

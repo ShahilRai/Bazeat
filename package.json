@@ -52,6 +52,7 @@
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "react": "^15.1.0",
+    "react-cookie": "^1.0.4",
     "react-datepicker": "^0.34.0",
     "react-document-title": "^2.0.2",
     "react-dom": "^15.1.0",
@@ -66,6 +67,7 @@
     "redux": "^3.5.2",
     "redux-thunk": "^2.1.0",
     "sanitize-html": "^1.11.4",
+    "sjcl": "^1.0.6",
     "twilio": "^2.11.0"
   },
   "devDependencies": {

@@ -20,7 +20,7 @@ export default class UserProfilePage extends React.Component {
     super(props, context);
     this.state = {
       user : {},
-      birth_date: {},      
+      birth_date: {},
       data_loaded: false
     };
     this.handleDateChange = this.handleDateChange.bind(this);
@@ -44,7 +44,7 @@ export default class UserProfilePage extends React.Component {
         console.log(err);
     });
   }
-  
+
   loadUserData(emailAddress) {
     return axios.get("/api/edit" , {
       params: {
@@ -52,7 +52,7 @@ export default class UserProfilePage extends React.Component {
       }
     });
   }
-  
+
   handleDateChange(event) {
     this.setState({ birth_date: event.target.value});
     if (this.state.onChange){
@@ -65,7 +65,7 @@ export default class UserProfilePage extends React.Component {
     if (!this.state.data_loaded) {
       return (<div></div>);
     }
-  
+
     return (
       <DocumentTitle title={`My Profile`}>
         <div className="col-lg-9 col-md-8 col-sm-10 col-xs-12 edit_profile_rht_sidebar">
@@ -75,13 +75,13 @@ export default class UserProfilePage extends React.Component {
               <UserProfileForm method = "post">
                 <div className="edt_prf_inner_detail">
                   <div className="form-group row">
-                    <LabelField htmlFor="givenName" label="First name" />
+                    <LabelField htmlFor="givenName" label="First name*" />
                     <div className="col-md-8 col-xs-12">
                       <input type="text" className="form-control" id="givenName" name="givenName" required />
                     </div>
                   </div>
                   <div className="form-group row">
-                    <LabelField htmlFor="lastName" label="Last name" />
+                    <LabelField htmlFor="lastName" label="Last name*" />
                     <div className="col-md-8 col-xs-12">
                       <input type="text" className="form-control" id="surname" name="surname" required/>
                     </div>
@@ -105,24 +105,24 @@ export default class UserProfilePage extends React.Component {
                     </div>
                   </div>
                   <div className="form-group row">
-                    <LabelField htmlFor="phone" label="Phone number" />
+                    <LabelField htmlFor="phone" label="Phone number*" />
                     <InputField type="tel" name="phone" value = {this.state.user.phone} />
                   </div>
                   <div className="form-group row">
-                    <LabelField htmlFor="example-search-input" label="Address" />
+                    <LabelField htmlFor="example-search-input" label="Address*" />
                     <InputField type="search" name="address" value = {this.state.user.address} />
                   </div>
                   <div className="form-group row">
-                    <LabelField htmlFor="example-email-input" label="City" />
+                    <LabelField htmlFor="example-email-input" label="City*" />
                     <InputField name="city" value = {this.state.user.city} />
                   </div>
                   <div className="form-group row">
-                    <LabelField htmlFor="example-url-input" label="Country" />
+                    <LabelField htmlFor="example-url-input" label="Country*" />
                     <InputField name="country" value = {this.state.user.country} />
                   </div>
                   <div className="form-group row">
                     <LabelField htmlFor="desc" label="Description" />
-                    <TextAreaField name="desc">{this.state.user.description}</TextAreaField>
+                    <TextAreaField name="desc" value = {this.state.user.description}>{this.state.user.description}</TextAreaField>
                   </div>
                 </div>
                 <div key="update-button" className="profile_gry_bot_bar">
