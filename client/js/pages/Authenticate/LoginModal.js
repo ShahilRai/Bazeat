@@ -7,7 +7,6 @@ export default class LoginModal extends React.Component {
     var data = e.data;
     data.username = data.username.toLowerCase();
     next(null, data);
-
   }
 
   onFormSubmitSuccess(e, next) {
