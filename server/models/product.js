@@ -40,6 +40,8 @@ const productSchema = new Schema({
   pickup: { type: 'Boolean', default: false },
   send: { type: 'Boolean', default: false },
   pickup_time: { type: 'Date', default: Date.now },
+  is_hidden: { type: 'Boolean', default: false },
+  is_diasble: { type: 'Boolean', default: false },
   product_category: { type: Schema.ObjectId, ref: 'ProductCategory' },
   allergens: [{ type: Schema.ObjectId, ref: 'Allergen' }],
   ingredients: [{ type: Schema.ObjectId, ref: 'Ingredient' }],

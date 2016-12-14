@@ -177,3 +177,25 @@ export function getUserProducts(req, res) {
     }
   });
 }
+
+
+export function disableProduct(req, res) {
+  Product.update({ cuid: req.params.cuid }, req.body, function(err, product) {
+    if (err){
+      return res.status(500).send(err);
+    }
+      return res.json({ product });
+  });
+}
+
+export function hideProduct(req, res) {
+  Product.update({ cuid: req.params.cuid }, req.body, function(err, product) {
+    if (err){
+      return res.status(500).send(err);
+    }
+      return res.json({ product });
+  });
+}
+
+
+
