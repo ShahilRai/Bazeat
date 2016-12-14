@@ -101,7 +101,7 @@ export default class UserProfilePage extends React.Component {
                   <div className="form-group row">
                     <LabelField htmlFor="email" label="E-mail address" />
                     <div className="col-md-8 col-xs-12">
-                      <input type="email" className="form-control" id="email" name="email" required />
+                      <input type="email" className="form-control" id="email" name="email" required disabled />
                     </div>
                   </div>
                   <div className="form-group row">
