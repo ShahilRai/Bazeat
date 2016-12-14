@@ -20,7 +20,7 @@ export default class UserProfilePage extends React.Component {
     super(props, context);
     this.state = {
       user : {},
-      birth_date: {},      
+      birth_date: {},
       data_loaded: false
     };
     this.handleDateChange = this.handleDateChange.bind(this);
@@ -44,7 +44,7 @@ export default class UserProfilePage extends React.Component {
         console.log(err);
     });
   }
-  
+
   loadUserData(emailAddress) {
     return axios.get("/api/edit" , {
       params: {
@@ -52,7 +52,7 @@ export default class UserProfilePage extends React.Component {
       }
     });
   }
-  
+
   handleDateChange(event) {
     this.setState({ birth_date: event.target.value});
     if (this.state.onChange){
@@ -65,7 +65,7 @@ export default class UserProfilePage extends React.Component {
     if (!this.state.data_loaded) {
       return (<div></div>);
     }
-  
+
     return (
       <DocumentTitle title={`My Profile`}>
         <div className="col-lg-9 col-md-8 col-sm-10 col-xs-12 edit_profile_rht_sidebar">
@@ -122,7 +122,7 @@ export default class UserProfilePage extends React.Component {
                   </div>
                   <div className="form-group row">
                     <LabelField htmlFor="desc" label="Description" />
-                    <TextAreaField name="desc">{this.state.user.description}</TextAreaField>
+                    <TextAreaField name="desc" value = {this.state.user.description}>{this.state.user.description}</TextAreaField>
                   </div>
                 </div>
                 <div key="update-button" className="profile_gry_bot_bar">
