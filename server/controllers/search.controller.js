@@ -43,7 +43,7 @@ export function usersResults(req, res) {
 export function productsResults(req, res) {
   console.log(req.query.search)
   let re = new RegExp(req.query.search, 'i');
-  Product.find({$or:[{'product_name':re}]}).sort('product_name').exec(
+  Product.find({$and:[{'product_name':re}, { 'is_hidden':false}]}).sort('product_name').exec(
     function(err,peoducts){
       if (err) {
         return res.json(500, err);
