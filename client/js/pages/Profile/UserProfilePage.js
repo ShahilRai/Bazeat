@@ -121,7 +121,7 @@ export default class UserProfilePage extends React.Component {
                     <InputField name="country" value = {this.state.user.country} />
                   </div>
                   <div className="form-group row">
-                    <LabelField htmlFor="example-url-input" label="Postal code" />
+                    <LabelField htmlFor="example-url-input" label="Postal code*" />
                     <InputField type="number" name="postal_code" value = {this.state.user.postal_code} />
                   </div>
                   <div className="form-group row">
