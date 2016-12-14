@@ -244,6 +244,21 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
   }
 });
 
+app.get('/geocode/location', function (req, res){
+  console.log('req')
+  console.log('req')
+  console.log('req')
+  console.log('req')
+  console.log(req)
+  User.findOne({ email: req.query.email }).exec((err, user) => {
+    geocoder.reverse({lat:user.latitude, lon:user.longitude}, function(err, response) {
+      console.log(response);
+      res.json({ address: response[0].formattedAddress});
+    });
+  });
+});
+
+
 app.on('ExpressStrompath.ready', () => {
   // console.log('Stormpath Ready');
 });

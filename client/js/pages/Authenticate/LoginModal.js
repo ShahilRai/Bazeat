@@ -1,25 +1,12 @@
 import React from 'react';
-import cookie from 'react-cookie';
-import sjcl from 'sjcl';
 import { LoginForm, SocialLoginLink } from 'react-stormpath';
 
 export default class LoginModal extends React.Component {
-  componentWillMount() {
-    this.state =  { username: cookie.load('username') };
-  }
+
   onFormSubmit(e, next) {
-    this.setState({ username:e.data.username});
-      var x = document.getElementById("rememberMe").checked;
-        if(x==true)
-        {
-        var SensitiveInfo = "yodawgpasswords";
-        var encryptedInfo = sjcl.encrypt("username", SensitiveInfo);
-        cookie.save('bazeat-token', encryptedInfo, { path: '/' });
-      }
     var data = e.data;
     data.username = data.username.toLowerCase();
     next(null, data);
-
   }
 
   onFormSubmitSuccess(e, next) {
