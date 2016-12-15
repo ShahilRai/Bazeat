@@ -20,8 +20,6 @@ export function addAdmin(req, res) {
   });
 }
 
-
-
 export function adminLogin(req, res) {
    passport.authenticate('local', function(err, admin, info){
     console.log(admin)
@@ -31,7 +29,6 @@ export function adminLogin(req, res) {
       res.status(404).json(err);
       return;
     }
-
     // If a admin is found
     if(admin){
       token = admin.generateJwt();
@@ -44,9 +41,13 @@ export function adminLogin(req, res) {
 }
 
 
-// export  function adminLogout (req, res) {
-//   logout()
-//     res.send(bye)
-//   // if (res.status == 200){
-//   // }
-// }
+export function getAdmin(req, res) {
+  Admin.findOne({ email: req.params.email }).exec((err, admin) => {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    else{
+      return res.json({ admin });
+    }
+  });
+}

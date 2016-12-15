@@ -43,25 +43,39 @@ export default class AddProduct extends React.Component {
   isValidate(){
     var valid = true;
     var numbers = /^[0-9]+$/;
-    if(this.refs.product_name.value){
+    var reWhiteSpace = new RegExp(/^\s+$/)
+    if(this.refs.product_name.value && !reWhiteSpace.test(this.refs.product_name.value)){
      this.setState({
       product_name:""
       })
     }
-    else{
+    else if(!this.refs.product_name.value){
       this.setState({
       product_name:(<p>Please fill the field</p>)
       })
       valid = false
     }
-    if(this.refs.description.value){
+    else if((reWhiteSpace.test(this.refs.product_name.value))){
+      this.setState({
+      product_name:(<p>Please Select the field without Spaces</p>)
+      })
+      valid = false
+    }
+
+    if(this.refs.description.value && !reWhiteSpace.test(this.refs.description.value)){
       this.setState({
       description:""
       })
     }
-    else{
+    else if (!this.refs.description.value){
       this.setState({
       description:(<p>Please fill the field</p>)
+      })
+      valid = false
+    }
+    else if((reWhiteSpace.test(this.refs.description.value))){
+      this.setState({
+      description:(<p>Please Select the field without Spaces</p>)
       })
       valid = false
     }

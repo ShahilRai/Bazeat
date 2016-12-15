@@ -6,4 +6,7 @@ router.route('/register').post(AdminController.addAdmin);
 // Admin login
 router.route('/login').post(AdminController.adminLogin);
 
+// Get admin
+router.route('/:email').get(AdminController.getAdmin);
+
 export default router;
