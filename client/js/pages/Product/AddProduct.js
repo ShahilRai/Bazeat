@@ -153,7 +153,6 @@ export default class AddProduct extends React.Component {
     })
   }
 
-
   handleRadioChange(e){
     if(e.target.dataset.foodstate == "hotFood"){
       this.setState({
@@ -183,14 +182,14 @@ export default class AddProduct extends React.Component {
 				<ProductHeading prodDetails = {this.props.prodDetails ? this.props.prodDetails : ""} />
 				<div className="modal-body">
 					<ProductStep />
-					<form className="prod_form" method="post">
+					<form className="add_new_prodct_col" method="post">
 	 					<div className="lt_prod_sec">
 							<UploadProductImage ref="product_image" onPicUpdate={this.onPicUpdate.bind(this)} prodDetails={this.props.prodDetails ? this.props.prodDetails.photo : ""} />
-							<div className="form-group m_top20 m_lt9">
+							<div className="hotfood_cold_col">
 								<RadioButton foodstate="hotFood" label="Hot food" prodDetails={this.state.prodDetails ? (this.state.prodDetails.food_type == "Hot" ? true : false) : false} onChange={this.handleRadioChange} />
                 <RadioButton foodstate="coldFood" label="Cold food" prodDetails={this.state.prodDetails ? (this.state.prodDetails.food_type == "Cold" ? true : false) : false} onChange={this.handleRadioChange} />
                 {this.state.foodType}
-								<div className="form-group m_lt19">
+								<div className="form-group m_lt19 mtop7">
 									<label htmlFor="" className="col-form-label qty_label">Quantity available</label>
 									<input type="number" className="form-control qty_input" id="quantity" name="quantity" ref="quantity" onChange={this.handleChange} placeholder="" value={this.state.prodDetails ? this.state.prodDetails.quantity : this.refs.quantity.value} placeholder="quantity"/>
 								</div>
@@ -203,10 +202,10 @@ export default class AddProduct extends React.Component {
 							</div>
 							<div className="form-group nok_form">
 								<LabelField htmlFor="" className="col-form-label nok_label" label="NOK" />
-								<input type="number" ref="price" id="price" name="price" className="form-control" onChange={this.handleChange} placeholder="" value={this.state.prodDetails ? this.state.prodDetails.price : this.refs.price.value} placeholder="price"/>
+								<input type="number" ref="price" id="price" name="price" className="form-control plft48" onChange={this.handleChange} placeholder="" value={this.state.prodDetails ? this.state.prodDetails.price : this.refs.price.value} placeholder="price"/>
                 {this.state.price}
 							</div>
-							<div className="form-group portion_form custom_select">
+							<div className="form-group nok_form mlft4">
                 <input type="number" className="form-control" ref="portion" id="portion" name="portion" onChange={this.handleChange} value={this.state.prodDetails ? this.state.prodDetails.portion : this.refs.portion.value} placeholder="portion"/>
                 {this.state.portion}
               </div>
@@ -225,7 +224,7 @@ export default class AddProduct extends React.Component {
                 {this.state.description}
 							</div>
 						</div>
-						<div className="form-group m_lt55 " id="">
+						<div className="form-group expiry_date_col " id="">
 							<label htmlFor="" className="col-form-label qty_label">Expiry date</label>
 							<div id="datetimepicker1" className="date_section">
 								<input type="date" id="expiry_date" name="expiry_date" className="form-control date_input" ref="expiry_date" value={this.state.prodDetails? moment(this.state.prodDetails.expiry_date,'YYYY-MM-DD').format('YYYY-MM-DD'):this.refs.expiry_date.value} onChange={this.handleDateChange}/>

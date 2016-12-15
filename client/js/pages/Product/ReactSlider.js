@@ -104,7 +104,7 @@ export default class ReactSlider extends React.Component {
     return (
       <div>
         <div className="modal prod_modal" id={this.props.id? this.props.id: this.props.index? this.props.index:"add"} role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-          <div className="modal-dialog" role="document">
+          <div className="modal-dialog add_prduct_modal" role="document">
             <div className="modal-content">
               {this.showStep()}
             </div>

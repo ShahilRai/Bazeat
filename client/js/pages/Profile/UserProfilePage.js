@@ -89,13 +89,15 @@ export default class UserProfilePage extends React.Component {
                   <div className="form-group row">
                     <LabelField htmlFor="gender" label="Gender" />
                     <div className="col-md-8 col-xs-12">
-                      <SelectField className="form-control" name="gender" value = {this.state.user.user_info.gender} />
+                      <div className="custom_select_box">
+                        <SelectField className="form-control" name="gender" value = {this.state.user.user_info.gender} />
+                      </div>
                     </div>
                   </div>
                   <div className="form-group row">
                     <LabelField htmlFor="Birth date" label="Birth date" />
                     <div className="col-md-8 col-xs-12">
-                      <input type="date" id="birth_date" name="birth_date"  onChange={this.handleDateChange} value = {this.state.birth_date}/>
+                      <input type="date" id="birth_date" name="birth_date" className="birth_date"  onChange={this.handleDateChange} value = {this.state.birth_date}/>
                     </div>
                   </div>
                   <div className="form-group row">

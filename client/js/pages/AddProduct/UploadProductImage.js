@@ -39,20 +39,18 @@ export default class ImageUploader extends React.Component {
   render() {
     var savedImage;
       if(this.props.prodDetails){
-          savedImage = <img src={this.props.prodDetails} height="200" width="200" />;
-            return (
-              <div className="box__input">
-                {savedImage}
-              </div>
-            );
+        savedImage = <img src={this.props.prodDetails} height="200" width="200" />;
+          return (
+            <div className="">
+              {savedImage}
+            </div>
+          );
       }
-
     var imagePreview = null;
-
     if(this.state.uploadedImages) {
         imagePreview = <img src={this.state.uploadedImages} height="200" width="200" />;
       } else {
-        imagePreview = (<Dropzone type="file" name="image" accept=".jpg,.jpeg,.png,.gif" onDrop={this.onDrop.bind(this)}>
+        imagePreview = (<Dropzone className="add_prod_box__input" type="file" name="image" accept=".jpg,.jpeg,.png,.gif" onDrop={this.onDrop.bind(this)}>
           <label className="input_upload">
             <span className="file_text">Select one of the files from your computer <br/><span className="drop_txt">or drag and drop them here</span></span>
           </label>
@@ -60,7 +58,7 @@ export default class ImageUploader extends React.Component {
       }
 
     return (
-      <div className="box__input">
+      <div className="">
         {imagePreview}
       </div>
     );

@@ -44,11 +44,11 @@ export default class LoginModal extends React.Component {
                   <i className="fa fa-envelope-o" aria-hidden="true"></i>
                 </div>
                 <div className="form-group">
-                  <input type="password" className="form-control " name="password" placeholder="******" />
+                  <input type="password" className="form-control passwrd_txt" name="password" placeholder="******" />
                   <i className="fa fa-lock" aria-hidden="true"></i>
                 </div>
 
-                <div className="checkbox custom_checkbox">
+                <div className="checkbox prod_checkbox login_chkbox">
                   <input type="checkbox" id="rememberMe" name="rememberMe"/>
                   <label htmlFor="rememberMe">
                     Remember me

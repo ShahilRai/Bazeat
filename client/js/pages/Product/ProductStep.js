@@ -4,25 +4,25 @@ export default class ProductStep extends React.Component {
 
 	render(){
     return (
-			<div className="prod_steps">
-				<div className="step_1 right_border orange_bg">
-					<span className="complt_steps">
-						<span className="step_nos orange_bg">1</span>
-						<span className="step_descrip">Product <br/> details</span>
-					</span>
-				</div>
-				<div className="step_1 right_border">
-					<span className="complt_steps">
-						<span className="step_nos">2</span>
-						<span className="step_descrip inactive">Nutrition &amp; <br/> allergens</span>
-					</span>
-				</div>
-				<div className="step_1">
-					<span className="complt_steps">
-						<span className="step_nos">3</span>
-						<span className="step_descrip inactive">Delivery <br/> methods</span>
-					</span>
-				</div>
+			<div className="product_step_col">
+      	<div className="steps_circle_col text-left">
+        	<div className="steps_des_col">
+            <span className="steps_circle_icon active">1</span>
+            <span className="step_name_col">Product<br/>Details</span>
+          </div>
+        </div>
+        <div className="steps_circle_col  text-center">
+        	<div className="steps_des_col">
+          	<span className="steps_circle_icon">2</span>
+            <span className="step_name_col">Nutrition &amp; <br/> allergens</span>
+          </div>
+        </div>
+        <div className="steps_circle_col  text-right">
+          <div className="steps_des_col">
+          	<span className="steps_circle_icon">3</span>
+            <span className="step_name_col">Delivery <br/> methods</span>
+          </div>
+        </div>
 			</div>
 		)
 	}

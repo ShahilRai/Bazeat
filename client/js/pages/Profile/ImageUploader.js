@@ -59,12 +59,13 @@ export default class ImageUploader extends React.Component {
       $imagePreview = (<UserLogo url={require('../../../images/producer_logo.png')} />);
     }
     return (
-      <div>
-        <div>
-          <label htmlFor="file-1" className="col-md-4 col-xs-12 col-form-label"><br/>{$imagePreview}</label>
-          <div className="col-md-8 col-xs-12">
-            <div>
-              <Dropzone type="file" accept=".jpg,.jpeg,.png,.gif" onDrop={this.onDrop.bind(this)}>
+      <div className="edt_prf_inner_detail">
+        <div class="form-group row">
+          <label htmlFor="file-1" className="col-md-4 col-xs-12 col-form-label mtop40">Profile Picture</label>
+          <div className="col-md-8 col-xs-12 mbot30">
+            {$imagePreview}
+            <div class="select_files">
+              <Dropzone className="box__input" type="file" accept=".jpg,.jpeg,.png,.gif" onDrop={this.onDrop.bind(this)}>
                 <label className="input_upload">
                 <span className="file_text">Select one of the files from your computer <br/><span className="drop_txt">or drag and drop them here</span></span></label>
               </Dropzone>
