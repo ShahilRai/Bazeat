@@ -60,8 +60,8 @@ export default class DeliveryMethods extends React.Component {
 						</div>
 						<div className="steps_circle_col  text-center">
 							<div className="steps_des_col">
-								<span className="step_nos">2</span>
-								<span className="step_descrip">Ingredients &amp; <br/> nutrition</span>
+								<span className="steps_circle_icon">2</span>
+								<span className="step_name_col">Ingredients &amp; <br/> nutrition</span>
 							</div>
 						</div>
 						<div className="steps_circle_col  text-right">
