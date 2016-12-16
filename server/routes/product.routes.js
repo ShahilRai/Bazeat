@@ -3,7 +3,7 @@ import * as ProductController from '../controllers/product.controller';
 
 const router = new Router();
 // Add a new Product
-// router.route('/products').post(ProductController.addProduct);
+router.route('/products').post(ProductController.addProduct);
 
 // Buy a new Product
 router.route('/purchase_products').post(ProductController.purchaseProduct);
@@ -18,7 +18,13 @@ router.route('/product_buyers/:cuid').get(ProductController.getBuyers);
 router.route('/products/:cuid').get(ProductController.getProduct);
 
 // Update product
-router.route('/products/:cuid').post(ProductController.updateProduct);
+router.route('/products/:cuid').put(ProductController.updateProduct);
+
+// Diable product
+router.route('/diasble_product/:cuid').put(ProductController.disableProduct);
+
+// Hide product
+router.route('/hide_product/:cuid').put(ProductController.hideProduct);
 
 // Delete Product by cuid
 router.route('/products/:cuid').delete(ProductController.deleteProduct);

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { RegistrationForm, SocialLoginLink } from 'react-stormpath';
+import InputField from '../components/InputField';
 
 export default class ProducerRegisterModal extends React.Component {
 
@@ -32,7 +33,7 @@ export default class ProducerRegisterModal extends React.Component {
               <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">X</span>
               </button>
-              <a href="login.html" className="login_logo">
+              <a href="javascript:void(0)" className="login_logo">
                 <img src={require('../../../images/login_logo.png')} />
               </a>
               <h4 className="modal-title" id="myModalLabel">REGISTRER DEG</h4>
@@ -55,7 +56,7 @@ export default class ProducerRegisterModal extends React.Component {
                 <p className="alert alert-danger" data-spIf="form.error">
                   <span data-spBind="form.errorMessage" />
                 </p>
-                <input type="hidden" className="form-control" id="customData.is_producer" name="customData.is_producer" value="true"/>
+                <InputField type="hidden" name="customData.is_producer" value="true" />
                 <input type="submit" value="Bli en Bazeater" className="login_sbmit" />
               </RegistrationForm>
             </div>

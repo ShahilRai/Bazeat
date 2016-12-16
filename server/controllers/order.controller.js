@@ -15,7 +15,7 @@ export function addOrder(req, res) {
   newOrder.save((err, order) => {
     if (err) {
       // res.json(500, { err: err });
-      res.status(500).send(err);
+      return res.status(500).send(err);
     }
     req.body.orderitems.forEach(function(item) {
       const newOrderItem = new OrderItem();
@@ -31,10 +31,15 @@ export function addOrder(req, res) {
           }
         });
     });
-      // order.orderitems.push(req.body.orderitems);
-      // order.save(function (err, order) {
-        res.json({ order: order});
-      // })
+      order.orderitems.push(req.body.orderitems);
+      order.save(function (err, order1) {
+        if (err){
+          return res.status(500).send(err);
+        }
+        else{
+          return res.json({ order: order1 });
+        }
+      });
   });
 }
 
@@ -42,9 +47,11 @@ export function addOrder(req, res) {
 export function getOrders(req, res) {
   Order.find().sort('-dateAdded').exec((err, orders) => {
     if (err) {
-      res.status(500).send(err);
+      return res.status(500).send(err);
     }
-    res.json({ orders });
+    else{
+      return res.json({ orders });
+    }
   });
 }
 
@@ -52,9 +59,11 @@ export function getOrders(req, res) {
 export function getOrder(req, res) {
   Order.findOne({ cuid: req.params.cuid }).exec((err, order) => {
     if (err) {
-      res.status(500).send(err);
+      return res.status(500).send(err);
     }
-    res.json({ order });
+    else{
+      return res.json({ order });
+    }
   });
 }
 
@@ -68,18 +77,25 @@ export  function cartCheckout (req, res) {
     User.findOne({ _id: user_id }).exec((err, user) =>{
       // let to_pin = user.postal_code
       let to_pin = '7600'
-      async.forEach(cartitems,function(item,callback) {
-        Product.findOne({_id: item.product_id}).populate('_producer').exec(function(err, product) {
-          // console.log(product._producer.postal_code)
-          // let from_pin = product._producer.postal_code
-          let from_pin = '1407'
-            if (err) {
-              throw err;
-              callback();
-            }
-            getShippingPrice(to_pin, from_pin, totalweight)
+      if (cartitems[0] != null){
+        async.forEach(cartitems,function(item,callback) {
+          if (item.product_id.length > 0){
+            Product.findOne({_id: item.product_id}).populate('_producer').exec(function(err, product) {
+              // console.log(product._producer.postal_code)
+              // let from_pin = product._producer.postal_code
+              let from_pin = '1407'
+                if (err) {
+                  throw err;
+                  callback();
+                }
+                getShippingPrice(to_pin, from_pin, totalweight)
+            });
+          }
         });
-      });
+      }
+      else{
+        return res.json('Cart is empty');
+      }
     });
   });
 }
@@ -118,12 +134,13 @@ export  function getShippingPrice(to_pin, from_pin, totalweight){
 export function deleteOrder(req, res) {
   Order.findOne({ cuid: req.params.cuid }).exec((err, order) => {
     if (err) {
-      res.status(500).send(err);
+      return res.status(500).send(err);
+     }
+    else{
+      order.remove(() => {
+        res.status(200).end();
+      });
     }
-
-    order.remove(() => {
-      res.status(200).end();
-    });
   });
 }
 
@@ -132,20 +149,20 @@ export function addCart(req, res) {
     Cart.findOne({ cuid: req.body.cuid, user: user._id },function ( err, cart ){
       // console.log(req.body);
       if (err) {
-        res.json(500,{error_msg: "Cart not found"});
+        return res.json(500,{error_msg: "Cart not found"});
       }
-        console.log(!cart);
       if (!cart){
+        console.log(req.body.cartitems)
         const newCart = new Cart(req.body);
         newCart.cuid = cuid();
         newCart.user = user._id;
         newCart.save((error, savedcart) => {
           if (error) {
-            res.status(500).send(error);
+            return res.status(500).send(error);
           }
           savedcart.cartitems.push(req.body.cartitems);
           savedcart.save(function (err, savedcart1) {
-          res.json({ cart: savedcart1 });
+          return res.json({ cart: savedcart1 });
           });
         });
       }
@@ -154,11 +171,15 @@ export function addCart(req, res) {
         cart.update(
             {$pushAll: {"cartitems": req.body.cartitems}},
             {safe: true, upsert: true},
-            function(err, savedcart) {
-              res.json({ cart: savedcart });
+            function(err, cart) {
+              if (err){
+                return res.status(500).send(err);
+              }
+              else{
+                return res.json({ cart: cart });
+              }
             }
         );
-        // res.json({ cart: cart });
       }
     });
   });
@@ -167,12 +188,12 @@ export function addCart(req, res) {
 export function removeCartItems(req, res) {
   Cart.findOne({ cuid: req.body.cuid }).exec((err, cart) => {
     if (err) {
-      res.status(500).send(err);
+      return res.status(500).send(err);
     }
     cart.cartitems.id(req.body.cartitem_id).remove();
       cart.save(function(error){
         if (error){
-          res.status(500).send(err);
+          return res.status(500).send(err);
         }
         res.status(200).end();
       });

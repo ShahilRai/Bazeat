@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+mongoose.plugin(require('meanie-mongoose-to-json'));
 const Schema = mongoose.Schema;
 
 const ifProducer = new Schema({
@@ -9,9 +10,7 @@ const ifProducer = new Schema({
   cmp_web_site: String,
   cmp_description: String,
   cmp_phone_number: Number,
-  cmp_city: { type: 'String' },
-  cmp_address: { type: 'String' },
-  cmp_postal_code: { type: 'String' },
+  cmp_contact_person: String,
   cmp_delivery_options: String,
   days: [{ type: Schema.Types.ObjectId, ref: 'slotDays' }],
 });
@@ -54,7 +53,11 @@ const userSchema = new Schema({
   user_info: { type: ifUser, default: ifUser },
   products: [{ type: Schema.ObjectId, ref: 'Product' }],
   orderitems: [{ type: Schema.ObjectId, ref: 'OrderItem' }],
-  unique_id: { type: String }
+  unique_id: { type: String },
+  loc: {
+    type: [Number],
+    index: '2d'
+  }
 });
 
 export default mongoose.model('User', userSchema);

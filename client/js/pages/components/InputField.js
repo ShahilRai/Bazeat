@@ -9,7 +9,7 @@ export default class InputField extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
   }
-    
+
   handleChange(event) {
     this.setState({ value: event.target.value });
     if (this.props.onChange){
@@ -20,8 +20,8 @@ export default class InputField extends React.Component {
   render() {
     return(
       <div className="col-md-8 col-xs-12">
-        <input type={this.props.type ? this.props.type : "text"} className="form-control" id={this.props.name} name={this.props.name} value={this.state.value} onChange={this.handleChange} />
+        <input type={this.props.type ? this.props.type : "text"} className="form-control" id={this.props.name} name={this.props.name} value={this.state.value} onChange={this.handleChange} required />
       </div>
     );
-  }      
-}  
+  }
+}

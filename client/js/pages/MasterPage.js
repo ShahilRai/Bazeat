@@ -8,7 +8,7 @@ import AddProduct from './Product/AddProduct';
 import Ingredients from './Product/Ingredients'
 import DeliveryMethods from './Product/DeliveryMethods'
 import ReactSlider from './Product/ReactSlider'
-import RegisterModal from './Authenticate/RegisterModal';
+import UserRegisterModal from './Authenticate/UserRegisterModal';
 import ForgotPasswordModal from './Authenticate/ForgotPasswordModal';
 import ProducerRegisterModal from './Authenticate/ProducerRegisterModal';
 import { LoginLink, LogoutLink, NotAuthenticated, Authenticated } from 'react-stormpath';
@@ -19,14 +19,12 @@ export default class MasterPage extends React.Component {
       <DocumentTitle title='BAZEAT'>
         <div className='page_wrapper'>
           <Header />
-
           { this.props.children }
-
           <NotAuthenticated>
-              <LoginModal pathname={this.props.location.pathname}/>
-              <RegisterModal />
-              <ForgotPasswordModal />
-              <ProducerRegisterModal />
+            <LoginModal pathname={this.props.location.pathname}/>
+            <UserRegisterModal />
+            <ForgotPasswordModal />
+            <ProducerRegisterModal />
           </NotAuthenticated>
           <Authenticated>
             <ReactSlider />

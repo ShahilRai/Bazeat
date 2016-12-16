@@ -12,13 +12,13 @@
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="css/style_1.css" type="text/css"/>
+    <link rel="stylesheet" href="css/style.css" type="text/css"/>
     <link rel="stylesheet" href="css/addProduct.css" type="text/css"/>
     <link rel="stylesheet" href="css/fonts.css" type="text/css"/>
     <link rel="stylesheet" href="css/grid.css" type="text/css"/>
     <link rel="stylesheet" href="css/font-awesome.css" type="text/css"/>
     <link rel="stylesheet" href="css/open-sans.css" type="text/css"/>
   </head>
-  <body>
   <body>
     <div id="app-container"></div>
     <script src="/js/app.js"></script>
@@ -28,6 +28,9 @@
     <script type="text/javascript" src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
       $('.grid_wall_wrapper').jaliswall({item:'.grid_single_item'});
+      $(".next_list").click(function(){
+        $(".items_list_info").toggle();
+      });
     </script>
   </body>
 </html>

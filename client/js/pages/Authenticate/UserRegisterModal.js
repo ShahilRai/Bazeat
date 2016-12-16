@@ -1,8 +1,9 @@
 import React from 'react';
 
 import { RegistrationForm, SocialLoginLink } from 'react-stormpath';
+import InputField from '../components/InputField';
 
-export default class RegisterModal extends React.Component {
+export default class UserRegisterModal extends React.Component {
 
   onFormSubmit(e, next){
     var data = e.data;
@@ -67,8 +68,7 @@ export default class RegisterModal extends React.Component {
                 <p className="alert alert-danger" data-spIf="form.error">
                   <span data-spBind="form.errorMessage" />
                 </p>
-
-                <input type="hidden" className="form-control" id="customData.is_producer" name="customData.is_producer" value="false" onChange={function() {}}/>
+                <InputField type="hidden" name="customData.is_producer" value="false" />
                 <input type="submit" value="Bli en Bazeater" className="login_sbmit" />
               </RegistrationForm>
               <span className="or_txt mtop10">eller</span>

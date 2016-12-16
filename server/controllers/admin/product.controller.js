@@ -6,17 +6,36 @@ import Ingredient from '../../models/ingredient';
 
 
 export function getProducts(req, res) {
-  Product.find().sort('-dateAdded').exec((err, products) => {
-    if (err) {
-      res.status(500).send(err);
-    }
-    res.json({ products });
+  let end = parseInt(req.query._end, 10);
+  let start = parseInt(req.query._start, 10);
+  let sort = req.query._sort;
+  let order = '';
+  if (req.query._order == 'DESC'){
+    order = 'descending';
+  }
+  if (req.query._order == 'ASC')
+  {
+    order = 'ascending';
+  }
+  Product.find().exec((err, total_products) => {
+    Product.find().sort([[sort, order]]).limit(end).skip(start).exec((err, products) => {
+      if (err) {
+        return res.status(500).send(err);
+      }
+      else{
+        res.setHeader('X-Total-Count', total_products.length);
+        res.setHeader('Access-Control-Expose-Headers', 'X-Total-Count');
+        res.setHeader('X-Content-Type-Options', 'npsniff');
+        res.json( products );
+        return;
+      }
+    });
   });
 }
 
 export function updateProduct(req, res) {
-  Product.findOne({ cuid: req.params.cuid }).exec((err, product) => {
-    Product.update({ cuid: req.params.cuid }, req.body, function(err, model) {
+  Product.findOne({ _id: req.params._id }).exec((err, product) => {
+    Product.update({ _id: req.params._id }, req.body, function(err, model) {
       ProductCategory.update({ _products: product._id }, {$pullAll: {_products: [product._id]}}, { safe: true, multi: true }, function(err, model) {
       })
 
@@ -45,9 +64,9 @@ export function updateProduct(req, res) {
 }
 
 export function deleteProduct(req, res) {
-  Product.findOne({ cuid: req.params.cuid }).exec((err, product) => {
+  Product.findOne({ _id: req.params._id }).exec((err, product) => {
     if (err) {
-      res.status(500).send(err);
+      return res.status(500).send(err);
     }
     product.remove((product) => {
       res.status(200).end();

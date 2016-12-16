@@ -11,7 +11,7 @@ export default class IngredientsList extends React.Component {
 
 	componentDidMount() {
 		$.ajax({
-      url: "http://localhost:3000/api/ingredients",
+      url: "/api/ingredients",
       dataType: 'json',
       success: (data) => {
         this.setState({data: data});
@@ -20,8 +20,8 @@ export default class IngredientsList extends React.Component {
 	}
 
 	getIngredients() {
-		return this.state.data.map((ingredient) => {
-  		return <option key={ingredient._id} id={ingredient._id}>{ingredient.name}</option>;
+		return this.state.data.map((ingredient,index) => {
+      return <option key={index} id={ingredient.id}>{ingredient.name}</option>;
  		});
 	}
 
@@ -32,7 +32,6 @@ export default class IngredientsList extends React.Component {
 	}
 
 	render() {
-		console.log(this.ingredients("Eggs"))
 		return(
 			<datalist id="ingredientList">{this.getIngredients()}</datalist>
 		)

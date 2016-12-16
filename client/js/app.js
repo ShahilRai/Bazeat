@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { IndexRoute, Route, browserHistory } from 'react-router';
 import ReactStormpath, { Router, HomeRoute, LoginRoute, AuthenticatedRoute } from 'react-stormpath';
-import { ChangePasswordPage, ForgotPasswordModal, MasterPage, IndexPage, LoginModal, RegisterPage, ResetPasswordPage, VerifyEmailPage, ProfilePage, ProfileContainer, ReactSlider } from './pages';
+import { ChangePasswordPage, ForgotPasswordModal, MasterPage, IndexPage, LoginModal, RegisterPage, ResetPasswordPage, VerifyEmailPage, ProfileContainer, ReactSlider, UserHomePage, AdminLoginModal, AdminRegisterModal, AdminPanel, UserSettingPage} from './pages';
 
 ReactStormpath.init();
 
@@ -24,13 +24,14 @@ function loadScript(scriptName, callback) {
 }
 
 function loadJquery() {
-  // loadScript('/javascript/jquery-1.11.1.js', function() {
-    // loadScript('/javascript/bootstrap.min.js', function() {
-      //loadScript('/javascript/jaliswall.js', function() {
-       // $('.grid_wall_wrapper').jaliswall({item:'.grid_single_item'});
-     // });
-    // });
-  // });
+
+  loadScript('/javascript/jquery-1.11.1.js', function() {
+    loadScript('/javascript/bootstrap.min.js', function() {
+      loadScript('/javascript/jaliswall.js', function() {
+        $('.grid_wall_wrapper').jaliswall({item:'.grid_single_item'});
+     });
+    });
+  });
 }
 
 ReactDOM.render(
@@ -46,8 +47,13 @@ ReactDOM.render(
       <Route path='/addProductForm' component={ReactSlider} />
       <AuthenticatedRoute>
         <Route path='/profile' component={ProfileContainer} />
+        <Route path='/addProductPage' component={UserHomePage} />
+        <Route path='/settingPage' component={UserSettingPage} />
       </AuthenticatedRoute>
     </HomeRoute>
+    <Route path='/admin-login' component={AdminLoginModal} />
+    <Route path='/admin-register' component={AdminRegisterModal} />
+    <Route path='/admin-dashboard' component={AdminPanel} />
   </Router>,
   document.getElementById('app-container')
 );

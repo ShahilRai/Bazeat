@@ -6,9 +6,11 @@ export function addUser(req, res) {
   newUser.cuid = cuid();
   newUser.save((err, saved) => {
     if (err) {
-      res.status(500).send(err);
+      return res.status(500).send(err);
     }
-    res.json({ user: saved });
+    else{
+      return res.json({ user: saved });
+    }
   });
 }
 
@@ -16,9 +18,11 @@ export function addUser(req, res) {
 export function getUsers(req, res) {
   User.find().sort('-dateAdded').exec((err, users) => {
     if (err) {
-      res.status(500).send(err);
+      return res.status(500).send(err);
     }
-    res.json({ users });
+    else{
+      return res.json({ users });
+    }
   });
 }
 
@@ -26,9 +30,11 @@ export function getUsers(req, res) {
 export function getUser(req, res) {
   User.findOne({ email: req.params.email }).exec((err, user) => {
     if (err) {
-      res.status(500).send(err);
+      return res.status(500).send(err);
     }
-    res.json({ user });
+    else{
+      return res.json({ user });
+    }
   });
 }
 
@@ -36,9 +42,8 @@ export function getUser(req, res) {
 export function deleteUser(req, res) {
   User.findOne({ email: req.params.email }).exec((err, user) => {
     if (err) {
-      res.status(500).send(err);
+      return res.status(500).send(err);
     }
-
     user.remove(() => {
       res.status(200).end();
     });
