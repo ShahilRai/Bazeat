@@ -151,29 +151,27 @@ export default class Ingredients extends React.Component {
 		          </div>
 		        </div>
 					</div>
-					<form className="prod_form">
-						<div className="nutrition_fact nutrition_fact_top">
+					<form className="add_new_prodct_col">
+						<div className="nutrition_fact_col">
 							<h5>Ingredients</h5>
 							<div className="form-group">
 								<label htmlFor="" className="col-form-label ingrdnt_label">Ingredient</label>
 								<input type="text" className="form-control" name="ingredients" list="ingredientList" ref="ingredients" placeholder=""/>
 								<IngredientsList ref="IngredientsList" />
 								<button type="button" className="btn btn-default nxt_btn ingrdnt_btn" onClick={this.SubmitAfterValidate.bind(this)}>Add ingredient</button>
-								<ul className="ingrdnt_options">
-								</ul>
                 <Tags allIngredients={this.state.data.ingredients} onClick={this.removeTag.bind(this)}/>
 							</div>
 						</div>
-						<div className="nutrition_fact">
+						<div className="nutrition_fact_col">
 							<h5>Production</h5>
 							<div className="chkbox_col production_col">
 								<CheckBoxField id="checkbox17" ref="bought_items" name="bought_items" htmlFor="checkbox17" label="Contains bought items" prodDetails={this.state.prodDetails ? this.state.prodDetails.bought_items : false} />
 								<CheckBoxField id="checkbox18" ref="locally_produced_items" name="locally_produced_items" htmlFor="checkbox18" label="Contains locally produced items" prodDetails={this.state.prodDetails ? this.state.prodDetails.locally_produced_items : false} />
               </div>
 						</div>
-						<div className="nutrition_fact nutrition_fact_top">
+						<div className="nutrition_fact_col">
 							<h5>Nutrition facts</h5>
-							<div className="form-col">
+							<div className="form-col nutri_fact_form_col">
 								<div className="form-group">
 									<LabelField htmlFor="" className="col-form-label" label="kJ" />
 									<NutrtnInputField name="kj" ref="kj" prodDetails={this.props.prodDetails ? this.props.prodDetails.nutrition_fact.kj : ""} />
@@ -187,7 +185,7 @@ export default class Ingredients extends React.Component {
 									<NutrtnInputField name="fat" ref="fat" prodDetails={this.props.prodDetails ? this.props.prodDetails.nutrition_fact.fat : ""} />
 								</div>
 							</div>
-							<div className="form-col">
+							<div className="form-col nutri_fact_form_col">
 								<div className="form-group">
 									<LabelField htmlFor="" className="col-form-label" label="Carbs" />
 									<NutrtnInputField name="carbs" ref="carbs" prodDetails={this.props.prodDetails ? this.props.prodDetails.nutrition_fact.carbs : ""} />
@@ -202,17 +200,17 @@ export default class Ingredients extends React.Component {
 								</div>
 							</div>
 						</div>
-						<div className="nutrition_fact">
+						<div className="nutrition_fact_col">
 							<h5>Allergens</h5>
-							<div className="chkbox_col">
-								<div className="checkbox custom_checkbox">
+							<div className="chkbox_col production_col allergen_col">
+								<div >
 									{this.state.algrnList.map((allergens_list, index) => {
                     {alrgn.map((alrgn_id, index) => {
                       if (allergens_list.id == alrgn_id)
                         chckd=alrgn_id
                       })}
 									return (
-											<div>
+											<div className="checkbox prod_checkbox">
 												<input id={allergens_list.id} type="checkbox" defaultChecked={allergens_list.id == chckd} defaultValue={allergens_list.id} ref="allergens" name="allergens" key={ index } onChange={this.handleCheckBox.bind(this)}/>
 												<LabelField htmlFor={allergens_list.id} label={allergens_list.name } />
 											</div>

@@ -47,7 +47,7 @@ ReactDOM.render(
       <Route path='/addProductForm' component={ReactSlider} />
       <AuthenticatedRoute>
         <Route path='/profile' component={ProfileContainer} />
-        <Route path='/addProductPage' component={UserHomePage} />
+        <Route path='/user-product' component={UserHomePage} />
         <Route path='/settingPage' component={UserSettingPage} />
       </AuthenticatedRoute>
     </HomeRoute>
