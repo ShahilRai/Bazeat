@@ -27,7 +27,7 @@ export default class CheckBoxField extends React.Component {
       prdctn = this.props.prodDetails
     }
     return(
-      <div className="checkbox custom_checkbox">
+      <div className="checkbox prod_checkbox">
         <input id={this.props.id} type="checkbox" ref="prdctn_col" name={this.props.name} onChange = {this.handleChange} defaultChecked={prdctn} />
           <label htmlFor={this.props.htmlFor}>
             {this.props.label}

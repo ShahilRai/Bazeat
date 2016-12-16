@@ -1822,6 +1822,9 @@ width: 48%;
     position: absolute;
     right: 4px;
     top: 2px;
+    border: 0;
+    background: none;
+    padding: 0;
 }
 
 .checkbox input[type=checkbox]{
