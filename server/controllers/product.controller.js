@@ -200,3 +200,13 @@ export function hideProduct(req, res) {
 
 
 
+export function showProduct(req, res) {
+  Product.update({ cuid: req.params.cuid }, req.body, function(err, product) {
+    if (err){
+      return res.status(500).send(err);
+    }
+      return res.json({ product });
+  });
+}
+
+

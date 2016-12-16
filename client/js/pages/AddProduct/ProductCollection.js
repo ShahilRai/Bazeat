@@ -17,20 +17,25 @@ export default class ProductCollection extends React.Component {
   }
 
   removeImage(e) {
-    e.preventDefault();
-    var array = this.state.products;
-    var index = e.target.dataset.index-1;
-    var productToDel = array[index].cuid;
+    var reply = confirm("Are you sure ?")
 
-   this.deleteProducts(productToDel).then((response) => {
-      if(response.statusText == "OK") {
-        array.splice(index, 1);
-        this.setState({products: array });
-      }
-    })
-    .catch((err) => {
-    console.log(err);
-    });
+    if(reply == true){
+      console.log(e)
+      e.preventDefault();
+      var array = this.state.products;
+      var index = e.target.dataset.index-1;
+      var productToDel = array[index].cuid;
+
+     this.deleteProducts(productToDel).then((response) => {
+        if(response.statusText == "OK") {
+          array.splice(index, 1);
+          this.setState({products: array });
+        }
+      })
+      .catch((err) => {
+      console.log(err);
+      });
+    }
   }
 
   deleteProducts(productToDel){
