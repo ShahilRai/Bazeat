@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import EditProductBtn from '../Button/EditProductBtn';
 import DeleteProductBtn from '../Button/DeleteProductBtn';
 import HideProductBtn from '../Button/HideProductBtn';

@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import DocumentTitle from 'react-document-title';
 import { UserProfileForm } from 'react-stormpath';
 import ImageUploader from './ImageUploader';

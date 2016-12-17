@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import ProductList from './ProductList';
 import ReactSlider from '../Product/ReactSlider';
 
