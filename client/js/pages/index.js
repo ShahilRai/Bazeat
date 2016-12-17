@@ -18,3 +18,9 @@ export Ingredients from './Product/Ingredients'
 export DeliveryMethods from './Product/DeliveryMethods'
 export ReactSlider from './Product/ReactSlider'
 export UserHomePage from './AddProduct/UserHomePage'
+export UserHelpPage from './SiteStaticPages/UserHelpPage';
+export UserAboutPage from './SiteStaticPages/UserAboutPage';
+export UserTermsPage from './SiteStaticPages/UserTermsPage';
+export UserPrivacyPage from './SiteStaticPages/UserPrivacyPage';
+export UserFaqPage from './SiteStaticPages/UserFaqPage';
+

@@ -55,7 +55,7 @@ export default class Dashboard extends React.Component {
       <div>
         <Card style={{ margin: '2em' }}>
           <select onChange={this.handleChange}>
-            <option value="" selected>Secte one</option>
+            <option value="" selected>Select one</option>
             <option value="About">About</option>
             <option value="FAQ">FAQ</option>
             <option value="Help">Help</option>
