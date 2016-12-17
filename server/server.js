@@ -5,7 +5,6 @@ import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import path from 'path';
 import aws from 'aws-sdk';
-
 // import IntlWrapper from '../client/modules/Intl/IntlWrapper';
 // import twilio from 'twilio';
 // import nodeMailer from 'nodemailer';
@@ -327,6 +326,43 @@ app.post('/api/update_product_image', productupload.single('image'), function (r
 
 // Admin Logout
 app.get('/admin/logouts', logout());
+
+//Stripe Implementation
+const keySecret = process.env.SECRET_KEY;
+const keyPublishable = process.env.PUBLISHABLE_KEY;
+// import stripe from 'stripe'(keySecret);
+const stripe = require("stripe")(keySecret);
+
+app.post("/charge", (req, res) => {
+  console.log("jj")
+  // Create a new customer and then a new charge for that customer:
+stripe.customers.create({
+  email: req.body.stripeEmail
+}).then(function(customer){
+  console.log(customer)
+  console.log("customer")
+  return stripe.customers.createSource(customer.id, {
+    object: 'card',
+    exp_month: 10,
+    exp_year: 2018,
+    number: '4242 4242 4242 4242',
+    cvc: 100
+  });
+}).then(function(source) {
+  return stripe.charges.create({
+    amount: 600,
+    currency: 'usd',
+    customer: source.customer
+  });
+}).then(function(charge) {
+  console.log(charge)
+  // New charge created on a new customer
+}).catch(function(err) {
+  // Deal with an error
+});
+});
+
+// const stripe = require("stripe")(keySecret);
 
 // app.get('/', ExpressStrompath.loginRequired, function(req, res) {
 //   res.send('Welcome back: ' + res.locals.user.email);
