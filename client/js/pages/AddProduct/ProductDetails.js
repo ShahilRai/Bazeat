@@ -77,7 +77,18 @@ export default class ProductDetails extends React.Component {
                   </div>
                   <div className="tab-pane" id={"prd2" + this.props.index}>
                     <div className="inner_prod_category">
-                      Coming Soon
+                      <span className="categ_title">carbs:</span>
+                      <span className="categ_content">{this.props.dsplyProdDetails.nutrition_fact.carbs}</span>
+                      <span className="categ_title">fat:</span>
+                      <span className="categ_content">{this.props.dsplyProdDetails.nutrition_fact.fat}</span>
+                      <span className="categ_title">fiber:</span>
+                      <span className="categ_content">{this.props.dsplyProdDetails.nutrition_fact.fiber}</span>
+                      <span className="categ_title">kcal:</span>
+                      <span className="categ_content">{this.props.dsplyProdDetails.nutrition_fact.kcal}</span>
+                      <span className="categ_title">kj:</span>
+                      <span className="categ_content">{this.props.dsplyProdDetails.nutrition_fact.kj}</span>
+                      <span className="categ_title">protein:</span>
+                      <span className="categ_content">{this.props.dsplyProdDetails.nutrition_fact.protein}</span>
                     </div>
                   </div>
                 </div>

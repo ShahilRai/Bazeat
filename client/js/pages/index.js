@@ -23,4 +23,5 @@ export UserAboutPage from './SiteStaticPages/UserAboutPage';
 export UserTermsPage from './SiteStaticPages/UserTermsPage';
 export UserPrivacyPage from './SiteStaticPages/UserPrivacyPage';
 export UserFaqPage from './SiteStaticPages/UserFaqPage';
+export MapViewContainer from './Searching/MapViewContainer';
 
