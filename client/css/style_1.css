@@ -1178,6 +1178,7 @@ ul.edit_sidbar_list li a:hover, ul.edit_sidbar_list li.active a {
 .form_quesmbot {
 	margin-top:0
 }
+.prod_img_lt img{max-width: 100%;}
 /*:::::::::::::::::::::::::::::::::::::::::::::::::::::
  ========PRODUCER SETTING STYLE END============
 :::::::::::::::::::::::::::::::::::::::::::::::::::::*/
@@ -1599,8 +1600,8 @@ button.close.modal_close{    background: url(../images/close_icon.png) no-repeat
     width: 13px;
     height: 13px;
 }
-	
-	
+
+
 .box__dragndrop, .box__uploading, .box__success, .box__error {
 	display: none;
 }

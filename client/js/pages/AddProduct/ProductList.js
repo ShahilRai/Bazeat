@@ -1,11 +1,11 @@
 import React from 'react';
+import axios from 'axios';
 import EditProductBtn from '../Button/EditProductBtn';
 import DeleteProductBtn from '../Button/DeleteProductBtn';
 import HideProductBtn from '../Button/HideProductBtn';
 import DisableProductBtn from '../Button/DisableProductBtn';
 import ProductDetails from './ProductDetails';
 import ReactSlider from '../Product/ReactSlider';
-
 
   export default class ProductList extends React.Component {
 
@@ -103,11 +103,10 @@ import ReactSlider from '../Product/ReactSlider';
           <div className="grid_single_item">
             <div className="hover_box">
               <DeleteProductBtn index={this.props.index} onClick={this.props.onClick}/>
-              <EditProductBtn index={this.props.index} handlerForEdit = {this.EditProdBtnClck}/>
               <HideProductBtn handlerForHide = {this.HideProdBtnClck}  Button_text={this.state.Button_text} />
               <DisableProductBtn handlerForDisable = {this.DisableProdBtnClck}/>
             </div>
-            <a href="#" data-target={"#id1" + this.props.index} data-toggle="modal">
+            <a href="#" data-target={"#" + this.props.index} data-toggle="modal" onClick={this.EditProdBtnClck}>
               <img src= {this.props.productData.photo}/>
             </a>
             <div className="grid_tile_desc">
@@ -116,7 +115,6 @@ import ReactSlider from '../Product/ReactSlider';
               <p>{this.props.productData.description}</p>
             </div>
           </div>
-          <ProductDetails product_details={this.props.productData} index={this.props.index}/>
           <ReactSlider prod_to_edit={this.state.Prod_to_edit} index={this.props.index}/>
         </div>
     );

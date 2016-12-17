@@ -75,7 +75,7 @@ export function purchaseProduct(req, res) {
 
 
 export function getProducts(req, res) {
-  Product.find().sort('-dateAdded').exec((err, products) => {
+  Product.find().sort('-dateAdded').populate('_producer ingredients allergens product_category').exec((err, products) => {
     if (err) {
       return res.status(500).send(err);
     }
