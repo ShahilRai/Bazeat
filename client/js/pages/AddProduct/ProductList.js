@@ -103,11 +103,10 @@ import ReactSlider from '../Product/ReactSlider';
           <div className="grid_single_item">
             <div className="hover_box">
               <DeleteProductBtn index={this.props.index} onClick={this.props.onClick}/>
-              <EditProductBtn index={this.props.index} handlerForEdit = {this.EditProdBtnClck}/>
               <HideProductBtn handlerForHide = {this.HideProdBtnClck}  Button_text={this.state.Button_text} />
               <DisableProductBtn handlerForDisable = {this.DisableProdBtnClck}/>
             </div>
-            <a href="#" data-target={"#id1" + this.props.index} data-toggle="modal">
+            <a href="#" data-target={"#" + this.props.index} data-toggle="modal" onClick={this.EditProdBtnClck}>
               <img src= {this.props.productData.photo}/>
             </a>
             <div className="grid_tile_desc">
