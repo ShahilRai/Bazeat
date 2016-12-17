@@ -1,4 +1,5 @@
 import React from 'react';
+import ProductDetails from '../AddProduct/ProductDetails';
 
 export default class WallImageViewer extends React.Component {
 
@@ -23,14 +24,15 @@ export default class WallImageViewer extends React.Component {
               <small className="icon_text">Buy</small>
             </a>
           </div>
-          <a href="javascript:void(0)">
-            <img src={require("../../../images/" +this.props.wallImages.name)} />
+          <a href="#" data-target={"#id1" + this.props.index} data-toggle="modal">
+            <img src={this.props.wallImages.photo} />
             <div className="grid_tile_desc">
-              <h2>{this.props.wallImages.product_price}</h2>
-              <span className="price_tag">kr 35.00</span>
-              <p>{this.props.wallImages.product_details}</p>
+              <h2>{this.props.wallImages.product_name}</h2>
+              <span className="price_tag">kr {this.props.wallImages.price}.00</span>
+              <p>{this.props.wallImages.description}</p>
             </div>
           </a>
+          <ProductDetails index={this.props.index} dsplyProdDetails={this.props.wallImages}/>
         </div>
       </div>
     );

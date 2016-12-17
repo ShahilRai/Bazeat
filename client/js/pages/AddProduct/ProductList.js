@@ -6,7 +6,6 @@ import DisableProductBtn from '../Button/DisableProductBtn';
 import ProductDetails from './ProductDetails';
 import ReactSlider from '../Product/ReactSlider';
 
-
   export default class ProductList extends React.Component {
 
     constructor(props, context) {
@@ -116,7 +115,6 @@ import ReactSlider from '../Product/ReactSlider';
               <p>{this.props.productData.description}</p>
             </div>
           </div>
-          <ProductDetails product_details={this.props.productData} index={this.props.index}/>
           <ReactSlider prod_to_edit={this.state.Prod_to_edit} index={this.props.index}/>
         </div>
     );
