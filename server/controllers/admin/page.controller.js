@@ -21,3 +21,13 @@ export function getPage(req, res) {
   });
 }
 
+export function getPages(req, res) {
+  Page.find().exec((err, page) => {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    else{
+      return res.json({ page });
+    }
+  });
+}
