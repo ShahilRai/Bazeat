@@ -1923,7 +1923,14 @@ width: 20%;
 }
 .nutrition_fact_col:last-child{margin-bottom:0;}
 .prod_modal .modal-body.pad_btm0{padding-bottom:0;display:table-cell;width:100%;}
-
+.prod_modal .modal-footer.delivery_modal_footer{
+	    left: -19px;
+    position: relative;
+    width: 108%;
+}
+.del_method_row.mbot0{
+	margin-bottom: 0;
+}
 /*:::::::::::::::::::::::::::::::::::::::::::::::::::::
  ========USER- EDIT PRODUCT STYLE START============
 :::::::::::::::::::::::::::::::::::::::::::::::::::::*/
