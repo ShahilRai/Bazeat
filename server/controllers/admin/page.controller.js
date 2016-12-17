@@ -2,7 +2,7 @@ import Admin from '../../models/admin';
 import Page from '../../models/page';
 
 export function updatePage(req, res) {
-  Page.update({ type: req.params.type }, req.body, function(err, page) {
+  Page.update({ id: req.params.id }, req.body, function(err, page) {
     if (err){
       return res.status(500).send(err);
     }
@@ -38,12 +38,11 @@ export function getPages(req, res) {
       if (err) {
         return res.status(500).send(err);
       }
-      else{
-        res.setHeader('X-Total-Count', pages.length);
-        res.setHeader('Access-Control-Expose-Headers', 'X-Total-Count');
-        res.setHeader('X-Content-Type-Options', 'npsniff');
-        return res.json({ pages });
-      }
+      res.setHeader('X-Total-Count', pages.length);
+      res.setHeader('Access-Control-Expose-Headers', 'X-Total-Count');
+      res.setHeader('X-Content-Type-Options', 'npsniff');
+      res.json( pages );
+      return;
     });
   });
 }
