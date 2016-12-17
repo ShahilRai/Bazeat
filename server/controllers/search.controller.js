@@ -46,7 +46,7 @@ export function productsResults(req, res) {
         return res.json(500, err);
       }
       else{
-        return res.json (peoducts);
+        return res.json(peoducts);
       }
     }
   );
