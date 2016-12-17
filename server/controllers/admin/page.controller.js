@@ -22,12 +22,15 @@ export function getPage(req, res) {
 }
 
 export function getPages(req, res) {
-  Page.find().exec((err, page) => {
+  Page.find().exec((err, pages) => {
     if (err) {
       return res.status(500).send(err);
     }
     else{
-      return res.json({ page });
+      res.setHeader('X-Total-Count', pages.length);
+      res.setHeader('Access-Control-Expose-Headers', 'X-Total-Count');
+      res.setHeader('X-Content-Type-Options', 'npsniff');
+      return res.json({ pages });
     }
   });
 }
