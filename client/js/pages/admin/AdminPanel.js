@@ -3,9 +3,11 @@ import { jsonServerRestClient, Admin, Resource } from 'admin-on-rest';
 import Dashboard from './Dashboard';
 import { UserList, UserCreate, UserEdit } from './Users';
 import { ProductList, ProductEdit, ProductCreate } from './ProductList';
+import { PageList, PageEdit } from './StaticPages';
 import { Delete } from 'admin-on-rest/lib/mui';
 import UserIcon from 'material-ui/svg-icons/social/group';
 import ProductIcon from 'material-ui/svg-icons/action/book';
+import PageIcon from 'material-ui/svg-icons/action/book';
 
 export default class AdminPanel extends React.Component{
 
@@ -37,15 +39,16 @@ submit(e){
   });
 }
 
-  render(){
-    return(
-      <div>
+render(){
+  return(
+    <div>
       <button onClick={this.submit.bind(this)} style={{"marginLeft": "1200px" }}>Logout</button>
-        <Admin title="Admin Dashboard" dashboard={Dashboard} restClient={jsonServerRestClient("/admin")} >
+      <Admin title="Admin Dashboard" dashboard={Dashboard} restClient={jsonServerRestClient("/admin")} >
          <Resource name="users" list={UserList} edit={UserEdit} create={UserCreate} remove={Delete} icon={UserIcon} />
          <Resource name="products" list={ProductList} edit={ProductEdit} create={ProductCreate} remove={Delete} icon={ProductIcon} />
-        </Admin>
-      </div>
-    );
+         <Resource name="pages" list={PageList} edit={PageEdit}   icon={PageIcon} />
+      </Admin>
+    </div>
+  );
   }
 }
