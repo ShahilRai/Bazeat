@@ -18,10 +18,12 @@ export default class Map extends React.Component {
   				lng: venue.lng
   			}
   		}
-			return(<Marker key={i} {...marker}>
-				<InfoWindow>
-	          <div>helloo</div>
-	      </InfoWindow>
+			return(<Marker name={'Current location'} key={i} {...marker} onClick={() => self.props.onMarkerClick(venue)}>
+				{self.props.showInfo && (
+          <InfoWindow onCloseClick={() => self.props.onMarkerClose(venue)}>
+            <div>hello</div>
+          </InfoWindow>
+        )}
 				</Marker>
 			)
   	})
