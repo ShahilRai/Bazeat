@@ -215,11 +215,9 @@ export default class AddProduct extends React.Component {
                 {this.state.product_name}
 							</div>
 							<div className="form-group nok_form">
-								<label htmlFor="" className="col-form-label nok_label">NOK</label>
-								<input type="text" ref="price" id="price" name="price" defaultValue={this.props.fieldValues.price} className="form-control" onChange={this.handleChange} placeholder="" />
-							</div>
-							<div className="form-group portion_form custom_select">
-								<input type="text" className="form-control" ref="portion" id="portion" name="portion" defaultValue={this.props.fieldValues.portion} onChange={this.handleChange} />
+								<LabelField htmlFor="" className="col-form-label nok_label" label="NOK" />
+								<input type="number" ref="price" id="price" name="price" className="form-control plft48" onChange={this.handleChange} placeholder="" value={this.state.prodDetails ? this.state.prodDetails.price : this.refs.price.value} placeholder="price"/>
+                {this.state.price}
 							</div>
 							<div className="form-group nok_form mlft4">
                 <input type="number" className="form-control" ref="portion" id="portion" name="portion" onChange={this.handleChange} value={this.state.prodDetails ? this.state.prodDetails.portion : this.refs.portion.value} placeholder="portion"/>
