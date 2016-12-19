@@ -72,8 +72,8 @@ export default class UserHomePage extends React.Component {
                 <CategoryMenu />
                 <div className="grid_wall_wrapper prod_producer_grid products_section">
                   <AddNewProductLogo />
-                  {uData}
                 </div>
+                {uData}
               </div>
             </div>
           </div>

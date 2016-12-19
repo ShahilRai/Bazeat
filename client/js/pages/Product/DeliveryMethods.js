@@ -4,7 +4,7 @@ import ProductHeading from './ProductHeading';
 import ProductStep from './ProductStep';
 import LabelField from '../components/LabelField';
 import CheckBoxField from '../components/CheckBoxField';
-
+import moment from 'moment';
 export default class DeliveryMethods extends React.Component {
 
   constructor(props) {
@@ -101,8 +101,8 @@ export default class DeliveryMethods extends React.Component {
 								<LabelField htmlFor="" className="col-form-label shipment_label" label="Pick up time"  />
 								<div id="datetimepicker1" className="pickup_time">
 
-								<input className="form-control" name="pickup_time" ref="pickup_time" placeholder="" value={this.state.prodDetails? this.state.prodDetails.pickup_time : ""} onChange={this.handleChange} type="text"/>
-								<span className="add-on"><i className="fa fa-calendar" aria-hidden="true"></i></span>
+								<input className="form-control" name="pickup_time" ref="pickup_time" placeholder="" value={this.state.prodDetails? moment(this.state.prodDetails.pickup_time , 'YYYY-MM-DD').format('YYYY-MM-DD'): this.refs.pickup_time.value} onChange={this.handleChange} type="date"/>
+								<span className="add-on"><i aria-hidden="true"></i></span>
                 </div>
 								<p className = "shipment_text">Tell your customers when the product can be picked up.<br/> Dont edit if product can be picked up during opening hours</p>
 							</div>
