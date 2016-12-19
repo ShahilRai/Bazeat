@@ -11,4 +11,7 @@ router.route('/search/users').get(SearchController.usersResults);
 // Get products
 router.route('/search/products').get(SearchController.productsResults);
 
+// Get products
+router.route('/search/category_products/:_id').get(SearchController.categoryResults);
+
 export default router;

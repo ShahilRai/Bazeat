@@ -29,7 +29,7 @@ const productSchema = new Schema({
     protein: { type: String, lowercase: true, trim: true },
     fat: { type: String, lowercase: true, trim: true },
   },
-  weight: { type: 'String' },
+  weight: { type: 'Number' },
   length: { type: 'String' },
   width:  { type: 'String' },
   height: { type: 'String' },
