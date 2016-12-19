@@ -10,17 +10,19 @@ export default class Map extends React.Component {
   }
 
   render() {
-  	var self = this
-  	const markers = self.props.markers.map((venue, i) =>{
+  	const markers = this.props.markers.map((venue, i) =>{
   		const marker = {
   			position:{
-  				lat: venue.lat,
-  				lng: venue.lng
+  				lng: venue.loc[0],
+          lat: venue.loc[1]
   			}
   		}
-			return(<Marker name={'Current location'} key={i} {...marker} onClick={() => self.props.onMarkerClick(venue)}>
-          <InfoWindow onCloseClick={() => self.props.onMarkerClose(venue)}>
-            <UserShortInfo/>
+      console.log("venue")
+      console.log(venue)
+			return(
+        <Marker name={'Current location'} key={i} {...marker} onClick={() => this.props.onMarkerClick(venue)}>
+          <InfoWindow onCloseClick={() => this.props.onMarkerClose(venue)}>
+            <UserShortInfo index={i} user_info = {venue}/>
           </InfoWindow>
 				</Marker>
 			)
@@ -28,13 +30,13 @@ export default class Map extends React.Component {
 
   	const mapContainer = <div style={{height:'100%', width:'450%'}}></div>
 
-    return (  
-      <GoogleMapLoader 
+    return (
+      <GoogleMapLoader
       	containerElement = {mapContainer}
       	googleMapElement = {
-      		<GoogleMap 
-      			defaultZoom = {15} 
-      			defaultCenter = {self.props.center} 
+      		<GoogleMap
+      			defaultZoom = {15}
+      			defaultCenter = {this.props.center}
       			options = {{streetViewControl: false, mapTypeControl: false}}>
       			{markers}
       		</GoogleMap>
