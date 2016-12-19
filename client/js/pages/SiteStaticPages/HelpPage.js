@@ -1,11 +1,11 @@
 import React from 'react';
 import axios from 'axios';
-export default class UserPrivacyPage extends React.Component {
 
+export default class HelpPage extends React.Component {
   constructor(props){
     super(props);
     this.state={
-      user : {}
+      static_content : {}
     }
   }
 
@@ -13,7 +13,7 @@ export default class UserPrivacyPage extends React.Component {
     this.loadStaticData().then((response) => {
         if(response.data) {
           this.setState({
-            user: response.data
+            static_content: response.data
           });
         }
     }).catch((err) => {
@@ -21,15 +21,17 @@ export default class UserPrivacyPage extends React.Component {
     });
   }
 
+//load the description for static page
   loadStaticData() {
-    return axios.get("/admin/pages/Privacy")
+    return axios.get("/admin/pages/Help")
   }
 
   render(){
-      if(this.state.user){
+      if(this.state.static_content){
         return(
           <div>
-            <div style= { {padding:' 200px '} }>{this.state.user.page ? this.state.user.page.description : ''}</div>
+            <div style= { {padding:' 200px '} } dangerouslySetInnerHTML={{__html: this.state.static_content.page ? this.state.static_content.page.description : ''}}>
+            </div>
           </div>
       );
      }else{

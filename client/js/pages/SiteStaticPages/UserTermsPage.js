@@ -29,7 +29,7 @@ export default class UserTermsPage extends React.Component {
       if(this.state.user){
         return(
           <div>
-            <div style= { {padding:' 400px '} }>{this.state.user.page ? this.state.user.page.description : ''}</div>
+            <div style= { {padding:' 200px '} }>{this.state.user.page ? this.state.user.page.description : ''}</div>
           </div>
       );
      }else{

@@ -10,6 +10,9 @@ router.route('/orders').get(OrderController.getOrders);
 // Get one Order by cuid
 router.route('/orders/:cuid').get(OrderController.getOrder);
 
+
+router.route('/orders/cart/:cuid').get(OrderController.cartCheckout);
+
 // Delete Order by cuid
 router.route('/orders/:cuid').delete(OrderController.deleteOrder);
 
