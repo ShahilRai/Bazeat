@@ -1,5 +1,6 @@
 import User from '../models/user';
 import Product from '../models/product';
+import ProductCategory from '../models/productcategory';
 import cuid from 'cuid';
 
 
@@ -41,13 +42,25 @@ export function productsResults(req, res) {
   console.log(req.query.search)
   let re = new RegExp(req.query.search, 'i');
   Product.find({$and:[{'product_name':re}, { 'is_hidden':false}]}).sort('product_name').exec(
-    function(err,peoducts){
+    function(err,products){
       if (err) {
         return res.json(500, err);
       }
       else{
-        return res.json(peoducts);
+        return res.json(products);
       }
     }
   );
+}
+
+
+export function categoryResults(req, res) {
+  ProductCategory.findOne({ _id: req.params._id }).populate('_products').exec((err, product) => {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    else{
+     return res.json({ product });
+    }
+  });
 }
