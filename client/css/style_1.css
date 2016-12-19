@@ -1178,6 +1178,7 @@ ul.edit_sidbar_list li a:hover, ul.edit_sidbar_list li.active a {
 .form_quesmbot {
 	margin-top:0
 }
+.prod_img_lt img{max-width: 100%;}
 /*:::::::::::::::::::::::::::::::::::::::::::::::::::::
  ========PRODUCER SETTING STYLE END============
 :::::::::::::::::::::::::::::::::::::::::::::::::::::*/
@@ -1599,8 +1600,8 @@ button.close.modal_close{    background: url(../images/close_icon.png) no-repeat
     width: 13px;
     height: 13px;
 }
-	
-	
+
+
 .box__dragndrop, .box__uploading, .box__success, .box__error {
 	display: none;
 }
@@ -1923,7 +1924,14 @@ width: 20%;
 }
 .nutrition_fact_col:last-child{margin-bottom:0;}
 .prod_modal .modal-body.pad_btm0{padding-bottom:0;display:table-cell;width:100%;}
-
+.prod_modal .modal-footer.delivery_modal_footer{
+	    left: -19px;
+    position: relative;
+    width: 108%;
+}
+.del_method_row.mbot0{
+	margin-bottom: 0;
+}
 /*:::::::::::::::::::::::::::::::::::::::::::::::::::::
  ========USER- EDIT PRODUCT STYLE START============
 :::::::::::::::::::::::::::::::::::::::::::::::::::::*/

@@ -76,8 +76,6 @@ export default class DeliveryMethods extends React.Component {
 						<h5>Delivery methods</h5>
 					  <div className="chkbox_col production_col del_method_col">
 							<CheckBoxField id="checkbox3" name="send" ref="send" htmlFor="checkbox3" label="Send" prodDetails={this.state.prodDetails ? this.state.prodDetails.send : false}/>
-						</div>
-						<div className="chkbox_col del_chkbox">
 							<CheckBoxField id="checkbox4" name="pickup" ref="pickup" htmlFor="checkbox4" label="Pick up" prodDetails={this.state.prodDetails ? this.state.prodDetails.pickup : false}/>
 						</div>
 					</div>
@@ -97,7 +95,7 @@ export default class DeliveryMethods extends React.Component {
 							</div>
 						</div>
 					</div>
-					<div  className="nutrition_fact_col del_method_row">
+					<div  className="nutrition_fact_col del_method_row mbot0">
 						<div className="form-col pickup_wdth">
 							<div className="form-group col-md-12 mob_padd_0">
 								<LabelField htmlFor="" className="col-form-label shipment_label" label="Pick up time"  />
@@ -110,7 +108,7 @@ export default class DeliveryMethods extends React.Component {
 							</div>
 						</div>
 					</div>
-					<div className="modal-footer">
+					<div className="modal-footer delivery_modal_footer">
           {btnType}
 					</div>
 				</form>

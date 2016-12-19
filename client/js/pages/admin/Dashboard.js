@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
+import axios from 'axios';
 
 export default class Dashboard extends React.Component {
   constructor(props){
@@ -54,22 +55,10 @@ export default class Dashboard extends React.Component {
     return(
       <div>
         <Card style={{ margin: '2em' }}>
-          <select onChange={this.handleChange}>
-            <option value="" selected>Secte one</option>
-            <option value="About">About</option>
-            <option value="FAQ">FAQ</option>
-            <option value="Help">Help</option>
-            <option value="Privacy">Privacy</option>
-            <option value="Terms">Terms</option>
-          </select>
           <CardHeader title="Welcome to the administration" />
            <CardText>
-             <div>{ this.state.response_description.page? this.state.response_description.page.date_added  : " "}</div>
-             <div>{ this.state.response_description.page? this.state.response_description.page.description : ""}</div>
            </CardText>
         </Card>
-        <input type="text" ref="desc_text" className="form-control" placeholder="Enter your text"  name="edit"/>
-        <button type="submit" value="Add Description" onClick={this.submitStaticContent}>Add Description</button>
       </div>
     );
   }

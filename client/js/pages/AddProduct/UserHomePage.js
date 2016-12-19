@@ -1,4 +1,5 @@
 import { Link } from 'react-router';
+import axios from 'axios';
 import React, { PropTypes } from 'react';
 import Banner from './Banner';
 import CategoryMenu from './CategoryMenu';

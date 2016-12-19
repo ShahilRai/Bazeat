@@ -9,26 +9,8 @@ export default class Menu extends React.Component {
     authenticated: React.PropTypes.bool,
     user: React.PropTypes.object
   };
-    constructor(props, context) {
-      super(props, context);
-      this.state = {
-      hover: false
-    }
-    this.toggleHover = this.toggleHover.bind(this);
-    }
-
-  toggleHover(){
-    this.setState({hover: !this.state.hover})
-  }
-
   render() {
-    var profileHead = this.context.authenticated ? "header_rht_menu profile_rht_header" : "header_rht_menu";
-    var linkStyle;
-    if (this.state.hover) {
-      linkStyle = 'user_toggle_div collapse in'
-    } else {
-      linkStyle = 'user_toggle_div collapse'
-    }
+     var profileHead = this.context.authenticated ? "header_rht_menu profile_rht_header" : "header_rht_menu";
     return (
       <ul className={profileHead}>
         <li><a href="javascript:void(0)" className="help_icon">Help</a></li>
@@ -81,10 +63,11 @@ export default class Menu extends React.Component {
         </NotAuthenticated>
         <Authenticated>
           <li><a href="javascript:void(0)" className="message_icon">Messages</a></li>
-          <li data-toggle="collapse" data-target="#user_toggle">
-            <a href="/user-product" onMouseUp={this.toggleHover} onMouseLeave={this.toggleHover} className="user_icon">{this.context.user ? this.context.user.givenName : ""}</a>
-            <ul className={linkStyle} id="user_toggle" >
+           <li data-toggle="collapse" data-target="#user_toggle">
+             <a href="javascript:void(0)" className="user_icon">{this.context.user ? this.context.user.givenName : ""}</a>
+           <ul className="user_toggle_div collapse" id="user_toggle" >
               <li><Link to="/profile">Edit Profile</Link></li>
+              <li><Link to="/user-product">AddProductPage</Link></li>
               <li><a href="/settingPage">Settings</a></li>
               <li><a href="javascript:void(0)">Orders</a></li>
               <li><a href="javascript:void(0)">Guides</a></li>
