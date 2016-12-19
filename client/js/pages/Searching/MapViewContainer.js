@@ -62,7 +62,6 @@ export default class MapViewContainer extends React.Component {
     this.setState({
       markers: this.state.markers.map(marker => {
         if (marker === targetMarker) {
-          alert(targetMarker)
           return {
             ...marker,
             showInfo: true,

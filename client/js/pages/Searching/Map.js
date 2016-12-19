@@ -1,6 +1,6 @@
 import React from 'react';
 import {GoogleMapLoader, GoogleMap, Marker, InfoWindow } from 'react-google-maps';
-
+import UserShortInfo from './UserShortInfo'
 export default class Map extends React.Component {
 
   constructor() {
@@ -19,11 +19,9 @@ export default class Map extends React.Component {
   			}
   		}
 			return(<Marker name={'Current location'} key={i} {...marker} onClick={() => self.props.onMarkerClick(venue)}>
-				{self.props.showInfo && (
           <InfoWindow onCloseClick={() => self.props.onMarkerClose(venue)}>
-            <div>hello</div>
+            <UserShortInfo/>
           </InfoWindow>
-        )}
 				</Marker>
 			)
   	})
