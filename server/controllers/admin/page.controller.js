@@ -2,7 +2,7 @@ import Admin from '../../models/admin';
 import Page from '../../models/page';
 
 export function updatePage(req, res) {
-  Page.update({ id: req.params.id }, req.body, function(err, page) {
+  Page.update({ _id: req.params._id }, req.body, function(err, page) {
     if (err){
       return res.status(500).send(err);
     }
