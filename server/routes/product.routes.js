@@ -26,6 +26,9 @@ router.route('/diasble_product/:cuid').put(ProductController.disableProduct);
 // Hide product
 router.route('/hide_product/:cuid').put(ProductController.hideProduct);
 
+// Hide product
+router.route('/show_product/:cuid').put(ProductController.showProduct);
+
 // Delete Product by cuid
 router.route('/products/:cuid').delete(ProductController.deleteProduct);
 

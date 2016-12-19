@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import AddProduct from './AddProduct';
 import Ingredients from './Ingredients';
 import DeliveryMethods from './DeliveryMethods';

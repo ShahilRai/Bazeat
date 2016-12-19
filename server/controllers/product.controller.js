@@ -75,7 +75,7 @@ export function purchaseProduct(req, res) {
 
 
 export function getProducts(req, res) {
-  Product.find().sort('-dateAdded').exec((err, products) => {
+  Product.find().sort('-dateAdded').populate('_producer ingredients allergens product_category').exec((err, products) => {
     if (err) {
       return res.status(500).send(err);
     }
@@ -198,5 +198,15 @@ export function hideProduct(req, res) {
   });
 }
 
+
+
+export function showProduct(req, res) {
+  Product.update({ cuid: req.params.cuid }, req.body, function(err, product) {
+    if (err){
+      return res.status(500).send(err);
+    }
+      return res.json({ product });
+  });
+}
 
 
