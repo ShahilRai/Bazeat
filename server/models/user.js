@@ -37,6 +37,7 @@ const userSchema = new Schema({
   photo: { type: 'String' },
   description: { type: 'String' },
   phone: { type: 'Number' },
+  customer_id: { type: 'String' },
   cuid: { type: 'String' },
   city: { type: 'String' },
   address: { type: 'String' },

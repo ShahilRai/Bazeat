@@ -76,6 +76,7 @@
     "request": "^2.79.0",
     "sanitize-html": "^1.11.4",
     "sjcl": "^1.0.6",
+    "stripe": "^4.14.0",
     "twilio": "^2.11.0"
   },
   "devDependencies": {
