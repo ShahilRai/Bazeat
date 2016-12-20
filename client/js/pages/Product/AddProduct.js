@@ -51,7 +51,12 @@ export default class AddProduct extends React.Component {
           isphoto: ""
       })
     }
-    else {
+    else if (this.props.prodDetails){
+      this.setState({
+          isphoto: ""
+      })
+    }
+    else{
       this.setState({
       isphoto: (<p>Please upload image</p>)
       })
