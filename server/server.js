@@ -293,18 +293,21 @@ let productupload = multer({
 })
 
 app.post('/api/profile_image', profileupload.single('image'), function (req, res, next){
-  console.log('req.body')
-  console.log(req)
   User.findOne({ email: req.body.email }).exec((err, user) => {
-    user.photo = req.file.location
-    user.save((error, saveduser) => {
-      if (error) {
-        return  res.status(500).send(error);
-      }
-      else {
-        return res.json({ image_url: saveduser.photo });
-      }
-    });
+    if (err) {
+        return  res.status(500).send(err);
+    }
+    else{
+      user.photo = req.file.location
+      user.save((error, saveduser) => {
+        if (error) {
+          return  res.status(500).send(error);
+        }
+        else {
+          return res.json({ image_url: saveduser.photo });
+        }
+      });
+    }
   });
 })
 
@@ -314,15 +317,20 @@ app.post('/api/product_image', productupload.single('image'), function (req, res
 
 app.post('/api/update_product_image', productupload.single('image'), function (req, res, next){
   Product.findOne({ cuid: req.body.cuid }).exec((err, product) => {
-    product.photo = req.file.location
-    product.save((error, savedproduct) => {
-      if (error) {
-        return res.status(500).send(error);
-      }
-      else {
-        return res.json({ image_url: savedproduct.photo });
-      }
-    });
+    if (err) {
+        return  res.status(500).send(err);
+    }
+    else{
+      product.photo = req.file.location
+      product.save((error, savedproduct) => {
+        if (error) {
+          return res.status(500).send(error);
+        }
+        else {
+          return res.json({ image_url: savedproduct.photo });
+        }
+      });
+    }
   });
 })
 
