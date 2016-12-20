@@ -184,54 +184,59 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
         res.json({ error: err });
       }
       User.findOne({ email: req.body.email }).exec((err, user) => {
-        user.email = req.body.email;
-        user.phone = req.body.phone;
-        user.description = req.body.desc;
-        user.city = req.body.city;
-        user.country = req.body.country;
-        user.address = req.body.address;
-        user.birth_date = req.body.birth_date;
-        user.postal_code = req.body.postal_code;
-        user.account_number = req.body.account_number;
-        user.save((error, saveduser) => {
-          let address = (saveduser.address + ', ' + saveduser.country + ', ' + saveduser.postal_code)
-          let cmp_address = (req.body.cmp_address + ', ' + req.body.cmp_country + ', ' + req.body.cmp_postal_code)
-          geocoder.batchGeocode(([address, cmp_address]), function(err, response) {
-            saveduser.loc= [response[0].value[0].longitude, response[0].value[0].latitude]
-            saveduser.save (function (err, user1) {
-              if (error) {
-                res.status(500).send(error);
-              }
-              if(user1.if_producer == true ){
-                let producer_info = user1.producer_info;
-                producer_info.business_name = business_name;
-                producer_info.org_number = org_number;
-                producer_info.sub_to_vat = sub_to_vat;
-                producer_info.cmp_web_site = cmp_web_site;
-                producer_info.cmp_description = cmp_description;
-                producer_info.cmp_phone_number = cmp_phone_number;
-                producer_info.cmp_contact_person = cmp_contact_person;
-                producer_info.cmp_delivery_options = cmp_delivery_options;
-                producer_info.cmp_loc = [response[1].value[0].longitude, response[1].value[0].latitude]
-                // Added for time slot
-                producer_info.timeslots.push(req.body.timeslot)
-                // Added for time slot
-                // producer_info.company_description = producer_companydescription;
-              }
-              else{
-                // To be added for user profile
-                let user_info = user1.user_info;
-                user_info.gender = gender;
-                // user_info.contact_person = ;
-                // To be added for user profile
-              }
-              user1.save(function (err, saveduser1) {
-                console.log(saveduser1)
-                res.json({ user: saveduser1 });
+        if (err){
+          return  res.status(500).send(error);
+        }
+        else{
+          user.email = req.body.email;
+          user.phone = req.body.phone;
+          user.description = req.body.desc;
+          user.city = req.body.city;
+          user.country = req.body.country;
+          user.address = req.body.address;
+          user.birth_date = req.body.birth_date;
+          user.postal_code = req.body.postal_code;
+          user.account_number = req.body.account_number;
+          user.save((error, saveduser) => {
+            let address = (saveduser.address + ', ' + saveduser.country + ', ' + saveduser.postal_code)
+            let cmp_address = (req.body.cmp_address + ', ' + req.body.cmp_country + ', ' + req.body.cmp_postal_code)
+            geocoder.batchGeocode(([address, cmp_address]), function(err, response) {
+              saveduser.loc= [response[0].value[0].longitude, response[0].value[0].latitude]
+              saveduser.save (function (err, user1) {
+                if (error) {
+                  res.status(500).send(error);
+                }
+                if(user1.if_producer == true ){
+                  let producer_info = user1.producer_info;
+                  producer_info.business_name = business_name;
+                  producer_info.org_number = org_number;
+                  producer_info.sub_to_vat = sub_to_vat;
+                  producer_info.cmp_web_site = cmp_web_site;
+                  producer_info.cmp_description = cmp_description;
+                  producer_info.cmp_phone_number = cmp_phone_number;
+                  producer_info.cmp_contact_person = cmp_contact_person;
+                  producer_info.cmp_delivery_options = cmp_delivery_options;
+                  producer_info.cmp_loc = [response[1].value[0].longitude, response[1].value[0].latitude]
+                  // Added for time slot
+                  producer_info.timeslots.push(req.body.timeslot)
+                  // Added for time slot
+                  // producer_info.company_description = producer_companydescription;
+                }
+                else{
+                  // To be added for user profile
+                  let user_info = user1.user_info;
+                  user_info.gender = gender;
+                  // user_info.contact_person = ;
+                  // To be added for user profile
+                }
+                user1.save(function (err, saveduser1) {
+                  console.log(saveduser1)
+                  res.json({ user: saveduser1 });
+                });
               });
             });
           });
-        });
+        }
       });
     });
   }
