@@ -15,11 +15,11 @@ export default class NearMeIcon extends React.Component {
   RedirectToMap(){
    this.context.router.push('/search');
   }
-  
+
   render() {
     return (
-      <div>
-      <button onClick={this.RedirectToMap.bind(this)}>near-me</button>
+      <div className="location_icon">
+      <button onClick={this.RedirectToMap.bind(this)} >near-me</button>
       </div>
     );
   }

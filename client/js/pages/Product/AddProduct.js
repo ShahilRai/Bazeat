@@ -25,7 +25,8 @@ export default class AddProduct extends React.Component {
       portion : "",
       foodType: "",
       Product_name: "",
-      description: ""
+      description: "",
+      isPhoto: ""
 
 	  };
     this.handleChange = this.handleChange.bind(this);
@@ -44,6 +45,23 @@ export default class AddProduct extends React.Component {
     var valid = true;
     var numbers = /^[0-9]+$/;
     var reWhiteSpace = new RegExp(/^\s+$/)
+
+    if(this.state.photo){
+      this.setState({
+          isphoto: ""
+      })
+    }
+    else if (this.props.prodDetails){
+      this.setState({
+          isphoto: ""
+      })
+    }
+    else{
+      this.setState({
+      isphoto: (<p>Please upload image</p>)
+      })
+      valid = false
+    }
     if(this.refs.product_name.value && !reWhiteSpace.test(this.refs.product_name.value)){
      this.setState({
       product_name:""
@@ -61,7 +79,6 @@ export default class AddProduct extends React.Component {
       })
       valid = false
     }
-
     if(this.refs.description.value && !reWhiteSpace.test(this.refs.description.value)){
       this.setState({
       description:""
@@ -199,6 +216,7 @@ export default class AddProduct extends React.Component {
 					<form className="add_new_prodct_col" method="post">
 	 					<div className="lt_prod_sec">
 							<UploadProductImage ref="product_image" onPicUpdate={this.onPicUpdate.bind(this)} prodDetails={this.props.prodDetails ? this.props.prodDetails.photo : ""} />
+              {this.state.isphoto}
 							<div className="hotfood_cold_col">
 								<RadioButton foodstate="hotFood" label="Hot food" prodDetails={this.state.prodDetails ? (this.state.prodDetails.food_type == "Hot" ? true : false) : false} onChange={this.handleRadioChange} />
                 <RadioButton foodstate="coldFood" label="Cold food" prodDetails={this.state.prodDetails ? (this.state.prodDetails.food_type == "Cold" ? true : false) : false} onChange={this.handleRadioChange} />
@@ -215,11 +233,9 @@ export default class AddProduct extends React.Component {
                 {this.state.product_name}
 							</div>
 							<div className="form-group nok_form">
-								<label htmlFor="" className="col-form-label nok_label">NOK</label>
-								<input type="text" ref="price" id="price" name="price" defaultValue={this.props.fieldValues.price} className="form-control" onChange={this.handleChange} placeholder="" />
-							</div>
-							<div className="form-group portion_form custom_select">
-								<input type="text" className="form-control" ref="portion" id="portion" name="portion" defaultValue={this.props.fieldValues.portion} onChange={this.handleChange} />
+								<LabelField htmlFor="" className="col-form-label nok_label" label="NOK" />
+								<input type="number" ref="price" id="price" name="price" className="form-control plft48" onChange={this.handleChange} placeholder="" value={this.state.prodDetails ? this.state.prodDetails.price : this.refs.price.value} placeholder="price"/>
+                {this.state.price}
 							</div>
 							<div className="form-group nok_form mlft4">
                 <input type="number" className="form-control" ref="portion" id="portion" name="portion" onChange={this.handleChange} value={this.state.prodDetails ? this.state.prodDetails.portion : this.refs.portion.value} placeholder="portion"/>
@@ -244,7 +260,7 @@ export default class AddProduct extends React.Component {
 							<label htmlFor="" className="col-form-label qty_label">Expiry date</label>
 							<div id="datetimepicker1" className="date_section">
 								<input type="date" id="expiry_date" name="expiry_date" className="form-control date_input" ref="expiry_date" value={this.state.prodDetails? moment(this.state.prodDetails.expiry_date,'YYYY-MM-DD').format('YYYY-MM-DD'):this.refs.expiry_date.value} onChange={this.handleDateChange}/>
-								<span className="add-on"><i className="fa fa-calendar" aria-hidden="true"></i></span>
+								<span className="add-on"><i aria-hidden="true"></i></span>
 							</div>
 						</div>
 					</form>

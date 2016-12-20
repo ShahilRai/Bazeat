@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { IndexRoute, Route, browserHistory } from 'react-router';
 import ReactStormpath, { Router, HomeRoute, LoginRoute, AuthenticatedRoute } from 'react-stormpath';
-import { ChangePasswordPage, ForgotPasswordModal, MasterPage, IndexPage, LoginModal, RegisterPage, ResetPasswordPage, VerifyEmailPage, ProfileContainer, ReactSlider, UserHomePage, AdminLoginModal, AdminRegisterModal, AdminPanel, UserSettingPage, UserHelpPage, UserAboutPage, UserTermsPage, UserPrivacyPage, UserFaqPage, MapViewContainer } from './pages';
+import { ChangePasswordPage, ForgotPasswordModal, MasterPage, IndexPage, LoginModal, RegisterPage, ResetPasswordPage, VerifyEmailPage, ProfileContainer, ReactSlider, UserHomePage, AdminLoginModal, AdminRegisterModal, AdminPanel, UserSettingPage, HelpPage, AboutPage, TermsPage, PrivacyPage, FaqPage, MapViewContainer } from './pages';
 
 ReactStormpath.init();
 
@@ -45,11 +45,11 @@ ReactDOM.render(
       <Route path='/change' component={ChangePasswordPage} />
       <Route path='/forgot' component={ForgotPasswordModal} />
       <Route path='/addProductForm' component={ReactSlider} />
-       <Route path='/help' component={UserHelpPage} />
-      <Route path='/about' component={UserAboutPage} />
-      <Route path='/terms' component={UserTermsPage} />
-      <Route path='/privacy' component={UserPrivacyPage} />
-      <Route path='/faq' component={UserFaqPage} />
+       <Route path='/help' component={HelpPage} />
+      <Route path='/about' component={AboutPage} />
+      <Route path='/terms' component={TermsPage} />
+      <Route path='/privacy' component={PrivacyPage} />
+      <Route path='/faq' component={FaqPage} />
       <Route path='/search' component={MapViewContainer} />
       <AuthenticatedRoute>
         <Route path='/profile' component={ProfileContainer} />

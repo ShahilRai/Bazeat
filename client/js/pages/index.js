@@ -18,10 +18,10 @@ export Ingredients from './Product/Ingredients'
 export DeliveryMethods from './Product/DeliveryMethods'
 export ReactSlider from './Product/ReactSlider'
 export UserHomePage from './AddProduct/UserHomePage'
-export UserHelpPage from './SiteStaticPages/UserHelpPage';
-export UserAboutPage from './SiteStaticPages/UserAboutPage';
-export UserTermsPage from './SiteStaticPages/UserTermsPage';
-export UserPrivacyPage from './SiteStaticPages/UserPrivacyPage';
-export UserFaqPage from './SiteStaticPages/UserFaqPage';
+export HelpPage from './SiteStaticPages/HelpPage';
+export AboutPage from './SiteStaticPages/AboutPage';
+export TermsPage from './SiteStaticPages/TermsPage';
+export PrivacyPage from './SiteStaticPages/PrivacyPage';
+export FaqPage from './SiteStaticPages/FaqPage';
 export MapViewContainer from './Searching/MapViewContainer';
 
