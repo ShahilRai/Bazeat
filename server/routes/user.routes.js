@@ -13,4 +13,8 @@ router.route('/users/:cuid').get(UserController.getUser);
 
 // Delete User by cuid
 router.route('/users/:cuid').delete(UserController.deleteUser);
+
+// Add Stripe Bank Account User by cuid
+router.route('/bank_account').post(UserController.addBankAccount);
+
 export default router;

@@ -1,5 +1,9 @@
 import User from '../models/user';
 import cuid from 'cuid';
+//Stripe Implementation
+const keySecret = process.env.SECRET_KEY;
+const keyPublishable = process.env.PUBLISHABLE_KEY;
+const stripe = require("stripe")(keySecret);
 
 export function addUser(req, res) {
   const newUser = new User(req.body);
@@ -14,7 +18,6 @@ export function addUser(req, res) {
   });
 }
 
-
 export function getUsers(req, res) {
   User.find().sort('-dateAdded').exec((err, users) => {
     if (err) {
@@ -25,7 +28,6 @@ export function getUsers(req, res) {
     }
   });
 }
-
 
 export function getUser(req, res) {
   User.findOne({ email: req.params.email }).exec((err, user) => {
@@ -38,7 +40,6 @@ export function getUser(req, res) {
   });
 }
 
-
 export function deleteUser(req, res) {
   User.findOne({ email: req.params.email }).exec((err, user) => {
     if (err) {
@@ -47,5 +48,41 @@ export function deleteUser(req, res) {
     user.remove(() => {
       res.status(200).end();
     });
+  });
+}
+
+export function addBankAccount(req, res) {
+  User.findOne({ email: req.body.email }).exec((err, user) => {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    else {
+      stripe.tokens.create({
+      bank_account: {
+        country: 'US',
+        currency: 'usd',
+        account_holder_name: req.body.holder_name,
+        account_holder_type: 'individual',
+        routing_number: req.body.routing_number,//'110000000',
+        account_number: req.body.account_number//'000123456789'
+      }
+      }, function(err, token) {
+        stripe.customers.create({
+          email: req.body.email,
+          description: 'Customer for ' + req.body.email,
+          source: token.id // obtained with Stripe.js
+        }, function(err, customer) {
+          user.customer_id = customer.id
+          user.save((err, saved) => {
+            if (err) {
+              return res.status(500).send(err);
+            }
+            else {
+              return res.json({ user: saved });
+            }
+          });
+        });
+      });
+    }
   });
 }
