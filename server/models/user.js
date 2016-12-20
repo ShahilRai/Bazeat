@@ -12,19 +12,26 @@ const ifProducer = new Schema({
   cmp_phone_number: Number,
   cmp_contact_person: String,
   cmp_delivery_options: String,
-  days: [{ type: Schema.Types.ObjectId, ref: 'slotDays' }],
+  cmp_city: { type: 'String' },
+  cmp_address: { type: 'String' },
+  cmp_country: { type: 'String' },
+  cmp_postal_code: { type: 'String' },
+  cmp_loc: {
+    type: [Number],
+    index: '2d'
+  },
+  timeslots: [{ type: Schema.Types.ObjectId, ref: 'timeSlot' }]
 });
 
 
-const slotDays = new Schema({
-  name: { type: 'String' },
-  time_slots: [{ type: Schema.Types.ObjectId, ref: 'slotTimings' }],
-});
-
-const slotTimings = new Schema({
+const timeSlot = new Schema({
   start_time: Date,
-  end_time: Date
+  end_time: Date,
+  start_date: Date,
+  end_date: Date
 });
+
+
 
 const ifUser = new Schema({
   gender: String,
@@ -54,6 +61,8 @@ const userSchema = new Schema({
   products: [{ type: Schema.ObjectId, ref: 'Product' }],
   orderitems: [{ type: Schema.ObjectId, ref: 'OrderItem' }],
   unique_id: { type: String },
+  default_shipping: { type: Number },
+  account_number: {type: Number},
   loc: {
     type: [Number],
     index: '2d'
