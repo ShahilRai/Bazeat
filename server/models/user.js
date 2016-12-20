@@ -20,18 +20,8 @@ const ifProducer = new Schema({
     type: [Number],
     index: '2d'
   },
-  timeslots: [{ type: Schema.Types.ObjectId, ref: 'timeSlot' }]
+  timeslots: []
 });
-
-
-const timeSlot = new Schema({
-  start_time: Date,
-  end_time: Date,
-  start_date: Date,
-  end_date: Date
-});
-
-
 
 const ifUser = new Schema({
   gender: String,

@@ -5,6 +5,7 @@ const router = new Router();
 // Add a new User
 router.route('/users').post(UserController.addUser);
 
+router.route('/time').post(UserController.timeSlot);
 // Get all Users
 router.route('/users').get(UserController.getUsers);
 

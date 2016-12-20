@@ -15,6 +15,27 @@ export function addUser(req, res) {
 }
 
 
+export function timeSlot(req, res) {
+  console.log(req.body)
+   User.findOne({ email: req.body.email }).exec((err, user) => {
+    if (user.if_producer == true)
+    {
+      let producer_info = user.producer_info;
+       producer_info.timeslots.push(req.body.timeslot)
+       user.save(function (err, user1) {
+        console.log(user1)
+        if (err){
+          return res.status(500).send(err);
+        }
+        else{
+          return res.json({ user: user1 });
+        }
+      });
+    }
+  });
+}
+
+
 export function getUsers(req, res) {
   User.find().sort('-dateAdded').exec((err, users) => {
     if (err) {
