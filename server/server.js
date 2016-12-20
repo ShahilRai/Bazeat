@@ -170,7 +170,10 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
     let cmp_description = req.body.cmp_description;
     let cmp_phone_number = req.body.cmp_phone_number;
     let cmp_contact_person = req.body.cmp_contact_person;
-    let cmp_delivery_options = req.body.cmp_delivery_options;
+    let cmp_city = req.body.cmp_city;
+    let cmp_address = req.body.cmp_address;
+    let cmp_country = req.body.cmp_country;
+    let cmp_postal_code = req.body.cmp_postal_code;
     // Producer info params
     // User info params
     let gender = req.body.gender;
@@ -189,12 +192,12 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
         user.address = req.body.address;
         user.birth_date = req.body.birth_date;
         user.postal_code = req.body.postal_code;
+        user.account_number = req.body.account_number;
         user.save((error, saveduser) => {
-          geocoder.geocode({address: saveduser.address, country: saveduser.country, zipcode: saveduser.postal_code}, function(err, response) {
-            console.log(response[0].longitude)
-            saveduser.loc= [response[0].longitude, response[0].latitude]
-            console.log('saveduser.loc')
-            console.log(saveduser.loc)
+          let address = (saveduser.address + ', ' + saveduser.country + ', ' + saveduser.postal_code)
+          let cmp_address = (req.body.cmp_address + ', ' + req.body.cmp_country + ', ' + req.body.cmp_postal_code)
+          geocoder.batchGeocode(([address, cmp_address]), function(err, response) {
+            saveduser.loc= [response[0].value[0].longitude, response[0].value[0].latitude]
             saveduser.save (function (err, user1) {
               if (error) {
                 res.status(500).send(error);
@@ -209,6 +212,10 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
                 producer_info.cmp_phone_number = cmp_phone_number;
                 producer_info.cmp_contact_person = cmp_contact_person;
                 producer_info.cmp_delivery_options = cmp_delivery_options;
+                producer_info.cmp_loc = [response[1].value[0].longitude, response[1].value[0].latitude]
+                // Added for time slot
+                producer_info.timeslots.push(req.body.timeslot)
+                // Added for time slot
                 // producer_info.company_description = producer_companydescription;
               }
               else{
@@ -246,21 +253,15 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
   }
 });
 
-app.get('/geocode/location', function (req, res){
-  console.log('req')
-  console.log('req')
-  console.log('req')
-  console.log('req')
-  console.log(req)
-  User.findOne({ email: req.query.email }).exec((err, user) => {
-    geocoder.reverse({lat:user.latitude, lon:user.longitude}, function(err, response) {
-      console.log(response);
-      res.json({ address: response[0].formattedAddress});
-    });
-  });
-});
-
-
+// app.post('/geocode/location', function (req, res){
+//   console.log(req.body)
+//   let address = (req.body.address + ', ' + req.body.country + ', ' + req.body.postal_code)
+//   let cmp_address = (req.body.cmp_address + ', ' + req.body.cmp_country + ', ' + req.body.cmp_postal_code)
+//   // console.log(address)
+//   geocoder.batchGeocode(([address, cmp_address]), function(err, response){
+//   console.log(response[1].value[0].latitude)
+//   })
+// });
 app.on('ExpressStrompath.ready', () => {
   // console.log('Stormpath Ready');
 });
