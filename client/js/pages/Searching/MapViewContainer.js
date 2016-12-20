@@ -86,8 +86,7 @@ export default class MapViewContainer extends React.Component {
     return (
       <div style = {{width: 300, height: 550}}>
         <Map center={location} markers = {this.state.users_with_coordinates} onMarkerClick={this.handleMarkerClick}
-        onMarkerClose={this.handleMarkerClose}/>
-        <button onClick={this.handleMarkerClick}>check</button>
+        onMarkerClose={this.handleMarkerClose} />
       </div>
     )
   }
