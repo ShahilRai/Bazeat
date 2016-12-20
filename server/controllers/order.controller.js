@@ -128,9 +128,6 @@ export  function getShippingPrice(to_pin, from_pin, totalweight){
     });
 }
 
-
-
-
 export function deleteOrder(req, res) {
   Order.findOne({ cuid: req.params.cuid }).exec((err, order) => {
     if (err) {
@@ -146,24 +143,26 @@ export function deleteOrder(req, res) {
 
 export function addCart(req, res) {
   User.findOne({  email: req.body.email }).exec((error, user) => {
-    Cart.findOne({ cuid: req.body.cuid, user: user._id },function ( err, cart ){
+    Cart.findOne({ user: user._id },function ( err, cart ){
       // console.log(req.body);
       if (err) {
         return res.json(500,{error_msg: "Cart not found"});
       }
+      console.log(!cart)
       if (!cart){
         console.log(req.body.cartitems)
         const newCart = new Cart(req.body);
         newCart.cuid = cuid();
         newCart.user = user._id;
         newCart.save((error, savedcart) => {
+          // console.log(savedcart)
           if (error) {
             return res.status(500).send(error);
           }
-          savedcart.cartitems.push(req.body.cartitems);
-          savedcart.save(function (err, savedcart1) {
-          return res.json({ cart: savedcart1 });
-          });
+          // savedcart.cartitems.push(req.body.cartitems);
+          // savedcart.save(function (err, savedcart1) {
+          return res.json({ cart: savedcart });
+          // });
         });
       }
       else{
