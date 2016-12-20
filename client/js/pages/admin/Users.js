@@ -12,8 +12,8 @@ export const UserList = (props) => (
       <DateField label="Joining Date" source="date_joined" style={{ fontStyle: 'italic' }} />
       <EditButton />
       <DeleteButton />
-    </Datagrid>
-  </List>
+    < /Datagrid>
+  </ List>
 );
 export const UserEdit = (props) => (
   <Edit {...props} >
@@ -24,7 +24,6 @@ export const UserEdit = (props) => (
     <TextInput source="phone" />
   </Edit>
 );
-
 export const UserCreate = (props) => (
   <Create {...props}>
     <TextInput source="full_name" />

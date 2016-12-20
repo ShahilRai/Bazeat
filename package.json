@@ -26,6 +26,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "async": "^2.1.4",
     "aws-sdk": "^2.7.0",
     "axios": "^0.15.3",
     "babel-core": "^6.9.1",
@@ -72,6 +73,7 @@
     "react-tap-event-plugin": "^2.0.1",
     "redux": "^3.5.2",
     "redux-thunk": "^2.1.0",
+    "request": "^2.79.0",
     "sanitize-html": "^1.11.4",
     "sjcl": "^1.0.6",
     "stripe": "^4.14.0",

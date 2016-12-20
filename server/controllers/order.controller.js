@@ -1,11 +1,15 @@
 import Order from '../models/order';
 import Cart from '../models/cart';
 import User from '../models/user';
+import OrderItem from '../models/orderitem';
+import Product from '../models/product';
+import async from 'async';
 import cuid from 'cuid';
+import request from 'request';
 
 
 export function addOrder(req, res) {
-  const newOrder = new Order(req.body);
+  const newOrder = new Order();
   newOrder.cuid = cuid();
   // newOrder.orderitems.create( req.body.orderitems );
   newOrder.save((err, order) => {
@@ -13,6 +17,20 @@ export function addOrder(req, res) {
       // res.json(500, { err: err });
       return res.status(500).send(err);
     }
+    req.body.orderitems.forEach(function(item) {
+      const newOrderItem = new OrderItem();
+        newOrderItem.cuid = cuid();
+        newOrderItem._order = order._id
+        newOrderItem._product = item._product
+        newOrderItem.price = item.price
+        newOrderItem.qty = item.qty
+        newOrderItem.save((err, orderitem) => {
+          console.log(orderitem)
+          if (err) {
+            res.status(500).send(err);
+          }
+        });
+    });
       order.orderitems.push(req.body.orderitems);
       order.save(function (err, order1) {
         if (err){
@@ -48,6 +66,69 @@ export function getOrder(req, res) {
     }
   });
 }
+
+
+export  function cartCheckout (req, res) {
+  var totalweight = 1000;
+  Cart.find({cuid: req.params.cuid}).select("cartitems user -_id").exec(function(err,data) {
+    let cartitems = data[0].cartitems
+    let user_id = data[0].user
+    if (err) return handleError(err);
+    User.findOne({ _id: user_id }).exec((err, user) =>{
+      // let to_pin = user.postal_code
+      let to_pin = '7600'
+      if (cartitems[0] != null){
+        async.forEach(cartitems,function(item,callback) {
+          if (item.product_id.length > 0){
+            Product.findOne({_id: item.product_id}).populate('_producer').exec(function(err, product) {
+              // console.log(product._producer.postal_code)
+              // let from_pin = product._producer.postal_code
+              let from_pin = '1407'
+                if (err) {
+                  throw err;
+                  callback();
+                }
+                getShippingPrice(to_pin, from_pin, totalweight)
+            });
+          }
+        });
+      }
+      else{
+        return res.json('Cart is empty');
+      }
+    });
+  });
+}
+
+export  function getShippingPrice(to_pin, from_pin, totalweight){
+  console.log('to_pin')
+  console.log(to_pin)
+  console.log('from_pin')
+  console.log(from_pin)
+  console.log(totalweight)
+  let clientUrl = 'http://localhost:3000'
+  let options = {
+        uri : "https://api.bring.com/shippingguide/products/price.json?from="+from_pin+"&to="+to_pin+"&clientUrl="+clientUrl+"&weightInGrams="+totalweight+"",
+        method : 'GET'
+    };
+    let res = '';
+    request(options, function (error, response, body) {
+      console.log('body')
+      console.log(body)
+      console.log('response')
+      console.log(response)
+        if (!error && response.statusCode == 200) {
+          console.log(!error && response.statusCode == 200)
+          res = body;
+        }
+        else {
+          res = 'Not Found';
+        }
+        // callback(res);
+    });
+}
+
+
 
 
 export function deleteOrder(req, res) {
