@@ -94,8 +94,6 @@ export default class AdminRegisterModal extends React.Component {
 
   render() {
     var error = "";
-    console.log(" message")
-    console.log(this.state.ErrorMessage);
     if(this.state.ErrorMessage){
      error = <span className="text-center"><p>{this.state.ErrorMessage}</p></span>
     }
