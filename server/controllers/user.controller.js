@@ -50,7 +50,14 @@ export function getUsers(req, res) {
 }
 
 export function getUser(req, res) {
-  User.findOne({ cuid: req.params.cuid }).exec((err, user) => {
+  let data = {};
+  if(req.query.cuid){
+    data.cuid = req.query.cuid;
+  }
+  if(req.query.email){
+    data.email = req.query.cuid;
+  }
+  User.findOne(data).exec((err, user) => {
     if (err) {
       return res.status(500).send(err);
     }
@@ -59,6 +66,8 @@ export function getUser(req, res) {
     }
   });
 }
+
+
 
 export function deleteUser(req, res) {
   User.findOne({ cuid: req.params.cuid }).exec((err, user) => {

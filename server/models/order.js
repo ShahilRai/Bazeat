@@ -18,6 +18,7 @@ const orderSchema = new Schema({
   order_sum: { type: 'String' },
   delivery_date: { type: 'Date' },
   orderitems: [{ type: Schema.ObjectId, ref: 'OrderItem' }],
+  purchase_order: { type: Schema.ObjectId, ref: 'PurchaseOrder' },
   status: { type: Number, default: 0 },
   total_weight: { type: Number, default: 0 },
   vat: { type: Number, default: 0 }

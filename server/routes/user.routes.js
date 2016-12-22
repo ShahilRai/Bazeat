@@ -10,7 +10,7 @@ router.route('/time').post(UserController.timeSlot);
 router.route('/users').get(UserController.getUsers);
 
 // Get one User by cuid
-router.route('/users/:cuid').get(UserController.getUser);
+router.route('/user').get(UserController.getUser);
 
 // Delete User by cuid
 router.route('/users/:cuid').delete(UserController.deleteUser);
