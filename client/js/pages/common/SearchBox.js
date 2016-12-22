@@ -8,19 +8,17 @@ export default class SearchBox extends React.Component {
     this.state = {
       disabled : true
     };
-    this.onMouseClick = this.onMouseClick.bind(this)
-    this.onMouseLeave = this.onMouseLeave.bind(this)
+    this.handleChange = this.handleChange.bind(this)
   }
 
-  onMouseClick(){
-    this.setState({
-      disabled : false
-    })
-  }
-
-  onMouseLeave(){
+  handleChange(e){
+    if(e.target.value=="")
     this.setState({
       disabled : true
+    })
+  else
+     this.setState({
+      disabled : false
     })
   }
 
@@ -28,8 +26,8 @@ export default class SearchBox extends React.Component {
     return (
       <div className="col-lg-4 header_search_bar" onClick={this.onMouseClick}>
         <form className="form-search" method="get" id="s" action="/">
-          <input type="text" className="input-medium" name="s" placeholder="What do you want to eat?" disabled={this.state.disabled}  onMouseLeave={this.onMouseLeave}/>
-          <input name="" type="submit" className="header_search_icon"/>
+          <input type="text" className="input-medium" name="s" placeholder="What do you want to eat?" onChange={this.handleChange}/>
+          <input name="" type="submit" className="header_search_icon" disabled={this.state.disabled}/>
         </form>
       </div>
     );
