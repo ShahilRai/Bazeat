@@ -39,9 +39,19 @@ export function usersResults(req, res) {
 
 
 export function productsResults(req, res) {
-  console.log(req.query.search)
-  let re = new RegExp(req.query.search, 'i');
-  Product.find({$and:[{'product_name':re}, { 'is_hidden':false}]}).sort('product_name').exec(
+  // console.log(req.query.search)
+  console.log(req.query.category_id)
+  let data = {};
+  if(req.query.search){
+    data.product_name = new RegExp(req.query.search, 'i');
+  }
+  if(req.query.start_price && req.query.end_price){
+    data.price = {'$gte': req.query.start_price, '$lte': req.query.end_price};
+  }
+  if(req.query.category_id){
+    data.product_category = req.query.category_id;
+  }
+  Product.find(data).sort('product_name').exec(
     function(err,products){
       if (err) {
         return res.json(500, err);
@@ -53,14 +63,3 @@ export function productsResults(req, res) {
   );
 }
 
-
-export function categoryResults(req, res) {
-  ProductCategory.findOne({ _id: req.params._id }).populate('_products').exec((err, product) => {
-    if (err) {
-      return res.status(500).send(err);
-    }
-    else{
-     return res.json({ product });
-    }
-  });
-}
