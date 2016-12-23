@@ -858,7 +858,7 @@ ul.edit_sidbar_list li a:hover, ul.edit_sidbar_list li.active a {
 }
 .visting_hr_time_col {
 	border: 1px solid #cccccc;
-	display: inline-block;
+	display: none;
 	float: right;
 	;
 	width: 72%;
@@ -984,6 +984,9 @@ ul.edit_sidbar_list li a:hover, ul.edit_sidbar_list li.active a {
     border-radius: 3px;
     border: 1px solid #b8b8b8;
     color: #808080;
+}
+.addHours{
+  list-style: none;
 }
 
 

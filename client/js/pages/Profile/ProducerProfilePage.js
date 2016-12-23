@@ -8,6 +8,8 @@ import ImageUploader from './ImageUploader';
 import LabelField from '../components/LabelField';
 import SelectField from '../components/SelectField';
 import moment from 'moment';
+import AddHoursDetail from './AddHoursDetail';
+
 export default class ProducerProfilePage extends React.Component {
 
   static contextTypes = {
@@ -22,9 +24,11 @@ export default class ProducerProfilePage extends React.Component {
       birth_date: {},
       producer_info: {},
       user_info: {},
-      data_loaded: false
+      data_loaded: false,
+      getTime: []
     };
     this.handleDateChange = this.handleDateChange.bind(this);
+    this.getTimeDetails=this.getTimeDetails.bind(this);
   }
 
   componentDidMount() {
@@ -59,15 +63,20 @@ export default class ProducerProfilePage extends React.Component {
     }
   }
 
-
+  getTimeDetails(value){
+    this.setState({
+      getTime: value
+    })
+  }
   render() {
+    //console.log("get-Time: " + JSON.stringify(this.state.getTime))
     if (!this.state.data_loaded) {
       return (<div></div>);
     }
 
     return (
       <DocumentTitle title={`My Profile`}>
-        <div className="col-lg-9 col-md-8 col-sm-10 col-xs-12 edit_profile_rht_sidebar">          
+        <div className="col-lg-9 col-md-8 col-sm-10 col-xs-12 edit_profile_rht_sidebar">
           <UserProfileForm method = "post">
             <div className="edit_prfile_detail_form">
               <h3>Business details </h3>
@@ -172,41 +181,9 @@ export default class ProducerProfilePage extends React.Component {
                 </div>
                 <div className="form-group row">
                   <LabelField htmlFor="example-tel-input" className="col-md-4 col-xs-12 col-form-label" label="Visiting hours"/>
-                  <div className="col-md-8 col-xs-12">
-                    <a href="#" className="add_hrs_btn">+ Add hours</a>
-                    <span className="visting_hr_time_col">
-                      <span className="visting_hr_inner_col">
-                        <span className="pull-left">
-                          <label>From</label><input className="form-control mrht5" type="text" />
-                        </span>
-                        <span className="pull-right">
-                          <label>to</label><input className="form-control" type="text" />
-                        </span>
-                        <ul className="attnding_days">
-                          <li><a href="#">Mon</a></li>
-                          <li><a href="#">Tues</a></li>
-                          <li><a href="#">Wed</a></li>
-                          <li><a href="#">Thurs</a></li>
-                          <li><a href="#">Fri</a></li>
-                          <li><a href="#">Sat</a></li>
-                          <li><a href="#">Sun</a></li>
-                        </ul>
-                      </span>
-                      <span className="visting_hr_fotter">
-                        <div className="checkbox custom_checkbox">
-                          <input id="checkbox2" type="checkbox" />
-                          <label htmlFor="checkbox2">
-                            Apply to all days
-                          </label>
-                        </div>
-                        <span className="app_btns">
-                          <a href="#" className="add_btn">Add</a>
-                          <a href="#" className="cncl_btn">Cancel</a>
-                        </span>
-                      </span>
-                    </span>
-                  </div>
+                  <AddHoursDetail name = "timeslot" getTimeDetails={this.getTimeDetails}/>
                 </div>
+                <input type="hidden" name="timeslot" value={this.state.getTime? this.state.getTime:''}/>
               </div>
             </div>
             <div className="edit_prfile_detail_form">
