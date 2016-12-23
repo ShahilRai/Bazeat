@@ -202,9 +202,18 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
           user.postal_code = req.body.postal_code;
           user.account_number = req.body.account_number;
           user.save((error, saveduser) => {
-            let address_data = (req.body.address + ', ' + req.body.country + ', ' + req.body.postal_code)
-            let cmp_address_data = (req.body.cmp_address + ', ' + req.body.cmp_country + ', ' + req.body.cmp_postal_code)
-            geocoder.batchGeocode(([address_data, cmp_address_data]), function(err, response) {
+            let data = [];
+          if(saveduser.if_producer == true){
+            data[0] = (saveduser.address + ', ' + saveduser.country + ', ' + saveduser.postal_code)
+            data[1] = (req.body.cmp_address + ', ' + req.body.cmp_country + ', ' + req.body.cmp_postal_code)
+          }
+          else
+          {
+            data[0] = (saveduser.address + ', ' + saveduser.country + ', ' + saveduser.postal_code)
+          }
+            // let address_data = (req.body.address + ', ' + req.body.country + ', ' + req.body.postal_code)
+            // let cmp_address_data = (req.body.cmp_address + ', ' + req.body.cmp_country + ', ' + req.body.cmp_postal_code)
+            geocoder.batchGeocode((data), function(err, response) {
               saveduser.loc= [response[0].value[0].longitude, response[0].value[0].latitude]
               saveduser.save (function (err, user1) {
                 if (error) {
