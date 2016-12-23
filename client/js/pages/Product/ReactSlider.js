@@ -57,7 +57,7 @@ export default class ReactSlider extends React.Component {
     if(this.props.prod_to_edit){
       var prodToEditCuid = this.props.prod_to_edit.cuid;
       this.updateProductData(prodToEditCuid,fieldValues).then((response) => {
-        this.context.router.push('/addProductPage');
+        this.context.router.push('/user-product');
           if(response.data) {
             console.log("redirect-to");
           }
@@ -68,7 +68,7 @@ export default class ReactSlider extends React.Component {
     else
       {
         this.saveProductData(fieldValues).then((response) => {
-          this.context.router.push('/addProductPage');
+          this.context.router.push('/user-product');
             if(response.data) {
               console.log("redirect-to");
             }

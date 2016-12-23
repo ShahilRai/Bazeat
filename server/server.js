@@ -47,6 +47,7 @@ import orders from './routes/order.routes';
 import products from './routes/product.routes';
 import profiles from './routes/profile.routes';
 import search from './routes/search.routes';
+import purchaseorder from './routes/purchaseorder.routes';
 import admin from './routes/admin/authenticate.routes';
 import admin_users from './routes/admin/users.routes';
 import admin_products from './routes/admin/products.routes';
@@ -89,6 +90,7 @@ app.use('/api', orders);
 app.use('/api', products);
 app.use('/api', profiles);
 app.use('/api', search);
+app.use('/api', purchaseorder);
 
 // Admin Routes Defination
   app.use('/api/admin/authenticate', admin);
