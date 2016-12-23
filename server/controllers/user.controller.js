@@ -50,12 +50,13 @@ export function getUsers(req, res) {
 }
 
 export function getUser(req, res) {
+  console.log(req.query)
   let data = {};
   if(req.query.cuid){
     data.cuid = req.query.cuid;
   }
   if(req.query.email){
-    data.email = req.query.cuid;
+    data.email = req.query.email;
   }
   User.findOne(data).exec((err, user) => {
     if (err) {
