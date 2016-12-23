@@ -188,7 +188,7 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
       }
       User.findOne({ email: req.body.email }).exec((err, user) => {
         if (err){
-          return  res.status(500).send(error);
+          return  res.status(500).send(err);
         }
         else{
           user.email = req.body.email;
@@ -214,43 +214,49 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
             // let address_data = (req.body.address + ', ' + req.body.country + ', ' + req.body.postal_code)
             // let cmp_address_data = (req.body.cmp_address + ', ' + req.body.cmp_country + ', ' + req.body.cmp_postal_code)
             geocoder.batchGeocode((data), function(err, response) {
-              saveduser.loc= [response[0].value[0].longitude, response[0].value[0].latitude]
-              saveduser.save (function (err, user1) {
-                if (error) {
-                  res.status(500).send(error);
-                }
-                if(user1.if_producer == true ){
-                  let producer_info = user1.producer_info;
-                  producer_info.business_name = business_name;
-                  producer_info.org_number = org_number;
-                  producer_info.sub_to_vat = sub_to_vat;
-                  producer_info.cmp_web_site = cmp_web_site;
-                  producer_info.cmp_phone_number = cmp_phone_number;
-                  producer_info.cmp_contact_person = cmp_contact_person;
-                  producer_info.cmp_delivery_options = cmp_delivery_options;
-                  producer_info.cmp_city = cmp_city;
-                  producer_info.cmp_description = cmp_description
-                  producer_info.cmp_address = cmp_address;
-                  producer_info.cmp_country = cmp_country;
-                  producer_info.cmp_postal_code = cmp_postal_code;
-                  producer_info.cmp_loc = [response[1].value[0].longitude, response[1].value[0].latitude]
-                  // Added for time slot
-                  producer_info.timeslots.push(req.body.timeslot)
-                  // Added for time slot
-                  // producer_info.company_description = producer_companydescription;
-                }
-                else{
-                  // To be added for user profile
-                  let user_info = user1.user_info;
-                  user_info.gender = gender;
-                  // user_info.contact_person = ;
-                  // To be added for user profile
-                }
-                user1.save(function (err, saveduser1) {
-                  console.log(saveduser1)
-                  res.json({ user: saveduser1 });
+              if (err || response[0].value.length <= 0){
+                return res.status(500).send("Invalid address details");
+              }
+              else {
+                saveduser.loc= [response[0].value[0].longitude, response[0].value[0].latitude]
+                saveduser.save (function (err, user1) {
+                  if (err) {
+                    // console.log(err)
+                    return res.status(500).send(err);
+                  }
+                  if(user1.if_producer == true ){
+                    let producer_info = user1.producer_info;
+                    producer_info.business_name = business_name;
+                    producer_info.org_number = org_number;
+                    producer_info.sub_to_vat = sub_to_vat;
+                    producer_info.cmp_web_site = cmp_web_site;
+                    producer_info.cmp_phone_number = cmp_phone_number;
+                    producer_info.cmp_contact_person = cmp_contact_person;
+                    producer_info.cmp_delivery_options = cmp_delivery_options;
+                    producer_info.cmp_city = cmp_city;
+                    producer_info.cmp_description = cmp_description
+                    producer_info.cmp_address = cmp_address;
+                    producer_info.cmp_country = cmp_country;
+                    producer_info.cmp_postal_code = cmp_postal_code;
+                    producer_info.cmp_loc = [response[1].value[0].longitude, response[1].value[0].latitude]
+                    // Added for time slot
+                    producer_info.timeslots.push(req.body.timeslot)
+                    // Added for time slot
+                    // producer_info.company_description = producer_companydescription;
+                  }
+                  else{
+                    // To be added for user profile
+                    let user_info = user1.user_info;
+                    user_info.gender = gender;
+                    // user_info.contact_person = ;
+                    // To be added for user profile
+                  }
+                  user1.save(function (err, saveduser1) {
+                    console.log(saveduser1)
+                    return res.json({ user: saveduser1 });
+                  });
                 });
-              });
+              }
             });
           });
         }
