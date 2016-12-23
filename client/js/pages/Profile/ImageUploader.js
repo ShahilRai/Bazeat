@@ -61,7 +61,7 @@ export default class ImageUploader extends React.Component {
     return (
       <div className="edt_prf_inner_detail">
         <div class="form-group row">
-          <label htmlFor="file-1" className="col-md-4 col-xs-12 col-form-label mtop40">Profile Picture</label>
+          <label htmlFor="file-1" className="col-md-4 col-xs-12 col-form-label mtop40">Company logo</label>
           <div className="col-md-8 col-xs-12 mbot30">
             {$imagePreview}
             <div class="select_files">
