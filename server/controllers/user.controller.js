@@ -115,3 +115,23 @@ export function addBankAccount(req, res) {
     }
   });
 }
+
+
+export function handleAccount(req, res) {
+  User.findOne({ email: req.body.email }).exec((err, user) => {
+    if (user.if_visible == false){
+      user.if_visible = true
+    }
+    else{
+      user.if_visible = false
+    }
+    user.save((err, saved) => {
+      if (err) {
+        return res.status(500).send(err);
+      }
+      else {
+        return res.json({ user: saved });
+      }
+    });
+  });
+}

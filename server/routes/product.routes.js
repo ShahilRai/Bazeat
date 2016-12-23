@@ -41,4 +41,7 @@ router.route('/details').get(ProductController.getDetails);
 // Get Producer Product details
 router.route('/user_products/:email').get(ProductController.getUserProducts);
 
+// Get Producer Product details
+router.route('/handleproducts').put(ProductController.handleProducts);
+
 export default router;

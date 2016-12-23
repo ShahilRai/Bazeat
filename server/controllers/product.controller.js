@@ -209,4 +209,26 @@ export function showProduct(req, res) {
   });
 }
 
-
+export function handleProducts(req, res) {
+  console.log((req.body.is_disable == 'true'))
+  let data = {};
+  if(req.body.is_disable == 'true'){
+    data['$set'] ={}
+    data['$set']['is_disable'] = false;
+  }
+  if(req.body.is_disable == 'false'){
+    data['$set'] ={}
+    data['$set']['is_disable'] = true;
+  }
+  console.log('data')
+  console.log(data)
+  User.findOne({ email: req.body.email }).exec((err, user) => {
+    console.log(user._id)
+    Product.update({_producer: user._id}, data, {multi: true}, function(err,product){
+      if (err){
+      return res.status(500).send(err);
+    }
+      return res.json({ product });
+    });
+  });
+}
