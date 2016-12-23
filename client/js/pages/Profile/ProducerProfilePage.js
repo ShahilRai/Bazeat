@@ -19,6 +19,7 @@ export default class ProducerProfilePage extends React.Component {
     super(props, context);
     this.state = {
       user : {},
+      birth_date: {},
       producer_info: {},
       user_info: {},
       data_loaded: false
@@ -33,6 +34,7 @@ export default class ProducerProfilePage extends React.Component {
           this.setState({
             user: response.data.user,
             producer_info: response.data.user.producer_info,
+            birth_date: moment(response.data.user.birth_date).format('YYYY-MM-DD'),
             user_info: response.data.user.user_info,
             data_loaded: true
           });
@@ -50,13 +52,13 @@ export default class ProducerProfilePage extends React.Component {
     });
   }
 
-  handleDateChange(e){
-    this.setState({
-      prodDetails: {
-        [e.target.name]:  e.target.value
-      }
-    })
+  handleDateChange(event) {
+    this.setState({ birth_date: event.target.value});
+    if (this.state.onChange){
+      this.state.onChange(event);
+    }
   }
+
 
   render() {
     if (!this.state.data_loaded) {
@@ -105,7 +107,7 @@ export default class ProducerProfilePage extends React.Component {
                 </div>
                 <div className="form-group row">
                   <LabelField htmlFor="desc" className="col-md-4 col-xs-12 col-form-label" label="Company description" />
-                  <TextAreaField  name="cmp_description">{this.state.producer_info.cmp_description}</TextAreaField>
+                  <TextAreaField value={this.state.producer_info.cmp_description} name="cmp_description">{this.state.producer_info.cmp_description}</TextAreaField>
                 </div>
               </div>
             </div>
@@ -143,7 +145,7 @@ export default class ProducerProfilePage extends React.Component {
                 <div className="form-group expiry_date_col " id="">
                   <label htmlFor="" className="col-form-label qty_label">Birth date</label>
                   <div id="datetimepicker1" className="date_section">
-                  <input type="date" id="birth_date" name="birth_date"  className="form-control date_input" ref="expiry_date" onChange={this.handleDateChange}/>
+                  <input type="date" id="birth_date" name="birth_date" value={this.state.birth_date} className="form-control date_input" ref="expiry_date" onChange={this.handleDateChange}/>
                   <span className="add-on"><i aria-hidden="true"></i></span>
                 </div>
             </div>
@@ -212,7 +214,7 @@ export default class ProducerProfilePage extends React.Component {
               <div className="edt_prf_inner_detail">
                 <div className="form-group row">
                   <LabelField htmlFor="desc" className="col-md-4 col-xs-12 col-form-label" label="Delivery information" />
-                  <TextAreaField  name="cmp_delivery_options">{this.state.producer_info.cmp_delivery_options}</TextAreaField>
+                  <TextAreaField name="cmp_delivery_options"  value = {this.state.producer_info.cmp_delivery_options} >{this.state.producer_info.cmp_delivery_options}</TextAreaField>
                   <text>if you will deliver the your products to your customers, it would be great to inform them about the particulars. This information will show up under *Delivery details* for Budmat.</text>
                 </div>
               </div>
