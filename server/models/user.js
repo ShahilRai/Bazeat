@@ -5,8 +5,6 @@ const Schema = mongoose.Schema;
 const ifProducer = new Schema({
   business_name: String,
   org_number: String,
-  account_number: String,
-  sub_to_vat: { type: 'Boolean', default: false },
   cmp_web_site: String,
   cmp_description: String,
   cmp_phone_number: Number,
@@ -36,6 +34,7 @@ const userSchema = new Schema({
   email: { type: 'String' },
   photo: { type: 'String' },
   description: { type: 'String' },
+  sub_to_vat: { type: 'Boolean', default: false },
   phone: { type: 'Number' },
   customer_id: { type: 'String' },
   cuid: { type: 'String' },

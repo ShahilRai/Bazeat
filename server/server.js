@@ -168,6 +168,7 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
     let sub_to_vat = req.body.sub_to_vat;
     let cmp_web_site = req.body.cmp_web_site;
     let cmp_description = req.body.cmp_description;
+    let cmp_delivery_options = req.body.cmp_delivery_options;
     let cmp_phone_number = req.body.cmp_phone_number;
     let cmp_contact_person = req.body.cmp_contact_person;
     let cmp_city = req.body.cmp_city;
@@ -192,15 +193,16 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
           user.phone = req.body.phone;
           user.description = req.body.desc;
           user.city = req.body.city;
+          user.sub_to_vat = req.body.sub_to_vat
           user.country = req.body.country;
           user.address = req.body.address;
           user.birth_date = req.body.birth_date;
           user.postal_code = req.body.postal_code;
           user.account_number = req.body.account_number;
           user.save((error, saveduser) => {
-            let address = (saveduser.address + ', ' + saveduser.country + ', ' + saveduser.postal_code)
-            let cmp_address = (req.body.cmp_address + ', ' + req.body.cmp_country + ', ' + req.body.cmp_postal_code)
-            geocoder.batchGeocode(([address, cmp_address]), function(err, response) {
+            let address_data = (req.body.address + ', ' + req.body.country + ', ' + req.body.postal_code)
+            let cmp_address_data = (req.body.cmp_address + ', ' + req.body.cmp_country + ', ' + req.body.cmp_postal_code)
+            geocoder.batchGeocode(([address_data, cmp_address_data]), function(err, response) {
               saveduser.loc= [response[0].value[0].longitude, response[0].value[0].latitude]
               saveduser.save (function (err, user1) {
                 if (error) {
@@ -212,10 +214,14 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
                   producer_info.org_number = org_number;
                   producer_info.sub_to_vat = sub_to_vat;
                   producer_info.cmp_web_site = cmp_web_site;
-                  producer_info.cmp_description = cmp_description;
                   producer_info.cmp_phone_number = cmp_phone_number;
                   producer_info.cmp_contact_person = cmp_contact_person;
                   producer_info.cmp_delivery_options = cmp_delivery_options;
+                  producer_info.cmp_city = cmp_city;
+                  producer_info.cmp_description = cmp_description
+                  producer_info.cmp_address = cmp_address;
+                  producer_info.cmp_country = cmp_country;
+                  producer_info.cmp_postal_code = cmp_postal_code;
                   producer_info.cmp_loc = [response[1].value[0].longitude, response[1].value[0].latitude]
                   // Added for time slot
                   producer_info.timeslots.push(req.body.timeslot)
