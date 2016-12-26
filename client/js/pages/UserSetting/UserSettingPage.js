@@ -12,24 +12,24 @@ export default class UserSettingPage extends React.Component {
     super(props, context);
     this.state = {
       setting: '',
-      Link_text: "See profile"
+      seeProfile_button_text: "See profile"
     };
-    this.SeeProfileBtnClck = this.SeeProfileBtnClck.bind(this)
+    this.seeProfileBtnClck = this.seeProfileBtnClck.bind(this)
   }
 
-  SeeProfileBtnClck() {
-    this.SeeProfile().then((response) => {
+  seeProfileBtnClck() {
+    this.seeProfile(this.context.user.email).then((response) => {
       if(response.data) {
         this.setState({
         });
-            if(this.state.Link_text == "See profile"){
+            if(this.state.seeProfile_button_text == "See profile"){
               this.setState({
-                Link_text : "Hide profile"
+                seeProfile_button_text : "Hide profile"
               });
 
             }else{
               this.setState({
-                Link_text : "See profile"
+                seeProfile_button_text : "See profile"
               });
             }
       }
@@ -39,8 +39,10 @@ export default class UserSettingPage extends React.Component {
     });
   }
 
-  SeeProfile() {
-    return axios.get("/api/handleproducts");
+  seeProfile(email) {
+    return axios.get("/api/handleproducts",{
+      email: email
+    });
   }
 
   render(){
@@ -77,7 +79,7 @@ export default class UserSettingPage extends React.Component {
                   <li><a href="javascript:void(0)">Reviews</a></li>
                   <li><a href="javascript:void(0)">Messages</a></li>
                   <li><a href="javascript:void(0)">Test</a></li>
-                  <li><a onClick={this.SeeProfileBtnClck} href="javascript:void(0)">{this.state.Link_text}</a></li>
+                  <li><a onClick={this.seeProfileBtnClck} href="javascript:void(0)">{this.state.seeProfile_button_text}</a></li>
                 </ul>
               </div>
               {this.state.setting}
