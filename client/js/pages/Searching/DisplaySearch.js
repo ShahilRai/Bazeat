@@ -2,6 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import ShowProductsSearch from './ShowProductsSearch';
 import ShowBazeatersSearch from './ShowBazeatersSearch';
+import ShowLocationSearch from './ShowLocationSearch';
 import CategoryDropDown from './CategoryDropDown';
 /*import ProductRangeSlider from './ProductRangeSlider';*/
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
@@ -146,7 +147,7 @@ export default class DisplaySearch extends React.Component {
             <ShowBazeatersSearch allBazeaters ={this.state.allBazeaters} />
           </TabPanel>
           <TabPanel>
-            <ShowBazeatersSearch allBazeaters ={this.state.allBazeaters} />
+            <ShowLocationSearch allBazeaters ={this.state.allBazeaters} />
           </TabPanel>
         </Tabs>
       </div>
