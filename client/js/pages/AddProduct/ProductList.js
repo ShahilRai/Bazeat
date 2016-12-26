@@ -6,7 +6,7 @@ import HideProductBtn from '../Button/HideProductBtn';
 import DisableProductBtn from '../Button/DisableProductBtn';
 import ProductDetails from './ProductDetails';
 import ReactSlider from '../Product/ReactSlider';
-import DeleteModal from '../Button/DeleteModal';
+
 
   export default class ProductList extends React.Component {
 
@@ -104,7 +104,6 @@ import DeleteModal from '../Button/DeleteModal';
           <div className="grid_single_item">
             <div className="hover_box">
               <DeleteProductBtn index={this.props.index} onClick={this.props.onClick}/>
-              <EditProductBtn index={this.props.index} handlerForEdit = {this.EditProdBtnClck}/>
               <HideProductBtn handlerForHide = {this.HideProdBtnClck}  Button_text={this.state.Button_text} />
               <DisableProductBtn handlerForDisable = {this.DisableProdBtnClck}/>
             </div>
@@ -118,7 +117,6 @@ import DeleteModal from '../Button/DeleteModal';
             </div>
           </div>
           <ReactSlider prod_to_edit={this.state.Prod_to_edit} index={this.props.index}/>
-          <DeleteModal />
         </div>
     );
   }

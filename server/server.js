@@ -214,7 +214,7 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
             // let address_data = (req.body.address + ', ' + req.body.country + ', ' + req.body.postal_code)
             // let cmp_address_data = (req.body.cmp_address + ', ' + req.body.cmp_country + ', ' + req.body.cmp_postal_code)
             geocoder.batchGeocode((data), function(err, response) {
-              if (err || response[0].value.length <= 0){
+              if (err || response[0].value.length <= 0 || response[1].value.length <= 0){
                 return res.status(500).send({err: "Invalid address details"});
               }
               else {
