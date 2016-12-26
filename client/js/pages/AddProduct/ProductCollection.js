@@ -19,9 +19,7 @@ export default class ProductCollection extends React.Component {
 
   removeImage(e) {
     var reply = confirm("Are you sure ?")
-
     if(reply == true){
-      console.log(e)
       e.preventDefault();
       var array = this.state.products;
       var index = e.target.dataset.index-1;
