@@ -1,5 +1,4 @@
 import React from 'react';
-import InputRange from 'react-input-range';
 
 export default class CategoryDropDown extends React.Component {
 
