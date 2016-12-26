@@ -25,7 +25,7 @@ export default class SearchBox extends React.Component {
   render() {
     return (
       <div className="col-lg-4 header_search_bar" onClick={this.onMouseClick}>
-        <form className="form-search" method="get" id="s" action="/">
+        <form className="form-search" method="get" id="s" action="/displaySrch">
           <input type="text" className="input-medium" name="s" placeholder="What do you want to eat?" onChange={this.handleChange}/>
           <input name="" type="submit" className="header_search_icon" disabled={this.state.disabled}/>
         </form>

@@ -24,4 +24,5 @@ export TermsPage from './SiteStaticPages/TermsPage';
 export PrivacyPage from './SiteStaticPages/PrivacyPage';
 export FaqPage from './SiteStaticPages/FaqPage';
 export MapViewContainer from './Searching/MapViewContainer';
+export DisplaySearch from './Searching/DisplaySearch';
 
