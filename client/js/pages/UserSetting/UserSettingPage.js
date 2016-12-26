@@ -1,4 +1,5 @@
 import { Link } from 'react-router';
+import axios from 'axios';
 import React, { PropTypes } from 'react';
 import ProducerPasswordUpdate from './ProducerPasswordUpdate';
 import UserPasswordUpdate from './UserPasswordUpdate';
@@ -10,18 +11,47 @@ export default class UserSettingPage extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      setting: ''
+      setting: '',
+      Link_text: "See profile"
     };
+    this.SeeProfileBtnClck = this.SeeProfileBtnClck.bind(this)
   }
+
+  SeeProfileBtnClck() {
+    this.SeeProfile().then((response) => {
+      if(response.data) {
+        this.setState({
+        });
+            if(this.state.Link_text == "See profile"){
+              this.setState({
+                Link_text : "Hide profile"
+              });
+
+            }else{
+              this.setState({
+                Link_text : "See profile"
+              });
+            }
+      }
+    })
+    .catch((err) => {
+    console.log(err);
+    });
+  }
+
+  SeeProfile() {
+    return axios.get("/api/handleproducts");
+  }
+
   render(){
-    if(this.context.user)
-    {
+    if(this.context.user){
       if(this.context.user.customData.is_producer == "true"){
         this.state.setting = <ProducerPasswordUpdate />;
       }else {
         this.state.setting = <UserPasswordUpdate />;
       }
     }
+
     return(
       <div>
         <div className="menu_wrapper">
@@ -47,7 +77,7 @@ export default class UserSettingPage extends React.Component {
                   <li><a href="javascript:void(0)">Reviews</a></li>
                   <li><a href="javascript:void(0)">Messages</a></li>
                   <li><a href="javascript:void(0)">Test</a></li>
-                  <li><a href="javascript:void(0)">See profile</a></li>
+                  <li><a onClick={this.SeeProfileBtnClck} href="javascript:void(0)">{this.state.Link_text}</a></li>
                 </ul>
               </div>
               {this.state.setting}

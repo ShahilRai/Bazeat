@@ -7,6 +7,7 @@ import DisableProductBtn from '../Button/DisableProductBtn';
 import ProductDetails from './ProductDetails';
 import ReactSlider from '../Product/ReactSlider';
 
+
   export default class ProductList extends React.Component {
 
     constructor(props, context) {

@@ -20,8 +20,8 @@ export default class SelectField extends React.Component{
     return(
      <select id={this.props.name} name ={this.props.name} onChange={this.handleChange} value={this.state.value}>
         <option value="Select One">Select One</option>
-        <option value="Male">Male</option>
-        <option value="Female">Female</option>
+        <option value={this.props.vat?'Yes':'Male'}>{this.props.vat?'Yes':'Male'}</option>
+        <option value={this.props.vat?'No':'FeMale'}>{this.props.vat?'No':'FeMale'}</option>
      </select>
     );
   }

@@ -9,7 +9,7 @@ router.route('/time').post(UserController.timeSlot);
 router.route('/users').get(UserController.getUsers);
 
 // Get one User by cuid
-router.route('/users/:cuid').get(UserController.getUser);
+router.route('/user').get(UserController.getUser);
 
 // Delete User by cuid
 router.route('/users/:cuid').delete(UserController.deleteUser);
@@ -18,5 +18,7 @@ router.route('/users/:cuid').delete(UserController.deleteUser);
 router.route('/bank_account').post(UserController.addBankAccount);
 
 router.route('/payment').post(UserController.Payment);
+// Add Stripe Bank Account User by cuid
+router.route('/disable_account').put(UserController.handleAccount);
 
 export default router;

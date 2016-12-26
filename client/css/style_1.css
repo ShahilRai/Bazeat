@@ -858,7 +858,7 @@ ul.edit_sidbar_list li a:hover, ul.edit_sidbar_list li.active a {
 }
 .visting_hr_time_col {
 	border: 1px solid #cccccc;
-	display: inline-block;
+	display: none;
 	float: right;
 	;
 	width: 72%;
@@ -984,6 +984,9 @@ ul.edit_sidbar_list li a:hover, ul.edit_sidbar_list li.active a {
     border-radius: 3px;
     border: 1px solid #b8b8b8;
     color: #808080;
+}
+.addHours{
+  list-style: none;
 }
 
 
@@ -1808,24 +1811,26 @@ width: 48%;
 }
 .ingrdnt_name {
     color: #5A646D;
+    padding: 3px;
+    border: 1px;
+    border-style: solid;
+    border-radius: 3px;
     float: left;
-    font-size: 9px;
+    font-size: 10px;
     font-weight: 700;
     text-align: left;
-    padding-right: 7px;
 }
 .close_ingrdnt {
     color: #808080;
     float: right;
-    font-size: 8px;
+    font-size: 9px;
     font-weight: 700;
     text-align: right;
-    position: absolute;
     right: 4px;
     top: 2px;
     border: 0;
     background: none;
-    padding: 0;
+    padding: 1;
 }
 
 .checkbox input[type=checkbox]{

@@ -1,13 +1,38 @@
 import React from 'react';
-
+import axios from 'axios';
 export default class EndYourBazeatAdventure extends React.Component {
+
+    constructor(props, context) {
+    super(props, context);
+    this.state = {
+    };
+    this.EndYourBazeatAdventureBtnClck = this.EndYourBazeatAdventureBtnClck.bind(this)
+  }
+
+    EndYourBazeatAdventureBtnClck(e) {
+
+        alert(e.target.text)
+      this.EndYourBazeatAdventure().then((response) => {
+         if(response.data) {
+          this.setState({
+          });
+        }
+      })
+      .catch((err) => {
+      console.log(err);
+      });
+    }
+
+    EndYourBazeatAdventure() {
+      return axios.get("api/disable_product/");
+    }
 
     render() {
 	    return (
         <div className="col-lg-9 col-md-8 col-sm-10 col-xs-12 edit_profile_rht_sidebar">
           <div className="edit_prfile_detail_form">
               <h3>End your Bazeat adventure</h3>
-              <form className="">
+              <form className="" action="javascript:void(0)">
                 <div className="canel_accoutn_col">
                     <p className="leavn_txt">Do you want to cancel your account? We will miss you! </p>
                     <button type="submit" className="btn pull-right redish_btn">Cancel Account</button>
@@ -40,13 +65,13 @@ export default class EndYourBazeatAdventure extends React.Component {
                         <label for="detail1">Yes, please</label>
                     </div>
                         <div className="custom_radio_edit max_140">
-                        <input id="detail2" type="radio" name="c_detail" value="detail2"/>
+                        <input  type="radio" name="c_detail"id="detail2"/>
                         <label for="detail2">No, thank you</label>
                     </div>
                 </div>
                 <div className="profile_gry_bot_bar">
-                    <button type="submit" className="btn pull-right green_btn">Remain on Bazeat</button>
-                    <button type="submit" className="btn pull-right mrht20">Cancle account</button>
+                    <button type="submit" className="btn pull-right green_btn" onClick={this.EndYourBazeatAdventureBtnClck}>Remain on Bazeat</button>
+                    <button type="submit" className="btn pull-right mrht20" onClick={this.EndYourBazeatAdventureBtnClck}>Cancle account</button>
                 </div>
               </form>
           </div>

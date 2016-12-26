@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { IndexRoute, Route, browserHistory } from 'react-router';
 import ReactStormpath, { Router, HomeRoute, LoginRoute, AuthenticatedRoute } from 'react-stormpath';
-import { ChangePasswordPage, ForgotPasswordModal, MasterPage, IndexPage, LoginModal, RegisterPage, ResetPasswordPage, VerifyEmailPage, ProfileContainer, ReactSlider, UserHomePage, AdminLoginModal, AdminRegisterModal, AdminPanel, UserSettingPage, HelpPage, AboutPage, TermsPage, PrivacyPage, FaqPage, MapViewContainer } from './pages';
+import { ChangePasswordPage, ForgotPasswordModal, MasterPage, IndexPage, LoginModal, RegisterPage, ResetPasswordPage, VerifyEmailPage, ProfileContainer, ReactSlider, UserHomePage, AdminLoginModal, AdminRegisterModal, AdminPanel, UserSettingPage, HelpPage, AboutPage, TermsPage, PrivacyPage, FaqPage, MapViewContainer, DisplaySearch } from './pages';
 
 ReactStormpath.init();
 
@@ -51,10 +51,11 @@ ReactDOM.render(
       <Route path='/privacy' component={PrivacyPage} />
       <Route path='/faq' component={FaqPage} />
       <Route path='/search' component={MapViewContainer} />
+      <Route path='/displaySrch' component={DisplaySearch} />
       <AuthenticatedRoute>
         <Route path='/profile' component={ProfileContainer} />
         <Route path='/user-product' component={UserHomePage} />
-        <Route path='/settingPage' component={UserSettingPage} />
+        <Route path='/setting' component={UserSettingPage} />
       </AuthenticatedRoute>
     </HomeRoute>
     <Route path='/admin-login' component={AdminLoginModal} />

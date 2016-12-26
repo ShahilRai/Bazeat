@@ -15,7 +15,7 @@ export default class ImageUploader extends React.Component {
       file: null,
       uploadedImages: null,
       user: this.props.user,
-      image1: this.props.image
+      profileImage: this.props.image
     }
   }
 
@@ -23,7 +23,7 @@ export default class ImageUploader extends React.Component {
     var file = files[0];
     this.setState({
       file: file,
-      image1:this.state.uploadedImages
+      profileImage:this.state.uploadedImages
     });
     const formData = new FormData();
     formData.append('image', file);
@@ -53,7 +53,7 @@ export default class ImageUploader extends React.Component {
       $imagePreview = (<UserLogo url={url} height="101" width="101" />);
     }
     else if(this.props.image){
-      $imagePreview = (<UserLogo url={this.state.image1} height="101" width="101" />);
+      $imagePreview = (<UserLogo url={this.state.profileImage} height="101" width="101" />);
     }
     else {
       $imagePreview = (<UserLogo url={require('../../../images/producer_logo.png')} />);
@@ -61,7 +61,7 @@ export default class ImageUploader extends React.Component {
     return (
       <div className="edt_prf_inner_detail">
         <div class="form-group row">
-          <label htmlFor="file-1" className="col-md-4 col-xs-12 col-form-label mtop40">Profile Picture</label>
+          <label htmlFor="file-1" className="col-md-4 col-xs-12 col-form-label mtop40">Company logo</label>
           <div className="col-md-8 col-xs-12 mbot30">
             {$imagePreview}
             <div class="select_files">

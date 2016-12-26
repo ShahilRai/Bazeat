@@ -50,7 +50,15 @@ export function getUsers(req, res) {
 }
 
 export function getUser(req, res) {
-  User.findOne({ cuid: req.params.cuid }).exec((err, user) => {
+  console.log(req.query)
+  let data = {};
+  if(req.query.cuid){
+    data.cuid = req.query.cuid;
+  }
+  if(req.query.email){
+    data.email = req.query.email;
+  }
+  User.findOne(data).exec((err, user) => {
     if (err) {
       return res.status(500).send(err);
     }
@@ -59,6 +67,8 @@ export function getUser(req, res) {
     }
   });
 }
+
+
 
 export function deleteUser(req, res) {
   User.findOne({ cuid: req.params.cuid }).exec((err, user) => {
@@ -146,4 +156,23 @@ export function Payment(req, res) {
       })
     }
   })
+}
+
+export function handleAccount(req, res) {
+  User.findOne({ email: req.body.email }).exec((err, user) => {
+    if (user.if_visible == false){
+      user.if_visible = true
+    }
+    else{
+      user.if_visible = false
+    }
+    user.save((err, saved) => {
+      if (err) {
+        return res.status(500).send(err);
+      }
+      else {
+        return res.json({ user: saved });
+      }
+    });
+  });
 }
