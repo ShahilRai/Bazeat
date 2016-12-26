@@ -55,7 +55,7 @@ ReactDOM.render(
       <AuthenticatedRoute>
         <Route path='/profile' component={ProfileContainer} />
         <Route path='/user-product' component={UserHomePage} />
-        <Route path='/settingPage' component={UserSettingPage} />
+        <Route path='/setting' component={UserSettingPage} />
       </AuthenticatedRoute>
     </HomeRoute>
     <Route path='/admin-login' component={AdminLoginModal} />
