@@ -110,11 +110,11 @@ export function getBuyers(req, res) {
 
 export function deleteProduct(req, res) {
   Product.findOne({ cuid: req.params.cuid }).exec((err, product) => {
-    if (err) {
-      return res.status(500).send(err);
+    if (err || product == null) {
+      return res.status(500).send({msg: err});
     }
     product.remove(() => {
-      res.status(200).end();
+      return res.status(200).send({msg: "Product deleted successfully"});
     });
   });
 }

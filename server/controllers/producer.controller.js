@@ -41,12 +41,11 @@ export function getProducer(req, res) {
 
 export function deleteProducer(req, res) {
   Producer.findOne({ cuid: req.params.cuid }).exec((err, producer) => {
-    if (err) {
-      return res.status(500).send(err);
+   if (err || producer == null) {
+      return res.status(500).send({msg: err});
     }
-
     producer.remove(() => {
-      res.status(200).end();
+      return res.status(200).send({msg: "Producer deleted successfully"});
     });
   });
 }

@@ -51,12 +51,11 @@ export function updateUser(req, res) {
 
 export function deleteUser(req, res) {
   User.findOne({ _id: req.params._id }).exec((err, user) => {
-    if (err) {
-      return res.status(500).send(err);
+    if (err || user == null) {
+      return res.status(500).send({msg: err});
     }
-
     user.remove(() => {
-      res.status(200).end();
+      return res.status(200).send({msg: "User deleted successfully"});
     });
   });
 }

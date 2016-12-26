@@ -72,11 +72,11 @@ export function getUser(req, res) {
 
 export function deleteUser(req, res) {
   User.findOne({ cuid: req.params.cuid }).exec((err, user) => {
-    if (err) {
-      return res.status(500).send(err);
+    if (err || user == null) {
+      return res.status(500).send({msg: err});
     }
     user.remove(() => {
-      res.status(200).end();
+      return res.status(200).send({msg: "User deleted successfully"});
     });
   });
 }

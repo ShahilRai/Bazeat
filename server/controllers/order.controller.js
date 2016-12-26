@@ -130,14 +130,12 @@ export  function getShippingPrice(to_pin, from_pin, totalweight){
 
 export function deleteOrder(req, res) {
   Order.findOne({ cuid: req.params.cuid }).exec((err, order) => {
-    if (err) {
-      return res.status(500).send(err);
-     }
-    else{
-      order.remove(() => {
-        res.status(200).end();
-      });
+    if (err || order == null) {
+      return res.status(500).send({msg: err});
     }
+    order.remove(() => {
+      return res.status(200).send({msg: "Order deleted successfully"});
+    });
   });
 }
 
