@@ -73,7 +73,6 @@ productSchema.post('remove', function(product) {
   User.update({ products: product._id }, { $pullAll: { products : [product._id] }},
     { safe: true, multi: true },
     function removeConnectionsCB(err, obj) {
-      console.log("product user removwe")
     });
 });
 
