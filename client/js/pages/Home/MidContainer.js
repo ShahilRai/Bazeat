@@ -23,7 +23,7 @@ export default class MidContainer extends React.Component {
           </div>
           <div className="grid_wall_wrapper">
             {this.props.productList.map((wallImages, index) => <WallImageViewer
-                key = {index} index={index} wallImages = {wallImages}/>)}
+                key = {index} index={index + 1} wallImages = {wallImages}/>)}
           </div>
         </div>
       </div>
