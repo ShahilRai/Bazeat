@@ -19,8 +19,7 @@ export function addUser(req, res) {
 }
 
 export function timeSlot(req, res) {
-  console.log(req.body)
-   User.findOne({ email: req.body.email }).exec((err, user) => {
+  User.findOne({ email: req.body.email }).exec((err, user) => {
     if (user.if_producer == true)
     {
       let producer_info = user.producer_info;
