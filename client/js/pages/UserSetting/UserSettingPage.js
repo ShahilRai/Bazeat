@@ -40,7 +40,7 @@ export default class UserSettingPage extends React.Component {
   }
 
   seeProfile(email) {
-    return axios.get("/api/handleproducts",{
+    return axios.put("/api/handleproducts",{
       email: email
     });
   }
@@ -61,9 +61,9 @@ export default class UserSettingPage extends React.Component {
             <div className="row">
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <ul>
-                <li className="active"><a href="/profile">Profile</a></li>
-                <li className=""><a href="/settingPage">Settings</a></li>
-                <li><a href="javascript:void(0)">Guides</a></li>
+                <li className=""><a href="javascript:void(0)">Profile</a></li>
+                <li className="active"><a href="javascript:void(0)">Settings</a></li>
+                <li className=""><a href="javascript:void(0)">Guides</a></li>
                 </ul>
               </div>
             </div>
@@ -74,7 +74,7 @@ export default class UserSettingPage extends React.Component {
             <div className="row">
               <div className="col-lg-3 col-md-2 col-sm-2 col-xs-12 edit_profile_sidebar">
                 <ul className="edit_sidbar_list">
-                  <li ><a href="/profile">Edit Profile</a></li>
+                  <li><a href="/profile">Edit Profile</a></li>
                   <li><a href="javascript:void(0)">Verification</a></li>
                   <li><a href="javascript:void(0)">Reviews</a></li>
                   <li><a href="javascript:void(0)">Messages</a></li>

@@ -2,17 +2,20 @@ import React from 'react';
 import axios from 'axios';
 export default class EndYourBazeatAdventure extends React.Component {
 
+    static contextTypes = {
+    authenticated: React.PropTypes.bool,
+    user: React.PropTypes.object
+  };
+
     constructor(props, context) {
     super(props, context);
     this.state = {
     };
-    this.EndYourBazeatAdventureBtnClck = this.EndYourBazeatAdventureBtnClck.bind(this)
+    this.endYourBazeatAdventureBtnClck = this.endYourBazeatAdventureBtnClck.bind(this)
   }
 
-    EndYourBazeatAdventureBtnClck(e) {
-
-        alert(e.target.text)
-      this.EndYourBazeatAdventure().then((response) => {
+    endYourBazeatAdventureBtnClck() {
+      this.endYourBazeatAdventure(this.context.user.email).then((response) => {
          if(response.data) {
           this.setState({
           });
@@ -23,8 +26,10 @@ export default class EndYourBazeatAdventure extends React.Component {
       });
     }
 
-    EndYourBazeatAdventure() {
-      return axios.get("api/disable_product/");
+    endYourBazeatAdventure(email) {
+      return axios.delete("/api/users/",{
+        email: email
+      });
     }
 
     render() {
@@ -70,8 +75,8 @@ export default class EndYourBazeatAdventure extends React.Component {
                     </div>
                 </div>
                 <div className="profile_gry_bot_bar">
-                    <button type="submit" className="btn pull-right green_btn" onClick={this.EndYourBazeatAdventureBtnClck}>Remain on Bazeat</button>
-                    <button type="submit" className="btn pull-right mrht20" onClick={this.EndYourBazeatAdventureBtnClck}>Cancle account</button>
+                    <button type="submit" className="btn pull-right green_btn" onClick={this.endYourBazeatAdventureBtnClck}>Remain on Bazeat</button>
+                    <button type="submit" className="btn pull-right mrht20" onClick={this.endYourBazeatAdventureBtnClck}>Cancle account</button>
                 </div>
               </form>
           </div>
