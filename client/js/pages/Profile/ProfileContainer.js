@@ -33,9 +33,9 @@ export default class ProfileContainer extends React.Component {
             <div className="row">
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <ul>
-                <li className="active"><a href="/profile">Profile</a></li>
-                <li className=""><a href="/setting">Settings</a></li>
-                <li><a href="javascript:void(0)">Guides</a></li>
+                  <li className="active"><a href="/profile">Profile</a></li>
+                  <li className=""><a href="/settingPage">Settings</a></li>
+                  <li><a href="javascript:void(0)">Guides</a></li>
                 </ul>
               </div>
             </div>
