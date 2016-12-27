@@ -157,6 +157,7 @@ app.use(ExpressStrompath.init(app, {
 
 app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
   function (req, res) {
+    console.log(req.body)
   function writeError(message) {
     res.status(400);
     return res.json({ message: message, status: 400 });

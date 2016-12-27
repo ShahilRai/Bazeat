@@ -4,7 +4,6 @@ import  User from '../models/user'
 
 
 export function allConversations(req, res, next) {
-  console.log(req)
   User.findOne({ email: req.query.email }).exec((err, user) => {
     Conversation.find({ participants: user._id })
       .select('_id')
@@ -18,10 +17,13 @@ export function allConversations(req, res, next) {
         conversations.forEach(function(conversation) {
           Message.find({ 'conversation_id': conversation._id })
             .sort('-createdAt')
-            .limit(1)
             .populate({
-              path: "author",
-              select: "full_name"
+              path: 'sender',
+              select: 'full_name'
+            })
+            .populate({
+              path: 'receiver',
+              select: 'full_name'
             })
             .exec(function(err, message) {
               if (err) {
@@ -41,10 +43,14 @@ export function allConversations(req, res, next) {
 
 export function getConversation(req, res, next) {
   Message.find({ conversation_id: req.params.conversation_id })
-    .select('createdAt body author')
+    .select('createdAt body sender receiver')
     .sort('-createdAt')
     .populate({
-      path: 'author',
+      path: 'sender',
+      select: 'full_name'
+    })
+    .populate({
+      path: 'receiver',
       select: 'full_name'
     })
     .exec(function(err, messages) {
@@ -58,7 +64,7 @@ export function getConversation(req, res, next) {
 
 
 export function newConversation(req, res, next) {
-   if(!req.params.recipient) {
+   if(!req.params.recipient_id) {
     res.status(422).send({ error: 'Please choose a valid recipient for your message.' });
     return next();
   }
@@ -78,7 +84,8 @@ export function newConversation(req, res, next) {
       const message = new Message({
         conversation_id: newConversation._id,
         body: req.body.composedMessage,
-        author: user._id,
+        sender: user._id,
+        receiver: req.params.recipient_id
       });
 
       message.save(function(err, newMessage) {
@@ -99,8 +106,8 @@ export function sendReply(req, res, next) {
     const reply = new Message({
       conversation_id: req.params.conversation_id,
       body: req.body.composedMessage,
-      author: user._id,
-      recepient: req.params.recepient_id
+      sender: user._id,
+      receiver: req.params.recipient_id
     });
     reply.save(function(err, sentReply) {
       if (err) {
