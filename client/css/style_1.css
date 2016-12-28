@@ -2765,3 +2765,12 @@ br{display:none;}
  font-size: 10px;
 }
 }
+#cancel_account{
+	display: block;
+}
+#leave_account{
+	display: none;
+}
+#footer_cancel{
+	display: none;
+}

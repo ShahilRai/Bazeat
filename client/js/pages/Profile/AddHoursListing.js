@@ -1,8 +1,8 @@
 import React from 'react';
 export default class AddHoursListing extends React.Component {
 
-  createListing(item){
-    return (<li className="addHours" key={item.key}>{item.selectDays} - {item.hoursFrom} - {item.hoursTo}</li>)
+  createListing(item, i){
+    return (<li className="addHours" key={i}>{item.day} - {item.start_time} - {item.end_time}</li>)
   }
 
   render(){
