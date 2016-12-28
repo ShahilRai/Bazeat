@@ -240,7 +240,8 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
                     producer_info.cmp_postal_code = cmp_postal_code;
                     producer_info.cmp_loc = [response[1].value[0].longitude, response[1].value[0].latitude]
                     // Added for time slot
-                    producer_info.timeslots.push(req.body.timeslot)
+                    console.log(req.body)
+                    producer_info.timeslots.push(req.body.timeslots)
                     // Added for time slot
                     // producer_info.company_description = producer_companydescription;
                   }

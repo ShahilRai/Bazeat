@@ -181,9 +181,15 @@ export default class ProducerProfilePage extends React.Component {
                 </div>
                 <div className="form-group row">
                   <LabelField htmlFor="example-tel-input" className="col-md-4 col-xs-12 col-form-label" label="Visiting hours"/>
-                  <AddHoursDetail name = "timeslot" getTimeDetails={this.getTimeDetails}/>
+                  <AddHoursDetail  getTimeDetails={this.getTimeDetails}/>
+                  {this.state.getTime.map((time,i)=>
+                    <div key ={i}>
+                    <input type="hidden" key ={i}  name = {"timeslots["+i+"][start_time]"}  value={time.start_time} />
+                    <input type="hidden" key ={i}  name = {"timeslots["+i+"][end_time]"}  value={time.end_time} />
+                    <input type="hidden" key ={i}  name = {"timeslots["+i+"][day]"}  value={time.day} />
+                    </div>
+                  )}
                 </div>
-                <input type="hidden" name="timeslot" value={this.state.getTime? this.state.getTime:''}/>
               </div>
             </div>
             <div className="edit_prfile_detail_form">
