@@ -44,10 +44,14 @@ export default class ProducerPasswordUpdate extends React.Component {
   }
 
   render(){
+    var breakCmp = ''
+    if(this.context.user.customData.is_producer=='true'){
+      breakCmp = <TakeABreak handlerForBreak = {this.takeABreakBtnClck}  Button_text={this.state.break_button_text}/>
+    }
     return(
       <div>
         <UpdateYourPassword />
-        <TakeABreak handlerForBreak = {this.takeABreakBtnClck}  Button_text={this.state.break_button_text}/>
+        {breakCmp}
         <EndYourBazeatAdventure />
       </div>
     );
