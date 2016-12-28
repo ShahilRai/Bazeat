@@ -38,6 +38,7 @@ const userSchema = new Schema({
   sub_to_vat: { type: 'Boolean', default: false },
   phone: { type: 'Number' },
   customer_id: { type: 'String' },
+  account_id: { type: 'String' },
   cuid: { type: 'String' },
   city: { type: 'String' },
   address: { type: 'String' },
