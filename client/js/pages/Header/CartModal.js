@@ -3,7 +3,7 @@ export default class CartModal extends React.Component {
   render(){
     return(
         <li className="next_list" id="demo">
-          <a href="#">
+          <a href="javascript:void(0)">
             <div className="items_list_info">
               <p className="empty_item_text">You have # items in your bag • <span  className="empty_bag">Empty bag</span></p>
               <ul>
