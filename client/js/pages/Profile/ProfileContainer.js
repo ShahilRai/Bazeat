@@ -7,6 +7,19 @@ import UserProfilePage from './UserProfilePage';
 
 export default class ProfileContainer extends React.Component {
 
+  componentWillMount(){
+    if(this.state.route == '/setting'){
+      this.setState({
+        activeView1: 'active'
+      });
+    }
+    if(this.state.route == '/profile'){
+      this.setState({
+        activeView: 'active'
+      });
+    }
+  }
+
   static contextTypes = {
     authenticated: React.PropTypes.bool,
     user: React.PropTypes.object
@@ -18,7 +31,7 @@ export default class ProfileContainer extends React.Component {
       route: props.route.path,
       profile: '',
       status: "false",
-      activeView: 'active',
+      activeView: '',
       activeView1: '',
       activeView2: '',
       seeProfile_button_text: "See profile"
@@ -55,6 +68,7 @@ export default class ProfileContainer extends React.Component {
 
   settingStatus(){
     this.setState({
+      route: '/setting',
       status : "true",
       activeView1: 'active',
       activeView: '',
@@ -82,7 +96,7 @@ export default class ProfileContainer extends React.Component {
   }
 
   render() {
-
+    var left_menus
     if(this.state.status==''){
       this.state.profile= <div><h3>comming soon.........</h3></div>;
     }else if(this.state.route=='/setting'|| this.state.status=="true"){
@@ -93,6 +107,28 @@ export default class ProfileContainer extends React.Component {
       }else {
         this.state.profile = <UserProfilePage />;
       }
+    }
+
+    if(this.state.route == "/profile"){
+      left_menus =(
+        <ul className="edit_sidbar_list">
+          <li className="active"><a href="/profile">Edit Profile</a></li>
+          <li><a href="javascript:void(0)">Verification</a></li>
+          <li><a href="javascript:void(0)">Reviews</a></li>
+          <li><a href="javascript:void(0)">Messages</a></li>
+          <li><a href="javascript:void(0)">Test</a></li>
+          <li><a onClick={this.seeProfileBtnClck} href="javascript:void(0)">{this.state.seeProfile_button_text}</a></li>
+        </ul>
+      )
+    }
+
+    if(this.state.route == "/setting"){
+      left_menus = (
+      <ul className="edit_sidbar_list">
+        <li><a href="javascript:void(0)">Notification</a></li>
+        <li className="active"><a href="javascript:void(0)">Account</a></li>
+      </ul>
+      )
     }
 
     return (
@@ -114,14 +150,7 @@ export default class ProfileContainer extends React.Component {
         	<div className="full_width">
             <div className="row">
               <div className="col-lg-3 col-md-2 col-sm-2 col-xs-12 edit_profile_sidebar">
-                <ul className="edit_sidbar_list">
-                  <li className="active"><a href="/profile">Edit Profile</a></li>
-                  <li><a href="javascript:void(0)">Verification</a></li>
-                  <li><a href="javascript:void(0)">Reviews</a></li>
-                  <li><a href="javascript:void(0)">Messages</a></li>
-                  <li><a href="javascript:void(0)">Test</a></li>
-                  <li><a onClick={this.seeProfileBtnClck} href="javascript:void(0)">{this.state.seeProfile_button_text}</a></li>
-                </ul>
+                {left_menus}
               </div>
               {this.state.profile}
             </div>
