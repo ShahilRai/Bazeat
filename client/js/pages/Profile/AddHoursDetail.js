@@ -30,10 +30,9 @@ export default class AddHoursDetail extends React.Component {
     }
     var hoursArray = this.state.items
     hoursArray.push({
-      hoursFrom: this.refs.from_time.refs.slectfromtime.value,
-      hoursTo: this.refs.to_time.refs.slectfromtime.value,
-      selectDays: this.state.selectDays,
-      key: Date.now()
+      start_time: this.refs.from_time.refs.slectfromtime.value,
+      end_time: this.refs.to_time.refs.slectfromtime.value,
+      day: this.state.selectDays
     });
     this.setState({
       items: hoursArray

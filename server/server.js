@@ -52,6 +52,7 @@ import admin from './routes/admin/authenticate.routes';
 import admin_users from './routes/admin/users.routes';
 import admin_products from './routes/admin/products.routes';
 import static_pages from './routes/admin/pages.routes';
+import chat from './routes/chat.routes';
 import dummyData from './dummyData';
 import serverConfig from './config';
 import User from './models/user';
@@ -91,6 +92,7 @@ app.use('/api', products);
 app.use('/api', profiles);
 app.use('/api', search);
 app.use('/api', purchaseorder);
+app.use('/api', chat);
 
 // Admin Routes Defination
   app.use('/api/admin/authenticate', admin);
@@ -155,6 +157,7 @@ app.use(ExpressStrompath.init(app, {
 
 app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
   function (req, res) {
+    console.log(req.body)
   function writeError(message) {
     res.status(400);
     return res.json({ message: message, status: 400 });
@@ -240,7 +243,8 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
                     producer_info.cmp_postal_code = cmp_postal_code;
                     producer_info.cmp_loc = [response[1].value[0].longitude, response[1].value[0].latitude]
                     // Added for time slot
-                    producer_info.timeslots.push(req.body.timeslot)
+                    console.log(req.body)
+                    producer_info.timeslots.push(req.body.timeslots)
                     // Added for time slot
                     // producer_info.company_description = producer_companydescription;
                   }
