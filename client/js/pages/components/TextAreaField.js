@@ -9,7 +9,7 @@ export default class TextAreaField extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
   }
-    
+
   handleChange(event) {
     this.setState({ value: event.target.value });
     if (this.props.onChange){
@@ -23,5 +23,5 @@ export default class TextAreaField extends React.Component {
         <textarea className="form-control" id={this.props.name} name={this.props.name}  onChange={this.handleChange} value={this.state.value}/>
       </div>
     );
-  }      
-}  
+  }
+}

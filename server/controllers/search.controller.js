@@ -49,7 +49,7 @@ export function productsResults(req, res) {
     data.price = {'$gte': req.query.start_price, '$lte': req.query.end_price};
   }
   if(req.query.category_id){
-    data.product_category = req.query.category_id;
+    data.product_category = {"$in": req.query.category_id };
   }
   Product.find(data).sort('product_name').exec(
     function(err,products){

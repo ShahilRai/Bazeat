@@ -2765,3 +2765,6 @@ br{display:none;}
  font-size: 10px;
 }
 }
+#cancel_account{
+	display:block;
+}
