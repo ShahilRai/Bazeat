@@ -48,6 +48,8 @@ export default class EndYourBazeatAdventure extends React.Component {
   }
   cancel(){
     document.getElementById("cancel_account").style.display = "none";
+    document.getElementById("leave_account").style.display = "block";
+    document.getElementById("footer_cancel").style.display = "block";
   }
 
   render() {
@@ -60,20 +62,20 @@ export default class EndYourBazeatAdventure extends React.Component {
               <p className="leavn_txt">Do you want to cancel your account? We will miss you! </p>
               <button type="submit" className="btn pull-right redish_btn" onClick={this.cancel}>Cancel Account</button>
             </div>
-            <div className="end_form ptop15">
+            <div id="leave_account" className="end_form ptop15">
               <p className="form_ques form_quesmbot">Why do you want to leave us?</p>
               <RadioGroup name="platform" selectedValue={this.state.selectedValue} onChange={this.handleChange}>
                 <div>
-                  <label for="platform1"><Radio id="platform1" name="platform" value="We don't find the platform useful" />We don't find the platform useful</label>
+                  <label htmlFor="platform1"><Radio id="platform1" name="platform" value="We don't find the platform useful" />We don't find the platform useful</label>
                 </div>
                 <div>
-                  <label for="platform2"><Radio id="platform2" name="platform" value="We don't know how to use the the platform" />We don't know how to use the the platform</label>
+                  <label htmlFor="platform2"><Radio id="platform2" name="platform" value="We don't know how to use the the platform" />We don't know how to use the the platform</label>
                 </div>
                 <div>
-                  <label for="platform3"><Radio id="platform3" name="platform" value="I'ts not what we expected" />I'ts not what we expected</label>
+                  <label htmlFor="platform3"><Radio id="platform3" name="platform" value="I'ts not what we expected" />I'ts not what we expected</label>
                 </div>
                 <div>
-                  <label for="platform4"><Radio id="platform4" name="platform" value="Other" />Other</label>
+                  <label htmlFor="platform4"><Radio id="platform4" name="platform" value="Other" />Other</label>
                 </div>
               </RadioGroup>
               <div className="form-group ending_description">
@@ -81,17 +83,17 @@ export default class EndYourBazeatAdventure extends React.Component {
                 <textarea></textarea>
               </div>
               <p className="phn_cntct">Phone contact is often easier. Can we contact you more details?</p>
-              <RadioGroup name="c_detail" selectValue={this.state.selectValue} onChange={this.handlerChange}>
-                <div>
-                  <label for="detail1"><Radio id="detail1" name="c_detail" value="Yes, please" />Yes, please</label>
-                </div>
-                <div >
-                  <label for="detail2"><Radio id="detail2" name="c_detail" value="No, thank you" />No, thank you</label>
-                </div>
-              </RadioGroup>
+              <div className="custom_radio_edit max_140">
+                <input id="detail1" type="radio" name="c_detail" value="detail1"/>
+                <label htmlFor="detail1">Yes, please</label>
+               </div>
+              <div className="custom_radio_edit max_140">
+                <input id="detail2" type="radio" name="c_detail" value="detail2"/>
+                <label htmlFor="detail2">No, thank you</label>
+              </div>
             </div>
-            <div className="profile_gry_bot_bar">
-              <button type="submit" className="btn pull-right mrht20">Cancle account</button>
+            <div id="footer_cancel" className="profile_gry_bot_bar">
+              <button type="submit" className="btn pull-right mrht20">Cancel account</button>
             </div>
           </form>
         </div>
