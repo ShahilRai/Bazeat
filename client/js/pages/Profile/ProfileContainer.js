@@ -4,6 +4,7 @@ import React, { PropTypes } from 'react';
 import ProducerPasswordUpdate from '../UserSetting/ProducerPasswordUpdate';
 import ProducerProfilePage from './ProducerProfilePage';
 import UserProfilePage from './UserProfilePage';
+import Notification from '../UserSetting/Notification';
 
 export default class ProfileContainer extends React.Component {
 
@@ -28,6 +29,7 @@ export default class ProfileContainer extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
+      notification: false,
       route: props.route.path,
       profile: '',
       status: "false",
@@ -36,6 +38,7 @@ export default class ProfileContainer extends React.Component {
       activeView2: '',
       seeProfile_button_text: "See profile"
     };
+    this.showNotification = this.showNotification.bind(this)
     this.settingStatus = this.settingStatus.bind(this)
     this.profileStatus = this.profileStatus.bind(this)
     this.guideStatus = this.guideStatus.bind(this)
@@ -66,13 +69,20 @@ export default class ProfileContainer extends React.Component {
     });
   }
 
+  showNotification(){
+    this.setState({
+      notification: true
+    });
+  }
+
   settingStatus(){
     this.setState({
       route: '/setting',
       status : "true",
       activeView1: 'active',
       activeView: '',
-      activeView2: ''
+      activeView2: '',
+      notification: false
     });
   }
 
@@ -82,7 +92,8 @@ export default class ProfileContainer extends React.Component {
       status : "false",
       activeView1: '',
       activeView: 'active',
-      activeView2: ''
+      activeView2: '',
+      notification: false
     });
   }
 
@@ -97,7 +108,9 @@ export default class ProfileContainer extends React.Component {
 
   render() {
     var left_menus
-    if(this.state.status==''){
+    if(this.state.notification){
+      this.state.profile = <Notification />;
+    }else if(this.state.status==''){
       this.state.profile= <div><h3>comming soon.........</h3></div>;
     }else if(this.state.route=='/setting'|| this.state.status=="true"){
       this.state.profile= <ProducerPasswordUpdate />;
@@ -125,8 +138,8 @@ export default class ProfileContainer extends React.Component {
     if(this.state.route == "/setting"){
       left_menus = (
       <ul className="edit_sidbar_list">
-        <li><a href="javascript:void(0)">Notification</a></li>
-        <li className="active"><a href="javascript:void(0)">Account</a></li>
+        <li className={this.state.notification?"active":''}><a onClick={this.showNotification} href="javascript:void(0)">Notification</a></li>
+        <li className={this.state.notification?'':"active"}><a onClick={this.settingStatus} href="javascript:void(0)">Account</a></li>
       </ul>
       )
     }
@@ -138,9 +151,9 @@ export default class ProfileContainer extends React.Component {
             <div className="row">
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <ul>
-                  <li className={this.state.activeView}><a href="javascript:void(0)" onClick={this.profileStatus}>Profile</a></li>
-                  <li className={this.state.activeView1}><a href="javascript:void(0)" onClick={this.settingStatus}>Settings</a></li>
-                  <li className={this.state.activeView2}><a href="javascript:void(0)" onClick={this.guideStatus}>Guides</a></li>
+                  <li className={this.state.activeView}><Link to="profile" onClick={this.profileStatus}>Profile</Link></li>
+                  <li className={this.state.activeView1}><Link to="setting" onClick={this.settingStatus}>Settings</Link></li>
+                  <li className={this.state.activeView2}><Link to="guide" onClick={this.guideStatus}>Guides</Link></li>
                 </ul>
               </div>
             </div>

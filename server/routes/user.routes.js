@@ -12,7 +12,7 @@ router.route('/users').get(UserController.getUsers);
 router.route('/user').get(UserController.getUser);
 
 // Delete User by cuid
-router.route('/users/:email').delete(UserController.deleteUser);
+router.route('/users').delete(UserController.deleteUser);
 
 // Add Stripe Bank Account User by cuid
 router.route('/bank_account').post(UserController.addBankAccount);

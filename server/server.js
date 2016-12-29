@@ -342,6 +342,24 @@ app.post('/api/profile_image', profileupload.single('image'), function (req, res
   });
 })
 
+app.post('/api/bg_profile_image', profileupload.single('image'), function (req, res, next) {
+  User.findOne({ email: req.body.email }).exec((err, user) => {
+    if (err) {
+      return  res.status(500).send(err);
+    } else {
+      user.bgphoto = req.file.location
+      user.save((error, saveduser) => {
+        if (error) {
+          return  res.status(500).send(error);
+        }
+        else {
+          return res.json({ bgimage_url: saveduser.bgphoto });
+        }
+      });
+    }
+  });
+})
+
 app.post('/api/product_image', productupload.single('image'), function (req, res, next){
   res.json({ image_url: req.file.location });
 })
