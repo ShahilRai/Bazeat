@@ -1,5 +1,6 @@
 import User from '../models/user';
 import cuid from 'cuid';
+import fs from 'fs';
 //Stripe Implementation
 const keySecret = process.env.SECRET_KEY;
 const keyPublishable = process.env.PUBLISHABLE_KEY;
@@ -67,10 +68,8 @@ export function getUser(req, res) {
   });
 }
 
-
-
 export function deleteUser(req, res) {
-  User.findOne({ cuid: req.params.cuid }).exec((err, user) => {
+  User.findOne({ email: req.query.email }).exec((err, user) => {
     if (err || user == null) {
       return res.status(500).send({msg: err});
     }
@@ -87,30 +86,83 @@ export function addBankAccount(req, res) {
     }
     else {
       stripe.tokens.create({
-      bank_account: {
-        country: 'US',
-        currency: 'usd',
-        account_holder_name: req.body.holder_name,
-        account_holder_type: 'individual',
-        routing_number: req.body.routing_number,//'110000000',
-        account_number: req.body.account_number//'000123456789'
-      }
+        bank_account: {
+          country: 'NO',
+          currency: 'nok',
+          account_number: req.body.account_number
+        }
       }, function(err, token) {
-        stripe.customers.create({
-          email: req.body.email,
-          description: 'Customer for ' + req.body.email,
-          source: token.id // obtained with Stripe.js
-        }, function(err, customer) {
-          user.customer_id = customer.id
-          user.save((err, saved) => {
-            if (err) {
-              return res.status(500).send(err);
+        if(err) {
+          return res.status(500).send(err);
+        } else {
+          stripe.accounts.create({
+            email: user.email,
+            country: "NO",
+            managed: true,
+            tos_acceptance: {
+              date: 1482909367,
+              ip: "203.115.106.212"
+            },
+            legal_entity: {
+              dob: {
+                day: req.body.birth_date,
+                month: req.body.birth_month,
+                year: req.body.birth_year
+              },
+              address: {
+                city: req.body.city,
+                line1: req.body.line1,
+                postal_code: req.body.postal_code
+              },
+              first_name: req.body.first_name,
+              last_name: req.body.last_name,
+              type: "individual"
             }
-            else {
-              return res.json({ user: saved });
+          }, function(err, account) {
+            if(err) {
+              return res.status(500).send(err);
+            } else {
+              user.account_id = account.id
+              user.save((err, saved) => {
+                if (err) {
+                  return res.status(500).send(err);
+                } else {
+                  stripe.accounts.createExternalAccount(
+                    user.account_id,
+                    {external_account: token.id},
+                    function(err, bank_account) {
+                      if(err) {
+                        return res.status(500).send(err);
+                      } else {
+                        // stripe.fileUploads.create(
+                        //   {
+                        //     purpose: 'identity_document',
+                        //     file: {
+                        //       data: fs.readFileSync('/home/abhinav/Pictures/account.png'),
+                        //       name: 'account.png',
+                        //       type: 'application/octet-stream'
+                        //     }
+                        //   },
+                        //   {stripe_account: user.account_id}, function(err, file) {
+                        //     console.log(err)
+                        //     console.log("err")
+                        //     console.log(file)
+                        //   //   stripe.accounts.update(
+                        //   //   user.account_id,
+                        //   //   {legal_entity: {verification: {document: file.id}}}
+                        //   // );
+                        //   }
+                        // );
+                            return res.json({ account: account });
+
+                      }
+                    }
+                  );
+                }
+              });
             }
           });
-        });
+        }
       });
     }
   });

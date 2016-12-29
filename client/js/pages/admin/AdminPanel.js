@@ -12,7 +12,7 @@ import PageIcon from 'material-ui/svg-icons/action/book';
 export default class AdminPanel extends React.Component{
 
 static contextTypes = {
-    router: React.PropTypes.object.isRequired
+  router: React.PropTypes.object.isRequired
 }
 
 constructor(props, context) {

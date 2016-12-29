@@ -2788,5 +2788,11 @@ br{display:none;}
 }
 }
 #cancel_account{
-	display:block;
+	display: block;
+}
+#leave_account{
+	display: none;
+}
+#footer_cancel{
+	display: none;
 }

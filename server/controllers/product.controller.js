@@ -146,8 +146,6 @@ export function getDetails(req, res){
   });
 }
 
-
-
 export function getUserProducts(req, res) {
   User.findOne({ email: req.params.email }).populate('products').exec((err, user) => {
     if(err){
@@ -198,8 +196,6 @@ export function hideProduct(req, res) {
   });
 }
 
-
-
 export function showProduct(req, res) {
   Product.update({ cuid: req.params.cuid }, req.body, function(err, product) {
     if (err){
@@ -230,5 +226,18 @@ export function handleProducts(req, res) {
     }
       return res.json({ product });
     });
+  });
+}
+
+// fetch all products by category_id
+
+export function getProductsByCategory(req, res) {
+  Product.find({ product_category: req.params.category_id }).exec((err, products) => {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    else {
+      return res.json({ products });
+    }
   });
 }
