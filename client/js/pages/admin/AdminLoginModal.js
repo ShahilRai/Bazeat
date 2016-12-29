@@ -1,4 +1,7 @@
 import React from 'react';
+var ReactToastr = require("react-toastr");
+var {ToastContainer} = ReactToastr;
+var ToastMessageFactory = React.createFactory(ReactToastr.ToastMessage.animation);
 
 export default class AdminLoginModal extends React.Component {
 
@@ -14,14 +17,6 @@ export default class AdminLoginModal extends React.Component {
     };
   }
 
-  clearForm(){
-    this.setState({
-      name: "",
-      email: "",
-      comment: ""
-    });
-  }
-
   emailChange(e) {
     this.setState({
       email: e.target.value
@@ -32,6 +27,12 @@ export default class AdminLoginModal extends React.Component {
     this.setState({
       password: e.target.value
     })
+  }
+
+  loginMessage(isFail,msg) {
+    if(isFail){
+      this.refs.container.error(msg);
+    }
   }
 
   submit(e){
@@ -51,14 +52,15 @@ export default class AdminLoginModal extends React.Component {
     .done(function(data) {
       self.context.router.push('/admin-dashboard');
     })
-    .fail(function(jqXhr) {
-      console.log('failed to register');
+    .fail(function(xhr) {
+      self.loginMessage(true, xhr.responseJSON.message)
     });
   }
 
   render() {
     return (
       <div className="modal-dialog">
+      <ToastContainer ref="container" toastMessageFactory={ToastMessageFactory} className="toast-top-right" />
         <div className="well">
           <div className="modal-header">
             <a href="javascript:void(0)" className="login_logo">
@@ -69,11 +71,11 @@ export default class AdminLoginModal extends React.Component {
           <div className="modal-body">
             <form onSubmit={this.submit.bind(this)} className="login_modal">
               <div className="form-group">
-                <input type="email" className="form-control" placeholder="E-mail"  name="login" onChange={this.emailChange.bind(this)} value={this.state.email}/>
+                <input type="email" className="form-control" placeholder="E-mail"  name="login" onChange={this.emailChange.bind(this)} required/>
                 <i className="fa fa-envelope-o" aria-hidden="true"></i>
               </div>
               <div className="form-group">
-                <input type="password" className="form-control " name="password" placeholder="******" onChange={this.passwordChange.bind(this)} value={this.state.password}/>
+                <input type="password" className="form-control " name="password" placeholder="******" onChange={this.passwordChange.bind(this)} required/>
                 <i className="fa fa-lock" aria-hidden="true"></i>
               </div>
               <input type="submit" value="Log in" className="login_sbmit" />

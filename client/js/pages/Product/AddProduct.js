@@ -223,7 +223,7 @@ export default class AddProduct extends React.Component {
                 {this.state.foodType}
 								<div className="form-group m_lt19 mtop7">
 									<label htmlFor="" className="col-form-label qty_label">Quantity available</label>
-									<input type="number" className="form-control qty_input" id="quantity" name="quantity" ref="quantity" onChange={this.handleChange} placeholder="" value={this.state.prodDetails ? this.state.prodDetails.quantity : this.refs.quantity.value} placeholder="quantity"/>
+									<input type="number" className="form-control qty_input" id="quantity" name="quantity" ref="quantity" onChange={this.handleChange} value={this.state.prodDetails ? this.state.prodDetails.quantity : this.refs.quantity.value} placeholder="quantity"/>
 								</div>
 							</div>
 	 					</div>
@@ -234,7 +234,7 @@ export default class AddProduct extends React.Component {
 							</div>
 							<div className="form-group nok_form">
 								<LabelField htmlFor="" className="col-form-label nok_label" label="NOK" />
-								<input type="number" ref="price" id="price" name="price" className="form-control plft48" onChange={this.handleChange} placeholder="" value={this.state.prodDetails ? this.state.prodDetails.price : this.refs.price.value} placeholder="price"/>
+								<input type="number" ref="price" id="price" name="price" className="form-control plft48" onChange={this.handleChange} value={this.state.prodDetails ? this.state.prodDetails.price : this.refs.price.value} placeholder="price"/>
                 {this.state.price}
 							</div>
 							<div className="form-group nok_form mlft4">
