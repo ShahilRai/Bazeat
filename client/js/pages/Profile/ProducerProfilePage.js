@@ -69,11 +69,6 @@ export default class ProducerProfilePage extends React.Component {
     })
   }
   render() {
-    //console.log("get-Time: " + JSON.stringify(this.state.getTime))
-    if (!this.state.data_loaded) {
-      return (<div></div>);
-    }
-
     return (
       <DocumentTitle title={`My Profile`}>
         <div className="col-lg-9 col-md-8 col-sm-10 col-xs-12 edit_profile_rht_sidebar">

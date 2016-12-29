@@ -30,8 +30,8 @@ export default class Menu extends React.Component {
                 <li><a href="/profile">Edit Profile</a></li>
                 <li><Link to="/user-product">AddProductPage</Link></li>
                 <li><a href="/setting">Settings</a></li>
-                <li><a href="javascript:void(0)">Orders</a></li>
-                <li><a href="javascript:void(0)">Guides</a></li>
+                <li><Link to="javascript:void(0)">Orders</Link></li>
+                <li><Link to="javascript:void(0)">Guides</Link></li>
                 <li><LogoutLink>Log out</LogoutLink></li>
               </ul>
             </li>
