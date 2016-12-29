@@ -211,7 +211,13 @@ a:hover {
 	width: 100%;
 	float: left;
 	padding: 12px 0 8px;
+	position: fixed;
+    height: auto;
+    width: 100%;
+    z-index: 100;
+    background-color: white;
 }
+
 .logo {
 	margin: 6px 25px 0 0;
 }
@@ -679,6 +685,7 @@ color:#808080;
 	border-top: 1px solid #cccccc;
 	float: left;
 	width: 100%;
+	padding-top: 69px;
 }
 .menu_wrapper ul {
 	list-style: none;
@@ -865,10 +872,10 @@ ul.edit_sidbar_list li a:hover, ul.edit_sidbar_list li.active a {
 }
 .visting_hr_time_col .form-control {
 	display: inline-block;
-	height: 21px;
-	width: 81px;
-	font-size: 12px;
-	padding-left: 5px
+	height: 35px;
+	width: 65px;
+	font-size: 10px;
+	padding-left: 5px;
 }
 .visting_hr_inner_col {
 	float: left;
@@ -987,6 +994,7 @@ ul.edit_sidbar_list li a:hover, ul.edit_sidbar_list li.active a {
 }
 .addHours{
   list-style: none;
+
 }
 
 
@@ -1832,7 +1840,21 @@ width: 48%;
     background: none;
     padding: 1;
 }
-
+.delete_time {
+    color: #808080;
+    float: right;
+    font-size: 14px;
+    font-weight: 700;
+    text-align: right;
+    line-height:21px;     
+    border: 0;
+    background: none;
+  }
+  .add_time{
+  	display: inline-block;
+  	width: 100%;
+  	padding: 0 30px;
+  }
 .checkbox input[type=checkbox]{
 	opacity:0;
 	margin:0;
