@@ -12,7 +12,8 @@ export default class AddHoursDetail extends React.Component {
       items: [],
       days: [{value:'Sunday','name':'Sun', 'id':0},{value:'Monday','name':'Mon', 'id':1},{value:'Tuesday','name':'Tues', 'id':2},{value:'Wednesday','name':'Wed', 'id':3},{value:'Thrusday','name':'Thru', 'id':4},{value:'Friday','name':'Fri', 'id':5},{value:'Saturday','name':'Sat', 'id':6}],
       options: [{ value: null, name: 'Select' },{ value: '00.00', name: '00.00' },{ value: '01.00', name: '01.00' },{ value: '02.00', name: '02.00' },{ value: '03.00', name: '03.00' },{ value: '04.00', name: '04.00' },{ value: '05.00', name: '05.00' },{ value: '06.00', name: '06.00' },{ value: '07.00', name: '07.00' },{ value: '08.00', name: '08.00' },{ value: '09.00', name: '09.00' },{ value: 10.00, name: '10.00' },{ value: '11.00', name: '11.00' },{ value: '12.00', name: '12.00' },{ value: '13.00', name: '13.00' },{ value: '14.00', name: '14.00' },{ value: '15.00', name: '15.00' },{ value: '16.00', name: '17.00' },{ value: '18.00', name: '18.00' },{ value: '19.00', name: '19.00' },{ value: '20.00', name: '21.00'},{ value: '22.00', name: '22.00' },{ value: '23.00', name: '23.00' }]
-    }
+    };
+    this.deleteTimeDetail = this.deleteTimeDetail.bind(this)
   }
 
   displayAddHoursForm(){
@@ -25,8 +26,8 @@ export default class AddHoursDetail extends React.Component {
       this.state.selectDays.push(this.state.days[0].value)
       this.state.selectDays.push(this.state.days[6].value)
     }
-    if(this.state.selectDays.length==0){
-      return
+    if(this.state.selectDays.length==0 ){
+      return 
     }
     var hoursArray = this.state.items
     hoursArray.push({
@@ -42,13 +43,42 @@ export default class AddHoursDetail extends React.Component {
     this.props.getTimeDetails(hoursArray)
   }
 
+  cancelHours(){     
+    this.setState({
+      items: []
+    });
+  }
+
+  isDayExist(arr, day){
+    var exist = false
+     for(var i=0;i<=arr.length ;i++){
+      if(arr[i] == day){
+        exist = true
+      }
+    }
+    return exist
+  }
+
   handleDayClick(index){
+    var self=this;
     var daysArray =  this.state.selectDays
-    daysArray.push(this.state.days[index].value);
+    if(!self.isDayExist(this.state.selectDays,this.state.days[index].value)){
+      daysArray.push(this.state.days[index].value);
+     }
     this.setState({
       selectDays: daysArray
     })
+
   }
+
+  deleteTimeDetail(e){
+    e.preventDefault(e.target.dataset.index);
+    var index = e.target.dataset.index;
+    const newTime = this.state.items;
+    newTime.splice(index, 1);
+    this.setState({items: newTime})
+    }
+
 
   render(){
     return(
@@ -70,7 +100,7 @@ export default class AddHoursDetail extends React.Component {
                 )}
             </ul>
           </span>
-          <AddHoursListing entries={this.state.items} />
+          <AddHoursListing entries={this.state.items} timeDelete={this.deleteTimeDetail}/>
           <span className="visting_hr_fotter">
             <div>
               <input type="checkbox" id="allDays" value="allDays"/>
@@ -78,7 +108,7 @@ export default class AddHoursDetail extends React.Component {
             </div>
             <span className="app_btns">
               <a href="javascript:void(0)" className="add_btn" onClick={this.addHours.bind(this)}>Add</a>
-              <a href="#" className="cncl_btn">Cancel</a>
+              <a href="javascript:void(0)" onClick={this.cancelHours.bind(this)} className="cncl_btn" >Cancel</a>
             </span>
           </span>
         </span>

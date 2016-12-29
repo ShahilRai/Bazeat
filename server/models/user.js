@@ -34,6 +34,7 @@ const userSchema = new Schema({
   full_name: { type: 'String' },
   email: { type: 'String' },
   photo: { type: 'String' },
+  bgphoto: { type: 'String' },
   description: { type: 'String' },
   sub_to_vat: { type: 'Boolean', default: false },
   phone: { type: 'Number' },

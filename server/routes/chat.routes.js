@@ -11,5 +11,5 @@ router.route('/conversation/:conversation_id').get(ChatController.getConversatio
 router.route('/new/:recipient_id').post(ChatController.newConversation);
 
 // Send reply
-router.route('/:conversation_id').post(ChatController.sendReply);
+router.route('/conversation/:conversation_id').post(ChatController.sendReply);
 export default router;
