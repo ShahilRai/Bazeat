@@ -67,10 +67,8 @@ export function getUser(req, res) {
   });
 }
 
-
-
 export function deleteUser(req, res) {
-  User.findOne({ cuid: req.params.cuid }).exec((err, user) => {
+  User.findOne({ email: req.query.email }).exec((err, user) => {
     if (err || user == null) {
       return res.status(500).send({msg: err});
     }
