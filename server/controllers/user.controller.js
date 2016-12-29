@@ -156,7 +156,6 @@ export function addBankAccount(req, res) {
                         //   }
                         // );
                             return res.json({ account: account });
-
                       }
                     }
                   );

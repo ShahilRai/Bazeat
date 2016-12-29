@@ -10,13 +10,9 @@ autoIncrement.initialize(connection);
 const purchaseorderSchema = new Schema({
   status: { type: 'String',default: 'Received' },
   packages: [{ type: Schema.ObjectId, ref: 'Package' }],
-  shipping_city: { type: 'String' },
-  shipping_address: { type: 'String' },
   _order: { type: ObjectId, ref: 'Order' },
-  shipping_country: { type: 'String' },
   purchase_no: { type: Number, default: 0 },
   shipping_no: { type: Number, default: 0 },
-
 });
 
 purchaseorderSchema.plugin(autoIncrement.plugin, { model: 'purchaseorderSchema', field: 'shipping_no'});
