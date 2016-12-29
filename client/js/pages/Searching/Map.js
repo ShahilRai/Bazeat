@@ -37,7 +37,7 @@ export default class Map extends React.Component {
       		<GoogleMap
       			defaultZoom = {15}
       			defaultCenter = {this.props.center}
-      			options = {{streetViewControl: false, mapTypeControl: false}}>
+      			options = {{streetViewControl: true, mapTypeControl: true}}>
       			{markers}
       		</GoogleMap>
       	}
