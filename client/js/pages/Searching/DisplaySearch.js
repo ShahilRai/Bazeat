@@ -4,7 +4,7 @@ import ShowProductsSearch from './ShowProductsSearch';
 import ShowBazeatersSearch from './ShowBazeatersSearch';
 import ShowLocationSearch from './ShowLocationSearch';
 import CategoryDropDown from './CategoryDropDown';
-/*import ProductRangeSlider from './ProductRangeSlider';*/
+import ProductRangeSlider from './ProductRangeSlider';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import axios from 'axios';
 
@@ -16,16 +16,18 @@ export default class DisplaySearch extends React.Component {
       allProductsData : [],
       allBazeaters : [],
       searchCategory : [],
-      categoryId:''
+      categoryId:'',
+      value : { start: 500, end: 2500 }
     }
-    this.handleChange = this.handleChange.bind(this)
-    /*this.priceRangeChange = this.priceRangeChange.bind(this)*/
+    this.handleChange = this.handleChange.bind(this);
+    this.priceRangeChange = this.priceRangeChange.bind(this);
   }
 
   componentDidMount(){
     this.handleProductsSrch();
     this.handleBztersSrch();
     this.displayCategoryList();
+    this.filteredProducts();
   }
 
   handleProductsSrch(){
@@ -80,7 +82,7 @@ export default class DisplaySearch extends React.Component {
     });
   }
 
-  categoryBasedSearch(){
+  /*categoryBasedSearch(){
     var cId = this.state.categoryId;
     this.fetchCatgryBasedData(cId).then((response) => {
       if(response.data) {
@@ -96,52 +98,56 @@ export default class DisplaySearch extends React.Component {
   fetchCatgryBasedData(cId) {
     return axios.get("/api/search/products?category_id="+ cId , {
     });
-  }
+  }*/
 
-  priceFilterChanged(minPrice,maxPrice){
-    this.fetchPriceBasedData(minPrice,maxPrice).then((response) => {
+  filteredProducts(){
+    var pName = this.props.location.search;
+    var cId = this.state.categoryId;
+    var minRnge = this.state.value.start;
+    var maxRnge = this.state.value.end;
+    this.fetchFilteredProducts(pName,minRnge,maxRnge,cId).then((response) => {
       if(response.data) {
-        console.log(response.data)
+        this.setState({
+          allProductsData: response.data
+        })
       }
     }).catch((err) => {
       console.log(err);
     });
   }
 
-  fetchPriceBasedData(minPrice,maxPrice) {
-    return axios.get("/api/search/products?start_price="+ minPrice +"&end_price=" + maxPrice, {
+  fetchFilteredProducts(pName,minRnge,maxRnge,cId) {
+    return axios.get("/api/search/products"+ pName+"&start_price="+ minRnge +"&end_price=" + maxRnge +"&category_id="+ cId, {
     });
   }
 
   handleChange(e){
     this.setState({
       categoryId: e.target.value}, function () {
-        this.categoryBasedSearch();
+        /*this.categoryBasedSearch();*/
+        this.filteredProducts();
       }
     )
   }
 
-  /*priceRangeChange(e){
-    var minRnge = e.min;
-    var maxRnge = e.max;
-    console.log('max: ', maxRnge);
-    console.log('min: ', minRnge);
-    this.priceFilterChanged(minRnge,maxRnge);
-  }*/
+  priceRangeChange(value){
+    this.setState({ value: value })
+    this.filteredProducts();
+  }
 
   render() {
     /*Tabs.setUseDefaultStyles(false);*/
     return (
-      <div className="full_width ptop0">
+      <div className="pdt30">
         <Tabs selectedIndex={0}>
-            <TabList className="nav nav-pills">
-              <Tab>Products</Tab>
-              <Tab>Bazeaters</Tab>
-              <Tab>Location</Tab>
-            </TabList>
+          <TabList className>
+            <Tab>Products</Tab>
+            <Tab>Bazeaters</Tab>
+            <Tab>Location</Tab>
+          </TabList>
           <TabPanel>
-            <CategoryDropDown searchCategory={this.state.searchCategory} handleChange={this.handleChange}/>
-            <ShowProductsSearch allProductsData ={this.state.allProductsData} />
+            <ShowProductsSearch allProductsData ={this.state.allProductsData} notify={this.props.location.search} value={this.state.value} priceRangeChange={this.priceRangeChange}
+            searchCategory={this.state.searchCategory} handleChange={this.handleChange}/>
           </TabPanel>
           <TabPanel>
             <ShowBazeatersSearch allBazeaters ={this.state.allBazeaters} />

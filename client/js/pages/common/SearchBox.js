@@ -6,9 +6,11 @@ export default class SearchBox extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      disabled : true
+      disabled : true,
+      showButton : false
     };
     this.handleChange = this.handleChange.bind(this)
+    this.onMouseClick = this.onMouseClick.bind(this)
   }
 
   handleChange(e){
@@ -17,17 +19,27 @@ export default class SearchBox extends React.Component {
       disabled : true
     })
   else
-     this.setState({
+    this.setState({
       disabled : false
     })
   }
 
+  onMouseClick(){
+    this.setState({
+      showButton : true
+    })
+  }
+
   render() {
+    var srchIcon = <input name="" type="submit" className="header_search_icon" disabled={this.state.disabled}/>
+    if(this.state.showButton){
+      srchIcon = <input name="" type="submit" className="header_search_icon_button" disabled={this.state.disabled} value="Search"/>
+    }
     return (
       <div className="col-lg-4 header_search_bar" onClick={this.onMouseClick}>
         <form className="form-search" method="get" id="s" action="/displaySrch">
-          <input type="text" className="input-medium" name="s" placeholder="What do you want to eat?" onChange={this.handleChange}/>
-          <input name="" type="submit" className="header_search_icon" disabled={this.state.disabled}/>
+          <input type="text" className="input-medium" name="search" placeholder="What do you want to eat?" onChange={this.handleChange}/>
+          {srchIcon}
         </form>
       </div>
     );
