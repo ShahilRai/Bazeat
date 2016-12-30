@@ -157,7 +157,6 @@ app.use(ExpressStrompath.init(app, {
 
 app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
   function (req, res) {
-    console.log(req.body)
   function writeError(message) {
     res.status(400);
     return res.json({ message: message, status: 400 });
@@ -205,6 +204,9 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
           user.postal_code = req.body.postal_code;
           user.account_number = req.body.account_number;
           user.save((error, saveduser) => {
+            if (error){
+                return res.status(500).send(error);
+              }
             let data = [];
           if(saveduser.if_producer == true){
             data[0] = (saveduser.address + ', ' + saveduser.country + ', ' + saveduser.postal_code)
@@ -243,7 +245,6 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
                     producer_info.cmp_postal_code = cmp_postal_code;
                     producer_info.cmp_loc = [response[1].value[0].longitude, response[1].value[0].latitude]
                     // Added for time slot
-                    console.log(req.body)
                     producer_info.timeslots.push(req.body.timeslots)
                     // Added for time slot
                     // producer_info.company_description = producer_companydescription;
@@ -256,7 +257,6 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
                     // To be added for user profile
                   }
                   user1.save(function (err, saveduser1) {
-                    console.log(saveduser1)
                     return res.json({ user: saveduser1 });
                   });
                 });
