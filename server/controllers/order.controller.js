@@ -22,7 +22,6 @@ export function addOrder(req, res) {
         return res.status(500).send(err);
       }
       Cart.findOne({cuid: req.body.cart_cuid}).select("cartitems -_id").exec(function(err, data) {
-        console.log(data.cartitems)
         if(err){
           return res.status(500).send({err_msg: "Your cart is empty"});
         }
