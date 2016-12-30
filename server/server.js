@@ -204,9 +204,6 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
           user.postal_code = req.body.postal_code;
           user.account_number = req.body.account_number;
           user.save((error, saveduser) => {
-            if (error){
-                return res.status(500).send(error);
-              }
             let data = [];
           if(saveduser.if_producer == true){
             data[0] = (saveduser.address + ', ' + saveduser.country + ', ' + saveduser.postal_code)
@@ -219,7 +216,8 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
             // let address_data = (req.body.address + ', ' + req.body.country + ', ' + req.body.postal_code)
             // let cmp_address_data = (req.body.cmp_address + ', ' + req.body.cmp_country + ', ' + req.body.cmp_postal_code)
             geocoder.batchGeocode((data), function(err, response) {
-              if (err || response[0].value.length <= 0 || response[1].value.length <= 0){
+              console.log(response[0].value.length)
+              if (err || response[0].value.length <= 0 ){
                 return res.status(500).send({err: "Invalid address details"});
               }
               else {
@@ -245,6 +243,7 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
                     producer_info.cmp_postal_code = cmp_postal_code;
                     producer_info.cmp_loc = [response[1].value[0].longitude, response[1].value[0].latitude]
                     // Added for time slot
+                    console.log(req.body)
                     producer_info.timeslots.push(req.body.timeslots)
                     // Added for time slot
                     // producer_info.company_description = producer_companydescription;
@@ -257,6 +256,7 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
                     // To be added for user profile
                   }
                   user1.save(function (err, saveduser1) {
+                    console.log(saveduser1)
                     return res.json({ user: saveduser1 });
                   });
                 });
