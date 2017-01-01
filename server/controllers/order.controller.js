@@ -9,37 +9,56 @@ import request from 'request';
 
 
 export function addOrder(req, res) {
-  const newOrder = new Order();
-  newOrder.cuid = cuid();
-  // newOrder.orderitems.create( req.body.orderitems );
-  newOrder.save((err, order) => {
-    if (err) {
-      // res.json(500, { err: err });
-      return res.status(500).send(err);
-    }
-    req.body.orderitems.forEach(function(item) {
-      const newOrderItem = new OrderItem();
-        newOrderItem.cuid = cuid();
-        newOrderItem._order = order._id
-        newOrderItem._product = item._product
-        newOrderItem.price = item.price
-        newOrderItem.qty = item.qty
-        newOrderItem.save((err, orderitem) => {
-          console.log(orderitem)
-          if (err) {
-            res.status(500).send(err);
-          }
+  User.findOne({ email: req.body.email }).exec((err, user) => {
+    const newOrder = new Order();
+    newOrder.cuid = cuid();
+    newOrder.address.post_code = user.postal_code;
+    newOrder.address.city = user.city;
+    newOrder.address.line1 = user.address;
+    newOrder.address.country = user.country;
+    newOrder.address.phone_num = user.phone;
+    newOrder.save((err, order) => {
+      if (err) {
+        return res.status(500).send(err);
+      }
+      Cart.findOne({cuid: req.body.cart_cuid}).select("cartitems -_id").exec(function(err, data) {
+        if(err){
+          return res.status(500).send({err_msg: "Your cart is empty"});
+        }
+        data.cartitems.forEach(function(item) {
+          let total_weight = 0;
+          let total_price = 0;
+           Product.findOne({ _id: item.product_id }).exec((err, product) => {
+            total_weight += (product.portion*item.qty)
+            total_price +=(product.price*item.qty)
+            const newOrderItem = new OrderItem();
+            newOrderItem.cuid = cuid();
+            newOrderItem._order = order._id
+            newOrderItem._product = item.product_id
+            newOrderItem.price = total_price
+            newOrderItem.weight = total_weight
+            newOrderItem.qty = item.qty
+            newOrderItem.save((err, orderitem) => {
+              if (err) {
+                return res.status(500).send(err);
+              }
+              order.orderitems.push(orderitem);
+              order.products.push(orderitem._product);
+              if(data.cartitems.length == order.orderitems.length) {
+                order.save(function (errors, order1) {
+                  if (errors){
+                    return res.status(500).send(errors);
+                  }
+                  else{
+                    return res.json({ order: order1 });
+                  }
+                });
+              }
+            })
+          });
         });
-    });
-      order.orderitems.push(req.body.orderitems);
-      order.save(function (err, order1) {
-        if (err){
-          return res.status(500).send(err);
-        }
-        else{
-          return res.json({ order: order1 });
-        }
       });
+    });
   });
 }
 
@@ -88,7 +107,8 @@ export  function cartCheckout (req, res) {
                   throw err;
                   callback();
                 }
-                getShippingPrice(to_pin, from_pin, totalweight)
+                // getShippingPrice(to_pin, from_pin, totalweight)
+                return res.status(200).send({msg: "Cart "});
             });
           }
         });
@@ -122,7 +142,7 @@ export  function getShippingPrice(to_pin, from_pin, totalweight){
           res = body;
         }
         else {
-          res = 'Not Found';
+          return res.json(500,{err_msg: "Request not processed"});
         }
         // callback(res);
     });
@@ -130,14 +150,12 @@ export  function getShippingPrice(to_pin, from_pin, totalweight){
 
 export function deleteOrder(req, res) {
   Order.findOne({ cuid: req.params.cuid }).exec((err, order) => {
-    if (err) {
-      return res.status(500).send(err);
-     }
-    else{
-      order.remove(() => {
-        res.status(200).end();
-      });
+    if (err || order == null) {
+      return res.status(500).send({msg: err});
     }
+    order.remove(() => {
+      return res.status(200).send({msg: "Order deleted successfully"});
+    });
   });
 }
 

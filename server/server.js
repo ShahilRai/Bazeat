@@ -52,6 +52,7 @@ import admin from './routes/admin/authenticate.routes';
 import admin_users from './routes/admin/users.routes';
 import admin_products from './routes/admin/products.routes';
 import static_pages from './routes/admin/pages.routes';
+import chat from './routes/chat.routes';
 import dummyData from './dummyData';
 import serverConfig from './config';
 import User from './models/user';
@@ -91,6 +92,7 @@ app.use('/api', products);
 app.use('/api', profiles);
 app.use('/api', search);
 app.use('/api', purchaseorder);
+app.use('/api', chat);
 
 // Admin Routes Defination
   app.use('/api/admin/authenticate', admin);
@@ -214,7 +216,8 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
             // let address_data = (req.body.address + ', ' + req.body.country + ', ' + req.body.postal_code)
             // let cmp_address_data = (req.body.cmp_address + ', ' + req.body.cmp_country + ', ' + req.body.cmp_postal_code)
             geocoder.batchGeocode((data), function(err, response) {
-              if (err || response[0].value.length <= 0 || response[1].value.length <= 0){
+              console.log(response[0].value.length)
+              if (err || response[0].value.length <= 0 ){
                 return res.status(500).send({err: "Invalid address details"});
               }
               else {
@@ -240,7 +243,8 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
                     producer_info.cmp_postal_code = cmp_postal_code;
                     producer_info.cmp_loc = [response[1].value[0].longitude, response[1].value[0].latitude]
                     // Added for time slot
-                    producer_info.timeslots.push(req.body.timeslot)
+                    console.log(req.body)
+                    producer_info.timeslots.push(req.body.timeslots)
                     // Added for time slot
                     // producer_info.company_description = producer_companydescription;
                   }
@@ -332,6 +336,24 @@ app.post('/api/profile_image', profileupload.single('image'), function (req, res
         }
         else {
           return res.json({ image_url: saveduser.photo });
+        }
+      });
+    }
+  });
+})
+
+app.post('/api/bg_profile_image', profileupload.single('image'), function (req, res, next) {
+  User.findOne({ email: req.body.email }).exec((err, user) => {
+    if (err) {
+      return  res.status(500).send(err);
+    } else {
+      user.bgphoto = req.file.location
+      user.save((error, saveduser) => {
+        if (error) {
+          return  res.status(500).send(error);
+        }
+        else {
+          return res.json({ bgimage_url: saveduser.bgphoto });
         }
       });
     }

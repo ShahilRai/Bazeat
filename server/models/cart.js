@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
 const cartitems = new Schema({
-  product_id: [{ type: ObjectId, ref: 'Product' }],
+  product_id: { type: ObjectId, ref: 'Product' },
   qty: Number
 });
 

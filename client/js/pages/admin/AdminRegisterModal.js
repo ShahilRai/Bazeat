@@ -1,4 +1,8 @@
 import React from 'react';
+var ReactToastr = require("react-toastr");
+var {ToastContainer} = ReactToastr;
+var ToastMessageFactory = React.createFactory(ReactToastr.ToastMessage.animation);
+
 export default class AdminRegisterModal extends React.Component {
 
   static contextTypes = {
@@ -75,6 +79,12 @@ export default class AdminRegisterModal extends React.Component {
     return valid
   }
 
+  registerMessage(isFail, msg) {
+    if(isFail){
+      this.refs.container.error(msg);
+    }
+  }
+
   submit(e){
     e.preventDefault()
     var self = this
@@ -87,8 +97,9 @@ export default class AdminRegisterModal extends React.Component {
             registered : true
           })
         self.context.router.push('/admin-dashboard');
-      }).fail(function() {
-          console.log('failed to register');
+      }).fail(function(xhr) {
+        self.registerMessage(true, xhr.responseJSON.message)
+        console.log('failed to register');
     });
   }
 
@@ -99,6 +110,7 @@ export default class AdminRegisterModal extends React.Component {
     }
     return (
       <div className="modal-dialog">
+      <ToastContainer ref="container" toastMessageFactory={ToastMessageFactory} className="toast-top-right" />
         <div className="well">
           <div className="modal-header">
             <a href="javascript:void(0)" className="login_logo">

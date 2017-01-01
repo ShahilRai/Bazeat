@@ -5,7 +5,13 @@ import axios from 'axios';
 import { Router, LoginLink, LogoutLink, NotAuthenticated, Authenticated } from 'react-stormpath';
 
 export default class Menu extends React.Component {
-   render() {
+
+  static contextTypes = {
+    authenticated: React.PropTypes.bool,
+    user: React.PropTypes.object
+  };
+
+  render() {
     var userId = this.props.cuid ? this.props.cuid : 'null'
     var profileHead = this.context.authenticated ? "header_rht_menu profile_rht_header" : "header_rht_menu";
     return (
@@ -13,14 +19,9 @@ export default class Menu extends React.Component {
         <ul className={profileHead}>
           <li><a href="javascript:void(0)" className="help_icon">Help</a></li>
           <NotAuthenticated>
-            <li className="active">
-              <a href="#" data-toggle="modal" data-target="#register_modal">Join Bazeat</a>
-            </li>
-            <li>
-              <a href="#" data-toggle="modal" data-target="#login_modal">Log in</a>
-            </li>
-            <li className="cart_icon"><a href="#">Cart</a></li>
-            <CartModal />
+            <li className="active"><a href="" data-toggle="modal" data-target="#register_modal">Join Bazeat</a></li>
+            <li><a href="" data-toggle="modal" data-target="#login_modal">Log in</a></li>
+            <li className="cart_icon"><a href="javascript:void(0)">Cart</a></li>
           </NotAuthenticated>
           <Authenticated>
             <li><a href="javascript:void(0)" className="message_icon">Messages</a></li>
@@ -30,12 +31,13 @@ export default class Menu extends React.Component {
                 <li><Link to="/profile">Edit Profile</Link></li>
                 <li><Link to={"/user/"+userId}>AddProductPage</Link></li>
                 <li><a href="/setting">Settings</a></li>
-                <li><a href="javascript:void(0)">Orders</a></li>
-                <li><a href="javascript:void(0)">Guides</a></li>
+                <li><Link to="javascript:void(0)">Orders</Link></li>
+                <li><Link to="javascript:void(0)">Guides</Link></li>
                 <li><LogoutLink>Log out</LogoutLink></li>
               </ul>
             </li>
           </Authenticated>
+          <CartModal />
         </ul>
       </div>
     );

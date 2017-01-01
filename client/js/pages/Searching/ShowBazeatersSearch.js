@@ -1,18 +1,20 @@
 import React from 'react';
 import LazyLoad from 'react-lazy-load';
+import SearchNotification from './SearchNotification';
+import BazeatersWall from './BazeatersWall';
 
 export default class ShowBazeatersSearch extends React.Component {
 
   render() {
     return (
-      <div>
-        {this.props.allBazeaters.map((userslist, index) => {
-          return (
-            <LazyLoad key={index} height={100}>
-              <span className="prd_name" key={index}>{userslist.full_name}</span>
-            </LazyLoad>
-          );
-        })}
+      <div className="tab-pane" id="bazeaters">
+        <div className="container pad_lf151">
+          <div className="bazeaters_sec">
+            <SearchNotification name="'Bazeaters'" length={this.props.allBazeaters.length}/>
+            {this.props.allBazeaters.map((bazeatersData, index) => <BazeatersWall
+                key = {index} bazeatersData = {bazeatersData}/>)}
+          </div>
+        </div>
       </div>
     );
   }

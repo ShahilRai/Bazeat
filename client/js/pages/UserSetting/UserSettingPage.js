@@ -12,24 +12,24 @@ export default class UserSettingPage extends React.Component {
     super(props, context);
     this.state = {
       setting: '',
-      Link_text: "See profile"
+      seeProfile_button_text: "See profile"
     };
-    this.SeeProfileBtnClck = this.SeeProfileBtnClck.bind(this)
+    this.seeProfileBtnClck = this.seeProfileBtnClck.bind(this)
   }
 
-  SeeProfileBtnClck() {
-    this.SeeProfile().then((response) => {
+  seeProfileBtnClck() {
+    this.seeProfile(this.context.user.email).then((response) => {
       if(response.data) {
         this.setState({
         });
-            if(this.state.Link_text == "See profile"){
+            if(this.state.seeProfile_button_text == "See profile"){
               this.setState({
-                Link_text : "Hide profile"
+                seeProfile_button_text : "Hide profile"
               });
 
             }else{
               this.setState({
-                Link_text : "See profile"
+                seeProfile_button_text : "See profile"
               });
             }
       }
@@ -39,8 +39,10 @@ export default class UserSettingPage extends React.Component {
     });
   }
 
-  SeeProfile() {
-    return axios.get("/api/handleproducts");
+  seeProfile(email) {
+    return axios.put("/api/handleproducts",{
+      email: email
+    });
   }
 
   render(){
@@ -59,9 +61,9 @@ export default class UserSettingPage extends React.Component {
             <div className="row">
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <ul>
-                <li className="active"><a href="/profile">Profile</a></li>
-                <li className=""><a href="/settingPage">Settings</a></li>
-                <li><a href="javascript:void(0)">Guides</a></li>
+                <li className=""><a href="javascript:void(0)">Profile</a></li>
+                <li className="active"><a href="javascript:void(0)">Settings</a></li>
+                <li className=""><a href="javascript:void(0)">Guides</a></li>
                 </ul>
               </div>
             </div>
@@ -72,12 +74,12 @@ export default class UserSettingPage extends React.Component {
             <div className="row">
               <div className="col-lg-3 col-md-2 col-sm-2 col-xs-12 edit_profile_sidebar">
                 <ul className="edit_sidbar_list">
-                  <li ><a href="/profile">Edit Profile</a></li>
+                  <li><a href="/profile">Edit Profile</a></li>
                   <li><a href="javascript:void(0)">Verification</a></li>
                   <li><a href="javascript:void(0)">Reviews</a></li>
                   <li><a href="javascript:void(0)">Messages</a></li>
                   <li><a href="javascript:void(0)">Test</a></li>
-                  <li><a onClick={this.SeeProfileBtnClck} href="javascript:void(0)">{this.state.Link_text}</a></li>
+                  <li><a onClick={this.seeProfileBtnClck} href="javascript:void(0)">{this.state.seeProfile_button_text}</a></li>
                 </ul>
               </div>
               {this.state.setting}

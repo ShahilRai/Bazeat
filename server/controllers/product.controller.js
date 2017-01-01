@@ -6,6 +6,7 @@ import Ingredient from '../models/ingredient';
 import cuid from 'cuid';
 
 export function addProduct(req, res) {
+  console.log(req.body.fieldValues)
   User.findOne({ email: req.body.fieldValues.email }).exec((error, user) => {
     console.log(req.body.fieldValues)
     // ProductCategory.findOne({name: req.body.fieldValues.product_category}).exec(function(err, pc){
@@ -110,11 +111,11 @@ export function getBuyers(req, res) {
 
 export function deleteProduct(req, res) {
   Product.findOne({ cuid: req.params.cuid }).exec((err, product) => {
-    if (err) {
-      return res.status(500).send(err);
+    if (err || product == null) {
+      return res.status(500).send({msg: err});
     }
     product.remove(() => {
-      res.status(200).end();
+      return res.status(200).send({msg: "Product deleted successfully"});
     });
   });
 }
@@ -145,8 +146,6 @@ export function getDetails(req, res){
     });
   });
 }
-
-
 
 export function getUserProducts(req, res) {
   User.findOne({ email: req.params.email }).populate('products').exec((err, user) => {
@@ -197,8 +196,6 @@ export function hideProduct(req, res) {
       return res.json({ product });
   });
 }
-
-
 
 export function showProduct(req, res) {
   Product.update({ cuid: req.params.cuid }, req.body, function(err, product) {

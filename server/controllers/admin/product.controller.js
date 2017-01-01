@@ -65,11 +65,11 @@ export function updateProduct(req, res) {
 
 export function deleteProduct(req, res) {
   Product.findOne({ _id: req.params._id }).exec((err, product) => {
-    if (err) {
-      return res.status(500).send(err);
+    if (err || product == null) {
+      return res.status(500).send({msg: err});
     }
-    product.remove((product) => {
-      res.status(200).end();
+    product.remove(() => {
+      return res.status(200).send({msg: "Product deleted successfully"});
     });
   });
 }
