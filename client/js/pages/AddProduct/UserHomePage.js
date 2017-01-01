@@ -19,16 +19,18 @@ export default class UserHomePage extends React.Component {
     super(props, context);
     this.state = {
       user : {},
-      data_loaded: false
+      data_loaded: false,
+      cat_loaded: false
     };
+    this.selectCategoryData=this.selectCategoryData.bind(this);
   }
 
   componentDidMount() {
     var userEmail = this.context.user.email;
     this.loadUserProductsData(userEmail).then((response) => {
-       if(response.data.producer) {
+      if(response.data.producer) {
         this.setState({
-          user: response.data.producer,
+          user: response.data.producer.products,
           data_loaded: true
         });
       }
@@ -42,17 +44,40 @@ export default class UserHomePage extends React.Component {
     return axios.get("/api/user_products/"+emailAddress);
   }
 
+  selectCategoryData(category_id){
+    this.loadCategoryData(category_id).then((response) => {
+      if(response.data.products) {
+        this.setState({
+          user: response.data.products,
+          cat_loaded: true,
+          data_loaded: false
+        });
+      }
+    })
+    .catch((err) => {
+    console.log(err);
+    });
+  }
+
+  loadCategoryData(category_id) {
+    return axios.get("/api/products/category/"+category_id);
+  }
+
   render(){
+
     var img;
     var uData;
     if(this.state.user.photo){
       img = this.state.user.photo
     }else{
-      img ="images/review_logo.png"
+      img ="/images/review_logo.png"
     }
 
-    if (this.state.data_loaded) {
+    if (this.state.data_loaded && !this.state.cat_loaded) {
       uData = <ProductCollection productInfo = {this.state.user}/>
+    }
+    if(this.state.cat_loaded && !this.state.data_loaded){
+      uData = <ProductCollection cat_data = {this.state.user}/>
     }
 
     return(
@@ -69,7 +94,7 @@ export default class UserHomePage extends React.Component {
             <div className="col-lg-8 col-md-8 col-sm-9 col-xs-12 prht43">
               <div className="prduct_detail_rht">
                 <ReviewsAndLikes userInfo = {this.state.user}/>
-                <CategoryMenu />
+                <CategoryMenu categoryMenuClick={this.selectCategoryData}/>
                 <div className="grid_wall_wrapper prod_producer_grid products_section">
                   <AddNewProductLogo />
                 </div>

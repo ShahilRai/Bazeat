@@ -1,16 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router';
 import CartModal from './CartModal';
-
-import { LoginLink, LogoutLink, NotAuthenticated, Authenticated } from 'react-stormpath';
+import axios from 'axios';
+import { Router, LoginLink, LogoutLink, NotAuthenticated, Authenticated } from 'react-stormpath';
 
 export default class Menu extends React.Component {
-
-  static contextTypes = {
-    authenticated: React.PropTypes.bool,
-    user: React.PropTypes.object
-  };
-  render() {
+   render() {
+    var userId = this.props.cuid ? this.props.cuid : 'null'
     var profileHead = this.context.authenticated ? "header_rht_menu profile_rht_header" : "header_rht_menu";
     return (
       <div>
@@ -32,7 +28,7 @@ export default class Menu extends React.Component {
               <a href="javascript:void(0)" className="user_icon">{this.context.user ? this.context.user.givenName : ""}</a>
               <ul className="user_toggle_div collapse" id="user_toggle" >
                 <li><Link to="/profile">Edit Profile</Link></li>
-                <li><Link to="/user-product">AddProductPage</Link></li>
+                <li><Link to={"/user/"+userId}>AddProductPage</Link></li>
                 <li><a href="/setting">Settings</a></li>
                 <li><a href="javascript:void(0)">Orders</a></li>
                 <li><a href="javascript:void(0)">Guides</a></li>
