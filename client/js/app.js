@@ -38,19 +38,18 @@ ReactDOM.render(
       <Route path='/change' component={ChangePasswordPage} />
       <Route path='/forgot' component={ForgotPasswordModal} />
       <Route path='/addProductForm' component={ReactSlider} />
-       <Route path='/help' component={HelpPage} />
+      <Route path='/help' component={HelpPage} />
       <Route path='/about' component={AboutPage} />
       <Route path='/terms' component={TermsPage} />
       <Route path='/privacy' component={PrivacyPage} />
       <Route path='/faq' component={FaqPage} />
-      <Route path='/search' component={MapViewContainer} />
-      <Route path='/displaySrch' component={DisplaySearch} />
+      <Route path='/map-search' component={MapViewContainer} />
+      <Route path='/search' component={DisplaySearch} />
       <Route path='/viewcart' component={CheckoutContainer} />
       <AuthenticatedRoute>
         <Route path='/profile' component={ProfileContainer} />
         <Route path='/user-product' component={UserHomePage} />
         <Route path='/setting' component={ProfileContainer} />
-        <Route path='/guide' component={ProfileContainer} />
       </AuthenticatedRoute>
     </HomeRoute>
     <Route path='/admin-login' component={AdminLoginModal} />

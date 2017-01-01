@@ -3,25 +3,25 @@ import ShoppingBag from './ShoppingBag'
 import DeliveryType from './DeliveryType'
 import ProductPickupDate from './ProductPickupDate'
 import OrderConfirmation from './OrderConfirmation'
-import ShoppingBag from './ShoppingBag'
 export default class CheckoutContainer extends React.Component {
 
   static contextTypes = {
     authenticated: React.PropTypes.bool,
-    user: React.PropTypes.object,
-    step: React.PropTypes.Number
+    user: React.PropTypes.object
   };
 
   constructor() {
     super();
     this.state = {
-      step = 1
+      step: 1
     }
+    this.nextStep = this.nextStep.bind(this)
   }
 
   nextStep() {
+    var self = this
     this.setState({
-      step : this.state.step + 1
+      step : self.state.step + 1
     })
   }
 
@@ -43,8 +43,8 @@ export default class CheckoutContainer extends React.Component {
   render() {
     return (
       <div>
-        {this.checkoutStep}
-      <div>
+        {this.checkoutStep()}
+      </div>
     );
   }
 }

@@ -15,6 +15,10 @@ export default class ProductPickupDate extends React.Component {
 
   render() {
     return (
+      <div>
+        ProductPickupDate
+        <button type="button" className="btn btn-default continue_btn" onClick={this.props.nextStep}>Continue</button>
+      </div>
     );
   }
 }

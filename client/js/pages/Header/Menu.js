@@ -31,7 +31,6 @@ export default class Menu extends React.Component {
                 <li><Link to="/profile">Edit Profile</Link></li>
                 <li><Link to={"/user/"+userId}>AddProductPage</Link></li>
                 <li><a href="/setting">Settings</a></li>
-                <li><Link to="javascript:void(0)">Orders</Link></li>
                 <li><Link to="javascript:void(0)">Guides</Link></li>
                 <li><LogoutLink>Log out</LogoutLink></li>
               </ul>

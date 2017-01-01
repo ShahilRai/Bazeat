@@ -15,7 +15,10 @@ export default class DeliveryType extends React.Component {
 
   render() {
     return (
+      <div>
+        Delivery Type
+        <button type="button" className="btn btn-default continue_btn" onClick={this.props.nextStep}>Continue</button>
+      </div>
     );
   }
 }
-
