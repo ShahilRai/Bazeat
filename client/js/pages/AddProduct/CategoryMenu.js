@@ -34,12 +34,16 @@ export default class CategoryMenu extends React.Component {
     this.props.categoryMenuClick(id)
   }
 
+  setAllCategoryId(all_cat){
+    this.props.allCategoryMenuClick(all_cat)
+  }
+
   render(){
     var self = this
     return(
       <div className="category_menu">
         <ul>
-          <li className="active"><a href="javascript:void(0)">All categories</a></li>
+          <li className="active"><a href="javascript:void(0)" onClick={self.setAllCategoryId.bind(self,"all_cat":"1234")}>All categories</a></li>
           {
             this.state.product_category_list.map((product_category_list, index) => {
                 return <li key={index} className="active"><a href="javascript:void(0)"

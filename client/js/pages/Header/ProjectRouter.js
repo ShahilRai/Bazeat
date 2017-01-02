@@ -22,6 +22,7 @@ import FaqPage from '../SiteStaticPages/FaqPage';
 import AdminLoginModal from '../admin/AdminLoginModal';
 import AdminRegisterModal from '../admin/AdminRegisterModal';
 import AdminPanel from '../admin/AdminPanel';
+import CheckoutContainer from '../cart/CheckoutContainer';
 
 export default class ProjectRouter extends React.Component {
   static contextTypes = {
@@ -45,6 +46,7 @@ export default class ProjectRouter extends React.Component {
       callback();
     }
   }
+
   loadJquery() {
     var self=this;
     self.loadScript('/javascript/jquery-1.11.1.js', function() {
@@ -68,13 +70,14 @@ export default class ProjectRouter extends React.Component {
           <Route path='/change' component={ChangePasswordPage} />
           <Route path='/forgot' component={ForgotPasswordModal} />
           <Route path='/addProductForm' component={ReactSlider} />
-           <Route path='/help' component={HelpPage} />
+          <Route path='/help' component={HelpPage} />
           <Route path='/about' component={AboutPage} />
           <Route path='/terms' component={TermsPage} />
           <Route path='/privacy' component={PrivacyPage} />
           <Route path='/faq' component={FaqPage} />
-          <Route path='/search' component={MapViewContainer} />
-          <Route path='/displaySrch' component={DisplaySearch} />
+          <Route path='/map-search' component={MapViewContainer} />
+          <Route path='/search' component={DisplaySearch} />
+          <Route path='/viewcart' component={CheckoutContainer} />
           <AuthenticatedRoute>
             <Route path='/profile' component={ProfileContainer} />
             <Route path="/user/:userId" component={UserHomePage} />
