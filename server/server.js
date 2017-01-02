@@ -167,9 +167,13 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
     req.user.email = req.body.email;
     req.user.save(function (err) {
     // Producer info params
+
+    let sub_to_vat = false;
+    if (req.body.sub_to_vat == 'Yes'){
+        sub_to_vat = true;
+      }
     let business_name = req.body.business_name;
     let org_number = req.body.org_number;
-    let sub_to_vat = req.body.sub_to_vat;
     let cmp_web_site = req.body.cmp_web_site;
     let cmp_description = req.body.cmp_description;
     let cmp_delivery_options = req.body.cmp_delivery_options;
@@ -197,7 +201,7 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
           user.phone = req.body.phone;
           user.description = req.body.desc;
           user.city = req.body.city;
-          user.sub_to_vat = req.body.sub_to_vat
+          user.sub_to_vat = sub_to_vat
           user.country = req.body.country;
           user.address = req.body.address;
           user.birth_date = req.body.birth_date;

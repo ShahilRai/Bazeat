@@ -4,7 +4,7 @@ export default class SelectField extends React.Component{
   constructor(props,context) {
    super(props, context);
    this.state={
-    value: this.props.value
+    value: this.props.vat?(this.props.value == true ? 'Yes': 'No'):this.props.value
    };
    this.handleChange=this.handleChange.bind(this);
   }
