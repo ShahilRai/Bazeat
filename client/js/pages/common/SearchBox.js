@@ -3,6 +3,10 @@ import { Link } from 'react-router';
 
 export default class SearchBox extends React.Component {
 
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  }
+
   constructor(props, context) {
     super(props, context);
     this.state = {
@@ -28,11 +32,14 @@ export default class SearchBox extends React.Component {
     this.setState({
       showButton : true
     })
+    if(!this.context.router.location.query.search){
+      this.context.router.push('/displaySrch');
+    }
   }
 
   render() {
     var srchIcon = <input name="" type="submit" className="header_search_icon" disabled={this.state.disabled}/>
-    if(this.state.showButton){
+    if(this.state.showButton || this.context.router.location.query.search){
       srchIcon = <input name="" type="submit" className="header_search_icon_button" disabled={this.state.disabled} value="Search"/>
     }
     return (

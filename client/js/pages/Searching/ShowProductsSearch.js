@@ -7,7 +7,7 @@ import AppliedFilters from './AppliedFilters';
 export default class ShowProductsSearch extends React.Component {
 
   render() {
-    var varNotify = this.props.notify.slice(8)
+     var varNotify = this.props.notify ? this.props.notify : 'products';
     return (
       <div className="tab-content clearfix">
         <div className="tab-pane active" id="productss">

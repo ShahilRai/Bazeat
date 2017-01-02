@@ -3,8 +3,6 @@ import { render } from 'react-dom';
 import ShowProductsSearch from './ShowProductsSearch';
 import ShowBazeatersSearch from './ShowBazeatersSearch';
 import ShowLocationSearch from './ShowLocationSearch';
-import CategoryDropDown from './CategoryDropDown';
-import ProductRangeSlider from './ProductRangeSlider';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import axios from 'axios';
 
@@ -27,7 +25,9 @@ export default class DisplaySearch extends React.Component {
     this.handleProductsSrch();
     this.handleBztersSrch();
     this.displayCategoryList();
-    this.filteredProducts();
+    if(this.props.location.query.search){
+      this.filteredProducts();
+    }
   }
 
   handleProductsSrch(){
@@ -82,26 +82,8 @@ export default class DisplaySearch extends React.Component {
     });
   }
 
-  /*categoryBasedSearch(){
-    var cId = this.state.categoryId;
-    this.fetchCatgryBasedData(cId).then((response) => {
-      if(response.data) {
-        this.setState({
-          allProductsData: response.data
-        });
-      }
-    }).catch((err) => {
-      console.log(err);
-    });
-  }
-
-  fetchCatgryBasedData(cId) {
-    return axios.get("/api/search/products?category_id="+ cId , {
-    });
-  }*/
-
   filteredProducts(){
-    var pName = this.props.location.search;
+    var pName = this.props.location.query.search;
     var cId = this.state.categoryId;
     var minRnge = this.state.value.start;
     var maxRnge = this.state.value.end;
@@ -117,7 +99,7 @@ export default class DisplaySearch extends React.Component {
   }
 
   fetchFilteredProducts(pName,minRnge,maxRnge,cId) {
-    return axios.get("/api/search/products"+ pName+"&start_price="+ minRnge +"&end_price=" + maxRnge +"&category_id="+ cId, {
+    return axios.get("/api/search/products?"+ "search=" + pName+ "&start_price="+ minRnge +"&end_price=" + maxRnge +"&category_id="+ cId, {
     });
   }
 
@@ -146,7 +128,7 @@ export default class DisplaySearch extends React.Component {
             <Tab>Location</Tab>
           </TabList>
           <TabPanel>
-            <ShowProductsSearch allProductsData ={this.state.allProductsData} notify={this.props.location.search} value={this.state.value} priceRangeChange={this.priceRangeChange}
+            <ShowProductsSearch allProductsData ={this.state.allProductsData} notify={this.props.location.query.search} value={this.state.value} priceRangeChange={this.priceRangeChange}
             searchCategory={this.state.searchCategory} handleChange={this.handleChange}/>
           </TabPanel>
           <TabPanel>
