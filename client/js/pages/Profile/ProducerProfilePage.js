@@ -68,9 +68,10 @@ export default class ProducerProfilePage extends React.Component {
       getTime: value
     })
   }
+
   render() {
     if(!this.state.data_loaded){
-      return <div></div>
+      return (<div></div>);
     }
     return (
       <DocumentTitle title={`My Profile`}>
@@ -86,11 +87,11 @@ export default class ProducerProfilePage extends React.Component {
                 </div>
                 <div className="form-group row">
                   <LabelField htmlFor="org_number" className="col-md-4 col-xs-12 col-form-label" label="Org. number" />
-                    <InputField  name="org_number" value = {this.state.producer_info.org_number} />
+                    <InputField type="number" name="org_number" value = {this.state.producer_info.org_number} />
                 </div>
                 <div className="form-group row">
                   <LabelField htmlFor="account_number" className="col-md-4 col-xs-12 col-form-label" label="Account number" />
-                    <InputField  name="account_number" value = {this.state.user.account_number} />
+                    <InputField type="number" name="account_number" value = {this.state.user.account_number} />
                 </div>
                 <div className="form-group row">
                   <LabelField htmlFor="subject_to_vat" className="col-md-4 col-xs-12 col-form-label" label="Subject to VAT" />

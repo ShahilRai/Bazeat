@@ -116,8 +116,6 @@ export default class ProfileContainer extends React.Component {
           <li><a href="javascript:void(0)">Verification</a></li>
           <li><a href="javascript:void(0)">Reviews</a></li>
           <li><a href="javascript:void(0)">Messages</a></li>
-          <li><a href="javascript:void(0)">Test</a></li>
-          <li><a onClick={this.seeProfileBtnClck} href="javascript:void(0)">{this.state.seeProfile_button_text}</a></li>
         </ul>
       )
     }
