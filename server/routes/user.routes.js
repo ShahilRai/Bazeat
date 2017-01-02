@@ -18,6 +18,7 @@ router.route('/users').delete(UserController.deleteUser);
 router.route('/bank_account').post(UserController.addBankAccount);
 
 router.route('/payment').post(UserController.Payment);
+
 // Add Stripe Bank Account User by cuid
 router.route('/disable_account').put(UserController.handleAccount);
 

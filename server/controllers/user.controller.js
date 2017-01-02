@@ -50,7 +50,6 @@ export function getUsers(req, res) {
 }
 
 export function getUser(req, res) {
-  console.log(req.query)
   let data = {};
   if(req.query.cuid){
     data.cuid = req.query.cuid;
@@ -154,7 +153,6 @@ export function addBankAccount(req, res) {
                         //   }
                         // );
                             return res.json({ account: account });
-
                       }
                     }
                   );

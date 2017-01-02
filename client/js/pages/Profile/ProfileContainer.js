@@ -35,13 +35,11 @@ export default class ProfileContainer extends React.Component {
       status: "false",
       activeView: '',
       activeView1: '',
-      activeView2: '',
       seeProfile_button_text: "See profile"
     };
     this.showNotification = this.showNotification.bind(this)
     this.settingStatus = this.settingStatus.bind(this)
     this.profileStatus = this.profileStatus.bind(this)
-    this.guideStatus = this.guideStatus.bind(this)
     this.seeProfileBtnClck = this.seeProfileBtnClck.bind(this)
   }
 
@@ -81,7 +79,6 @@ export default class ProfileContainer extends React.Component {
       status : "true",
       activeView1: 'active',
       activeView: '',
-      activeView2: '',
       notification: false
     });
   }
@@ -92,17 +89,7 @@ export default class ProfileContainer extends React.Component {
       status : "false",
       activeView1: '',
       activeView: 'active',
-      activeView2: '',
       notification: false
-    });
-  }
-
-  guideStatus(){
-    this.setState({
-      status : '',
-      activeView2: 'active',
-      activeView1: '',
-      activeView: ''
     });
   }
 
@@ -153,7 +140,6 @@ export default class ProfileContainer extends React.Component {
                 <ul>
                   <li className={this.state.activeView}><Link to="profile" onClick={this.profileStatus}>Profile</Link></li>
                   <li className={this.state.activeView1}><Link to="setting" onClick={this.settingStatus}>Settings</Link></li>
-                  <li className={this.state.activeView2}><Link to="guide" onClick={this.guideStatus}>Guides</Link></li>
                 </ul>
               </div>
             </div>
