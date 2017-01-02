@@ -13,7 +13,7 @@ export default class ShowProductsSearch extends React.Component {
         <div className="tab-pane active" id="productss">
           <div className="prod_tab_section">
             <Filters value={this.props.value} priceRangeChange={this.props.priceRangeChange} searchCategory={this.props.searchCategory} handleChange={this.props.handleChange}/>
-            <AppliedFilters />
+            <AppliedFilters categoryName={this.props.categoryName}/>
             <div className="prod_result1">
               <div className="container pad_lf120">
                 <h3 className="search_tabbd_heading text-left">Your search for <span className="italic">'{varNotify}'</span> returned <span className="italic">{this.props.allProductsData.length}</span> results</h3>

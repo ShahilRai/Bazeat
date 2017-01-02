@@ -15,7 +15,8 @@ export default class DisplaySearch extends React.Component {
       allBazeaters : [],
       searchCategory : [],
       categoryId:'',
-      value : { start: 500, end: 2500 }
+      categoryName:'',
+      value : { start: 0, end: 4000 }
     }
     this.handleChange = this.handleChange.bind(this);
     this.priceRangeChange = this.priceRangeChange.bind(this);
@@ -87,15 +88,29 @@ export default class DisplaySearch extends React.Component {
     var cId = this.state.categoryId;
     var minRnge = this.state.value.start;
     var maxRnge = this.state.value.end;
-    this.fetchFilteredProducts(pName,minRnge,maxRnge,cId).then((response) => {
-      if(response.data) {
-        this.setState({
-          allProductsData: response.data
-        })
-      }
-    }).catch((err) => {
-      console.log(err);
-    });
+
+    if(this.props.location.query.search){
+      this.fetchFilteredProducts(pName,minRnge,maxRnge,cId).then((response) => {
+        if(response.data) {
+          this.setState({
+            allProductsData: response.data
+          })
+        }
+      }).catch((err) => {
+        console.log(err);
+      });
+    }
+    else{
+      this.fetchProducts(minRnge,maxRnge,cId).then((response) => {
+        if(response.data) {
+          this.setState({
+            allProductsData: response.data
+          })
+        }
+      }).catch((err) => {
+        console.log(err);
+      });
+    }
   }
 
   fetchFilteredProducts(pName,minRnge,maxRnge,cId) {
@@ -103,10 +118,16 @@ export default class DisplaySearch extends React.Component {
     });
   }
 
+  fetchProducts(minRnge,maxRnge,cId) {
+    return axios.get("/api/search/products?"+"start_price="+ minRnge +"&end_price=" + maxRnge +"&category_id="+ cId, {
+    });
+  }
+
   handleChange(e){
     this.setState({
-      categoryId: e.target.value}, function () {
-        /*this.categoryBasedSearch();*/
+      categoryId: e.target.value,
+      categoryName: e.target.options[e.target.selectedIndex].text
+    }, function () {
         this.filteredProducts();
       }
     )
@@ -120,7 +141,7 @@ export default class DisplaySearch extends React.Component {
   render() {
     /*Tabs.setUseDefaultStyles(false);*/
     return (
-      <div className="pdt30">
+      <div className="full_width_container">
         <Tabs selectedIndex={0}>
           <TabList className>
             <Tab>Products</Tab>
@@ -129,7 +150,7 @@ export default class DisplaySearch extends React.Component {
           </TabList>
           <TabPanel>
             <ShowProductsSearch allProductsData ={this.state.allProductsData} notify={this.props.location.query.search} value={this.state.value} priceRangeChange={this.priceRangeChange}
-            searchCategory={this.state.searchCategory} handleChange={this.handleChange}/>
+            searchCategory={this.state.searchCategory} handleChange={this.handleChange} categoryName={this.state.categoryName}/>
           </TabPanel>
           <TabPanel>
             <ShowBazeatersSearch allBazeaters ={this.state.allBazeaters} />

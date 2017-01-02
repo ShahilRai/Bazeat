@@ -1,5 +1,5 @@
 import React from 'react';
-import { RangeSlider } from 'reactrangeslider'
+import { RangeSlider } from 'reactrangeslider';
 
 export default class ProductRangeSlider extends React.Component {
 
@@ -11,12 +11,14 @@ export default class ProductRangeSlider extends React.Component {
           <form method="post" action="">
             <div data-role="rangeslider">
               <label htmlFor="price-min">Price:</label>
-              <RangeSlider
-                defaultValue={ value }
-                min={ 0 }
-                max={ 4000 }
-                onChange={this.props.priceRangeChange}
-                step={ 250 }/>
+              <div className="range_slider_col">
+                <RangeSlider
+                  defaultValue={ value }
+                  min={ 0 }
+                  max={ 4000 }
+                  onChange={this.props.priceRangeChange}
+                  step={ 250 }/>
+              </div>
             </div>
           </form>
         </div>

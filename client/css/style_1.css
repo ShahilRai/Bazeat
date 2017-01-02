@@ -234,6 +234,8 @@ a:hover {
 .header_search_bar {
 	position: relative;
 }
+.header_wrapper.border_bottom{ border-bottom: 1px solid #ddd}
+.ReactTabs .react-tabs{ border-top: 1px solid #ddd }
 .header_search_bar input[type="text" i] {
 border: 1px solid #cccccc;
  border-radius: 2px;
@@ -286,7 +288,7 @@ border: 1px solid #cccccc;
 	color: #666666;
 	margin: 0 8px;
 	text-align: center;
-	padding: 10px 10px;
+	padding: 8px 10px;
 	float: left;
 	border-radius: 3px;
 	width: 100%;
@@ -2451,18 +2453,31 @@ margin-bottom:10px;display: inline-block;
 }
 .map_text{margin-top: 12px;}
 .location_icon{float: left;}
-.location_icon button{background: url(../images/locationIcon.png) no-repeat 0 0;
+.location_icon button{    background: url(../images/locationIcon.png) no-repeat 0 0;
     width: 48px;
     float: left;
     border: 0px;
     text-indent: -9999px;
-    height: 44px;
-    background-size: 41px;}
+    height: 40px;
+    background-size: 41px;
+    margin-bottom: 0;
+    padding: 0;}
 
     .map_search{    width: 100%;
     height: 550px;
     float: left;}
-
+.full_width_container{width: 100%; float: left;     padding-top: 69px;}
+.react-tabs [role=tablist].ReactTabs__TabList{    padding-top: 3px;
+    padding-bottom: 3px;
+    max-width: 764px;
+        border-bottom: 0px;
+    margin: 0 auto;}
+    .dropdown.prod_dropdown{    width: 174px;
+    float: left;}
+    .range_slider_col{    width: 87%;
+    float: right;
+    margin-top: 4px;}
+  .ReactTabs__TabPanel{border-top: 1px solid #ddd; width: 100%; float:left}
  @media only screen and (min-width:250px) and (max-width:760px) {
 .pad_25 {
  padding: 0 10px;
@@ -3132,16 +3147,22 @@ line-height: 19px;
 }
 
 
-.ReactTabs__Tab.ReactTabs__Tab--selected{
-    border-bottom: 3px solid #00ACA2 !important;
-    border-left: 0 !important;
-    border-top: 0 !important;
-    border-right: 0 !important;
-}
-.ReactTabs__Tab{
-      padding: 6px 5px !important;
-}
+.react-tabs [role=tab].ReactTabs__Tab.ReactTabs__Tab--selected{
+    border-bottom: 3px solid #00ACA2;
+    border-left: 0;
+    border-top: 0;
+        font-weight: 700;
+    color: #5A646D;
 
+    border-right: 0;
+}
+.react-tabs [role=tab].ReactTabs__Tab.ReactTabs__Tab {
+    font-size: 14px;
+    color: #5A646D;
+    border-radius: 0;
+    padding: 5px 0px;
+            margin: 0 25px;
+}
 /*======Location tab========*/
 .location_logo{
     width: 65px;

@@ -10,10 +10,7 @@ export default class AppliedFilters extends React.Component {
             <h3>Apply Filters :</h3>
               <ul>
                 <li>
-                  <a href="#">Category 3<span>X</span></a>
-                </li>
-                <li>
-                  <a href="#">Category 1<span>X</span></a>
+                  <a href="#">{this.props.categoryName}<span>X</span></a>
                 </li>
                 <li>
                   <a href="#">Clear all<span>X</span></a>
