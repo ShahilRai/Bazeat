@@ -2,8 +2,9 @@ import React from 'react';
 import axios from 'axios';
 import ProductList from './ProductList';
 import ReactSlider from '../Product/ReactSlider';
-
+let selected_category = [] ;
 export default class ProductCollection extends React.Component {
+
   constructor(props, context) {
     super(props, context)
       this.state = {
@@ -13,7 +14,7 @@ export default class ProductCollection extends React.Component {
 
   componentDidMount() {
     this.setState({
-      products: this.props.productInfo.products
+      products: this.props.productInfo ? this.props.productInfo : this.props.cat_data
     });
   }
 
@@ -42,10 +43,15 @@ export default class ProductCollection extends React.Component {
   }
 
   render(){
-    if(this.state.products){
-      var allProducts = this.state.products.map((product, index) =>
+    var allProducts
+    if(this.props.cat_data){
+      allProducts = this.props.cat_data.map((product, index) =>
         <ProductList key = {index+1} index={index+1} productData = {product} onClick={this.removeImage.bind(this)}/>)
+    }else{
+      allProducts = this.state.products.map((product, index) =>
+      <ProductList key = {index+1} index={index+1} productData = {product} onClick={this.removeImage.bind(this)}/>)
     }
+
     return(
       <div>
         <ReactSlider id="add" />

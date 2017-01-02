@@ -1210,6 +1210,9 @@ ul.edit_sidbar_list li a:hover, ul.edit_sidbar_list li.active a {
 	float: left;
 	padding-right: 20px;
 }
+.product_detail_lft.prduct_small_icon{    width: 214px;
+    margin-top: -48px;}
+
 .prduct_thumb_lft_img {
     position: relative;
     max-width: 230px;

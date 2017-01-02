@@ -30,11 +30,11 @@ export default class UserPersonalInfo extends React.Component {
           <li className="review_cal">
             <a href="javascript:void(0)">Became a Bazeater<br/>12.11.2016</a>
           </li>
-          </ul>
-          <div className="product_left_dsc">
-            <h4>Presentation </h4>
-            <p>{this.props.userInfo.description}</p>
-          </div>
+        </ul>
+        <div className="product_left_dsc">
+          <h4>Presentation </h4>
+          <p>{this.props.userInfo.description}</p>
+        </div>
       </div>
     )
   }
