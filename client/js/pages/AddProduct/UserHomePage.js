@@ -114,8 +114,8 @@ export default class UserHomePage extends React.Component {
     };
     var img;
     var uData;
-    if(this.state.userInformation.photo){
-      img = this.state.userInformation.photo
+    if(this.state.user.photo){
+      img = this.state.user.photo
     }else{
       img ="/images/review_logo.png"
     }
