@@ -13,7 +13,7 @@ export default class NearMeIcon extends React.Component {
   }
 
   RedirectToMap(){
-   this.context.router.push('/search');
+   this.context.router.push('/map-search');
   }
 
   render() {

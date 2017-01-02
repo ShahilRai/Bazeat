@@ -6,6 +6,7 @@ import Ingredient from '../models/ingredient';
 import cuid from 'cuid';
 
 export function addProduct(req, res) {
+  console.log(req.body.fieldValues)
   User.findOne({ email: req.body.fieldValues.email }).exec((error, user) => {
     console.log(req.body.fieldValues)
     // ProductCategory.findOne({name: req.body.fieldValues.product_category}).exec(function(err, pc){
