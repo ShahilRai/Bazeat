@@ -242,7 +242,7 @@ export default class AddProduct extends React.Component {
                 {this.state.portion}
               </div>
 							<div className="form-group custom_select">
-								<select className="form-control" name="product_category" ref="product_category" id="product_category" name="product_category" onChange={this.handleChange}>
+								<select className="form-control" name="product_category" ref="product_category" id="product_category" onChange={this.handleChange}>
 									{
 										this.props.prod_categ_val.map((product_category_list, index) => {
                       chckd = (categ == product_category_list.id)

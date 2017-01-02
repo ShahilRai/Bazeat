@@ -14,7 +14,7 @@ export default class ProductDetails extends React.Component {
     var IngrLen = this.props.dsplyProdDetails.ingredients.length
     var AllrgnLen = this.props.dsplyProdDetails.allergens.length
 		return(
-			<div className="modal fade prod_modal" id={"id1" + this.props.index} role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div className="modal fade prod_modal" id={"id1" + this.props.index} tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div className="modal-dialog add_prduct_modal" role="document">
           <div className="modal-content">
             <div className="modal-header">

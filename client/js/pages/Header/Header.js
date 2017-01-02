@@ -1,5 +1,5 @@
 import React from 'react';
-import SearchBox from '../common/SearchBox';
+import SearchBox1 from '../common/SearchBox1';
 import Menu from './Menu';
 import Logo from './Logo';
 import NearMeIcon from './NearMeIcon';
@@ -42,7 +42,7 @@ export default class Header extends React.Component {
         <div className="container pad_25">
           <div className="row">
             <Logo />
-            <SearchBox />
+            <SearchBox1 />
             <NearMeIcon />
             <div className="col-lg-5 pull-right">
               <Menu cuid={userId}/>
