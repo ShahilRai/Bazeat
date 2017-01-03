@@ -14,9 +14,7 @@ let userInformation = {
    photo : "",
    city : "",
    country : "",
-   description : "",
-
-
+   description : ""
 };
 export default class UserHomePage extends React.Component {
 
@@ -68,7 +66,7 @@ export default class UserHomePage extends React.Component {
   }
 
   loadUserProductsData(emailAddress) {
-    return axios.get("/api/user_products/"+emailAddress);
+    return axios.get("/api/user_products?email="+emailAddress);
   }
 
   showAllCategory(category_id){
