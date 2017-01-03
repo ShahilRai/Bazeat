@@ -160,43 +160,60 @@ export function deleteOrder(req, res) {
 }
 
 export function addCart(req, res) {
+  let flag = false;
+  console.log(req.body)
   User.findOne({  email: req.body.email }).exec((error, user) => {
-    Cart.findOne({ user: user._id },function ( err, cart ){
-      // console.log(req.body);
+    Cart.findOne({ user: user._id }).exec(function ( err, cart ){
+      console.log("cart")
+      console.log(cart)
       if (err) {
         return res.json(500,{error_msg: "Cart not found"});
       }
-      console.log(!cart)
       if (!cart){
         console.log(req.body.cartitems)
         const newCart = new Cart(req.body);
         newCart.cuid = cuid();
         newCart.user = user._id;
         newCart.save((error, savedcart) => {
-          // console.log(savedcart)
           if (error) {
             return res.status(500).send(error);
           }
-          // savedcart.cartitems.push(req.body.cartitems);
-          // savedcart.save(function (err, savedcart1) {
           return res.json({ cart: savedcart });
-          // });
         });
-      }
-      else{
-        console.log(req.body.cartitems)
-        cart.update(
-            {$pushAll: {"cartitems": req.body.cartitems}},
-            {safe: true, upsert: true},
-            function(err, cart) {
+      }else{
+        cart.cartitems.forEach(function(item) {
+          if(item.product_id == req.body.cartitems.product_id){
+            flag = true;
+          }
+        });
+        if(flag === true){
+          Cart.findOneAndUpdate(
+            { "_id": cart._id, "cartitems.product_id": req.body.cartitems.product_id },
+            { "$set": {
+                "cartitems.$": req.body.cartitems
+              }
+            }).exec(function(err, updated_cart_item){
               if (err){
-                return res.status(500).send(err);
+                  return res.status(500).send(err);
+                }
+                else{
+                  return res.json({ cart: updated_cart_item});
+                }
+            });
+        }else{
+          cart.update(
+              {$pushAll: {"cartitems": [req.body.cartitems]}},
+              {safe: true, upsert: true},
+              function(err, cart2) {
+                if (err){
+                  return res.status(500).send(err);
+                }
+                else{
+                  return res.json({ cart: cart2});
+                }
               }
-              else{
-                return res.json({ cart: cart });
-              }
-            }
-        );
+            );
+        }
       }
     });
   });
