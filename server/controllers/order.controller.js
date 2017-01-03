@@ -192,7 +192,7 @@ export function addCart(req, res) {
             { "$set": {
                 "cartitems.$": req.body.cartitems
               }
-            }).exec(function(err, updated_cart_item){
+            },{new: true}).exec(function(err, updated_cart_item){
               if (err){
                   return res.status(500).send(err);
                 }
