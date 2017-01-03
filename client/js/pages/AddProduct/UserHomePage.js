@@ -132,8 +132,6 @@ export default class UserHomePage extends React.Component {
       country : this.state.userInformation.country,
       description : this.state.userInformation.description
     };
-    console.log("desssssssssssss")
-    console.log(this.state.userInformation.description)
     var img;
     var uData;
     if(this.state.userInformation.photo){
