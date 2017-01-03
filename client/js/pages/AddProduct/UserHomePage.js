@@ -43,8 +43,8 @@ export default class UserHomePage extends React.Component {
   }
 
   componentDidMount() {
-    var userCuid = this.props.params.userId;
-    this.loadUserProductsData(userCuid).then((response) => {
+    var userEmail = this.context.user.email;
+    this.loadUserProductsData(userEmail).then((response) => {
       if(response.data.producer) {
         this.setState({
           user: response.data.producer,
@@ -65,13 +65,13 @@ export default class UserHomePage extends React.Component {
     });
   }
 
-  loadUserProductsData(userCuid) {
-    return axios.get("/api/user_products?cuid="+userCuid);
+  loadUserProductsData(emailAddress) {
+    return axios.get("/api/user_products?email="+emailAddress);
   }
 
   showAllCategory(category_id){
-    var userCuid = this.props.params.userId;
-    this.loadUserProductsData(userCuid).then((response) => {
+    var userEmail = this.context.user.email;
+    this.loadUserProductsData(userEmail).then((response) => {
       if(response.data.producer) {
         this.setState({
           user: response.data.producer,
