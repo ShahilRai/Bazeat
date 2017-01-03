@@ -2,6 +2,7 @@ import React from 'react';
 import ShowImage from './ShowImage';
 import WallImageViewer from './WallImageViewer';
 
+
 export default class MidContainer extends React.Component {
 
    constructor() {

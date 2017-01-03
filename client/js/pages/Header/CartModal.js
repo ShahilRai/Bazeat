@@ -16,7 +16,7 @@ export default class CartModal extends React.Component {
   }
 
   goToCheckout = () =>{
-    window.location = "/" 
+    window.location = "/"
     // browserHistory.push('/terms');
   }
 
@@ -40,7 +40,7 @@ export default class CartModal extends React.Component {
                 <span className="items_price">{"kr" + item.p_price}</span>
                 <span className="cross_items">x</span>
               </li>
-            )}  
+            )}
             </ul>
               <div className="list_item_footer">
                 <span className="tot_price_item">Total</span>

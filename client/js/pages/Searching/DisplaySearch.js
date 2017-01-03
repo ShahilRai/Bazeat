@@ -3,8 +3,6 @@ import { render } from 'react-dom';
 import ShowProductsSearch from './ShowProductsSearch';
 import ShowBazeatersSearch from './ShowBazeatersSearch';
 import ShowLocationSearch from './ShowLocationSearch';
-import CategoryDropDown from './CategoryDropDown';
-/*import ProductRangeSlider from './ProductRangeSlider';*/
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import axios from 'axios';
 
@@ -16,16 +14,21 @@ export default class DisplaySearch extends React.Component {
       allProductsData : [],
       allBazeaters : [],
       searchCategory : [],
-      categoryId:''
+      categoryId:'',
+      categoryName:'',
+      value : { start: 0, end: 4000 }
     }
-    this.handleChange = this.handleChange.bind(this)
-    /*this.priceRangeChange = this.priceRangeChange.bind(this)*/
+    this.handleChange = this.handleChange.bind(this);
+    this.priceRangeChange = this.priceRangeChange.bind(this);
   }
 
   componentDidMount(){
     this.handleProductsSrch();
     this.handleBztersSrch();
     this.displayCategoryList();
+    if(this.props.location.query.search){
+      this.filteredProducts();
+    }
   }
 
   handleProductsSrch(){
@@ -80,68 +83,74 @@ export default class DisplaySearch extends React.Component {
     });
   }
 
-  categoryBasedSearch(){
+  filteredProducts(){
+    var pName = this.props.location.query.search;
     var cId = this.state.categoryId;
-    this.fetchCatgryBasedData(cId).then((response) => {
-      if(response.data) {
-        this.setState({
-          allProductsData: response.data
-        });
-      }
-    }).catch((err) => {
-      console.log(err);
+    var minRnge = this.state.value.start;
+    var maxRnge = this.state.value.end;
+
+    if(this.props.location.query.search){
+      this.fetchFilteredProducts(pName,minRnge,maxRnge,cId).then((response) => {
+        if(response.data) {
+          this.setState({
+            allProductsData: response.data
+          })
+        }
+      }).catch((err) => {
+        console.log(err);
+      });
+    }
+    else{
+      this.fetchProducts(minRnge,maxRnge,cId).then((response) => {
+        if(response.data) {
+          this.setState({
+            allProductsData: response.data
+          })
+        }
+      }).catch((err) => {
+        console.log(err);
+      });
+    }
+  }
+
+  fetchFilteredProducts(pName,minRnge,maxRnge,cId) {
+    return axios.get("/api/search/products?"+ "search=" + pName+ "&start_price="+ minRnge +"&end_price=" + maxRnge +"&category_id="+ cId, {
     });
   }
 
-  fetchCatgryBasedData(cId) {
-    return axios.get("/api/search/products?category_id="+ cId , {
-    });
-  }
-
-  priceFilterChanged(minPrice,maxPrice){
-    this.fetchPriceBasedData(minPrice,maxPrice).then((response) => {
-      if(response.data) {
-        console.log(response.data)
-      }
-    }).catch((err) => {
-      console.log(err);
-    });
-  }
-
-  fetchPriceBasedData(minPrice,maxPrice) {
-    return axios.get("/api/search/products?start_price="+ minPrice +"&end_price=" + maxPrice, {
+  fetchProducts(minRnge,maxRnge,cId) {
+    return axios.get("/api/search/products?"+"start_price="+ minRnge +"&end_price=" + maxRnge +"&category_id="+ cId, {
     });
   }
 
   handleChange(e){
     this.setState({
-      categoryId: e.target.value}, function () {
-        this.categoryBasedSearch();
+      categoryId: e.target.value,
+      categoryName: e.target.options[e.target.selectedIndex].text
+    }, function () {
+        this.filteredProducts();
       }
     )
   }
 
-  /*priceRangeChange(e){
-    var minRnge = e.min;
-    var maxRnge = e.max;
-    console.log('max: ', maxRnge);
-    console.log('min: ', minRnge);
-    this.priceFilterChanged(minRnge,maxRnge);
-  }*/
+  priceRangeChange(value){
+    this.setState({ value: value })
+    this.filteredProducts();
+  }
 
   render() {
     /*Tabs.setUseDefaultStyles(false);*/
     return (
-      <div className="full_width ptop0">
+      <div className="full_width_container">
         <Tabs selectedIndex={0}>
-            <TabList className="nav nav-pills">
-              <Tab>Products</Tab>
-              <Tab>Bazeaters</Tab>
-              <Tab>Location</Tab>
-            </TabList>
+          <TabList className>
+            <Tab>Products</Tab>
+            <Tab>Bazeaters</Tab>
+            <Tab>Location</Tab>
+          </TabList>
           <TabPanel>
-            <CategoryDropDown searchCategory={this.state.searchCategory} handleChange={this.handleChange}/>
-            <ShowProductsSearch allProductsData ={this.state.allProductsData} />
+            <ShowProductsSearch allProductsData ={this.state.allProductsData} notify={this.props.location.query.search} value={this.state.value} priceRangeChange={this.priceRangeChange}
+            searchCategory={this.state.searchCategory} handleChange={this.handleChange} categoryName={this.state.categoryName}/>
           </TabPanel>
           <TabPanel>
             <ShowBazeatersSearch allBazeaters ={this.state.allBazeaters} />
