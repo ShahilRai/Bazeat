@@ -50,6 +50,7 @@ const userSchema = new Schema({
   if_producer: { type: 'Boolean', default: false },
   if_user: { type: 'Boolean', default: false },
   if_visible: { type: 'Boolean', default: false },
+  if_disable: { type: 'Boolean', default: false },
   producer_info: { type: ifProducer, default: ifProducer },
   user_info: { type: ifUser, default: ifUser },
   products: [{ type: Schema.ObjectId, ref: 'Product' }],

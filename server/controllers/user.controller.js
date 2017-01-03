@@ -207,13 +207,32 @@ export function Payment(req, res) {
   })
 }
 
-export function handleAccount(req, res) {
+export function hideAccount(req, res) {
   User.findOne({ email: req.body.email }).exec((err, user) => {
     if (user.if_visible == false){
       user.if_visible = true
     }
     else{
       user.if_visible = false
+    }
+    user.save((err, saved) => {
+      if (err) {
+        return res.status(500).send(err);
+      }
+      else {
+        return res.json({ user: saved });
+      }
+    });
+  });
+}
+
+export function disableAccount(req, res) {
+  User.findOne({ email: req.body.email }).exec((err, user) => {
+    if (user.if_disable == false){
+      user.if_disable = true
+    }
+    else{
+      user.if_disable = false
     }
     user.save((err, saved) => {
       if (err) {

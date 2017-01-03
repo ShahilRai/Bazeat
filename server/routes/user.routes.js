@@ -19,7 +19,8 @@ router.route('/bank_account').post(UserController.addBankAccount);
 
 router.route('/payment').post(UserController.Payment);
 
-// Add Stripe Bank Account User by cuid
-router.route('/disable_account').put(UserController.handleAccount);
+router.route('/hide_account').put(UserController.hideAccount);
+
+router.route('/disable_account').put(UserController.disableAccount);
 
 export default router;
