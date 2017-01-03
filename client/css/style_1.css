@@ -214,7 +214,7 @@ a:hover {
 	position: fixed;
     height: auto;
     width: 100%;
-    z-index: 100;
+        z-index: 99999;
     background-color: white;
 }
 .pdt30{
@@ -646,6 +646,8 @@ color:#808080;
 }
 .header_rht_menu.profile_rht_header li a.user_icon {
 	background: url(../images/baker_icon.png) no-repeat right center;
+	    height: 30px;
+    padding-right:0;
 }
 .header_rht_menu.profile_rht_header li a.user_icon:hover {
 	background: url(../images/baker_icon_hover.png) no-repeat right center;
@@ -2826,13 +2828,13 @@ right: 15px;
 border: 0;
 }
 #cancel_account{
-	display: block;
+ display: block;
 }
 #leave_account{
-	display: none;
+ display: none;
 }
 #footer_cancel{
-	display: none;
+ display: none;
 }
 /*============SEARCH V01===========================*/
 
