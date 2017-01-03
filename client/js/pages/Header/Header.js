@@ -4,6 +4,7 @@ import Menu from './Menu';
 import Logo from './Logo';
 import NearMeIcon from './NearMeIcon';
 import axios from 'axios';
+import pubSub from 'pubsub-js';
 
 export default class Header extends React.Component {
   static contextTypes = {
@@ -18,16 +19,18 @@ export default class Header extends React.Component {
     };
   }
   componentDidMount(){
+    this.fetch
     var email=this.context.user ? this.context.user.username : ''
     this.loadCurrentUser(email).then((response) => {
-        if(response.data) {
+        if(response.data.user) {
           this.setState({
-            currentUser_cuid: response.data.user.cuid
+            currentUser_cuid: response.data.user ? response.data.user.cuid : ''
           });
         }
     }).catch((err) => {
         console.log(err);
     });
+
   }
 
 //load the Current user detail

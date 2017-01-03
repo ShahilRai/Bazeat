@@ -646,6 +646,8 @@ color:#808080;
 }
 .header_rht_menu.profile_rht_header li a.user_icon {
 	background: url(../images/baker_icon.png) no-repeat right center;
+	    height: 30px;
+    padding-right:0;
 }
 .header_rht_menu.profile_rht_header li a.user_icon:hover {
 	background: url(../images/baker_icon_hover.png) no-repeat right center;
