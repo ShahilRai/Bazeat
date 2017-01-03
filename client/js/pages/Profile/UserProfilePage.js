@@ -21,6 +21,7 @@ export default class UserProfilePage extends React.Component {
     super(props, context);
     this.state = {
       user : {},
+      user_info: {},
       birth_date: {},
       data_loaded: false
     };
@@ -33,12 +34,9 @@ export default class UserProfilePage extends React.Component {
         if(response.data.user) {
           this.setState({
             user: response.data.user,
+            user_info:response.data.user.user_info,
             birth_date: moment(response.data.user.birth_date).format('YYYY-MM-DD'),
             data_loaded: true
-          });
-        }else{
-          this.setState({
-            birth_date: moment(Date()).format('YYYY-MM-DD')
           });
         }
     }).catch((err) => {
@@ -62,11 +60,9 @@ export default class UserProfilePage extends React.Component {
   }
 
   render() {
-
-    if (!this.state.data_loaded) {
+    if(!this.state.data_loaded){
       return (<div></div>);
     }
-
     return (
       <DocumentTitle title={`My Profile`}>
         <div className="col-lg-9 col-md-8 col-sm-10 col-xs-12 edit_profile_rht_sidebar">
@@ -91,7 +87,7 @@ export default class UserProfilePage extends React.Component {
                     <LabelField className = "col-md-4 col-xs-12 col-form-label" htmlFor="gender" label="Gender" />
                     <div className="col-md-8 col-xs-12">
                       <div className="custom_select_box">
-                        <SelectField className="form-control" name="gender" value = {this.state.user.user_info.gender} />
+                        <SelectField className="form-control" name="gender" value = {this.state.user_info.gender} />
                       </div>
                     </div>
                   </div>

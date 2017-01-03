@@ -104,7 +104,7 @@ export default class EndYourBazeatAdventure extends React.Component {
               </RadioGroup>
             </div>
             <div id="footer_cancel" className="profile_gry_bot_bar">
-              <input type="button" value="Cancel account" onClick={this.endYourBazeatAdventureBtnClck} className="btn pull-right mrht20"/>
+              <input type="button" value="Cancel account" onClick={this.endYourBazeatAdventureBtnClck} className="btn pull-right mrht20" disabled={!this.state.selectValue && !this.state.selectValue && !this.state.selectValue}/>
             </div>
           </form>
         </div>

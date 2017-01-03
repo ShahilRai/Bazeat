@@ -39,7 +39,7 @@ export function usersResults(req, res) {
 
 
 export function productsResults(req, res) {
-  // console.log(req.query.search)
+  console.log(req.query.search)
   console.log(req.query.category_id)
   let data = {};
   if(req.query.search){
@@ -51,7 +51,7 @@ export function productsResults(req, res) {
   if(req.query.category_id){
     data.product_category = {"$in": req.query.category_id };
   }
-  Product.find(data).sort('product_name').exec(
+  Product.find(data).populate("_producer ingredients allergens product_category").sort('product_name').exec(
     function(err,products){
       if (err) {
         return res.json(500, err);
