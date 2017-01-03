@@ -344,6 +344,7 @@ border: 1px solid #cccccc;
 	display: inline;
 	position: relative;
 	padding: 10px 24px;
+  z-index:0;
 }
 .home_top_category ul li img {
 	width: 100%;
@@ -1846,7 +1847,7 @@ width: 48%;
     font-size: 14px;
     font-weight: 700;
     text-align: right;
-    line-height:21px;     
+    line-height:21px;
     border: 0;
     background: none;
   }
@@ -2290,7 +2291,7 @@ padding-left:0;
   display: none;
   position: absolute;
   right: -23px;
-  top: 51px;
+  top: 50px;
   width: 305px;
     background: #ffffff none repeat scroll 0 0;
 z-index:99999;
@@ -2313,7 +2314,7 @@ z-index:99999;
 
   float: left;
   list-style: outside none none;
-  min-height: 740px;
+  min-height: 76vh;
   width: 100%;
 }
 .items_list_info ul li {

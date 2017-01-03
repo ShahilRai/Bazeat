@@ -1,7 +1,7 @@
 import React from 'react';
 import ProductDetails from '../AddProduct/ProductDetails';
 import ReactSlider from '../Product/ReactSlider';
-
+import pubSub from 'pubsub-js';
 export default class WallImageViewer extends React.Component {
 
   static contextTypes = {
@@ -12,10 +12,24 @@ export default class WallImageViewer extends React.Component {
    constructor() {
       super();
       this.state = {
+        added : false
       }
    }
 
+  addToCart(e) {
+    console.log(this.props.wallImages)
+      if(!this.state.added) {
+        PubSub.publish('cart.added', this.props.wallImages);
+      }
+       if(!this.state.added){
+          this.setState({
+            added: !this.state.added
+          });
+        }
+  }
+
   render() {
+    const data = this.props.wallImages;
     return (
       <div className="wall-column">
         <div className="grid_single_item">
@@ -26,7 +40,7 @@ export default class WallImageViewer extends React.Component {
             <a href="#" className="hover_icon"><img src="images/share_icon.png"/>
               <small className="icon_text">Share</small>
             </a>
-            <a href="#" className="hover_icon"><img src="images/cart_plus_icon.png"/>
+            <a href="javaScript:void(0)" className="hover_icon" onClick={this.addToCart.bind(this)}><img src="images/cart_plus_icon.png"/>
               <small className="icon_text">Buy</small>
             </a>
           </div>

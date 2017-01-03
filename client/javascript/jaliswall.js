@@ -8,9 +8,9 @@ by Pierre Bonnin - @PierreBonninPRO - 2015
     this.each(function(){
 
       var defaults = {
-        item : '.grid_single_item',
+        /*item : '.grid_single_item',
         columnClass : '.wall-column',
-        resize:false
+        resize:false*/
       }
 
       var prm = $.extend(defaults, options);
