@@ -11,7 +11,12 @@ import AddNewProductLogo from './AddNewProductLogo';
 let userInformation = {
    full_name : "",
    email : "",
-   photo : ""
+   photo : "",
+   city : "",
+   country : "",
+   description : "",
+
+
 };
 export default class UserHomePage extends React.Component {
 
@@ -27,7 +32,10 @@ export default class UserHomePage extends React.Component {
       userInformation : {
         photo : '',
         full_name : '',
-        email : ''
+        email : '',
+        city : '',
+        country : '',
+        description : ''
       },
       data_loaded : false,
       cat_loaded : false
@@ -45,7 +53,10 @@ export default class UserHomePage extends React.Component {
           userInformation : {
             photo : response.data.producer.photo,
             full_name : response.data.producer.full_name,
-            email : response.data.producer.email
+            email : response.data.producer.email,
+            city : response.data.producer.city,
+            country : response.data.producer.country,
+            description : response.data.producer.description
           },
           data_loaded: true
         });
@@ -69,7 +80,10 @@ export default class UserHomePage extends React.Component {
           userInformation : {
             photo : response.data.producer.photo,
             full_name : response.data.producer.full_name,
-            email : response.data.producer.email
+            email : response.data.producer.email,
+            city : response.data.producer.city,
+            country : response.data.producer.country,
+            description : response.data.producer.description
           },
           cat_loaded: false,
           data_loaded: true
@@ -89,7 +103,10 @@ export default class UserHomePage extends React.Component {
           userInformation : {
             full_name : userInformation.full_name,
             email : userInformation.email,
-            photo : userInformation.photo
+            photo : userInformation.photo,
+            city : userInformation.city,
+            country : userInformation.country,
+            description : userInformation.description
           },
           cat_loaded: true,
           data_loaded: false
@@ -110,8 +127,13 @@ export default class UserHomePage extends React.Component {
     userInformation = {
       full_name : this.state.userInformation.full_name,
       email : this.state.userInformation.email,
-      photo : this.state.userInformation.photo
+      photo : this.state.userInformation.photo,
+      city : this.state.userInformation.city,
+      country : this.state.userInformation.country,
+      description : this.state.userInformation.description
     };
+    console.log("desssssssssssss")
+    console.log(this.state.userInformation.description)
     var img;
     var uData;
     if(this.state.userInformation.photo){
@@ -136,7 +158,7 @@ export default class UserHomePage extends React.Component {
             <div className="col-lg-3 col-md-3 col-sm-3 col-xs-12">
               <div className="product_detail_lft prduct_small_icon">
                 <UserLogo url = {img} p_class="prduct_thumb_lft_img" />
-                <UserPersonalInfo userInfo = {this.state.user} />
+                <UserPersonalInfo userInfo = {this.state.userInformation} />
               </div>
             </div>
             <div className="col-lg-8 col-md-8 col-sm-9 col-xs-12 prht43">

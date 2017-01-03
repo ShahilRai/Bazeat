@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>BAZEAT</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <!-- Bootstrap -->
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<!-- Custom Css-->
+        <link rel="stylesheet" href="css/style_1.css" type="text/css"/>
+        <link rel="stylesheet" href="css/fonts.css" type="text/css"/>
+        <link rel="stylesheet" href="css/grid.css" type="text/css"/>
+        <link rel="stylesheet" href="css/font-awesome.css" type="text/css"/>
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
+   </head>
+    <body>
+	<div class="page_wrapper">
+    	<div class="header_wrapper brdr_btm">
+        	<div class="container pad_25">
+                <div class="row">
+                    <div class="col-lg-2 col-md-2 col-sm-5 col-xs-12 logo">
+                    	 <a href="index.html" ><img src="images/logo.png"  alt="BAZEAT"></a>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 ipad_pull_rht header_search_bar">
+                    	<form class="form-search" method="get" id="s" action="/">
+                            <input type="text" class="input-medium" name="s" placeholder="What do you want to eat?" value="">
+                            <input name="" type="submit" class="header_search_icon">
+                        </form>
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 pull-right">
+                    	<ul class="header_rht_menu profile_rht_header">
+                        	<li><a href="#" class="help_icon">Help</a></li>
+                            <li><a href="#" class="message_icon">Messages</a></li>
+							<li data-toggle="collapse" data-target="#user_toggle">
+								<a href="#" class="user_icon">Baker Hans</a>
+									<ul class="user_toggle_div collapse" id="user_toggle">
+										<li class="active"><a href="#">Edit profile</a></li>
+										<li><a href="#">Settings</a></li>
+										<li><a href="#">Guides</a></li>
+										<li><a href="#">Log out</a></li>
+									</ul>
+							
+							
+							</li>
+                        </ul> 
+                    </div>
+                </div>
+                    
+            </div>
+			
+		</div>
+            
+       
+        
+        	<div class="full_width ptop0">
+				<div class="search_loc_menu">
+				<ul  class="nav nav-pills">
+					<li class="active">
+					<a  href="#productss" data-toggle="tab">Products</a>
+					</li>
+					<li><a href="#bazeaters" data-toggle="tab">Bazeaters</a>
+					</li>
+					<li><a href="#location" data-toggle="tab">Location</a>
+					</li>
+					
+				</ul>
+				</div>
+				<div class="tab-content clearfix">
+				
+				<div class="tab-pane active" id="productss">
+					<div class="prod_tab_section">
+						<div class="container pad_lf151">
+							<div class="range_slider">
+								<div data-role="main" class="ui-content">
+									<form method="post" action="">
+										<div data-role="rangeslider">
+											<label for="price-min">Price:</label>
+											<input type="range" name="price-min" id="price-min" value="200" min="0" max="1000">
+											
+										</div>
+									</form>
+								</div>
+							</div>
+							<div class="prod_category">
+							
+							<label for="price-min">Product:</label>
+							<dl class="dropdown"> 
+						  
+							<dt>
+							<a href="#">
+							  <span class="hida">Select</span>    
+							  <p class="multiSel text_overflow"></p>  
+							</a>
+							</dt>
+						  
+								<dd>
+									<div class="mutliSelect">
+										<ul>
+										<li>
+											<div class="checkbox prod_checkbox">
+												<input id="checkbox23" type="checkbox" value="Category1">
+												<label for="checkbox23">
+													Category1 
+												</label>
+											</div>
+										</li>
+											
+										<li>
+											<div class="checkbox prod_checkbox">
+												<input id="checkbox24" type="checkbox" value="Category2">
+												<label for="checkbox24">
+													Category2 
+												</label>
+											</div>
+										</li>
+										<li>
+										<div class="checkbox prod_checkbox">
+											<input id="checkbox25" type="checkbox" value="Category3">
+											<label for="checkbox25">
+												Category3
+											</label>
+										</div>
+										<div class="checkbox prod_checkbox">
+											<input id="checkbox26" type="checkbox" value="Category3">
+											<label for="checkbox26">
+												Category4
+											</label>
+										</div>
+										</li>
+										</ul>
+									</div>
+								</dd>
+
+							</dl>
+							</div>
+							
+							<div class="other_category">
+							<h3>Other</h3>
+								<div class="checkbox prod_checkbox">
+									<input id="checkbox34" type="checkbox">
+									<label for="checkbox34">
+										On demand 
+									</label>
+								</div>
+								<div class="checkbox prod_checkbox">
+									<input id="checkbox35" type="checkbox">
+									<label for="checkbox35">
+										Open now
+									</label>
+								</div>
+							</div>
+						</div>
+						<div class="products_filter">
+							<div class="container pad_lf151">
+								<div class="inner_filters">
+								<h3>Apply Filters :</h3>
+								<ul>
+								<li><a href="#">
+								Category 3
+								<span>X</span>
+								
+								</a></li>
+								<li><a href="#">
+								Category 1
+								<span>X</span>
+								
+								</a></li>
+								<li><a href="#">
+								Clear all
+								<span>X</span>
+								
+								</a></li>
+								
+								</ul>
+								</div>
+							</div>
+						</div>
+						<div class="prod_result1">
+							<div class="container pad_lf120">
+							<h3 class="search_tabbd_heading text-left">Your search for <span class="italic">'bread'</span> returned <span class="italic">XX</span> results</h3>
+							<div class="grid_wall_wrapper"><div class="wall-column"><div class="grid_single_item" id=""> 
+                	
+                    	<div class="hover_box">
+                        	<a href="#" class="hover_icon"><img src="images/like_icon.png">
+							<small class="icon_text">Like</small>
+							</a>
+                            <a href="#" class="hover_icon"><img src="images/share_icon.png">
+							<small class="icon_text">Share</small>
+							</a>
+                            <a href="#" class="hover_icon"><img src="images/cart_plus_icon.png">
+							<small class="icon_text">Buy</small>
+							</a>
+                        </div>
+                        <a href="#">
+                        <img src="images/grid_img_1.png">
+                        <div class="grid_tile_desc">
+                        	<h2>Spelt baguettes á la Hauge, Belgium</h2>
+                            <span class="price_tag">kr 35.00</span>
+                            <p>Tradisjonelle franske baguetter laget med spelt og i vedovn, lorem ipsum et bla bla dolor sin joule bla...</p>
+                        </div>
+                    	 </a>
+  				</div><div class="grid_single_item" id="">
+					<div class="hover_box">
+						<a href="#" class="hover_icon"><img src="images/like_icon.png">
+						<small class="icon_text">Like</small>
+						</a>
+						<a href="#" class="hover_icon"><img src="images/share_icon.png">
+						<small class="icon_text">Share</small>
+						</a>
+						<a href="#" class="hover_icon"><img src="images/cart_plus_icon.png">
+						<small class="icon_text">Buy</small>
+						</a>
+                    </div>
+                	<a href="#">
+                        <img src="images/grid_img_5.png">
+                        <div class="grid_tile_desc">
+                        	<h2>Spelt baguettes á la Hauge, Belgium</h2>
+                            <span class="price_tag">kr 35.00</span>
+                            <p>Tradisjonelle franske baguetter laget med spelt og i vedovn, lorem ipsum et bla bla dolor sin joule bla...</p>
+                        </div>
+                    </a>
+  				</div></div><div class="wall-column"><div class="grid_single_item" id=""> 
+					<div class="hover_box">
+						<a href="#" class="hover_icon"><img src="images/like_icon.png">
+						<small class="icon_text">Like</small>
+						</a>
+						<a href="#" class="hover_icon"><img src="images/share_icon.png">
+						<small class="icon_text">Share</small>
+						</a>
+						<a href="#" class="hover_icon"><img src="images/cart_plus_icon.png">
+						<small class="icon_text">Buy</small>
+						</a>
+                    </div>
+                	<a href="#">
+                        <img src="images/grid_img_2.png">
+                         <div class="grid_tile_desc">
+                        	<h2>Spelt baguettes á la Hauge, Belgium</h2>
+                            <span class="price_tag">kr 35.00</span>
+                            <p>Tradisjonelle franske baguetter laget med spelt og i vedovn, lorem ipsum et bla bla dolor sin joule bla...</p>
+                        </div>
+                    </a>
+  				</div><div class="grid_single_item" id=""> 
+					<div class="hover_box">
+						<a href="#" class="hover_icon"><img src="images/like_icon.png">
+						<small class="icon_text">Like</small>
+						</a>
+						<a href="#" class="hover_icon"><img src="images/share_icon.png">
+						<small class="icon_text">Share</small>
+						</a>
+						<a href="#" class="hover_icon"><img src="images/cart_plus_icon.png">
+						<small class="icon_text">Buy</small>
+						</a>
+                    </div>
+                	<a href="#">
+                        <img src="images/grid_img_6.png">
+                        <div class="grid_tile_desc">
+                        	<h2>Spelt baguettes á la Hauge, Belgium</h2>
+                            <span class="price_tag">kr 35.00</span>
+                            <p>Tradisjonelle franske baguetter laget med spelt og i vedovn, lorem ipsum et bla bla dolor sin joule bla...</p>
+                        </div>
+                    </a>
+  				</div></div><div class="wall-column"><div class="grid_single_item" id=""> 
+					<div class="hover_box">
+						<a href="#" class="hover_icon"><img src="images/like_icon.png">
+						<small class="icon_text">Like</small>
+						</a>
+						<a href="#" class="hover_icon"><img src="images/share_icon.png">
+						<small class="icon_text">Share</small>
+						</a>
+						<a href="#" class="hover_icon"><img src="images/cart_plus_icon.png">
+						<small class="icon_text">Buy</small>
+						</a>
+                    </div>
+                	<a href="#">
+                        <img src="images/grid_img_3.png">
+                       
+                    </a>
+  				</div><div class="grid_single_item" id=""> 
+					<div class="hover_box">
+						<a href="#" class="hover_icon"><img src="images/like_icon.png">
+						<small class="icon_text">Like</small>
+						</a>
+						<a href="#" class="hover_icon"><img src="images/share_icon.png">
+						<small class="icon_text">Share</small>
+						</a>
+						<a href="#" class="hover_icon"><img src="images/cart_plus_icon.png">
+						<small class="icon_text">Buy</small>
+						</a>
+                    </div>
+                	<a href="#">
+                        <img src="images/grid_img_7.png">
+                         <div class="grid_tile_desc">
+                        	<h2>Spelt baguettes á la Hauge, Belgium</h2>
+                            <span class="price_tag">kr 35.00</span>
+                            <p>Tradisjonelle franske baguetter laget med spelt og i vedovn, lorem ipsum et bla bla dolor sin joule bla...</p>
+                        </div>
+                    </a>
+  				</div></div><div class="wall-column"><div class="grid_single_item" id=""> 
+					<div class="hover_box">
+						<a href="#" class="hover_icon"><img src="images/like_icon.png">
+						<small class="icon_text">Like</small>
+						</a>
+						<a href="#" class="hover_icon"><img src="images/share_icon.png">
+						<small class="icon_text">Share</small>
+						</a>
+						<a href="#" class="hover_icon"><img src="images/cart_plus_icon.png">
+						<small class="icon_text">Buy</small>
+						</a>
+                    </div>
+                	<a href="#">
+                        <img src="images/grid_img_4.png">
+                         <div class="grid_tile_desc">
+                        	<h2>Spelt baguettes á la Hauge, Belgium</h2>
+                            <span class="price_tag">kr 35.00</span>
+                            <p>Tradisjonelle franske baguetter laget med spelt og i vedovn, lorem ipsum et bla bla dolor sin joule bla...</p>
+                        </div>
+                    </a>
+  				</div><div class="grid_single_item" id=""> 
+					<div class="hover_box">
+						<a href="#" class="hover_icon"><img src="images/like_icon.png">
+						<small class="icon_text">Like</small>
+						</a>
+						<a href="#" class="hover_icon"><img src="images/share_icon.png">
+						<small class="icon_text">Share</small>
+						</a>
+						<a href="#" class="hover_icon"><img src="images/cart_plus_icon.png">
+						<small class="icon_text">Buy</small>
+						</a>
+                    </div>
+                	<a href="#">
+                        <img src="images/grid_img_8.png">
+                        <div class="grid_tile_desc">
+                        	<h2>Spelt baguettes á la Hauge, Belgium</h2>
+                            <span class="price_tag">kr 35.00</span>
+                            <p>Tradisjonelle franske baguetter laget med spelt og i vedovn, lorem ipsum et bla bla dolor sin joule bla...</p>
+                        </div>
+                    </a>
+  				</div></div></div>
+							
+							
+							
+							
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane" id="bazeaters">
+					<div class="container pad_lf151">
+						<div class="bazeaters_sec">
+						<h3 class="search_tabbd_heading text-left">Your search for <span class="italic">'XXX'</span> returned <span class="italic">YY</span> results</h3>
+						<div class="bazeater_bg">
+							<div class="bazeater1">
+								<a href="#" class="search_open">Open</a>
+								<div class="bazeater_logo1">
+									<span class="pos_rel"><img src="images/bazeater_logo1.png">
+									<img src="images/revw_icon.png" class="chkd_img">
+									</span>
+									
+								</div>
+								<h4>Baker Hans</h4>
+								<p>Knanndal</p>
+								<ul class="food_section">
+								<li>Pastry</li>
+								<li>Bread</li>
+								<li>Pastry</li>
+								
+								</ul>
+								<div class="star_rating">
+									<ul>
+									<li><a href="#"><img src="images/star_rating.png"></a></li>
+									<li><a href="#"><img src="images/star_rating.png"></a></li>
+									<li><a href="#"><img src="images/star_rating.png"></a></li>
+									<li><a href="#"><img src="images/star_rating.png"></a></li>
+									<li><a href="#"><img src="images/star_rating.png"></a></li>
+									</ul>
+									<span class="review_num">613 reviews</span>
+															
+								</div>
+							</div>
+						</div>
+					
+						<div class="bazeater_bg">
+							<div class="bazeater1">
+								<a href="#" class="search_open">Open</a>
+								<div class="bazeater_logo1">
+									<span class="pos_rel"><img src="images/bazeater_logo1.png">
+									<img src="images/revw_icon.png" class="chkd_img">
+									</span>
+									
+								</div>
+								<h4>Baker Hans</h4>
+								<p>Knanndal</p>
+								<ul class="food_section">
+								<li>Pastry</li>
+								<li>Bread</li>
+								<li>Pastry</li>
+								
+								</ul>
+								<div class="star_rating">
+									<ul>
+									<li><a href="#"><img src="images/star_rating.png"></a></li>
+									<li><a href="#"><img src="images/star_rating.png"></a></li>
+									<li><a href="#"><img src="images/star_rating.png"></a></li>
+									<li><a href="#"><img src="images/star_rating.png"></a></li>
+									<li><a href="#"><img src="images/star_rating.png"></a></li>
+									</ul>
+									<span class="review_num">613 reviews</span>
+															
+								</div>
+							</div>
+						</div>
+						<div class="bazeater_bg">
+							<div class="bazeater1">
+								<a href="#" class="search_open">Open</a>
+								<div class="bazeater_logo1">
+									<span class="pos_rel"><img src="images/bazeater_logo1.png">
+									<img src="images/revw_icon.png" class="chkd_img">
+									</span>
+								</div>
+								<h4>Baker Hans</h4>
+								<p>Knanndal</p>
+								<ul class="food_section">
+								<li>Pastry</li>
+								<li>Bread</li>
+								<li>Pastry</li>
+								
+								</ul>
+								<div class="star_rating">
+									<ul>
+									<li><a href="#"><img src="images/star_rating.png"></a></li>
+									<li><a href="#"><img src="images/star_rating.png"></a></li>
+									<li><a href="#"><img src="images/star_rating.png"></a></li>
+									<li><a href="#"><img src="images/star_rating.png"></a></li>
+									<li><a href="#"><img src="images/star_rating.png"></a></li>
+									</ul>
+									<span class="review_num">613 reviews</span>
+															
+								</div>
+							</div>
+						</div>
+						<div class="bazeater_bg mrht_zero">
+						<div class="bazeater1 mrht_zero">
+							<a href="#" class="search_open">Open</a>
+							<div class="bazeater_logo1">
+								<span class="pos_rel"><img src="images/bazeater_logo1.png">
+									<img src="images/revw_icon.png" class="chkd_img">
+									</span>
+							</div>
+							<h4>Baker Hans</h4>
+							<p>Knanndal</p>
+							<ul class="food_section">
+							<li>Pastry</li>
+							<li>Bread</li>
+							<li>Pastry</li>
+							
+							</ul>
+							<div class="star_rating">
+								<ul>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								</ul>
+								<span class="review_num">613 reviews</span>
+														
+							</div>
+						</div>
+						</div>
+						<div class="bazeater_bg">
+						<div class="bazeater1 mrht_zero">
+							<a href="#" class="search_open">Open</a>
+							<div class="bazeater_logo1">
+								<span class="pos_rel"><img src="images/bazeater_logo1.png">
+									<img src="images/revw_icon.png" class="chkd_img">
+									</span>
+							</div>
+							<h4>Baker Hans</h4>
+							<p>Knanndal</p>
+							<ul class="food_section">
+							<li>Pastry</li>
+							<li>Bread</li>
+							<li>Pastry</li>
+							
+							</ul>
+							<div class="star_rating">
+								<ul>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								</ul>
+								<span class="review_num">613 reviews</span>
+														
+							</div>
+						</div>
+						</div>
+						<div class="bazeater_bg">
+						<div class="bazeater1 mrht_zero">
+							<a href="#" class="search_open">Open</a>
+							<div class="bazeater_logo1">
+								<span class="pos_rel"><img src="images/bazeater_logo1.png">
+									<img src="images/revw_icon.png" class="chkd_img">
+									</span>
+							</div>
+							<h4>Baker Hans</h4>
+							<p>Knanndal</p>
+							<ul class="food_section">
+							<li>Pastry</li>
+							<li>Bread</li>
+							<li>Pastry</li>
+							
+							</ul>
+							<div class="star_rating">
+								<ul>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								</ul>
+								<span class="review_num">613 reviews</span>
+														
+							</div>
+						</div>
+						</div>
+						<div class="bazeater_bg">
+						<div class="bazeater1 mrht_zero">
+							<a href="#" class="search_open">Open</a>
+							<div class="bazeater_logo1">
+								<span class="pos_rel"><img src="images/bazeater_logo1.png">
+									<img src="images/revw_icon.png" class="chkd_img">
+									</span>
+							</div>
+							<h4>Baker Hans</h4>
+							<p>Knanndal</p>
+							<ul class="food_section">
+							<li>Pastry</li>
+							<li>Bread</li>
+							<li>Pastry</li>
+							
+							</ul>
+							<div class="star_rating">
+								<ul>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								</ul>
+								<span class="review_num">613 reviews</span>
+														
+							</div>
+						</div>
+						</div>
+						<div class="bazeater_bg mrht_zero">
+							<div class="bazeater1">
+								<a href="#" class="search_open">Open</a>
+								<div class="bazeater_logo1">
+									<span class="pos_rel"><img src="images/bazeater_logo1.png">
+									<img src="images/revw_icon.png" class="chkd_img">
+									</span>
+								</div>
+								<h4>Baker Hans</h4>
+								<p>Knanndal</p>
+								<ul class="food_section">
+								<li>Pastry</li>
+								<li>Bread</li>
+								<li>Pastry</li>
+								
+								</ul>
+								<div class="star_rating">
+									<ul>
+									<li><a href="#"><img src="images/star_rating.png"></a></li>
+									<li><a href="#"><img src="images/star_rating.png"></a></li>
+									<li><a href="#"><img src="images/star_rating.png"></a></li>
+									<li><a href="#"><img src="images/star_rating.png"></a></li>
+									<li><a href="#"><img src="images/star_rating.png"></a></li>
+									</ul>
+									<span class="review_num">613 reviews</span>
+															
+								</div>
+							</div>
+						</div>
+						</div>
+					</div>
+				
+				</div>
+				<div class="tab-pane" id="location">
+					<div class="search_v1">
+					<h3 class="search_tabbd_heading text-left pad_lf211">Your search for <span class="italic">'location'</span> returned <span class="italic">YY</span> results</h3>
+					<div class="search_row1 grey_bg">
+						<div class="search_row_wdth">
+						<span class="s_header wdth_11">&nbsp;</span>
+							<span class="s_header name_wdth26">Name
+							<i class="fa fa-long-arrow-up" aria-hidden="true"></i>
+							<i class="fa fa-long-arrow-down" aria-hidden="true"></i>
+							</span>
+							<span class="s_header rvws_wdth">Reviews</span>
+							<span class="s_header wdth_15">Categories</span>
+							<span class="s_header wdth_11">City</span>
+							<span class="s_header wdth_8">Status
+							<i class="fa fa-long-arrow-up" aria-hidden="true"></i>
+							<i class="fa fa-long-arrow-down" aria-hidden="true"></i>
+							</span>
+							
+						</div>
+					</div>
+					<div class="search_row1">
+						<div class="search_row_wdth">
+							<span class="s_name wdth_11"><img src="images/searc_prod_logo.png"></span>
+							<span class="s_name name_wdth26">Baker Hans</span>
+							<span class="rvws_wdth star_rating">
+								<ul>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								</ul>
+								<span class="review_num">613 reviews</span>
+														
+							</span>
+							<span class="wdth_15 categ_wdth">
+							<ul>
+							<li>Pastry</li>
+							<li>Bread</li>
+							<li>Category3</li>
+							</ul>
+							</span>
+							<span class="city_col wdth_11">Kvanndal</span>
+							<span class="wdth_8">
+							<a href="#" class="search_open">Open</a>
+							</span>
+					
+						</div>
+					</div>
+					<div class="search_row1 grey_bg">
+						<div class="search_row_wdth">
+							<span class="s_name wdth_11"><img src="images/searc_prod_logo.png"></span>
+							<span class="s_name name_wdth26">Producer X</span>
+							<span class="rvws_wdth star_rating">
+								<ul>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								</ul>
+								<span class="review_num">613 reviews</span>
+														
+							</span>
+							<span class="wdth_15 categ_wdth">
+							<ul>
+							<li>Pastry</li>
+							<li>Bread</li>
+							<li>Category3</li>
+							</ul>
+							</span>
+							<span class="city_col wdth_11">Kvanndal</span>
+							<span class="wdth_8">
+							&nbsp;
+							</span>
+					
+						</div>
+					</div>
+					<div class="search_row1">
+						<div class="search_row_wdth">
+							<span class="s_name wdth_11"><img src="images/searc_prod_logo.png"></span>
+							<span class="s_name name_wdth26">Kari Norman</span>
+							<span class="rvws_wdth star_rating">
+								<ul>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								</ul>
+								<span class="review_num">613 reviews</span>
+														
+							</span>
+							<span class="wdth_15 categ_wdth">
+							<ul>
+							<li>Pastry</li>
+							<li>Bread</li>
+							<li>Category3</li>
+							</ul>
+							</span>
+							<span class="city_col wdth_11">Kvanndal</span>
+							<span class="wdth_8">
+							&nbsp;
+							</span>
+					
+						</div>
+					</div>
+					<div class="search_row1">
+						<div class="search_row_wdth">
+							<span class="s_name wdth_11 imgs_logo_search">
+							<img src="images/searc_prod_logo.png">
+							<img src="images/revw_icon.png" class="chkd_img">
+							
+							</span>
+							<span class="s_name name_wdth26">Anders Andersen</span>
+							<span class="rvws_wdth star_rating">
+								<ul>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								</ul>
+								<span class="review_num">613 reviews</span>
+														
+							</span>
+							<span class="wdth_15 categ_wdth">
+							<ul>
+							<li>Pastry</li>
+							<li>Bread</li>
+							<li>Category3</li>
+							</ul>
+							</span>
+							<span class="city_col wdth_11">Kvanndal</span>
+							<span class="wdth_8">
+							&nbsp;
+							</span>
+					
+						</div>
+					</div>
+					<div class="search_row1">
+						<div class="search_row_wdth">
+							<span class="s_name wdth_11 imgs_logo_search">
+							<img src="images/searc_prod_logo.png">
+							<img src="images/revw_icon.png" class="chkd_img">
+							
+							</span>
+							<span class="s_name name_wdth26">Producer Y</span>
+							<span class="rvws_wdth star_rating">
+								<ul>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								<li><a href="#"><img src="images/star_rating.png"></a></li>
+								</ul>
+								<span class="review_num">613 reviews</span>
+														
+							</span>
+							<span class="wdth_15 categ_wdth">
+							<ul>
+							<li>Pastry</li>
+							<li>Bread</li>
+							<li>Category3</li>
+							</ul>
+							</span>
+							<span class="city_col wdth_11">Kvanndal</span>
+							<span class="wdth_8">
+							<a href="#" class="search_open">Open</a>
+							</span>
+					
+						</div>
+					</div>
+					</div>
+				
+				</div>
+				</div>
+				
+				
+				</div>
+            </div>
+			
+			
+
+
+
+
+
+       
+    </div>
+	           
+	<script type="text/javascript" src="js/jquery-1.11.1.js"></script>
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/jaliswall.js"></script>
+	<script>
+
+$('.grid_wall_wrapper').jaliswall({item:'.grid_single_item'});
+</script>
+<script>
+$(".search_categ_box").click(function(){
+    $(".category_chkbox").toggle();
+});
+</script>
+<script>
+$(".dropdown dt a").on('click', function() {
+  $(".dropdown dd ul").slideToggle('fast');
+});
+
+$(".dropdown dd ul li a").on('click', function() {
+  $(".dropdown dd ul").hide();
+});
+
+function getSelectedValue(id) {
+  return $("#" + id).find("dt a span.value").html();
+}
+
+$(document).bind('click', function(e) {
+  var $clicked = $(e.target);
+  if (!$clicked.parents().hasClass("dropdown")) $(".dropdown dd ul").hide();
+});
+
+$('.mutliSelect input[type="checkbox"]').on('click', function() {
+
+  var title = $(this).closest('.mutliSelect').find('input[type="checkbox"]').val(),
+    title = $(this).val() + ",";
+
+  if ($(this).is(':checked')) {
+    var html = '<span title="' + title + '">' + title + '</span>';
+    $('.multiSel').append(html);
+    $(".hida").hide();
+  } else {
+    $('span[title="' + title + '"]').remove();
+    var ret = $(".hida");
+    $('.dropdown dt a').append(ret);
+
+  }
+});
+</script>
+	</body>
+</html>

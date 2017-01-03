@@ -1,6 +1,7 @@
 import React from 'react';
 import ShowImage from './ShowImage';
 import WallImageViewer from './WallImageViewer';
+import CartCollection from './CartCollection';
 
 export default class MidContainer extends React.Component {
 
