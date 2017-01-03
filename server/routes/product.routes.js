@@ -39,7 +39,7 @@ router.route('/ingredients').get(ProductController.getIngrdients);
 router.route('/details').get(ProductController.getDetails);
 
 // Get Producer Product details
-router.route('/user_products/:email').get(ProductController.getUserProducts);
+router.route('/user_products').get(ProductController.getUserProducts);
 
 // Get Producer Product details
 router.route('/handleproducts').put(ProductController.handleProducts);

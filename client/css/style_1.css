@@ -214,7 +214,7 @@ a:hover {
 	position: fixed;
     height: auto;
     width: 100%;
-    z-index: 100;
+        z-index: 99999;
     background-color: white;
 }
 .pdt30{
@@ -2828,13 +2828,13 @@ right: 15px;
 border: 0;
 }
 #cancel_account{
-	display: block;
+ display: block;
 }
 #leave_account{
-	display: none;
+ display: none;
 }
 #footer_cancel{
-	display: none;
+ display: none;
 }
 /*============SEARCH V01===========================*/
 
