@@ -1,6 +1,7 @@
 import React from 'react';
 import ShowImage from './ShowImage';
 import WallImageViewer from './WallImageViewer';
+import CartCollection from './CartCollection';
 
 export default class MidContainer extends React.Component {
 
@@ -20,6 +21,7 @@ export default class MidContainer extends React.Component {
               {this.state.home_category_images.map((image, index) => <ShowImage
                 key = {index} imageData = {image}/>)}
             </ul>
+            <CartCollection />
           </div>
           <div className="grid_wall_wrapper">
             {this.props.productList.map((wallImages, index) => <WallImageViewer
