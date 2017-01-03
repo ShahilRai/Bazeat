@@ -14,9 +14,7 @@ let userInformation = {
    photo : "",
    city : "",
    country : "",
-   description : "",
-
-
+   description : ""
 };
 export default class UserHomePage extends React.Component {
 
