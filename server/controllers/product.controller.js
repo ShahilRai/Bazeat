@@ -86,14 +86,8 @@ export function getProducts(req, res) {
 }
 
 export function getProduct(req, res) {
-  let data = {};
-  if(req.query.cuid){
-    data.cuid = req.query.cuid;
-  }
-  if(req.query.email){
-    data.email = req.query.email;
-  }
-  Product.findOne(data).populate('ingredients').exec((err, product) => {
+  console.log(req.params)
+  Product.findOne({cuid: req.params.cuid}).populate('ingredients').exec((err, product) => {
     if (err) {
       return res.status(500).send(err);
     }
