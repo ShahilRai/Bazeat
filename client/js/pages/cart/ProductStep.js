@@ -11,78 +11,21 @@ export default class ProductStep extends React.Component {
     super(props , context);
     this.state = {
       step: this.props.step,
-      activeclass1:'',
-      activeclass2:'',
-      activeclass3:'',
-      activeclass4:'',
-      activeclass5:''
+      checkoutStep: [{'name': "Shopping<br/>bag", "class_Name": "text-left"}, {'name':"Delivery <br/> Method" , "class_Name": "text-center"},{'name':"Delivery <br/> Details" , "class_Name": "text-center"},{'name':"Confirmation" , "class_Name": "text-center"},{'name':"Payment" , "class_Name": "text-right"} ]
     }
   }
 
-  ComponentDidMount(){
-    alert("hii")
-    if(this.state.step==1){
-      this.setState({
-       activeclass1: 'active'
-      });
-    }if(this.state.step==2){
-      this.setState({
-       activeclass2: 'active'
-      });
-    }if(this.state.step==3){
-      this.setState({
-       activeclass3: 'active'
-      });
-    }if(this.state.step==4){
-      this.setState({
-       activeclass4: 'active'
-      });
-    }if(this.state.step==5){
-      this.setState({
-       activeclass5: 'active'
-      });
-    }
-   } 
-
   render() {
-      console.log(this.state.activeclass1)
-
     return (
       <div className="product_step_col">
-        <div className="steps_circle_col text-left">
+        {this.state.checkoutStep.map((checkout, index) =>
+          <div className={"steps_circle_col"+checkout.class_Name}>
           <div className="steps_des_col">
-            <span className="steps_circle_icon">1</span>
-            <span className="step_name_col active">Shopping<br/>bag</span>
+            <span className="steps_circle_icon {(activestate == {index}) ? active : ''}">{index+1}</span>
+            <span className="step_name_col active">{checkout.name}</span>
           </div>
         </div>
-      
-        <div className="steps_circle_col  text-center">
-          <div className="steps_des_col">
-            <span className="steps_circle_icon {this.state.activeclass2}">2</span>
-            <span className="step_name_col">Delivery <br/> Method</span>
-          </div>
-        </div>
-      
-        <div className="steps_circle_col  text-center">
-          <div className="steps_des_col">
-            <span className="steps_circle_icon">3</span>
-            <span className="step_name_col">Delivery <br/> Details</span>
-          </div>
-        </div>
-
-        <div className="steps_circle_col  text-center">
-          <div className="steps_des_col">
-            <span className="steps_circle_icon">4</span>
-            <span className="step_name_col">Confirmation</span>
-          </div>
-        </div>
-
-        <div className="steps_circle_col  text-right">
-          <div className="steps_des_col">
-            <span className="steps_circle_icon">5</span>
-            <span className="step_name_col">Payment</span>
-          </div>
-        </div>
+        )}
       </div>
     );
   }

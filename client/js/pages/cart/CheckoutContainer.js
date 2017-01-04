@@ -13,8 +13,7 @@ export default class CheckoutContainer extends React.Component {
   constructor() {
     super();
     this.state = {
-      step: 1,
-      active_class:'active'
+      step: 1
     }
     this.nextStep = this.nextStep.bind(this)
   }
