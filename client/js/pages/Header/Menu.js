@@ -30,7 +30,6 @@ export default class Menu extends React.Component {
             <a href="javascript:void(0)" className="user_icon"></a>
               <ul className="user_toggle_div collapse" id="user_toggle" >
                 <li><a href="/profile">Edit Profile</a></li>
-                <li><Link to={"/user/"+userId}>AddProductPage</Link></li>
                 <li><a href="/setting">Settings</a></li>
                 <li><Link to="javascript:void(0)">Guides</Link></li>
                 <li><LogoutLink>Log out</LogoutLink></li>

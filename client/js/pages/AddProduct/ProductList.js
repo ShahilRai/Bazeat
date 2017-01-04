@@ -38,7 +38,7 @@ import ReactSlider from '../Product/ReactSlider';
     }
 
     loadEditProdData(prodToEditCuid) {
-      return axios.get("/api/products/" + prodToEditCuid);
+      return axios.get("/api/product/" + prodToEditCuid);
     }
 
     HideProdBtnClck() {

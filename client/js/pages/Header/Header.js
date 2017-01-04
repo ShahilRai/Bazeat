@@ -4,7 +4,6 @@ import Menu from './Menu';
 import Logo from './Logo';
 import NearMeIcon from './NearMeIcon';
 import axios from 'axios';
-import pubSub from 'pubsub-js';
 
 export default class Header extends React.Component {
   static contextTypes = {
@@ -18,8 +17,8 @@ export default class Header extends React.Component {
       currentUser_cuid:{}
     };
   }
+
   componentDidMount(){
-    this.fetch
     var email=this.context.user ? this.context.user.username : ''
     this.loadCurrentUser(email).then((response) => {
         if(response.data.user) {
@@ -30,12 +29,11 @@ export default class Header extends React.Component {
     }).catch((err) => {
         console.log(err);
     });
-
   }
 
 //load the Current user detail
   loadCurrentUser(email) {
-    return axios.get("/api/user/" + email);
+    return axios.get("/api/user?email="+email);
   }
 
   render() {

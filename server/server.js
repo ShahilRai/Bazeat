@@ -327,6 +327,17 @@ let productupload = multer({
   })
 })
 
+let bg_img_upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: process.env.AWSBucket,
+    acl: 'public-read',
+    key: function (req, file, cb) {
+      cb(null, 'bg_img/'+ Date.now().toString() + file.originalname);
+    }
+  })
+})
+
 app.post('/api/profile_image', profileupload.single('image'), function (req, res, next){
   User.findOne({ email: req.body.email }).exec((err, user) => {
     if (err) {
@@ -346,11 +357,14 @@ app.post('/api/profile_image', profileupload.single('image'), function (req, res
   });
 })
 
-app.post('/api/bg_profile_image', profileupload.single('image'), function (req, res, next) {
+app.post('/api/bg_profile_image', bg_img_upload.single('file_upload'), function (req, res, next) {
+  console.log(req)
   User.findOne({ email: req.body.email }).exec((err, user) => {
     if (err) {
       return  res.status(500).send(err);
     } else {
+      console.log('req.file.location')
+      console.log(req.file.location)
       user.bgphoto = req.file.location
       user.save((error, saveduser) => {
         if (error) {
