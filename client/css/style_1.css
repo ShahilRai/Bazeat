@@ -212,7 +212,6 @@ a:hover {
 	width: 100%;
 	float: left;
 	padding: 12px 0 8px;
-	position: fixed;
     height: auto;
     width: 100%;
     z-index: 100;
@@ -1228,7 +1227,7 @@ ul.edit_sidbar_list li a:hover, ul.edit_sidbar_list li.active a {
 }
 .product_detail_lft.prduct_small_icon{    width: 214px;
     margin-top: -48px;}
-    
+
 .product_detail_lft.prduct_small_icon img{
    width: auto;
    height: 203px;
@@ -3328,8 +3327,6 @@ font-weight:700;
   background:none;
   border-bottom:3px solid #00ACA2;
 }
-/*========CHECKOUT PAGE======================*/
-/*======checkout step1=================*/
 .chkoutstep1 .items_list_info {
   position: static;
   width: 100%;
@@ -3405,7 +3402,7 @@ font-weight:700;
 	padding: 0 16px;
 }
 .chkout_step1_footer span{
-  display:block;	
+  display:block;
 }
 .chkout_step1_prod{
 	font-size:14px;
@@ -3605,7 +3602,7 @@ button.more_days_btn{
 .cnfrm_price_prod_heading span{
 	font-size: 14px;
 	font-weight:600;
-	color: #666666;	
+	color: #666666;
 }
 .cnfrm_tot_price{
 	float:left;width:100%;
@@ -3637,4 +3634,5 @@ button.more_days_btn{
 	margin-bottom:4px;
 	padding-bottom:0;
 }
+
 
