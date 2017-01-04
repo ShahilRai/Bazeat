@@ -13,7 +13,8 @@ export default class CheckoutContainer extends React.Component {
   constructor() {
     super();
     this.state = {
-      step: 1
+      step: 1,
+      active_class:'active'
     }
     this.nextStep = this.nextStep.bind(this)
   }
@@ -28,15 +29,15 @@ export default class CheckoutContainer extends React.Component {
   checkoutStep() {
     switch (this.state.step) {
       case 1:
-        return <ShoppingBag nextStep={this.nextStep}/>
+        return <ShoppingBag nextStep={this.nextStep} step={this.state.step}/>
       case 2:
-        return <DeliveryType nextStep={this.nextStep}/>
+        return <DeliveryType nextStep={this.nextStep} step={this.state.step}/>
       case 3:
-        return <ProductPickupDate nextStep={this.nextStep}/>
+        return <ProductPickupDate nextStep={this.nextStep} step={this.state.step}/>
       case 4:  
-        return <OrderConfirmation nextStep={this.nextStep}/>
+        return <OrderConfirmation nextStep={this.nextStep} step={this.state.step}/>
       case 5:          
-        return <ShoppingBag nextStep={this.nextStep}/>
+        return <Payment nextStep={this.nextStep} step={this.state.step}/>
     }
   }
 
