@@ -167,9 +167,13 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
     req.user.email = req.body.email;
     req.user.save(function (err) {
     // Producer info params
+
+    let sub_to_vat = false;
+    if (req.body.sub_to_vat == 'Yes'){
+        sub_to_vat = true;
+      }
     let business_name = req.body.business_name;
     let org_number = req.body.org_number;
-    let sub_to_vat = req.body.sub_to_vat;
     let cmp_web_site = req.body.cmp_web_site;
     let cmp_description = req.body.cmp_description;
     let cmp_delivery_options = req.body.cmp_delivery_options;
@@ -197,7 +201,7 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
           user.phone = req.body.phone;
           user.description = req.body.desc;
           user.city = req.body.city;
-          user.sub_to_vat = req.body.sub_to_vat
+          user.sub_to_vat = sub_to_vat
           user.country = req.body.country;
           user.address = req.body.address;
           user.birth_date = req.body.birth_date;
@@ -323,6 +327,17 @@ let productupload = multer({
   })
 })
 
+let bg_img_upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: process.env.AWSBucket,
+    acl: 'public-read',
+    key: function (req, file, cb) {
+      cb(null, 'bg_img/'+ Date.now().toString() + file.originalname);
+    }
+  })
+})
+
 app.post('/api/profile_image', profileupload.single('image'), function (req, res, next){
   User.findOne({ email: req.body.email }).exec((err, user) => {
     if (err) {
@@ -342,11 +357,14 @@ app.post('/api/profile_image', profileupload.single('image'), function (req, res
   });
 })
 
-app.post('/api/bg_profile_image', profileupload.single('image'), function (req, res, next) {
+app.post('/api/bg_profile_image', bg_img_upload.single('file_upload'), function (req, res, next) {
+  console.log(req)
   User.findOne({ email: req.body.email }).exec((err, user) => {
     if (err) {
       return  res.status(500).send(err);
     } else {
+      console.log('req.file.location')
+      console.log(req.file.location)
       user.bgphoto = req.file.location
       user.save((error, saveduser) => {
         if (error) {

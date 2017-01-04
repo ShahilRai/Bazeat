@@ -74,7 +74,6 @@ export function purchaseProduct(req, res) {
   });
 }
 
-
 export function getProducts(req, res) {
   Product.find().sort('-dateAdded').populate('_producer ingredients allergens product_category').exec((err, products) => {
     if (err) {
@@ -86,9 +85,15 @@ export function getProducts(req, res) {
   });
 }
 
-
 export function getProduct(req, res) {
-  Product.findOne({ cuid: req.params.cuid }).populate('ingredients').exec((err, product) => {
+  let data = {};
+  if(req.query.cuid){
+    data.cuid = req.query.cuid;
+  }
+  if(req.query.email){
+    data.email = req.query.email;
+  }
+  Product.findOne(data).populate('ingredients').exec((err, product) => {
     if (err) {
       return res.status(500).send(err);
     }
@@ -148,7 +153,14 @@ export function getDetails(req, res){
 }
 
 export function getUserProducts(req, res) {
-  User.findOne({ email: req.params.email }).populate('products').exec((err, user) => {
+  let data = {};
+  if(req.query.cuid){
+    data.cuid = req.query.cuid;
+  }
+  if(req.query.email){
+    data.email = req.query.email;
+  }
+  User.findOne(data).populate('products').exec((err, user) => {
     if(err){
       return res.status(500).send(err);
     }

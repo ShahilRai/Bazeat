@@ -39,12 +39,12 @@ router.route('/ingredients').get(ProductController.getIngrdients);
 router.route('/details').get(ProductController.getDetails);
 
 // Get Producer Product details
-router.route('/user_products/:email').get(ProductController.getUserProducts);
+router.route('/user_products').get(ProductController.getUserProducts);
 
 // Get Producer Product details
 router.route('/handleproducts').put(ProductController.handleProducts);
 
-// Get all products by category_id
+//Get Products By Category
 router.route('/products/category/:category_id').get(ProductController.getProductsByCategory);
 
 export default router;

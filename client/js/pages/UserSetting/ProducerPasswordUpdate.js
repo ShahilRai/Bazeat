@@ -12,10 +12,33 @@ export default class ProducerPasswordUpdate extends React.Component {
 
   constructor(props, context) {
     super(props, context);
-    this.state = {
-      break_button_text: "Take a break",
-    };
+      this.state = {
+        break_button_text: "Take a break",
+      };
     this.takeABreakBtnClck = this.takeABreakBtnClck.bind(this)
+    this.isableUserAccount =this.isableUserAccount.bind(this)
+  }
+
+  componentDidMount(){
+    this.isableUserAccount(this.context.user.email).then((response) => {
+      if(response.data) {
+        if(response.data.user.if_visible == true){
+          this.setState({
+            break_button_text : "Resume"
+          });
+        }if(response.data.user.if_visible == false){
+          this.setState({
+            break_button_text : "Take a break"
+          });
+        }
+      }
+    }).catch((err) => {
+    console.log(err);
+    });
+  }
+
+  isableUserAccount(email) {
+    return axios.get("/api/user?email="+email)
   }
 
   takeABreakBtnClck() {
