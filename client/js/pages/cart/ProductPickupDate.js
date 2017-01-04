@@ -50,9 +50,10 @@ export default class ProductPickupDate extends React.Component {
             <button type="button" className="btn btn-default more_days_btn">Show more days</button>
             <button type="button" className="btn btn-default continue_btn" onClick={this.props.nextStep}>Continue</button>
             </div>
-          </div
+          </div>
         </div>
-      </div>
+      </div>  
+      
     );
   }
 }
