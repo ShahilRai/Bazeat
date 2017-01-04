@@ -36,7 +36,7 @@ export default class ShoppingBag extends React.Component {
                     <input className="form-control text-center" value="1" data-rule="quantity" type="text"/>
                     <i className="fa fa-caret-down"></i>
                   </span>
-                  <span className="list_images"><img src="images/list_item1.png"/>
+                  <span className="list_images"><img src="/images/list_item1.png"/>
                     <small>Spelt baguettes á la Hauge, Belgium</small>
                   </span>
                   <span className="items_price">kr 35,00</span>
@@ -52,7 +52,7 @@ export default class ShoppingBag extends React.Component {
                     <input className="form-control text-center" value="1" data-rule="quantity" type="text"/>
                     <i className="fa fa-caret-down"></i>
                   </span>
-                  <span className="list_images"><img src="images/list_item1.png"/>
+                  <span className="list_images"><img src="/images/list_item1.png"/>
                     <small>Spelt baguettes á la Hauge, Belgium</small>
                   </span>
                   <span className="items_price">kr 35,00</span>
@@ -68,7 +68,7 @@ export default class ShoppingBag extends React.Component {
                     <input className="form-control text-center" value="1" data-rule="quantity" type="text"/>
                     <i className="fa fa-caret-down"></i>
                   </span>
-                  <span className="list_images"><img src="images/list_item1.png"/>
+                  <span className="list_images"><img src="/images/list_item1.png"/>
                     <small>Spelt baguettes á la Hauge, Belgium</small>
                   </span>
                   <span className="items_price">kr 35,00</span>

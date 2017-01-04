@@ -366,6 +366,7 @@ height: 100%;
 	display: inline;
 	position: relative;
 	padding: 10px 24px;
+  z-index:0;
 }
 .home_top_category ul li img {
 	width: 100%;
@@ -629,7 +630,6 @@ color:#808080;
 /*:::::::::::::::::::::::::::::::::::::::::::::::::::::
  ===============EDIT PROFILE STYLE START===============
 :::::::::::::::::::::::::::::::::::::::::::::::::::::*/
-
 .header_rht_menu.profile_rht_header li {
 	letter-spacing:inherit;
 	position: relative;
@@ -639,8 +639,17 @@ color:#808080;
 	color: #00aca2;
 }
 .profile_rht_header.header_rht_menu li {
-	padding-right: 29px;
+	padding-right: 19px;
 }
+.profile_rht_header.header_rht_menu li.username_text{    padding-right: 0;
+    width: 110px;}
+.profile_rht_header.header_rht_menu li.username_text a{    height: 37px;
+    overflow: hidden;
+    float: left;
+    padding-right: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;}
 .profile_rht_header.header_rht_menu li a {
 	padding-right: 33px;
 }
@@ -660,10 +669,11 @@ color:#808080;
 	background: url(../images/chat_icon_hover.png) no-repeat right center;
 }
 .header_rht_menu.profile_rht_header li a.user_icon {
-	background: url(../images/baker_icon.png) no-repeat right center;
+	background: url(../images/baker_icon.png) no-repeat center center;
+	height:31px;
 }
 .header_rht_menu.profile_rht_header li a.user_icon:hover {
-	background: url(../images/baker_icon_hover.png) no-repeat right center;
+	background: url(../images/baker_icon_hover.png) no-repeat center center;
 }
 .user_toggle_div {
 	border: 1px solid #cccccc;
@@ -707,7 +717,7 @@ color:#808080;
 	border-top: 1px solid #cccccc;
 	float: left;
 	width: 100%;
-	padding-top: 69px;
+	padding-top: 66px;
 }
 .menu_wrapper ul {
 	list-style: none;
@@ -1736,7 +1746,7 @@ width: 48%;
     position: absolute;
     top: 1px;
     width: auto;
-    height: 92%;
+    height: 60%;
     border-radius: 3px 0 0px 3px;
 	    margin-bottom: 0;
 }
@@ -1880,6 +1890,10 @@ width: 48%;
     margin: 0;
     width: auto;
 }
+.items_list_info ul li span.cross_items .delete_time{    margin: 0 0 0 13px;
+    padding: 0;
+    font-size: 12px;
+    float: none;}
 .delete_time {
     color: #808080;
     float: right;
@@ -2320,6 +2334,7 @@ padding-left:0;
 
 
 /*============index_header===========================*/
+
 .next_list{position:relative;}
 .next_list a {
   background: rgba(0, 0, 0, 0) url("../images/next_list.png") no-repeat scroll center center;
@@ -2334,7 +2349,7 @@ padding-left:0;
   display: none;
   position: absolute;
   right: -23px;
-  top: 51px;
+  top: 50px;
   width: 305px;
     background: #ffffff none repeat scroll 0 0;
 z-index:99999;
@@ -2357,7 +2372,7 @@ z-index:99999;
 
   float: left;
   list-style: outside none none;
-  min-height: 740px;
+  min-height: 53vh;
   width: 100%;
 }
 .items_list_info ul li {
@@ -2382,7 +2397,9 @@ height:30px;
   float: left;
   width: 54%;
 }
-.list_images img{float:left;}
+.list_images img{    float: left;
+    width: 30px;
+    height: 31px;}
 .list_images small{
     color: #808080;
     font-size: 12px;
@@ -2422,24 +2439,31 @@ font-weight:600;
   font-size: 12px;
   height: 10px;
   padding: 0;
+
   position: relative;
   text-align: center;
-  top: -9px;
+    top: -7px;
 }
-.sr_no .fa-caret-up{  color: #cccccc;
+.sr_no .fa-caret-up{      color: #cccccc;
     display: inline-block;
     font-size: 16px;
     left: 1px;
     line-height: normal;
     position: relative;
-    top: -7px;}
+    background: none;
+    padding: 0;
+    top: -4px;
+    margin: 0;}
 
 .sr_no .fa-caret-down {
-  color: #cccccc;
-  font-size: 16px;
-  left: 1px;
-  position: relative;
-  top: -10px;
+    color: #cccccc;
+    font-size: 16px;
+    left: 1px;
+    background: none;
+    padding: 0;
+    position: relative;
+    top: -10px;
+    margin: 0;
 }
 .tot_price_item{
 padding-right: 19px;
