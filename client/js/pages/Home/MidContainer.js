@@ -24,4 +24,3 @@ export default class MidContainer extends React.Component {
     );
   }
 }
-

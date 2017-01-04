@@ -10,6 +10,9 @@ router.route('/orders').get(OrderController.getOrders);
 // Get one Order by cuid
 router.route('/orders/:cuid').get(OrderController.getOrder);
 
+// Get one Cart by cuid
+router.route('/cart/:cuid').get(OrderController.getCart);
+
 
 router.route('/orders/cart/:cuid').get(OrderController.cartCheckout);
 
@@ -21,5 +24,7 @@ router.route('/carts').post(OrderController.addCart);
 
 // Add to cart
 router.route('/remove/cart_items').delete(OrderController.removeCartItems);
+// Empty cart
+router.route('/empty/cart').delete(OrderController.emptyCart);
 
 export default router;

@@ -10,7 +10,7 @@ export default class Banner extends React.Component {
     super(props);
     this.state = {
       file: '',
-      imagePreviewUrl: this.props.name,
+      imagePreviewUrl: this.props.name
     };
     this._handleImageChange = this._handleImageChange.bind(this);
   }
@@ -37,8 +37,9 @@ export default class Banner extends React.Component {
       }
       const uploadedImagePath = JSON.parse(res.text);
       this.setState({
-        uploadedImages: uploadedImagePath.bgimage_url
+        uploadedImages: uploadedImagePath.bgimage_url      
       });
+      console.log(this.state.uploadedImages)
     });   
   }
   render(){
@@ -55,7 +56,7 @@ export default class Banner extends React.Component {
     }
     else{
        $imagePreview = ( <img src={require("../../../images/review_banner.jpg")} />)
-    }
+    }       
     return(
       <div className="banner_wrapper" >
         {$imagePreview}
