@@ -21,7 +21,9 @@ export function addOrder(req, res) {
       if (err) {
         return res.status(500).send(err);
       }
-      Cart.findOne({cuid: req.body.cart_cuid}).select("cartitems -_id").exec(function(err, data) {
+      Cart.findOne({cuid: req.body.cart_cuid}).select("total_price total_weight total_qty cartitems -_id").exec(function(err, data) {
+        console.log('data')
+        console.log(data)
         if(err){
           return res.status(500).send({err_msg: "Your cart is empty"});
         }
@@ -45,6 +47,9 @@ export function addOrder(req, res) {
               order.orderitems.push(orderitem);
               order.products.push(orderitem._product);
               if(data.cartitems.length == order.orderitems.length) {
+                order.total_amount = data.total_price;
+                order.total_weight = data.total_weight;
+                order.total_qty = data.total_qty;
                 order.save(function (errors, order1) {
                   if (errors){
                     return res.status(500).send(errors);
@@ -87,6 +92,17 @@ export function getOrder(req, res) {
 }
 
 
+export function getCart(req, res) {
+  Cart.findOne({ cuid: req.params.cuid }).exec((err, cart) => {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    else{
+      return res.json({ cart });
+    }
+  });
+}
+
 export  function cartCheckout (req, res) {
   var totalweight = 1000;
   Cart.find({cuid: req.params.cuid}).select("cartitems user -_id").exec(function(err,data) {
@@ -120,33 +136,33 @@ export  function cartCheckout (req, res) {
   });
 }
 
-export  function getShippingPrice(to_pin, from_pin, totalweight){
-  console.log('to_pin')
-  console.log(to_pin)
-  console.log('from_pin')
-  console.log(from_pin)
-  console.log(totalweight)
-  let clientUrl = 'http://localhost:3000'
-  let options = {
-        uri : "https://api.bring.com/shippingguide/products/price.json?from="+from_pin+"&to="+to_pin+"&clientUrl="+clientUrl+"&weightInGrams="+totalweight+"",
-        method : 'GET'
-    };
-    let res = '';
-    request(options, function (error, response, body) {
-      console.log('body')
-      console.log(body)
-      console.log('response')
-      console.log(response)
-        if (!error && response.statusCode == 200) {
-          console.log(!error && response.statusCode == 200)
-          res = body;
-        }
-        else {
-          return res.json(500,{err_msg: "Request not processed"});
-        }
-        // callback(res);
-    });
-}
+// export  function getShippingPrice(to_pin, from_pin, totalweight){
+//   console.log('to_pin')
+//   console.log(to_pin)
+//   console.log('from_pin')
+//   console.log(from_pin)
+//   console.log(totalweight)
+//   let clientUrl = 'http://localhost:3000'
+//   let options = {
+//         uri : "https://api.bring.com/shippingguide/products/price.json?from="+from_pin+"&to="+to_pin+"&clientUrl="+clientUrl+"&weightInGrams="+totalweight+"",
+//         method : 'GET'
+//     };
+//     let res = '';
+//     request(options, function (error, response, body) {
+//       console.log('body')
+//       console.log(body)
+//       console.log('response')
+//       console.log(response)
+//         if (!error && response.statusCode == 200) {
+//           console.log(!error && response.statusCode == 200)
+//           res = body;
+//         }
+//         else {
+//           return res.json(500,{err_msg: "Request not processed"});
+//         }
+//         // callback(res);
+//     });
+// }
 
 export function deleteOrder(req, res) {
   Order.findOne({ cuid: req.params.cuid }).exec((err, order) => {
@@ -161,16 +177,12 @@ export function deleteOrder(req, res) {
 
 export function addCart(req, res) {
   let flag = false;
-  console.log(req.body)
   User.findOne({  email: req.body.email }).exec((error, user) => {
     Cart.findOne({ user: user._id }).exec(function ( err, cart ){
-      console.log("cart")
-      console.log(cart)
       if (err) {
         return res.json(500,{error_msg: "Cart not found"});
       }
       if (!cart){
-        console.log(req.body.cartitems)
         const newCart = new Cart(req.body);
         newCart.cuid = cuid();
         newCart.user = user._id;
@@ -178,7 +190,7 @@ export function addCart(req, res) {
           if (error) {
             return res.status(500).send(error);
           }
-          return res.json({ cart: savedcart });
+          cart_sum(savedcart, null, res)
         });
       }else{
         cart.cartitems.forEach(function(item) {
@@ -190,26 +202,27 @@ export function addCart(req, res) {
           Cart.findOneAndUpdate(
             { "_id": cart._id, "cartitems.product_id": req.body.cartitems.product_id },
             { "$set": {
-                "cartitems.$": req.body.cartitems
+                "cartitems.$.qty": req.body.cartitems.qty
               }
             },{new: true}).exec(function(err, updated_cart_item){
               if (err){
                   return res.status(500).send(err);
                 }
                 else{
-                  return res.json({ cart: updated_cart_item});
+                   cart_sum(updated_cart_item, null, res)
+                  // return res.json({ cart: updated_cart_item});
                 }
             });
         }else{
           cart.update(
               {$pushAll: {"cartitems": [req.body.cartitems]}},
-              {safe: true, upsert: true},
+              {safe: true, upsert: true},{new: true},
               function(err, cart2) {
                 if (err){
                   return res.status(500).send(err);
                 }
                 else{
-                  return res.json({ cart: cart2});
+                  cart_sum(cart2, null, res)
                 }
               }
             );
@@ -217,6 +230,39 @@ export function addCart(req, res) {
       }
     });
   });
+}
+
+export  function cart_sum(cart, next, res){
+  let item_qty = 0;
+  let item_price = 0;
+  let total_price = 0;
+  let total_weight = 0;
+  let product_weight = 0;
+  cart.cartitems.forEach(function(item, index){
+    Product.findOne({ _id: item.product_id }).exec((err, product) => {
+      item_price = (product.price*item.qty);
+      product_weight = (product.portion*item.qty);
+      total_price += item_price;
+      total_weight += product_weight;
+      item_qty += item.qty;
+      Cart.findOneAndUpdate(
+        { "_id": cart._id, "cartitems.product_id": item.product_id  },
+        {
+            "$set": {
+                "total_price": total_price,
+                "total_qty": item_qty,
+                "total_weight": total_weight,
+                "cartitems.$.product_amt": item_price
+            }
+        },
+        {new: true}).
+        exec(function(err,doc) {
+          if (cart.cartitems.length == index+1){
+          return res.json({ cart: doc});
+          }
+        });
+    })
+  })
 }
 
 export function removeCartItems(req, res) {
@@ -234,3 +280,23 @@ export function removeCartItems(req, res) {
       res.status(200).end();
     });
 }
+
+
+export function emptyCart(req, res) {
+  Cart.findOneAndUpdate(
+    { "cuid": req.body.cuid},
+    {
+        "$set": {
+            "cartitems": [],
+            "total_qty": 0,
+            "total_price": 0
+        }
+    },
+    {new: true}).
+    exec(function(err,doc) {
+      if (err) {
+      return res.status(500).send({msg: err});
+      }
+      return res.status(200).send({msg: "Cart Empty"});
+    });
+  }

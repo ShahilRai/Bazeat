@@ -24,6 +24,7 @@ const orderSchema = new Schema({
   purchase_order: { type: Schema.ObjectId, ref: 'PurchaseOrder' },
   // payment: { type: Schema.ObjectId, ref: 'Payment' },
   total_weight: { type: Number, default: 0 },
+  total_qty: { type: Number, default: 0 },
   total_amount: { type: Number, default: 0 },
   vat: { type: Number, default: 0 },
   address: {
@@ -46,24 +47,6 @@ const orderSchema = new Schema({
 orderSchema.post('save', function(order) {
   Product.update({_id: {"$in": order.products }}, { $pushAll: {orders: [order] }}, {multi: true}, function(err) {
   });
-OrderItem.aggregate({ $match: {$and: [{ _order: order._id }]}
-                    },
-                    { $group: { _id : null,
-                      total_amt : { $sum: "$price" },
-                      total_wght: {$sum: "$weight"}
-                    } },
-                    function (err, result) {
-                      if (err) {
-                          console.log(err);
-                          return;
-                      }
-                      console.log("result[0]");
-                      console.log(typeof(result).Class);
-                      console.log(result.first());
-                      order.update({ $set: { total_weight : 12, total_amount: 12 }}, {multi:true}, function(err) {
-                      });
-                    });
-
 });
 
 export default mongoose.model('Order', orderSchema);
