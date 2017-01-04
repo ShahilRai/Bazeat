@@ -1238,7 +1238,7 @@ ul.edit_sidbar_list li a:hover, ul.edit_sidbar_list li.active a {
 }
 .product_detail_lft.prduct_small_icon{    width: 214px;
     margin-top: -48px;}
-    
+
 .product_detail_lft.prduct_small_icon img{
    width: auto;
    height: 203px;
@@ -1891,6 +1891,10 @@ width: 48%;
     margin: 0;
     width: auto;
 }
+.items_list_info ul li span.cross_items .delete_time{    margin: 0 0 0 13px;
+    padding: 0;
+    font-size: 12px;
+    float: none;}
 .delete_time {
     color: #808080;
     float: right;
@@ -2369,7 +2373,7 @@ z-index:99999;
 
   float: left;
   list-style: outside none none;
-  min-height: 76vh;
+  min-height: 53vh;
   width: 100%;
 }
 .items_list_info ul li {
@@ -2394,7 +2398,9 @@ height:30px;
   float: left;
   width: 54%;
 }
-.list_images img{float:left;}
+.list_images img{    float: left;
+    width: 30px;
+    height: 31px;}
 .list_images small{
     color: #808080;
     font-size: 12px;
@@ -2434,24 +2440,31 @@ font-weight:600;
   font-size: 12px;
   height: 10px;
   padding: 0;
+
   position: relative;
   text-align: center;
-  top: -9px;
+    top: -7px;
 }
-.sr_no .fa-caret-up{  color: #cccccc;
+.sr_no .fa-caret-up{      color: #cccccc;
     display: inline-block;
     font-size: 16px;
     left: 1px;
     line-height: normal;
     position: relative;
-    top: -7px;}
+    background: none;
+    padding: 0;
+    top: -4px;
+    margin: 0;}
 
 .sr_no .fa-caret-down {
-  color: #cccccc;
-  font-size: 16px;
-  left: 1px;
-  position: relative;
-  top: -10px;
+    color: #cccccc;
+    font-size: 16px;
+    left: 1px;
+    background: none;
+    padding: 0;
+    position: relative;
+    top: -10px;
+    margin: 0;
 }
 .tot_price_item{
 padding-right: 19px;

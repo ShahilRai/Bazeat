@@ -2,6 +2,7 @@ import React from 'react';
 import ProductDetails from '../AddProduct/ProductDetails';
 import ReactSlider from '../Product/ReactSlider';
 import pubSub from 'pubsub-js';
+import axios from 'axios';
 export default class WallImageViewer extends React.Component {
 
   static contextTypes = {
@@ -9,27 +10,47 @@ export default class WallImageViewer extends React.Component {
     user: React.PropTypes.object
   };
 
-   constructor() {
-      super();
+   constructor(props, context) {
+      super(props, context);
       this.state = {
-        added : false
+        added : false,
+        cartProductItems: {
+          product_id: '',
+          qty: 1
+        }
       }
    }
 
   addToCart(e) {
-    console.log(this.props.wallImages)
-      if(!this.state.added) {
-        PubSub.publish('cart.added', this.props.wallImages);
-      }
-       if(!this.state.added){
-          this.setState({
-            added: !this.state.added
-          });
+    var self = this
+    var cartProduct = this.state.cartProductItems
+    var cartData = this.props.wallImages;
+    cartData.qty = 1;
+    cartProduct.product_id = cartData.id
+    this.sendCartData(cartProduct, self.context.user.email).then((response) => {
+      if(response.data) {
+       if(!self.state.added) {
+          PubSub.publish('cart.added', cartData);
         }
+       if(!self.state.added){
+        self.setState({
+          added: !self.state.added
+        });
+       }
+      }
+    }).catch((err) => {
+      console.log(err);
+    });
+  }
+
+  sendCartData(cartArray, emailAddress) {
+    return axios.post("/api/carts" , {
+      email: emailAddress,
+      cartitems: cartArray
+    });
   }
 
   render() {
-    const data = this.props.wallImages;
     return (
       <div className="wall-column">
         <div className="grid_single_item">
@@ -59,4 +80,3 @@ export default class WallImageViewer extends React.Component {
     );
   }
 }
-
