@@ -289,7 +289,8 @@ export function emptyCart(req, res) {
         "$set": {
             "cartitems": [],
             "total_qty": 0,
-            "total_price": 0
+            "total_price": 0,
+            "total_weight": 0
         }
     },
     {new: true}).
