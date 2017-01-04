@@ -132,8 +132,8 @@ export default class UserHomePage extends React.Component {
     };
     var img;
     var uData;
-    if(this.state.userInformation.photo){
-      img = this.state.userInformation.photo
+    if(this.state.user.photo){
+      img = this.state.user.photo
     }else{
       img ="/images/review_logo.png"
     }
@@ -148,14 +148,14 @@ export default class UserHomePage extends React.Component {
 
     return(
       <div className="page_wrapper">
-        <Banner name="review_banner.jpg"/>
+        <Banner name={this.state.user.bgphoto}/>
         <div className="container">
           <div className="row">
             <div className="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-              <div className="product_detail_lft prduct_small_icon">
-                <UserLogo url = {img} p_class="prduct_thumb_lft_img" />
-                <UserPersonalInfo userInfo = {this.state.userInformation} />
+              <div className="prduct_small_icon">
+                <UserLogo url = {img} p_class="" />
               </div>
+              <UserPersonalInfo userInfo = {this.state.userInformation} />
             </div>
             <div className="col-lg-8 col-md-8 col-sm-9 col-xs-12 prht43">
               <div className="prduct_detail_rht">

@@ -187,6 +187,7 @@ a:hover {
 	width: 100%;
 	float: left;
 }
+
 .container {
 	max-width: 1280px;
 	width: 100%;
@@ -214,7 +215,8 @@ a:hover {
 	position: fixed;
     height: auto;
     width: 100%;
-        z-index: 99999;
+    z-index: 100;
+    top: 0;
     background-color: white;
 }
 .pdt30{
@@ -327,9 +329,23 @@ border: 1px solid #cccccc;
 	border-top: 1px solid #ccc;
 	border-bottom: 1px solid #ccc;
 	width: 100%;
+	text-align: center;
+	position: relative;
+	height: 407px;
+	overflow: hidden;
+}
+.img_upload_label{
+	position: absolute;
+	top: 128px;
+	color: #fff;
+	left: 2%;
+	border: 1px solid #fff;
+	padding: 5px 6px;
+	border-radius: 3px;
 }
 .banner_wrapper img {
-	width: 100%;
+	width: auto;
+height: 100%;
 }
 .mid_container {
 	padding: 45px 100px 15px;
@@ -646,8 +662,6 @@ color:#808080;
 }
 .header_rht_menu.profile_rht_header li a.user_icon {
 	background: url(../images/baker_icon.png) no-repeat right center;
-	    height: 30px;
-    padding-right:0;
 }
 .header_rht_menu.profile_rht_header li a.user_icon:hover {
 	background: url(../images/baker_icon_hover.png) no-repeat right center;
@@ -1214,16 +1228,25 @@ ul.edit_sidbar_list li a:hover, ul.edit_sidbar_list li.active a {
 }
 .product_detail_lft.prduct_small_icon{    width: 214px;
     margin-top: -48px;}
-
-.prduct_thumb_lft_img {
-    position: relative;
-    max-width: 230px;
-    border: 3px solid #fff;
-    margin-top: -127px;
-    border-radius: 10px;
-    margin-bottom: 22px;
-    width: 100%;
-    height: 100%;
+    
+.product_detail_lft.prduct_small_icon img{
+   width: auto;
+   height: 203px;
+   max-width: 203px;
+}
+.prduct_small_icon{width: 203px;
+border: 3px solid #fff;
+float: left;
+height: 203px;
+margin-top: -187px;
+margin-bottom: 20px;
+border-radius: 10px;
+text-align: center;
+background: #eee;}
+.prduct_small_icon img{
+max-width: 230px;
+width: auto;
+height: 100%;
 }
 ul.prod_lft_details {
 	list-style:none;
@@ -1873,6 +1896,7 @@ width: 48%;
   	width: 100%;
   	padding: 0 30px;
   }
+
 .checkbox input[type=checkbox]{
 	opacity:0;
 	margin:0;
@@ -1982,6 +2006,9 @@ width: 20%;
 :::::::::::::::::::::::::::::::::::::::::::::::::::::*/
 
 /*::::::::::::::STEP-1::::::::::::::*/
+input[type="file"] {
+    display: none;
+}
 .edited_img {
     position: relative;
 }
@@ -2828,13 +2855,13 @@ right: 15px;
 border: 0;
 }
 #cancel_account{
- display: block;
+	display: block;
 }
 #leave_account{
- display: none;
+	display: none;
 }
 #footer_cancel{
- display: none;
+	display: none;
 }
 /*============SEARCH V01===========================*/
 
