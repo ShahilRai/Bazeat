@@ -14,7 +14,8 @@ let userInformation = {
    photo : "",
    city : "",
    country : "",
-   description : ""
+   description : "",
+   bgphoto: ""
 };
 export default class UserHomePage extends React.Component {
 
@@ -33,7 +34,8 @@ export default class UserHomePage extends React.Component {
         email : '',
         city : '',
         country : '',
-        description : ''
+        description : '',
+        bgphoto: ''
       },
       data_loaded : false,
       cat_loaded : false
@@ -54,7 +56,8 @@ export default class UserHomePage extends React.Component {
             email : response.data.producer.email,
             city : response.data.producer.city,
             country : response.data.producer.country,
-            description : response.data.producer.description
+            description : response.data.producer.description,
+            bgphoto: response.data.producer.bgphoto
           },
           data_loaded: true
         });
@@ -81,7 +84,8 @@ export default class UserHomePage extends React.Component {
             email : response.data.producer.email,
             city : response.data.producer.city,
             country : response.data.producer.country,
-            description : response.data.producer.description
+            description : response.data.producer.description,
+            bgphoto: response.data.producer.bgphoto
           },
           cat_loaded: false,
           data_loaded: true
@@ -104,7 +108,8 @@ export default class UserHomePage extends React.Component {
             photo : userInformation.photo,
             city : userInformation.city,
             country : userInformation.country,
-            description : userInformation.description
+            description : userInformation.description,
+            bgphoto: userInformation.bgphoto
           },
           cat_loaded: true,
           data_loaded: false
@@ -128,12 +133,13 @@ export default class UserHomePage extends React.Component {
       photo : this.state.userInformation.photo,
       city : this.state.userInformation.city,
       country : this.state.userInformation.country,
-      description : this.state.userInformation.description
+      description : this.state.userInformation.description,
+      bgphoto: this.state.userInformation.bgphoto
     };
     var img;
     var uData;
-    if(this.state.user.photo){
-      img = this.state.user.photo
+    if(this.state.userInformation.photo){
+      img = this.state.userInformation.photo
     }else{
       img ="/images/review_logo.png"
     }
@@ -148,12 +154,12 @@ export default class UserHomePage extends React.Component {
 
     return(
       <div className="page_wrapper">
-        <Banner name={this.state.user.bgphoto}/>
+        <Banner name={this.state.userInformation.bgphoto}/>
         <div className="container">
           <div className="row">
             <div className="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-              <div className="prduct_small_icon">
-                <UserLogo url = {img} p_class="" />
+              <div className="product_detail_lft prduct_small_icon">
+                <UserLogo url = {img} p_class="prduct_thumb_lft_img" />
               </div>
               <UserPersonalInfo userInfo = {this.state.userInformation} />
             </div>
