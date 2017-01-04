@@ -2498,7 +2498,7 @@ margin-bottom:10px;display: inline-block;
     .map_search{    width: 100%;
     height: 550px;
     float: left;}
-.full_width_container{width: 100%; float: left;     padding-top: 69px;}
+.full_width_container{width: 100%; float: left;     padding-top: 100menupx;}
 .react-tabs [role=tablist].ReactTabs__TabList{    padding-top: 3px;
     padding-bottom: 3px;
     max-width: 764px;
