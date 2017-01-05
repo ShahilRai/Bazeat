@@ -211,13 +211,14 @@ a:hover {
 .header_wrapper {
 	width: 100%;
 	float: left;
-	padding: 12px 0 8px;
-    height: auto;
+	padding: 0;
+    height: 67px;
     width: 100%;
     z-index: 100;
     top: 0;
     background-color: white;
     position: fixed;
+
 }
 .pdt30{
   padding-top: 100px;
@@ -227,6 +228,7 @@ a:hover {
 
 .logo {
 	margin: 6px 25px 0 0;
+  padding-top: 12px;
 }
 .logo img {
 	height: auto;
@@ -235,6 +237,7 @@ a:hover {
 }
 .header_search_bar {
 	position: relative;
+	margin-top: 11px;
 }
 .header_wrapper.border_bottom{ border-bottom: 1px solid #ddd}
 .ReactTabs .react-tabs{ border-top: 1px solid #ddd }
@@ -275,6 +278,7 @@ border: 1px solid #cccccc;
 	width: 100%;
 	float: right;
 	text-align: right;
+	    padding-top: 12px;
 }
 .header_rht_menu li {
 	width: auto;
@@ -634,6 +638,7 @@ color:#808080;
 .header_rht_menu.profile_rht_header li {
 	letter-spacing:inherit;
 	position: relative;
+	    height: 50px;
 }
 .header_rht_menu.profile_rht_header li a:hover, .header_rht_menu.profile_rht_header li.active a {
 	background: inherit;
@@ -676,12 +681,15 @@ color:#808080;
 .header_rht_menu.profile_rht_header li a.user_icon:hover {
 	background: url(../images/baker_icon_hover.png) no-repeat center center;
 }
+.username_text:hover .user_toggle_div{
+	display:block;
+}
 .user_toggle_div {
 	border: 1px solid #cccccc;
 	right: 0;
 	padding-top: 0;
 	position: absolute;
-	top: 53px;
+	top: 100%;
 	z-index: 999;
 	width: 200px;
 	display: none;
@@ -697,6 +705,7 @@ color:#808080;
 	margin: 0;
 	padding-right: 0;
 	padding-left: 0;
+	height: auto;
 }
 .profile_rht_header.header_rht_menu li .user_toggle_div li:last-child {
 	border-bottom:0px;
@@ -2508,7 +2517,7 @@ margin-bottom:10px;display: inline-block;
     text-align: right;
 }
 .map_text{margin-top: 12px;}
-.location_icon{float: left;}
+.location_icon{float: left;    padding-top: 12px;}
 .location_icon button{    background: url(../images/locationIcon.png) no-repeat 0 0;
     width: 48px;
     float: left;

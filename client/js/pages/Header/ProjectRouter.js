@@ -77,8 +77,8 @@ export default class ProjectRouter extends React.Component {
           <Route path='/faq' component={FaqPage} />
           <Route path='/map-search' component={MapViewContainer} />
           <Route path='/search' component={DisplaySearch} />
-          <Route path='/viewcart' component={CheckoutContainer} />
           <AuthenticatedRoute>
+            <Route path='/viewcart' component={CheckoutContainer} />
             <Route path='/profile' component={ProfileContainer} />
             <Route path="/user/:userId" component={UserHomePage} />
             <Route path='/setting' component={ProfileContainer} />
