@@ -11,7 +11,7 @@ router.route('/orders').get(OrderController.getOrders);
 router.route('/orders/:cuid').get(OrderController.getOrder);
 
 // Get one Cart by cuid
-router.route('/cart/:cuid').get(OrderController.getCart);
+router.route('/cart/:email').get(OrderController.getCart);
 
 
 router.route('/orders/cart/:cuid').get(OrderController.cartCheckout);
@@ -22,7 +22,7 @@ router.route('/orders/:cuid').delete(OrderController.deleteOrder);
 // Add to cart
 router.route('/carts').post(OrderController.addCart);
 
-// Add to cart
+// Remove cartitems by _id
 router.route('/remove/cart_items').delete(OrderController.removeCartItems);
 // Empty cart
 router.route('/empty/cart').delete(OrderController.emptyCart);
