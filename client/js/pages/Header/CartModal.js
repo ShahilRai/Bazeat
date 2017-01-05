@@ -105,7 +105,6 @@ export default class CartModal extends React.Component {
     else{
       this.context.router.push('/login');
     }
-
   }
 
   render(){
@@ -117,7 +116,7 @@ export default class CartModal extends React.Component {
     }
     return(
       <li className="next_list" id="demo">
-        <a href="#">
+        <a href="javaScript:void(0)">
           <div className="items_list_info">
             <p className="empty_item_text">You have {this.state.total_items} items in your bag • <span  className="empty_bag" onClick={this.removeAllItems.bind(this)}>Empty bag</span></p>
             <ul>

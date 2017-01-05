@@ -1,5 +1,6 @@
 import React from 'react';
 import CheckoutStep from './CheckoutStep';
+import axios from "axios";
 
 export default class ShoppingBag extends React.Component {
 
@@ -15,6 +16,7 @@ export default class ShoppingBag extends React.Component {
       total_price: 0,
       total_items : 0,
       currency: 'kr',
+      item : {},
       incrCartProductItems: {
         product_id: '',
         qty: 1
@@ -94,19 +96,21 @@ export default class ShoppingBag extends React.Component {
 
 
   componentDidMount(){
-  this.loadCartItem().then((response) => {
-    if(response.data){
-      this.setState({
-      items : response.data.cartItem,
-      })
-    }
-  }).catch((err) =>{
-    console.log(err);
-    });
+    var email = this.context.user.email;
+    this.loadCartItem(email).then((response) => {
+      if(response.data){
+        this.setState({
+        item : response.data.cart,
+        items : response.data.cart ? response.data.cart.cartitems : 'null'
+        })
+      }
+    }).catch((err) =>{
+      console.log(err);
+      });
   }
 
-  loadCartItem() {
-    return axios.get("/api/cart?email="+email);
+  loadCartItem(email) {
+    return axios.get("/api/cart/"+email);
   }
 
   render() {
@@ -127,58 +131,27 @@ export default class ShoppingBag extends React.Component {
             </ul>
             <div className="items_list_info" style={{display: 'block'}}>
               <ul>
-                <li className="grey_bg">
+              {this.state.items.map((item, i)=>
+                <li key={i}>
                   <span className="sr_no">
-                    <i className="fa fa-caret-up"></i>
-                    <input className="form-control text-center" value="1" data-rule="quantity" type="text"/>
-                    <i className="fa fa-caret-down"></i>
+                    <button className="fa fa-caret-up" onClick={(e) => this.incrNumItems(e, i)}></button>
+                      <input type="text" className="form-control text-center" value={item.qty} data-rule="quantity" type="text" />
+                    <button className="fa fa-caret-down" onClick={(e) => this.decrNumItems(e, i)} ></button>
                   </span>
-                  <span className="list_images"><img src="/images/list_item1.png"/>
-                    <small>Spelt baguettes á la Hauge, Belgium</small>
+                  <span className="list_images">{item.id}
                   </span>
-                  <span className="items_price">kr 35,00</span>
-                  <span className="mva">15%</span>
-                  <span className="items_price">kr 35,00</span>
-                  <span className="del_bin">
-                    <img src="images/del_bin.png"/>
-                  </span>
+                <span className="items_price">{"kr " + item.price}</span>
+                <span className="mva">15%</span>
+                <span className="items_price">kr 35,00</span>
+                <span className="del_bin">
+                  <img src="images/del_bin.png"/>
+                </span>
                 </li>
-                <li>
-                  <span className="sr_no">
-                    <i className="fa fa-caret-up"></i>
-                    <input className="form-control text-center" value="1" data-rule="quantity" type="text"/>
-                    <i className="fa fa-caret-down"></i>
-                  </span>
-                  <span className="list_images"><img src="/images/list_item1.png"/>
-                    <small>Spelt baguettes á la Hauge, Belgium</small>
-                  </span>
-                  <span className="items_price">kr 35,00</span>
-                  <span className="mva">15%</span>
-                  <span className="items_price">kr 35,00</span>
-                  <span className="del_bin">
-                    <img src="images/del_bin.png"/>
-                  </span>
-                </li>
-                <li className="grey_bg">
-                  <span className="sr_no">
-                    <i className="fa fa-caret-up"></i>
-                    <input className="form-control text-center" value="1" data-rule="quantity" type="text"/>
-                    <i className="fa fa-caret-down"></i>
-                  </span>
-                  <span className="list_images"><img src="/images/list_item1.png"/>
-                    <small>Spelt baguettes á la Hauge, Belgium</small>
-                  </span>
-                  <span className="items_price">kr 35,00</span>
-                  <span className="mva">15%</span>
-                  <span className="items_price">kr 35,00</span>
-                  <span className="del_bin">
-                    <img src="images/del_bin.png"/>
-                  </span>
-                </li>
-              </ul>
+              )}
+            </ul>
               <div className="chkout_step1_footer">
-                <span className="chkout_step1_prod">In total 7 products</span>
-                <span className="chkout_step1_totalprice">Total price incl. MVA: kr 1999,00</span>
+                <span className="chkout_step1_prod">{"In total " +this.state.items.length +" products"}</span>
+                <span className="chkout_step1_totalprice">{"Total price incl. MVA: kr " + this.state.item.total_price}</span>
               </div>
             </div>
             <div className="chkout_step1btns">
