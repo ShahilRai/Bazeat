@@ -1228,7 +1228,7 @@ ul.edit_sidbar_list li a:hover, ul.edit_sidbar_list li.active a {
 }
 .product_detail_lft.prduct_small_icon{    width: 214px;
     margin-top: -48px;}
-    
+
 .product_detail_lft.prduct_small_icon img{
    width: auto;
    height: 203px;
@@ -2507,8 +2507,7 @@ margin-bottom:10px;display: inline-block;
     .dropdown.prod_dropdown{    width: 174px;
     float: left;}
     .range_slider_col{    width: 87%;
-    float: right;
-    margin-top: 4px;}
+    float: right;}
   .ReactTabs__TabPanel{border-top: 1px solid #ddd; width: 100%; float:left}
  @media only screen and (min-width:250px) and (max-width:760px) {
 .pad_25 {
@@ -2886,7 +2885,6 @@ border: 0;
  float: left;
     margin-right: 49px;
     width: 42%;
-  margin-top: 19px;
 }
 .prod_tab_section label{
  color: #5a646d;
