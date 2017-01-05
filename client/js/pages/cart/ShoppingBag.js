@@ -1,5 +1,5 @@
 import React from 'react';
-import ProductStep from './ProductStep';
+import CheckoutStep from './CheckoutStep';
 
 export default class ShoppingBag extends React.Component {
 
@@ -19,7 +19,7 @@ export default class ShoppingBag extends React.Component {
           <div className="chkout_pg chkoutstep1">
             <h3>Shopping bag</h3>
             <h4>Look over your shopping bag before continuing to payment</h4>
-            <ProductStep step={this.props.step}/>
+            <CheckoutStep step={this.props.step}/>
             <ul className="shopping_list_heading">
               <li className="shopping_no">Amount</li>
               <li className="shopping_prod">Product</li>

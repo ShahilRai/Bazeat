@@ -42,10 +42,9 @@ export default class CheckoutContainer extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="full_width">
         {this.checkoutStep()}
       </div>
     );
   }
 }
-

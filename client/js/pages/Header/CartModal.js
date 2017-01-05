@@ -102,6 +102,12 @@ export default class CartModal extends React.Component {
   }
 
   render(){
+    var goTOBagBtn
+    if(this.state.items.length<1){
+      goTOBagBtn = <button type="submit" className="btn pull-right redish_btn" onClick={this.openBag.bind(this)} disabled>Go to bag</button>
+    }else{
+      goTOBagBtn = <button type="submit" className="btn pull-right redish_btn" onClick={this.openBag.bind(this)}>Go to bag</button>
+    }
     return(
       <li className="next_list" id="demo">
         <a href="#">
@@ -126,7 +132,7 @@ export default class CartModal extends React.Component {
             <div className="list_item_footer">
               <span className="tot_price_item">Total</span>
               <span className="gross_price">{this.state.currency} {this.state.total_price} </span>
-              <button type="submit" className="btn pull-right redish_btn" onClick={this.openBag.bind(this)}>Go to bag</button>
+              {goTOBagBtn}
             </div>
           </div>
         </a>
