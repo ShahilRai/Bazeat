@@ -11,11 +11,10 @@ export default class OrderConfirmation extends React.Component {
       super();
       this.state = {
       }
-      this.confHentmat = this.confHentmat.bind(this);
+      this.orderConfHentmat = this.orderConfHentmat.bind(this);
   }
-  confHentmat(){
+  orderConfHentmat(){
     return(
-      <div>
         <div className="page_wrapper">
           <div className="header_wrapper brdr_btm">
             <div className="full_width ptop0">
@@ -51,14 +50,12 @@ export default class OrderConfirmation extends React.Component {
             </div>
           </div>
         </div>
-      </div>
-
       );
   }
   render() {
     return (
       <div>
-      {this.confHentmat()}
+        {this.orderConfHentmat()}
       </div>
     );
   }
