@@ -133,26 +133,32 @@ export function addBankAccount(req, res) {
                       if(err) {
                         return res.status(500).send(err);
                       } else {
-                        // stripe.fileUploads.create(
-                        //   {
-                        //     purpose: 'identity_document',
-                        //     file: {
-                        //       data: fs.readFileSync('/home/abhinav/Pictures/account.png'),
-                        //       name: 'account.png',
-                        //       type: 'application/octet-stream'
-                        //     }
-                        //   },
-                        //   {stripe_account: user.account_id}, function(err, file) {
-                        //     console.log(err)
-                        //     console.log("err")
-                        //     console.log(file)
-                        //   //   stripe.accounts.update(
-                        //   //   user.account_id,
-                        //   //   {legal_entity: {verification: {document: file.id}}}
-                        //   // );
-                        //   }
-                        // );
-                            return res.json({ account: account });
+                        stripe.fileUploads.create(
+                          {
+                            purpose: 'identity_document',
+                            file: {
+                              data: fs.readFileSync('/home/abhinav/Pictures/account.png'),
+                              name: 'account.png',
+                              type: 'application/octet-stream'
+                            }
+                          },
+                          {stripe_account: user.account_id}, function(err, file) {
+                            if(err) {
+                              return res.status(500).send(err);
+                            } else {
+                              stripe.accounts.update(
+                                user.account_id,
+                                {legal_entity: {verification: {document: file.id}}}, function(err, document) {
+                                  if(err) {
+                                    return res.status(500).send(err);
+                                  } else {
+                                    return res.json({ account: document });
+                                  }
+                                }
+                              );
+                            }
+                          }
+                        );
                       }
                     }
                   );

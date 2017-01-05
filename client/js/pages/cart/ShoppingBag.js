@@ -8,9 +8,106 @@ export default class ShoppingBag extends React.Component {
     user: React.PropTypes.object
   };
 
-   constructor() {
-      super();
+  constructor(props, context) {
+    super(props, context);
+    this.state = {
+      items: [],
+      total_price: 0,
+      total_items : 0,
+      currency: 'kr',
+      incrCartProductItems: {
+        product_id: '',
+        qty: 1
+      }
+    }
+  }
+
+  addItem(e, item) {
+    this.state.items.push(item);
+      this.setState({
+        total_price : item.price + this.state.total_price,
+        total_items : this.state.total_items + 1
+      })
+    this.forceUpdate();
+  }
+
+  incrNumItems(e, i) {
+  var self = this
+  var incrCartProduct = this.state.incrCartProductItems
+  incrCartProduct.product_id = this.state.items[i].id
+  this.incrCartData(incrCartProduct, self.context.user.email).then((response) => {
+    if(response.data) {
+      this.state.items[i].qty += 1 ;
+      this.setState({
+        total_price : this.state.total_price + this.state.items[i].price
+      })
+    }
+  }).catch((err) => {
+      console.log(err);
+    });
+  }
+
+   decrNumItems(e, i) {
+     var self = this
+     var incrCartProduct = this.state.incrCartProductItems
+     incrCartProduct.product_id = this.state.items[i].id
+     this.incrCartData(incrCartProduct, self.context.user.email).then((response) => {
+      if(response.data) {
+        if(this.state.items[i].qty > 1){
+          this.state.items[i].qty -= 1 ;
+          this.setState({
+            total_price : this.state.total_price - this.state.items[i].price
+          })
+        }
+      }
+    }).catch((err) => {
+      console.log(err);
+    });
    }
+
+  incrCartData(cartArray, emailAddress) {
+    return axios.post("/api/carts" , {
+      email: emailAddress,
+      cartitems: cartArray
+    });
+  }
+
+  removeItem(e, i) {
+    var self = this
+    var total_qty = this.state.items[i].qty
+    var price =  self.state.items[i].price
+    var total_price = total_qty * price
+    this.state.items.splice(i, 1)
+    this.setState({
+      total_price : self.state.total_price - total_price,
+      total_items : self.state.total_items - 1
+    })
+  }
+
+  removeAllItems(){
+    this.setState({
+     items : [],
+     total_price: 0,
+     total_items : 0
+    })
+  }
+
+
+  componentDidMount(){
+  this.loadCartItem().then((response) => {
+    if(response.data){
+      this.setState({
+      items : response.data.cartItem,
+      })
+    }
+  }).catch((err) =>{
+    console.log(err);
+    });
+  }
+
+  loadCartItem() {
+    return axios.get("/api/cart?email="+email);
+  }
 
   render() {
     return (

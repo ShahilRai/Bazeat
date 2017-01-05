@@ -97,8 +97,15 @@ export default class CartModal extends React.Component {
     })
   }
 
-  openBag(){
-     this.context.router.push('/viewcart');
+  openBag() {
+    if(this.context.authenticated == true)
+      {
+        this.context.router.push('/viewcart');
+      }
+    else{
+      this.context.router.push('/login');
+    }
+
   }
 
   render(){

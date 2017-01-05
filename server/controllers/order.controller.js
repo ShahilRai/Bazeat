@@ -22,8 +22,6 @@ export function addOrder(req, res) {
         return res.status(500).send(err);
       }
       Cart.findOne({cuid: req.body.cart_cuid}).select("total_price total_weight total_qty cartitems -_id").exec(function(err, data) {
-        console.log('data')
-        console.log(data)
         if(err){
           return res.status(500).send({err_msg: "Your cart is empty"});
         }
@@ -93,13 +91,15 @@ export function getOrder(req, res) {
 
 
 export function getCart(req, res) {
-  Cart.findOne({ cuid: req.params.cuid }).exec((err, cart) => {
-    if (err) {
-      return res.status(500).send(err);
-    }
-    else{
-      return res.json({ cart });
-    }
+  User.findOne({ email: req.params.email }).exec((err, user) => {
+    Cart.findOne({ user: user._id }).exec((err, cart) => {
+      if (err) {
+        return res.status(500).send(err);
+      }
+      else{
+        return res.json({ cart });
+      }
+    });
   });
 }
 
@@ -215,17 +215,17 @@ export function addCart(req, res) {
             });
         }else{
           cart.update(
-              {$pushAll: {"cartitems": [req.body.cartitems]}},
-              {safe: true, upsert: true},{new: true},
-              function(err, cart2) {
-                if (err){
-                  return res.status(500).send(err);
-                }
-                else{
-                  cart_sum(cart2, null, res)
-                }
+            {$pushAll: {"cartitems": [req.body.cartitems]}},
+            {safe: true, upsert: true},{new: true},
+            function(err, cart2) {
+              if (err){
+                return res.status(500).send(err);
               }
-            );
+              else{
+                cart_sum(cart2, null, res)
+              }
+            }
+          );
         }
       }
     });
@@ -259,6 +259,7 @@ export  function cart_sum(cart, next, res){
         exec(function(err,doc) {
           if (cart.cartitems.length == index+1){
           return res.json({ cart: doc});
+          console.log(doc)
           }
         });
     })
@@ -266,38 +267,72 @@ export  function cart_sum(cart, next, res){
 }
 
 export function removeCartItems(req, res) {
-  Cart.findOne({ cuid: req.body.cuid }).exec((err, cart) => {
+  let cartItem;
+  let item_qty = 0;
+  let item_price = 0;
+  let total_price = 0;
+  let total_weight = 0;
+  let product_weight = 0;
+  User.findOne({email: req.body.email}).exec((err,user) =>{
+  Cart.findOne({ user: user._id }).exec((err, cart) => {
     if (err) {
       return res.status(500).send(err);
     }
-    cart.cartitems.id(req.body.cartitem_id).remove();
-      cart.save(function(error){
-        if (error){
-          return res.status(500).send(err);
-        }
-        res.status(200).end();
-      });
-      res.status(200).end();
-    });
+    let cartItem = cart.cartitems.id(req.body.cartitem_id)
+    Product.findOne({ _id: cartItem.product_id }).exec((err, product) => {
+      item_price = (product.price*cartItem.qty);
+      product_weight = (product.portion*cartItem.qty);
+      total_price = (cart.total_price - item_price);
+      total_weight = (cart.total_weight - product_weight);
+      item_qty = (cart.total_qty - cartItem.qty);
+      Cart.findOneAndUpdate(
+        { "_id": cart._id},
+        {
+          "$set": {
+              "total_price": total_price,
+              "total_qty": item_qty,
+              "total_weight": total_weight
+          }
+        },
+        {new: true}).exec((err) => {
+          Cart.findOneAndUpdate( {'cartitems._id' : req.body.cartitem_id} ,
+            {
+              $pull: { cartitems: { _id: req.body.cartitem_id }}
+            },
+            {new: true},
+            function(err, doc){
+             if (err){
+              return res.status(500).send(err);
+             }
+             else{
+              return res.status(200).send({msg: "Cart item deleted"});
+             }
+          })
+        })
+    })
+  })
+  })
 }
 
 
 export function emptyCart(req, res) {
-  Cart.findOneAndUpdate(
-    { "cuid": req.body.cuid},
-    {
-        "$set": {
-            "cartitems": [],
-            "total_qty": 0,
-            "total_price": 0,
-            "total_weight": 0
+  User.findOne({email: req.body.email}).exec((err,user) =>{
+    Cart.findOneAndUpdate(
+      { "user": user._id},
+      {
+          "$set": {
+              "cartitems": [],
+              "total_qty": 0,
+              "total_price": 0,
+              "total_weight": 0
+          }
+      },
+      {new: true}).
+      exec(function(err,doc) {
+        if (err) {
+        return res.status(500).send({msg: err});
         }
-    },
-    {new: true}).
-    exec(function(err,doc) {
-      if (err) {
-      return res.status(500).send({msg: err});
-      }
-      return res.status(200).send({msg: "Cart Empty"});
+        return res.status(200).send({msg: "Cart Empty"});
     });
-  }
+  })
+}

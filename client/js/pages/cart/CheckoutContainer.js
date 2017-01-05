@@ -10,12 +10,14 @@ export default class CheckoutContainer extends React.Component {
     user: React.PropTypes.object
   };
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      step: 1
+      step: 1,
+      selected_method:''
     }
     this.nextStep = this.nextStep.bind(this)
+    this.methodChange =this.methodChange.bind(this)
   }
 
   nextStep() {
@@ -25,22 +27,29 @@ export default class CheckoutContainer extends React.Component {
     })
   }
 
+  methodChange(selected){
+    this.setState({
+      selected_method: selected
+    });
+  }
+
   checkoutStep() {
     switch (this.state.step) {
       case 1:
         return <ShoppingBag nextStep={this.nextStep} step={this.state.step}/>
       case 2:
-        return <DeliveryType nextStep={this.nextStep} step={this.state.step}/>
+        return <DeliveryType nextStep={this.nextStep} step={this.state.step} deliveryMethodChange={this.methodChange}/>
       case 3:
-        return <ProductPickupDate nextStep={this.nextStep} step={this.state.step}/>
+        return <ProductPickupDate nextStep={this.nextStep} step={this.state.step} method={this.state.selected_method}/>
       case 4:
-        return <OrderConfirmation nextStep={this.nextStep} step={this.state.step}/>
+        return <OrderConfirmation nextStep={this.nextStep} step={this.state.step} method={this.state.selected_method}/>
       case 5:
         return <Payment nextStep={this.nextStep} step={this.state.step}/>
     }
   }
 
   render() {
+    console.log(this.state.selected_method)
     return (
       <div className="full_width">
         {this.checkoutStep()}
