@@ -12,12 +12,12 @@ export default class ShowProductsSearch extends React.Component {
     this.state = {
       allProductsData : [],
       searchCategory : [],
-      categoryId:'',
-      categoryName:'',
+      categoryIds:[],
+      categoryNames:[],
       start: 0,
       end: 4000
     }
-    this.handleChange = this.handleChange.bind(this);
+    this.handleCheckBoxChange = this.handleCheckBoxChange.bind(this);
     this.priceRangeChange = this.priceRangeChange.bind(this);
   }
 
@@ -65,13 +65,13 @@ export default class ShowProductsSearch extends React.Component {
   }
 
   filteredProducts(){
-    var cId = this.state.categoryId;
+    var cIds = this.state.categoryIds;
     var minRnge = this.state.start;
     var maxRnge = this.state.end;
 
     if(!this.props.pName==''){
       var pName = this.props.pName;
-      this.fetchFilteredProducts(pName,minRnge,maxRnge,cId).then((response) => {
+      this.fetchFilteredProducts(pName,minRnge,maxRnge,cIds).then((response) => {
         if(response.data) {
           this.setState({
             allProductsData: response.data
@@ -82,7 +82,7 @@ export default class ShowProductsSearch extends React.Component {
       });
     }
     else{
-      this.fetchProducts(minRnge,maxRnge,cId).then((response) => {
+      this.fetchProducts(minRnge,maxRnge,cIds).then((response) => {
         if(response.data) {
           this.setState({
             allProductsData: response.data
@@ -94,21 +94,39 @@ export default class ShowProductsSearch extends React.Component {
     }
   }
 
-  fetchFilteredProducts(pName,minRnge,maxRnge,cId) {
-    return axios.get("/api/search/products?"+ "search=" + pName+ "&start_price="+ minRnge +"&end_price=" + maxRnge +"&category_id="+ cId, {
+  fetchFilteredProducts(pName,minRnge,maxRnge,cIds) {
+    return axios.get("/api/search/products?"+ "search=" + pName+ "&start_price="+ minRnge +"&end_price=" + maxRnge, {
+      params: {
+        category_id: cIds
+      }
     });
   }
 
-  fetchProducts(minRnge,maxRnge,cId) {
-    return axios.get("/api/search/products?"+"start_price="+ minRnge +"&end_price=" + maxRnge +"&category_id="+ cId, {
+  fetchProducts(minRnge,maxRnge,cIds) {
+    return axios.get("/api/search/products?"+"start_price="+ minRnge +"&end_price=" + maxRnge, {
+      params: {
+        category_id: cIds
+      }
     });
   }
 
-  handleChange(e){
+  handleCheckBoxChange(event){
+    const chckdValues=this.state.categoryIds
+    const chckdNames=this.state.categoryNames
+    let index
+    if (event.target.checked)
+      chckdValues.push(event.target.value),
+      chckdNames.push(event.target.name)
+    else {
+      index = chckdValues.indexOf(event.target.value)
+      chckdValues.splice(index, 1),
+      chckdNames.splice(index, 1)
+    }
+
     this.setState({
-      categoryId: e.target.value,
-      categoryName: e.target.options[e.target.selectedIndex].text
-    }, function () {
+      categoryIds : chckdValues,
+      categoryNames : chckdNames
+      }, function () {
         this.filteredProducts();
       }
     )
@@ -128,8 +146,8 @@ export default class ShowProductsSearch extends React.Component {
       <div className="tab-content clearfix">
         <div className="tab-pane active" id="productss">
           <div className="prod_tab_section">
-            <Filters value={this.state.value} priceRangeChange={this.priceRangeChange} searchCategory={this.state.searchCategory} handleChange={this.handleChange}/>
-            <AppliedFilters categoryName={this.state.categoryName}/>
+            <Filters value={this.state.value} priceRangeChange={this.priceRangeChange} searchCategory={this.state.searchCategory} handleChange={this.handleChange} handleCheckBoxChange={this.handleCheckBoxChange}/>
+            <AppliedFilters categoryName={this.state.categoryNames}/>
             <div className="prod_result1">
               <div className="container pad_lf120">
                 <h3 className="search_tabbd_heading text-left">Your search for <span className="italic">'{varNotify}'</span> returned <span className="italic">{this.state.allProductsData.length}</span> results</h3>

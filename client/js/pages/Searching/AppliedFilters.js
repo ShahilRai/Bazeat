@@ -9,9 +9,14 @@ export default class AppliedFilters extends React.Component {
           <div className="inner_filters">
             <h3>Apply Filters :</h3>
               <ul>
-                <li>
-                  <a href="#">{this.props.categoryName}<span>X</span></a>
-                </li>
+                {this.props.categoryName.map((categNames, index) => {
+                  return (
+                    <li>
+                      <a href="#">{categNames}<span>X</span></a>
+                    </li>
+                  )
+                })
+                }
                 <li>
                   <a href="#">Clear all<span>X</span></a>
                 </li>
