@@ -45,7 +45,7 @@ const userSchema = new Schema({
   address: { type: 'String' },
   country: { type: 'String' },
   postal_code: { type: 'String' },
-  birth_date: { type: 'Date', default: Date.now },
+  birth_date: { type: 'Date'},
   date_joined: { type: 'Date', default: Date.now },
   if_producer: { type: 'Boolean', default: false },
   if_user: { type: 'Boolean', default: false },
