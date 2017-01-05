@@ -3007,7 +3007,7 @@ border: 0;
     border: 1px solid #808080;
     border-radius: 3px;
     color: #808080;
-    display: none;
+    display: block;
     height: 131px;
     left: 28%;
     list-style: outside none none;
