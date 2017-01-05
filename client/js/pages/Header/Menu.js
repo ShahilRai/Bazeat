@@ -25,15 +25,16 @@ export default class Menu extends React.Component {
           </NotAuthenticated>
           <Authenticated>
             <li><a href="javascript:void(0)" className="message_icon">Messages</a></li>
-            <li className="username_text"><Link to={"/user/"+userId}>{this.context.user ? this.context.user.givenName : ""}</Link></li>
-            <li data-toggle="collapse" data-target="#user_toggle">
-            <a href="javascript:void(0)" className="user_icon"></a>
-              <ul className="user_toggle_div collapse" id="user_toggle" >
+            <li className="username_text"><Link to={"/user/"+userId}>{this.context.user ? this.context.user.givenName : ""}</Link>
+              <ul className="user_toggle_div" id="">
                 <li><a href="/profile">Edit Profile</a></li>
                 <li><a href="/setting">Settings</a></li>
                 <li><Link to="javascript:void(0)">Guides</Link></li>
                 <li><LogoutLink>Log out</LogoutLink></li>
               </ul>
+            </li>
+            <li data-toggle="collapse" data-target="">
+            <a href="javascript:void(0)" className="user_icon"></a>
             </li>
           </Authenticated>
           <CartModal />
