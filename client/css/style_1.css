@@ -3657,5 +3657,7 @@ button.more_days_btn{
 	margin-bottom:4px;
 	padding-bottom:0;
 }
-
+.checkout_form{
+	list-style: none;
+}
 
