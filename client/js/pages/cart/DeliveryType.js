@@ -8,19 +8,19 @@ export default class DeliveryType extends React.Component {
     user: React.PropTypes.object
   };
 
-   constructor() {
-      super();
-      this.state = {
-        delivery_method:"",
-      }
-   }
+  constructor() {
+    super();
+    this.state = {
+      delivery_method:"",
+    }
+  }
 
-   deliveryMethodChange(hkj){
-    alert(hkj)
+  deliveryMethodChange(hkj){
+  alert(hkj)
     this.setState({
       delivery_method: hkj
     });
-   }
+  }
 
   render() {
     return (

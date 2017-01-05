@@ -33,9 +33,9 @@ export default class CheckoutContainer extends React.Component {
         return <DeliveryType nextStep={this.nextStep} step={this.state.step}/>
       case 3:
         return <ProductPickupDate nextStep={this.nextStep} step={this.state.step}/>
-      case 4:  
+      case 4:
         return <OrderConfirmation nextStep={this.nextStep} step={this.state.step}/>
-      case 5:          
+      case 5:
         return <Payment nextStep={this.nextStep} step={this.state.step}/>
     }
   }

@@ -4,7 +4,8 @@ export default class CartModal extends React.Component {
 
   static contextTypes = {
     authenticated: React.PropTypes.bool,
-    user: React.PropTypes.object
+    user: React.PropTypes.object,
+    router: React.PropTypes.object.isRequired
   };
 
   constructor(props, context) {
@@ -96,6 +97,10 @@ export default class CartModal extends React.Component {
     })
   }
 
+  openBag(){
+     this.context.router.push('/viewcart');
+  }
+
   render(){
     return(
       <li className="next_list" id="demo">
@@ -121,7 +126,7 @@ export default class CartModal extends React.Component {
             <div className="list_item_footer">
               <span className="tot_price_item">Total</span>
               <span className="gross_price">{this.state.currency} {this.state.total_price} </span>
-              <button type="submit" className="btn pull-right redish_btn">Go to bag</button>
+              <button type="submit" className="btn pull-right redish_btn" onClick={this.openBag.bind(this)}>Go to bag</button>
             </div>
           </div>
         </a>
