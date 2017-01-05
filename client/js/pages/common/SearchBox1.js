@@ -43,22 +43,13 @@ export default class SearchBox1 extends React.Component {
       google.maps.event.addListener(searchBox, 'places_changed', function () {
         var places = searchBox.getPlaces();
         if (places.length == 0) {
-            return;
+          return;
         }
         var bounds = new google.maps.LatLngBounds();
-        console.log(bounds)
         for (var i = 0, place; place = places[i]; i++) {
-            var image = {
-                url: place.icon,
-                size: new google.maps.Size(71, 71),
-                origin: new google.maps.Point(0, 0),
-                anchor: new google.maps.Point(17, 34),
-                scaledSize: new google.maps.Size(25, 25)
-            };
-
-            bounds.extend(place.geometry.location);
+          bounds.extend(place.geometry.location);
         }
-    });
+      });
     }
   }
 
