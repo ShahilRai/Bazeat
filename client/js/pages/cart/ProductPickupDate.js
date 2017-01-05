@@ -18,7 +18,6 @@ export default class ProductPickupDate extends React.Component {
   }
   pickupdate(){
     return(
-      <div>
       <div className="full_width ptop0">
         <div className="chkout_pg chkoutstep3">
           <h3>Pickup date</h3>
@@ -56,111 +55,110 @@ export default class ProductPickupDate extends React.Component {
           </div>
         </div>
       </div>
-      </div>
     );
   }
 
   destination(){
     return(
       <div className="full_width ptop0">
-          <div className="chkout_pg chkoutstep3_2">
-            <h3>Destination</h3>
-            <h4>Where do you want your products delivered?</h4>
-            <div className="product_step_col">
-              <div className="steps_circle_col text-left">
-                <div className="steps_des_col">
-                  <span className="steps_circle_icon">1</span>
-                  <span className="step_name_col">Shopping<br/>bag</span>
-                </div>
-              </div>
-              <div className="steps_circle_col  text-center">
-                <div className="steps_des_col">
-                  <span className="steps_circle_icon">2</span>
-                  <span className="step_name_col">Delivery <br/> Method</span>
-                </div>
-              </div>
-              <div className="steps_circle_col  text-center">
-                <div className="steps_des_col">
-                  <span className="steps_circle_icon active">3</span>
-                  <span className="step_name_col active">Delivery <br/> Details</span>
-                </div>
-              </div>
-              <div className="steps_circle_col  text-center">
-                <div className="steps_des_col">
-                  <span className="steps_circle_icon">4</span>
-                  <span className="step_name_col">Confirmation</span>
-                </div>
-              </div>
-              <div className="steps_circle_col  text-right">
-                <div className="steps_des_col">
-                  <span className="steps_circle_icon">5</span>
-                  <span className="step_name_col">Payment</span>
-                </div>
+        <div className="chkout_pg chkoutstep3_2">
+          <h3>Destination</h3>
+          <h4>Where do you want your products delivered?</h4>
+          <div className="product_step_col">
+            <div className="steps_circle_col text-left">
+              <div className="steps_des_col">
+                <span className="steps_circle_icon">1</span>
+                <span className="step_name_col">Shopping<br/>bag</span>
               </div>
             </div>
-            <h5>We will ship the the goods to ADDRESS.</h5>
-            <div className="del_addr_heading"><h6>Please deliver at this address instead</h6></div>
-              <div className="del_det_form">
-                <div className="edit_prfile_detail_form">
-                  <h3>Details</h3>
-                  <form className="ptop30">
-                    <div className="passwrd_form">
-                      <div className="form-group row">
-                        <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">E-mail*</label>
-                        <div className="col-md-7 col-xs-12">
-                          <input className="form-control" value="" type="search" />
-                        </div>
-                      </div>
-                      <div className="form-group row">
-                        <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">First name*</label>
-                        <div className="col-md-7 col-xs-12">
-                          <input className="form-control" value="" type="search"/>
-                        </div>
-                      </div>
-                      <div className="form-group row">
-                        <label for="example-url-input" className="col-md-5 col-xs-12 col-form-label">C/O</label>
-                        <div className="col-md-7 col-xs-12">
-                          <input className="form-control" value="" type="email"/>
-                        </div>
-                      </div>
-                      <div className="form-group row">
-                        <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">Post code*</label>
-                        <div className="col-md-7 col-xs-12">
-                          <input className="form-control" value="" type="search"/>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="passwrd_form">
-                      <div className="form-group row">
-                        <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">Phone number*</label>
-                        <div className="col-md-7 col-xs-12">
-                          <input className="form-control" value="" type="search"/>
-                        </div>
-                      </div>
-                      <div className="form-group row">
-                        <label for="example-url-input" className="col-md-5 col-xs-12 col-form-label">Address*</label>
-                        <div className="col-md-7 col-xs-12">
-                        <input className="form-control" value="" type="email"/>
-                        </div>
-                      </div>
-                      <div className="form-group row">
-                        <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">City*</label>
-                        <div className="col-md-7 col-xs-12">
-                          <input className="form-control" value="" type="search"/>
-                        </div>
-                      </div>
-                    </div>
-                    <p className="mandatory_txt">* Mandatory fields</p>
-                    <div className="profile_gry_bot_bar chkout_step1btns">
-                      <button type="submit" className="btn btn-default continue_btn">Continue</button>
-                    </div>
-                  </form>
-                </div>
+            <div className="steps_circle_col  text-center">
+              <div className="steps_des_col">
+                <span className="steps_circle_icon">2</span>
+                <span className="step_name_col">Delivery <br/> Method</span>
+              </div>
+            </div>
+            <div className="steps_circle_col  text-center">
+              <div className="steps_des_col">
+                <span className="steps_circle_icon active">3</span>
+                <span className="step_name_col active">Delivery <br/> Details</span>
+              </div>
+            </div>
+            <div className="steps_circle_col  text-center">
+              <div className="steps_des_col">
+                <span className="steps_circle_icon">4</span>
+                <span className="step_name_col">Confirmation</span>
+              </div>
+            </div>
+            <div className="steps_circle_col  text-right">
+              <div className="steps_des_col">
+                <span className="steps_circle_icon">5</span>
+                <span className="step_name_col">Payment</span>
+              </div>
             </div>
           </div>
+          <h5>We will ship the the goods to ADDRESS.</h5>
+          <div className="del_addr_heading"><h6>Please deliver at this address instead</h6></div>
+            <div className="del_det_form">
+              <div className="edit_prfile_detail_form">
+                <h3>Details</h3>
+                <form className="ptop30">
+                  <div className="passwrd_form">
+                    <div className="form-group row">
+                      <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">E-mail*</label>
+                      <div className="col-md-7 col-xs-12">
+                        <input className="form-control" value="" type="search" />
+                      </div>
+                    </div>
+                    <div className="form-group row">
+                      <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">First name*</label>
+                      <div className="col-md-7 col-xs-12">
+                        <input className="form-control" value="" type="search"/>
+                      </div>
+                    </div>
+                    <div className="form-group row">
+                      <label for="example-url-input" className="col-md-5 col-xs-12 col-form-label">C/O</label>
+                      <div className="col-md-7 col-xs-12">
+                        <input className="form-control" value="" type="email"/>
+                      </div>
+                    </div>
+                    <div className="form-group row">
+                      <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">Post code*</label>
+                      <div className="col-md-7 col-xs-12">
+                        <input className="form-control" value="" type="search"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="passwrd_form">
+                    <div className="form-group row">
+                      <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">Phone number*</label>
+                      <div className="col-md-7 col-xs-12">
+                        <input className="form-control" value="" type="search"/>
+                      </div>
+                    </div>
+                    <div className="form-group row">
+                      <label for="example-url-input" className="col-md-5 col-xs-12 col-form-label">Address*</label>
+                      <div className="col-md-7 col-xs-12">
+                      <input className="form-control" value="" type="email"/>
+                      </div>
+                    </div>
+                    <div className="form-group row">
+                      <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">City*</label>
+                      <div className="col-md-7 col-xs-12">
+                        <input className="form-control" value="" type="search"/>
+                      </div>
+                    </div>
+                  </div>
+                  <p className="mandatory_txt">* Mandatory fields</p>
+                  <div className="profile_gry_bot_bar chkout_step1btns">
+                    <button type="submit" className="btn btn-default continue_btn">Continue</button>
+                  </div>
+                </form>
+              </div>
+          </div>
         </div>
-      );
-      }
+      </div>
+    );
+  }
 
   deliverToPerson(){
     return(
