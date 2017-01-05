@@ -9,6 +9,7 @@ export default class Header extends React.Component {
   static contextTypes = {
     authenticated: React.PropTypes.bool,
     user: React.PropTypes.object,
+    router: React.PropTypes.object.isRequired
   };
 
   constructor(props, context){
@@ -37,9 +38,13 @@ export default class Header extends React.Component {
   }
 
   render() {
+    var headerClass = "header_wrapper";
+    if(this.context.router.location.pathname == "/search"){
+      headerClass = "header_wrapper border_bottom"
+    }
     var userId = this.state.currentUser_cuid ? this.state.currentUser_cuid : ''
     return (
-      <div className="header_wrapper">
+      <div className={headerClass}>
         <div className="container pad_25">
           <div className="row">
             <Logo />

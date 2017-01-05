@@ -1,7 +1,17 @@
 import React from 'react';
-import { RangeSlider } from 'reactrangeslider';
+import $ from 'jquery';
+import ionRangeSlider from 'ion-rangeslider';
+import "ion-rangeslider/css/ion.rangeSlider.skinHTML5.css";
+import "ion-rangeslider/css/ion.rangeSlider.css";
 
 export default class ProductRangeSlider extends React.Component {
+
+  componentDidMount(){
+    $("#example_id").ionRangeSlider({
+      min: 0, max: 4000, from: 0, to:4000,
+      type: "double", step: 250, grid: true, onChange: this.props.priceRangeChange
+    });
+  }
 
   render() {
     var value= this.props.value
@@ -12,12 +22,7 @@ export default class ProductRangeSlider extends React.Component {
             <div data-role="rangeslider">
               <label htmlFor="price-min">Price:</label>
               <div className="range_slider_col">
-                <RangeSlider
-                  defaultValue={ value }
-                  min={ 0 }
-                  max={ 4000 }
-                  onChange={this.props.priceRangeChange}
-                  step={ 250 }/>
+                <input type="text" id="example_id" name="example_name" value="" />
               </div>
             </div>
           </form>
