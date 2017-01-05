@@ -95,12 +95,18 @@ export default class ShowProductsSearch extends React.Component {
   }
 
   fetchFilteredProducts(pName,minRnge,maxRnge,cIds) {
-    return axios.get("/api/search/products?"+ "search=" + pName+ "&start_price="+ minRnge +"&end_price=" + maxRnge +"&category_id[]="+ cIds, {
+    return axios.get("/api/search/products?"+ "search=" + pName+ "&start_price="+ minRnge +"&end_price=" + maxRnge, {
+      params: {
+        category_id: cIds
+      }
     });
   }
 
   fetchProducts(minRnge,maxRnge,cIds) {
-    return axios.get("/api/search/products?"+"start_price="+ minRnge +"&end_price=" + maxRnge +"&category_id[]="+ cIds, {
+    return axios.get("/api/search/products?"+"start_price="+ minRnge +"&end_price=" + maxRnge, {
+      params: {
+        category_id: cIds
+      }
     });
   }
 
