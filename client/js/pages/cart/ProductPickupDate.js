@@ -8,9 +8,10 @@ export default class ProductPickupDate extends React.Component {
     user: React.PropTypes.object
   };
 
-  constructor() {
-      super();
+  constructor(props) {
+      super(props);
       this.state = {
+        method:this.props.method
       }
       this.pickupdate = this.pickupdate.bind(this);
       this.destination = this.destination.bind(this);
@@ -97,7 +98,7 @@ export default class ProductPickupDate extends React.Component {
             </div>
           </div>
           <h5>We will ship the the goods to ADDRESS.</h5>
-          <div className="del_addr_heading"><h6>Please deliver at this address instead</h6></div>
+          <div className="del_addr_heading"><a href="javascript:void(0)"><h6>Please deliver at this address instead</h6></a></div>
             <div className="del_det_form">
               <div className="edit_prfile_detail_form">
                 <h3>Details</h3>
@@ -150,7 +151,7 @@ export default class ProductPickupDate extends React.Component {
                   </div>
                   <p className="mandatory_txt">* Mandatory fields</p>
                   <div className="profile_gry_bot_bar chkout_step1btns">
-                    <button type="submit" className="btn btn-default continue_btn">Continue</button>
+                    <button type="submit" className="btn btn-default continue_btn" onClick={this.props.nextStep}>Continue</button>
                   </div>
                 </form>
               </div>
@@ -212,16 +213,35 @@ export default class ProductPickupDate extends React.Component {
               Hel/halv gris kjører vi vanligvis hjem til deg med kjøle/frysebil. Kasser leverer vi fortrinnsvis selv eller med
               inneid hjelp fra et lokalt transportselskap, her har vi også kjøle/frysetransport.
               </p>
-              <button type="button" className="btn btn-default continue_btn">Continue</button>
+              <button type="button" className="btn btn-default continue_btn" onClick={this.props.nextStep}>Continue</button>
             </div>
           </div>
     );
   }
 
+  selected(){
+    if(this.state.method == 'hentemat'){
+      return(
+      this.pickupdate()
+      )
+    }
+    if(this.state.method == 'car'){
+      return(
+      this.deliverToPerson()
+      )
+    }
+    if(this.state.method == 'Sendemat'){
+      return(
+      this.destination()
+      )
+    }
+
+  }
+
   render() {
     return (
       <div>
-        {this.pickupdate()}
+        {this.selected()}
       </div>
     );
   }
