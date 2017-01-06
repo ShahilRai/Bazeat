@@ -12,7 +12,7 @@ export function addOrder(req, res) {
   User.findOne({ email: req.body.email }).exec((err, user) => {
     const newOrder = new Order();
     newOrder.cuid = cuid();
-    newOrder.address.post_code = user.postal_code;
+    newOrder.address.postal_code = user.postal_code;
     newOrder.address.city = user.city;
     newOrder.address.line1 = user.address;
     newOrder.address.country = user.country;
@@ -28,9 +28,11 @@ export function addOrder(req, res) {
         data.cartitems.forEach(function(item) {
           let total_weight = 0;
           let total_price = 0;
+          let food_vat_value = 0;
+          let shipment_vat_value = 0;
            Product.findOne({ _id: item.product_id }).exec((err, product) => {
             total_weight += (product.portion*item.qty)
-            total_price +=(product.price*item.qty)
+            total_price +=(product.calculated_price*item.qty)
             const newOrderItem = new OrderItem();
             newOrderItem.cuid = cuid();
             newOrderItem._order = order._id
@@ -45,9 +47,16 @@ export function addOrder(req, res) {
               order.orderitems.push(orderitem);
               order.products.push(orderitem._product);
               if(data.cartitems.length == order.orderitems.length) {
-                order.total_amount = data.total_price;
+                food_vat_value = (data.total_price-(data.total_price/(1+(0.15)))) ;
+                shipment_vat_value = (parseInt(req.body.shipment_price)-(parseInt(req.body.shipment_price)/(1+(0.25)))) ;
+                order.total_amount = data.total_price + food_vat_value + shipment_vat_value + parseInt(req.body.shipment_price) ;
                 order.total_weight = data.total_weight;
                 order.total_qty = data.total_qty;
+                order.shipment_price = parseInt(req.body.shipment_price);
+                order.food_vat_value = food_vat_value;
+                order.food_vat_value = food_vat_value;
+                order.shipment_vat_value = shipment_vat_value;
+                order.price_with_ship = data.total_price + parseInt(req.body.shipment_price) ;
                 order.save(function (errors, order1) {
                   if (errors){
                     return res.status(500).send(errors);
@@ -116,8 +125,7 @@ export  function cartCheckout (req, res) {
         async.forEach(cartitems,function(item,callback) {
           if (item.product_id.length > 0){
             Product.findOne({_id: item.product_id}).populate('_producer').exec(function(err, product) {
-              // console.log(product._producer.postal_code)
-              // let from_pin = product._producer.postal_code
+
               let from_pin = '1407'
                 if (err) {
                   throw err;
@@ -136,33 +144,57 @@ export  function cartCheckout (req, res) {
   });
 }
 
-// export  function getShippingPrice(to_pin, from_pin, totalweight){
-//   console.log('to_pin')
-//   console.log(to_pin)
-//   console.log('from_pin')
-//   console.log(from_pin)
-//   console.log(totalweight)
-//   let clientUrl = 'http://localhost:3000'
-//   let options = {
-//         uri : "https://api.bring.com/shippingguide/products/price.json?from="+from_pin+"&to="+to_pin+"&clientUrl="+clientUrl+"&weightInGrams="+totalweight+"",
-//         method : 'GET'
-//     };
-//     let res = '';
-//     request(options, function (error, response, body) {
-//       console.log('body')
-//       console.log(body)
-//       console.log('response')
-//       console.log(response)
-//         if (!error && response.statusCode == 200) {
-//           console.log(!error && response.statusCode == 200)
-//           res = body;
-//         }
-//         else {
-//           return res.json(500,{err_msg: "Request not processed"});
-//         }
-//         // callback(res);
-//     });
-// }
+export  function getShippingPrice(req, res){
+  let clientUrl = 'http://localhost:3000'
+  let order_postcode, order_weight;
+  User.find({email: req.query.email}).exec((err, user) =>{
+    Order.findOne({cuid: req.query.order_cuid}).exec((err, order) =>{
+      console.log('req.body')
+      console.log(req.body)
+      if (req.body.type == "update_address"){
+        Order.findOneAndUpdate({"_id": order._id},
+          {
+            "$set": {
+              "address.city": req.body.city,
+              "address.country": req.body.country,
+              "address.line1": req.body.line1,
+              "address.postal_code": req.body.postal_code,
+              "address.phone_num": req.body.phone_num,
+            }
+          },{new: true}
+          ).exec(function(err, updated_order){
+              order_postcode = updated_order.address.postal_code;
+              order_weight = updated_order.total_weight;
+
+          let options = {uri : "https://api.bring.com/shippingguide/products/price.json?from="+order_postcode+"&to="+user[0].postal_code+"&clientUrl="+clientUrl+"&weightInGrams="+order_weight+"",method : 'GET'
+          };
+          request(options, function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+              return res.json({body})
+            }
+            else {
+              return res.json({response});
+            }
+          });
+        });
+      }
+      else{
+        order_postcode = order.address.postal_code;
+        order_weight = order.total_weight;
+        let options = {uri : "https://api.bring.com/shippingguide/products/price.json?from="+order_postcode+"&to="+user[0].postal_code+"&clientUrl="+clientUrl+"&weightInGrams="+order_weight+"", method : 'GET'
+        };
+        request(options, function (error, response, body) {
+          if (!error && response.statusCode == 200) {
+            return res.json({body})
+          }
+          else {
+            return res.json({response});
+          }
+        });
+      }
+    })
+  })
+}
 
 export function deleteOrder(req, res) {
   Order.findOne({ cuid: req.params.cuid }).exec((err, order) => {
@@ -240,7 +272,7 @@ export  function cart_sum(cart, next, res){
   let product_weight = 0;
   cart.cartitems.forEach(function(item, index){
     Product.findOne({ _id: item.product_id }).exec((err, product) => {
-      item_price = (product.price*item.qty);
+      item_price = (product.calculated_price*item.qty);
       product_weight = (product.portion*item.qty);
       total_price += item_price;
       total_weight += product_weight;
@@ -259,7 +291,6 @@ export  function cart_sum(cart, next, res){
         exec(function(err,doc) {
           if (cart.cartitems.length == index+1){
           return res.json({ cart: doc});
-          console.log(doc)
           }
         });
     })
@@ -280,7 +311,7 @@ export function removeCartItems(req, res) {
     }
     let cartItem = cart.cartitems.id(req.body.cartitem_id)
     Product.findOne({ _id: cartItem.product_id }).exec((err, product) => {
-      item_price = (product.price*cartItem.qty);
+      item_price = (product.calculated_price*cartItem.qty);
       product_weight = (product.portion*cartItem.qty);
       total_price = (cart.total_price - item_price);
       total_weight = (cart.total_weight - product_weight);

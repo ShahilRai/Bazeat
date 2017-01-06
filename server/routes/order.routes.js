@@ -13,6 +13,9 @@ router.route('/orders/:cuid').get(OrderController.getOrder);
 // Get one Cart by cuid
 router.route('/cart/:email').get(OrderController.getCart);
 
+// Get one Shipping Price
+router.route('/shipping_price').put(OrderController.getShippingPrice);
+
 
 router.route('/orders/cart/:cuid').get(OrderController.cartCheckout);
 

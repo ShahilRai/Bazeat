@@ -6,14 +6,11 @@ import Ingredient from '../models/ingredient';
 import cuid from 'cuid';
 
 export function addProduct(req, res) {
-  console.log(req.body.fieldValues)
   User.findOne({ email: req.body.fieldValues.email }).exec((error, user) => {
     console.log(req.body.fieldValues)
-    // ProductCategory.findOne({name: req.body.fieldValues.product_category}).exec(function(err, pc){
       const newProduct = new Product(req.body.fieldValues);
       newProduct.cuid = cuid();
       newProduct._producer = user._id;
-      // newProduct.product_category = pc._id;
       newProduct.save((err, product) => {
         console.log(err)
         if (err) {
@@ -22,13 +19,21 @@ export function addProduct(req, res) {
         else{
           return res.json({ product: product });;
         }
-      // });
     })
   });
 }
 
+export function calculatePrice(req, res){
+  let baz_fee = 3;
+  let base_price = 0;
+  let calculated_price = 0;
+  let calculation = ((parseInt(req.query.price)*10)/100)+baz_fee
+  calculated_price = parseInt(req.query.price) + calculation;
+  base_price = parseInt(req.query.price);
+  return res.json({ base_price: base_price,calculated_price: calculated_price  });
+}
+
 export function updateProduct(req, res) {
-  console.log(req.body.fieldValues)
   Product.findOne({ cuid: req.params.cuid }).exec((err, product) => {
     Product.update({ cuid: req.params.cuid }, req.body.fieldValues, function(err, model) {
       ProductCategory.update({ _products: product._id }, {$pullAll: {_products: [product._id]}}, { safe: true, multi: true }, function(err, model) {
