@@ -273,12 +273,12 @@ export function removeCartItems(req, res) {
   let total_price = 0;
   let total_weight = 0;
   let product_weight = 0;
-  User.findOne({email: req.body.email}).exec((err,user) =>{
+  User.findOne({email: req.query.email}).exec((err,user) =>{
   Cart.findOne({ user: user._id }).exec((err, cart) => {
     if (err) {
       return res.status(500).send(err);
     }
-    let cartItem = cart.cartitems.id(req.body.cartitem_id)
+    let cartItem = cart.cartitems.id(req.query.cartitem_id)
     Product.findOne({ _id: cartItem.product_id }).exec((err, product) => {
       item_price = (product.price*cartItem.qty);
       product_weight = (product.portion*cartItem.qty);
@@ -295,9 +295,9 @@ export function removeCartItems(req, res) {
           }
         },
         {new: true}).exec((err) => {
-          Cart.findOneAndUpdate( {'cartitems._id' : req.body.cartitem_id} ,
+          Cart.findOneAndUpdate( {'cartitems._id' : req.query.cartitem_id} ,
             {
-              $pull: { cartitems: { _id: req.body.cartitem_id }}
+              $pull: { cartitems: { _id: req.query.cartitem_id }}
             },
             {new: true},
             function(err, doc){
@@ -305,7 +305,7 @@ export function removeCartItems(req, res) {
               return res.status(500).send(err);
              }
              else{
-              return res.status(200).send({msg: "Cart item deleted"});
+              return res.status(200).send({doc});
              }
           })
         })
