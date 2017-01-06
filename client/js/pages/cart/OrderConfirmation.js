@@ -1,4 +1,5 @@
 import React from 'react';
+import CheckoutStep from './CheckoutStep'
 
 export default class OrderConfirmation extends React.Component {
 
@@ -54,12 +55,22 @@ export default class OrderConfirmation extends React.Component {
       return(this.changeText3())
     }
   }
+
+  changeText4(){
+    if(this.state.method=='car'){
+      return(<h5>Your goods can be picked up</h5>)
+    }else{
+      return(<h5>Your goods are soon to be delivered!</h5>)
+    }
+  }
   orderConfHentmat(){
     return(
         <div className="page_wrapper">
           <div className="header_wrapper brdr_btm">
             <div className="full_width ptop0">
               <div className="chkout_pg chkoutstep4_1">
+                {this.changeText4()}
+                <CheckoutStep step={this.props.method}/>
                 {this.changeText()}
                 <div className="confirmation_step1">
                   <div className="inner_confrm1">
@@ -99,4 +110,5 @@ export default class OrderConfirmation extends React.Component {
     );
   }
 }
+
 

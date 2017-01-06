@@ -1,5 +1,5 @@
 import React from 'react';
-import ProductStep from './ProductStep';
+import CheckoutStep from './CheckoutStep';
 
 export default class ProductPickupDate extends React.Component {
 
@@ -17,13 +17,14 @@ export default class ProductPickupDate extends React.Component {
       this.destination = this.destination.bind(this);
       this.deliverToPerson = this.deliverToPerson.bind(this);
   }
+
   pickupdate(){
     return(
       <div className="full_width ptop0">
         <div className="chkout_pg chkoutstep3">
           <h3>Pickup date</h3>
           <h4>When can we expect to see you?</h4>
-          <ProductStep step={this.props.step}/>
+          <CheckoutStep step={this.props.step}/>
           <div className="pick_update">
             <div className="pickup_row1">
               <span className="pickup_day">Monday - December 11</span>

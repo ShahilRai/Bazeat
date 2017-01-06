@@ -1,5 +1,5 @@
 import React from 'react';
-import ProductStep from './ProductStep';
+import CheckoutStep from './CheckoutStep';
 
 export default class DeliveryType extends React.Component {
 
@@ -21,7 +21,7 @@ export default class DeliveryType extends React.Component {
           <div className="chkout_pg chkoutstep2">
             <h3>Delivery method</h3>
             <h4>Chose the desired delivery method for your order</h4>
-            <ProductStep step={this.props.step}/>
+            <CheckoutStep step={this.props.step}/>
             <div className="delvery_steps">
               <div className="del_step1">
                 <a href="javascript:void(0)" onClick={() =>{this.props.deliveryMethodChange('hentemat')}}><img src="images/hentemat.png" /></a>

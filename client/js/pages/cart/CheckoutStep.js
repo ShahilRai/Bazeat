@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class ProductStep extends React.Component {
+export default class CheckoutStep extends React.Component {
 
   static contextTypes = {
     authenticated: React.PropTypes.bool,
@@ -16,12 +16,13 @@ export default class ProductStep extends React.Component {
   }
 
   render() {
+    var current_step = this.props.step
     return (
       <div className="product_step_col">
         {this.state.checkoutStep.map((checkout, index) =>
-          <div className={"steps_circle_col"+checkout.class_Name}>
+          <div key={index} className={"steps_circle_col "+checkout.class_Name}>
           <div className="steps_des_col">
-            <span className="steps_circle_icon {(activestate == {index}) ? active : ''}">{index+1}</span>
+            <span className={'steps_circle_icon ' + this.pros.step?'active':''}>{index+1}</span>
             <span className="step_name_col active">{checkout.name}</span>
           </div>
         </div>

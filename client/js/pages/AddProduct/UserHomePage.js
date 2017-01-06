@@ -21,7 +21,7 @@ export default class UserHomePage extends React.Component {
 
   static contextTypes = {
     authenticated: React.PropTypes.bool,
-    user: React.PropTypes.object
+    user: React.PropTypes.object,
    }
 
   constructor(props, context) {
@@ -98,7 +98,8 @@ export default class UserHomePage extends React.Component {
   }
 
   selectCategoryData(category_id){
-    this.loadCategoryData(category_id).then((response) => {
+    cuid = this.props.params.userId
+    this.loadCategoryData(category_id, cuid ).then((response) => {
       if(response.data.products) {
         this.setState({
           user: response.data.products,
@@ -122,11 +123,12 @@ export default class UserHomePage extends React.Component {
     });
   }
 
-  loadCategoryData(category_id) {
-    return axios.get("/api/products/category/"+category_id);
+  loadCategoryData(category_id, cuid) {
+    return axios.get("/api/products/category/"+category_id+"&user_id"+ cuid);
   }
 
   render(){
+    console.log(this.props.userId)
     userInformation = {
       full_name : this.state.userInformation.full_name,
       email : this.state.userInformation.email,
