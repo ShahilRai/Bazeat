@@ -41,6 +41,9 @@ router.route('/details').get(ProductController.getDetails);
 // Get Producer Product details
 router.route('/user_products').get(ProductController.getUserProducts);
 
+// Calculate Price
+router.route('/calculate_price').get(ProductController.calculatePrice);
+
 // Get Producer Product details
 router.route('/handleproducts').put(ProductController.handleProducts);
 
