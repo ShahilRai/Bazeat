@@ -290,15 +290,6 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
   }
 });
 
-// app.post('/geocode/location', function (req, res){
-//   console.log(req.body)
-//   let address = (req.body.address + ', ' + req.body.country + ', ' + req.body.postal_code)
-//   let cmp_address = (req.body.cmp_address + ', ' + req.body.cmp_country + ', ' + req.body.cmp_postal_code)
-//   // console.log(address)
-//   geocoder.batchGeocode(([address, cmp_address]), function(err, response){
-//   console.log(response[1].value[0].latitude)
-//   })
-// });
 app.on('ExpressStrompath.ready', () => {
   // console.log('Stormpath Ready');
 });

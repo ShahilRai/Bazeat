@@ -41,7 +41,8 @@ const orderSchema = new Schema({
     country: { type: 'String' },
     phone_num: { type: 'String' }
   },
-  payment_status: { type: 'String' }
+  payment_status: { type: 'String' },
+  timeslots: []
 });
 
 

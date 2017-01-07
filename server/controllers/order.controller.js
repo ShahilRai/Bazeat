@@ -10,6 +10,10 @@ import request from 'request';
 
 export function addOrder(req, res) {
   User.findOne({ email: req.body.email }).exec((err, user) => {
+     let data = {};
+  if(req.body.shipping_type = 'hentemat'){
+    data.product_name = new RegExp(req.query.search, 'i');
+  }
     const newOrder = new Order();
     newOrder.cuid = cuid();
     newOrder.address.postal_code = user.postal_code;

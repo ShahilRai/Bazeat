@@ -1,5 +1,6 @@
 import User from '../models/user';
 import Order from '../models/order';
+import * as MailService from '../services/mailer';
 import cuid from 'cuid';
 import fs from 'fs';
 //Stripe Implementation
@@ -15,6 +16,7 @@ export function addUser(req, res) {
       return res.status(500).send(err);
     }
     else{
+      MailService.send_email(saved)
       return res.json({ user: saved });
     }
   });
@@ -210,6 +212,7 @@ export function Payment(req, res) {
                     if(err) {
                       return res.status(500).send(err);
                     } else {
+                      MailService.send_email(charge)
                       return res.json({ charge: charge });
                     }
                   });
