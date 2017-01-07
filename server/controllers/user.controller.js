@@ -22,7 +22,7 @@ export function addUser(req, res) {
 
 export function addTimeSlot(req, res) {
   User.findOneAndUpdate({ cuid: req.body.email }, {
-    $pushAll: { "producer_info.timeslots": [req.body.timeslots] }
+    $pushAll: { "timeslots": [req.body.timeslots] }
     }, {new: true}).exec((err, timeslot) => {
     if (err){
       return res.status(500).send(err);
@@ -34,15 +34,15 @@ export function addTimeSlot(req, res) {
 }
 
 export function removeTimeSlot(req, res) {
-  User.findOneAndUpdate({ "producer_info.timeslots._id": req.query.timeslot_id }, {
-        $pull: { "producer_info.timeslots": { _id: req.query.timeslot_id }}
-        },{new: true}).exec((err, timeslot) => {
-        if (err){
-          return res.status(500).send(err);
-         }
-         else {
-          return res.status(200).send({timeslot});
-         }
+  User.findOneAndUpdate({ "timeslots._id": req.query.timeslot_id }, {
+    $pull: { "timeslots": { _id: req.query.timeslot_id }}
+    },{new: true}).exec((err, timeslot) => {
+    if (err){
+      return res.status(500).send(err);
+     }
+     else {
+      return res.status(200).send({timeslot});
+     }
   });
 }
 

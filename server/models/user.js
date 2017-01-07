@@ -27,7 +27,6 @@ const ifProducer = new Schema({
     type: [Number],
     index: '2d'
   },
-  timeslots: [slotSchema],
 });
 
 const ifUser = new Schema({
@@ -72,6 +71,7 @@ const userSchema = new Schema({
     type: [Number],
     index: '2d'
   },
+  timeslots: [slotSchema],
   showInfo: { type: 'Boolean', default: false }
 });
 
@@ -79,6 +79,5 @@ userSchema.post('remove', function(user) {
   Product.update({_producer: {"$in": user._id }}, { $pullAll: {_producer: user._id }}, {multi: true}, function(err) {
   });
 });
-
 
 export default mongoose.model('User', userSchema);
