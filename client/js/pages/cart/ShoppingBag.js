@@ -18,8 +18,8 @@ export default class ShoppingBag extends React.Component {
       currency: 'kr',
       item : {},
       incrCartProductItems: {
-        product_id: '',
-        qty: 1
+      product_id: '',
+      qty: 1
       }
     }
   }
