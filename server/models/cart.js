@@ -5,7 +5,9 @@ const ObjectId = Schema.ObjectId;
 const cartitems = new Schema({
   product_id: { type: ObjectId, ref: 'Product' },
   product_amt: {type: 'Number', default: 0},
-  qty: Number
+  qty: Number,
+  product_image: { type: 'String' },
+  product_name: { type: 'String' }
 });
 
 
