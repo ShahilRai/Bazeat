@@ -53,7 +53,7 @@ export function addOrder(req, res) {
                 order.total_weight = data.total_weight;
                 order.total_qty = data.total_qty;
                 order.shipment_price = parseInt(req.body.shipment_price);
-                order.food_vat_value = food_vat_value;
+                order.food_vat_value = food_vat_value.toFixed(2);
                 order.food_vat_value = food_vat_value;
                 order.shipment_vat_value = shipment_vat_value;
                 order.price_with_ship = data.total_price + parseInt(req.body.shipment_price) ;
@@ -269,13 +269,17 @@ export  function cart_sum(cart, next, res){
   let total_price = 0;
   let total_weight = 0;
   let product_weight = 0;
+  let product_image, product_name;
   cart.cartitems.forEach(function(item, index){
     Product.findOne({ _id: item.product_id }).exec((err, product) => {
-      item_price = (product.calculated_price*item.qty);
+      item_price = (product.calculated_price*item.qty).toFixed(2);
       product_weight = (product.portion*item.qty);
       total_price += item_price;
+      total_price += item_price.toFixed(2);
       total_weight += product_weight;
       item_qty += item.qty;
+      product_image = product.photo;
+      product_name = product.product_name;
       Cart.findOneAndUpdate(
         { "_id": cart._id, "cartitems.product_id": item.product_id  },
         {
@@ -283,7 +287,9 @@ export  function cart_sum(cart, next, res){
                 "total_price": total_price,
                 "total_qty": item_qty,
                 "total_weight": total_weight,
-                "cartitems.$.product_amt": item_price
+                "cartitems.$.product_amt": item_price,
+                "cartitems.$.product_image": product_image,
+                "cartitems.$.product_name": product_name,
             }
         },
         {new: true}).

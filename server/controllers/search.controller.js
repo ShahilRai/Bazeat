@@ -39,8 +39,6 @@ export function usersResults(req, res) {
 
 
 export function productsResults(req, res) {
-  console.log(req.query.search)
-  console.log(req.query.category_id)
   let data = {};
   if(req.query.search){
     data.product_name = new RegExp(req.query.search, 'i');
