@@ -3,6 +3,14 @@ mongoose.plugin(require('meanie-mongoose-to-json'));
 const Schema = mongoose.Schema;
 import Product from '../models/product';
 
+const slotSchema = new Schema({
+  start_time: { type: 'String', required: true },
+  end_time: { type: 'String', required: true },
+  start_day: { type: 'String', required: true },
+  end_day: String
+});
+
+
 const ifProducer = new Schema({
   business_name: String,
   org_number: String,
@@ -19,7 +27,6 @@ const ifProducer = new Schema({
     type: [Number],
     index: '2d'
   },
-  timeslots: []
 });
 
 const ifUser = new Schema({
@@ -64,6 +71,7 @@ const userSchema = new Schema({
     type: [Number],
     index: '2d'
   },
+  timeslots: [slotSchema],
   showInfo: { type: 'Boolean', default: false }
 });
 
@@ -71,6 +79,5 @@ userSchema.post('remove', function(user) {
   Product.update({_producer: {"$in": user._id }}, { $pullAll: {_producer: user._id }}, {multi: true}, function(err) {
   });
 });
-
 
 export default mongoose.model('User', userSchema);
