@@ -53,7 +53,7 @@ export function addOrder(req, res) {
                 order.total_weight = data.total_weight;
                 order.total_qty = data.total_qty;
                 order.shipment_price = parseInt(req.body.shipment_price);
-                order.food_vat_value = food_vat_value;
+                order.food_vat_value = food_vat_value.toFixed(2);
                 order.food_vat_value = food_vat_value;
                 order.shipment_vat_value = shipment_vat_value;
                 order.price_with_ship = data.total_price + parseInt(req.body.shipment_price) ;
@@ -274,8 +274,6 @@ export  function cart_sum(cart, next, res){
   cart.cartitems.forEach(function(item, index){
     Product.findOne({ _id: item.product_id }).exec((err, product) => {
       product_total_price = (product.calculated_price*item.qty);
-      console.log('product_total_price')
-      console.log(product_total_price)
       item_price = (product.calculated_price);
       product_weight = (product.portion*item.qty);
       total_price += product_total_price;

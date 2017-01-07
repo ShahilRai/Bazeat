@@ -140,7 +140,7 @@ app.use(ExpressStrompath.init(app, {
   postRegistrationHandler: function (account, req, res, next) {
     account.getCustomData(function(err, data) {
       console.log('User:', account.email, 'just registered!');
-      const newUser = new User({full_name: account.fullName, unique_id: account.href, email: account.email});
+      const newUser = new User({full_name: account.fullName, unique_id: account.href, email: account.email, first_name: account.givenName, last_name: account.surname});
       newUser.cuid = cuid();
       if (data.is_producer == 'true'){
         newUser.if_producer = true;

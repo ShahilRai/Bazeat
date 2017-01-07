@@ -20,22 +20,29 @@ export function addUser(req, res) {
   });
 }
 
-export function timeSlot(req, res) {
-  User.findOne({ email: req.body.email }).exec((err, user) => {
-    if (user.if_producer == true)
-    {
-      let producer_info = user.producer_info;
-       producer_info.timeslots.push(req.body.timeslot)
-       user.save(function (err, user1) {
-        console.log(user1)
-        if (err){
-          return res.status(500).send(err);
-        }
-        else{
-          return res.json({ user: user1 });
-        }
-      });
+export function addTimeSlot(req, res) {
+  User.findOneAndUpdate({ cuid: req.body.email }, {
+    $pushAll: { "timeslots": [req.body.timeslots] }
+    }, {new: true}).exec((err, timeslot) => {
+    if (err){
+      return res.status(500).send(err);
+     }
+     else {
+      return res.status(200).send({timeslot});
     }
+  });
+}
+
+export function removeTimeSlot(req, res) {
+  User.findOneAndUpdate({ "timeslots._id": req.query.timeslot_id }, {
+    $pull: { "timeslots": { _id: req.query.timeslot_id }}
+    },{new: true}).exec((err, timeslot) => {
+    if (err){
+      return res.status(500).send(err);
+     }
+     else {
+      return res.status(200).send({timeslot});
+     }
   });
 }
 
@@ -176,7 +183,7 @@ export function addBankAccount(req, res) {
 export function Payment(req, res) {
   User.findOne({ email: req.body.email }).exec((err, user) => {
     Order.findOne({ _id: req.body.order_id }).exec((err, order) => {
-      console.log(order)
+      console.log(req.body)
       if (err) {
         return res.status(500).send(err);
       } else {
@@ -192,22 +199,28 @@ export function Payment(req, res) {
             console.log(err);
           } else {
             stripe.customers.createSource(
-              user.customer_id,
+              // user.customer_id,
+              'cus_9WyLwPSTFYCCIf',
               {source: token.id},
               function(err, card) {
-                stripe.charges.create({
-                  amount: order.total_amount,
-                  currency: "nok",
-                  customer: user.customer_id,
-                  source: card.id, // obtained with Stripe.js
-                  description: "Charge for " + user.email
-                }, function(err, charge) {
-                  if(err) {
-                    return res.status(500).send(err);
-                  } else {
-                    return res.json({ charge: charge });
-                  }
-                });
+                if(err) {
+                  console.log(err);
+                } else {
+                  stripe.charges.create({
+                    amount: Math.round(order.total_amount.toFixed(2)*100),
+                    currency: "nok",
+                    // customer: user.customer_id,
+                    customer: "cus_9WyLwPSTFYCCIf",
+                    source: card.id, // obtained with Stripe.js
+                    description: "Charge for " + user.email
+                  }, function(err, charge) {
+                    if(err) {
+                      return res.status(500).send(err);
+                    } else {
+                      return res.json({ charge: charge });
+                    }
+                  });
+                }
               }
             );
           }

@@ -3276,7 +3276,7 @@ h3.search_tabbd_heading{
 .categ_wdth ul{
   list-style:none;
 }
-.grey_bg{
+.grey_bg:hover{
   background:#F2F2F2;
 }
 .wdth_11{

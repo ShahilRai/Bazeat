@@ -82,6 +82,7 @@
     "react-tabs": "^0.8.2",
     "react-tap-event-plugin": "^2.0.1",
     "react-toastr": "^2.8.2",
+    "react-toggle-display": "^2.1.1",
     "reactrangeslider": "^3.0.6",
     "redux": "^3.5.2",
     "redux-thunk": "^2.1.0",
