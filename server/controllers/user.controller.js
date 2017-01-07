@@ -1,4 +1,5 @@
 import User from '../models/user';
+import Order from '../models/order';
 import cuid from 'cuid';
 import fs from 'fs';
 //Stripe Implementation
@@ -174,42 +175,45 @@ export function addBankAccount(req, res) {
 
 export function Payment(req, res) {
   User.findOne({ email: req.body.email }).exec((err, user) => {
-    if (err) {
-      return res.status(500).send(err);
-    } else {
-      stripe.tokens.create({
-      card: {
-        number: req.body.card_number, // 4000005780000007 I've tried 424242424242424242 and 5555555555554444 as a string and int but still have the same error.
-        exp_month: req.body.month,
-        exp_year: req.body.year,
-        cvc: req.body.cvc // I've also tried 999 as an int.
-        }
-      }, function(err, token) {
-        if(err) {
-          console.log(err);
-        } else {
-          stripe.customers.createSource(
-            user.customer_id,
-            {source: token.id},
-            function(err, card) {
-              stripe.charges.create({
-                amount: 2000,
-                currency: "nok",
-                customer: user.customer_id,
-                source: card.id, // obtained with Stripe.js
-                description: "Charge for " + user.email
-              }, function(err, charge) {
-                if(err) {
-                  return res.status(500).send(err);
-                } else {
-                  return res.json({ charge: charge });
-                }
-              });
-            }
-          );
-        }
-      })
-    }
+    Order.findOne({ _id: req.body.order_id }).exec((err, order) => {
+      console.log(order)
+      if (err) {
+        return res.status(500).send(err);
+      } else {
+        stripe.tokens.create({
+        card: {
+          number: req.body.card_number, // 4000005780000007 I've tried 424242424242424242 and 5555555555554444 as a string and int but still have the same error.
+          exp_month: req.body.month,
+          exp_year: req.body.year,
+          cvc: req.body.cvc // I've also tried 999 as an int.
+          }
+        }, function(err, token) {
+          if(err) {
+            console.log(err);
+          } else {
+            stripe.customers.createSource(
+              user.customer_id,
+              {source: token.id},
+              function(err, card) {
+                stripe.charges.create({
+                  amount: order.total_amount,
+                  currency: "nok",
+                  customer: user.customer_id,
+                  source: card.id, // obtained with Stripe.js
+                  description: "Charge for " + user.email
+                }, function(err, charge) {
+                  if(err) {
+                    return res.status(500).send(err);
+                  } else {
+                    return res.json({ charge: charge });
+                  }
+                });
+              }
+            );
+          }
+        })
+      }
+    })
   })
 }
 
