@@ -19,22 +19,29 @@ export function addUser(req, res) {
   });
 }
 
-export function timeSlot(req, res) {
-  User.findOne({ email: req.body.email }).exec((err, user) => {
-    if (user.if_producer == true)
-    {
-      let producer_info = user.producer_info;
-       producer_info.timeslots.push(req.body.timeslot)
-       user.save(function (err, user1) {
-        console.log(user1)
+export function addTimeSlot(req, res) {
+  User.findOneAndUpdate({ cuid: req.body.email }, {
+    $pushAll: { "producer_info.timeslots": [req.body.timeslots] }
+    }, {new: true}).exec((err, timeslot) => {
+    if (err){
+      return res.status(500).send(err);
+     }
+     else {
+      return res.status(200).send({timeslot});
+    }
+  });
+}
+
+export function removeTimeSlot(req, res) {
+  User.findOneAndUpdate({ "producer_info.timeslots._id": req.query.timeslot_id }, {
+        $pull: { "producer_info.timeslots": { _id: req.query.timeslot_id }}
+        },{new: true}).exec((err, timeslot) => {
         if (err){
           return res.status(500).send(err);
-        }
-        else{
-          return res.json({ user: user1 });
-        }
-      });
-    }
+         }
+         else {
+          return res.status(200).send({timeslot});
+         }
   });
 }
 
