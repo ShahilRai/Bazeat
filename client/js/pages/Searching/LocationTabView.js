@@ -4,7 +4,7 @@ export default class LocationTabView extends React.Component {
 
   render() {
     return (
-      <div className="search_row1">
+      <div className="search_row1 grey_bg">
         <div className="search_row_wdth">
           <span className="s_name wdth_11"><img  className="location_logo" src={this.props.locData.photo} /></span>
           <span className="s_name name_wdth26">{this.props.locData.full_name}</span>

@@ -11,29 +11,45 @@ export default class ShowLocationSearch extends React.Component {
     super(props, context);
     this.state = {
       allBazeaters : [],
-      showGoogleSearchBox : true
+      locationLat : 0,
+      locationLong : 0
     }
+    this.getLatLong = this.getLatLong.bind(this);
+    PubSub.subscribe('latlongitude', this.getLatLong);
   }
 
   componentDidMount(){
-    this.loadBazeaters().then((response) => {
-      if(response.data) {
-        this.setState({
-          allBazeaters: response.data.users
-        });
-      }
-    }).catch((err) => {
-        console.log(err);
+    this.getLatLong
+  }
+
+  getBazeaters(){
+    var latitude = this.state.locationLat
+    var longitude = this.state.locationLong
+    this.loadBazeaters(latitude, longitude).then((response) => {
+        if(response.data) {
+          this.setState({
+            allBazeaters: response.data
+          });
+        }
+      }).catch((err) => {
+          console.log(err);
+      });
+  }
+
+  loadBazeaters(latitude, longitude) {
+    return axios.get("/api/search/location?longitude=" + longitude + "&latitude=" + latitude , {
     });
   }
 
-  loadBazeaters() {
-    return axios.get("/api/users" , {
-    });
+  getLatLong(msg, latLong){
+    this.setState({
+      locationLat : latLong[0],
+      locationLong : latLong[1]
+    })
+    this.getBazeaters()
   }
 
   render() {
-    PubSub.publish( 'searchBoxTrue', this.state.showGoogleSearchBox );
     return (
       <div className="tab-pane" id="location">
         <div className="search_v1">
