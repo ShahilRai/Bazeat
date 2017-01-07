@@ -32,6 +32,8 @@ const ifUser = new Schema({
 
 const userSchema = new Schema({
   full_name: { type: 'String' },
+  first_name: { type: 'String' },
+  last_name: { type: 'String' },
   email: { type: 'String' },
   photo: { type: 'String' },
   bgphoto: { type: 'String' },

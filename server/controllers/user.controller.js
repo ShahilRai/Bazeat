@@ -176,7 +176,7 @@ export function addBankAccount(req, res) {
 export function Payment(req, res) {
   User.findOne({ email: req.body.email }).exec((err, user) => {
     Order.findOne({ _id: req.body.order_id }).exec((err, order) => {
-      console.log(order)
+      console.log(req.body)
       if (err) {
         return res.status(500).send(err);
       } else {
@@ -192,22 +192,28 @@ export function Payment(req, res) {
             console.log(err);
           } else {
             stripe.customers.createSource(
-              user.customer_id,
+              // user.customer_id,
+              'cus_9WyLwPSTFYCCIf',
               {source: token.id},
               function(err, card) {
-                stripe.charges.create({
-                  amount: order.total_amount,
-                  currency: "nok",
-                  customer: user.customer_id,
-                  source: card.id, // obtained with Stripe.js
-                  description: "Charge for " + user.email
-                }, function(err, charge) {
-                  if(err) {
-                    return res.status(500).send(err);
-                  } else {
-                    return res.json({ charge: charge });
-                  }
-                });
+                if(err) {
+                  console.log(err);
+                } else {
+                  stripe.charges.create({
+                    amount: Math.round(order.total_amount.toFixed(2)*100),
+                    currency: "nok",
+                    // customer: user.customer_id,
+                    customer: "cus_9WyLwPSTFYCCIf",
+                    source: card.id, // obtained with Stripe.js
+                    description: "Charge for " + user.email
+                  }, function(err, charge) {
+                    if(err) {
+                      return res.status(500).send(err);
+                    } else {
+                      return res.json({ charge: charge });
+                    }
+                  });
+                }
               }
             );
           }
