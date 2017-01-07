@@ -224,7 +224,8 @@ export function addCart(req, res) {
           }
           cart_sum(savedcart, null, res)
         });
-      }else{
+      }
+      else{
         cart.cartitems.forEach(function(item) {
           if(item.product_id == req.body.cartitems.product_id){
             flag = true;
@@ -242,22 +243,20 @@ export function addCart(req, res) {
                 }
                 else{
                    cart_sum(updated_cart_item, null, res)
-                  // return res.json({ cart: updated_cart_item});
                 }
             });
-        }else{
-          cart.update(
-            {$pushAll: {"cartitems": [req.body.cartitems]}},
-            {safe: true, upsert: true},{new: true},
-            function(err, cart2) {
+        }
+        else{
+          Cart.findOneAndUpdate(
+            { "_id": cart._id },
+            {$pushAll: {"cartitems": [req.body.cartitems]}},{new: true}).exec(function(err, cart2){
               if (err){
                 return res.status(500).send(err);
               }
               else{
                 cart_sum(cart2, null, res)
               }
-            }
-          );
+          });
         }
       }
     });
