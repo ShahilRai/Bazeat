@@ -266,15 +266,19 @@ export function addCart(req, res) {
 export  function cart_sum(cart, next, res){
   let item_qty = 0;
   let item_price = 0;
+  let product_total_price = 0;
   let total_price = 0;
   let total_weight = 0;
   let product_weight = 0;
   let product_image, product_name;
   cart.cartitems.forEach(function(item, index){
     Product.findOne({ _id: item.product_id }).exec((err, product) => {
-      item_price = (product.calculated_price*item.qty);
+      product_total_price = (product.calculated_price*item.qty);
+      console.log('product_total_price')
+      console.log(product_total_price)
+      item_price = (product.calculated_price);
       product_weight = (product.portion*item.qty);
-      total_price += item_price;
+      total_price += product_total_price;
       total_weight += product_weight;
       item_qty += item.qty;
       product_image = product.photo;
@@ -287,6 +291,7 @@ export  function cart_sum(cart, next, res){
                 "total_qty": item_qty,
                 "total_weight": total_weight,
                 "cartitems.$.product_amt": item_price,
+                "cartitems.$.product_total_amt": product_total_price,
                 "cartitems.$.product_image": product_image,
                 "cartitems.$.product_name": product_name,
             }
@@ -308,6 +313,7 @@ export function removeCartItems(req, res) {
   let total_price = 0;
   let total_weight = 0;
   let product_weight = 0;
+  let product_total_price = 0;
   User.findOne({email: req.query.email}).exec((err,user) =>{
   Cart.findOne({ user: user._id }).exec((err, cart) => {
     if (err) {
@@ -315,9 +321,10 @@ export function removeCartItems(req, res) {
     }
     let cartItem = cart.cartitems.id(req.query.cartitem_id)
     Product.findOne({ _id: cartItem.product_id }).exec((err, product) => {
+      product_total_price = (product.calculated_price*cartItem.qty);
       item_price = (product.calculated_price*cartItem.qty);
       product_weight = (product.portion*cartItem.qty);
-      total_price = (cart.total_price - item_price);
+      total_price = (cart.total_price - product_total_price);
       total_weight = (cart.total_weight - product_weight);
       item_qty = (cart.total_qty - cartItem.qty);
       Cart.findOneAndUpdate(
@@ -351,7 +358,7 @@ export function removeCartItems(req, res) {
 
 
 export function emptyCart(req, res) {
-  User.findOne({email: req.body.email}).exec((err,user) =>{
+  User.findOne({email: req.query.email}).exec((err,user) =>{
     Cart.findOneAndUpdate(
       { "user": user._id},
       {

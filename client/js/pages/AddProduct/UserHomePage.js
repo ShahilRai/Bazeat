@@ -128,7 +128,6 @@ export default class UserHomePage extends React.Component {
   }
 
   render(){
-    console.log(this.props.userId)
     userInformation = {
       full_name : this.state.userInformation.full_name,
       email : this.state.userInformation.email,

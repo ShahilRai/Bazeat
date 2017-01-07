@@ -14,6 +14,7 @@ export default class WallImageViewer extends React.Component {
       super(props, context);
       this.state = {
         added : false,
+        items : {},
         cartProductItems: {
           product_id: '',
           qty: 1
@@ -22,6 +23,8 @@ export default class WallImageViewer extends React.Component {
    }
 
   addToCart(e) {
+    console.log("wallImages")
+    console.log(this.props.wallImages)
     var self = this
     var cartProduct = this.state.cartProductItems
     var cartData = this.props.wallImages;
@@ -29,8 +32,12 @@ export default class WallImageViewer extends React.Component {
     cartProduct.product_id = cartData.id
     this.sendCartData(cartProduct, self.context.user.email).then((response) => {
       if(response.data) {
+        this.setState({
+          items : response.data.cart
+        })
+        console.log()
        if(!self.state.added) {
-          PubSub.publish('cart.added', cartData);
+          PubSub.publish('cart.added', this.state.items);
         }
        if(!self.state.added){
         self.setState({

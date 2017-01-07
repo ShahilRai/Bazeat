@@ -7,7 +7,9 @@ import ProductStep from './ProductStep';
 import LabelField from '../components/LabelField';
 import RadioButton from '../components/RadioButton';
 import moment from 'moment';
+import axios from 'axios';
 
+let prod_cal = 0;
 export default class AddProduct extends React.Component {
 
 	static contextTypes = {
@@ -26,8 +28,8 @@ export default class AddProduct extends React.Component {
       foodType: "",
       Product_name: "",
       description: "",
-      isPhoto: ""
-
+      isPhoto: "",
+      calculated_price: 0
 	  };
     this.handleChange = this.handleChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
@@ -152,13 +154,14 @@ export default class AddProduct extends React.Component {
         product_name: this.refs.product_name.value,
         description: this.refs.description.value,
         quantity: this.refs.quantity.value,
-        price: this.refs.price.value,
+        base_price: this.refs.price.value,
         portion: this.refs.portion.value,
         product_category: this.refs.product_category.value,
         expiry_date: this.refs.expiry_date.value,
         food_type: this.state.food_type ? this.state.food_type : (this.props.prodDetails ? this.props.prodDetails.food_type : ""),
         photo: this.state.photo ? this.state.photo : (this.props.prodDetails ? this.props.prodDetails.photo : ""),
-        email: this.context.user.email
+        email: this.context.user.email,
+        calculated_price: prod_cal
       }
     }
       this.props.nextStep()
@@ -167,6 +170,22 @@ export default class AddProduct extends React.Component {
   }
 
 	handleChange(e){
+    if(e.target.name == "price"){
+      this.getCalculatedPrice(e.target.value).then((response) => {
+      if(response.data) {
+        prod_cal = response.data.calculated_price
+        console.log("prod_cal")
+        console.log(prod_cal)
+        this.setState({
+          calculated_price: response.data.calculated_price
+        })
+      }else{
+
+      }
+      }).catch((err) => {
+        console.log(err);
+      });
+    }
     if(!(e.target.name == "expiry_date")){
       this.setState({
         prodDetails : {
@@ -202,9 +221,21 @@ export default class AddProduct extends React.Component {
     })
   }
 
+  getCalculatedPrice(base_price) {
+    return axios.get("/api/calculate_price" , {
+      params: {
+        price: base_price
+      }
+    });
+  }
+
 	render() {
+    var cal_txt;
     var categ = [];
     var chckd = false
+    if(this.state.calculated_price){
+      cal_txt = <p ref="abc">NB! To recieve the amount {this.state.prodDetails?this.state.prodDetails.price:"0.0"} kr, you should set the price to {this.state.calculated_price?this.state.calculated_price:{prod_cal}} kr</p>
+    }
     if(this.props.prodDetails){
       categ = this.props.prodDetails.product_category
     }
@@ -241,6 +272,7 @@ export default class AddProduct extends React.Component {
                 <input type="number" className="form-control" ref="portion" id="portion" name="portion" onChange={this.handleChange} value={this.state.prodDetails ? this.state.prodDetails.portion : this.refs.portion.value} placeholder="portion"/>
                 {this.state.portion}
               </div>
+                {cal_txt}
 							<div className="form-group custom_select">
 								<select className="form-control" name="product_category" ref="product_category" id="product_category" onChange={this.handleChange}>
 									{
