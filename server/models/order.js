@@ -12,6 +12,13 @@ import OrderItem from '../models/orderitem';
 //   productId: [{ type: ObjectId, ref: 'Product' }],
 // });
 
+const slotSchema = new Schema({
+  start_time: { type: 'String', required: true },
+  end_time: { type: 'String', required: true },
+  start_day: { type: 'String', required: true },
+  end_day: String
+});
+
 const orderSchema = new Schema({
   _buyer: ObjectId,
   cuid: { type: 'String', required: true },
@@ -42,7 +49,7 @@ const orderSchema = new Schema({
     phone_num: { type: 'String' }
   },
   payment_status: { type: 'String' },
-  timeslots: []
+  timeslot: [slotSchema]
 });
 
 

@@ -11,9 +11,7 @@ import request from 'request';
 export function addOrder(req, res) {
   User.findOne({ email: req.body.email }).exec((err, user) => {
      let data = {};
-  if(req.body.shipping_type = 'hentemat'){
-    data.product_name = new RegExp(req.query.search, 'i');
-  }
+
     const newOrder = new Order();
     newOrder.cuid = cuid();
     newOrder.address.postal_code = user.postal_code;
@@ -47,6 +45,9 @@ export function addOrder(req, res) {
             newOrderItem.save((err, orderitem) => {
               if (err) {
                 return res.status(500).send(err);
+              }
+              if(req.body.timeslot){
+                order.timeslot.push(req.body.timeslot);
               }
               order.orderitems.push(orderitem);
               order.products.push(orderitem._product);
@@ -197,6 +198,28 @@ export  function getShippingPrice(req, res){
         });
       }
     })
+  })
+}
+
+
+export function budamatAddress(req, res){
+  Order.findOneAndUpdate({"cuid": req.query.order_cuid},
+    {
+      "$set": {
+        "address.city": req.body.city,
+        "address.country": req.body.country,
+        "address.line1": req.body.line1,
+        "address.postal_code": req.body.postal_code,
+        "address.phone_num": req.body.phone_num,
+      }
+    },{new: true}
+      ).exec(function(err, updated_order){
+      if (err){
+        return res.status(500).send(err);
+      }
+      else{
+        return res.json({updated_order});
+      }
   })
 }
 
