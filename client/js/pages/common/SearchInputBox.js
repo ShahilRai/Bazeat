@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import {SearchBox } from 'react-google-maps';
 import PubSub from 'pubsub-js';
 
-export default class SearchBox1 extends React.Component {
+export default class SearchInputBox extends React.Component {
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired
