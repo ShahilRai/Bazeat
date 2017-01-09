@@ -12,13 +12,13 @@ export default class AppliedFilters extends React.Component {
                 {this.props.categoryName.map((categNames, index) => {
                   return (
                     <li>
-                      <a href="#">{categNames}<span>X</span></a>
+                      <a href="javascript:void(0)">{categNames}<span onClick={this.props.handlecategoryFilter} className={this.props.categoryIds[index]}>X</span></a>
                     </li>
                   )
                 })
                 }
                 <li>
-                  <a href="#">Clear all<span>X</span></a>
+                  <a href="javascript:void(0)">Clear all<span onClick={this.props.clearFilters}>X</span></a>
                 </li>
               </ul>
           </div>
