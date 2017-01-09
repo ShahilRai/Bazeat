@@ -231,7 +231,6 @@ export function handleProducts(req, res) {
     data['$set'] ={}
     data['$set']['is_disable'] = true;
   }
-
   User.findOne({ email: req.body.email }).exec((err, user) => {
     console.log(user._id)
     Product.update({_producer: user._id}, data, {multi: true}, function(err,product){
@@ -246,12 +245,14 @@ export function handleProducts(req, res) {
 // fetch all products by category_id
 
 export function getProductsByCategory(req, res) {
-  Product.find({ _producer: req.query.user_id, product_category: req.params.category_id }).exec((err, products) => {
-    if (err) {
-      return res.status(500).send(err);
-    }
-    else {
-      return res.json({ products });
-    }
+  User.findOne({email: req.query.email}).exec((err, producer) => {
+    Product.find({ _producer: producer._id, product_category: req.query.category_id }).exec((err, products) => {
+      if (err) {
+        return res.status(500).send(err);
+      }
+      else {
+        return res.json({ products });
+      }
+    });
   });
 }

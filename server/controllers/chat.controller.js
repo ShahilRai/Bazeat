@@ -64,7 +64,7 @@ export function getConversation(req, res, next) {
 
 
 export function newConversation(req, res, next) {
-   if(!req.params.recipient_id) {
+  if(!req.params.recipient_id) {
     res.status(422).send({ error: 'Please choose a valid recipient for your message.' });
     return next();
   }

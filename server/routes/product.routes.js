@@ -48,6 +48,6 @@ router.route('/calculate_price').get(ProductController.calculatePrice);
 router.route('/handleproducts').put(ProductController.handleProducts);
 
 //Get Products By Category
-router.route('/products/category/:category_id').get(ProductController.getProductsByCategory);
+router.route('/products/category').get(ProductController.getProductsByCategory);
 
 export default router;

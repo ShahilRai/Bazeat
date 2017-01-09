@@ -74,8 +74,9 @@ export default class UserHomePage extends React.Component {
   }
 
   selectCategoryData(category_id){
-    cuid = this.props.params.userId
-    this.loadCategoryData(category_id, cuid ).then((response) => {
+   var email = this.context.user.email;
+   var cuid = this.props.params.userId;
+    this.loadCategoryData(category_id, email ).then((response) => {
       if(response.data.products) {
         this.setState({
           user: response.data.products,
@@ -89,8 +90,8 @@ export default class UserHomePage extends React.Component {
     });
   }
 
-  loadCategoryData(category_id, cuid) {
-    return axios.get("/api/products/category/"+category_id+"&user_id"+ cuid);
+  loadCategoryData(category_id, email) {
+    return axios.get("/api/products/category?category_id="+category_id+"&email="+ email);
   }
 
   render(){
@@ -107,7 +108,7 @@ export default class UserHomePage extends React.Component {
     }
     if(this.state.cat_loaded && !this.state.data_loaded){
       uData = <ProductCollection cat_data = {this.state.user}/>
-    }
+  }
 
     return(
       <div className="page_wrapper">
