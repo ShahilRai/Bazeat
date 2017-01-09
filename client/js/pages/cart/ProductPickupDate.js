@@ -29,9 +29,9 @@ export default class ProductPickupDate extends React.Component {
     var month = date.getMonth();
     var dayOfMonth = date.getDate();
     for(i=0;i<this.state.displayed_day;i++){
-      this.day_month_date[i].day=this.day_month_date_time[day+i].day;
-      this.day_month_date[i].month=this.day_month_date_time[month].month;
-      this.day_month_date[i].date=dayOfMonth;
+      this.state.day_month_date[i].day=(this.state.day_month_date_time[(this.day)+i].day);
+      this.state.day_month_date[i].month=(this.state.day_month_date_time[month].month);
+      this.state.day_month_date[i].date=(dayOfMonth);
     }
   }
 
@@ -143,7 +143,65 @@ export default class ProductPickupDate extends React.Component {
             <h4>We would like you to know that...</h4>
             <CheckoutStep step={this.props.step}/>
             <h5>We will ship the the goods to ADDRESS.</h5>
-            <div className="del_addr_heading"><h6>Please deliver at this address instead</h6></div>
+            <div className="del_addr_heading"><a href="javascript:void(0)" onClick={() =>{this.displayForm()}}><h6>Please deliver at this address instead</h6></a></div>
+            <div  className="del_det_form">
+              <div id="checkout_form" className="edit_prfile_detail_form">
+                <h3>Details</h3>
+                <form className="ptop30">
+                  <div className="passwrd_form">
+                    <div className="form-group row">
+                      <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">E-mail*</label>
+                      <div className="col-md-7 col-xs-12">
+                        <input className="form-control" value="" type="search" />
+                      </div>
+                    </div>
+                    <div className="form-group row">
+                      <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">First name*</label>
+                      <div className="col-md-7 col-xs-12">
+                        <input className="form-control" value="" type="search"/>
+                      </div>
+                    </div>
+                    <div className="form-group row">
+                      <label for="example-url-input" className="col-md-5 col-xs-12 col-form-label">C/O</label>
+                      <div className="col-md-7 col-xs-12">
+                        <input className="form-control" value="" type="email"/>
+                      </div>
+                    </div>
+                    <div className="form-group row">
+                      <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">Post code*</label>
+                      <div className="col-md-7 col-xs-12">
+                        <input className="form-control" value="" type="search"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="passwrd_form">
+                    <div className="form-group row">
+                      <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">Phone number*</label>
+                      <div className="col-md-7 col-xs-12">
+                        <input className="form-control" value="" type="search"/>
+                      </div>
+                    </div>
+                    <div className="form-group row">
+                      <label for="example-url-input" className="col-md-5 col-xs-12 col-form-label">Address*</label>
+                      <div className="col-md-7 col-xs-12">
+                      <input className="form-control" value="" type="email"/>
+                      </div>
+                    </div>
+                    <div className="form-group row">
+                      <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">City*</label>
+                      <div className="col-md-7 col-xs-12">
+                        <input className="form-control" value="" type="search"/>
+                      </div>
+                    </div>
+                  </div>
+                  <p className="mandatory_txt">* Mandatory fields</p>
+                  {this.deliveryDetails()}
+                </form>
+                  <div className="profile_gry_bot_bar chkout_step1btns">
+                    <button type="submit" className="btn btn-default continue_btn" onClick={this.props.nextStep}>Continue</button>
+                  </div>
+              </div>
+          </div>
               <p>
               Når du skal betale varene du har lagt i handlekurven, kommer det opp et punkt som heter "Ønsker lever ing uke" under Leveringsmetode. Ved å velge en uke her, kan vi planlegge din levering. Vi gjør vårt beste
               for å levere den uken du har ønsket deg, men gjør oppmerksom på at det kan bli endringer pga. forhold
@@ -168,14 +226,14 @@ export default class ProductPickupDate extends React.Component {
       this.pickupdate()
       )
     }
-    if(this.state.method == 'car'){
-      return(
-      this.deliverToPerson()
-      )
-    }
     if(this.state.method == 'Sendemat'){
       return(
       this.destination()
+      )
+    }
+    if(this.state.method == 'Budmat'){
+      return(
+      this.deliverToPerson()
       )
     }
   }
