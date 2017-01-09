@@ -34,15 +34,15 @@ export default class ProducerProfilePage extends React.Component {
   componentDidMount() {
     var userEmail = this.context.user.email
     this.loadUserData(userEmail).then((response) => {
-        if(response.data.user) {
-          this.setState({
-            user: response.data.user,
-            producer_info: response.data.user.producer_info,
-            birth_date: moment(response.data.user.birth_date).format('YYYY-MM-DD'),
-            user_info: response.data.user.user_info,
-            data_loaded: true
-          });
-        }
+      if(response.data.user) {
+        this.setState({
+          user: response.data.user,
+          producer_info: response.data.user.producer_info,
+          birth_date: moment(response.data.user.birth_date).format('YYYY-MM-DD'),
+          user_info: response.data.user.user_info,
+          data_loaded: true
+        });
+      }
     }).catch((err) => {
         console.log(err);
     });
@@ -102,7 +102,7 @@ export default class ProducerProfilePage extends React.Component {
                 <div className="form-group row">
                   <LabelField htmlFor="email" className="col-md-4 col-xs-12 col-form-label" label="E-mail address" />
                   <div className="col-md-8 col-xs-12">
-                    <input type="email" className="form-control" id="email" name="email" required />
+                    <input type="email" className="form-control" id="email" name="email" disabled/>
                   </div>
                 </div>
                 <div className="form-group row">
