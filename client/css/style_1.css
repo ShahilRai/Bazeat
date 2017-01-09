@@ -3669,4 +3669,7 @@ button.more_days_btn{
 #checkout_form{
 	display: none;
 }
-
+.goto_shop_btn{
+	margin:200px;
+	margin-left:550px;
+}

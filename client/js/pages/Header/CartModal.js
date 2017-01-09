@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import LoginModal from '../Authenticate/LoginModal';
 export default class CartModal extends React.Component {
 
   static contextTypes = {
@@ -121,17 +122,21 @@ export default class CartModal extends React.Component {
     if(this.context.authenticated == true){
       this.context.router.push('/viewcart');
     }
-    else{
-      this.context.router.push('/login');
-    }
+    else
+      {
+        if(<LoginModal />)
+        {
+          this.context.router.push('/viewcart');
+        }
+      }
   }
 
   render(){
     var goTOBagBtn
-    if(this.state.items.length < 1){
-      goTOBagBtn = <button type="submit" className="btn pull-right redish_btn" onClick={this.openBag.bind(this)} disabled>Go to bag</button>
+    if(this.state.items.length<1){
+      goTOBagBtn = <button type="submit" className="btn pull-right redish_btn" data-toggle="modal" data-target="#login_modal" onClick={this.openBag.bind(this)} disabled>Go to bag</button>
     }else{
-      goTOBagBtn = <button type="submit" className="btn pull-right redish_btn" onClick={this.openBag.bind(this)}>Go to bag</button>
+      goTOBagBtn = <button type="submit" className="btn pull-right redish_btn" data-toggle="modal" data-target="#login_modal" onClick={this.openBag.bind(this)}>Go to bag</button>
     }
     return(
       <li className="next_list" id="demo">
