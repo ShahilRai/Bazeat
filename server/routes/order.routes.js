@@ -16,6 +16,9 @@ router.route('/cart/:email').get(OrderController.getCart);
 // Get one Shipping Price
 router.route('/shipping_price').put(OrderController.getShippingPrice);
 
+// Update order address when budamat
+router.route('/budamat_address').put(OrderController.budamatAddress);
+
 
 router.route('/orders/cart/:cuid').get(OrderController.cartCheckout);
 
