@@ -37,7 +37,7 @@ export default class Menu extends React.Component {
             <a href="javascript:void(0)" className="user_icon"></a>
             </li>
           </Authenticated>
-          <CartModal />
+          <CartModal _cartList = {this.props._cartList}/>
         </ul>
       </div>
     );

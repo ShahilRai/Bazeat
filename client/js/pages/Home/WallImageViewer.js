@@ -23,8 +23,6 @@ export default class WallImageViewer extends React.Component {
    }
 
   addToCart(e) {
-    console.log("wallImages")
-    console.log(this.props.wallImages)
     var self = this
     var cartProduct = this.state.cartProductItems
     var cartData = this.props.wallImages;
@@ -35,7 +33,6 @@ export default class WallImageViewer extends React.Component {
         this.setState({
           items : response.data.cart
         })
-        console.log()
        if(!self.state.added) {
           PubSub.publish('cart.added', this.state.items);
         }
@@ -76,7 +73,7 @@ export default class WallImageViewer extends React.Component {
             <img src={this.props.wallImages ? this.props.wallImages.photo : this.props.prodlist.photo} />
             <div className="grid_tile_desc">
               <h2>{this.props.wallImages ? this.props.wallImages.product_name : this.props.prodlist.product_name}</h2>
-              <span className="price_tag">kr {this.props.wallImages ? this.props.wallImages.price : this.props.prodlist.price}.00</span>
+              <span className="price_tag">kr {this.props.wallImages ? this.props.wallImages.calculated_price : this.props.prodlist.calculated_price}</span>
               <p>{this.props.wallImages ? this.props.wallImages.description : this.props.prodlist.description}</p>
             </div>
           </a>

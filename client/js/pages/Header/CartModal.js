@@ -11,9 +11,8 @@ export default class CartModal extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      items: [],
+      items: this.props._cartList ? this.props._cartList : [],
       total_price: '',
-      total_qty: '',
       currency: 'kr',
       incrCartProductItems: {
         product_id: '',
@@ -27,21 +26,17 @@ export default class CartModal extends React.Component {
   addItem(e, item) {
     this.setState({
       items: item.cartitems,
-      total_price: item.total_price,
-      total_qty: item.total_qty
+      total_price: item.total_price
     })
     this.forceUpdate();
   }
 
   incrNumItems(e, i) {
-    console.log("this.state.items[i].id")
-    console.log(this.state.items[i])
     var self = this
     var incrCartProduct = this.state.incrCartProductItems
     incrCartProduct.product_id = this.state.items[i].product_id
-    incrCartProduct.qty += 1
+    incrCartProduct.qty = this.state.items[i].qty + 1
     this.incrCartData(incrCartProduct, self.context.user.email).then((response) => {
-      console.log(response.data)
       if(response.data) {
         this.setState({
           items: response.data.cart.cartitems,
@@ -55,28 +50,27 @@ export default class CartModal extends React.Component {
 
   decrNumItems(e, i) {
    var self = this
-   var incrCartProduct = this.state.incrCartProductItems
-   incrCartProduct.product_id = this.state.items[i].id
-   this.incrCartData(incrCartProduct, self.context.user.email).then((response) => {
-    if(response.data) {
-      if(this.state.items[i].qty > 1){
-        this.state.items[i].qty -= 1 ;
-      }
-      if(this.state.items[i].qty>1){
-        this.setState({
-          total_price : this.state.total_price - this.state.items[i].price
-        })
-      }
+   if(this.state.items[i].qty > 1){
+    var incrCartProduct = this.state.incrCartProductItems
+    incrCartProduct.product_id = this.state.items[i].product_id
+    incrCartProduct.qty = this.state.items[i].qty - 1
+     this.incrCartData(incrCartProduct, self.context.user.email).then((response) => {
+        if(response.data) {
+          this.setState({
+            items: response.data.cart.cartitems,
+            total_price: response.data.cart.total_price
+          })
+        }
+       }).catch((err) => {
+        console.log(err);
+      });
     }
-   }).catch((err) => {
-      console.log(err);
-    });
   }
 
   incrCartData(cartArray, emailAddress) {
     return axios.post("/api/carts" , {
-        email: emailAddress,
-        cartitems: cartArray
+      email: emailAddress,
+      cartitems: cartArray
     });
   }
 
@@ -84,7 +78,8 @@ export default class CartModal extends React.Component {
     this.removeCartData(this.state.items[i].id, this.context.user.email).then((response) => {
       if(response.data) {
         this.setState({
-          items : response.data.doc.cartitems
+          items: response.data.doc.cartitems,
+          total_price: response.data.doc.total_price
         })
       }
     }).catch((err) => {
@@ -103,11 +98,9 @@ export default class CartModal extends React.Component {
 
   removeAllItems() {
      this.removeAllCartData(this.context.user.email).then((response) => {
-       console.log(response.data)
        if(response.data) {
         this.setState({
           items : [],
-          total_qty: 0,
           total_price: 0.0
         })
        }
@@ -134,9 +127,8 @@ export default class CartModal extends React.Component {
   }
 
   render(){
-    console.log(this.state.items?this.state.items:"")
     var goTOBagBtn
-    if(this.state.items.length<1){
+    if(this.state.items.length < 1){
       goTOBagBtn = <button type="submit" className="btn pull-right redish_btn" onClick={this.openBag.bind(this)} disabled>Go to bag</button>
     }else{
       goTOBagBtn = <button type="submit" className="btn pull-right redish_btn" onClick={this.openBag.bind(this)}>Go to bag</button>
@@ -165,7 +157,7 @@ export default class CartModal extends React.Component {
               <div className="list_item_footer">
                 <span className="tot_price_item">Total</span>
                 <span className="gross_price">kr {this.state.total_price}</span>
-                <button type="submit" className="btn pull-right redish_btn">Go to bag</button>
+                {goTOBagBtn}
               </div>
           </div>
         </a>

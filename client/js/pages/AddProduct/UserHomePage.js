@@ -8,15 +8,7 @@ import ReviewsAndLikes from './ReviewsAndLikes';
 import UserLogo from './UserLogo';
 import UserPersonalInfo from './UserPersonalInfo';
 import AddNewProductLogo from './AddNewProductLogo';
-let userInformation = {
-   full_name : "",
-   email : "",
-   photo : "",
-   city : "",
-   country : "",
-   description : "",
-   bgphoto: ""
-};
+
 export default class UserHomePage extends React.Component {
 
   static contextTypes = {
@@ -28,15 +20,7 @@ export default class UserHomePage extends React.Component {
     super(props, context);
     this.state = {
       user : {},
-      userInformation : {
-        photo : '',
-        full_name : '',
-        email : '',
-        city : '',
-        country : '',
-        description : '',
-        bgphoto: ''
-      },
+      _userInfo: {},
       data_loaded : false,
       cat_loaded : false
     };
@@ -50,26 +34,27 @@ export default class UserHomePage extends React.Component {
       if(response.data.producer) {
         this.setState({
           user: response.data.producer,
-          userInformation : {
-            photo : response.data.producer.photo,
-            full_name : response.data.producer.full_name,
-            email : response.data.producer.email,
-            city : response.data.producer.city,
-            country : response.data.producer.country,
-            description : response.data.producer.description,
-            bgphoto: response.data.producer.bgphoto
-          },
           data_loaded: true
         });
       }
-    })
-    .catch((err) => {
-    console.log(err);
+      }).catch((err) => {
+        console.log(err);
     });
+    this.loadUserInformation(userEmail).then((response) =>{
+      if(response.data){
+        this.setState({
+          _userInfo: response.data.user
+        })
+      }
+    })
   }
 
   loadUserProductsData(emailAddress) {
     return axios.get("/api/user_products?email="+emailAddress);
+  }
+
+  loadUserInformation(emailAddress){
+   return axios.get("/api/user?email="+emailAddress);
   }
 
   showAllCategory(category_id){
@@ -78,15 +63,6 @@ export default class UserHomePage extends React.Component {
       if(response.data.producer) {
         this.setState({
           user: response.data.producer,
-          userInformation : {
-            photo : response.data.producer.photo,
-            full_name : response.data.producer.full_name,
-            email : response.data.producer.email,
-            city : response.data.producer.city,
-            country : response.data.producer.country,
-            description : response.data.producer.description,
-            bgphoto: response.data.producer.bgphoto
-          },
           cat_loaded: false,
           data_loaded: true
         });
@@ -103,18 +79,8 @@ export default class UserHomePage extends React.Component {
       if(response.data.products) {
         this.setState({
           user: response.data.products,
-          userInformation : {
-            full_name : userInformation.full_name,
-            email : userInformation.email,
-            photo : userInformation.photo,
-            city : userInformation.city,
-            country : userInformation.country,
-            description : userInformation.description,
-            bgphoto: userInformation.bgphoto
-          },
           cat_loaded: true,
           data_loaded: false
-
         });
       }
     })
@@ -128,19 +94,10 @@ export default class UserHomePage extends React.Component {
   }
 
   render(){
-    userInformation = {
-      full_name : this.state.userInformation.full_name,
-      email : this.state.userInformation.email,
-      photo : this.state.userInformation.photo,
-      city : this.state.userInformation.city,
-      country : this.state.userInformation.country,
-      description : this.state.userInformation.description,
-      bgphoto: this.state.userInformation.bgphoto
-    };
     var img;
     var uData;
-    if(this.state.userInformation.photo){
-      img = this.state.userInformation.photo
+    if(this.state._userInfo.photo){
+      img = this.state._userInfo.photo
     }else{
       img ="/images/review_logo.png"
     }
@@ -149,24 +106,23 @@ export default class UserHomePage extends React.Component {
       uData = <ProductCollection productInfo = {this.state.user.products}/>
     }
     if(this.state.cat_loaded && !this.state.data_loaded){
-
       uData = <ProductCollection cat_data = {this.state.user}/>
     }
 
     return(
       <div className="page_wrapper">
-        <Banner name={this.state.userInformation.bgphoto}/>
+        <Banner name={this.state._userInfo.bgphoto}/>
         <div className="container">
           <div className="row">
             <div className="col-lg-3 col-md-3 col-sm-3 col-xs-12">
               <div className="product_detail_lft prduct_small_icon">
                 <UserLogo url = {img} p_class="prduct_thumb_lft_img" />
               </div>
-              <UserPersonalInfo userInfo = {this.state.userInformation} />
+              <UserPersonalInfo userInfo = {this.state._userInfo} />
             </div>
             <div className="col-lg-8 col-md-8 col-sm-9 col-xs-12 prht43">
               <div className="prduct_detail_rht">
-                <ReviewsAndLikes userInfo = {this.state.userInformation} />
+                <ReviewsAndLikes userInfo = {this.state._userInfo} />
                 <CategoryMenu categoryMenuClick = {this.selectCategoryData} allCategoryMenuClick = {this.showAllCategory}/>
                 <div className="grid_wall_wrapper prod_producer_grid products_section">
                   <AddNewProductLogo />
