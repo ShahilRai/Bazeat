@@ -140,7 +140,7 @@ app.use(ExpressStrompath.init(app, {
   postRegistrationHandler: function (account, req, res, next) {
     account.getCustomData(function(err, data) {
       console.log('User:', account.email, 'just registered!');
-      const newUser = new User({full_name: account.fullName, unique_id: account.href, email: account.email});
+      const newUser = new User({full_name: account.fullName, unique_id: account.href, email: account.email, first_name: account.givenName, last_name: account.surname});
       newUser.cuid = cuid();
       if (data.is_producer == 'true'){
         newUser.if_producer = true;
@@ -289,15 +289,6 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
   }
 });
 
-// app.post('/geocode/location', function (req, res){
-//   console.log(req.body)
-//   let address = (req.body.address + ', ' + req.body.country + ', ' + req.body.postal_code)
-//   let cmp_address = (req.body.cmp_address + ', ' + req.body.cmp_country + ', ' + req.body.cmp_postal_code)
-//   // console.log(address)
-//   geocoder.batchGeocode(([address, cmp_address]), function(err, response){
-//   console.log(response[1].value[0].latitude)
-//   })
-// });
 app.on('ExpressStrompath.ready', () => {
   // console.log('Stormpath Ready');
 });

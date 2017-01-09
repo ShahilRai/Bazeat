@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import LoginModal from '../Authenticate/LoginModal';
 export default class CartModal extends React.Component {
 
   static contextTypes = {
@@ -11,9 +12,8 @@ export default class CartModal extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      items: [],
-      total_price: 0,
-      total_items : 0,
+      items: this.props._cartList ? this.props._cartList : [],
+      total_price: '',
       currency: 'kr',
       incrCartProductItems: {
         product_id: '',
@@ -21,54 +21,52 @@ export default class CartModal extends React.Component {
       }
     }
     this.addItem = this.addItem.bind(this);
-    this.removeItem = this.removeItem.bind(this);
     PubSub.subscribe('cart.added', this.addItem);
-    this.incrNumItems = this.incrNumItems.bind(this);
-    this.decrNumItems = this.decrNumItems.bind(this);
   }
 
   addItem(e, item) {
-    this.state.items.push(item);
-      this.setState({
-        total_price : item.price + this.state.total_price,
-        total_items : this.state.total_items + 1
-      })
+    this.setState({
+      items: item.cartitems,
+      total_price: item.total_price
+    })
     this.forceUpdate();
   }
 
-   incrNumItems(e, i) {
+  incrNumItems(e, i) {
     var self = this
-     var incrCartProduct = this.state.incrCartProductItems
-     incrCartProduct.product_id = this.state.items[i].id
-     this.incrCartData(incrCartProduct, self.context.user.email).then((response) => {
+    var incrCartProduct = this.state.incrCartProductItems
+    incrCartProduct.product_id = this.state.items[i].product_id
+    incrCartProduct.qty = this.state.items[i].qty + 1
+    this.incrCartData(incrCartProduct, self.context.user.email).then((response) => {
       if(response.data) {
-        this.state.items[i].qty += 1 ;
         this.setState({
-          total_price : this.state.total_price + this.state.items[i].price
+          items: response.data.cart.cartitems,
+          total_price: response.data.cart.total_price
         })
-      }
-    }).catch((err) => {
-        console.log(err);
-      });
-   }
-
-   decrNumItems(e, i) {
-     var self = this
-     var incrCartProduct = this.state.incrCartProductItems
-     incrCartProduct.product_id = this.state.items[i].id
-     this.incrCartData(incrCartProduct, self.context.user.email).then((response) => {
-      if(response.data) {
-        if(this.state.items[i].qty > 1){
-          this.state.items[i].qty -= 1 ;
-          this.setState({
-            total_price : this.state.total_price - this.state.items[i].price
-          })
-        }
       }
     }).catch((err) => {
       console.log(err);
     });
    }
+
+  decrNumItems(e, i) {
+   var self = this
+   if(this.state.items[i].qty > 1){
+    var incrCartProduct = this.state.incrCartProductItems
+    incrCartProduct.product_id = this.state.items[i].product_id
+    incrCartProduct.qty = this.state.items[i].qty - 1
+     this.incrCartData(incrCartProduct, self.context.user.email).then((response) => {
+        if(response.data) {
+          this.setState({
+            items: response.data.cart.cartitems,
+            total_price: response.data.cart.total_price
+          })
+        }
+       }).catch((err) => {
+        console.log(err);
+      });
+    }
+  }
 
   incrCartData(cartArray, emailAddress) {
     return axios.post("/api/carts" , {
@@ -78,68 +76,94 @@ export default class CartModal extends React.Component {
   }
 
   removeItem(e, i) {
-    var self = this
-    var total_qty = this.state.items[i].qty
-    var price =  self.state.items[i].price
-    var total_price = total_qty * price
-    this.state.items.splice(i, 1)
-    this.setState({
-      total_price : self.state.total_price - total_price,
-      total_items : self.state.total_items - 1
-    })
+    this.removeCartData(this.state.items[i].id, this.context.user.email).then((response) => {
+      if(response.data) {
+        this.setState({
+          items: response.data.doc.cartitems,
+          total_price: response.data.doc.total_price
+        })
+      }
+    }).catch((err) => {
+      console.log(err);
+    });
+   }
+
+  removeCartData(cartitem_id, emailAddress) {
+    return axios.delete("/api/remove/cart_items" , {
+      params: {
+        email: emailAddress,
+        cartitem_id: cartitem_id
+      }
+    });
   }
 
-  removeAllItems(){
-    this.setState({
-     items : [],
-     total_price: 0,
-     total_items : 0
-    })
+  removeAllItems() {
+     this.removeAllCartData(this.context.user.email).then((response) => {
+       if(response.data) {
+        this.setState({
+          items : [],
+          total_price: 0.0
+        })
+       }
+    }).catch((err) => {
+       console.log(err);
+    });
+  }
+
+  removeAllCartData(emailAddress) {
+    return axios.delete("/api/empty/cart", {
+      params: {
+        email: emailAddress
+      }
+    });
   }
 
   openBag() {
-    if(this.context.authenticated == true)
-      {
-        this.context.router.push('/viewcart');
-      }
-    else{
-      this.context.router.push('/login');
+    if(this.context.authenticated == true){
+      this.context.router.push('/viewcart');
     }
+    else
+      {
+        if(<LoginModal />)
+        {
+          this.context.router.push('/viewcart');
+        }
+      }
   }
 
   render(){
     var goTOBagBtn
     if(this.state.items.length<1){
-      goTOBagBtn = <button type="submit" className="btn pull-right redish_btn" onClick={this.openBag.bind(this)} disabled>Go to bag</button>
+      goTOBagBtn = <button type="submit" className="btn pull-right redish_btn" data-toggle="modal" data-target="#login_modal" onClick={this.openBag.bind(this)} disabled>Go to bag</button>
     }else{
-      goTOBagBtn = <button type="submit" className="btn pull-right redish_btn" onClick={this.openBag.bind(this)}>Go to bag</button>
+      goTOBagBtn = <button type="submit" className="btn pull-right redish_btn" data-toggle="modal" data-target="#login_modal" onClick={this.openBag.bind(this)}>Go to bag</button>
     }
     return(
       <li className="next_list" id="demo">
         <a href="javaScript:void(0)">
           <div className="items_list_info">
-            <p className="empty_item_text">You have {this.state.total_items} items in your bag • <span  className="empty_bag" onClick={this.removeAllItems.bind(this)}>Empty bag</span></p>
+            <p className="empty_item_text">You have {this.state.items.length} items in your bag • <span  className="empty_bag" onClick={this.removeAllItems.bind(this)} >Empty bag</span></p>
             <ul>
-              {this.state.items.map((item, i)=>
-                <li key={i}>
-                  <span className="sr_no">
-                    <button className="fa fa-caret-up" onClick={(e) => this.incrNumItems(e, i)}></button>
-                      <input type="text" className="form-control text-center" value={item.qty} data-rule="quantity" type="text" />
-                    <button className="fa fa-caret-down" onClick={(e) => this.decrNumItems(e, i)} ></button>
-                  </span>
-                  <span className="list_images"><img src={item.photo} height="50" width="50"/>
-                    <small>{item.description}</small>
-                  </span>
-                <span className="items_price">{"kr" + item.price}</span>
-                  <span className="cross_items"><button className="delete_time" onClick={(e) => this.removeItem(e, i)}>X</button></span>
-                </li>
-              )}
+            {this.state.items.map((item, i)=>
+              <li key={i}>
+                <span className="sr_no">
+                  <button className="fa fa-caret-up" onClick={(e) => this.incrNumItems(e, i)}></button>
+                    <input type="text" className="form-control text-center" value={item.qty} data-rule="quantity" type="text" />
+                  <button className="fa fa-caret-down" onClick={(e) => this.decrNumItems(e, i)}></button>
+                </span>
+                <span className="list_images"><img src={item.product_image} height="50" width="50"/>
+                   <small>{item.product_name}</small>
+                </span>
+              <span className="items_price">{"kr " + item.product_amt}</span>
+                <span className="cross_items"><button className="delete_time" onClick={(e) => this.removeItem(e, i)} >X</button></span>
+              </li>
+            )}
             </ul>
-            <div className="list_item_footer">
-              <span className="tot_price_item">Total</span>
-              <span className="gross_price">{this.state.currency} {this.state.total_price} </span>
-              {goTOBagBtn}
-            </div>
+              <div className="list_item_footer">
+                <span className="tot_price_item">Total</span>
+                <span className="gross_price">kr {this.state.total_price}</span>
+                {goTOBagBtn}
+              </div>
           </div>
         </a>
       </li>

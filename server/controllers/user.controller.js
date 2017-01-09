@@ -1,4 +1,6 @@
 import User from '../models/user';
+import Order from '../models/order';
+import * as MailService from '../services/mailer';
 import cuid from 'cuid';
 import fs from 'fs';
 //Stripe Implementation
@@ -14,27 +16,35 @@ export function addUser(req, res) {
       return res.status(500).send(err);
     }
     else{
+      MailService.send_email(saved)
       return res.json({ user: saved });
     }
   });
 }
 
-export function timeSlot(req, res) {
-  User.findOne({ email: req.body.email }).exec((err, user) => {
-    if (user.if_producer == true)
-    {
-      let producer_info = user.producer_info;
-       producer_info.timeslots.push(req.body.timeslot)
-       user.save(function (err, user1) {
-        console.log(user1)
-        if (err){
-          return res.status(500).send(err);
-        }
-        else{
-          return res.json({ user: user1 });
-        }
-      });
+export function addTimeSlot(req, res) {
+  User.findOneAndUpdate({ email: req.body.email }, {
+    $pushAll: { "timeslots": [req.body.timeslots] }
+    }, {new: true}).exec((err, timeslot) => {
+    if (err){
+      return res.status(500).send(err);
+     }
+     else {
+      return res.status(200).send({timeslot});
     }
+  });
+}
+
+export function removeTimeSlot(req, res) {
+  User.findOneAndUpdate({ "timeslots._id": req.query.timeslot_id }, {
+    $pull: { "timeslots": { _id: req.query.timeslot_id }}
+    },{new: true}).exec((err, timeslot) => {
+    if (err){
+      return res.status(500).send(err);
+     }
+     else {
+      return res.status(200).send({timeslot});
+     }
   });
 }
 
@@ -174,42 +184,52 @@ export function addBankAccount(req, res) {
 
 export function Payment(req, res) {
   User.findOne({ email: req.body.email }).exec((err, user) => {
-    if (err) {
-      return res.status(500).send(err);
-    } else {
-      stripe.tokens.create({
-      card: {
-        number: req.body.card_number, // 4000005780000007 I've tried 424242424242424242 and 5555555555554444 as a string and int but still have the same error.
-        exp_month: req.body.month,
-        exp_year: req.body.year,
-        cvc: req.body.cvc // I've also tried 999 as an int.
-        }
-      }, function(err, token) {
-        if(err) {
-          console.log(err);
-        } else {
-          stripe.customers.createSource(
-            user.customer_id,
-            {source: token.id},
-            function(err, card) {
-              stripe.charges.create({
-                amount: 2000,
-                currency: "nok",
-                customer: user.customer_id,
-                source: card.id, // obtained with Stripe.js
-                description: "Charge for " + user.email
-              }, function(err, charge) {
+    Order.findOne({ _id: req.body.order_id }).exec((err, order) => {
+      console.log(req.body)
+      if (err) {
+        return res.status(500).send(err);
+      } else {
+        stripe.tokens.create({
+        card: {
+          number: req.body.card_number, // 4000005780000007 I've tried 424242424242424242 and 5555555555554444 as a string and int but still have the same error.
+          exp_month: req.body.month,
+          exp_year: req.body.year,
+          cvc: req.body.cvc // I've also tried 999 as an int.
+          }
+        }, function(err, token) {
+          if(err) {
+            console.log(err);
+          } else {
+            stripe.customers.createSource(
+              // user.customer_id,
+              'cus_9WyLwPSTFYCCIf',
+              {source: token.id},
+              function(err, card) {
                 if(err) {
-                  return res.status(500).send(err);
+                  console.log(err);
                 } else {
-                  return res.json({ charge: charge });
+                  stripe.charges.create({
+                    amount: Math.round(order.total_amount.toFixed(2)*100),
+                    currency: "nok",
+                    // customer: user.customer_id,
+                    customer: "cus_9WyLwPSTFYCCIf",
+                    source: card.id, // obtained with Stripe.js
+                    description: "Charge for " + user.email
+                  }, function(err, charge) {
+                    if(err) {
+                      return res.status(500).send(err);
+                    } else {
+                      MailService.send_email(charge)
+                      return res.json({ charge: charge });
+                    }
+                  });
                 }
-              });
-            }
-          );
-        }
-      })
-    }
+              }
+            );
+          }
+        })
+      }
+    })
   })
 }
 

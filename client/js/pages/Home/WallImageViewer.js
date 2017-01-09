@@ -14,6 +14,7 @@ export default class WallImageViewer extends React.Component {
       super(props, context);
       this.state = {
         added : false,
+        items : {},
         cartProductItems: {
           product_id: '',
           qty: 1
@@ -29,8 +30,11 @@ export default class WallImageViewer extends React.Component {
     cartProduct.product_id = cartData.id
     this.sendCartData(cartProduct, self.context.user.email).then((response) => {
       if(response.data) {
+        this.setState({
+          items : response.data.cart
+        })
        if(!self.state.added) {
-          PubSub.publish('cart.added', cartData);
+          PubSub.publish('cart.added', this.state.items);
         }
        if(!self.state.added){
         self.setState({
@@ -69,7 +73,7 @@ export default class WallImageViewer extends React.Component {
             <img src={this.props.wallImages ? this.props.wallImages.photo : this.props.prodlist.photo} />
             <div className="grid_tile_desc">
               <h2>{this.props.wallImages ? this.props.wallImages.product_name : this.props.prodlist.product_name}</h2>
-              <span className="price_tag">kr {this.props.wallImages ? this.props.wallImages.price : this.props.prodlist.price}.00</span>
+              <span className="price_tag">kr {this.props.wallImages ? this.props.wallImages.calculated_price : this.props.prodlist.calculated_price}</span>
               <p>{this.props.wallImages ? this.props.wallImages.description : this.props.prodlist.description}</p>
             </div>
           </a>

@@ -39,14 +39,12 @@ export function usersResults(req, res) {
 
 
 export function productsResults(req, res) {
-  console.log(req.query.search)
-  console.log(req.query.category_id)
   let data = {};
   if(req.query.search){
     data.product_name = new RegExp(req.query.search, 'i');
   }
   if(req.query.start_price && req.query.end_price){
-    data.price = {'$gte': req.query.start_price, '$lte': req.query.end_price};
+    data.price = {'$gte': parseInt(req.query.start_price), '$lte': parseInt(req.query.end_price)};
   }
   if(req.query.category_id){
     data.product_category = {"$in": req.query.category_id };

@@ -112,7 +112,7 @@ import ReactSlider from '../Product/ReactSlider';
             </a>
             <div className="grid_tile_desc">
               <h2>{this.props.productData.product_name}</h2>
-              <span className="price_tag">kr {this.props.productData.price}</span>
+              <span className="price_tag">kr {this.props.productData.base_price}</span>
               <p>{this.props.productData.description}</p>
             </div>
           </div>

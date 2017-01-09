@@ -19,6 +19,9 @@ export default class ShowProductsSearch extends React.Component {
     }
     this.handleCheckBoxChange = this.handleCheckBoxChange.bind(this);
     this.priceRangeChange = this.priceRangeChange.bind(this);
+    this.handlecategoryFilter = this.handlecategoryFilter.bind(this);
+    this.clearFilters = this.clearFilters.bind(this);
+    this.handleProductsSrch = this.handleProductsSrch.bind(this);
   }
 
   componentDidMount(){
@@ -40,7 +43,6 @@ export default class ShowProductsSearch extends React.Component {
         console.log(err);
     });
   }
-
 
   loadProductsSearch() {
     return axios.get("/api/products" , {
@@ -132,12 +134,34 @@ export default class ShowProductsSearch extends React.Component {
     )
   }
 
+  handlecategoryFilter(event){
+    var rmvCategory = event.target.className
+    const newCategory = this.state.categoryIds
+    {this.state.categoryIds.map((cId, index) =>{
+      if(cId == rmvCategory){
+        this.state.categoryIds.splice(index, 1)
+        this.state.categoryNames.splice(index, 1)
+        $('.mutliSelect').find('#' + cId).prop('checked', false);
+      }
+    }
+    )}
+    this.filteredProducts();
+  }
+
   priceRangeChange(value){
     this.setState({
       start: value.from,
       end : value.to
     })
     this.filteredProducts();
+  }
+
+  clearFilters(){
+    this.setState({
+      categoryNames:[]
+    })
+    $('.mutliSelect').find('ul li input').prop('checked', false);
+    this.handleProductsSrch()
   }
 
   render() {
@@ -147,7 +171,7 @@ export default class ShowProductsSearch extends React.Component {
         <div className="tab-pane active" id="productss">
           <div className="prod_tab_section">
             <Filters value={this.state.value} priceRangeChange={this.priceRangeChange} searchCategory={this.state.searchCategory} handleChange={this.handleChange} handleCheckBoxChange={this.handleCheckBoxChange}/>
-            <AppliedFilters categoryName={this.state.categoryNames}/>
+            <AppliedFilters categoryName={this.state.categoryNames} handlecategoryFilter={this.handlecategoryFilter} categoryIds={this.state.categoryIds} clearFilters={this.clearFilters}/>
             <div className="prod_result1">
               <div className="container pad_lf120">
                 <h3 className="search_tabbd_heading text-left">Your search for <span className="italic">'{varNotify}'</span> returned <span className="italic">{this.state.allProductsData.length}</span> results</h3>

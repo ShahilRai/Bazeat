@@ -10,6 +10,8 @@ import request from 'request';
 
 export function addOrder(req, res) {
   User.findOne({ email: req.body.email }).exec((err, user) => {
+     let data = {};
+
     const newOrder = new Order();
     newOrder.cuid = cuid();
     newOrder.address.postal_code = user.postal_code;
@@ -44,6 +46,9 @@ export function addOrder(req, res) {
               if (err) {
                 return res.status(500).send(err);
               }
+              if(req.body.timeslot){
+                order.timeslot.push(req.body.timeslot);
+              }
               order.orderitems.push(orderitem);
               order.products.push(orderitem._product);
               if(data.cartitems.length == order.orderitems.length) {
@@ -53,7 +58,7 @@ export function addOrder(req, res) {
                 order.total_weight = data.total_weight;
                 order.total_qty = data.total_qty;
                 order.shipment_price = parseInt(req.body.shipment_price);
-                order.food_vat_value = food_vat_value;
+                order.food_vat_value = food_vat_value.toFixed(2);
                 order.food_vat_value = food_vat_value;
                 order.shipment_vat_value = shipment_vat_value;
                 order.price_with_ship = data.total_price + parseInt(req.body.shipment_price) ;
@@ -196,6 +201,28 @@ export  function getShippingPrice(req, res){
   })
 }
 
+
+export function budamatAddress(req, res){
+  Order.findOneAndUpdate({"cuid": req.query.order_cuid},
+    {
+      "$set": {
+        "address.city": req.body.city,
+        "address.country": req.body.country,
+        "address.line1": req.body.line1,
+        "address.postal_code": req.body.postal_code,
+        "address.phone_num": req.body.phone_num,
+      }
+    },{new: true}
+      ).exec(function(err, updated_order){
+      if (err){
+        return res.status(500).send(err);
+      }
+      else{
+        return res.json({updated_order});
+      }
+  })
+}
+
 export function deleteOrder(req, res) {
   Order.findOne({ cuid: req.params.cuid }).exec((err, order) => {
     if (err || order == null) {
@@ -224,7 +251,8 @@ export function addCart(req, res) {
           }
           cart_sum(savedcart, null, res)
         });
-      }else{
+      }
+      else{
         cart.cartitems.forEach(function(item) {
           if(item.product_id == req.body.cartitems.product_id){
             flag = true;
@@ -242,22 +270,20 @@ export function addCart(req, res) {
                 }
                 else{
                    cart_sum(updated_cart_item, null, res)
-                  // return res.json({ cart: updated_cart_item});
                 }
             });
-        }else{
-          cart.update(
-            {$pushAll: {"cartitems": [req.body.cartitems]}},
-            {safe: true, upsert: true},{new: true},
-            function(err, cart2) {
+        }
+        else{
+          Cart.findOneAndUpdate(
+            { "_id": cart._id },
+            {$pushAll: {"cartitems": [req.body.cartitems]}},{new: true}).exec(function(err, cart2){
               if (err){
                 return res.status(500).send(err);
               }
               else{
                 cart_sum(cart2, null, res)
               }
-            }
-          );
+          });
         }
       }
     });
@@ -267,16 +293,21 @@ export function addCart(req, res) {
 export  function cart_sum(cart, next, res){
   let item_qty = 0;
   let item_price = 0;
+  let product_total_price = 0;
   let total_price = 0;
   let total_weight = 0;
   let product_weight = 0;
+  let product_image, product_name;
   cart.cartitems.forEach(function(item, index){
     Product.findOne({ _id: item.product_id }).exec((err, product) => {
-      item_price = (product.calculated_price*item.qty);
+      product_total_price = (product.calculated_price*item.qty);
+      item_price = (product.calculated_price);
       product_weight = (product.portion*item.qty);
-      total_price += item_price;
+      total_price += product_total_price;
       total_weight += product_weight;
       item_qty += item.qty;
+      product_image = product.photo;
+      product_name = product.product_name;
       Cart.findOneAndUpdate(
         { "_id": cart._id, "cartitems.product_id": item.product_id  },
         {
@@ -284,7 +315,10 @@ export  function cart_sum(cart, next, res){
                 "total_price": total_price,
                 "total_qty": item_qty,
                 "total_weight": total_weight,
-                "cartitems.$.product_amt": item_price
+                "cartitems.$.product_amt": item_price,
+                "cartitems.$.product_total_amt": product_total_price,
+                "cartitems.$.product_image": product_image,
+                "cartitems.$.product_name": product_name,
             }
         },
         {new: true}).
@@ -304,6 +338,7 @@ export function removeCartItems(req, res) {
   let total_price = 0;
   let total_weight = 0;
   let product_weight = 0;
+  let product_total_price = 0;
   User.findOne({email: req.query.email}).exec((err,user) =>{
   Cart.findOne({ user: user._id }).exec((err, cart) => {
     if (err) {
@@ -311,9 +346,10 @@ export function removeCartItems(req, res) {
     }
     let cartItem = cart.cartitems.id(req.query.cartitem_id)
     Product.findOne({ _id: cartItem.product_id }).exec((err, product) => {
+      product_total_price = (product.calculated_price*cartItem.qty);
       item_price = (product.calculated_price*cartItem.qty);
       product_weight = (product.portion*cartItem.qty);
-      total_price = (cart.total_price - item_price);
+      total_price = (cart.total_price - product_total_price);
       total_weight = (cart.total_weight - product_weight);
       item_qty = (cart.total_qty - cartItem.qty);
       Cart.findOneAndUpdate(
@@ -347,7 +383,7 @@ export function removeCartItems(req, res) {
 
 
 export function emptyCart(req, res) {
-  User.findOne({email: req.body.email}).exec((err,user) =>{
+  User.findOne({email: req.query.email}).exec((err,user) =>{
     Cart.findOneAndUpdate(
       { "user": user._id},
       {
