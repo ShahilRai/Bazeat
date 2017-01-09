@@ -14,7 +14,6 @@ export function send_email(charge) {
   html: '<p>How are you?</p>'
   },
   function (err, info) {
-    console.log("jjjjj")
     if (err) {
       console.error(err);
     } else {

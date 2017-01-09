@@ -60,6 +60,9 @@ export function getUsers(req, res) {
 }
 
 export function getUser(req, res) {
+  if(!(req.query.email || req.query.cuid)) {
+    return res.status(422).send({ error: 'Please send valid email or cuid' });
+  }
   let data = {};
   if(req.query.cuid){
     data.cuid = req.query.cuid;

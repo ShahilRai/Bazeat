@@ -10,8 +10,7 @@ import request from 'request';
 
 export function addOrder(req, res) {
   User.findOne({ email: req.body.email }).exec((err, user) => {
-     let data = {};
-
+    let data = {};
     const newOrder = new Order();
     newOrder.cuid = cuid();
     newOrder.address.postal_code = user.postal_code;
@@ -346,6 +345,9 @@ export function removeCartItems(req, res) {
     }
     let cartItem = cart.cartitems.id(req.query.cartitem_id)
     Product.findOne({ _id: cartItem.product_id }).exec((err, product) => {
+      if (err){
+        return res.status(500).send(err);
+      }
       product_total_price = (product.calculated_price*cartItem.qty);
       item_price = (product.calculated_price*cartItem.qty);
       product_weight = (product.portion*cartItem.qty);
