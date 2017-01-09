@@ -152,6 +152,9 @@ export function getDetails(req, res){
 }
 
 export function getUserProducts(req, res) {
+   if(!(req.query.email || req.query.cuid)) {
+    return res.status(422).send({ error: 'Please send valid email or cuid' });
+  }
   let data = {};
   if(req.query.cuid){
     data.cuid = req.query.cuid;
@@ -228,8 +231,7 @@ export function handleProducts(req, res) {
     data['$set'] ={}
     data['$set']['is_disable'] = true;
   }
-  console.log('data')
-  console.log(data)
+
   User.findOne({ email: req.body.email }).exec((err, user) => {
     console.log(user._id)
     Product.update({_producer: user._id}, data, {multi: true}, function(err,product){
