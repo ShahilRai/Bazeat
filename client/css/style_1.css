@@ -917,8 +917,8 @@ ul.edit_sidbar_list li a:hover, ul.edit_sidbar_list li.active a {
 }
 .visting_hr_time_col .form-control {
 	display: inline-block;
-	height: 35px;
-	width: 65px;
+	height: 31px;
+	width: 61px;
 	font-size: 10px;
 	padding-left: 5px;
 }

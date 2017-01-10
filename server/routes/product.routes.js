@@ -21,7 +21,7 @@ router.route('/product/:cuid').get(ProductController.getProduct);
 router.route('/products/:cuid').put(ProductController.updateProduct);
 
 // Diable product
-router.route('/diasble_product/:cuid').put(ProductController.disableProduct);
+router.route('/disable_product/:cuid').put(ProductController.disableProduct);
 
 // Hide product
 router.route('/hide_product/:cuid').put(ProductController.hideProduct);
