@@ -5,6 +5,7 @@ import ProducerPasswordUpdate from '../UserSetting/ProducerPasswordUpdate';
 import ProducerProfilePage from './ProducerProfilePage';
 import UserProfilePage from './UserProfilePage';
 import Notification from '../UserSetting/Notification';
+import AddAccount from './AddAccount';
 
 export default class ProfileContainer extends React.Component {
 
@@ -35,12 +36,14 @@ export default class ProfileContainer extends React.Component {
       status: "false",
       activeView: '',
       activeView1: '',
-      seeProfile_button_text: "See profile"
+      seeProfile_button_text: "See profile",
+      add_account: false
     };
     this.showNotification = this.showNotification.bind(this)
     this.settingStatus = this.settingStatus.bind(this)
     this.profileStatus = this.profileStatus.bind(this)
     this.seeProfileBtnClck = this.seeProfileBtnClck.bind(this)
+    this.addAccount = this.addAccount.bind(this)
   }
 
   seeProfileBtnClck() {
@@ -79,7 +82,8 @@ export default class ProfileContainer extends React.Component {
       status : "true",
       activeView1: 'active',
       activeView: '',
-      notification: false
+      notification: false,
+      add_account: false
     });
   }
 
@@ -93,9 +97,17 @@ export default class ProfileContainer extends React.Component {
     });
   }
 
+  addAccount(){
+    this.setState({
+      add_account: true
+    });
+  }
+
   render() {
     var left_menus
-    if(this.state.notification){
+    if(this.state.add_account){
+      this.state.profile = <AddAccount />;
+    }else if(this.state.notification){
       this.state.profile = <Notification />;
     }else if(this.state.status==''){
       this.state.profile= <div><h3>comming soon.........</h3></div>;
@@ -116,6 +128,7 @@ export default class ProfileContainer extends React.Component {
           <li><a href="javascript:void(0)">Verification</a></li>
           <li><a href="javascript:void(0)">Reviews</a></li>
           <li><a href="javascript:void(0)">Messages</a></li>
+          <li><a onClick={this.addAccount} href="javascript:void(0)">Bank Account</a></li>
         </ul>
       )
     }
