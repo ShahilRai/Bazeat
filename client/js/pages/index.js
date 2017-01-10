@@ -27,3 +27,5 @@ export MapViewContainer from './Searching/MapViewContainer';
 export DisplaySearch from './Searching/DisplaySearch';
 export ProjectRouter from './Header/ProjectRouter';
 export CheckoutContainer from './cart/CheckoutContainer';
+export ReceivedOrder from './OrderManagement/ReceivedOrder';
+export CreateNewPackage from './OrderManagement/CreateNewPackage';
