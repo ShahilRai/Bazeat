@@ -66,7 +66,7 @@ export default class ProjectRouter extends React.Component {
           <Route path='/login' component={IndexPage} />
           <Route path='/register' component={IndexPage} />
           <Route path='/verify' component={VerifyEmailPage} />
-          <Route path='/passwordReset' component={ChangePasswordPage} />
+          <Route path='/password-reset' component={ChangePasswordPage} />
           <Route path='/change' component={ChangePasswordPage} />
           <Route path='/forgot' component={ForgotPasswordModal} />
           <Route path='/addProductForm' component={ReactSlider} />
@@ -77,6 +77,10 @@ export default class ProjectRouter extends React.Component {
           <Route path='/faq' component={FaqPage} />
           <Route path='/map-search' component={MapViewContainer} />
           <Route path='/search' component={DisplaySearch} />
+          <Route path='/orders' component={ProfileContainer} />
+          <Route path='/orders/received-order' component={ProfileContainer} />
+          <Route path='/orders/new-package' component={ProfileContainer} />
+          <Route path='/orders/packages' component={ProfileContainer} />
           <AuthenticatedRoute>
             <Route path='/viewcart' component={CheckoutContainer} />
             <Route path='/profile' component={ProfileContainer} />

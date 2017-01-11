@@ -15,7 +15,7 @@ export default class ResetPasswordPage extends React.Component {
     var spToken = this.props.location.query.sptoken;
     return (
       <div className="col-lg-4 margin_auto mtop30" id="" >
-        <form id="resetPasswordForm" method="get" action="/passwordReset" onSubmit={this.onFormSubmit.bind(this)} novalidate="novalidate"  className="login_form reset_form">
+        <form id="resetPasswordForm" method="get" action="/password-reset" onSubmit={this.onFormSubmit.bind(this)} novalidate="novalidate"  className="login_form reset_form">
           <div className="form-group">
             <label htmlFor="password" path="password">Password</label>
             <input type="password" path="password" className="form-control" id="password" name="password" />

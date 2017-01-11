@@ -34,15 +34,15 @@ export default class ProducerProfilePage extends React.Component {
   componentDidMount() {
     var userEmail = this.context.user.email
     this.loadUserData(userEmail).then((response) => {
-        if(response.data.user) {
-          this.setState({
-            user: response.data.user,
-            producer_info: response.data.user.producer_info,
-            birth_date: moment(response.data.user.birth_date).format('YYYY-MM-DD'),
-            user_info: response.data.user.user_info,
-            data_loaded: true
-          });
-        }
+      if(response.data.user) {
+        this.setState({
+          user: response.data.user,
+          producer_info: response.data.user.producer_info,
+          birth_date: moment(response.data.user.birth_date).format('YYYY-MM-DD'),
+          user_info: response.data.user.user_info,
+          data_loaded: true
+        });
+      }
     }).catch((err) => {
         console.log(err);
     });
@@ -102,7 +102,7 @@ export default class ProducerProfilePage extends React.Component {
                 <div className="form-group row">
                   <LabelField htmlFor="email" className="col-md-4 col-xs-12 col-form-label" label="E-mail address" />
                   <div className="col-md-8 col-xs-12">
-                    <input type="email" className="form-control" id="email" name="email" required />
+                    <input type="email" className="form-control" id="email" name="email" disabled/>
                   </div>
                 </div>
                 <div className="form-group row">
@@ -180,14 +180,7 @@ export default class ProducerProfilePage extends React.Component {
                 </div>
                 <div className="form-group row">
                   <LabelField htmlFor="example-tel-input" className="col-md-4 col-xs-12 col-form-label" label="Visiting hours"/>
-                  <AddHoursDetail  getTimeDetails={this.getTimeDetails}/>
-                  {this.state.getTime.map((time,i)=>
-                  <div key ={i}>
-                    <input type="hidden" key ={i}  name = {"timeslots["+i+"][start_time]"}  value={time.start_time} />
-                    <input type="hidden" key ={i}  name = {"timeslots["+i+"][end_time]"}  value={time.end_time} />
-                    <input type="hidden" key ={i}  name = {"timeslots["+i+"][day]"}  value={time.day} />
-                  </div>
-                  )}
+                  <AddHoursDetail  email = {this.context.user.email} getTimeDetails={this.getTimeDetails}/>
                 </div>
               </div>
             </div>
@@ -197,7 +190,7 @@ export default class ProducerProfilePage extends React.Component {
                 <div className="form-group row">
                   <LabelField htmlFor="desc" className="col-md-4 col-xs-12 col-form-label" label="Delivery information" />
                   <TextAreaField name="cmp_delivery_options"  value = {this.state.producer_info.cmp_delivery_options} >{this.state.producer_info.cmp_delivery_options}</TextAreaField>
-                  <text>if you will deliver the your products to your customers, it would be great to inform them about the particulars. This information will show up under *Delivery details* for Budmat.</text>
+                  <p>if you will deliver the your products to your customers, it would be great to inform them about the particulars. This information will show up under *Delivery details* for Budmat.</p>
                 </div>
               </div>
             </div>

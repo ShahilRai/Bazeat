@@ -174,8 +174,6 @@ export default class AddProduct extends React.Component {
       this.getCalculatedPrice(e.target.value).then((response) => {
       if(response.data) {
         prod_cal = response.data.calculated_price
-        console.log("prod_cal")
-        console.log(prod_cal)
         this.setState({
           calculated_price: response.data.calculated_price
         })

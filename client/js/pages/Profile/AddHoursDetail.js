@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import AddHoursListing from './AddHoursListing';
 import SelectBox from '../components/SelectBox';
 
@@ -22,22 +23,38 @@ export default class AddHoursDetail extends React.Component {
 
   addHours(e){
     var all_days_selected = document.getElementById("allDays").checked
+    if(!all_days_selected){
+      if(this.refs.from_time.refs.slectfromtime.value == "Select" || this.refs.to_time.refs.slectfromtime.value == "Select" || this.state.selectDays.length == 0){
+        return alert("Please select the day and time" );
+      }
+    }
+
     if(all_days_selected){
+     if(this.refs.from_time.refs.slectfromtime.value == "Select" || this.refs.to_time.refs.slectfromtime.value == "Select"){
+        return alert("Please select the day and time" );
+      }
+      this.state.selectDays = [];
       this.state.selectDays.push(this.state.days[0].value)
       this.state.selectDays.push(this.state.days[6].value)
     }
-    if(this.state.selectDays.length==0 ){
-      return 
-    }
+
     var hoursArray = this.state.items
     hoursArray.push({
       start_time: this.refs.from_time.refs.slectfromtime.value,
       end_time: this.refs.to_time.refs.slectfromtime.value,
       day: this.state.selectDays
     });
-    this.setState({
-      items: hoursArray
+
+    this.saveTimeSlot(this.props.email, hoursArray).then((response) => {
+      if(response.data) {
+        this.setState({
+          items: response.data.user._timeSlotsArray
+        });
+      }
+      }).catch((err) => {
+        console.log(err);
     });
+
     this.state.selectDays = [];
     e.preventDefault();
     this.props.getTimeDetails(hoursArray)
@@ -51,7 +68,7 @@ export default class AddHoursDetail extends React.Component {
 
   isDayExist(arr, day){
     var exist = false
-     for(var i=0;i<=arr.length ;i++){
+    for(var i=0;i<=arr.length ;i++){
       if(arr[i] == day){
         exist = true
       }
@@ -60,7 +77,7 @@ export default class AddHoursDetail extends React.Component {
   }
 
   handleDayClick(index){
-    var self=this;
+    var self = this;
     var daysArray =  this.state.selectDays
     if(!self.isDayExist(this.state.selectDays,this.state.days[index].value)){
       daysArray.push(this.state.days[index].value);
@@ -68,7 +85,6 @@ export default class AddHoursDetail extends React.Component {
     this.setState({
       selectDays: daysArray
     })
-
   }
 
   deleteTimeDetail(e){
@@ -77,8 +93,14 @@ export default class AddHoursDetail extends React.Component {
     const newTime = this.state.items;
     newTime.splice(index, 1);
     this.setState({items: newTime})
-    }
+  }
 
+  saveTimeSlot(_userEmail , _timeSlotsArray){
+    return axios.post("/api/add_time" ,{
+      email: _userEmail,
+      timeslots: _timeSlotsArray
+    })
+  }
 
   render(){
     return(
@@ -88,7 +110,7 @@ export default class AddHoursDetail extends React.Component {
           <span className="visting_hr_inner_col" >
             <span className="pull-left">
               <label>From</label>
-              <SelectBox ref="from_time" selectlist={this.state.options} name="fromTime" value={this.state.daysValueFrom}/>
+              <SelectBox ref="from_time" selectlist={this.state.options} name="fromTime" />
             </span>
             <span className="pull-right">
               <label>to</label>
@@ -113,6 +135,6 @@ export default class AddHoursDetail extends React.Component {
           </span>
         </span>
       </div>
-      )
-    }
+    )
   }
+}

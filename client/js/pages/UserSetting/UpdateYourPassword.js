@@ -25,7 +25,7 @@ export default class UpdateYourPassword extends React.Component {
       <div className="col-lg-9 col-md-8 col-sm-10 col-xs-12 edit_profile_rht_sidebar">
         <div className="edit_prfile_detail_form">
           <h3>Update your password</h3>
-          <ResetPasswordForm className="ptop30"  action="/passwordReset" onSubmit={this.onFormSubmit.bind(this)} >
+          <ResetPasswordForm className="ptop30"  action="/password-reset" onSubmit={this.onFormSubmit.bind(this)} >
             <div className="passwrd_txt">
               <p className="">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
             </div>

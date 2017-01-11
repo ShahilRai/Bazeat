@@ -21,12 +21,12 @@ export default class SelectBox extends React.Component {
       <div className="col-md-8 col-xs-12">
         <select ref="slectfromtime" className="form-control gender_selct" name={this.props.name} value={this.state.value} onChange = {this.handleChange}>
           {
-                    this.props.selectlist.map(function(item, i) {
-                      return (
-                        <option key={i} value={item.name}>{item.name}</option>
-                      )
-                    })
-                  }
+            this.props.selectlist.map(function(item, i) {
+              return (
+                <option key={i} value={item.name}>{item.name}</option>
+              )
+            })
+          }
         </select>
       </div>
     );
