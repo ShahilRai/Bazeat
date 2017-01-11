@@ -8,7 +8,7 @@ export default class ChangePasswordPage extends React.Component {
 
     return (
       <DocumentTitle title={`Change Password`}>
-        <div className="container">
+        <div className="container full_width_chng_pwd">
           <div className="row">
             <div className="col-xs-12">
               <h3>Change Password</h3>

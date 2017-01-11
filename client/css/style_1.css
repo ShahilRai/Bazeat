@@ -759,6 +759,11 @@ color:#808080;
 	width: 100%;
 	padding-top: 40px;
 }
+.full_width_chng_pwd {
+    float: left;
+    width: 100%;
+    padding-top: 110px;
+}
 .edit_profile_sidebar {
 	width: 21.5%;
 	float: left;
