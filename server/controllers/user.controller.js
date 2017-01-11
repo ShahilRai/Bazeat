@@ -222,7 +222,21 @@ export function Payment(req, res) {
                     if(err) {
                       return res.status(500).send(err);
                     } else {
+                      Order.findOneAndUpdate({"_id": order._id},
+                        {
+                          "$set": {
+                            "address.city": req.body.city,
+                            "address.country": req.body.country,
+                            "address.line1": req.body.line1,
+                            "address.postal_code": req.body.postal_code,
+                            "address.phone_num": req.body.phone_num,
+                            "address.phone_num": req.body.phone_num,
+                          }
+                        },{new: true}
+                        ).exec(function(err, updated_order){
+                      });
                       MailService.send_email(charge)
+                      update_order_after_paymnt(charge, order)
                       return res.json({ charge: charge });
                     }
                   });
@@ -271,5 +285,23 @@ export function disableAccount(req, res) {
         return res.json({ user: saved });
       }
     });
+  });
+}
+
+
+export function update_order_after_paymnt(charge, order){
+  console.log('charge')
+  console.log(charge)
+  console.log('order')
+  console.log(order)
+  Order.findOneAndUpdate({"_id": order._id},
+    {
+      "$set": {
+        "payment_status": charge.status,
+        "payment_transaction_id": charge.balance_transaction,
+      }
+    },{new: true}
+    ).exec(function(err, updated_order){
+      // Send email to promoter for shipping
   });
 }

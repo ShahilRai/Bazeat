@@ -10,6 +10,8 @@ const orderitemSchema = new Schema({
   _buyer: { type: ObjectId, ref: 'User' },
   _order: { type: ObjectId, ref: 'Order' },
   cuid: { type: 'String', required: true },
+  packages: [{ type: Schema.ObjectId, ref: 'Package' }],
+  packed_qty: { type: 'Number', default: 0 }
 });
 
 export default mongoose.model('OrderItem', orderitemSchema);
