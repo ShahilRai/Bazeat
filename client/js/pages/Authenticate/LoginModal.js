@@ -47,12 +47,7 @@ export default class LoginModal extends React.Component {
                   <input type="password" className="form-control passwrd_txt" name="password" placeholder="******" />
                   <i className="fa fa-lock" aria-hidden="true"></i>
                 </div>
-
                 <div className="checkbox prod_checkbox login_chkbox">
-                  <input type="checkbox" id="rememberMe" name="rememberMe"/>
-                  <label htmlFor="rememberMe">
-                    Remember me
-                  </label>
                 </div>
                 <input type="submit" value="Log in" className="login_sbmit" />
                 <p className="alert alert-danger" data-spIf="form.error">
