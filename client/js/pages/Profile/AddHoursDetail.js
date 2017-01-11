@@ -6,7 +6,6 @@ import SelectBox from '../components/SelectBox';
 export default class AddHoursDetail extends React.Component {
 
   constructor(props, context) {
-    console.log(context)
     super(props, context);
     this.state = {
       daysValue: "",
@@ -24,11 +23,16 @@ export default class AddHoursDetail extends React.Component {
 
   addHours(e){
     var all_days_selected = document.getElementById("allDays").checked
-    if(this.refs.from_time.refs.slectfromtime.value == "Select" || this.refs.to_time.refs.slectfromtime.value == "Select" || this.state.selectDays.length == 0){
-      return alert("Please select the day and time" );
+    if(!all_days_selected){
+      if(this.refs.from_time.refs.slectfromtime.value == "Select" || this.refs.to_time.refs.slectfromtime.value == "Select" || this.state.selectDays.length == 0){
+        return alert("Please select the day and time" );
+      }
     }
 
     if(all_days_selected){
+     if(this.refs.from_time.refs.slectfromtime.value == "Select" || this.refs.to_time.refs.slectfromtime.value == "Select"){
+        return alert("Please select the day and time" );
+      }
       this.state.selectDays = [];
       this.state.selectDays.push(this.state.days[0].value)
       this.state.selectDays.push(this.state.days[6].value)
@@ -44,7 +48,7 @@ export default class AddHoursDetail extends React.Component {
     this.saveTimeSlot(this.props.email, hoursArray).then((response) => {
       if(response.data) {
         this.setState({
-          items: response.data.user
+          items: response.data.user._timeSlotsArray
         });
       }
       }).catch((err) => {
@@ -131,6 +135,6 @@ export default class AddHoursDetail extends React.Component {
           </span>
         </span>
       </div>
-      )
-    }
+    )
   }
+}

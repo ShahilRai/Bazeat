@@ -24,13 +24,13 @@ export function addUser(req, res) {
 
 export function addTimeSlot(req, res) {
   User.findOneAndUpdate({ email: req.body.email }, {
-    $pushAll: { "timeslots": [req.body.timeslots] }
+    $pushAll: { "timeslots": req.body.timeslots }
     }, {new: true}).exec((err, user) => {
     if (err){
       return res.status(500).send(err);
      }
      else {
-      return res.status(200).send({user});
+      return res.status(200).send(user.timeslots);
     }
   });
 }

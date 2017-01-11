@@ -23,8 +23,6 @@ import AdminLoginModal from '../admin/AdminLoginModal';
 import AdminRegisterModal from '../admin/AdminRegisterModal';
 import AdminPanel from '../admin/AdminPanel';
 import CheckoutContainer from '../cart/CheckoutContainer';
-import ReceivedOrder from '../OrderManagement/ReceivedOrder';
-import CreateNewPackage from '../OrderManagement/CreateNewPackage';
 
 export default class ProjectRouter extends React.Component {
   static contextTypes = {
@@ -80,8 +78,8 @@ export default class ProjectRouter extends React.Component {
           <Route path='/map-search' component={MapViewContainer} />
           <Route path='/search' component={DisplaySearch} />
           <Route path='/orders' component={ProfileContainer} />
-          <Route path='/orders/received-order' component={ReceivedOrder} />
-          <Route path='/orders/new-package' component={CreateNewPackage} />
+          <Route path='/orders/received-order' component={ProfileContainer} />
+          <Route path='/orders/new-package' component={ProfileContainer} />
           <Route path='/orders/packages' component={ProfileContainer} />
           <AuthenticatedRoute>
             <Route path='/viewcart' component={CheckoutContainer} />

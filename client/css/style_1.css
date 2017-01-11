@@ -2038,7 +2038,7 @@ width: 20%;
 
 /*::::::::::::::STEP-1::::::::::::::*/
 input[type="file"] {
-    display: block;
+    display: none;
 }
 .edited_img {
     position: relative;
