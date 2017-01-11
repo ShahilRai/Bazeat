@@ -6,6 +6,8 @@ import ProducerProfilePage from './ProducerProfilePage';
 import UserProfilePage from './UserProfilePage';
 import Notification from '../UserSetting/Notification';
 import AddAccount from './AddAccount';
+import PurchaseOrders from '../OrderManagement/PurchaseOrders'
+import OrderMgmntPackages from '../OrderManagement/OrderMgmntPackages'
 
 export default class ProfileContainer extends React.Component {
 
@@ -18,6 +20,11 @@ export default class ProfileContainer extends React.Component {
     if(this.state.route == '/profile'){
       this.setState({
         activeView: 'active'
+      });
+    }
+    if(this.state.route == '/orders'){
+      this.setState({
+        activeView2: 'active'
       });
     }
   }
@@ -36,14 +43,20 @@ export default class ProfileContainer extends React.Component {
       status: "false",
       activeView: '',
       activeView1: '',
-      seeProfile_button_text: "See profile",
-      add_account: false
+      add_account: false,
+      activeView2: '',
+      puchaseOrderPage: true,
+      packagesPage: false,
+      seeProfile_button_text: "See profile"
     };
     this.showNotification = this.showNotification.bind(this)
     this.settingStatus = this.settingStatus.bind(this)
     this.profileStatus = this.profileStatus.bind(this)
+    this.orderStatus = this.orderStatus.bind(this)
     this.seeProfileBtnClck = this.seeProfileBtnClck.bind(this)
     this.addAccount = this.addAccount.bind(this)
+    this.showPurchaseOrders = this.showPurchaseOrders.bind(this)
+    this.showPackages = this.showPackages.bind(this)
   }
 
   seeProfileBtnClck() {
@@ -82,8 +95,9 @@ export default class ProfileContainer extends React.Component {
       status : "true",
       activeView1: 'active',
       activeView: '',
-      notification: false,
-      add_account: false
+      add_account: false,
+      activeView2:'',
+      notification: false
     });
   }
 
@@ -93,6 +107,18 @@ export default class ProfileContainer extends React.Component {
       status : "false",
       activeView1: '',
       activeView: 'active',
+      activeView2:'',
+      notification: false
+    });
+  }
+
+  orderStatus(){
+    this.setState({
+      route: '/orders',
+      status : "false",
+      activeView1: '',
+      activeView: '',
+      activeView2:'active',
       notification: false
     });
   }
@@ -101,6 +127,20 @@ export default class ProfileContainer extends React.Component {
     this.setState({
       add_account: true
     });
+  }
+    
+  showPurchaseOrders(){
+    this.setState({
+      puchaseOrderPage: true,
+      packagesPage: false
+    })
+  }
+
+  showPackages(){
+    this.setState({
+      puchaseOrderPage: false,
+      packagesPage: true
+    })
   }
 
   render() {
@@ -113,6 +153,10 @@ export default class ProfileContainer extends React.Component {
       this.state.profile= <div><h3>comming soon.........</h3></div>;
     }else if(this.state.route=='/setting'|| this.state.status=="true"){
       this.state.profile= <ProducerPasswordUpdate />;
+    }else if(this.state.route=='/orders' && this.state.puchaseOrderPage){
+      this.state.profile= <PurchaseOrders />;
+    }else if(this.state.route=='/orders' && this.state.packagesPage){
+      this.state.profile= <OrderMgmntPackages />;
     }else if(this.state.route=='/profile' || this.context.user||this.state.status=="false"){
       if(this.context.user.customData.is_producer == "true"){
         this.state.profile = <ProducerProfilePage />;
@@ -142,6 +186,15 @@ export default class ProfileContainer extends React.Component {
       )
     }
 
+    if(this.state.route == "/orders"){
+      left_menus = (
+      <ul className="edit_sidbar_list">
+        <li className={this.state.puchaseOrderPage?"active":''}><a href="javascript:void(0)" onClick={this.showPurchaseOrders}>Purchase orders</a></li>
+        <li className={this.state.packagesPage?"active":''}><a href="javascript:void(0)" onClick={this.showPackages}>Packages</a></li>
+      </ul>
+      )
+    }
+
     return (
       <div>
         <div className="menu_wrapper">
@@ -151,6 +204,7 @@ export default class ProfileContainer extends React.Component {
                 <ul>
                   <li className={this.state.activeView}><Link to="profile" onClick={this.profileStatus}>Profile</Link></li>
                   <li className={this.state.activeView1}><Link to="setting" onClick={this.settingStatus}>Settings</Link></li>
+                  <li className={this.state.activeView2}><Link to="orders" onClick={this.orderStatus}>Orders</Link></li>
                 </ul>
               </div>
             </div>
