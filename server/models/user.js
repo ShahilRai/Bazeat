@@ -6,8 +6,7 @@ import Product from '../models/product';
 const slotSchema = new Schema({
   start_time: { type: 'String', required: true },
   end_time: { type: 'String', required: true },
-  start_day: { type: 'String', required: true },
-  end_day: String
+  day: []
 });
 
 
