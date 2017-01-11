@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import PackagesList from './PackagesList';
+import EditPurchaseOrder from './EditPurchaseOrder';
 
 export default class ReceivedOrder extends React.Component {
 
@@ -27,14 +28,14 @@ export default class ReceivedOrder extends React.Component {
 
   render(){
     return(
-      <div className="col-lg-9 col-md-9 col-sm-12 col-xs-12 full_width_container">
+      <div className="col-lg-9 col-md-9 col-sm-12 col-xs-12">
         <div className="received_order_rght">
           <div className="rcv_order_header">
             <h2 className="text-left">PO-000001</h2>
             <div className="order_header_rght">
               <ul>
                 <li className="active">
-                  <a href="#"><i className="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                  <a href="#" data-toggle="modal" data-target="#edit_purchase"><i className="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                 </li>
                 <li className="fax_icon">
                   <a href="#"></a>
@@ -46,6 +47,7 @@ export default class ReceivedOrder extends React.Component {
                   <a href="#"><i className="fa fa-envelope-o" aria-hidden="true"></i></a>
                 </li>
               </ul>
+              <EditPurchaseOrder />
               <div className="form-group portion_form custom_select_box portion_select">
                 <select onClick={this.handleSelectChange} name="">
                   <option>New package</option>
@@ -58,7 +60,7 @@ export default class ReceivedOrder extends React.Component {
             </div>
           </div>
           <div className="order_caption">
-            <p>No packages yet for this order.<span className="green_txt"> <Link to="/orders/new-package">Create new package</Link></span></p>
+            <p>No packages yet for this order.<span className="green_txt"> <Link to="/orders/new-package" onClick={this.props.createPackageStatus}>Create new package</Link></span></p>
           </div>
           <div className="order_information">
             <div className="order_info_lt">
