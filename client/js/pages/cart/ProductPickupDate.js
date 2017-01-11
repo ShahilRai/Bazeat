@@ -1,5 +1,8 @@
 import React from 'react';
 import CheckoutStep from './CheckoutStep';
+let days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+let months = ["january","Feburary","March","April","May","June","July","August","September","October","November","December"];
+let perPageDateDisplay = 5;
 
 export default class ProductPickupDate extends React.Component {
 
@@ -12,9 +15,7 @@ export default class ProductPickupDate extends React.Component {
     super(props);
       this.state = {
         method:this.props.method,
-        day_month_date_time: [{'day': "Sunday", 'month': "January", "time": '10:00 - 17.00'},{'day': "Monday", "month": "Feburary", "time": '10:00 - 17.00'},{'day': "Tuesday", "month": "March", "time": '10:00 - 17.00'},{'day': "Wednesday", "month": "April", "time": '10:00 - 17.00'},{'day': "Thursday", "month": "May", "time": '10:00 - 17.00'},{'day': "Friday", "month": "June", "time": '10:00 - 17.00'},{'day': "Saturday", "month": "July", "time": '10:00 - 17.00'},{'day': "Sunday", "month": "Augest", "time": '10:00 - 17.00'},{'day': "Monday", "month": "September", "time": '10:00 - 17.00'},{'day': "Tuesday", "month": "Octuber", "time": '10:00 - 17.00'},{'day': "Wednesday", "month": "November", "time": '10:00 - 17.00'},{'day': "Thursday", "month": "December", "time": '10:00 - 17.00'},{'day': "Friday", "month": "January", "time": '10:00 - 17.00'},{'day': "Saturday", "month": "Feburary", "time": '10:00 - 17.00'},{'day': "Sunday", "month": "March", "time": '10:00 - 17.00'},{'day': "Monday", "month": "April", "time": '10:00 - 17.00'},{'day': "Tuesday", "month": "May", "time": '10:00 - 17.00'},{'day': "Wednesday", "month": "June", "time": '10:00 - 17.00'},{'day': "Thursday", "month": "July","time": '10:00 - 17.00'},{'day': "Friday", "month": "Augest", "time": '10:00 - 17.00'},{'day': "Saturday", "month": "September", "time": '10:00 - 17.00'},{'day': "Sunday", "month": "Octuber", "time": '10:00 - 17.00'}],
-        displayed_day: 5,
-        day_month_date: [{'day': "", 'month': "", 'date': ''},{'day': "", 'month': "", 'date': ''},{'day': "", 'month': "", 'date': ''},{'day': "", 'month': "", 'date': ''},{'day': "", 'month': "", 'date': ''},{'day': "", 'month': "", 'date': ''},{'day': "", 'month': "", 'date': ''},{'day': "", 'month': "", 'date': ''},{'day': "", 'month': "", 'date': ''},{'day': "", 'month': "", 'date': ''},{'day': "", 'month': "", 'date': ''},{'day': "", 'month': "", 'date': ''},{'day': "", 'month': "", 'date': ''},{'day': "", 'month': "", 'date': ''},{'day': "", 'month': "", 'date': ''},{'day': "", 'month': "", 'date': ''},{'day': "", 'month': "", 'date': ''},{'day': "", 'month': "", 'date': ''},{'day': "", 'month': "", 'date': ''},{'day': "", 'month': "", 'date': ''}],
+        _arrayOfMonthDayAndDate: []
       }
       this.pickupdate = this.pickupdate.bind(this);
       this.destination = this.destination.bind(this);
@@ -23,21 +24,62 @@ export default class ProductPickupDate extends React.Component {
       this.displayForm = this.displayForm.bind(this);
   }
 
-  componentDidMount(){
-    var date = new Date();
-    var day = date.getDay();
-    var month = date.getMonth();
-    var dayOfMonth = date.getDate();
-    for(i=0;i<this.state.displayed_day;i++){
-      this.state.day_month_date[i].day=(this.state.day_month_date_time[(this.day)+i].day);
-      this.state.day_month_date[i].month=(this.state.day_month_date_time[month].month);
-      this.state.day_month_date[i].date=(dayOfMonth);
+  displayDataMonthDay(){
+    let date = new Date();
+    var self = this
+    var startingday = 0
+    var i;
+    var _placeHolderArr = []
+    var _currentDay = date.getDay()
+    for( i=0;i<perPageDateDisplay;i++)
+    {
+      var getCDay = _currentDay + i
+      if(getCDay > 6){
+        getCDay = startingday
+        startingday++
+        _placeHolderArr.push({
+          day: days[getCDay],
+          month: months[date.getMonth()],
+          current_date: date.getDate() + i
+        })
+      }else{
+        _placeHolderArr.push({
+          day: days[getCDay],
+          month: months[date.getMonth()],
+          current_date: date.getDate() + i
+        })
+      }
     }
+    this.setState({
+      _arrayOfMonthDayAndDate: _placeHolderArr
+    })
+    console.log(this.state._arrayOfMonthDayAndDate)
+  }
+
+  componentDidMount(){
+    this.displayDataMonthDay();
   }
 
   displayForm(){
     document.getElementById("checkout_form").style.display = "block";
   }
+
+  showMoreDays(){
+    perPageDateDisplay = perPageDateDisplay+5;
+    this.displayDataMonthDay();
+    this.setState({
+    _arrayOfMonthDayAndDate : _placeHolderArr
+    });
+    this.pickupdate();
+  }
+
+  /*displayTimeSlot(){
+
+  }
+
+  loadTimeSlot(){
+    return axios.post("/api/get_time_slots?product_id="+product_id);
+  }*/
 
   pickupdate(){
     return(
@@ -47,14 +89,14 @@ export default class ProductPickupDate extends React.Component {
           <h4>When can we expect to see you?</h4>
           <CheckoutStep step={this.props.step}/>
           <div className="pick_update">
-            {this.state.day_month_date.map((checkout, index) =>
-              <div className="pickup_row1">
-                <span className="pickup_day {({index}==2||4||6||8||10||12) ? green_txt : ''}">{checkout.day} - {checkout.month}</span>
-                <span className="chkout_pickup_time {({index}==2||4||6||8||10||12) ? green_txt : ''}">{checkout.date}</span>
+            {this.state._arrayOfMonthDayAndDate.map((monthDayDate, index) =>
+              <div className="pickup_row1" key={index}>
+                <span className="pickup_day" >{monthDayDate.day} - {monthDayDate.month}-{monthDayDate.current_date}</span>
+                <span className="chkout_pickup_time">{monthDayDate.date}</span>
               </div>
             )}
             <div className="chkout_step1btns">
-            <button type="button" className="btn btn-default more_days_btn">Show more days</button>
+            <button type="button" className="btn btn-default more_days_btn" onClick={this.showMoreDays.bind(this)}>Show more days</button>
             <button type="button" className="btn btn-default continue_btn" onClick={this.props.nextStep}>Continue</button>
             </div>
           </div>
