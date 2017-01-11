@@ -6,7 +6,7 @@ export default class OrderMgmntPackages extends React.Component {
   render(){
     var tableheadValue=['Package date','Package#','Carrier','Sales order#','Status','Shipped date','Customer','Quantity']
     return(
-      <div className="col-lg-9 col-md-9 col-sm-10 col-xs-12 purchase_order_rght_sidebar rt_order_mgmnt full_width_container">
+      <div className="col-lg-9 col-md-9 col-sm-10 col-xs-12 purchase_order_rght_sidebar rt_order_mgmnt">
         <div className="table-main">
           <div className="table-wrapper">
             <table className="table purchase_order_table">
