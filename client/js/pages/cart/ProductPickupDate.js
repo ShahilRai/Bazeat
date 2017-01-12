@@ -58,6 +58,18 @@ export default class ProductPickupDate extends React.Component {
 
   componentDidMount(){
     this.displayDataMonthDay();
+    var email=this.context.user ? this.context.user.username : ''
+    this.loadCurrentUserAddress(email).then((response) => {
+        if(response.data.user) {
+          this.setState({
+            currentUser_Detail: response.data.user
+          });
+        }
+    }).catch((err) => {
+        console.log(err);
+    });
+    console.log("usercurrent detail")
+    console.log(this.state.currentUser_Detail)
   }
 
   displayForm(){
@@ -80,7 +92,9 @@ export default class ProductPickupDate extends React.Component {
   loadTimeSlot(){
     return axios.post("/api/get_time_slots?product_id="+product_id);
   }*/
-
+  loadCurrentUserAddress(email) {
+    return axios.get("/api/user?email="+email);
+  }
   pickupdate(){
     return(
       <div className="full_width ptop0">
@@ -180,85 +194,76 @@ export default class ProductPickupDate extends React.Component {
   deliverToPerson(){
     return(
       <div className="full_width ptop0">
-          <div className="chkout_pg">
-            <h3>A couple of words from XXXX</h3>
-            <h4>We would like you to know that...</h4>
-            <CheckoutStep step={this.props.step}/>
-            <h5>We will ship the the goods to ADDRESS.</h5>
-            <div className="del_addr_heading"><a href="javascript:void(0)" onClick={() =>{this.displayForm()}}><h6>Please deliver at this address instead</h6></a></div>
-            <div  className="del_det_form">
-              <div id="checkout_form" className="edit_prfile_detail_form">
-                <h3>Details</h3>
-                <form className="ptop30">
-                  <div className="passwrd_form">
-                    <div className="form-group row">
-                      <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">E-mail*</label>
-                      <div className="col-md-7 col-xs-12">
-                        <input className="form-control" value="" type="search" />
-                      </div>
-                    </div>
-                    <div className="form-group row">
-                      <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">First name*</label>
-                      <div className="col-md-7 col-xs-12">
-                        <input className="form-control" value="" type="search"/>
-                      </div>
-                    </div>
-                    <div className="form-group row">
-                      <label for="example-url-input" className="col-md-5 col-xs-12 col-form-label">C/O</label>
-                      <div className="col-md-7 col-xs-12">
-                        <input className="form-control" value="" type="email"/>
-                      </div>
-                    </div>
-                    <div className="form-group row">
-                      <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">Post code*</label>
-                      <div className="col-md-7 col-xs-12">
-                        <input className="form-control" value="" type="search"/>
-                      </div>
+        <div className="chkout_pg">
+          <h3>A couple of words from XXXX</h3>
+          <h4>We would like you to know that...</h4>
+          <CheckoutStep step={this.props.step}/>
+          <h5>We will ship the the goods to ADDRESS.</h5>
+          <div className="del_addr_heading"><a href="javascript:void(0)" onClick={() =>{this.displayForm()}}><h6>Please deliver at this address instead</h6></a></div>
+          <div  className="del_det_form">
+            <div id="checkout_form" className="edit_prfile_detail_form">
+              <h3>Details</h3>
+              <form className="ptop30">
+                <div className="passwrd_form">
+                  <div className="form-group row">
+                    <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">E-mail*</label>
+                    <div className="col-md-7 col-xs-12">
+                      <input className="form-control" value="" type="search" />
                     </div>
                   </div>
-                  <div className="passwrd_form">
-                    <div className="form-group row">
-                      <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">Phone number*</label>
-                      <div className="col-md-7 col-xs-12">
-                        <input className="form-control" value="" type="search"/>
-                      </div>
+                  <div className="form-group row">
+                    <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">First name*</label>
+                    <div className="col-md-7 col-xs-12">
+                      <input className="form-control" value="" type="search"/>
                     </div>
-                    <div className="form-group row">
-                      <label for="example-url-input" className="col-md-5 col-xs-12 col-form-label">Address*</label>
-                      <div className="col-md-7 col-xs-12">
+                  </div>
+                  <div className="form-group row">
+                    <label for="example-url-input" className="col-md-5 col-xs-12 col-form-label">C/O</label>
+                    <div className="col-md-7 col-xs-12">
                       <input className="form-control" value="" type="email"/>
-                      </div>
-                    </div>
-                    <div className="form-group row">
-                      <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">City*</label>
-                      <div className="col-md-7 col-xs-12">
-                        <input className="form-control" value="" type="search"/>
-                      </div>
                     </div>
                   </div>
-                  <p className="mandatory_txt">* Mandatory fields</p>
-                  {this.deliveryDetails()}
-                </form>
-                  <div className="profile_gry_bot_bar chkout_step1btns">
-                    <button type="submit" className="btn btn-default continue_btn" onClick={this.props.nextStep}>Continue</button>
+                  <div className="form-group row">
+                    <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">Post code*</label>
+                    <div className="col-md-7 col-xs-12">
+                      <input className="form-control" value="" type="search"/>
+                    </div>
                   </div>
-              </div>
-          </div>
-              <p>
-              Når du skal betale varene du har lagt i handlekurven, kommer det opp et punkt som heter "Ønsker lever ing uke" under Leveringsmetode. Ved å velge en uke her, kan vi planlegge din levering. Vi gjør vårt beste
-              for å levere den uken du har ønsket deg, men gjør oppmerksom på at det kan bli endringer pga. forhold
-              hos oss, kjøttskjæreren og/eller transportselskapet. Når det nærmer seg uka du ønsket å få levert varene
-              tar vi kontakt pr telefon, sms eller epost for å varsle om at varene er på vei, og undersøke om det passer
-              for deg å ta imot varene. Vanligvis sender vi ut en felles sms dagen før levering, der vi ber om tilbakemeld
-              ing i tilfelle du IKKE kan ta imot varene den aktuelle dagen.
-              </p>
-              <p>
-              Hel/halv gris kjører vi vanligvis hjem til deg med kjøle/frysebil. Kasser leverer vi fortrinnsvis selv eller med
-              inneid hjelp fra et lokalt transportselskap, her har vi også kjøle/frysetransport.
-              </p>
-              <button type="button" className="btn btn-default continue_btn" onClick={this.props.nextStep}>Continue</button>
+                </div>
+                <div className="passwrd_form">
+                  <div className="form-group row">
+                    <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">Phone number*</label>
+                    <div className="col-md-7 col-xs-12">
+                      <input className="form-control" value="" type="search"/>
+                    </div>
+                  </div>
+                  <div className="form-group row">
+                    <label for="example-url-input" className="col-md-5 col-xs-12 col-form-label">Address*</label>
+                    <div className="col-md-7 col-xs-12">
+                    <input className="form-control" value="" type="email"/>
+                    </div>
+                  </div>
+                  <div className="form-group row">
+                    <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">City*</label>
+                    <div className="col-md-7 col-xs-12">
+                      <input className="form-control" value="" type="search"/>
+                    </div>
+                  </div>
+                </div>
+                <p className="mandatory_txt">* Mandatory fields</p>
+                {this.deliveryDetails()}
+              </form>
+                <div className="profile_gry_bot_bar chkout_step1btns">
+                  <button type="submit" className="btn btn-default continue_btn" onClick={this.props.nextStep}>Continue</button>
+                </div>
             </div>
           </div>
+          <p>
+          { this.producer_info }
+          </p>
+          <button type="button" className="btn btn-default continue_btn" onClick={this.props.nextStep}>Continue</button>
+        </div>
+      </div>
     );
   }
 

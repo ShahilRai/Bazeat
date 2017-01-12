@@ -13,7 +13,9 @@ export default class DeliveryType extends React.Component {
     this.state = {
     }
   }
-
+  componentDidMount(){
+    alert('DeliveryType')
+  }
   render() {
     return (
       <div>

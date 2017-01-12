@@ -24,6 +24,9 @@ export default class ShoppingBag extends React.Component {
       }
     }
   }
+  componentDidMount(){
+    alert('shopping')
+  }
 
   incrNumItems(e, i) {
   var self = this
