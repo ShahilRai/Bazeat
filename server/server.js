@@ -239,7 +239,6 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
                     producer_info.cmp_web_site = cmp_web_site;
                     producer_info.cmp_phone_number = cmp_phone_number;
                     producer_info.cmp_contact_person = cmp_contact_person;
-                    producer_info.cmp_delivery_options = cmp_delivery_options;
                     producer_info.cmp_city = cmp_city;
                     producer_info.cmp_address = cmp_address;
                     producer_info.cmp_country = cmp_country;

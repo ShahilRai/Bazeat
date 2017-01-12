@@ -115,7 +115,7 @@ export default class ProducerProfilePage extends React.Component {
                 </div>
                 <div className="form-group row">
                   <LabelField htmlFor="desc" className="col-md-4 col-xs-12 col-form-label" label="Company description" />
-                  <TextAreaField value={this.state.producer_info.cmp_description} name="cmp_description">{this.state.producer_info.cmp_description}</TextAreaField>
+                  <TextAreaField value={this.state.user.description} name="desc">{this.state.user.description}</TextAreaField>
                 </div>
               </div>
             </div>
@@ -189,7 +189,7 @@ export default class ProducerProfilePage extends React.Component {
               <div className="edt_prf_inner_detail">
                 <div className="form-group row">
                   <LabelField htmlFor="desc" className="col-md-4 col-xs-12 col-form-label" label="Delivery information" />
-                  <TextAreaField name="cmp_delivery_options"  value = {this.state.producer_info.cmp_delivery_options} >{this.state.producer_info.cmp_delivery_options}</TextAreaField>
+                  <TextAreaField name="delivery_options"  value = {this.state.user.delivery_options} >{this.state.user.delivery_options}</TextAreaField>
                   <p>if you will deliver the your products to your customers, it would be great to inform them about the particulars. This information will show up under *Delivery details* for Budmat.</p>
                 </div>
               </div>
