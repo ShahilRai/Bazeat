@@ -52,7 +52,7 @@ export default class ProfileContainer extends React.Component {
       puchaseOrderPage: true,
       packagesPage: false,
       seeProfile_button_text: "See profile",
-      selected_tag:1
+      selected_tag:1,
       allMessages: false,
       msgConversations: []
     };
