@@ -27,8 +27,8 @@ export default class Menu extends React.Component {
       if(response.data) {
        self.setState({
         allMessages: response.data.conversations
-       })   
-     }   
+       })
+     }
     })
       .catch((err) => {
     console.log(err);

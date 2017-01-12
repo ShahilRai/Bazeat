@@ -54,28 +54,28 @@ export default class AdminRegisterModal extends React.Component {
        ErrorMessage: <span className="text-center"><p>Please fill the password</p></span>
       })
     }else{
-    if (password.length < 8){
-      valid = false
-      this.setState({
-       ErrorMessage: <span className="text-center"><p>Password must be at least 8 characters long.</p></span>
-     })
-    }else if (password.search(/\d/) == -1){
-      valid = false
-      this.setState({
-       ErrorMessage: <span className="text-center"><p>Password must contain one digit.</p></span>
-     })
-    }else if (password.search(/^(?=.*[a-z]).+$/) == -1) {
-      valid = false
-      this.setState({
-      ErrorMessage: <span className="text-center"><p>Password must contain one lower case character.</p></span>
-    })
-    }else if (password.search(/^(?=.*[A-Z]).+$/) == -1) {
-       valid = false
-       this.setState({
-       ErrorMessage: <span className="text-center"><p>Password must contain one upper case character.</p></span>
-     })
+      if (password.length < 8){
+        valid = false
+        this.setState({
+         ErrorMessage: <span className="text-center"><p>Password must be at least 8 characters long.</p></span>
+       })
+      }else if (password.search(/\d/) == -1){
+        valid = false
+        this.setState({
+         ErrorMessage: <span className="text-center"><p>Password must contain one digit.</p></span>
+       })
+      }else if (password.search(/^(?=.*[a-z]).+$/) == -1) {
+        valid = false
+        this.setState({
+          ErrorMessage: <span className="text-center"><p>Password must contain one lower case character.</p></span>
+        })
+      }else if (password.search(/^(?=.*[A-Z]).+$/) == -1) {
+        valid = false
+        this.setState({
+          ErrorMessage: <span className="text-center"><p>Password must contain one upper case character.</p></span>
+        })
+      }
     }
-  }
     return valid
   }
 

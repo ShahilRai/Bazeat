@@ -250,6 +250,7 @@ export default class ProfileContainer extends React.Component {
           <li className="active"><a href="/profile">Edit Profile</a></li>
           <li><a href="javascript:void(0)">Verification</a></li>
           <li><a href="javascript:void(0)">Reviews</a></li>
+          <li className={(this.state.selected_tag == 5)?"active":''}><a onClick={this.addAccount} href="javascript:void(0)">Bank Account</a></li>
           <li ><Link to="message" onClick={this.allMessages.bind(this)} href="javascript:void(0)">Messages</Link></li>
         </ul>
       )
