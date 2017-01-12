@@ -42,7 +42,7 @@ export function getpurchaseOrder(req, res) {
 
 export function addpackageOrder(req, res) {
   req.body.orderitems.forEach(function(orderitem, index) {
-    OrderItem.findOneAndUpdate({ _id: orderitem.order_id }, {$inc: {packed_qty: orderitem.packed_qty}}, {new: true}, function(err, updated_orderitem) {
+    OrderItem.findOneAndUpdate({ _id: orderitem._id }, {$inc: {packed_qty: orderitem.packed_qty}}, {new: true}, function(err, updated_orderitem) {
       if (err){
         return res.status(500).send(err);
       }
@@ -50,7 +50,7 @@ export function addpackageOrder(req, res) {
       if (orderitem.packed_qty != 0) {
         newPackage.qty_packed = orderitem.packed_qty
         newPackage._order = updated_orderitem._order
-        newPackage._orderitem = updated_orderitem.order_id
+        newPackage._orderitem = updated_orderitem._id
         newPackage.save((err, packed) => {
         Order.update({_id: packed._order}, {$set: {after_payment_status: "Confirmed"}},function(err) {
         });
