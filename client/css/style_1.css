@@ -1046,8 +1046,337 @@ ul.edit_sidbar_list li a:hover, ul.edit_sidbar_list li.active a {
   list-style: none;
 
 }
+/*:::::::::::::::::::::::::::::::::::::::::::::::::::::
+ ===============Message Review===============
+:::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+.white_bg{
+	background:#ffffff;
+}
+.msg_qty{
+    position: absolute;
+    right: 15px;
+    top: 0;
+    background: #F3766F;
+    border-radius: 100%;
+    font-size: 12px;
+    color: #ffffff;
+    line-height: 21px;
+    height: 21px;
+    width: 21px;
+    font-weight: 600;
+}
+.msg_dropdown{
+    width: 327px;
+    border: 1px solid #CCCCCC;
+    border-radius: 2px;
+    float: left;
+    position: absolute;
+    top: 54px;
+    right: 13px;
+	display:none;
+	z-index:9;
+}
+.chat_header{
+	float:left;
+	width:100%;
+	background:#999999;
+	    padding: 10px;
+}
+.msgs_title{
+	float:left;
+	font-size:12px;
+	font-weight:600;
+	color:#ffffff;
+}
+.edit_icon{
+    
+    float: right;
+}
+.profile_rht_header.header_rht_menu li .edit_icon a{
+	font-size: 21px;
+    color: #ffffff;
+    line-height: 9px;
+	padding:0;
+}
+.chat_list{
+	float:left;
+	width:100%;
+	padding:10px 5px;
+	    border-bottom: 1px solid #CCCCCC;
+		position:relative;
+}
+.chat_list:last-child{
+	  border-bottom: 0;
+}
+.user_img{
+	float:left;
+	    width: 18%;
+}
+.header_rht_menu li .user_img a{
+	    padding: 0;
+    border: 0;
+    width: auto;
+    margin: 0;
+}
+.chat_description{
+	    float: left;
+    width: 79%;
+	text-align:left;
+	    margin-left: 6px;
+}
+.chat_description h3{
+font-size: 12px;
+    color: #4D4D4D;	
+	font-weight:700;
+}
+.chat_description h3 span{
+	font-size:10px;
+	text-align:right;
+	float:right;
+}
+.chat_description p{
+	color: #808080;	
+	
+}
+.profile_rht_header.header_rht_menu li .chat_list a{
+	    padding: 0;
+    margin: 0;
+}
 
+.chat_container{
+max-width:780px;
+	margin:0 auto;	
+}
+.full_chat_window{
+	float:left;
+	width:100%;
+	border-radius: 2px;
+	border: 1px solid #CCCCCC;
+	    margin-top: 34px;
+}
+.full_chat_header{
+	background:#F2F2F2;
+	float:left;width:100%;
+	padding:10px 20px;
+	border-bottom: 1px solid #CCCCCC;
+}
 
+.full_chat_header h3{
+font-size: 16px;
+    color: #808080;	
+	font-weight:600;
+line-height: 22px;	
+}
+.inner_chat_header{
+	float:left;
+	width:40%;
+}
+.inner_chat_header .edit_icon{
+    background: #00ACA2;
+    border-radius: 100%;
+    height: 28px;
+    width: 28px;
+    display: inline-block;
+    line-height: 28px;
+    text-align: center;
+}
+.inner_chat_header .edit_icon a{
+	color:#ffffff;
+	
+}
+.chat_window_left{
+	float:left;
+	width:44%;
+	border-right: 1px solid #CCCCCC;
+	/***height: 435px;
+    overflow-y: scroll;**/
+}
+.chat_window_left  .modal-body,.chat_window_right .modal-body{
+	padding:0;
+}
+.mCSB_scrollTools{
+	border-left: 1px solid #CCCCCC;
+}
+.content{
+height: 435px;	
+}
+.mCS-dark.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar{
+	background-color:#C1C1C1;
+}
+.chat_window_right{
+	float:left;
+	width:56%;
+	/**height: 435px;
+    overflow-y: scroll;**/
+}
+.active_chat{
+	height:10px;
+	width:10px;
+	background:#00ACA2;
+	border-radius:100%;
+	position:absolute;
+	left:8px;
+	top:43%;
+}
+
+.chat_window_left .chat_list{
+	    padding: 10px 10px 10px 20px;
+}
+
+/*============Msg v_01=========*/
+.active_chatlist{
+background:#00ACA2;	
+color:#ffffff;
+}
+.active_chatlist .chat_description h3{
+	color:#ffffff;
+}
+.active_chatlist .chat_description p{
+	color:#ffffff;
+}
+.new_text{
+    font-size: 12px;
+    color: #fff;
+    margin-top: 6px;
+    display: inline-block;
+}
+.form_chat{
+    border: 1px solid #808080;
+    border-radius: 2px;
+    margin: 19px 15px;
+    display: inline-block;
+    width: 92%;
+	padding-bottom: 7px;
+}
+.form_chat input.form-control {
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-radius: 0;
+    border-bottom: 1px solid #808080;
+    font-size: 12px;
+    color: #808080;
+    height: 30px;
+    padding-left: 9px;
+	position:relative;
+}
+
+.form_chat ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color:#808080;
+}
+.form_chat ::-moz-placeholder { /* Firefox 19+ */
+ color:#808080;
+}
+.form_chat :-ms-input-placeholder { /* IE 10+ */
+  color:#808080;
+}
+.form_chat :-moz-placeholder { /* Firefox 18- */
+ color:#808080;
+}
+.form_chat textarea{
+    border: 0;
+    resize: none;
+    font-size: 12px;
+    color: #808080;
+    width: 100%;
+    padding: 7px 9px;
+    height: 83px;
+}
+.chat_submit{
+    background: #00ACA2;
+    float: right;
+    width: auto;
+    color: #ffffff;
+    margin-right: 10px;
+    padding: 6px 18px;
+}
+
+/*============Msgs new msgs=========*/
+.username_list{
+	display:none;
+    border: 1px solid #CCCCCC;
+    border-radius: 2px;
+    float: left;
+    width: 68%;
+    list-style: none;
+    position: absolute;
+    left: 9px;
+	background:#ffffff;
+}
+.username_list li{
+	width:100%;
+	float:left;
+	padding:5px 10px 5px 12px;
+}
+.username_list li:hover,.username_list li.active_user{
+	background:#E6E6E6;
+}
+.user_title {
+	font-size: 12px;
+    color: #4D4D4D;
+	font-weight:600;
+}
+.enter_input {
+    position: relative;
+    float: left;
+    width: 100%;
+}
+
+/*============Msgs selected msgs=========*/
+.complt_user_chat .chat_list{
+	border-bottom:1px solid #CCCCCC;
+	    padding-left: 25px;
+}
+.complt_user_chat h4{
+font-size: 14px;
+color: #808080;	
+font-weight:700;
+line-height: 45px;
+}
+.chat_msgs{
+    float: left;
+    width: 100%;
+    padding: 6px 15px 15px;
+}
+
+.chat_msgs ul{list-style:none;}
+.chat_msgs ul li{
+    display: block;
+    margin-bottom: 15px;
+    float: left;
+    width: 100%;
+}
+.chat_dates{
+	display:block;
+	font-size:10px;
+	text-align:center;
+	color:#4d4d4d;
+	margin-bottom: 8px;
+}
+.both_chat{
+border-radius:4px;
+	padding:10px;
+	font-size:12px;
+	
+	line-height: 15px;	
+	width:80%;
+}
+.sender_msg{
+	background:rgba(0,172,162,0.5);
+	color:#ffffff;
+	float: left;
+}
+
+.receiver_msg{
+	background:#E6E6E6;
+	color:#000;
+	float: right;
+}
+.complt_user_chat{
+    float: left;
+    width: 100%;
+    margin-bottom: 57px;
+}
 
 /*:::::::::::::::::::::::::::::::::::::::::::::::::::::
  ===============EDIT PROFILE STYLE END===============
