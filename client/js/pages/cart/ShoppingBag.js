@@ -170,18 +170,18 @@ export default class ShoppingBag extends React.Component {
                       <button className="fa fa-caret-down" onClick={(e) => this.decrNumItems(e, i)} ></button>
                     </span>
                     <span className="list_images"><img src={item.product_image} height="50" width="50"/>
-                    <small>{item.product_name}</small>
+                      <small>{item.product_name}</small>
                     </span>
-                  <span className="items_price">{"kr " + item.product_amt}</span>
-                  <span className="mva">15%</span>
-                  <span className="items_price">{item.product_total_amt}</span>
-                  <span className="del_bin">
+                    <span className="items_price">{"kr " + item.product_amt}</span>
+                    <span className="mva">15%</span>
+                    <span className="items_price">{item.product_total_amt}</span>
+                    <span className="del_bin">
                     <a href= "javaScript:void(0)"><img src="images/del_bin.png" onClick={this.removeSingleitem.bind(this,i)}/></a>
-                  </span>
+                    </span>
                   </li>
                 )}
               </ul>
-              <div className="chkout_step1_footer">total_price
+              <div className="chkout_step1_footer">
                 <span className="chkout_step1_prod">{"In total " +this.state.items.length +" products"}</span>
                 <span className="chkout_step1_totalprice">{"Total price incl. MVA: kr " + this.state.total_price}</span>
               </div>

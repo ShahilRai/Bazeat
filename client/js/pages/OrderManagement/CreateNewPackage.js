@@ -1,9 +1,26 @@
 import React from 'react';
 
 export default class CreateNewPackage extends React.Component {
+
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+
+    };
+    this.savePackageDetails = this.savePackageDetails.bind(this)
+  }
+
+  savePackageDetails(){
+    this.props.receivedOrderStatus()
+  }
+
   render(){
     return(
-      <div className="col-lg-9 col-md-9 col-sm-12 col-xs-12 full_width_container">
+      <div className="col-lg-9 col-md-9 col-sm-12 col-xs-12">
         <div className="received_order_rght">
           <div className="rcv_order_header">
             <ul className="order_breadcrumb">
@@ -76,7 +93,7 @@ export default class CreateNewPackage extends React.Component {
                 </table>
                 <div className="gross_order">
                   <button type="button" className="btn btn-default pckg_cncel_btn mtop0">Cancel</button>
-                  <button type="button" className="btn btn-default nxt_btn orange_bg mtop0">Save details</button>
+                  <button type="button" className="btn btn-default nxt_btn orange_bg mtop0" onClick={this.savePackageDetails}>Save details</button>
                 </div>
               </div>
             </div>

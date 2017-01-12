@@ -6,8 +6,7 @@ import Product from '../models/product';
 const slotSchema = new Schema({
   start_time: { type: 'String', required: true },
   end_time: { type: 'String', required: true },
-  start_day: { type: 'String', required: true },
-  end_day: String
+  day: []
 });
 
 
@@ -18,7 +17,6 @@ const ifProducer = new Schema({
   cmp_description: String,
   cmp_phone_number: Number,
   cmp_contact_person: String,
-  cmp_delivery_options: String,
   cmp_city: { type: 'String' },
   cmp_address: { type: 'String' },
   cmp_country: { type: 'String' },
@@ -56,6 +54,7 @@ const userSchema = new Schema({
   postal_code: { type: 'String' },
   birth_date: { type: 'Date'},
   date_joined: { type: 'Date', default: Date.now },
+  delivery_options: { type: 'String' },
   if_producer: { type: 'Boolean', default: false },
   if_user: { type: 'Boolean', default: false },
   if_visible: { type: 'Boolean', default: false },
