@@ -5,7 +5,7 @@ export default class PackagesList extends React.Component {
   render(){
     return(
       <div className="new_pckg_table">
-        <div className="table-main">
+        <div className="table-main overflow_none">
           <div className="table-wrapper">
             <table className="table">
               <thead>
@@ -29,8 +29,17 @@ export default class PackagesList extends React.Component {
                   <td className="text-left blue_txt">NOT SHIPPED</td>
                   <td className="">Bring</td>
                   <td className="text-center prht30">25-10-2016</td>
-                  <td className="text-left prht30">
+                  <td className="text-left prht30 ">
+                  <span className="shipping_toggle">
                     <i className="fa fa-align-left" aria-hidden="true"></i>
+                      <ul>
+                        <li>Ship package</li>
+                        <li>Mark for pickup</li>
+                        <li>PDF package slip </li>
+                        <li>Print package slip</li>
+                        <li>Delete shipment</li>
+                      </ul>
+                    </span>
                   </td>
                 </tr>
               </tbody>

@@ -4215,8 +4215,26 @@ border-bottom:1px solid #b3b3b3;
   background-position:0 -23px;
 }
 .order_header_rght .custom_select_box.portion_select{
-  float:left;
+     float: left;
+    position: relative;
+    overflow: visible;
 }
+.order_header_rght .custom_select_box.portion_select ul{    position: absolute;
+    width: 130px;
+    top: 100%;
+    z-index: 9999;}
+.shipping_toggle{position: relative;}
+.shipping_toggle ul{ position: absolute;
+    width: 130px;
+    top: 100%;
+    z-index: 9999;}
+  .table-main.overflow_none{overflow:inherit;}
+.shipping_toggle ul li{    font-size: 12px;
+    width: 100%;
+    float: left;
+    border: 0;
+    list-style: none;}
+.order_header_rght .custom_select_box.portion_select ul li{font-size: 12px; width: 100%; float: left; border: 0;}
 .close_order{
     margin-left: 25px;
     vertical-align: middle;
