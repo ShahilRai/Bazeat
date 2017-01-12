@@ -176,7 +176,6 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
     let org_number = req.body.org_number;
     let cmp_web_site = req.body.cmp_web_site;
     let cmp_description = req.body.cmp_description;
-    let cmp_delivery_options = req.body.cmp_delivery_options;
     let cmp_phone_number = req.body.cmp_phone_number;
     let cmp_contact_person = req.body.cmp_contact_person;
     let cmp_city = req.body.cmp_city;
@@ -206,6 +205,7 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
           user.address = req.body.address;
           user.birth_date = req.body.birth_date;
           user.postal_code = req.body.postal_code;
+          user.delivery_options = req.body.delivery_options
           user.account_number = req.body.account_number;
           user.save((error, saveduser) => {
             let data = [];
@@ -239,9 +239,7 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
                     producer_info.cmp_web_site = cmp_web_site;
                     producer_info.cmp_phone_number = cmp_phone_number;
                     producer_info.cmp_contact_person = cmp_contact_person;
-                    producer_info.cmp_delivery_options = cmp_delivery_options;
                     producer_info.cmp_city = cmp_city;
-                    producer_info.cmp_description = cmp_description
                     producer_info.cmp_address = cmp_address;
                     producer_info.cmp_country = cmp_country;
                     producer_info.cmp_postal_code = cmp_postal_code;

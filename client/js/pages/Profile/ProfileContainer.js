@@ -6,8 +6,12 @@ import ProducerProfilePage from './ProducerProfilePage';
 import UserProfilePage from './UserProfilePage';
 import Notification from '../UserSetting/Notification';
 import AddAccount from './AddAccount';
-import PurchaseOrders from '../OrderManagement/PurchaseOrders'
-import OrderMgmntPackages from '../OrderManagement/OrderMgmntPackages'
+import PurchaseOrders from '../OrderManagement/PurchaseOrders';
+import OrderMgmntPackages from '../OrderManagement/OrderMgmntPackages';
+import ReceivedOrder from '../OrderManagement/ReceivedOrder';
+import CreateNewPackage from '../OrderManagement/CreateNewPackage';
+import AllMessages from '../MessageAndReviews/AllMessages.js';
+
 
 export default class ProfileContainer extends React.Component {
 
@@ -22,7 +26,7 @@ export default class ProfileContainer extends React.Component {
         activeView: 'active'
       });
     }
-    if(this.state.route == '/orders'){
+    if(this.state.route == '/orders' || this.state.route == '/orders/received-order'){
       this.setState({
         activeView2: 'active'
       });
@@ -47,7 +51,9 @@ export default class ProfileContainer extends React.Component {
       activeView2: '',
       puchaseOrderPage: true,
       packagesPage: false,
-      seeProfile_button_text: "See profile"
+      seeProfile_button_text: "See profile",
+      allMessages: false,
+      msgConversations: []
     };
     this.showNotification = this.showNotification.bind(this)
     this.settingStatus = this.settingStatus.bind(this)
@@ -57,6 +63,26 @@ export default class ProfileContainer extends React.Component {
     this.addAccount = this.addAccount.bind(this)
     this.showPurchaseOrders = this.showPurchaseOrders.bind(this)
     this.showPackages = this.showPackages.bind(this)
+    this.receivedOrderStatus = this.receivedOrderStatus.bind(this)
+    this.createPackageStatus = this.createPackageStatus.bind(this)
+  }
+
+  componentDidMount(){
+     var userEmail = this.context.user.email;
+      this.getAllMessages(userEmail).then((response) => {
+      if(response.data) {
+       this.setState({
+        msgConversations: response.data.conversations
+       })   
+     }   
+    })
+      .catch((err) => {
+    console.log(err);
+    });
+  }
+
+   getAllMessages(emailAddress){
+    return axios.get("/api/conversations?email="+emailAddress);
   }
 
   seeProfileBtnClck() {
@@ -77,15 +103,24 @@ export default class ProfileContainer extends React.Component {
     });
   }
 
+  
+
   seeProfile(email) {
     return axios.put("/api/handleproducts",{
       email: email
     });
   }
-
+ 
   showNotification(){
     this.setState({
       notification: true
+    });
+  }
+
+  allMessages(){
+    this.setState({
+      allMessages: true,
+      route: '/message',
     });
   }
 
@@ -115,6 +150,28 @@ export default class ProfileContainer extends React.Component {
   orderStatus(){
     this.setState({
       route: '/orders',
+      status : "false",
+      activeView1: '',
+      activeView: '',
+      activeView2:'active',
+      notification: false
+    });
+  }
+
+  receivedOrderStatus(){
+    this.setState({
+      route: '/orders/received-order',
+      status : "false",
+      activeView1: '',
+      activeView: '',
+      activeView2:'active',
+      notification: false
+    });
+  }
+
+  createPackageStatus(){
+    this.setState({
+      route: '/orders/new-package',
       status : "false",
       activeView1: '',
       activeView: '',
@@ -154,13 +211,21 @@ export default class ProfileContainer extends React.Component {
     }else if(this.state.route=='/setting'|| this.state.status=="true"){
       this.state.profile= <ProducerPasswordUpdate />;
     }else if(this.state.route=='/orders' && this.state.puchaseOrderPage){
-      this.state.profile= <PurchaseOrders />;
+      this.state.profile= <PurchaseOrders receivedOrderStatus={this.receivedOrderStatus}/>;
     }else if(this.state.route=='/orders' && this.state.packagesPage){
       this.state.profile= <OrderMgmntPackages />;
+    }else if(this.state.route=='/orders/received-order'){
+      this.state.profile= <ReceivedOrder createPackageStatus={this.createPackageStatus}/>;
+    }else if(this.state.route=='/orders/new-package'){
+      this.state.profile= <CreateNewPackage receivedOrderStatus={this.receivedOrderStatus}/>;
     }else if(this.state.route=='/profile' || this.context.user||this.state.status=="false"){
       if(this.context.user.customData.is_producer == "true"){
         this.state.profile = <ProducerProfilePage />;
-      }else {
+      }
+      else if(this.state.allMessages == "true" || this.state.route =='/message'){
+        this.state.profile= <AllMessages loadAllMessages={this.loadAllMessages} msgConversations ={this.state.msgConversations}/>
+      }
+      else {
         this.state.profile = <UserProfilePage />;
       }
     }
@@ -171,8 +236,19 @@ export default class ProfileContainer extends React.Component {
           <li className="active"><a href="/profile">Edit Profile</a></li>
           <li><a href="javascript:void(0)">Verification</a></li>
           <li><a href="javascript:void(0)">Reviews</a></li>
-          <li><a href="javascript:void(0)">Messages</a></li>
           <li><a onClick={this.addAccount} href="javascript:void(0)">Bank Account</a></li>
+          <li ><a onClick={this.allMessages.bind(this)} href="javascript:void(0)">Messages</a></li>
+        </ul>
+      )
+    }
+
+    if(this.state.route == "/message"){
+      left_menus =(
+        <ul className="edit_sidbar_list">
+          <li className="active"><a href="/profile">Edit Profile</a></li>
+          <li><a href="javascript:void(0)">Verification</a></li>
+          <li><a href="javascript:void(0)">Reviews</a></li>
+          <li ><Link to="message" onClick={this.allMessages.bind(this)} href="javascript:void(0)">Messages</Link></li>
         </ul>
       )
     }
@@ -186,7 +262,7 @@ export default class ProfileContainer extends React.Component {
       )
     }
 
-    if(this.state.route == "/orders"){
+    if(this.state.route == "/orders" || this.state.route == "/orders/received-order" || this.state.route == "/orders/new-package"){
       left_menus = (
       <ul className="edit_sidbar_list">
         <li className={this.state.puchaseOrderPage?"active":''}><a href="javascript:void(0)" onClick={this.showPurchaseOrders}>Purchase orders</a></li>
@@ -213,7 +289,7 @@ export default class ProfileContainer extends React.Component {
         <div className="container padd_87">
         	<div className="full_width">
             <div className="row">
-              <div className="col-lg-3 col-md-2 col-sm-2 col-xs-12 purchase_order_left_sidebar order_purchse_lt_wdth">
+              <div className="col-lg-3 col-md-2 col-sm-2 col-xs-12 purchase_order_left_sidebar order_purchse_lt_wdth edit_profile_sidebar">
                 {left_menus}
               </div>
               {this.state.profile}

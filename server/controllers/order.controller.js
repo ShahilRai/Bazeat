@@ -6,6 +6,9 @@ import Product from '../models/product';
 import async from 'async';
 import cuid from 'cuid';
 import request from 'request';
+let LocalStorage = require('node-localstorage').LocalStorage;
+let localStorage = new LocalStorage('./scratch');
+
 
 
 export function addOrder(req, res) {
@@ -32,15 +35,17 @@ export function addOrder(req, res) {
           let food_vat_value = 0;
           let shipment_vat_value = 0;
            Product.findOne({ _id: item.product_id }).exec((err, product) => {
+            console.log('item.qty')
+            console.log(item.qty)
             total_weight += (product.portion*item.qty)
             total_price +=(product.calculated_price*item.qty)
             const newOrderItem = new OrderItem();
             newOrderItem.cuid = cuid();
             newOrderItem._order = order._id
             newOrderItem._product = item.product_id
-            newOrderItem.price = total_price
-            newOrderItem.weight = total_weight
-            newOrderItem.qty = item.qty
+            newOrderItem.product_price = total_price
+            newOrderItem.product_weight = total_weight
+            newOrderItem.product_qty = item.qty
             newOrderItem.save((err, orderitem) => {
               if (err) {
                 return res.status(500).send(err);
@@ -167,6 +172,7 @@ export  function getShippingPrice(req, res){
               "address.line1": req.body.line1,
               "address.postal_code": req.body.postal_code,
               "address.phone_num": req.body.phone_num,
+              "address.phone_num": req.body.phone_num,
             }
           },{new: true}
           ).exec(function(err, updated_order){
@@ -238,58 +244,82 @@ export function deleteOrder(req, res) {
 
 export function addCart(req, res) {
   let flag = false;
-  User.findOne({  email: req.body.email }).exec((error, user) => {
-    Cart.findOne({ user: user._id }).exec(function ( err, cart ){
-      if (err) {
-        return res.json(500,{error_msg: "Cart not found"});
-      }
-      if (!cart){
-        const newCart = new Cart(req.body);
-        newCart.cuid = cuid();
-        newCart.user = user._id;
-        newCart.save((error, savedcart) => {
-          if (error) {
-            return res.status(500).send(error);
+  if (req.body.email){
+    User.findOne({  email: req.body.email }).exec((error, user) => {
+      Cart.findOne({ user: user._id }).exec(function ( err, cart ){
+        if (err) {
+          return res.json(500,{error_msg: "Cart not found"});
+        }
+        if (!cart){
+          const newCart = new Cart(req.body);
+          newCart.cuid = cuid();
+          newCart.user = user._id;
+          newCart.save((error, savedcart) => {
+            if (error) {
+              return res.status(500).send(error);
+            }
+            cart_sum(savedcart, null, res)
+          });
+        }
+        else{
+          cart.cartitems.forEach(function(item) {
+            if(item.product_id == req.body.cartitems.product_id){
+              flag = true;
+            }
+          });
+          if(flag === true){
+            Cart.findOneAndUpdate(
+              { "_id": cart._id, "cartitems.product_id": req.body.cartitems.product_id },
+              { "$set": {
+                  "cartitems.$.qty": req.body.cartitems.qty
+                }
+              },{new: true}).exec(function(err, updated_cart_item){
+                if (err){
+                    return res.status(500).send(err);
+                  }
+                  else{
+                     cart_sum(updated_cart_item, null, res)
+                  }
+              });
           }
-          cart_sum(savedcart, null, res)
-        });
-      }
-      else{
-        cart.cartitems.forEach(function(item) {
-          if(item.product_id == req.body.cartitems.product_id){
-            flag = true;
-          }
-        });
-        if(flag === true){
-          Cart.findOneAndUpdate(
-            { "_id": cart._id, "cartitems.product_id": req.body.cartitems.product_id },
-            { "$set": {
-                "cartitems.$.qty": req.body.cartitems.qty
-              }
-            },{new: true}).exec(function(err, updated_cart_item){
-              if (err){
+          else{
+            Cart.findOneAndUpdate(
+              { "_id": cart._id },
+              {$pushAll: {"cartitems": [req.body.cartitems]}},{new: true}).exec(function(err, cart2){
+                if (err){
                   return res.status(500).send(err);
                 }
                 else{
-                   cart_sum(updated_cart_item, null, res)
+                  cart_sum(cart2, null, res)
                 }
             });
+          }
         }
-        else{
-          Cart.findOneAndUpdate(
-            { "_id": cart._id },
-            {$pushAll: {"cartitems": [req.body.cartitems]}},{new: true}).exec(function(err, cart2){
-              if (err){
-                return res.status(500).send(err);
-              }
-              else{
-                cart_sum(cart2, null, res)
-              }
-          });
-        }
-      }
+      });
     });
-  });
+  }
+  // else{
+  //   localStorage.clear()
+  //   let carts;
+  //   if(localStorage.getItem('cart')) {
+  //     console.log("1")
+  //     carts = localStorage.getItem('cart')
+  //     console.log(carts)
+  //   } else {
+  //     console.log("2")
+  //     carts = [];
+  //   }
+  //   carts.push(
+  //     cartitems:
+  //     {
+  //       qty: req.body.cartitems.qty,
+  //       product_id: req.body.cartitems.product_id,
+  //     },
+  //   )
+  //   localStorage.setItem('cart', JSON.stringify('carts'));
+  //   // carts = JSON.parse(carts);
+  //   console.log(carts)
+  // }
 }
 
 export  function cart_sum(cart, next, res){
@@ -332,6 +362,9 @@ export  function cart_sum(cart, next, res){
     })
   })
 }
+
+
+
 
 export function removeCartItems(req, res) {
   let cartItem;

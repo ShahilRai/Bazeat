@@ -66,36 +66,34 @@ export default class OrderConfirmation extends React.Component {
   orderConfHentmat(){
     return(
         <div className="page_wrapper">
-          <div className="header_wrapper brdr_btm">
-            <div className="full_width ptop0">
-              <div className="chkout_pg chkoutstep4_1">
-                {this.changeText4()}
-                <CheckoutStep step={this.props.method}/>
-                {this.changeText()}
-                <div className="confirmation_step1">
-                  <div className="inner_confrm1">
-                    <div className="cnfrm_price_prod_heading">
-                      <span className="pull-left">Price for products:</span>
-                      <span className="pull-right">kr 1999,00</span>
-                    </div>
-                    <div className="cnfrm_tot_price">
-                      <span className="pull-left">Total price:</span>
-                      <span className="pull-right">kr 1999,00</span>
-                    </div>
-                    <div className="cnfrm_tot_mva">
-                      <span className="pull-left ">MVA hereof:</span>
-                      <span className="pull-right">kr 261,00</span>
-                    </div>
+          <div className="full_width ptop0">
+            <div className="chkout_pg chkoutstep4_1">
+              {this.changeText4()}
+              <CheckoutStep step={this.props.method}/>
+              {this.changeText()}
+              <div className="confirmation_step1">
+                <div className="inner_confrm1">
+                  <div className="cnfrm_price_prod_heading">
+                    <span className="pull-left">Price for products:</span>
+                    <span className="pull-right">kr 1999,00</span>
                   </div>
-                  <div className="cnfirm_stmnt">
-                    <p>You will now proceed to payement.</p>
-                    <p>When you confirm, goods cannot be removed from the order. </p>
+                  <div className="cnfrm_tot_price">
+                    <span className="pull-left">Total price:</span>
+                    <span className="pull-right">kr 1999,00</span>
                   </div>
-                  <div className="cnfrmation_1btns">
-                     <button type="button" className="btn btn-default continue_btn">Confirm and pay for order</button>
+                  <div className="cnfrm_tot_mva">
+                    <span className="pull-left ">MVA hereof:</span>
+                    <span className="pull-right">kr 261,00</span>
                   </div>
-                  <p className="sales_agreemnt">I agree with the <a href="#">sales conditions</a> and I am aware of .....</p>
                 </div>
+                <div className="cnfirm_stmnt">
+                  <p>You will now proceed to payement.</p>
+                  <p>When you confirm, goods cannot be removed from the order. </p>
+                </div>
+                <div className="cnfrmation_1btns">
+                   <button type="button" className="btn btn-default continue_btn" onClick={this.props.nextStep}>Confirm and pay for order</button>
+                </div>
+                <p className="sales_agreemnt">I agree with the <a href="#">sales conditions</a> and I am aware of .....</p>
               </div>
             </div>
           </div>
@@ -104,7 +102,7 @@ export default class OrderConfirmation extends React.Component {
   }
   render() {
     return (
-      <div>
+      <div className="full_width_container">
         {this.orderConfHentmat()}
       </div>
     );

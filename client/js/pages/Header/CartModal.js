@@ -154,7 +154,7 @@ export default class CartModal extends React.Component {
                 <span className="list_images"><img src={item.product_image} height="50" width="50"/>
                    <small>{item.product_name}</small>
                 </span>
-              <span className="items_price">{"kr " + item.product_amt}</span>
+                <span className="items_price">{"kr " + item.product_amt}</span>
                 <span className="cross_items"><button className="delete_time" onClick={(e) => this.removeItem(e, i)} >X</button></span>
               </li>
             )}

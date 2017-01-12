@@ -49,6 +49,9 @@ const orderSchema = new Schema({
     phone_num: { type: 'String' }
   },
   payment_status: { type: 'String' },
+  after_payment_status: { type: 'String',default: 'Received' },
+  packages: [{ type: Schema.ObjectId, ref: 'Package' }],
+  payment_transaction_id: { type: 'String' },
   timeslot: [slotSchema]
 });
 

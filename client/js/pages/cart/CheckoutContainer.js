@@ -3,6 +3,7 @@ import ShoppingBag from './ShoppingBag'
 import DeliveryType from './DeliveryType'
 import ProductPickupDate from './ProductPickupDate'
 import OrderConfirmation from './OrderConfirmation'
+import Payment from './Payment';
 export default class CheckoutContainer extends React.Component {
 
   static contextTypes = {
@@ -45,7 +46,7 @@ export default class CheckoutContainer extends React.Component {
       case 4:
         return <OrderConfirmation nextStep={this.nextStep} step={this.state.step} method={this.state.selected_method}/>
       case 5:
-        return <CheckoutContainer nextStep={this.nextStep} step={this.state.step}/>
+        return <Payment nextStep={this.nextStep} step={this.state.step}/>
     }
   }
 

@@ -221,7 +221,6 @@ export function showProduct(req, res) {
 }
 
 export function handleProducts(req, res) {
-  console.log((req.body.is_disable == 'true'))
   let data = {};
   if(req.body.is_disable == 'true'){
     data['$set'] ={}
