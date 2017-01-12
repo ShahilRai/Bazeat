@@ -8,6 +8,7 @@ import InputField from '../components/InputField';
 import DateComponent from '../components/DateComponent';
 import LabelField from '../components/LabelField';
 import SelectField from '../components/SelectField';
+import AddHoursDetail from './AddHoursDetail';
 var moment = require('moment');
 
 export default class UserProfilePage extends React.Component {
@@ -126,6 +127,17 @@ export default class UserProfilePage extends React.Component {
                   <div className="form-group row">
                     <LabelField className = "col-md-4 col-xs-12 col-form-label" htmlFor="desc" label="Description" />
                     <TextAreaField name="desc" value = {this.state.user.description}>{this.state.user.description}</TextAreaField>
+                  </div>
+                  <div className="form-group row">
+                    <LabelField htmlFor="example-tel-input" className="col-md-4 col-xs-12 col-form-label" label="Visiting hours"/>
+                    <AddHoursDetail  email = {this.context.user.email} getTimeDetails={this.getTimeDetails}/>
+                  </div>
+                </div>
+                <div className="edt_prf_inner_detail">
+                  <div className="form-group row">
+                    <LabelField htmlFor="desc" className="col-md-4 col-xs-12 col-form-label" label="Delivery information" />
+                    <TextAreaField name="delivery_options"  value = {this.state.user.delivery_options} >{this.state.user.delivery_options}</TextAreaField>
+                    <p>if you will deliver the your products to your customers, it would be great to inform them about the particulars. This information will show up under *Delivery details* for Budmat.</p>
                   </div>
                 </div>
                 <div key="update-button" className="profile_gry_bot_bar">

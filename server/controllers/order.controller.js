@@ -109,6 +109,9 @@ export function getOrder(req, res) {
 
 
 export function getCart(req, res) {
+  if(!req.params.email) {
+    res.status(422).send({ error: 'send valid email' });
+  }
   User.findOne({ email: req.params.email }).exec((err, user) => {
     Cart.findOne({ user: user._id }).exec((err, cart) => {
       if (err) {
