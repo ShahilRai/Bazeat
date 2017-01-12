@@ -47,7 +47,8 @@ export default class ProfileContainer extends React.Component {
       activeView2: '',
       puchaseOrderPage: true,
       packagesPage: false,
-      seeProfile_button_text: "See profile"
+      seeProfile_button_text: "See profile",
+      selected_tag:1
     };
     this.showNotification = this.showNotification.bind(this)
     this.settingStatus = this.settingStatus.bind(this)
@@ -125,7 +126,8 @@ export default class ProfileContainer extends React.Component {
 
   addAccount(){
     this.setState({
-      add_account: true
+      add_account: true,
+      selected_tag: 5
     });
   }
     
@@ -168,11 +170,11 @@ export default class ProfileContainer extends React.Component {
     if(this.state.route == "/profile"){
       left_menus =(
         <ul className="edit_sidbar_list">
-          <li className="active"><a href="/profile">Edit Profile</a></li>
+          <li className={(this.state.selected_tag == 1)?"active":''}><a href="/profile">Edit Profile</a></li>
           <li><a href="javascript:void(0)">Verification</a></li>
           <li><a href="javascript:void(0)">Reviews</a></li>
           <li><a href="javascript:void(0)">Messages</a></li>
-          <li><a onClick={this.addAccount} href="javascript:void(0)">Bank Account</a></li>
+          <li className={(this.state.selected_tag == 5)?"active":''}><a onClick={this.addAccount} href="javascript:void(0)">Bank Account</a></li>
         </ul>
       )
     }

@@ -2,7 +2,6 @@ import React from 'react';
 import axios from 'axios';
 import InputField from '../components/InputField';
 import LabelField from '../components/LabelField';
-import ImageUploader from './ImageUploader';
 import DocumentTitle from 'react-document-title';
 import { UserProfileForm } from 'react-stormpath';
 
@@ -41,8 +40,8 @@ export default class AddAccount extends React.Component {
   saveAccount(email,file,account) {
     return axios.post("/api/bank_account",
       {
-        file: this.state.file.name,
         email: email,
+        file: file,
         account_number:account
       }
     );
@@ -65,14 +64,12 @@ export default class AddAccount extends React.Component {
   }
 
   render() {
-    console.log("file data")
-    console.log(this.state.file)
     return (
       <DocumentTitle title={`My Profile`}>
         <div className="col-lg-9 col-md-8 col-sm-10 col-xs-12 edit_profile_rht_sidebar">
           <form>
             <div className="edit_prfile_detail_form">
-              <h3>Add Account</h3>
+              <h3>Bank Account</h3>
               <div className="edt_prf_inner_detail">
                 <div className="form-group row">
                   <LabelField htmlFor="input_file" className="col-md-4 col-xs-12 col-form-label" label="Upload File" />
