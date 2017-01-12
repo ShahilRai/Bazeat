@@ -10,6 +10,9 @@ export default class CheckoutContainer extends React.Component {
     authenticated: React.PropTypes.bool,
     user: React.PropTypes.object
   };
+  componentDidMount(){
+    alert('hello')
+  }
 
   constructor(props) {
     super(props);
@@ -46,7 +49,7 @@ export default class CheckoutContainer extends React.Component {
       case 4:
         return <OrderConfirmation nextStep={this.nextStep} step={this.state.step} method={this.state.selected_method}/>
       case 5:
-        return <Payment nextStep={this.nextStep} step={this.state.step}/>
+        return <CheckoutContainer nextStep={this.nextStep} step={this.state.step}/>
     }
   }
 
