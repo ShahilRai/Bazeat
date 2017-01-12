@@ -19,11 +19,11 @@ export function allConversations(req, res, next) {
             .sort('-createdAt')
             .populate({
               path: 'sender',
-              select: 'full_name'
+              select: 'full_name photo'
             })
             .populate({
               path: 'receiver',
-              select: 'full_name'
+              select: 'full_name photo'
             })
             .exec(function(err, message) {
               if (err) {
@@ -47,11 +47,11 @@ export function getConversation(req, res, next) {
     .sort('-createdAt')
     .populate({
       path: 'sender',
-      select: 'full_name'
+      select: 'full_name photo'
     })
     .populate({
       path: 'receiver',
-      select: 'full_name'
+      select: 'full_name photo'
     })
     .exec(function(err, messages) {
       if (err) {
@@ -94,7 +94,7 @@ export function newConversation(req, res, next) {
           return next(err);
         }
 
-        res.status(200).json({ message: 'Conversation started!', conversation_id: conversation._id });
+        res.status(200).json({ message: 'Conversation started!', conversation_id: conversation._id, message: newMessage });
         return next();
       });
     });
@@ -114,7 +114,7 @@ export function sendReply(req, res, next) {
         res.send({ error: err });
         return next(err);
       }
-      res.status(200).json({ message: 'Reply successfully sent!' });
+      res.status(200).json({ message: sentReply });
       return(next);
     });
   });

@@ -10,6 +10,8 @@ import PurchaseOrders from '../OrderManagement/PurchaseOrders';
 import OrderMgmntPackages from '../OrderManagement/OrderMgmntPackages';
 import ReceivedOrder from '../OrderManagement/ReceivedOrder';
 import CreateNewPackage from '../OrderManagement/CreateNewPackage';
+import AllMessages from '../MessageAndReviews/AllMessages.js';
+
 
 export default class ProfileContainer extends React.Component {
 
@@ -51,6 +53,8 @@ export default class ProfileContainer extends React.Component {
       packagesPage: false,
       seeProfile_button_text: "See profile",
       selected_tag:1
+      allMessages: false,
+      msgConversations: []
     };
     this.showNotification = this.showNotification.bind(this)
     this.settingStatus = this.settingStatus.bind(this)
@@ -62,6 +66,24 @@ export default class ProfileContainer extends React.Component {
     this.showPackages = this.showPackages.bind(this)
     this.receivedOrderStatus = this.receivedOrderStatus.bind(this)
     this.createPackageStatus = this.createPackageStatus.bind(this)
+  }
+
+  componentDidMount(){
+     var userEmail = this.context.user.email;
+      this.getAllMessages(userEmail).then((response) => {
+      if(response.data) {
+       this.setState({
+        msgConversations: response.data.conversations
+       })   
+     }   
+    })
+      .catch((err) => {
+    console.log(err);
+    });
+  }
+
+   getAllMessages(emailAddress){
+    return axios.get("/api/conversations?email="+emailAddress);
   }
 
   seeProfileBtnClck() {
@@ -82,15 +104,24 @@ export default class ProfileContainer extends React.Component {
     });
   }
 
+  
+
   seeProfile(email) {
     return axios.put("/api/handleproducts",{
       email: email
     });
   }
-
+ 
   showNotification(){
     this.setState({
       notification: true
+    });
+  }
+
+  allMessages(){
+    this.setState({
+      allMessages: true,
+      route: '/message',
     });
   }
 
@@ -192,7 +223,11 @@ export default class ProfileContainer extends React.Component {
     }else if(this.state.route=='/profile' || this.context.user||this.state.status=="false"){
       if(this.context.user.customData.is_producer == "true"){
         this.state.profile = <ProducerProfilePage />;
-      }else {
+      }
+      else if(this.state.allMessages == "true" || this.state.route =='/message'){
+        this.state.profile= <AllMessages loadAllMessages={this.loadAllMessages} msgConversations ={this.state.msgConversations}/>
+      }
+      else {
         this.state.profile = <UserProfilePage />;
       }
     }
@@ -203,8 +238,19 @@ export default class ProfileContainer extends React.Component {
           <li className={(this.state.selected_tag == 1)?"active":''}><a href="/profile">Edit Profile</a></li>
           <li><a href="javascript:void(0)">Verification</a></li>
           <li><a href="javascript:void(0)">Reviews</a></li>
-          <li><a href="javascript:void(0)">Messages</a></li>
           <li className={(this.state.selected_tag == 5)?"active":''}><a onClick={this.addAccount} href="javascript:void(0)">Bank Account</a></li>
+          <li ><a onClick={this.allMessages.bind(this)} href="javascript:void(0)">Messages</a></li>
+        </ul>
+      )
+    }
+
+    if(this.state.route == "/message"){
+      left_menus =(
+        <ul className="edit_sidbar_list">
+          <li className="active"><a href="/profile">Edit Profile</a></li>
+          <li><a href="javascript:void(0)">Verification</a></li>
+          <li><a href="javascript:void(0)">Reviews</a></li>
+          <li ><Link to="message" onClick={this.allMessages.bind(this)} href="javascript:void(0)">Messages</Link></li>
         </ul>
       )
     }
