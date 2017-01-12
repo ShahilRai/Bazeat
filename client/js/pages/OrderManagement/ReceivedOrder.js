@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import PackagesList from './PackagesList';
 import EditPurchaseOrder from './EditPurchaseOrder';
+import newPackageCreateLink from './newPackageCreateLink';
 
 export default class ReceivedOrder extends React.Component {
 
@@ -49,10 +50,10 @@ export default class ReceivedOrder extends React.Component {
               </ul>
               <EditPurchaseOrder />
               <div className="form-group portion_form custom_select_box portion_select">
-                <select onClick={this.handleSelectChange} name="">
-                  <option>New package</option>
-                  <option>New Shipment</option>
-                </select>
+                <ul>
+                  <li>New package</li>
+                  <li>New Shipment</li>
+                </ul>
               </div>
               <span className="close_order">
                 <a href="#"><img src={require('../../../images/close_order.png')} /></a>
