@@ -11,7 +11,8 @@ const orderitemSchema = new Schema({
   _order: { type: ObjectId, ref: 'Order' },
   cuid: { type: 'String', required: true },
   packages: [{ type: Schema.ObjectId, ref: 'Package' }],
-  packed_qty: { type: 'Number', default: 0 }
+  packed_qty: { type: 'Number', default: 0 },
+  shipped_qty: { type: 'Number', default: 0 }
 });
 
 export default mongoose.model('OrderItem', orderitemSchema);

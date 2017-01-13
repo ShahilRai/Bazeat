@@ -52,9 +52,9 @@ export function addpackageOrder(req, res) {
       if (orderitem.packed_qty != 0) {
         newPackage.qty_packed = orderitem.packed_qty
         newPackage._order = updated_orderitem._order
-        newPackage._orderitem = updated_orderitem._id
+        // newPackage._orderitem = updated_orderitem._id
         newPackage.save((err, packed) => {
-        Order.update({_id: packed._order}, {$set: {after_payment_status: "Confirmed"}},function(err) {
+        OrderItem.update({_id: updated_orderitem._id}, { $set: {shipped_qty: packed.qty_packed}}, function(err) {
         });
           if (req.body.orderitems.length == index+1){
             return res.json(packed);
