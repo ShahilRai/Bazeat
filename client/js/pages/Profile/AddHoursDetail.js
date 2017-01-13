@@ -86,12 +86,26 @@ export default class AddHoursDetail extends React.Component {
     })
   }
 
+  removeHours(index) {
+    return axios.delete("/api/remove_time",{
+      params:{
+        timeslot_id: index,
+      }
+    });
+  }
+
   deleteTimeDetail(e){
     e.preventDefault(e.target.dataset.index);
     var index = e.target.dataset.index;
-    const newTime = this.state.items;
-    newTime.splice(index, 1);
-    this.setState({items: newTime})
+    this.removeHours(index).then((response) => {
+      if(response.data) {
+        this.setState({
+          items: response.data
+        });
+      }
+      }).catch((err) => {
+        console.log(err);
+    });
   }
 
   saveTimeSlot(_userEmail , _timeSlotsArray){
