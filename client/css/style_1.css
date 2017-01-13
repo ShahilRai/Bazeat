@@ -4992,3 +4992,19 @@ color:#666666;
 .table tbody tr td span{
   display: block;
 }
+
+.blur {
+  height: 250px;
+  width: 100%;
+  margin: -20px auto;
+  z-index: -1;
+  position: relative;
+  filter: blur(10px);
+  -webkit-filter: blur(10px);
+  -moz-filter: blur(10px);
+  -o-filter: blur(10px);
+  -ms-filter: blur(10px);
+  filter: url(#blur);
+  filter: progid: DXImageTransform.Microsoft.Blur(PixelRadius='10');
+  overflow: hidden;
+}

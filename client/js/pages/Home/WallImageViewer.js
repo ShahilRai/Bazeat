@@ -55,9 +55,11 @@ export default class WallImageViewer extends React.Component {
   }
 
   render() {
+    var disable=(this.props.wallImages.is_disable)
+    var blur_class = (disable == true) ? 'blur':''
     return (
       <div className="wall-column">
-        <div className="grid_single_item">
+        <div className={"grid_single_item "+ blur_class}>
           <div className="hover_box">
             <a href="#" className="hover_icon"><img src="images/like_icon.png"/>
               <small className="icon_text">Like</small>
