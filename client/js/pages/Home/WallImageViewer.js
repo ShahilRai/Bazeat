@@ -25,7 +25,7 @@ export default class WallImageViewer extends React.Component {
   addToCart(e) {
     var self = this
     var cartProduct = this.state.cartProductItems
-    var cartData = this.props.wallImages;
+    var cartData = this.props.wallImages?this.props.wallImages:this.props.prodlist;
     cartData.qty = 1;
     cartProduct.product_id = cartData.id
     this.sendCartData(cartProduct, self.context.user.email).then((response) => {

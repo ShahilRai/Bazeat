@@ -15,7 +15,7 @@ export default class Menu extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isMessage: 1,
+      isMessage: '',
       allMessages:[]
     };
   }
@@ -27,8 +27,8 @@ export default class Menu extends React.Component {
       if(response.data) {
        self.setState({
         allMessages: response.data.conversations
-       })   
-     }   
+       })
+     }
     })
       .catch((err) => {
     console.log(err);
@@ -49,7 +49,7 @@ export default class Menu extends React.Component {
     var MessageIcon;
     var userId = this.props.cuid ? this.props.cuid : 'null'
     var profileHead = this.context.authenticated ? "header_rht_menu profile_rht_header" : "header_rht_menu";
-    if(this.state.isMessage == 1){
+    if(this.state.isMessage){
       MessageIcon = ( <span className="msg_qty" >{this.state.isMessage}</span>)
     }
     return (

@@ -20,13 +20,13 @@ export default class AddAccount extends React.Component {
       imagePreviewUrl:'',
       account_number:''
     };
-    this.saveBtnClick = this.saveBtnClick.bind(this)
+    this.saveBankDetails = this.saveBankDetails.bind(this)
     this.saveAccount =this.saveAccount.bind(this)
     this._handleImageChange = this._handleImageChange.bind(this)
     this.setAccountNumber = this.setAccountNumber.bind(this)
   }
 
-  saveBtnClick() {
+  saveBankDetails() {
     this.saveAccount(this.context.user.email,this.state.file,this.state.account_number).then((response) => {
       if(response.data) {
         this.setState({
@@ -42,7 +42,7 @@ export default class AddAccount extends React.Component {
       {
         email: email,
         file: file,
-        account_number:account
+        account_number: account
       }
     );
   }
@@ -59,7 +59,7 @@ export default class AddAccount extends React.Component {
 
   setAccountNumber(e){
     this.setState({
-    account_number: (e.target.value)
+      account_number: (e.target.value)
     });
   }
 
@@ -67,7 +67,7 @@ export default class AddAccount extends React.Component {
     return (
       <DocumentTitle title={`My Profile`}>
         <div className="col-lg-9 col-md-8 col-sm-10 col-xs-12 edit_profile_rht_sidebar">
-          <form>
+          <form onSubmit = {this.saveBankDetails}>
             <div className="edit_prfile_detail_form">
               <h3>Bank Account</h3>
               <div className="edt_prf_inner_detail">
@@ -84,7 +84,7 @@ export default class AddAccount extends React.Component {
               </div>
             </div>
             <div key="update-button" className="profile_gry_bot_bar">
-              <button type="submit" className="btn pull-right" onClick={this.saveBtnClick}>
+              <button type="submit" className="btn pull-right">
                 <span data-spIf="!form.processing">Save details</span>
               </button>
             </div>
