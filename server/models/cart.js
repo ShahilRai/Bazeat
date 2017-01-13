@@ -18,6 +18,17 @@ const cartSchema = new Schema({
   total_price: {type: 'Number', default: 0},
   total_qty: {type: 'Number', default: 0},
   total_weight: {type: 'Number', default: 0},
+  address: {
+    email: { type: 'String' },
+    first_name: { type: 'String' },
+    last_name: { type: 'String' },
+    co: { type: 'String' },
+    postal_code: { type: 'String' },
+    city: { type: 'String' },
+    line1: { type: 'String' },
+    country: { type: 'String' },
+    phone_num: { type: 'String' }
+  },
   cartitems: [cartitems]
 });
 

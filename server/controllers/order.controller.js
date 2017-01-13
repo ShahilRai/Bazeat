@@ -14,25 +14,27 @@ let localStorage = new LocalStorage('./scratch');
 export function addOrder(req, res) {
   User.findOne({ email: req.body.email }).exec((err, user) => {
     let data = {};
-    const newOrder = new Order();
-    newOrder.cuid = cuid();
-    newOrder.address.postal_code = user.postal_code;
-    newOrder.address.city = user.city;
-    newOrder.address.line1 = user.address;
-    newOrder.address.country = user.country;
-    newOrder._buyer = user._id;
-    newOrder.address.phone_num = user.phone;
-    newOrder.address.email = user.email;
-    newOrder.address.first_name = user.first_name;
-    newOrder.address.last_name = user.last_name;
-    newOrder.save((err, order) => {
-      if (err) {
-        return res.status(500).send(err);
+    Cart.findOne({cuid: req.body.cart_cuid}).select("address total_price total_weight total_qty cartitems -_id").exec(function(err, data) {
+      if(err){
+        return res.status(500).send({err_msg: "Your cart is empty"});
       }
-      Cart.findOne({cuid: req.body.cart_cuid}).select("total_price total_weight total_qty cartitems -_id").exec(function(err, data) {
-        if(err){
-          return res.status(500).send({err_msg: "Your cart is empty"});
-        }
+      console.log('data')
+      console.log(data)
+        const newOrder = new Order();
+        newOrder.cuid = cuid();
+        newOrder.address.postal_code = data.address.postal_code;
+        newOrder.address.city = data.address.city;
+        newOrder.address.line1 = data.address.line1;
+        newOrder.address.country = data.address.country;
+        newOrder.address.phone_num = data.address.phone_num;
+        newOrder.address.email = data.address.email;
+        newOrder.address.first_name = data.address.first_name;
+        newOrder.address.last_name = data.address.last_name;
+        newOrder._buyer = user._id;
+        newOrder.save((err, order) => {
+          if (err) {
+            return res.status(500).send(err);
+          }
         data.cartitems.forEach(function(item) {
           let total_weight = 0;
           let total_price = 0;
@@ -128,47 +130,47 @@ export function getCart(req, res) {
   });
 }
 
-export  function cartCheckout (req, res) {
-  var totalweight = 1000;
-  Cart.find({cuid: req.params.cuid}).select("cartitems user -_id").exec(function(err,data) {
-    let cartitems = data[0].cartitems
-    let user_id = data[0].user
-    if (err) return handleError(err);
-    User.findOne({ _id: user_id }).exec((err, user) =>{
-      // let to_pin = user.postal_code
-      let to_pin = '7600'
-      if (cartitems[0] != null){
-        async.forEach(cartitems,function(item,callback) {
-          if (item.product_id.length > 0){
-            Product.findOne({_id: item.product_id}).populate('_producer').exec(function(err, product) {
+// export  function cartCheckout (req, res) {
+//   var totalweight = 1000;
+//   Cart.find({cuid: req.params.cuid}).select("cartitems user -_id").exec(function(err,data) {
+//     let cartitems = data[0].cartitems
+//     let user_id = data[0].user
+//     if (err) return handleError(err);
+//     User.findOne({ _id: user_id }).exec((err, user) =>{
+//       // let to_pin = user.postal_code
+//       let to_pin = '7600'
+//       if (cartitems[0] != null){
+//         async.forEach(cartitems,function(item,callback) {
+//           if (item.product_id.length > 0){
+//             Product.findOne({_id: item.product_id}).populate('_producer').exec(function(err, product) {
 
-              let from_pin = '1407'
-                if (err) {
-                  throw err;
-                  callback();
-                }
-                // getShippingPrice(to_pin, from_pin, totalweight)
-                return res.status(200).send({msg: "Cart "});
-            });
-          }
-        });
-      }
-      else{
-        return res.json('Cart is empty');
-      }
-    });
-  });
-}
+//               let from_pin = '1407'
+//                 if (err) {
+//                   throw err;
+//                   callback();
+//                 }
+//                 // getShippingPrice(to_pin, from_pin, totalweight)
+//                 return res.status(200).send({msg: "Cart "});
+//             });
+//           }
+//         });
+//       }
+//       else{
+//         return res.json('Cart is empty');
+//       }
+//     });
+//   });
+// }
 
 export  function getShippingPrice(req, res){
   let clientUrl = 'http://localhost:3000'
-  let order_postcode, order_weight;
+  let cart_postcode, cart_weight;
   User.find({email: req.query.email}).exec((err, user) =>{
-    Order.findOne({cuid: req.query.order_cuid}).exec((err, order) =>{
+    Cart.findOne({cuid: req.query.cart_cuid}).exec((err, cart) =>{
       console.log('req.body')
       console.log(req.body)
       if (req.body.type == "update_address"){
-        Order.findOneAndUpdate({"_id": order._id},
+        Cart.findOneAndUpdate({"_id": cart._id},
           {
             "$set": {
               "address.city": req.body.city,
@@ -182,11 +184,11 @@ export  function getShippingPrice(req, res){
               "address.co": req.body.co,
             }
           },{new: true}
-          ).exec(function(err, updated_order){
-              order_postcode = updated_order.address.postal_code;
-              order_weight = updated_order.total_weight;
+          ).exec(function(err, updated_cart){
+              cart_postcode = updated_cart.address.postal_code;
+              cart_weight = updated_cart.total_weight;
 
-          let options = {uri : "https://api.bring.com/shippingguide/products/price.json?from="+order_postcode+"&to="+user[0].postal_code+"&clientUrl="+clientUrl+"&weightInGrams="+order_weight+"",method : 'GET'
+          let options = {uri : "https://api.bring.com/shippingguide/products/price.json?from="+cart_postcode+"&to="+user[0].postal_code+"&clientUrl="+clientUrl+"&weightInGrams="+cart_weight+"",method : 'GET'
           };
           request(options, function (error, response, body) {
             if (!error && response.statusCode == 200) {
@@ -199,9 +201,9 @@ export  function getShippingPrice(req, res){
         });
       }
       else{
-        order_postcode = order.address.postal_code;
-        order_weight = order.total_weight;
-        let options = {uri : "https://api.bring.com/shippingguide/products/price.json?from="+order_postcode+"&to="+user[0].postal_code+"&clientUrl="+clientUrl+"&weightInGrams="+order_weight+"", method : 'GET'
+        cart_postcode = cart.address.postal_code;
+        cart_weight = cart.total_weight;
+        let options = {uri : "https://api.bring.com/shippingguide/products/price.json?from="+cart_postcode+"&to="+user[0].postal_code+"&clientUrl="+clientUrl+"&weightInGrams="+cart_weight+"", method : 'GET'
         };
         request(options, function (error, response, body) {
           if (!error && response.statusCode == 200) {
@@ -218,7 +220,7 @@ export  function getShippingPrice(req, res){
 
 
 export function budamatAddress(req, res){
-  Order.findOneAndUpdate({"cuid": req.query.order_cuid},
+  Cart.findOneAndUpdate({"cuid": req.query.cart_cuid},
     {
       "$set": {
         "address.city": req.body.city,
@@ -226,6 +228,10 @@ export function budamatAddress(req, res){
         "address.line1": req.body.line1,
         "address.postal_code": req.body.postal_code,
         "address.phone_num": req.body.phone_num,
+        "address.email": req.body.email,
+        "address.first_name": req.body.first_name,
+        "address.last_name": req.body.last_name,
+        "address.co": req.body.co,
       }
     },{new: true}
       ).exec(function(err, updated_order){
@@ -261,6 +267,14 @@ export function addCart(req, res) {
           const newCart = new Cart(req.body);
           newCart.cuid = cuid();
           newCart.user = user._id;
+          newCart.address.postal_code = user.postal_code;
+          newCart.address.city = user.city;
+          newCart.address.line1 = user.address;
+          newCart.address.country = user.country;
+          newCart.address.phone_num = user.phone;
+          newCart.address.email = user.email;
+          newCart.address.first_name = user.first_name;
+          newCart.address.last_name = user.last_name;
           newCart.save((error, savedcart) => {
             if (error) {
               return res.status(500).send(error);
@@ -438,6 +452,14 @@ export function emptyCart(req, res) {
               "cartitems": [],
               "total_qty": 0,
               "total_price": 0,
+              "address.city": user.city,
+              "address.country": user.country,
+              "address.line1": user.address,
+              "address.postal_code": user.postal_code,
+              "address.phone_num": user.phone_num,
+              "address.email": user.email,
+              "address.first_name": user.first_name,
+              "address.last_name": user.last_name,
               "total_weight": 0
           }
       },
