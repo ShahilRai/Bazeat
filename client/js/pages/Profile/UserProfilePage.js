@@ -56,13 +56,11 @@ export default class UserProfilePage extends React.Component {
 
   formatDate(date) {
     var d = new Date(date),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
-        year = d.getFullYear();
-
+    month = '' + (d.getMonth() + 1),
+    day = '' + d.getDate(),
+    year = d.getFullYear();
     if (month.length < 2) month = '0' + month;
     if (day.length < 2) day = '0' + day;
-
     return [year, month, day].join('-');
   }
 
@@ -145,16 +143,16 @@ export default class UserProfilePage extends React.Component {
                     <LabelField className = "col-md-4 col-xs-12 col-form-label" htmlFor="desc" label="Description" />
                     <TextAreaField name="desc" value = {this.state.user.description}>{this.state.user.description}</TextAreaField>
                   </div>
-                  <div className="form-group row">
-                    <LabelField htmlFor="example-tel-input" className="col-md-4 col-xs-12 col-form-label" label="Visiting hours"/>
-                    <AddHoursDetail  email = {this.context.user.email} getTimeDetails={this.getTimeDetails}/>
-                  </div>
                 </div>
                 <div className="edt_prf_inner_detail">
                   <div className="form-group row">
                     <LabelField htmlFor="desc" className="col-md-4 col-xs-12 col-form-label" label="Delivery information" />
                     <TextAreaField name="delivery_options"  value = {this.state.user.delivery_options} >{this.state.user.delivery_options}</TextAreaField>
                     <p>if you will deliver the your products to your customers, it would be great to inform them about the particulars. This information will show up under *Delivery details* for Budmat.</p>
+                  </div>
+                  <div className="form-group row">
+                      <LabelField htmlFor="example-tel-input" className="col-md-4 col-xs-12 col-form-label" label="Visiting hours"/>
+                      <AddHoursDetail  email = {this.context.user.email} />
                   </div>
                 </div>
                 <div key="update-button" className="profile_gry_bot_bar">

@@ -48,7 +48,7 @@ export default class AddHoursDetail extends React.Component {
     this.saveTimeSlot(this.props.email, hoursArray).then((response) => {
       if(response.data) {
         this.setState({
-          items: response.data.user._timeSlotsArray
+          items: response.data
         });
       }
       }).catch((err) => {
@@ -57,7 +57,6 @@ export default class AddHoursDetail extends React.Component {
 
     this.state.selectDays = [];
     e.preventDefault();
-    this.props.getTimeDetails(hoursArray)
   }
 
   cancelHours(){     

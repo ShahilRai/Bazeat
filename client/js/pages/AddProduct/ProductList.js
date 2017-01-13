@@ -12,8 +12,8 @@ export default class ProductList extends React.Component {
     super(props, context);
       this.state = {
         _prodToEdit: {},
-        _hideShowText: "hide",
-        _disableEnableText: "disable"
+        _hideShowText: this.props.productData.is_hidden ? "show" : "hide",
+        _disableEnableText: this.props.productData.is_disable ? "enable" : "disable"
       };
     this.editProduct = this.editProduct.bind(this)
     this.hideAndShowProduct = this.hideAndShowProduct.bind(this)
