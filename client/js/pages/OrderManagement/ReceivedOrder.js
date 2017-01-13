@@ -1,21 +1,43 @@
 import React from 'react';
 import { Link } from 'react-router';
+import axios from 'axios';
 import PackagesList from './PackagesList';
 import EditPurchaseOrder from './EditPurchaseOrder';
 import newPackageCreateLink from './newPackageCreateLink';
+import ProfileContainer from '../Profile/ProfileContainer';
 
 export default class ReceivedOrder extends React.Component {
 
   static contextTypes = {
-    router: React.PropTypes.object.isRequired
+    authenticated: React.PropTypes.bool,
+    router: React.PropTypes.object.isRequired,
+    user: React.PropTypes.object,
   }
 
   constructor(props) {
     super(props);
     this.state = {
-
+      orderDetails: []
     };
     this.handleSelectChange = this.handleSelectChange.bind(this)
+  }
+
+  componentDidMount(){
+    var orderCuid = this.props.orderCuid;
+    this.getSingleOrder(orderCuid).then((response) => {
+      if(response.data) {
+        this.setState({
+          orderDetails: response.data
+        });
+      }
+    }).catch((err) => {
+        console.log(err);
+    });
+  }
+
+  getSingleOrder(orderCuid){
+    return axios.get("/api/get_order?cuid="+orderCuid , {
+    });
   }
 
   handleSelectChange(event){
@@ -28,11 +50,12 @@ export default class ReceivedOrder extends React.Component {
   }
 
   render(){
+    var _ordr = [this.state.orderDetails]
     return(
       <div className="col-lg-9 col-md-9 col-sm-12 col-xs-12">
         <div className="received_order_rght">
           <div className="rcv_order_header">
-            <h2 className="text-left">PO-000001</h2>
+            <h2 className="text-left">{this.props.purchaseOrdrId}</h2>
             <div className="order_header_rght">
               <ul>
                 <li className="active">
@@ -66,7 +89,7 @@ export default class ReceivedOrder extends React.Component {
           <div className="order_information">
             <div className="order_info_lt">
               <h3>PURCHASE ORDER</h3>
-              <h4>Purchase order# PO-000001</h4>
+              <h4>Purchase order# {this.props.purchaseOrdrId}</h4>
               <span className="rcvd_btn">RECEIVED</span>
                 <div className="delivery_process">
                   <div className="full_width_del">
@@ -81,7 +104,9 @@ export default class ReceivedOrder extends React.Component {
             </div>
             <div className="order_info_rt">
               <h3>Delivery address</h3>
-              <p>Kari Norman<br/>Gaten 1<br/>0355 Oslo<br/>Norge</p>
+              {_ordr.map((listItems, index) =>{
+                  return <p>Kari Norman<br/>{listItems.address ? listItems.address.line1 : ""}<br/>{listItems.address ? listItems.address.postal_code : ""} {listItems.address ? listItems.address.city : ""}<br/>{listItems.address ? listItems.address.country : ""}</p>
+              })}
             </div>
           </div>
           <div className="rcvd_order_table">

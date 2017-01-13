@@ -20,7 +20,7 @@ const slotSchema = new Schema({
 });
 
 const orderSchema = new Schema({
-  _buyer: ObjectId,
+  _buyer: { type: Schema.ObjectId, ref: 'User' },
   cuid: { type: 'String', required: true },
   delivery_method: { type: 'String' },
   shipment_price: { type: Number },

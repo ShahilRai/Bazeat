@@ -11,11 +11,13 @@ export function getpurchaseOrders(req, res) {
       if (err) {
         return res.json(500, err);
       }
+      console.log('producer')
+      console.log(producer)
       Product.findOne({ _id: {"$in": producer.products }}).select("orders -_id").exec((err, products)=>{
         if (err) {
           return res.json(500, err);
         }
-        Order.find({ _id: {"$in": products.orders }, payment_status: "succeeded"}).populate("orderitems").exec((err, orders)=>{
+        Order.find({ _id: {"$in": products.orders }, payment_status: "succeeded"}).populate("orderitems _buyer").exec((err, orders)=>{
           if (err) {
             return res.json(500, err);
           }
