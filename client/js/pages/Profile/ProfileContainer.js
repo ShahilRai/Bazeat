@@ -12,6 +12,8 @@ import ReceivedOrder from '../OrderManagement/ReceivedOrder';
 import CreateNewPackage from '../OrderManagement/CreateNewPackage';
 import AllMessages from '../MessageAndReviews/AllMessages.js';
 
+let orderCuid= '';
+let purchaseOrdrId: '';
 
 export default class ProfileContainer extends React.Component {
 
@@ -66,6 +68,7 @@ export default class ProfileContainer extends React.Component {
     this.showPackages = this.showPackages.bind(this)
     this.receivedOrderStatus = this.receivedOrderStatus.bind(this)
     this.createPackageStatus = this.createPackageStatus.bind(this)
+    this.receiveCuid = this.receiveCuid.bind(this)
   }
 
   componentDidMount(){
@@ -74,8 +77,8 @@ export default class ProfileContainer extends React.Component {
       if(response.data) {
        this.setState({
         msgConversations: response.data.conversations
-       })   
-     }   
+       })
+     }
     })
       .catch((err) => {
     console.log(err);
@@ -104,14 +107,12 @@ export default class ProfileContainer extends React.Component {
     });
   }
 
-  
-
   seeProfile(email) {
     return axios.put("/api/handleproducts",{
       email: email
     });
   }
- 
+
   showNotification(){
     this.setState({
       notification: true
@@ -202,6 +203,11 @@ export default class ProfileContainer extends React.Component {
     })
   }
 
+  receiveCuid(cuid, ordrId){
+    orderCuid= cuid;
+    purchaseOrdrId= ordrId;
+  }
+
   render() {
     var left_menus
     if(this.state.add_account){
@@ -213,11 +219,11 @@ export default class ProfileContainer extends React.Component {
     }else if(this.state.route=='/setting'|| this.state.status=="true"){
       this.state.profile= <ProducerPasswordUpdate />;
     }else if(this.state.route=='/orders' && this.state.puchaseOrderPage){
-      this.state.profile= <PurchaseOrders receivedOrderStatus={this.receivedOrderStatus}/>;
+      this.state.profile= <PurchaseOrders receiveCuid={this.receiveCuid} receivedOrderStatus={this.receivedOrderStatus}/>;
     }else if(this.state.route=='/orders' && this.state.packagesPage){
       this.state.profile= <OrderMgmntPackages />;
     }else if(this.state.route=='/orders/received-order'){
-      this.state.profile= <ReceivedOrder createPackageStatus={this.createPackageStatus}/>;
+      this.state.profile= <ReceivedOrder orderCuid={orderCuid} purchaseOrdrId={purchaseOrdrId} createPackageStatus={this.createPackageStatus}/>;
     }else if(this.state.route=='/orders/new-package'){
       this.state.profile= <CreateNewPackage receivedOrderStatus={this.receivedOrderStatus}/>;
     }else if(this.state.route=='/profile' || this.context.user||this.state.status=="false"){
