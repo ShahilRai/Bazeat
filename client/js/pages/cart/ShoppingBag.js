@@ -24,9 +24,6 @@ export default class ShoppingBag extends React.Component {
       }
     }
   }
-  componentDidMount(){
-    alert('shopping')
-  }
 
   incrNumItems(e, i) {
   var self = this
@@ -125,6 +122,14 @@ export default class ShoppingBag extends React.Component {
     window.location.href = "/"
   }
 
+  createOrder(){
+    this.props.nextStep();
+  }
+
+  loadOrderDetails(){
+
+  }
+
   componentDidMount(){
     var email = this.context.user.email;
     this.loadCartItem(email).then((response) => {
@@ -145,6 +150,7 @@ export default class ShoppingBag extends React.Component {
   }
 
   render() {
+    var self = this;
     var goToShopBtn
     if(this.state.items.length<1){
       goToShopBtn = <button type="submit" className="btn pull-left step1_emptybtn goto_shop_btn" onClick={this.gotoHome.bind(this)}>Go to ShopHome</button>
@@ -191,7 +197,7 @@ export default class ShoppingBag extends React.Component {
             </div>
             <div className="chkout_step1btns">
               <button type="submit" className="btn pull-left step1_emptybtn" onClick={this.removeAllItems.bind(this)}>Empty shopping bag</button>
-              <button type="button" className="btn btn-default continue_btn" onClick={this.props.nextStep}>Continue</button>
+              <button type="button" className="btn btn-default continue_btn" onClick={ this.createOrder.bind(this)} >Continue</button>
             </div>
           </div>
         </div>
