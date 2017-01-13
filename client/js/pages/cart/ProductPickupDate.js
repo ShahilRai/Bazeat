@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import CheckoutStep from './CheckoutStep';
 let days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 let months = ["january","Feburary","March","April","May","June","July","August","September","October","November","December"];
@@ -15,7 +16,8 @@ export default class ProductPickupDate extends React.Component {
     super(props);
       this.state = {
         method:this.props.method,
-        _arrayOfMonthDayAndDate: []
+        _arrayOfMonthDayAndDate: [],
+        currentUser_Detail : {}
       }
       this.pickupdate = this.pickupdate.bind(this);
       this.destination = this.destination.bind(this);
@@ -53,7 +55,6 @@ export default class ProductPickupDate extends React.Component {
     this.setState({
       _arrayOfMonthDayAndDate: _placeHolderArr
     })
-    console.log(this.state._arrayOfMonthDayAndDate)
   }
 
   componentDidMount(){
@@ -68,8 +69,6 @@ export default class ProductPickupDate extends React.Component {
     }).catch((err) => {
         console.log(err);
     });
-    console.log("usercurrent detail")
-    console.log(this.state.currentUser_Detail)
   }
 
   displayForm(){
@@ -126,66 +125,18 @@ export default class ProductPickupDate extends React.Component {
           <h3>Destination</h3>
           <h4>Where do you want your products delivered?</h4>
           <CheckoutStep step={this.props.step}/>
-          <h5>We will ship the the goods to ADDRESS.</h5>
+          <h5>We will ship the goods to <br/>{this.state.currentUser_Detail.address}<br/>{this.state.currentUser_Detail.postal_code}<br/>{this.state.currentUser_Detail.city}.</h5>
           <div className="del_addr_heading"><a href="javascript:void(0)" onClick={() =>{this.displayForm()}}><h6>Please deliver at this address instead</h6></a></div>
-            <div  className="del_det_form">
-              <div id="checkout_form" className="edit_prfile_detail_form">
-                <h3>Details</h3>
-                <form className="ptop30">
-                  <div className="passwrd_form">
-                    <div className="form-group row">
-                      <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">E-mail*</label>
-                      <div className="col-md-7 col-xs-12">
-                        <input className="form-control" value="" type="search" />
-                      </div>
-                    </div>
-                    <div className="form-group row">
-                      <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">First name*</label>
-                      <div className="col-md-7 col-xs-12">
-                        <input className="form-control" value="" type="search"/>
-                      </div>
-                    </div>
-                    <div className="form-group row">
-                      <label for="example-url-input" className="col-md-5 col-xs-12 col-form-label">C/O</label>
-                      <div className="col-md-7 col-xs-12">
-                        <input className="form-control" value="" type="email"/>
-                      </div>
-                    </div>
-                    <div className="form-group row">
-                      <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">Post code*</label>
-                      <div className="col-md-7 col-xs-12">
-                        <input className="form-control" value="" type="search"/>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="passwrd_form">
-                    <div className="form-group row">
-                      <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">Phone number*</label>
-                      <div className="col-md-7 col-xs-12">
-                        <input className="form-control" value="" type="search"/>
-                      </div>
-                    </div>
-                    <div className="form-group row">
-                      <label for="example-url-input" className="col-md-5 col-xs-12 col-form-label">Address*</label>
-                      <div className="col-md-7 col-xs-12">
-                      <input className="form-control" value="" type="email"/>
-                      </div>
-                    </div>
-                    <div className="form-group row">
-                      <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">City*</label>
-                      <div className="col-md-7 col-xs-12">
-                        <input className="form-control" value="" type="search"/>
-                      </div>
-                    </div>
-                  </div>
-                  <p className="mandatory_txt">* Mandatory fields</p>
-                  {this.deliveryDetails()}
-                </form>
-                  <div className="profile_gry_bot_bar chkout_step1btns">
-                    <button type="submit" className="btn btn-default continue_btn" onClick={this.props.nextStep}>Continue</button>
-                  </div>
+          <div  className="del_det_form">
+            <div id="checkout_form" className="edit_prfile_detail_form">
+              <h3>Details</h3>
+                {this.deliveryDetails()}
+              <div className="profile_gry_bot_bar chkout_step1btns">
+                <button type="submit" className="btn btn-default continue_btn" onClick={this.props.nextStep}>Continue</button>
               </div>
+            </div>
           </div>
+          <button type="button" className="btn btn-default continue_btn" onClick={this.props.nextStep}>Continue</button>
         </div>
       </div>
     );
@@ -195,71 +146,22 @@ export default class ProductPickupDate extends React.Component {
     return(
       <div className="full_width ptop0">
         <div className="chkout_pg">
-          <h3>A couple of words from XXXX</h3>
+          <h3>A couple of words from {this.state.currentUser_Detail.full_name}</h3>
           <h4>We would like you to know that...</h4>
           <CheckoutStep step={this.props.step}/>
-          <h5>We will ship the the goods to ADDRESS.</h5>
+          <h5>We will ship the the goods to <br/>{this.state.currentUser_Detail.address}<br/>{this.state.currentUser_Detail.postal_code}<br/>{this.state.currentUser_Detail.city}.</h5>
           <div className="del_addr_heading"><a href="javascript:void(0)" onClick={() =>{this.displayForm()}}><h6>Please deliver at this address instead</h6></a></div>
           <div  className="del_det_form">
             <div id="checkout_form" className="edit_prfile_detail_form">
               <h3>Details</h3>
-              <form className="ptop30">
-                <div className="passwrd_form">
-                  <div className="form-group row">
-                    <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">E-mail*</label>
-                    <div className="col-md-7 col-xs-12">
-                      <input className="form-control" value="" type="search" />
-                    </div>
-                  </div>
-                  <div className="form-group row">
-                    <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">First name*</label>
-                    <div className="col-md-7 col-xs-12">
-                      <input className="form-control" value="" type="search"/>
-                    </div>
-                  </div>
-                  <div className="form-group row">
-                    <label for="example-url-input" className="col-md-5 col-xs-12 col-form-label">C/O</label>
-                    <div className="col-md-7 col-xs-12">
-                      <input className="form-control" value="" type="email"/>
-                    </div>
-                  </div>
-                  <div className="form-group row">
-                    <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">Post code*</label>
-                    <div className="col-md-7 col-xs-12">
-                      <input className="form-control" value="" type="search"/>
-                    </div>
-                  </div>
-                </div>
-                <div className="passwrd_form">
-                  <div className="form-group row">
-                    <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">Phone number*</label>
-                    <div className="col-md-7 col-xs-12">
-                      <input className="form-control" value="" type="search"/>
-                    </div>
-                  </div>
-                  <div className="form-group row">
-                    <label for="example-url-input" className="col-md-5 col-xs-12 col-form-label">Address*</label>
-                    <div className="col-md-7 col-xs-12">
-                    <input className="form-control" value="" type="email"/>
-                    </div>
-                  </div>
-                  <div className="form-group row">
-                    <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">City*</label>
-                    <div className="col-md-7 col-xs-12">
-                      <input className="form-control" value="" type="search"/>
-                    </div>
-                  </div>
-                </div>
-                <p className="mandatory_txt">* Mandatory fields</p>
-                {this.deliveryDetails()}
-              </form>
+              {this.deliveryDetails()}
                 <div className="profile_gry_bot_bar chkout_step1btns">
                   <button type="submit" className="btn btn-default continue_btn" onClick={this.props.nextStep}>Continue</button>
                 </div>
             </div>
           </div>
           <p>
-          { this.producer_info }
+          { this.state.currentUser_Detail.producer_info ? this.state.currentUser_Detail.producer_info.cmp_delivery_options : 'undefined'}
           </p>
           <button type="button" className="btn btn-default continue_btn" onClick={this.props.nextStep}>Continue</button>
         </div>
@@ -287,62 +189,117 @@ export default class ProductPickupDate extends React.Component {
 
   deliveryDetails(){
     return(
-      <div className="delivery_details">
-        <div className="del_det_head">
-          <span className="del_alter">Delivery alternative</span>
-          <span className="del_info">Info</span>
-          <span className="del_date">Delivery date</span>
-          <span className="del_price">Price</span>
+      <form className="ptop30">
+        <div className="passwrd_form">
+          <div className="form-group row">
+            <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">E-mail*</label>
+            <div className="col-md-7 col-xs-12">
+              <input className="form-control" type="text" name="email"/>
+            </div>
+          </div>
+          <div className="form-group row">
+            <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">First name*</label>
+            <div className="col-md-7 col-xs-12">
+              <input className="form-control" type="text" name="firstname"/>
+            </div>
+          </div>
+          <div className="form-group row">
+            <label for="example-url-input" className="col-md-5 col-xs-12 col-form-label">C/O</label>
+            <div className="col-md-7 col-xs-12">
+              <input className="form-control" type="text" name="c/o"/>
+            </div>
+          </div>
+          <div className="form-group row">
+            <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">Post code*</label>
+            <div className="col-md-7 col-xs-12">
+              <input className="form-control" type="text" name="postCode"/>
+            </div>
+          </div>
         </div>
-        <div className="del_info_row grey_bg">
-          <span className="custom_radio_edit del_alter hot_food">
-            <input id="detail6" type="radio" name="c_detail" value="detail1"/>
-            <label for="detail6">Hjem p&aring; kvelden, 17-21</label>
-          </span>
-          <span className="del_info">
-            <p className="pbot0">
-              Pakken leveres hjem til deg, sj&aring;f&oslash;ren<br/>ringer 30-60 min. f&oslash;r ankomst
-            </p>
-          </span>
-          <span className="del_date text-center">
-            <p className="pbot0">
-              2016-12-12
-            </p>
-          </span>
-          <span className="del_price text-center">
-            <p className="pbot0">
-              134,00
-            </p>
-          </span>
+        <div className="passwrd_form">
+          <div className="form-group row">
+            <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">Phone number*</label>
+            <div className="col-md-7 col-xs-12">
+              <input className="form-control" type="text" name="phoneNo"/>
+            </div>
+          </div>
+          <div className="form-group row">
+            <label for="example-url-input" className="col-md-5 col-xs-12 col-form-label">Last Name*</label>
+            <div className="col-md-7 col-xs-12">
+            <input className="form-control" type="text" name="lastName"/>
+            </div>
+          </div>
+          <div className="form-group row">
+            <label for="example-url-input" className="col-md-5 col-xs-12 col-form-label">Address*</label>
+            <div className="col-md-7 col-xs-12">
+            <input className="form-control" type="text" name="address"/>
+            </div>
+          </div>
+          <div className="form-group row">
+            <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">City*</label>
+            <div className="col-md-7 col-xs-12">
+              <input className="form-control" type="text" name="city"/>
+            </div>
+          </div>
         </div>
-        <div className="del_info_row">
-          <span className="custom_radio_edit del_alter hot_food">
-            <input id="detail7" type="radio" name="c_detail" value="detail1"/>
-            <label for="detail7">P&aring; posten, 08-16</label>
-          </span>
-          <span className="del_info">
-            <p className="pbot0">
-              Majorstuen postkontor. &Aring;pningstider Man - Fre: 0800-1800, L&oslash;r: 1000-1500
-            </p>
-          </span>
-          <span className="del_date text-center">
-            <p className="pbot0">
-              2016-12-12
-            </p>
-          </span>
-          <span className="del_price text-center">
-            <p className="pbot0">
-              134,00
-            </p>
-          </span>
+        <p className="mandatory_txt">* Mandatory fields</p>
+        <div className="delivery_details">
+          <div className="del_det_head">
+            <span className="del_alter">Delivery alternative</span>
+            <span className="del_info">Info</span>
+            <span className="del_date">Delivery date</span>
+            <span className="del_price">Price</span>
+          </div>
+          <div className="del_info_row grey_bg">
+            <span className="custom_radio_edit del_alter hot_food">
+              <input id="detail6" type="radio" name="c_detail" value="detail1"/>
+              <label for="detail6">Hjem p&aring; kvelden, 17-21</label>
+            </span>
+            <span className="del_info">
+              <p className="pbot0">
+                Pakken leveres hjem til deg, sj&aring;f&oslash;ren<br/>ringer 30-60 min. f&oslash;r ankomst
+              </p>
+            </span>
+            <span className="del_date text-center">
+              <p className="pbot0">
+                2016-12-12
+              </p>
+            </span>
+            <span className="del_price text-center">
+              <p className="pbot0">
+                134,00
+              </p>
+            </span>
+          </div>
+          <div className="del_info_row">
+            <span className="custom_radio_edit del_alter hot_food">
+              <input id="detail7" type="radio" name="c_detail" value="detail1"/>
+              <label for="detail7">P&aring; posten, 08-16</label>
+            </span>
+            <span className="del_info">
+              <p className="pbot0">
+                Majorstuen postkontor. &Aring;pningstider Man - Fre: 0800-1800, L&oslash;r: 1000-1500
+              </p>
+            </span>
+            <span className="del_date text-center">
+              <p className="pbot0">
+                2016-12-12
+              </p>
+            </span>
+            <span className="del_price text-center">
+              <p className="pbot0">
+                134,00
+              </p>
+            </span>
+          </div>
         </div>
-      </div>
+      </form>
     )
   }
 
   render() {
     return (
-      <div>
+      <div className="full_width_container">
         {this.selected()}
       </div>
     );

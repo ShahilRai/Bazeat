@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import CheckoutStep from './CheckoutStep'
 
 export default class OrderConfirmation extends React.Component {
@@ -17,58 +18,79 @@ export default class OrderConfirmation extends React.Component {
       this.changeText = this.changeText.bind(this)
   }
 
-  changeText1(){
+  changeTextHentemat(){
     return(
       <div>
       <h5>Your goods can be picked up</h5>
-      <h5 className="mtop10"><strong>OPTION - ADDRESS</strong></h5>
+      <h5 className="mtop10"><strong>OPTION - <br/>{this.state.currentUser_Detail ? this.state.currentUser_Detail.address : ''}<br/>{this.state.currentUser_Detail ? this.state.currentUser_Detail.postal_code : ''}<br/>{this.state.currentUser_Detail ? this.state.currentUser_Detail.city : ''}</strong></h5>
       <h5 className="mtop2"><strong>OPTION - TIME</strong></h5>
       </div>
       )
   }
 
-  changeText2(){
+  changeTextSendemat(){
     return(
       <div>
-      <h5>Your goods are soon to be delivered!</h5>
+      <h5>Your goods will be delivered to <br/>{this.state.currentUser_Detail ? this.state.currentUser_Detail.address : ''}<br/>{this.state.currentUser_Detail ? this.state.currentUser_Detail.postal_code : ''}<br/>{this.state.currentUser_Detail ? this.state.currentUser_Detail.city : ''}!</h5>
       </div>
       )
 
   }
 
-  changeText3(){
+  changeTextBudmat(){
     return(
       <div>
-      <h5>Your goods are soon to be delivered!</h5>
+      <h5>Your goods will be delivered to <br/>{this.state.currentUser_Detail ? this.state.currentUser_Detail.address : ''}<br/>{this.state.currentUser_Detail ? this.state.currentUser_Detail.postal_code : ''}<br/>{this.state.currentUser_Detail ? this.state.currentUser_Detail.city : ''}!</h5>
       </div>
       )
 
   }
   changeText(){
-    if(this.state.method=='car'){
-      return(this.changeText1())
-    }
     if(this.state.method=='hentemat'){
-      return(this.changeText2())
+      return(this.changeTextHentemat())
     }
     if(this.state.method=='Sendemat'){
-      return(this.changeText3())
+      return(this.changeTextSendemat())
+    }
+    if(this.state.method=='Budmat'){
+      return(this.changeTextBudmat())
     }
   }
 
-  changeText4(){
-    if(this.state.method=='car'){
-      return(<h5>Your goods can be picked up</h5>)
+  changeTextConfirmationBelow(){
+    if(this.state.method=='hentemat'){
+      return(<h5>You can soon pickup your order</h5>)
     }else{
       return(<h5>Your goods are soon to be delivered!</h5>)
     }
   }
+
+  componentDidMount(){
+    var email=this.context.user ? this.context.user.username : ''
+    console.log("email:::::")
+    console.log(email)
+    this.loadProducerAddress(email).then((response) => {
+        if(response.data.user) {
+          this.setState({
+            currentUser_Detail: response.data.user
+          });
+        }
+    }).catch((err) => {
+        console.log(err);
+    });
+  }
+
+  loadProducerAddress(email) {
+    return axios.get("/api/user?email="+email);
+  }
+
   orderConfHentmat(){
     return(
         <div className="page_wrapper">
           <div className="full_width ptop0">
             <div className="chkout_pg chkoutstep4_1">
-              {this.changeText4()}
+              <h3>Confirmation</h3>
+              {this.changeTextConfirmationBelow()}
               <CheckoutStep step={this.props.method}/>
               {this.changeText()}
               <div className="confirmation_step1">
@@ -100,7 +122,10 @@ export default class OrderConfirmation extends React.Component {
         </div>
       );
   }
+
   render() {
+    console.log("usercurrent detail")
+    console.log(this.state.currentUser_Detail)
     return (
       <div className="full_width_container">
         {this.orderConfHentmat()}
