@@ -24,7 +24,7 @@ export default class CreateNewPackage extends React.Component {
         <div className="received_order_rght">
           <div className="rcv_order_header">
             <ul className="order_breadcrumb">
-              <li className="active"><a href="#"> PO-000001 </a></li>
+              <li className="active"><a href="#"> &lt; PO-000001 </a></li>
               <li><a href="#"> / New package</a></li>
             </ul>
             <div className="order_header_rght">

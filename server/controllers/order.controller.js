@@ -20,6 +20,7 @@ export function addOrder(req, res) {
     newOrder.address.city = user.city;
     newOrder.address.line1 = user.address;
     newOrder.address.country = user.country;
+    newOrder._buyer = user._id;
     newOrder.address.phone_num = user.phone;
     newOrder.address.email = user.email;
     newOrder.address.first_name = user.first_name;
@@ -38,8 +39,8 @@ export function addOrder(req, res) {
           let food_vat_value = 0;
           let shipment_vat_value = 0;
            Product.findOne({ _id: item.product_id }).exec((err, product) => {
-            console.log('item.qty')
-            console.log(item.qty)
+            console.log('item.qtyproduct')
+            console.log(product)
             total_weight += (product.portion*item.qty)
             total_price +=(product.calculated_price*item.qty)
             const newOrderItem = new OrderItem();
@@ -329,6 +330,8 @@ export function addCart(req, res) {
 }
 
 export  function cart_sum(cart, next, res){
+  console.log('cart')
+  console.log(cart)
   let item_qty = 0;
   let item_price = 0;
   let product_total_price = 0;
