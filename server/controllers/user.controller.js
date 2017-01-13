@@ -80,13 +80,23 @@ export function getUser(req, res) {
   });
 }
 
+import stormpath from 'stormpath';
+
 export function deleteUser(req, res) {
   User.findOne({ email: req.query.email }).exec((err, user) => {
     if (err || user == null) {
       return res.status(500).send({msg: err});
     }
     user.remove(() => {
-      return res.status(200).send({msg: "User deleted successfully"});
+      let client = new stormpath.Client();
+      client.getAccount(user.unique_id, function (err, account) {
+        account.delete(function(err, success) {
+          console.log(err)
+          console.log("kk")
+          console.log(success)
+          res.status(200).send({msg: "User deleted successfully"});
+        });
+      });
     });
   });
 }
@@ -117,17 +127,17 @@ export function addBankAccount(req, res) {
             },
             legal_entity: {
               dob: {
-                day: req.body.birth_date,
-                month: req.body.birth_month,
-                year: req.body.birth_year
+                day: user.birth_date,
+                month: user.birth_month,
+                year: user.birth_year
               },
               address: {
-                city: req.body.city,
-                line1: req.body.line1,
-                postal_code: req.body.postal_code
+                city: user.city,
+                line1: user.line1,
+                postal_code: user.postal_code
               },
-              first_name: req.body.first_name,
-              last_name: req.body.last_name,
+              first_name: user.first_name,
+              last_name: user.last_name,
               type: "individual"
             }
           }, function(err, account) {
