@@ -27,8 +27,8 @@ export default class ProducerProfilePage extends React.Component {
       data_loaded: false,
       getTime: []
     };
-    this.handleDateChange = this.handleDateChange.bind(this);
-    this.getTimeDetails=this.getTimeDetails.bind(this);
+    this.handleDateChange = this.handleDateChange.bind(this)
+    this.getTimeDetails=this.getTimeDetails.bind(this)
     this.formatDate=this.formatDate.bind(this)
   }
 
@@ -67,7 +67,7 @@ export default class ProducerProfilePage extends React.Component {
     if (day.length < 2) day = '0' + day;
 
     return [year, month, day].join('-');
-}
+  }
 
   handleDateChange(event) {
     if(this.formatDate(new Date())>=event.target.value){

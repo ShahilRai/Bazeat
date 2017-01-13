@@ -26,7 +26,8 @@ export default class UserProfilePage extends React.Component {
       birth_date: {},
       data_loaded: false
     };
-    this.handleDateChange = this.handleDateChange.bind(this);
+    this.handleDateChange = this.handleDateChange.bind(this)
+    this.formatDate=this.formatDate.bind(this)
   }
 
   componentDidMount() {
@@ -53,10 +54,26 @@ export default class UserProfilePage extends React.Component {
     });
   }
 
+  formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
+  }
+
   handleDateChange(event) {
-    this.setState({ birth_date: event.target.value});
-    if (this.state.onChange){
-      this.state.onChange(event);
+    if(this.formatDate(new Date())>=event.target.value){
+      this.setState({ birth_date: event.target.value});
+      if (this.state.onChange){
+        this.state.onChange(event);
+      }
+    }else{
+      alert("Please enter a valid date")
     }
   }
 
