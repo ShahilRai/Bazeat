@@ -22,6 +22,9 @@ export function addOrder(req, res) {
     newOrder.address.country = user.country;
     newOrder._buyer = user._id;
     newOrder.address.phone_num = user.phone;
+    newOrder.address.email = user.email;
+    newOrder.address.first_name = user.first_name;
+    newOrder.address.last_name = user.last_name;
     newOrder.save((err, order) => {
       if (err) {
         return res.status(500).send(err);
@@ -173,7 +176,10 @@ export  function getShippingPrice(req, res){
               "address.line1": req.body.line1,
               "address.postal_code": req.body.postal_code,
               "address.phone_num": req.body.phone_num,
-              "address.phone_num": req.body.phone_num,
+              "address.email": req.body.email,
+              "address.first_name": req.body.first_name,
+              "address.last_name": req.body.last_name,
+              "address.co": req.body.co,
             }
           },{new: true}
           ).exec(function(err, updated_order){
