@@ -20,7 +20,7 @@ router.route('/shipping_price').put(OrderController.getShippingPrice);
 router.route('/budamat_address').put(OrderController.budamatAddress);
 
 
-router.route('/orders/cart/:cuid').get(OrderController.cartCheckout);
+// router.route('/orders/cart/:cuid').get(OrderController.cartCheckout);
 
 // Delete Order by cuid
 router.route('/orders/:cuid').delete(OrderController.deleteOrder);
