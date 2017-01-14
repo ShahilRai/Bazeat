@@ -225,7 +225,7 @@ export default class ProfileContainer extends React.Component {
     }else if(this.state.route=='/orders/received-order'){
       this.state.profile= <ReceivedOrder orderCuid={orderCuid} purchaseOrdrId={purchaseOrdrId} createPackageStatus={this.createPackageStatus}/>;
     }else if(this.state.route=='/orders/new-package'){
-      this.state.profile= <CreateNewPackage receivedOrderStatus={this.receivedOrderStatus}/>;
+      this.state.profile= <CreateNewPackage orderCuid={orderCuid} receivedOrderStatus={this.receivedOrderStatus} purchaseOrdrId={purchaseOrdrId}/>;
     }else if(this.state.route=='/profile' || this.context.user||this.state.status=="false"){
       if(this.context.user.customData.is_producer == "true"){
         this.state.profile = <ProducerProfilePage />;

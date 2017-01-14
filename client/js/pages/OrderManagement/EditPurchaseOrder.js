@@ -49,7 +49,7 @@ export default class EditPurchaseOrder extends React.Component {
               </form>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-default mrht5">Cancel</button>
+              <button type="button" className="btn btn-default mrht5" data-dismiss="modal">Cancel</button>
               <button type="button" className="btn btn-default nxt_btn orange_bg">Save</button>
             </div>
           </div>

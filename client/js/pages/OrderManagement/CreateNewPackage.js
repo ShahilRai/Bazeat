@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 
 export default class CreateNewPackage extends React.Component {
 
@@ -9,13 +10,59 @@ export default class CreateNewPackage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      orderItems: [],
+      packed_qty_value : 0
     };
-    this.savePackageDetails = this.savePackageDetails.bind(this)
+    this.savePackageOrder = this.savePackageOrder.bind(this)
+    this.handleInputChange = this.handleInputChange.bind(this)
   }
 
-  savePackageDetails(){
+  componentDidMount(){
+    var orderCuid = this.props.orderCuid;
+    this.getOrderDetail(orderCuid).then((response) => {
+      if(response.data) {
+        this.setState({
+          orderItems: response.data.orderitems
+        });
+      }
+    }).catch((err) => {
+        console.log(err);
+    });
+  }
+
+  getOrderDetail(orderCuid){
+    return axios.get("/api/get_order?cuid="+orderCuid , {
+    });
+  }
+
+  savePackageOrder(){
+    var p_qty = this.state.packed_qty_value;
+    var p_Id = this.props.purchaseOrdrId;
+    var orderitems =[];
+      orderitems.push({
+        packed_qty: p_qty,
+        _id: p_Id
+      })
+    this.addPackageOrder(orderitems).then((response) => {
+      if(response.data) {
+        console.log("redirect-to");
+      }
+    }).catch((err) => {
+      console.log(err);
+    });
     this.props.receivedOrderStatus()
+  }
+
+  addPackageOrder(orderitems){
+    return axios.post("/api/purchaseorders", {
+      orderitems: orderitems
+    });
+  }
+
+  handleInputChange(event){
+    this.setState({
+      packed_qty_value: event.target.value
+    })
   }
 
   render(){
@@ -24,7 +71,7 @@ export default class CreateNewPackage extends React.Component {
         <div className="received_order_rght">
           <div className="rcv_order_header">
             <ul className="order_breadcrumb">
-              <li className="active"><a href="#"> &lt; PO-000001 </a></li>
+              <li className="active"><a href="#"> &lt; {this.props.purchaseOrdrId} </a></li>
               <li><a href="#"> / New package</a></li>
             </ul>
             <div className="order_header_rght">
@@ -59,41 +106,30 @@ export default class CreateNewPackage extends React.Component {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td className="">
-                        1
-                      </td>
-                      <td className="">
-                        Item name
-                      </td>
-                      <td className="text-center">5</td>
-                      <td className="text-center">
-                        <span>0</span>
-                      </td>
-                      <td className="text-center">
-                        <input type="text" className="form-control pck_input" placeholder="5" />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="">
-                        1
-                      </td>
-                      <td className="">
-                        Item name
-                      </td>
-                      <td className="text-center">5</td>
-                      <td className="text-center">
-                        <span>0</span>
-                      </td>
-                      <td className="text-center">
-                        <input type="text" className="form-control pck_input" placeholder="0" />
-                      </td>
-                    </tr>
+                  {this.state.orderItems.map((order, index) =>{
+                    return(
+                      <tr key={index}>
+                        <td className="">
+                          1
+                        </td>
+                        <td className="">
+                          Item name
+                        </td>
+                        <td className="text-center">{order.product_qty}</td>
+                        <td className="text-center">
+                          <span>{order.packed_qty}</span>
+                        </td>
+                        <td className="text-center">
+                          <input type="text" className="form-control pck_input" value={this.state.packed_qty_value} onChange={this.handleInputChange} />
+                        </td>
+                      </tr>
+                    )
+                  })}
                   </tbody>
                 </table>
                 <div className="gross_order">
                   <button type="button" className="btn btn-default pckg_cncel_btn mtop0">Cancel</button>
-                  <button type="button" className="btn btn-default nxt_btn orange_bg mtop0" onClick={this.savePackageDetails}>Save details</button>
+                  <button type="button" className="btn btn-default nxt_btn orange_bg mtop0" onClick={this.savePackageOrder}>Save details</button>
                 </div>
               </div>
             </div>

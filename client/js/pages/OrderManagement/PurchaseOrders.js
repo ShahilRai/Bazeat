@@ -38,10 +38,11 @@ export default class PurchaseOrders extends React.Component {
   render(){
     var statusClass = "";
     var statusText = "";
-    var packed = "";
-    var shipped = "";
-    var smallSpan = "";
+    var pckd = "";
+    var shppd = "";
+    var pckdSpan = "";
     var orderId = "";
+    var shppdSpan= "";
     {this.state.ordersList.map((order, index) =>{
       {order.orderitems.map((item, i) =>{
         orderId = item.id
@@ -50,34 +51,40 @@ export default class PurchaseOrders extends React.Component {
         if(order.after_payment_status == 'Received'){
           statusClass = "bold grey_txt";
           statusText  = "RECEIVED";
-          packed = "active_inactive inactive_grey";
-          shipped = "active_inactive inactive_grey";
+          pckd = "active_inactive inactive_grey";
+          shppd = "active_inactive inactive_grey";
         }
         else if(order.after_payment_status == 'Confirmed'){
           statusClass = "blue_txt";
           statusText  = "CONFIRMED";
-          packed = "active_inactive inactive_grey";
-          shipped = "active_inactive inactive_grey";
-          smallSpan = <small className="half_green"></small>
+          pckd = "active_inactive active_green";
+          shppd = "active_inactive inactive_grey";
+            if(order.packages.length > 1){
+              pckd = "active_inactive inactive_grey";
+              pckdSpan = <small className="half_green"></small>
+            }
         }
         else if(order.after_payment_status == 'Shipped'){
           statusClass = "green_txt";
           statusText  = "SHIPPED";
-          packed = "active_inactive active_green";
-          shipped = "active_inactive active_green";
+          pckd = "active_inactive active_green";
+          shppd = "active_inactive active_green";
         }
         else if(order.after_payment_status == 'Fulfilled'){
           statusClass = "green_txt";
           statusText  = "FULFILLED";
-          packed = "active_inactive active_green";
-          shipped = "active_inactive active_green";
+          pckd = "active_inactive active_green";
+          shppd = "active_inactive active_green";
         }
         else if(order.after_payment_status == 'Partially Shipped'){
           statusClass = "yellow_txt";
           statusText  = "PARTIALLY SHIPPED";
-          packed = "active_inactive active_green";
-          shipped = "active_inactive inactive_grey";
-          smallSpan = <small className="half_green"></small>
+          pckd = "active_inactive active_green";
+          shppd = "active_inactive inactive_grey";
+          if(order.packages.length > 1){
+              shppd = "active_inactive inactive_grey";
+              shppdSpan = <small className="half_green"></small>
+            }
         }
      })
   }
@@ -96,17 +103,17 @@ export default class PurchaseOrders extends React.Component {
               </thead>
               <tbody>
                 {this.state.ordersList.map((order, index) =>
-                  <tr>
+                  <tr key={index}>
                     <td className="bold">
                       21-10-2016
                     </td>
                     <td className="text-left bold">
                       <Link to="/orders/received-order" onClick={this.props.receivedOrderStatus}>{orderId}</Link>
                     </td>
-                    <td className="bold">Kari Norman</td>
+                    <td className="bold">{order._buyer ? order._buyer.full_name : ""}</td>
                     <td className={statusClass}>{statusText}</td>
-                    <td><span className={packed}></span></td>
-                    <td><span className={shipped}></span></td>
+                    <td><span className={pckd}>{pckdSpan}</span></td>
+                    <td><span className={shppd}>{shppdSpan}</span></td>
                     <td className="bold">kr {order.total_amount}</td>
                   </tr>
                 )}
