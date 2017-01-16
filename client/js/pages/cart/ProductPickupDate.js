@@ -107,14 +107,15 @@ export default class ProductPickupDate extends React.Component {
             orderDetail : response.data
            });
           }
+    orderDetailResponse = response.data.order
+    if(orderDetailResponse)
+      {
+        this.props.nextStep("id",orderDetailResponse);
+      }
        }
     }).catch((err) => {
         console.log(err);
     });
-    if(orderDetailResponse)
-      {
-        this.props.nextStep("hello",orderDetailResponse);
-      }
   }
 
   createOrderRequest(email, cart_cuid){
@@ -327,7 +328,6 @@ export default class ProductPickupDate extends React.Component {
   }
 
   render() {
-    orderDetailResponse = this.state.orderDetail ? this.state.orderDetail.order : ''
     return (
       <div className="full_width_container">
         {this.selected()}
