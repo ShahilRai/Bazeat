@@ -85,6 +85,8 @@ export function shipPackage(req, res) {
         "shippment.shippment_no": req.body.shippment_no,
         "shippment.already_delivered": req.body.already_delivered,
         "shippment.notify_to_customer": req.body.notify_to_customer,
+        "shippment.ship_date": req.body.ship_date,
+        "status": "Shipped"
       }
     }, {new: true}).exec((err, packge) => {
       if (err){

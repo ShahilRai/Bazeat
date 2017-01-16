@@ -1,4 +1,5 @@
 import  RatingAndReview from '../models/ratingandreview'
+import  Review from '../models/review'
 import  Comment from '../models/comment'
 import  User from '../models/user'
 
@@ -15,7 +16,7 @@ export function allReviews(req, res, next) {
         // Set up empty array to hold conversations + most recent message
         let fullReviews = [];
         reviews.forEach(function(review) {
-          Comment.find({ 'rating_and_review_id': review._id })
+          Review.find({ 'rating_and_review_id': review._id })
             .sort('-createdAt')
             .populate({
               path: 'reviewed_by',
@@ -25,12 +26,16 @@ export function allReviews(req, res, next) {
               path: 'reviewed_for',
               select: 'full_name'
             })
-            .exec(function(err, comment) {
+            .populate({
+              path: 'comment',
+              select: 'comment'
+            })
+            .exec(function(err, review1) {
               if (err) {
                 res.send({ error: err });
                 return next(err);
               }
-              fullReviews.push(comment);
+              fullReviews.push(review1);
               if(fullReviews.length === reviews.length) {
                 return res.status(200).json({ reviews: fullReviews });
               }
@@ -42,23 +47,27 @@ export function allReviews(req, res, next) {
 
 
 export function getReview(req, res, next) {
-  Comment.find({ rating_and_review_id: req.params.review_id })
-    .select('createdAt comment_body rating reviewed_by reviewed_for')
+  Review.find({ rating_and_review_id: req.params.review_id })
+    .select('createdAt comment rating reviewed_by reviewed_for')
     .sort('-createdAt')
     .populate({
-      path: 'sender',
+      path: 'reviewed_by',
       select: 'full_name'
     })
     .populate({
-      path: 'receiver',
+      path: 'reviewed_for',
       select: 'full_name'
     })
-    .exec(function(err, comments) {
+    .populate({
+      path: 'comment',
+      select: 'comment'
+    })
+    .exec(function(err, reviews) {
       if (err) {
         res.send({ error: err });
         return next(err);
       }
-      res.status(200).json({ conversation: messages });
+      res.status(200).json({reviews });
     });
 }
 
@@ -68,7 +77,7 @@ export function newReview(req, res, next) {
     res.status(422).send({ error: 'Please choose a valid recipient for your message.' });
     return next();
   }
-  if(!req.body.comment_body) {
+  if(!req.body.review_body) {
     res.status(422).send({ error: 'Please enter a comment.' });
     return next();
   }
@@ -81,15 +90,15 @@ export function newReview(req, res, next) {
         res.send({ error: err });
         return next(err);
       }
-      const comment = new Comment({
+      const review = new Review({
         conversation_id: newRatingAndReview._id,
-        comment_body: req.body.comment_body,
+        review: req.body.review_body,
         reviewed_by: user._id,
         reviewed_for: req.params.reviewed_for,
         rating: req.body.rating
       });
 
-      comment.save(function(err, newComment) {
+      review.save(function(err, newReview) {
         if (err) {
           res.send({ error: err });
           return next(err);
@@ -104,13 +113,24 @@ export function newReview(req, res, next) {
 
 export function sendReply(req, res, next) {
   User.findOne({ email: req.body.email }).exec((err, user) => {
-  Comment.findOneAndUpdate({ _id: req.body.comment_id }, {$set: {is_replied: true}}, {new: true}).exec((err, comment) => {
-      if (err){
-        return res.status(500).send(err);
+    const comment = new Comment({
+      comment: req.body.comment_body,
+      review: req.body.review_id ,
+    });
+    comment.save(function(err, newComment) {
+      if (err) {
+        res.send({ error: err });
       }
       else{
-        res.status(200).json({ comment });
+        Review.findOneAndUpdate({ _id: req.body.review_id }, {$set: {is_replied: true, comment: comment._id}}, {new: true}).exec((err, comment) => {
+          if (err){
+            return res.status(500).send(err);
+          }
+          else{
+            res.status(200).json({ comment });
+          }
+        });
       }
     });
-  });
+  })
 }
