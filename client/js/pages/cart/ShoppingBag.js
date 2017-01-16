@@ -1,7 +1,7 @@
 import React from 'react';
 import CheckoutStep from './CheckoutStep';
 import axios from "axios";
-
+let cart_cuid ;
 export default class ShoppingBag extends React.Component {
 
   static contextTypes = {
@@ -122,12 +122,8 @@ export default class ShoppingBag extends React.Component {
     window.location.href = "/"
   }
 
-  createOrder(){
-    this.props.nextStep();
-  }
-
-  loadOrderDetails(){
-
+  goToNextPage(){
+    this.props.nextStep(cart_cuid)
   }
 
   componentDidMount(){
@@ -150,6 +146,7 @@ export default class ShoppingBag extends React.Component {
   }
 
   render() {
+    cart_cuid = this.state.item.cuid
     var self = this;
     var goToShopBtn
     if(this.state.items.length<1){
@@ -197,7 +194,7 @@ export default class ShoppingBag extends React.Component {
             </div>
             <div className="chkout_step1btns">
               <button type="submit" className="btn pull-left step1_emptybtn" onClick={this.removeAllItems.bind(this)}>Empty shopping bag</button>
-              <button type="button" className="btn btn-default continue_btn" onClick={ this.createOrder.bind(this)} >Continue</button>
+              <button type="button" className="btn btn-default continue_btn" onClick={ this.goToNextPage.bind(this)} >Continue</button>
             </div>
           </div>
         </div>

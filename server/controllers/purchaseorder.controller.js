@@ -4,6 +4,9 @@ import User from '../models/user'
 import Product from '../models/product'
 import OrderItem from '../models/orderitem'
 import Package from '../models/package'
+const keySecret = process.env.SECRET_KEY;
+const keyPublishable = process.env.PUBLISHABLE_KEY;
+const stripe = require("stripe")(keySecret);
 
 
 export function getpurchaseOrders(req, res) {
@@ -82,6 +85,8 @@ export function shipPackage(req, res) {
         "shippment.shippment_no": req.body.shippment_no,
         "shippment.already_delivered": req.body.already_delivered,
         "shippment.notify_to_customer": req.body.notify_to_customer,
+        "shippment.ship_date": req.body.ship_date,
+        "status": "Shipped"
       }
     }, {new: true}).exec((err, packge) => {
       if (err){
@@ -114,4 +119,21 @@ export  function updateshipqty(packge, next, res){
       })
     }
   });
+}
+
+
+
+export  function updateToDeliver(req, res){
+  Order.findOneAndUpdate({ _id: req.query.order_id }, {$set: {after_payment_status: "Fulfilled"}}, {new: true}).exec((err, order) => {
+    if (err){
+      return res.status(500).send(err);
+    }
+    if(order.after_payment_status == "Fulfilled"){
+      stripe.charges.capture(
+      order.charge_id,
+      function(err, charge) {
+        return res.status(200).send({msg: "Charge has been released"});
+      });
+    }
+  })
 }

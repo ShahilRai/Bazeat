@@ -15,6 +15,9 @@ router.route('/get_order').get(PurchaseOrderController.getpurchaseOrder);
 router.route('/valid_qty').get(PurchaseOrderController.beforePkgcreate);
 
 
+router.route('/update_deliver').put(PurchaseOrderController.updateToDeliver);
+
+
 
 
 

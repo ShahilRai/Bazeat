@@ -7,7 +7,7 @@ const transport = nodeMailer.createTransport(mandrillTransport({
 }));
 export function send_email(charge) {
   transport.sendMail({
-  from: 'noreply@bazeat.com',
+  from: 'noreply@bazeat.no',
   to: charge.email,
   // to: 'get.atifhabib@gmail.com',
   subject: 'Hello',
