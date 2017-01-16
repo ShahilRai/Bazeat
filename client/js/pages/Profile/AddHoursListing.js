@@ -9,7 +9,7 @@ constructor(props, context) {
   }
 
   createListing(item, i){
-    return (<span className="add_time" > <li className="addHours" data-index={i} key={i}>{item.day} - {item.start_time} - {item.end_time}<button className="delete_time" onClick={this.props.timeDelete}>X</button></li> </span>)
+    return (<span className="add_time"><li className="addHours" data-index={i} key={i}>{item.day} - {item.start_time} - {item.end_time}<button className="delete_time" onClick={() =>{this.props.timeDelete(item.id)}}>X</button></li> </span>)
   }
 
   render(){

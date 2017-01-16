@@ -10,9 +10,11 @@ export default class DeliveryMethods extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      prodDetails: {}
+      prodDetails: {},
+      pickup_time:''
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handleDateChange=this.handleDateChange.bind(this)
   }
 
 	SaveAndContinue(){
@@ -36,6 +38,15 @@ export default class DeliveryMethods extends React.Component {
 
   handleChange(e){
     this.setState({
+      prodDetails : {
+      [e.target.name] :  e.target.value
+      }
+    })
+  }
+
+   handleDateChange(e){
+    this.setState({
+      [e.target.name] :  e.target.value,
       prodDetails : {
       [e.target.name] :  e.target.value
       }
@@ -101,7 +112,7 @@ export default class DeliveryMethods extends React.Component {
 								<LabelField htmlFor="" className="col-form-label shipment_label" label="Pick up time"  />
 								<div id="datetimepicker1" className="pickup_time">
 
-								<input className="form-control" name="pickup_time" ref="pickup_time" placeholder="" value={this.state.prodDetails? moment(this.state.prodDetails.pickup_time , 'YYYY-MM-DD').format('YYYY-MM-DD'): this.refs.pickup_time.value} onChange={this.handleChange} type="date"/>
+								<input className="form-control" name="pickup_time" ref="pickup_time" placeholder="" value={this.state.pickup_time? moment(this.state.pickup_time, 'YYYY-MM-DD').format('YYYY-MM-DD'): moment(this.state.prodDetails.pickup_time , 'YYYY-MM-DD').format('YYYY-MM-DD')?moment(this.state.prodDetails.pickup_time , 'YYYY-MM-DD').format('YYYY-MM-DD'):moment('YYYY-MM-DD').format('YYYY-MM-DD')} onChange={this.handleDateChange} type="date"/>
 								<span className="add-on"><i aria-hidden="true"></i></span>
                 </div>
 								<p className = "shipment_text">Tell your customers when the product can be picked up.<br/> Dont edit if product can be picked up during opening hours</p>
