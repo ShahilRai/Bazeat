@@ -55,7 +55,7 @@ export default class WallImageViewer extends React.Component {
   }
 
   render() {
-    var disable=(this.props.wallImages.is_disable)
+    var disable=(this.props.wallImages?this.props.wallImages.is_disable:false)
     var blur_class = (disable == true) ? 'blur':''
     return (
       <div className="wall-column">

@@ -220,8 +220,7 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
             // let address_data = (req.body.address + ', ' + req.body.country + ', ' + req.body.postal_code)
             // let cmp_address_data = (req.body.cmp_address + ', ' + req.body.cmp_country + ', ' + req.body.cmp_postal_code)
             geocoder.batchGeocode((data), function(err, response) {
-              console.log(response[0].value.length)
-              if (err || response[0].value.length <= 0 || response[1].value.length){
+              if (err || response[0].value.length <= 0){
                 return res.status(500).send({err: "Invalid address details"});
               }
               else {
@@ -395,32 +394,6 @@ app.get('/admin/logouts', logout());
 
 // app.get('/', ExpressStrompath.loginRequired, function(req, res) {
 //   res.send('Welcome back: ' + res.locals.user.email);
-// });
-
-// let client = new twilio.RestClient(process.env.TwilioSid, process.env.TwilioToken);
-
-// client.sms.messages.create({
-//     to:'+917840827410',
-//     from:'+16318134710',
-//     body:'ahoy hoy! Testing Twilio and node.js'
-// }, function(error, message) {
-//     // The HTTP request to Twilio will run asynchronously. This callback
-//     // function will be called when a response is received from Twilio
-//     // The "error" variable will contain error information, if any.
-//     // If the request was successful, this value will be "falsy"
-//     if (!error) {
-//         // The second argument to the callback will contain the information
-//         // sent back by Twilio for the request. In this case, it is the
-//         // information about the text messsage you just sent:
-//         console.log('Success! The SID for this SMS message is:');
-//         console.log(message.sid);
-
-//         console.log('Message sent on:');
-//         console.log(message.dateCreated);
-//     } else {
-//         console.log(error);
-//         console.log('Oops! There was an error.');
-//     }
 // });
 
 // const transport = nodeMailer.createTransport(mandrillTransport({

@@ -25,10 +25,8 @@ export default class ProducerProfilePage extends React.Component {
       producer_info: {},
       user_info: {},
       data_loaded: false,
-      getTime: []
     };
     this.handleDateChange = this.handleDateChange.bind(this)
-    this.getTimeDetails=this.getTimeDetails.bind(this)
     this.formatDate=this.formatDate.bind(this)
   }
 
@@ -78,12 +76,6 @@ export default class ProducerProfilePage extends React.Component {
     }else{
     alert("Please enter a valid date")
     }
-  }
-
-  getTimeDetails(value){
-    this.setState({
-      getTime: value
-    })
   }
 
   render() {
@@ -197,7 +189,7 @@ export default class ProducerProfilePage extends React.Component {
                 </div>
                 <div className="form-group row">
                   <LabelField htmlFor="example-tel-input" className="col-md-4 col-xs-12 col-form-label" label="Visiting hours"/>
-                  <AddHoursDetail  email = {this.context.user.email} getTimeDetails={this.getTimeDetails}/>
+                  <AddHoursDetail  email = {this.context.user.email} />
                 </div>
               </div>
             </div>
