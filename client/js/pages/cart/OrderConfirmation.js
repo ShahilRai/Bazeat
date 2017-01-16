@@ -97,6 +97,8 @@ export default class OrderConfirmation extends React.Component {
                   <div className="cnfrm_price_prod_heading">
                     <span className="pull-left">Price for products:</span>
                     <span className="pull-right">kr {this.state.orderDetail.total_amount}</span>
+                    <span className="pull-left">Price for delivery:</span>
+                    <span className="pull-right">kr {this.state.orderDetail.shipment_price}</span>
                   </div>
                   <div className="cnfrm_tot_price">
                     <span className="pull-left">Total price:</span>
@@ -104,7 +106,7 @@ export default class OrderConfirmation extends React.Component {
                   </div>
                   <div className="cnfrm_tot_mva">
                     <span className="pull-left ">MVA hereof:</span>
-                    <span className="pull-right">kr 261,00</span>
+                    <span className="pull-right">kr {this.state.orderDetail.shipment_vat_value + this.state.orderDetail.food_vat_value}</span>
                   </div>
                 </div>
                 <div className="cnfirm_stmnt">
