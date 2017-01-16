@@ -107,14 +107,15 @@ export default class ProductPickupDate extends React.Component {
             orderDetail : response.data
            });
           }
+    orderDetailResponse = response.data.order
+    if(orderDetailResponse)
+      {
+        this.props.nextStep("id",orderDetailResponse);
+      }
        }
     }).catch((err) => {
         console.log(err);
     });
-    if(orderDetailResponse)
-      {
-        this.props.nextStep("hello",orderDetailResponse);
-      }
   }
 
   createOrderRequest(email, cart_cuid){
@@ -187,9 +188,9 @@ export default class ProductPickupDate extends React.Component {
             </div>
           </div>
           <p>
-          { this.state.currentUser_Detail.producer_info ? this.state.currentUser_Detail.producer_info.cmp_delivery_options : 'undefined'}
+          { this.state.currentUser_Detail ? this.state.currentUser_Detail.delivery_options : 'undefined'}
           </p>
-          <button type="button" className="btn btn-default continue_btn" onClick={this.props.nextStep}>Continue</button>
+          <button type="button" className="btn btn-default continue_btn" onClick={this.createOrder}>Continue</button>
         </div>
       </div>
     );
@@ -327,7 +328,6 @@ export default class ProductPickupDate extends React.Component {
   }
 
   render() {
-    orderDetailResponse = this.state.orderDetail ? this.state.orderDetail.order : ''
     return (
       <div className="full_width_container">
         {this.selected()}
