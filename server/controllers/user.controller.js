@@ -147,6 +147,7 @@ export function addBankAccount(req, res) {
               return res.status(500).send(err);
             } else {
               user.account_id = account.id
+              user.last4 = account.last4
               user.save((err, saved) => {
                 if (err) {
                   return res.status(500).send(err);
@@ -200,66 +201,100 @@ export function addBankAccount(req, res) {
 export function Payment(req, res) {
   User.findOne({ email: req.body.email }).exec((err, user) => {
     Order.findOne({ _id: req.body.order_id }).exec((err, order) => {
-      console.log(req.body)
       if (err) {
         return res.status(500).send(err);
-      } else {
-        stripe.tokens.create({
-        card: {
-          number: req.body.card_number, // 4000005780000007 I've tried 424242424242424242 and 5555555555554444 as a string and int but still have the same error.
-          exp_month: req.body.month,
-          exp_year: req.body.year,
-          cvc: req.body.cvc // I've also tried 999 as an int.
-          }
-        }, function(err, token) {
-          if(err) {
+      }
+      else {
+        if (user.customer_id){
+          stripe.customers.retrieve( user.customer_id,
+          function(err, customer) {
+            if (err) {
+              return res.status(500).send(err);
+            }
+            else{
+              create_card(customer, order, null, req.body, res)
+            }
+          });
+        }
+        else{
+          stripe.customers.create({
+            email: user.email,
+            description: "Customer created with email " + user.email
+          }, function(err, customer) {
+           if(err){
             console.log(err);
-          } else {
-            stripe.customers.createSource(
-              // user.customer_id,
-              'cus_9WyLwPSTFYCCIf',
-              {source: token.id},
-              function(err, card) {
-                if(err) {
-                  console.log(err);
-                } else {
-                  stripe.charges.create({
-                    amount: Math.round(order.total_amount.toFixed(2)*100),
-                    currency: "nok",
-                    // customer: user.customer_id,
-                    customer: "cus_9WyLwPSTFYCCIf",
-                    source: card.id, // obtained with Stripe.js
-                    description: "Charge for " + user.email
-                  }, function(err, charge) {
-                    if(err) {
-                      return res.status(500).send(err);
-                    } else {
-                      Order.findOneAndUpdate({"_id": order._id},
-                        {
-                          "$set": {
-                            "address.city": req.body.city,
-                            "address.country": req.body.country,
-                            "address.line1": req.body.line1,
-                            "address.postal_code": req.body.postal_code,
-                            "address.phone_num": req.body.phone_num,
-                            "address.phone_num": req.body.phone_num,
-                          }
-                        },{new: true}
-                        ).exec(function(err, updated_order){
-                      });
-                      MailService.send_email(charge)
-                      update_order_after_paymnt(charge, order)
-                      return res.json({ charge: charge });
-                    }
-                  });
-                }
-              }
-            );
-          }
-        })
+           }
+           else{
+            User.update({_id: user._id}, {$set: {customer_id: customer.id}},function(err) {
+            })
+            create_card(customer, order, null, req.body, res)
+           }
+          });
+        }
       }
     })
   })
+}
+
+
+export function create_card(customer, order, next, req, res){
+  stripe.tokens.create({
+    card: {
+      number: req.card_number, // 4000005780000007 I've tried 424242424242424242 and 5555555555554444 as a string and int but still have the same error.
+      exp_month: req.month,
+      exp_year: req.year,
+      cvc: req.cvc // I've also tried 999 as an int.
+      }
+    }, function(err, token) {
+      if(err) {
+        console.log(err);
+      }
+      else{
+        stripe.customers.createSource(
+        customer.id,
+        { source: token.id },
+        function(err, card) {
+          create_charge(customer, card, order, null, req, res)
+        }
+      );
+      }
+  })
+}
+
+
+export  function create_charge(customer, card, order, next, req, res){
+  stripe.charges.create({
+    amount: Math.round(order.total_amount.toFixed(2)*100),
+    currency: "nok",
+    capture: false,
+    customer: customer.id,
+    source: card.id, // obtained with Stripe.js
+    description: "Charge for " + req.email,
+    destination: "acct_19YaXiA3xoj18svo",
+    application_fee: 123
+    }, function(err, charge) {
+    if(err) {
+      return res.status(500).send(err);
+    }
+    else {
+      Order.findOneAndUpdate({"_id": order._id},
+        {
+          "$set": {
+            "address.city": req.city,
+            "address.country": req.country,
+            "address.line1": req.line1,
+            "address.postal_code": req.postal_code,
+            "address.phone_num": req.phone_num,
+            "address.phone_num": req.phone_num,
+          }
+        },{new: true}
+        ).exec(function(err, updated_order){
+      });
+        MailService.send_email(charge)
+        update_order_after_paymnt(charge, order)
+        return res.json({ charge: charge });
+    }
+  });
 }
 
 export function hideAccount(req, res) {
@@ -302,15 +337,12 @@ export function disableAccount(req, res) {
 
 
 export function update_order_after_paymnt(charge, order){
-  console.log('charge')
-  console.log(charge)
-  console.log('order')
-  console.log(order)
   Order.findOneAndUpdate({"_id": order._id},
     {
       "$set": {
         "payment_status": charge.status,
         "payment_transaction_id": charge.balance_transaction,
+        "charge_id": charge.id,
       }
     },{new: true}
     ).exec(function(err, updated_order){
