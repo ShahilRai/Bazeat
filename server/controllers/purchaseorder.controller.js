@@ -137,3 +137,16 @@ export  function updateToDeliver(req, res){
     }
   })
 }
+
+
+
+export  function packageDestroy(req, res){
+  Package.findOne({ cuid: req.params._id }).exec((err, packge) => {
+    if (err || order == null) {
+      return res.status(500).send({msg: err});
+    }
+    packge.remove(() => {
+      return res.status(200).send({msg: "Package deleted successfully"});
+    });
+  });
+}
