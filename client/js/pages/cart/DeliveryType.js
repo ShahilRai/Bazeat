@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import CheckoutStep from './CheckoutStep';
 
 export default class DeliveryType extends React.Component {
@@ -8,14 +9,32 @@ export default class DeliveryType extends React.Component {
     user: React.PropTypes.object
   };
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
+      item : {},
+      shipmentDetails : {}
     }
   }
+
   componentDidMount(){
-    alert('DeliveryType')
+    var cart_cuid = this.props.cartCuid
+    var email = this.context.user.email;
+    this.loadShippingDetail(email, cart_cuid).then((response) => {
+      if(response.data) {
+        this.setState({
+          shipmentDetails : response.data ? response.data.order : ''
+        })
+      }
+    }).catch((err) => {
+      console.log(err);
+    });
   }
+
+  loadShippingDetail(email, cart_cuid){
+     return axios.put("/api/shipping_price?email="+email+"&cart_cuid="+cart_cuid);
+  }
+
   render() {
     return (
       <div>
@@ -44,6 +63,54 @@ export default class DeliveryType extends React.Component {
                 <p>The producer delivers to your desired location</p>
               </div>
             </div>
+          </div>
+          <div className="del_det_head">
+            <span className="del_alter">Delivery alternative</span>
+            <span className="del_info">Info</span>
+            <span className="del_date">Delivery date</span>
+            <span className="del_price">Price</span>
+          </div>
+          <div className="del_info_row grey_bg">
+            <span className="custom_radio_edit del_alter hot_food">
+              <input id="detail6" type="radio" name="c_detail" value="detail1"/>
+              <label for="detail6">Hjem p&aring; kvelden, 17-21</label>
+            </span>
+            <span className="del_info">
+              <p className="pbot0">
+                Pakken leveres hjem til deg, sj&aring;f&oslash;ren<br/>ringer 30-60 min. f&oslash;r ankomst
+              </p>
+            </span>
+            <span className="del_date text-center">
+              <p className="pbot0">
+                2016-12-12
+              </p>
+            </span>
+            <span className="del_price text-center">
+              <p className="pbot0">
+                134,00
+              </p>
+            </span>
+          </div>
+          <div className="del_info_row">
+            <span className="custom_radio_edit del_alter hot_food">
+              <input id="detail7" type="radio" name="c_detail" value="detail1"/>
+              <label for="detail7">P&aring; posten, 08-16</label>
+            </span>
+            <span className="del_info">
+              <p className="pbot0">
+                Majorstuen postkontor. &Aring;pningstider Man - Fre: 0800-1800, L&oslash;r: 1000-1500
+              </p>
+            </span>
+            <span className="del_date text-center">
+              <p className="pbot0">
+                2016-12-12
+              </p>
+            </span>
+            <span className="del_price text-center">
+              <p className="pbot0">
+                134,00
+              </p>
+            </span>
           </div>
         </div>
       </div>

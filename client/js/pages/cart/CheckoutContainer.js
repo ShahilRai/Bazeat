@@ -10,24 +10,25 @@ export default class CheckoutContainer extends React.Component {
     authenticated: React.PropTypes.bool,
     user: React.PropTypes.object
   };
-  componentDidMount(){
-    alert('hello')
-  }
 
   constructor(props) {
     super(props);
     this.state = {
+      cart_cuid : '',
       step: 1,
-      selected_method:''
+      selected_method:'',
+      orderDetail : {}
     }
     this.nextStep = this.nextStep.bind(this)
     this.methodChange =this.methodChange.bind(this)
   }
 
-  nextStep() {
+  nextStep(cart_cuid, orderDetailResponse) {
     var self = this
     this.setState({
-      step : self.state.step + 1
+      step : self.state.step + 1,
+      cartCuid : cart_cuid,
+      orderDetail : orderDetailResponse
     })
   }
 
@@ -43,18 +44,17 @@ export default class CheckoutContainer extends React.Component {
       case 1:
         return <ShoppingBag nextStep={this.nextStep} step={this.state.step}/>
       case 2:
-        return <DeliveryType nextStep={this.nextStep} step={this.state.step} deliveryMethodChange={this.methodChange}/>
+        return <DeliveryType nextStep={this.nextStep} step={this.state.step} deliveryMethodChange={this.methodChange} cartCuid={this.state.cartCuid}/>
       case 3:
-        return <ProductPickupDate nextStep={this.nextStep} step={this.state.step} method={this.state.selected_method}/>
+        return <ProductPickupDate nextStep={this.nextStep} step={this.state.step} method={this.state.selected_method} cartCuid={this.state.cartCuid}/>
       case 4:
-        return <OrderConfirmation nextStep={this.nextStep} step={this.state.step} method={this.state.selected_method}/>
+        return <OrderConfirmation nextStep={this.nextStep} step={this.state.step} method={this.state.selected_method} orderDetail={this.state.orderDetail}/>
       case 5:
-        return <CheckoutContainer nextStep={this.nextStep} step={this.state.step}/>
+        return <Payment nextStep={this.nextStep} step={this.state.step}/>
     }
   }
 
   render() {
-    console.log(this.state.selected_method)
     return (
       <div className="full_width">
         {this.checkoutStep()}

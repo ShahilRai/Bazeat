@@ -12,6 +12,7 @@ export default class OrderConfirmation extends React.Component {
   constructor(props) {
       super(props);
       this.state = {
+        orderDetail : this.props.orderDetail,
         method:this.props.method
       }
       this.orderConfHentmat = this.orderConfHentmat.bind(this)
@@ -67,8 +68,6 @@ export default class OrderConfirmation extends React.Component {
 
   componentDidMount(){
     var email=this.context.user ? this.context.user.username : ''
-    console.log("email:::::")
-    console.log(email)
     this.loadProducerAddress(email).then((response) => {
         if(response.data.user) {
           this.setState({
@@ -97,11 +96,11 @@ export default class OrderConfirmation extends React.Component {
                 <div className="inner_confrm1">
                   <div className="cnfrm_price_prod_heading">
                     <span className="pull-left">Price for products:</span>
-                    <span className="pull-right">kr 1999,00</span>
+                    <span className="pull-right">kr {this.state.orderDetail.total_amount}</span>
                   </div>
                   <div className="cnfrm_tot_price">
                     <span className="pull-left">Total price:</span>
-                    <span className="pull-right">kr 1999,00</span>
+                    <span className="pull-right">kr {this.state.orderDetail.total_amount}</span>
                   </div>
                   <div className="cnfrm_tot_mva">
                     <span className="pull-left ">MVA hereof:</span>
@@ -124,8 +123,6 @@ export default class OrderConfirmation extends React.Component {
   }
 
   render() {
-    console.log("usercurrent detail")
-    console.log(this.state.currentUser_Detail)
     return (
       <div className="full_width_container">
         {this.orderConfHentmat()}
