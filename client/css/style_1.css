@@ -343,6 +343,7 @@ border: 1px solid #cccccc;
 }
 .img_upload_label{
 	position: absolute;
+	cursor: pointer;
 	top: 128px;
 	color: #fff;
 	left: 2%;

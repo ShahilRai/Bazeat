@@ -111,7 +111,7 @@ export default class UserHomePage extends React.Component {
   }
 
     return(
-      <div className="page_wrapper">
+      <div className="page_wrapper full_width">
         <Banner name={this.state._userInfo.bgphoto}/>
         <div className="container">
           <div className="row">
