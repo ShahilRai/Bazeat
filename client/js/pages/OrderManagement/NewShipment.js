@@ -9,11 +9,13 @@ export default class NewShipment extends React.Component {
     this.state = {
       pckgeNumber: '',
       shpmntNumber: '',
-      pckge_id: ''
+      pckge_id: '',
+      shpmnt_date: ''
     };
     this.saveNewShipment = this.saveNewShipment.bind(this)
     this.handlePackageChange = this.handlePackageChange.bind(this)
     this.handleShipmentChange = this.handleShipmentChange.bind(this)
+    this.handleDateChange = this.handleDateChange.bind(this)
   }
 
   handlePackageChange(event){
@@ -28,13 +30,20 @@ export default class NewShipment extends React.Component {
     })
   }
 
+  handleDateChange(event){
+    this.setState({
+      shpmnt_date : event.target.value
+    })
+  }
+
   saveNewShipment(){
     var p_id = _pId;
     var s_no = this.state.shpmntNumber;
     var alrdy_dlvrd= this.refs.dlvrd.checked;
     var ntfy_to_cstmr= this.refs.ntfy.checked;
-    console.log(p_id, s_no, alrdy_dlvrd, ntfy_to_cstmr)
-    this.addNewShipment(p_id, s_no, alrdy_dlvrd, ntfy_to_cstmr).then((response) => {
+    var _shpDate = this.state.shpmnt_date;
+    var status = "Shipped";
+    this.addNewShipment(p_id, s_no, alrdy_dlvrd, ntfy_to_cstmr, _shpDate, status).then((response) => {
       if(response.data) {
         console.log("redirect-to");
       }
@@ -43,12 +52,14 @@ export default class NewShipment extends React.Component {
     });
   }
 
-  addNewShipment(p_id, s_no, alrdy_dlvrd, ntfy_to_cstmr){
+  addNewShipment(p_id, s_no, alrdy_dlvrd, ntfy_to_cstmr, _shpDate, status){
     return axios.post("/api/ship_package", {
       package_id: p_id,
       already_delivered: alrdy_dlvrd,
       notify_to_customer: ntfy_to_cstmr,
-      shippment_no: s_no
+      shippment_no: s_no,
+      ship_date: _shpDate,
+      status: status
     });
   }
 
@@ -74,7 +85,7 @@ export default class NewShipment extends React.Component {
                 <div className="form-group row">
                   <label htmlFor="" className="col-sm-5 col-form-label">Package#</label>
                   <div className="col-sm-7">
-                    <input type="text" className="form-control" id="" placeholder="PKG-000001" onChange={this.handleInputChange} />
+                    <input type="text" className="form-control" id="" value= {_pId} onChange={this.handleInputChange} readOnly />
                   </div>
                 </div>
                 <div className="form-group row">
@@ -86,7 +97,7 @@ export default class NewShipment extends React.Component {
                 <div className="form-group row">
                   <label htmlFor="" className="col-sm-5 col-form-label">Ship date</label>
                   <div className="col-sm-7">
-                    <input type="text" className="form-control" id="" placeholder="21-10-2016" />
+                    <input type="date" className="form-control" id="" placeholder="21-10-2016" onChange={this.handleDateChange} />
                   </div>
                 </div>
                 <div className="chkbox_col order_chkbox_col">
@@ -107,7 +118,7 @@ export default class NewShipment extends React.Component {
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-default mrht5" data-dismiss="modal">Cancel</button>
-              <button type="button" className="btn btn-default nxt_btn orange_bg" onClick={this.saveNewShipment}>Save details</button>
+              <button type="button" className="btn btn-default nxt_btn orange_bg" onClick={this.saveNewShipment} data-dismiss="modal">Save details</button>
             </div>
           </div>
         </div>

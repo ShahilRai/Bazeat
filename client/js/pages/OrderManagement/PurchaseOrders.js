@@ -108,7 +108,7 @@ export default class PurchaseOrders extends React.Component {
                       21-10-2016
                     </td>
                     <td className="text-left bold">
-                      <Link to="/orders/received-order" onClick={this.props.receivedOrderStatus}>{orderId}</Link>
+                      <Link to={"/orders/"+orderId} onClick={this.props.receivedOrderStatus}>{orderId}</Link>
                     </td>
                     <td className="bold">{order._buyer ? order._buyer.full_name : ""}</td>
                     <td className={statusClass}>{statusText}</td>

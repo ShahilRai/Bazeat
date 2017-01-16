@@ -15,6 +15,7 @@ export default class CreateNewPackage extends React.Component {
     };
     this.savePackageOrder = this.savePackageOrder.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
+    this.checkProductQty = this.checkProductQty.bind(this)
   }
 
   componentDidMount(){
@@ -50,12 +51,30 @@ export default class CreateNewPackage extends React.Component {
     }).catch((err) => {
       console.log(err);
     });
+    this.context.router.push('/orders/'+p_Id)
     this.props.receivedOrderStatus()
   }
 
   addPackageOrder(orderitems){
     return axios.post("/api/purchaseorders", {
       orderitems: orderitems
+    });
+  }
+
+  checkProductQty(){
+    var p_qty = this.state.packed_qty_value;
+    var p_Id = this.props.purchaseOrdrId;
+    this.isValidQty(p_Id, p_qty).then((response) => {
+      if(response.data) {
+        this.savePackageOrder()
+      }
+    }).catch((err) => {
+      console.log(err);
+    });
+  }
+
+  isValidQty(p_Id, p_qty){
+    return axios.get("/api/valid_qty?order_id="+ p_Id+ "&packed_qty=" + p_qty, {
     });
   }
 
@@ -88,7 +107,7 @@ export default class CreateNewPackage extends React.Component {
               </div>
               <div className="form-group">
                 <label htmlFor="" className="col-form-label">Date</label>
-                <input type="text" className="form-control" placeholder="21-10-2016" />
+                <input type="date" className="form-control" placeholder="21-10-2016" />
               </div>
             </form>
           </div>
@@ -129,7 +148,7 @@ export default class CreateNewPackage extends React.Component {
                 </table>
                 <div className="gross_order">
                   <button type="button" className="btn btn-default pckg_cncel_btn mtop0">Cancel</button>
-                  <button type="button" className="btn btn-default nxt_btn orange_bg mtop0" onClick={this.savePackageOrder}>Save details</button>
+                  <button type="button" className="btn btn-default nxt_btn orange_bg mtop0" onClick={this.checkProductQty}>Save details</button>
                 </div>
               </div>
             </div>

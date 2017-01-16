@@ -7,6 +7,7 @@ import newPackageCreateLink from './newPackageCreateLink';
 import ProfileContainer from '../Profile/ProfileContainer';
 import NewShipment from './NewShipment';
 import ToggleDisplay from 'react-toggle-display';
+import confirm from 'bootstrap-confirm';
 
 export default class ReceivedOrder extends React.Component {
 
@@ -25,6 +26,7 @@ export default class ReceivedOrder extends React.Component {
       toggle_box: false
     };
     this.dropDownOption = this.dropDownOption.bind(this)
+    this.showDialog = this.showDialog.bind(this)
   }
 
   componentDidMount(){
@@ -34,7 +36,8 @@ export default class ReceivedOrder extends React.Component {
         this.setState({
           orderDetails: response.data,
           fullAddress: response.data.address,
-          orderItems: response.data.orderitems
+          orderItems: response.data.orderitems,
+          packages: response.data.packages
         });
       }
     }).catch((err) => {
@@ -53,14 +56,22 @@ export default class ReceivedOrder extends React.Component {
     })
   }
 
+  showDialog(){
+    var self = this;
+    confirm('To create a shipment you need to create a package. Do you want to create a new package?', function(confirmed) {
+      self.context.router.push('/new-package')
+      self.props.createPackageStatus()
+    });
+  }
+
   render(){
     var showPackage = <div className="order_caption">
-      <p>No packages yet for this order.<span className="green_txt"> <Link to="/orders/new-package" onClick={this.props.createPackageStatus}>Create new package</Link></span></p>
+      <p>No packages yet for this order.<span className="green_txt"> <Link to="/new-package" onClick={this.props.createPackageStatus}>Create new package</Link></span></p>
     </div>
-    if(this.state.orderDetails.packages){
-      if(this.state.orderDetails.packages.length > 0)
+    if(this.state.packages){
+      if(this.state.packages.length > 0)
         {
-          showPackage = <PackagesList packages= {this.state.orderDetails ? this.state.orderDetails.packages : ""} />
+          showPackage = <PackagesList packages= {this.state.packages} receivedOrderStatus={this.props.receivedOrderStatus} orderId = {this.props.purchaseOrdrId} />
         }
     }
     var paymnt_status= "";
@@ -111,8 +122,8 @@ export default class ReceivedOrder extends React.Component {
                 <div className="form-group portion_form custom_select_box portion_select" onClick={this.dropDownOption}>
                   <ToggleDisplay show={this.state.toggle_box}>
                     <ul>
-                      <li><Link to="/orders/new-package" onClick={this.props.createPackageStatus}>New package</Link></li>
-                      <li><a href="#" data-toggle="modal" data-target="#Create_new_shipment">New Shipment</a></li>
+                      <li><Link to="/new-package" onClick={this.props.createPackageStatus}>New package</Link></li>
+                      <li><a href="#" onClick={this.showDialog}>New Shipment</a></li>
                     </ul>
                   </ToggleDisplay>
                 </div>

@@ -20,7 +20,7 @@ export function getpurchaseOrders(req, res) {
         if (err) {
           return res.json(500, err);
         }
-        Order.find({ _id: {"$in": products.orders }, payment_status: "succeeded"}).populate("orderitems _buyer").exec((err, orders)=>{
+        Order.find({ _id: {"$in": products.orders }, payment_status: "succeeded"}).populate("orderitems packages _buyer").exec((err, orders)=>{
           if (err) {
             return res.json(500, err);
           }
@@ -34,7 +34,7 @@ export function getpurchaseOrders(req, res) {
 
 
 export function getpurchaseOrder(req, res) {
-  Order.findOne({cuid: req.query.cuid}).populate("orderitems -_id").exec((err, order)=>{
+  Order.findOne({cuid: req.query.cuid}).populate("orderitems packages -_id").exec((err, order)=>{
       if (err) {
         return res.json(500, err);
       }
@@ -86,7 +86,7 @@ export function shipPackage(req, res) {
         "shippment.already_delivered": req.body.already_delivered,
         "shippment.notify_to_customer": req.body.notify_to_customer,
         "shippment.ship_date": req.body.ship_date,
-        "status": "Shipped"
+        "status": req.body.status
       }
     }, {new: true}).exec((err, packge) => {
       if (err){
