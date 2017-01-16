@@ -1090,7 +1090,7 @@ ul.edit_sidbar_list li a:hover, ul.edit_sidbar_list li.active a {
 	color:#ffffff;
 }
 .edit_icon{
-    
+
     float: right;
 }
 .profile_rht_header.header_rht_menu li .edit_icon a{
@@ -1127,7 +1127,7 @@ ul.edit_sidbar_list li a:hover, ul.edit_sidbar_list li.active a {
 }
 .chat_description h3{
 font-size: 12px;
-    color: #4D4D4D;	
+    color: #4D4D4D;
 	font-weight:700;
 }
 .chat_description h3 span{
@@ -1136,8 +1136,8 @@ font-size: 12px;
 	float:right;
 }
 .chat_description p{
-	color: #808080;	
-	
+	color: #808080;
+
 }
 .profile_rht_header.header_rht_menu li .chat_list a{
 	    padding: 0;
@@ -1146,7 +1146,7 @@ font-size: 12px;
 
 .chat_container{
 max-width:780px;
-	margin:0 auto;	
+	margin:0 auto;
 }
 .full_chat_window{
 	float:left;
@@ -1164,9 +1164,9 @@ max-width:780px;
 
 .full_chat_header h3{
 font-size: 16px;
-    color: #808080;	
+    color: #808080;
 	font-weight:600;
-line-height: 22px;	
+line-height: 22px;
 }
 .inner_chat_header{
 	float:left;
@@ -1183,7 +1183,7 @@ line-height: 22px;
 }
 .inner_chat_header .edit_icon a{
 	color:#ffffff;
-	
+
 }
 .chat_window_left{
 	float:left;
@@ -1199,7 +1199,7 @@ line-height: 22px;
 	border-left: 1px solid #CCCCCC;
 }
 .content{
-height: 435px;	
+height: 435px;
 }
 .mCS-dark.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar{
 	background-color:#C1C1C1;
@@ -1226,7 +1226,7 @@ height: 435px;
 
 /*============Msg v_01=========*/
 .active_chatlist{
-background:#00ACA2;	
+background:#00ACA2;
 color:#ffffff;
 }
 .active_chatlist .chat_description h3{
@@ -1330,7 +1330,7 @@ color:#ffffff;
 }
 .complt_user_chat h4{
 font-size: 14px;
-color: #808080;	
+color: #808080;
 font-weight:700;
 line-height: 45px;
 }
@@ -1358,8 +1358,8 @@ line-height: 45px;
 border-radius:4px;
 	padding:10px;
 	font-size:12px;
-	
-	line-height: 15px;	
+
+	line-height: 15px;
 	width:80%;
 }
 .sender_msg{
@@ -4553,7 +4553,8 @@ border-bottom:1px solid #b3b3b3;
     width: 130px;
     top: 100%;
     z-index: 9999;}
-.shipping_toggle{position: relative;}
+.shipping_toggle{position: relative;
+ cursor: pointer}
 .shipping_toggle ul{ position: absolute;
     width: 130px;
     top: 100%;
@@ -4762,7 +4763,7 @@ font-size:18px;
 .pckg_form .form-control {
     width: 40%;
     display: inline-block;
-  padding: 6px 18px 6px 57px;
+ /*padding: 6px 18px 6px 57px;*/
   height: 30px;
   border:1px solid #B3B3B3;
   border-radius:2px;
@@ -4903,7 +4904,8 @@ text-align:right;
 .prod_modal .purchse_order_modal_form .form-control{
   border: 1px solid #b3b3b3;
       height: 29px;
-  padding-left: 63px;
+  /*padding-left: 63px;*/
+  padding-left: 20px;
 }
 
 .prod_modal.order_modal .modal-body{

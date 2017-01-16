@@ -23,6 +23,7 @@ export default class AddProduct extends React.Component {
       prodDetails : {},
       food_type : "",
       photo: null,
+      expiry_date:'',
       price: "",
       portion : "",
       foodType: "",
@@ -35,6 +36,7 @@ export default class AddProduct extends React.Component {
     this.handleDateChange = this.handleDateChange.bind(this);
     this.handleRadioChange = this.handleRadioChange.bind(this);
     this.isValidate= this.isValidate.bind(this);
+    this.formatDate = this.formatDate.bind(this)
 	}
 
   componentWillReceiveProps(nextProps) {
@@ -193,12 +195,27 @@ export default class AddProduct extends React.Component {
     }
   }
 
+  formatDate(date) {
+    var d = new Date(date),
+    month = '' + (d.getMonth() + 1),
+    day = '' + d.getDate(),
+    year = d.getFullYear();
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+    return [year, month, day].join('-');
+  }
+
   handleDateChange(e){
-    this.setState({
-      prodDetails: {
-        [e.target.name]:  e.target.value
-      }
-    })
+    if(this.formatDate(new Date()) <= e.target.value){
+      this.setState({
+          expiry_date: e.target.value,
+        prodDetails: {
+          [e.target.name]:  e.target.value
+        }
+      })
+    }else{
+      alert("Please enter a valid date")
+    }
   }
 
   handleRadioChange(e){
@@ -289,7 +306,7 @@ export default class AddProduct extends React.Component {
 						<div className="form-group expiry_date_col " id="">
 							<label htmlFor="" className="col-form-label qty_label">Expiry date</label>
 							<div id="datetimepicker1" className="date_section">
-								<input type="date" id="expiry_date" name="expiry_date" className="form-control date_input" ref="expiry_date" value={this.state.prodDetails? moment(this.state.prodDetails.expiry_date,'YYYY-MM-DD').format('YYYY-MM-DD'):this.refs.expiry_date.value} onChange={this.handleDateChange}/>
+								<input type="date" id="expiry_date" name="expiry_date" className="form-control date_input" ref="expiry_date" value={this.state.prodDetails? this.state.expiry_date? moment(this.state.expiry_date,'YYYY-MM-DD').format('YYYY-MM-DD'):moment(this.state.prodDetails.expiry_date,'YYYY-MM-DD').format('YYYY-MM-DD'):this.refs.expiry_date.value} onChange={this.handleDateChange}/>
 								<span className="add-on"><i aria-hidden="true"></i></span>
 							</div>
 						</div>

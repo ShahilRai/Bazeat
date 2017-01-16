@@ -19,7 +19,7 @@ export default class Menu extends React.Component {
       allMessages:[]
     };
   }
-  
+
   loadAllMessages(){
      var self=this;
      var userEmail = self.context.user.email;
@@ -33,7 +33,7 @@ export default class Menu extends React.Component {
       .catch((err) => {
     console.log(err);
     });
-    this.messageIconValue()  
+    this.messageIconValue()
   }
   messageIconValue(){
     this.setState({
@@ -53,7 +53,7 @@ export default class Menu extends React.Component {
       MessageIcon = ( <span className="msg_qty" >{this.state.isMessage}</span>)
     }
     return (
-      
+
       <div>
         <ul className={profileHead}>
           <li><a href="javascript:void(0)" className="help_icon">Help</a></li>
@@ -67,12 +67,13 @@ export default class Menu extends React.Component {
               <a href="javascript:void(0)" className="message_icon">Messages
                 {MessageIcon}
             </a>
-              <MessageDropdown allMessages={this.state.allMessages} />           
+              <MessageDropdown allMessages={this.state.allMessages} />
             </li>
             <li className="username_text"><Link to={"/user/"+userId}>{this.context.user ? this.context.user.givenName : ""}</Link>
               <ul className="user_toggle_div collapse" id="" >
                 <li><a href="/profile">Edit Profile</a></li>
                 <li><a href="/setting">Settings</a></li>
+                <li><Link to="/orders">Orders</Link></li>
                 <li><Link to="javascript:void(0)">Guides</Link></li>
                 <li><LogoutLink>Log out</LogoutLink></li>
               </ul>
