@@ -15,6 +15,7 @@ export default class DeliveryMethods extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleDateChange=this.handleDateChange.bind(this)
+    this.formatDate = this.formatDate.bind(this)
   }
 
 	SaveAndContinue(){
@@ -44,13 +45,27 @@ export default class DeliveryMethods extends React.Component {
     })
   }
 
-   handleDateChange(e){
-    this.setState({
-      [e.target.name] :  e.target.value,
-      prodDetails : {
-      [e.target.name] :  e.target.value
-      }
-    })
+  formatDate(date) {
+    var d = new Date(date),
+    month = '' + (d.getMonth() + 1),
+    day = '' + d.getDate(),
+    year = d.getFullYear();
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+    return [year, month, day].join('-');
+  }
+
+  handleDateChange(e){
+    if(this.formatDate(new Date()) <= e.target.value){
+	    this.setState({
+	      [e.target.name] : e.target.value,
+	      prodDetails : {
+	      [e.target.name] : e.target.value
+	      }
+	    });
+	  }else{
+      alert("Please enter a valid date")
+	  }
   }
 
 	render() {
@@ -111,7 +126,6 @@ export default class DeliveryMethods extends React.Component {
 							<div className="form-group col-md-12 mob_padd_0">
 								<LabelField htmlFor="" className="col-form-label shipment_label" label="Pick up time"  />
 								<div id="datetimepicker1" className="pickup_time">
-
 								<input className="form-control" name="pickup_time" ref="pickup_time" placeholder="" value={this.state.pickup_time? moment(this.state.pickup_time, 'YYYY-MM-DD').format('YYYY-MM-DD'): moment(this.state.prodDetails.pickup_time , 'YYYY-MM-DD').format('YYYY-MM-DD')?moment(this.state.prodDetails.pickup_time , 'YYYY-MM-DD').format('YYYY-MM-DD'):moment('YYYY-MM-DD').format('YYYY-MM-DD')} onChange={this.handleDateChange} type="date"/>
 								<span className="add-on"><i aria-hidden="true"></i></span>
                 </div>
