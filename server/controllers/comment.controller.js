@@ -104,20 +104,13 @@ export function newReview(req, res, next) {
 
 export function sendReply(req, res, next) {
   User.findOne({ email: req.body.email }).exec((err, user) => {
-    const reply = new Comment({
-      conversation_id: newRatingAndReview._id,
-      comment_body: req.body.comment_body,
-      reviewed_by: user._id,
-      reviewed_for: req.params.reviewed_for,
-      rating: req.body.rating
-    });
-    reply.save(function(err, sentReply) {
-      if (err) {
-        res.send({ error: err });
-        return next(err);
+  Comment.findOneAndUpdate({ _id: req.body.comment_id }, {$set: {is_replied: true}}, {new: true}).exec((err, comment) => {
+      if (err){
+        return res.status(500).send(err);
       }
-      res.status(200).json({ message: 'Review successfully replied!' });
-      return(next);
+      else{
+        res.status(200).json({ comment });
+      }
     });
   });
 }

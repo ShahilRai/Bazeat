@@ -66,6 +66,7 @@ const userSchema = new Schema({
   unique_id: { type: String },
   default_shipping: { type: Number },
   account_number: {type: Number},
+  last4: {type: String},
   loc: {
     type: [Number],
     index: '2d'
