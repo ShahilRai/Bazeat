@@ -1,6 +1,7 @@
 import User from '../models/user';
 import Order from '../models/order';
 import * as MailService from '../services/mailer';
+import * as MessageService from '../services/twillio';
 import cuid from 'cuid';
 import fs from 'fs';
 //Stripe Implementation
@@ -17,6 +18,7 @@ export function addUser(req, res) {
     }
     else{
       MailService.send_email(saved)
+      MessageService.sendMessage(saved.phone)
       return res.json({ user: saved });
     }
   });
