@@ -29,7 +29,7 @@ export default class ProfileContainer extends React.Component {
         activeView: 'active'
       });
     }
-    if(this.state.route == '/orders' || this.state.route == '/orders/received-order'){
+    if(this.state.route == '/orders' || this.state.route == '/orders/'+ purchaseOrdrId){
       this.setState({
         activeView2: 'active'
       });
@@ -166,7 +166,7 @@ export default class ProfileContainer extends React.Component {
 
   receivedOrderStatus(){
     this.setState({
-      route: '/orders/received-order',
+      route: '/orders/'+purchaseOrdrId,
       status : "false",
       activeView1: '',
       activeView: '',
@@ -177,7 +177,7 @@ export default class ProfileContainer extends React.Component {
 
   createPackageStatus(){
     this.setState({
-      route: '/orders/new-package',
+      route: '/new-package',
       status : "false",
       activeView1: '',
       activeView: '',
@@ -235,12 +235,12 @@ export default class ProfileContainer extends React.Component {
       this.state.profile= <ProducerPasswordUpdate />;
     }else if(this.state.route=='/orders' && this.state.puchaseOrderPage){
       this.state.profile= <PurchaseOrders receiveCuid={this.receiveCuid} receivedOrderStatus={this.receivedOrderStatus}/>;
-    }else if(this.state.route=='/orders' && this.state.packagesPage){
+    }else if((this.state.route=='/orders' || this.state.route=='/orders/' + purchaseOrdrId || this.state.route=='/new-package') && this.state.packagesPage){
       this.state.profile= <OrderMgmntPackages />;
-    }else if(this.state.route=='/orders/received-order'){
-      this.state.profile= <ReceivedOrder orderCuid={orderCuid} purchaseOrdrId={purchaseOrdrId} createPackageStatus={this.createPackageStatus}/>;
-    }else if(this.state.route=='/orders/new-package'){
-      this.state.profile= <CreateNewPackage receivedOrderStatus={this.receivedOrderStatus}/>;
+    }else if(this.state.route=='/orders/' +  purchaseOrdrId){
+      this.state.profile= <ReceivedOrder orderCuid={orderCuid} purchaseOrdrId={purchaseOrdrId} createPackageStatus={this.createPackageStatus} receivedOrderStatus={this.receivedOrderStatus}/>;
+    }else if(this.state.route=='/new-package'){
+      this.state.profile= <CreateNewPackage orderCuid={orderCuid} receivedOrderStatus={this.receivedOrderStatus} purchaseOrdrId={purchaseOrdrId}/>;
     }else if(this.state.route=='/profile' || this.context.user||this.state.status=="false"){
       if(this.context.user.customData.is_producer == "true"){
         this.state.profile = <ProducerProfilePage />;
@@ -287,7 +287,7 @@ export default class ProfileContainer extends React.Component {
       )
     }
 
-    if(this.state.route == "/orders" || this.state.route == "/orders/received-order" || this.state.route == "/orders/new-package"){
+    if(this.state.route == "/orders" || this.state.route == "/orders/"+ purchaseOrdrId || this.state.route == "/new-package"){
       left_menus = (
       <ul className="edit_sidbar_list">
         <li className={this.state.puchaseOrderPage?"active":''}><a href="javascript:void(0)" onClick={this.showPurchaseOrders}>Purchase orders</a></li>
@@ -306,7 +306,6 @@ export default class ProfileContainer extends React.Component {
                 <ul>
                   <li className={this.state.activeView}><Link to="profile" onClick={this.profileStatus}>Profile</Link></li>
                   <li className={this.state.activeView1}><Link to="setting" onClick={this.settingStatus}>Settings</Link></li>
-                  <li className={this.state.activeView2}><Link to="orders" onClick={this.orderStatus}>Orders</Link></li>
                 </ul>
               </div>
             </div>

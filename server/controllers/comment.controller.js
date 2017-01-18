@@ -3,7 +3,6 @@ import  Review from '../models/review'
 import  Comment from '../models/comment'
 import  User from '../models/user'
 
-
 export function allReviews(req, res, next) {
   User.findOne({ email: req.query.email }).exec((err, user) => {
     RatingAndReview.find({ participants: user._id })
@@ -18,6 +17,7 @@ export function allReviews(req, res, next) {
         reviews.forEach(function(review) {
           Review.find({ 'rating_and_review_id': review._id })
             .sort('-createdAt')
+            .limit(5)
             .populate({
               path: 'reviewed_by',
               select: 'full_name photo'
@@ -49,9 +49,15 @@ export function allReviews(req, res, next) {
 
 
 export function getReview(req, res, next) {
-  Review.find({ rating_and_review_id: req.query.review_id })
+
+  if(!req.params.review_id) {
+    res.status(422).send({ error: 'Send valid review id.' });
+    return next();
+  }
+  Review.find({ rating_and_review_id: req.params.review_id })
     .select('createdAt comment rating reviewed_by reviewed_for')
     .sort('-createdAt')
+    .limit(2)
     .populate({
       path: 'reviewed_by',
       select: 'full_name photo'

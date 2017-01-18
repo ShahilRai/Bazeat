@@ -17,6 +17,7 @@ export function allConversations(req, res, next) {
         conversations.forEach(function(conversation) {
           Message.find({ 'conversation_id': conversation._id })
             .sort('-createdAt')
+            .limit(5)
             .populate({
               path: 'sender',
               select: 'full_name photo'
@@ -42,9 +43,14 @@ export function allConversations(req, res, next) {
 
 
 export function getConversation(req, res, next) {
+  if(!req.params.conversation_id) {
+    res.status(422).send({ error: 'Please choose a valid conversation id.' });
+    return next();
+  }
   Message.find({ conversation_id: req.params.conversation_id })
     .select('createdAt body sender receiver')
     .sort('-createdAt')
+    .limit(2)
     .populate({
       path: 'sender',
       select: 'full_name photo'
@@ -58,7 +64,12 @@ export function getConversation(req, res, next) {
         res.send({ error: err });
         return next(err);
       }
-      res.status(200).json({ conversation: messages });
+      if(messages){
+        return res.status(200).json({ conversation: messages });
+      }
+      else{
+        return res.status(200).json({ conversation: "There are no messages for this conversation" });
+      }
     });
 }
 
@@ -93,7 +104,6 @@ export function newConversation(req, res, next) {
           res.send({ error: err });
           return next(err);
         }
-
         res.status(200).json({ message: 'Conversation started!', conversation_id: conversation._id, message: newMessage });
         return next();
       });
@@ -102,6 +112,14 @@ export function newConversation(req, res, next) {
 }
 
 export function sendReply(req, res, next) {
+  if(!req.body.email) {
+    res.status(422).send({ error: 'Send valid user email.' });
+    return next();
+  }
+  if(!req.params.conversation_id) {
+    res.status(422).send({ error: 'Send valid conversation id to send reply.' });
+    return next();
+  }
   User.findOne({ email: req.body.email }).exec((err, user) => {
     const reply = new Message({
       conversation_id: req.params.conversation_id,

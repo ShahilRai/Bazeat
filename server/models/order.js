@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 import Product from '../models/product';
 import OrderItem from '../models/orderitem';
+import autoIncrement from 'mongoose-auto-increment';
 
 // delivery_method = ['Hentemat', 'Sendemat', 'Budmat']
 
@@ -56,8 +57,16 @@ const orderSchema = new Schema({
   timeslot: [slotSchema]
 });
 
+import serverConfig from '../config';
+const connection = mongoose.createConnection(serverConfig.mongoURL);
 
+autoIncrement.initialize(connection);
 
+orderSchema.plugin(autoIncrement.plugin, {
+    model: 'Order',
+    field: 'orderId',
+    startAt: 100000
+});
 
 orderSchema.post('save', function(order) {
   Product.update({_id: {"$in": order.products }}, { $pushAll: {orders: [order] }}, {multi: true}, function(err) {

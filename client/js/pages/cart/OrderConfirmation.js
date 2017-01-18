@@ -12,6 +12,7 @@ export default class OrderConfirmation extends React.Component {
   constructor(props) {
       super(props);
       this.state = {
+        addressChange : this.props.addressChange,
         orderDetail : this.props.orderDetail,
         method:this.props.method
       }
@@ -30,19 +31,34 @@ export default class OrderConfirmation extends React.Component {
   }
 
   changeTextSendemat(){
+    if(this.props.addressChange)
+    {
+      return(
+        <div>
+          <h5>Your goods will be delivered to <br/>{this.props.addressChange}</h5>
+        </div>
+      )
+    }
     return(
       <div>
       <h5>Your goods will be delivered to <br/>{this.state.currentUser_Detail ? this.state.currentUser_Detail.address : ''}<br/>{this.state.currentUser_Detail ? this.state.currentUser_Detail.postal_code : ''}<br/>{this.state.currentUser_Detail ? this.state.currentUser_Detail.city : ''}!</h5>
       </div>
       )
-
   }
 
   changeTextBudmat(){
+    if(this.props.addressChange)
+    {
+      return(
+        <div>
+          <h5>Your goods will be delivered to <br/>{this.props.addressChange}</h5>
+        </div>
+      )
+    }
     return(
-      <div>
-      <h5>Your goods will be delivered to <br/>{this.state.currentUser_Detail ? this.state.currentUser_Detail.address : ''}<br/>{this.state.currentUser_Detail ? this.state.currentUser_Detail.postal_code : ''}<br/>{this.state.currentUser_Detail ? this.state.currentUser_Detail.city : ''}!</h5>
-      </div>
+        <div>
+          <h5>Your goods will be delivered to <br/>{this.state.currentUser_Detail ? this.state.currentUser_Detail.address : ''}<br/>{this.state.currentUser_Detail ? this.state.currentUser_Detail.postal_code : ''}<br/>{this.state.currentUser_Detail ? this.state.currentUser_Detail.city : ''}!</h5>
+        </div>
       )
 
   }
@@ -90,7 +106,7 @@ export default class OrderConfirmation extends React.Component {
             <div className="chkout_pg chkoutstep4_1">
               <h3>Confirmation</h3>
               {this.changeTextConfirmationBelow()}
-              <CheckoutStep step={this.props.method}/>
+              <CheckoutStep step={this.props.step}/>
               {this.changeText()}
               <div className="confirmation_step1">
                 <div className="inner_confrm1">

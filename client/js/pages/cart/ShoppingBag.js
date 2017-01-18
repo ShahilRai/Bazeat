@@ -14,6 +14,7 @@ export default class ShoppingBag extends React.Component {
     super(props, context);
     this.state = {
       items: [],
+      step:this.props.step,
       total_price: 0,
       total_items : 0,
       currency: 'kr',
@@ -157,7 +158,7 @@ export default class ShoppingBag extends React.Component {
           <div className="chkout_pg chkoutstep1">
             <h3>Shopping bag</h3>
             <h4>Look over your shopping bag before continuing to payment</h4>
-            <CheckoutStep step={this.props.step}/>
+            <CheckoutStep step={this.state.step}/>
             <ul className="shopping_list_heading">
               <li className="shopping_no">Amount</li>
               <li className="shopping_prod">Product</li>

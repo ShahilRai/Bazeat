@@ -2810,7 +2810,7 @@ font-weight:600;
     background: none;
     padding: 0;
     position: relative;
-    top: -10px;
+    /*top: -10px;*/
     margin: 0;
 }
 .tot_price_item{
@@ -3846,7 +3846,7 @@ font-weight:700;
 	min-width:600px;
 }
 .chkoutstep1 .sr_no .fa-caret-up,.chkoutstep1 .sr_no .fa-caret-down{
-	position:static;
+	/*position:static;*/
 	display:block;
 }
 .text-left{
@@ -3904,7 +3904,7 @@ text-align:center;
 }
 
 .chkoutstep1 .sr_no{
-	float:none;
+	/*float:none;*/
 	width:auto;
 }
 .chkoutstep1 .items_list_info ul{min-height:auto;}
@@ -4553,7 +4553,8 @@ border-bottom:1px solid #b3b3b3;
     width: 130px;
     top: 100%;
     z-index: 9999;}
-.shipping_toggle{position: relative;}
+.shipping_toggle{position: relative;
+ cursor: pointer}
 .shipping_toggle ul{ position: absolute;
     width: 130px;
     top: 100%;
@@ -4762,7 +4763,7 @@ font-size:18px;
 .pckg_form .form-control {
     width: 40%;
     display: inline-block;
-  padding: 6px 18px 6px 57px;
+ /*padding: 6px 18px 6px 57px;*/
   height: 30px;
   border:1px solid #B3B3B3;
   border-radius:2px;
@@ -4903,7 +4904,8 @@ text-align:right;
 .prod_modal .purchse_order_modal_form .form-control{
   border: 1px solid #b3b3b3;
       height: 29px;
-  padding-left: 63px;
+  /*padding-left: 63px;*/
+  padding-left: 20px;
 }
 
 .prod_modal.order_modal .modal-body{
@@ -5009,6 +5011,7 @@ color:#666666;
   filter: progid: DXImageTransform.Microsoft.Blur(PixelRadius='10');
   overflow: hidden;
 }
+
 .review_all .user_reveiw_list .rvw_username{
 font-size:16px;
 font-weight:600;
@@ -5240,3 +5243,7 @@ Sent on:SatFrom:abhishek chaudhary.paginate_center{
   margin: 20px 0;
   border-radius: 4px;
    }.pagination>li {display: inline;}.pagination>li:first-child>a, .pagination>li:first-child>span {margin-left: 0;border-top-left-radius: 4px;border-bottom-left-radius: 4px;}.pagination>.disabled>a, .pagination>.disabled>a:focus, .pagination>.disabled>a:hover, .pagination>.disabled>span, .pagination>.disabled>span:focus, .pagination>.disabled>span:hover {color: #777;cursor: not-allowed;background-color: #fff;border-color: #ddd;}.pagination>li>a, .pagination>li>span {position: relative;float: left;padding: 6px 12px;margin-left: -1px;line-height: 1.42857143;color: #337ab7;text-decoration: none;background-color: #fff;border: 1px solid #ddd;}.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {z-index: 3;color: #fff;cursor: default;background-color: #337ab7;border-color: #337ab7;}
+.hidden{
+  display: none;
+}
+

@@ -18,8 +18,6 @@ export function addOrder(req, res) {
       if(err){
         return res.status(500).send({err_msg: "Your cart is empty"});
       }
-      console.log('data')
-      console.log(data)
         const newOrder = new Order();
         newOrder.cuid = cuid();
         newOrder.address.postal_code = data.address.postal_code;
@@ -187,8 +185,7 @@ export  function getShippingPrice(req, res){
           ).exec(function(err, updated_cart){
               cart_postcode = updated_cart.address.postal_code;
               cart_weight = updated_cart.total_weight;
-
-          let options = {uri : "https://api.bring.com/shippingguide/products/price.json?from="+cart_postcode+"&to="+user[0].postal_code+"&clientUrl="+clientUrl+"&weightInGrams="+cart_weight+"",method : 'GET'
+          let options = {uri : "https://api.bring.com/shippingguide/products/all.json?from="+cart_postcode+"&to="+user[0].postal_code+"&clientUrl="+clientUrl+"&weightInGrams="+cart_weight+"",method : 'GET'
           };
           request(options, function (error, response, body) {
             if (!error && response.statusCode == 200) {
@@ -203,7 +200,7 @@ export  function getShippingPrice(req, res){
       else{
         cart_postcode = cart.address.postal_code;
         cart_weight = cart.total_weight;
-        let options = {uri : "https://api.bring.com/shippingguide/products/price.json?from="+cart_postcode+"&to="+user[0].postal_code+"&clientUrl="+clientUrl+"&weightInGrams="+cart_weight+"", method : 'GET'
+        let options = {uri : "https://api.bring.com/shippingguide/products/all.json?from="+cart_postcode+"&to="+user[0].postal_code+"&clientUrl="+clientUrl+"&weightInGrams="+cart_weight+"", method : 'GET'
         };
         request(options, function (error, response, body) {
           if (!error && response.statusCode == 200) {
@@ -344,8 +341,6 @@ export function addCart(req, res) {
 }
 
 export  function cart_sum(cart, next, res){
-  console.log('cart')
-  console.log(cart)
   let item_qty = 0;
   let item_price = 0;
   let product_total_price = 0;
@@ -366,15 +361,15 @@ export  function cart_sum(cart, next, res){
       Cart.findOneAndUpdate(
         { "_id": cart._id, "cartitems.product_id": item.product_id  },
         {
-            "$set": {
-                "total_price": total_price,
-                "total_qty": item_qty,
-                "total_weight": total_weight,
-                "cartitems.$.product_amt": item_price,
-                "cartitems.$.product_total_amt": product_total_price,
-                "cartitems.$.product_image": product_image,
-                "cartitems.$.product_name": product_name,
-            }
+          "$set": {
+              "total_price": total_price,
+              "total_qty": item_qty,
+              "total_weight": total_weight,
+              "cartitems.$.product_amt": item_price,
+              "cartitems.$.product_total_amt": product_total_price,
+              "cartitems.$.product_image": product_image,
+              "cartitems.$.product_name": product_name,
+          }
         },
         {new: true}).
         exec(function(err,doc) {
