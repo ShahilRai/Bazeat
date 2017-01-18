@@ -18,6 +18,7 @@ export function allReviews(req, res, next) {
         reviews.forEach(function(review) {
           Review.find({ 'rating_and_review_id': review._id })
             .sort('-createdAt')
+            .limit(5)
             .populate({
               path: 'reviewed_by',
               select: 'full_name'
@@ -50,6 +51,7 @@ export function getReview(req, res, next) {
   Review.find({ rating_and_review_id: req.params.review_id })
     .select('createdAt comment rating reviewed_by reviewed_for')
     .sort('-createdAt')
+    .limit(2)
     .populate({
       path: 'reviewed_by',
       select: 'full_name'

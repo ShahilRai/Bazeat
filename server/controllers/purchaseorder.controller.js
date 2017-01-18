@@ -14,13 +14,18 @@ export function getpurchaseOrders(req, res) {
       if (err) {
         return res.json(500, err);
       }
-      console.log('producer')
-      console.log(producer)
       Product.findOne({ _id: {"$in": producer.products }}).select("orders -_id").exec((err, products)=>{
         if (err) {
           return res.json(500, err);
         }
-        Order.find({ _id: {"$in": products.orders }, payment_status: "succeeded"}).populate("orderitems _buyer").exec((err, orders)=>{
+        console.log('products')
+        console.log(products)
+        Order.find({ _id: {"$in": products.orders }, payment_status: "succeeded"})
+        .populate("orderitems _buyer")
+        .populate("packages", null, {pkg_status: 'created'})
+        .exec((err, orders)=>{
+          console.log('orders')
+        console.log(products)
           if (err) {
             return res.json(500, err);
           }
@@ -33,8 +38,37 @@ export function getpurchaseOrders(req, res) {
 }
 
 
+
+export function getPackages(req, res) {
+  User.findOne({email: req.query.email}).select("products -_id").exec((err, producer)=>{
+    if (err) {
+      return res.json(500, err);
+    }
+    Product.findOne({ _id: {"$in": producer.products }}).select("orders -_id").exec((err, products)=>{
+      if (err) {
+        return res.json(500, err);
+      }
+      Order.find({ _id: {"$in": products.orders }, payment_status: "succeeded"}).exec((err, orders)=>{
+        if (err) {
+          return res.json(500, err);
+        }
+        else{
+          Package.find({ _id: {"$in": orders.packages }, pkg_status: "created"}).exec((err, packages)=>{
+            if (err) {
+              return res.json(500, err);
+            }
+            else{
+              return res.json(packages);
+            }
+          })
+        }
+      })
+    })
+  })
+}
+
 export function getpurchaseOrder(req, res) {
-  Order.findOne({cuid: req.query.cuid}).populate("orderitems -_id").exec((err, order)=>{
+  Order.findOne({cuid: req.query.cuid}).populate("orderitems packages -_id").exec((err, order)=>{
       if (err) {
         return res.json(500, err);
       }
@@ -45,20 +79,35 @@ export function getpurchaseOrder(req, res) {
 }
 
 
-export function addpackageOrder(req, res) {
+export function createPackage(req, res){
+  const newPackage = new Package();
+  newPackage.save((err, packed) => {
+    return res.json(packed);
+  })
+}
+
+export function updatePackage(req, res) {
   req.body.orderitems.forEach(function(orderitem, index) {
     OrderItem.findOneAndUpdate({ _id: orderitem._id }, {$inc: {packed_qty: orderitem.packed_qty}}, {new: true}, function(err, updated_orderitem) {
       if (err){
         return res.status(500).send(err);
       }
-      const newPackage = new Package();
       if (orderitem.packed_qty != 0) {
-        newPackage.qty_packed = orderitem.packed_qty
-        newPackage._order = updated_orderitem._order
-        // newPackage._orderitem = updated_orderitem._id
-        newPackage.save((err, packed) => {
-        OrderItem.update({_id: updated_orderitem._id}, { $set: {shipped_qty: packed.qty_packed}}, function(err) {
-        });
+        Package.findOneAndUpdate({"_id": req.body.package_id},
+        {
+          "$set": {
+            "qty_packed": orderitem.packed_qty,
+            "_order": updated_orderitem._order,
+            "pkg_status": 'created',
+          }
+        },
+        {new: true}).exec(function(err, packed){
+           Order.findByIdAndUpdate({_id: packed._order}, {$pushAll: {packages: [packed]}} , function(err, model) {
+            })
+            Order.update({_id: packed._order}, {$set: {after_payment_status: "Confirmed"}},function(err) {
+            });
+            OrderItem.update({_id: updated_orderitem._id}, { $set: {shipped_qty: packed.qty_packed}}, function(err) {
+            });
           if (req.body.orderitems.length == index+1){
             return res.json(packed);
           }
@@ -72,7 +121,7 @@ export function addpackageOrder(req, res) {
 export function beforePkgcreate(req, res){
   OrderItem.findOne({ _id: req.query.order_id }).exec((err, orderitem1) => {
     if(orderitem1.product_qty <= (parseInt(req.query.packed_qty) + orderitem1.packed_qty)){
-      return res.json({ msg: "Package order quantity must be less than ordered quantity" })
+      return res.json({ msg: "packed order quantity must be less than ordered quantity" })
     }
   })
 }
@@ -86,7 +135,7 @@ export function shipPackage(req, res) {
         "shippment.already_delivered": req.body.already_delivered,
         "shippment.notify_to_customer": req.body.notify_to_customer,
         "shippment.ship_date": req.body.ship_date,
-        "status": "Shipped"
+        "status": req.body.status
       }
     }, {new: true}).exec((err, packge) => {
       if (err){
@@ -136,4 +185,17 @@ export  function updateToDeliver(req, res){
       });
     }
   })
+}
+
+
+
+export  function packageDestroy(req, res){
+  Package.findOne({ cuid: req.params._id }).exec((err, packge) => {
+    if (err || order == null) {
+      return res.status(500).send({msg: err});
+    }
+    packge.remove(() => {
+      return res.status(200).send({msg: "Package deleted successfully"});
+    });
+  });
 }

@@ -73,7 +73,7 @@ export default class DeliveryType extends React.Component {
           <div className="del_info_row grey_bg">
             <span className="custom_radio_edit del_alter hot_food">
               <input id="detail6" type="radio" name="c_detail" value="detail1"/>
-              <label for="detail6">Hjem p&aring; kvelden, 17-21</label>
+              <label htmlFor="detail6">Hjem p&aring; kvelden, 17-21</label>
             </span>
             <span className="del_info">
               <p className="pbot0">
@@ -94,7 +94,7 @@ export default class DeliveryType extends React.Component {
           <div className="del_info_row">
             <span className="custom_radio_edit del_alter hot_food">
               <input id="detail7" type="radio" name="c_detail" value="detail1"/>
-              <label for="detail7">P&aring; posten, 08-16</label>
+              <label htmlFor="detail7">P&aring; posten, 08-16</label>
             </span>
             <span className="del_info">
               <p className="pbot0">

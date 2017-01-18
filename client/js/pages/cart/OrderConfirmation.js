@@ -12,6 +12,7 @@ export default class OrderConfirmation extends React.Component {
   constructor(props) {
       super(props);
       this.state = {
+        addressChange : this.props.addressChange,
         orderDetail : this.props.orderDetail,
         method:this.props.method
       }
@@ -30,19 +31,34 @@ export default class OrderConfirmation extends React.Component {
   }
 
   changeTextSendemat(){
+    if(this.props.addressChange)
+    {
+      return(
+        <div>
+          <h5>Your goods will be delivered to <br/>{this.props.addressChange}</h5>
+        </div>
+      )
+    }
     return(
       <div>
       <h5>Your goods will be delivered to <br/>{this.state.currentUser_Detail ? this.state.currentUser_Detail.address : ''}<br/>{this.state.currentUser_Detail ? this.state.currentUser_Detail.postal_code : ''}<br/>{this.state.currentUser_Detail ? this.state.currentUser_Detail.city : ''}!</h5>
       </div>
       )
-
   }
 
   changeTextBudmat(){
+    if(this.props.addressChange)
+    {
+      return(
+        <div>
+          <h5>Your goods will be delivered to <br/>{this.props.addressChange}</h5>
+        </div>
+      )
+    }
     return(
-      <div>
-      <h5>Your goods will be delivered to <br/>{this.state.currentUser_Detail ? this.state.currentUser_Detail.address : ''}<br/>{this.state.currentUser_Detail ? this.state.currentUser_Detail.postal_code : ''}<br/>{this.state.currentUser_Detail ? this.state.currentUser_Detail.city : ''}!</h5>
-      </div>
+        <div>
+          <h5>Your goods will be delivered to <br/>{this.state.currentUser_Detail ? this.state.currentUser_Detail.address : ''}<br/>{this.state.currentUser_Detail ? this.state.currentUser_Detail.postal_code : ''}<br/>{this.state.currentUser_Detail ? this.state.currentUser_Detail.city : ''}!</h5>
+        </div>
       )
 
   }
