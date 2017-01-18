@@ -1,7 +1,40 @@
 import React from 'react';
 import { Link } from 'react-router';
+import axios from 'axios';
+import ListAllPackages from './ListAllPackages';
 
 export default class OrderMgmntPackages extends React.Component {
+
+  static contextTypes = {
+    authenticated: React.PropTypes.bool,
+    router: React.PropTypes.object.isRequired,
+    user: React.PropTypes.object,
+  }
+
+  constructor(props, context) {
+    super(props, context);
+    this.state = {
+      packgesList: []
+    }
+  }
+
+  componentDidMount(){
+    var user_email = this.context.user.username;
+    this.getAllPackages(user_email).then((response) => {
+      if(response.data) {
+        this.setState({
+          packgesList: response.data
+        });
+      }
+    }).catch((err) => {
+        console.log(err);
+    });
+  }
+
+  getAllPackages(emailAddress){
+    return axios.get("/api/get_packages?email="+ emailAddress , {
+    });
+  }
 
   render(){
     var tableheadValue=['Package date','Package#','Carrier','Sales order#','Status','Shipped date','Customer','Quantity']
@@ -18,86 +51,8 @@ export default class OrderMgmntPackages extends React.Component {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td className="text-center">
-                    21-10-2016
-                  </td>
-                  <td className="text-left">PKG-0001</td>
-                  <td className="text-center">Bring</td>
-                  <td className="text-center">
-                    <a href="#">SO-000001</a>
-                  </td>
-                  <td className="green_txt">DELIVERED</td>
-                  <td className="text-center">
-                    21-10-2016
-                  </td>
-                  <td className="text-center">Kari Norman</td>
-                  <td className="text-center">5.00</td>
-                </tr>
-                <tr>
-                  <td className="text-center">
-                    21-10-2016
-                  </td>
-                  <td className="text-left">PKG-0001</td>
-                  <td className="text-center">Bring</td>
-                  <td className="text-center">
-                    <a href="#">SO-000001</a>
-                  </td>
-                  <td className="red_txt">NOT SHIPPED</td>
-                  <td className="text-center">
-                    21-10-2016
-                  </td>
-                  <td className="text-center">Kari Norman</td>
-                  <td className="text-center">5.00</td>
-                </tr>
-                <tr className="f2f2f2_bg">
-                  <td className="text-center">
-                    21-10-2016
-                  </td>
-                  <td className="text-left">PKG-0001</td>
-                  <td className="text-center">Bring</td>
-                  <td className="text-center">
-                    <a href="#">SO-000001</a>
-                  </td>
-                  <td className="green_txt">DELIVERED</td>
-                  <td className="text-center">
-                    21-10-2016
-                  </td>
-                  <td className="text-center">Kari Norman</td>
-                  <td className="text-center">5.00</td>
-                </tr>
-                <tr>
-                  <td className="text-center">
-                    21-10-2016
-                  </td>
-                  <td className="text-left">PKG-0001</td>
-                  <td className="text-center">Bring</td>
-                  <td className="text-center">
-                    <a href="#">SO-000001</a>
-                  </td>
-                  <td className="blue_txt">SHIPPED</td>
-                  <td className="text-center">
-                    21-10-2016
-                  </td>
-                  <td className="text-center">Kari Norman</td>
-                  <td className="text-center">5.00</td>
-                </tr>
-                <tr>
-                  <td className="text-center">
-                    21-10-2016
-                  </td>
-                  <td className="text-left">PKG-0001</td>
-                  <td className="text-center">Bring</td>
-                  <td className="text-center">
-                    <a href="#">SO-000001</a>
-                  </td>
-                  <td className="blue_txt">SHIPPED</td>
-                  <td className="text-center">
-                    21-10-2016
-                  </td>
-                  <td className="text-center">Kari Norman</td>
-                  <td className="text-center">5.00</td>
-                </tr>
+                {this.state.packgesList.map((listOfPackage, index) => <ListAllPackages
+                key = {index} listOfPackage = {listOfPackage} />)}
               </tbody>
             </table>
           </div>
