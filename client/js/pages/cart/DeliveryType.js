@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import CheckoutStep from './CheckoutStep';
-
+let item = [];
 export default class DeliveryType extends React.Component {
 
   static contextTypes = {
@@ -12,18 +12,20 @@ export default class DeliveryType extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      item : {},
+      item : [],
       shipmentDetails : {}
     }
   }
 
   componentDidMount(){
-    var cart_cuid = this.props.cartCuid
+    var cart_cuid = this.props.cart_detail.cuid
     var email = this.context.user.email;
     this.loadShippingDetail(email, cart_cuid).then((response) => {
       if(response.data) {
         this.setState({
-          shipmentDetails : response.data ? response.data.order : ''
+          shipmentDetails : response.data,
+          item : response.data.body.Product
+
         })
       }
     }).catch((err) => {
@@ -37,7 +39,7 @@ export default class DeliveryType extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="full_width_container">
         <div className="full_width ptop0">
           <div className="chkout_pg chkoutstep2">
             <h3>Delivery method</h3>

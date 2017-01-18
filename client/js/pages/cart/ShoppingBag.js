@@ -2,6 +2,7 @@ import React from 'react';
 import CheckoutStep from './CheckoutStep';
 import axios from "axios";
 let cart_cuid ;
+let cart_detail;
 export default class ShoppingBag extends React.Component {
 
   static contextTypes = {
@@ -124,7 +125,7 @@ export default class ShoppingBag extends React.Component {
   }
 
   goToNextPage(){
-    this.props.nextStep(cart_cuid)
+    this.props.nextStep(cart_detail)
   }
 
   componentDidMount(){
@@ -148,6 +149,7 @@ export default class ShoppingBag extends React.Component {
 
   render() {
     cart_cuid = this.state.item.cuid
+    cart_detail = this.state.item
     var self = this;
     var goToShopBtn
     if(this.state.items.length<1){
@@ -181,7 +183,7 @@ export default class ShoppingBag extends React.Component {
                     </span>
                     <span className="items_price">{"kr " + item.product_amt}</span>
                     <span className="mva">15%</span>
-                    <span className="items_price">{item.product_total_amt}</span>
+                    <span className="items_price">{item.product_total_amt.toFixed(2)}</span>
                     <span className="del_bin">
                     <a href= "javaScript:void(0)"><img src="images/del_bin.png" onClick={this.removeSingleitem.bind(this,i)}/></a>
                     </span>
@@ -190,7 +192,7 @@ export default class ShoppingBag extends React.Component {
               </ul>
               <div className="chkout_step1_footer">
                 <span className="chkout_step1_prod">{"In total " +this.state.items.length +" products"}</span>
-                <span className="chkout_step1_totalprice">{"Total price incl. MVA: kr " + this.state.total_price}</span>
+                <span className="chkout_step1_totalprice">{"Total price incl. MVA: kr " +this.state.total_price}</span>
               </div>
             </div>
             <div className="chkout_step1btns">

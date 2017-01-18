@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import CheckoutStep from './CheckoutStep'
-
+let orderDetailResponse ;
 export default class OrderConfirmation extends React.Component {
 
   static contextTypes = {
@@ -12,55 +12,45 @@ export default class OrderConfirmation extends React.Component {
   constructor(props) {
       super(props);
       this.state = {
-        addressChange : this.props.addressChange,
         orderDetail : this.props.orderDetail,
+        cart_Detail : this.props.cart_Detail,
         method:this.props.method
       }
-      this.orderConfHentmat = this.orderConfHentmat.bind(this)
-      this.changeText = this.changeText.bind(this)
+      this.orderConfHentmat = this.orderConfHentmat.bind(this);
+      this.changeText = this.changeText.bind(this);
+      this.gotoPayment = this.gotoPayment.bind(this);
   }
 
   changeTextHentemat(){
     return(
       <div>
       <h5>Your goods can be picked up</h5>
-      <h5 className="mtop10"><strong>OPTION - <br/>{this.state.currentUser_Detail ? this.state.currentUser_Detail.address : ''}<br/>{this.state.currentUser_Detail ? this.state.currentUser_Detail.postal_code : ''}<br/>{this.state.currentUser_Detail ? this.state.currentUser_Detail.city : ''}</strong></h5>
+      <h5 className="mtop10"><strong>OPTION - <br/>{this.props.orderDetail.address.line1}<br/>{this.props.orderDetail.address.postal_code}<br/>{this.props.orderDetail.address.city}</strong></h5>
       <h5 className="mtop2"><strong>OPTION - TIME</strong></h5>
       </div>
       )
   }
 
   changeTextSendemat(){
-    if(this.props.addressChange)
+    if(this.props.orderDetail)
     {
       return(
         <div>
-          <h5>Your goods will be delivered to <br/>{this.props.addressChange}</h5>
+          <h5>Your goods will be delivered to <br/>{this.props.orderDetail.address.line1}<br/>{this.props.orderDetail.address.postal_code}<br/>{this.props.orderDetail.address.city}</h5>
         </div>
       )
     }
-    return(
-      <div>
-      <h5>Your goods will be delivered to <br/>{this.state.currentUser_Detail ? this.state.currentUser_Detail.address : ''}<br/>{this.state.currentUser_Detail ? this.state.currentUser_Detail.postal_code : ''}<br/>{this.state.currentUser_Detail ? this.state.currentUser_Detail.city : ''}!</h5>
-      </div>
-      )
   }
 
   changeTextBudmat(){
-    if(this.props.addressChange)
+    if(this.props.orderDetail)
     {
       return(
         <div>
-          <h5>Your goods will be delivered to <br/>{this.props.addressChange}</h5>
+          <h5>Your goods will be delivered to <br/>{this.props.orderDetail.address.line1}<br/>{this.props.orderDetail.address.postal_code}<br/>{this.props.orderDetail.address.city}</h5>
         </div>
       )
     }
-    return(
-        <div>
-          <h5>Your goods will be delivered to <br/>{this.state.currentUser_Detail ? this.state.currentUser_Detail.address : ''}<br/>{this.state.currentUser_Detail ? this.state.currentUser_Detail.postal_code : ''}<br/>{this.state.currentUser_Detail ? this.state.currentUser_Detail.city : ''}!</h5>
-        </div>
-      )
-
   }
   changeText(){
     if(this.state.method=='hentemat'){
@@ -82,6 +72,13 @@ export default class OrderConfirmation extends React.Component {
     }
   }
 
+  gotoPayment(){
+    (orderDetailResponse)
+        {
+          this.props.nextStep(orderDetailResponse);
+        }
+  }
+
   componentDidMount(){
     var email=this.context.user ? this.context.user.username : ''
     this.loadProducerAddress(email).then((response) => {
@@ -100,6 +97,8 @@ export default class OrderConfirmation extends React.Component {
   }
 
   orderConfHentmat(){
+    var MVA = this.state.orderDetail.shipment_vat_value + this.state.orderDetail.food_vat_value
+    MVA = MVA.toFixed(2);
     return(
         <div className="page_wrapper">
           <div className="full_width ptop0">
@@ -110,19 +109,21 @@ export default class OrderConfirmation extends React.Component {
               {this.changeText()}
               <div className="confirmation_step1">
                 <div className="inner_confrm1">
-                  <div className="cnfrm_price_prod_heading">
+                  <div class="cnfrm_price_prod_heading brdr_btm0">
                     <span className="pull-left">Price for products:</span>
-                    <span className="pull-right">kr {this.state.orderDetail.total_amount}</span>
+                    <span className="pull-right">kr {this.state.orderDetail.total_amount.toFixed(2)}</span>
+                  </div>
+                  <div className="cnfrm_price_prod_heading">
                     <span className="pull-left">Price for delivery:</span>
                     <span className="pull-right">kr {this.state.orderDetail.shipment_price}</span>
                   </div>
                   <div className="cnfrm_tot_price">
                     <span className="pull-left">Total price:</span>
-                    <span className="pull-right">kr {this.state.orderDetail.total_amount}</span>
+                    <span className="pull-right">kr {this.state.orderDetail.total_amount.toFixed(2)}</span>
                   </div>
                   <div className="cnfrm_tot_mva">
                     <span className="pull-left ">MVA hereof:</span>
-                    <span className="pull-right">kr {this.state.orderDetail.shipment_vat_value + this.state.orderDetail.food_vat_value}</span>
+                    <span className="pull-right">kr {MVA}</span>
                   </div>
                 </div>
                 <div className="cnfirm_stmnt">
@@ -130,7 +131,7 @@ export default class OrderConfirmation extends React.Component {
                   <p>When you confirm, goods cannot be removed from the order. </p>
                 </div>
                 <div className="cnfrmation_1btns">
-                   <button type="button" className="btn btn-default continue_btn" onClick={this.props.nextStep}>Confirm and pay for order</button>
+                   <button type="button" className="btn btn-default continue_btn" onClick={this.gotoPayment}>Confirm and pay for order</button>
                 </div>
                 <p className="sales_agreemnt">I agree with the <a href="#">sales conditions</a> and I am aware of .....</p>
               </div>
@@ -141,6 +142,7 @@ export default class OrderConfirmation extends React.Component {
   }
 
   render() {
+    orderDetailResponse = this.props.orderDetail
     return (
       <div className="full_width_container">
         {this.orderConfHentmat()}
