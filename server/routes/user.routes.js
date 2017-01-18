@@ -5,7 +5,10 @@ const router = new Router();
 router.route('/users').post(UserController.addUser);
 
 router.route('/add_time').post(UserController.addTimeSlot);
+
 router.route('/remove_time').delete(UserController.removeTimeSlot);
+
+router.route('/get_time').get(UserController.getTimeSlot);
 // Get all Users
 router.route('/users').get(UserController.getUsers);
 

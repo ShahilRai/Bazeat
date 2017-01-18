@@ -8,12 +8,7 @@ router.route('/reviews').get(CommentController.allReviews);
 router.route('/review').get(CommentController.getReview);
 
 // Create New Conversation
-<<<<<<< HEAD
 router.route('/reviews').post(CommentController.newReview);
-=======
-router.route('/new/review/:reviewed_for').post(CommentController.newReview);
->>>>>>> 237a1ac94f5ccdda74aec93e47c0b12aeab2c1bf
-
 // Send reply
 router.route('/send_reply').put(CommentController.sendReply);
 export default router;
