@@ -2810,7 +2810,7 @@ font-weight:600;
     background: none;
     padding: 0;
     position: relative;
-    top: -10px;
+    /*top: -10px;*/
     margin: 0;
 }
 .tot_price_item{
@@ -3846,7 +3846,7 @@ font-weight:700;
 	min-width:600px;
 }
 .chkoutstep1 .sr_no .fa-caret-up,.chkoutstep1 .sr_no .fa-caret-down{
-	position:static;
+	/*position:static;*/
 	display:block;
 }
 .text-left{
@@ -3904,7 +3904,7 @@ text-align:center;
 }
 
 .chkoutstep1 .sr_no{
-	float:none;
+	/*float:none;*/
 	width:auto;
 }
 .chkoutstep1 .items_list_info ul{min-height:auto;}
