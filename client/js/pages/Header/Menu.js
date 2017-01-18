@@ -97,7 +97,7 @@ export default class Menu extends React.Component {
             </a>
               <MessageDropdown allMessages={this.state.allMessages} allReviews={this.state.all_reviews} />
             </li>
-            <li className="username_text" onClick={this.onNavigateHome.bind(this)}><Link to={"/user/"+userId}>{this.context.user ? this.context.user.givenName : ""}</Link>
+            <li className="username_text"><Link to={"/user/"+userId}>{this.context.user ? this.context.user.givenName : ""}</Link>
               <ul className="user_toggle_div collapse" id="" >
                 <li><a href="/profile">Edit Profile</a></li>
                 <li><a href="/setting">Settings</a></li>
