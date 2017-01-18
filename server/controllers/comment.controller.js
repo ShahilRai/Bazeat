@@ -48,6 +48,10 @@ export function allReviews(req, res, next) {
 
 
 export function getReview(req, res, next) {
+  if(!req.params.review_id) {
+    res.status(422).send({ error: 'Send valid review id.' });
+    return next();
+  }
   Review.find({ rating_and_review_id: req.params.review_id })
     .select('createdAt comment rating reviewed_by reviewed_for')
     .sort('-createdAt')
