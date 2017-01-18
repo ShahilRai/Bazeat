@@ -15,12 +15,12 @@ const packageSchema = new Schema({
   status:{type: 'String', default: "Not Shipped"},
   _order: { type: Schema.ObjectId, ref: 'Order' },
   pkg_status: {type: 'String', default: null},
+  pkg_date: {type: 'Date'},
   shippingdata: {
     already_delivered: { type: 'Boolean', default: false },
     ship_date: { type: 'Date'},
     notify_to_customer: { type: 'Boolean', default: false }
   }
-  // _orderitem: { type: Schema.ObjectId, ref: 'OrderItem' }
 });
 
 packageSchema.plugin(autoIncrement.plugin, {
@@ -36,11 +36,11 @@ packageSchema.plugin(autoIncrement.plugin, {
 });
 
 
-packageSchema.post('save', function(packag) {
-  // Order.findByIdAndUpdate({_id: packag._order}, {$pushAll: {packages: [packag]}} , function(err, model) {
-  // })
-  // Order.update({_id: packag._order}, {$set: {after_payment_status: "Confirmed"}},function(err) {
-  // });
+// packageSchema.post('save', function(packag) {
+//   // Order.findByIdAndUpdate({_id: packag._order}, {$pushAll: {packages: [packag]}} , function(err, model) {
+//   // })
+//   // Order.update({_id: packag._order}, {$set: {after_payment_status: "Confirmed"}},function(err) {
+//   // });
 
-});
+// });
 export default mongoose.model('Package', packageSchema);

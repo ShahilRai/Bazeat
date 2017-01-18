@@ -53,14 +53,19 @@ export function getPackages(req, res) {
           return res.json(500, err);
         }
         else{
-          Package.find({ _id: {"$in": orders.packages }, pkg_status: "created"}).exec((err, packages)=>{
-            if (err) {
-              return res.json(500, err);
-            }
-            else{
-              return res.json(packages);
-            }
-          })
+          if (orders){
+            Package.find({ _id: {"$in": orders.packages }, pkg_status: "created"}).exec((err, packages)=>{
+              if (err) {
+                return res.json(500, err);
+              }
+              else{
+                return res.json(packages);
+              }
+            })
+          }
+          else{
+            return res.json({packages: "You don't have any packages yet"});
+          }
         }
       })
     })
@@ -99,6 +104,7 @@ export function updatePackage(req, res) {
             "qty_packed": orderitem.packed_qty,
             "_order": updated_orderitem._order,
             "pkg_status": 'created',
+            "pkg_date": req.body.pkg_date
           }
         },
         {new: true}).exec(function(err, packed){
@@ -190,7 +196,7 @@ export  function updateToDeliver(req, res){
 
 
 export  function packageDestroy(req, res){
-  Package.findOne({ cuid: req.params._id }).exec((err, packge) => {
+  Package.findOne({ cuid: req.query.package_id }).exec((err, packge) => {
     if (err || order == null) {
       return res.status(500).send({msg: err});
     }
