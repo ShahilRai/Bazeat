@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import PubSub from 'pubsub-js';
 
 export default class CreateNewPackage extends React.Component {
 
@@ -11,11 +12,16 @@ export default class CreateNewPackage extends React.Component {
     super(props);
     this.state = {
       orderItems: [],
-      packed_qty_value : 0
+      packed_qty_value : 0,
+      _updateState: [],
+      pckge_date: ''
     };
     this.savePackageOrder = this.savePackageOrder.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
     this.checkProductQty = this.checkProductQty.bind(this)
+    this.handlePackageDate = this.handlePackageDate.bind(this)
+    this.getViewPackge = this.getViewPackge.bind(this)
+    PubSub.subscribe('pckg detail', this.getViewPackge);
   }
 
   componentDidMount(){
@@ -36,35 +42,47 @@ export default class CreateNewPackage extends React.Component {
     });
   }
 
+  handlePackageDate(event){
+    this.setState({
+      pckge_date : event.target.value
+    },function(){
+    })
+  }
+
   savePackageOrder(){
     var p_qty = this.state.packed_qty_value;
-    var p_Id = this.props.purchaseOrdrId;
+    var o_Id = this.props.purchaseOrdrId;
+    var p_Id = this.props.newPackageDetails.id;
+    var p_date = this.state.pckge_date;
     var orderitems =[];
       orderitems.push({
         packed_qty: p_qty,
-        _id: p_Id
+        _id: o_Id
       })
-    this.addPackageOrder(orderitems).then((response) => {
+    this.addPackageOrder(orderitems, p_Id, p_date).then((response) => {
       if(response.data) {
         console.log("redirect-to");
       }
+      this.getViewPackge("status", response.data)
     }).catch((err) => {
       console.log(err);
     });
-    this.context.router.push('/orders/'+p_Id)
+    this.context.router.push('/orders/'+o_Id)
     this.props.receivedOrderStatus()
   }
 
-  addPackageOrder(orderitems){
-    return axios.post("/api/purchaseorders", {
-      orderitems: orderitems
+  addPackageOrder(orderitems, p_Id, p_date){
+    return axios.put("/api/update_package", {
+      orderitems: orderitems,
+      package_id: p_Id,
+      pkg_date: p_date
     });
   }
 
   checkProductQty(){
     var p_qty = this.state.packed_qty_value;
-    var p_Id = this.props.purchaseOrdrId;
-    this.isValidQty(p_Id, p_qty).then((response) => {
+    var o_Id = this.props.purchaseOrdrId;
+    this.isValidQty(o_Id, p_qty).then((response) => {
       if(response.data) {
         this.savePackageOrder()
       }
@@ -73,8 +91,8 @@ export default class CreateNewPackage extends React.Component {
     });
   }
 
-  isValidQty(p_Id, p_qty){
-    return axios.get("/api/valid_qty?order_id="+ p_Id+ "&packed_qty=" + p_qty, {
+  isValidQty(o_Id, p_qty){
+    return axios.get("/api/valid_qty?order_id="+ o_Id+ "&packed_qty=" + p_qty, {
     });
   }
 
@@ -82,6 +100,9 @@ export default class CreateNewPackage extends React.Component {
     this.setState({
       packed_qty_value: event.target.value
     })
+  }
+
+  getViewPackge(msg, result){
   }
 
   render(){
@@ -103,11 +124,11 @@ export default class CreateNewPackage extends React.Component {
             <form className="pckg_form">
               <div className="form-group">
                 <label htmlFor="" className="col-form-label">Package#</label>
-                <input type="text" className="form-control" placeholder="PKG-000001" />
+                <input type="text" className="form-control" value= {"PKG-"+this.props.newPackageDetails.pkgId} required disabled />
               </div>
               <div className="form-group">
                 <label htmlFor="" className="col-form-label">Date</label>
-                <input type="date" className="form-control" placeholder="21-10-2016" />
+                <input type="date" className="form-control" placeholder="21-10-2016" onChange={this.handlePackageDate}/>
               </div>
             </form>
           </div>

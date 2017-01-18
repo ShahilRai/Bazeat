@@ -8,6 +8,7 @@ import ProfileContainer from '../Profile/ProfileContainer';
 import NewShipment from './NewShipment';
 import ToggleDisplay from 'react-toggle-display';
 import confirm from 'bootstrap-confirm';
+import PubSub from 'pubsub-js';
 
 export default class ReceivedOrder extends React.Component {
 
@@ -39,6 +40,7 @@ export default class ReceivedOrder extends React.Component {
           orderItems: response.data.orderitems,
           packages: response.data.packages
         });
+        console.log(response.data)
       }
     }).catch((err) => {
         console.log(err);
@@ -64,7 +66,14 @@ export default class ReceivedOrder extends React.Component {
     });
   }
 
+  _showPackage(rcvDetails){
+    this.setState({
+      packages: rcvDetails
+    })
+  }
+
   render(){
+    PubSub.publish( 'state', this._showPackage );
     var showPackage = <div className="order_caption">
       <p>No packages yet for this order.<span className="green_txt"> <Link to="/new-package" onClick={this.props.createPackageStatus}>Create new package</Link></span></p>
     </div>
@@ -138,7 +147,7 @@ export default class ReceivedOrder extends React.Component {
               <div className="order_info_lt">
                 <h3>PURCHASE ORDER</h3>
                 <h4>Purchase order# {this.props.purchaseOrdrId}</h4>
-              <span className={paymnt_status}>{paymnt_text}</span>
+                <span className={paymnt_status}>{paymnt_text}</span>
                   <div className="delivery_process">
                     <div className="full_width_del">
                       <span><strong>Order date</strong></span>
@@ -152,7 +161,7 @@ export default class ReceivedOrder extends React.Component {
               </div>
               <div className="order_info_rt">
                 <h3>Delivery address</h3>
-                <p>Kari Norman<br/>{this.state.fullAddress.line1}<br/>{this.state.fullAddress.postal_code} {this.state.fullAddress.city}<br/>{this.state.fullAddress.country}</p>
+                <p>{this.state.orderDetails._buyer ? this.state.orderDetails._buyer.full_name : ""}<br/>{this.state.fullAddress.line1}<br/>{this.state.fullAddress.postal_code} {this.state.fullAddress.city}<br/>{this.state.fullAddress.country}</p>
               </div>
             </div>
             <div className="rcvd_order_table">

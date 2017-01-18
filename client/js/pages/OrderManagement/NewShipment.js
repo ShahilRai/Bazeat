@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import axios from 'axios';
 
 var _pId;
+var _sId;
 export default class NewShipment extends React.Component {
   constructor(props) {
     super(props);
@@ -13,32 +14,19 @@ export default class NewShipment extends React.Component {
       shpmnt_date: ''
     };
     this.saveNewShipment = this.saveNewShipment.bind(this)
-    this.handlePackageChange = this.handlePackageChange.bind(this)
-    this.handleShipmentChange = this.handleShipmentChange.bind(this)
     this.handleDateChange = this.handleDateChange.bind(this)
-  }
-
-  handlePackageChange(event){
-    this.setState({
-      pckgeNumber : event.target.value
-    })
-  }
-
-  handleShipmentChange(e){
-    this.setState({
-      shpmntNumber : e.target.value
-    })
   }
 
   handleDateChange(event){
     this.setState({
       shpmnt_date : event.target.value
+    },function(){
     })
   }
 
   saveNewShipment(){
-    var p_id = _pId;
-    var s_no = this.state.shpmntNumber;
+    var p_id = this.props._pckge? this.props._pckge.id: ""
+    var s_no = _sId
     var alrdy_dlvrd= this.refs.dlvrd.checked;
     var ntfy_to_cstmr= this.refs.ntfy.checked;
     var _shpDate = this.state.shpmnt_date;
@@ -47,13 +35,14 @@ export default class NewShipment extends React.Component {
       if(response.data) {
         console.log("redirect-to");
       }
+      this.props.viewPackage("data", response.data.pkg)
     }).catch((err) => {
       console.log(err);
     });
   }
 
   addNewShipment(p_id, s_no, alrdy_dlvrd, ntfy_to_cstmr, _shpDate, status){
-    return axios.post("/api/ship_package", {
+    return axios.put("/api/ship_package", {
       package_id: p_id,
       already_delivered: alrdy_dlvrd,
       notify_to_customer: ntfy_to_cstmr,
@@ -64,12 +53,8 @@ export default class NewShipment extends React.Component {
   }
 
   render(){
-    var self = this
-    if(this.props.pckgeId){
-      var _pckgId = this.props.pckgeId
-      self.state.pckge_id = _pckgId
-      _pId = self.state.pckge_id
-    }
+    _pId= this.props._pckge ? this.props._pckge.pkgId: ""
+    _sId= this.props._pckge? this.props._pckge.shpId: ""
     return(
       <div className="modal fade prod_modal order_modal shipment_modal" id={this.props.index ? this.props.index: this.props.id} tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div className="modal-dialog new_shipment_dialog" role="document">
@@ -85,13 +70,13 @@ export default class NewShipment extends React.Component {
                 <div className="form-group row">
                   <label htmlFor="" className="col-sm-5 col-form-label">Package#</label>
                   <div className="col-sm-7">
-                    <input type="text" className="form-control" id="" value= {_pId} onChange={this.handleInputChange} readOnly />
+                    <input type="text" className="form-control" id="" value= {"PKG-"+_pId} disabled />
                   </div>
                 </div>
                 <div className="form-group row">
                   <label htmlFor="" className="col-sm-5 col-form-label">Shipment#</label>
                   <div className="col-sm-7">
-                    <input type="text" className="form-control" id="" placeholder="SHP-000001" onChange={this.handleShipmentChange} />
+                    <input type="text" className="form-control" id="" value= {"SHP-"+_sId} disabled />
                   </div>
                 </div>
                 <div className="form-group row">

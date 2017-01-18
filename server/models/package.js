@@ -19,6 +19,7 @@ const packageSchema = new Schema({
   shippingdata: {
     already_delivered: { type: 'Boolean', default: false },
     ship_date: { type: 'Date'},
+    status: { type: 'String'},
     notify_to_customer: { type: 'Boolean', default: false }
   }
 });
