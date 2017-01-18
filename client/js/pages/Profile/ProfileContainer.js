@@ -4,6 +4,7 @@ import React, { PropTypes } from 'react';
 import ProducerPasswordUpdate from '../UserSetting/ProducerPasswordUpdate';
 import ProducerProfilePage from './ProducerProfilePage';
 import UserProfilePage from './UserProfilePage';
+import ReviewPage from '../MessageAndReviews/ReviewPage';
 import Notification from '../UserSetting/Notification';
 import AddAccount from './AddAccount';
 import PurchaseOrders from '../OrderManagement/PurchaseOrders';
@@ -47,6 +48,7 @@ export default class ProfileContainer extends React.Component {
       route: props.route.path,
       profile: '',
       status: "false",
+      user_review:false,
       activeView: '',
       activeView1: '',
       add_account: false,
@@ -66,6 +68,7 @@ export default class ProfileContainer extends React.Component {
     this.addAccount = this.addAccount.bind(this)
     this.showPurchaseOrders = this.showPurchaseOrders.bind(this)
     this.showPackages = this.showPackages.bind(this)
+    this.reviewStatus = this.reviewStatus.bind(this)
     this.receivedOrderStatus = this.receivedOrderStatus.bind(this)
     this.createPackageStatus = this.createPackageStatus.bind(this)
     this.receiveCuid = this.receiveCuid.bind(this)
@@ -88,6 +91,7 @@ export default class ProfileContainer extends React.Component {
    getAllMessages(emailAddress){
     return axios.get("/api/conversations?email="+emailAddress);
   }
+
 
   seeProfileBtnClck() {
     this.seeProfile(this.context.user.email).then((response) => {
@@ -208,10 +212,21 @@ export default class ProfileContainer extends React.Component {
     purchaseOrdrId= ordrId;
   }
 
+   reviewStatus(){
+    this.setState({
+      route: '/reviews',
+      user_review : true,
+      selected_tag : 3
+    });
+   }
+
+
   render() {
     var left_menus
     if(this.state.add_account){
       this.state.profile = <AddAccount />;
+    }else if(this.state.route=='/reviews'||this.state.user_review){
+       this.state.profile = <ReviewPage />;
     }else if(this.state.notification){
       this.state.profile = <Notification />;
     }else if(this.state.status==''){
@@ -231,7 +246,7 @@ export default class ProfileContainer extends React.Component {
         this.state.profile = <ProducerProfilePage />;
       }
       else if(this.state.allMessages == "true" || this.state.route =='/message'){
-        this.state.profile= <AllMessages loadAllMessages={this.loadAllMessages} msgConversations ={this.state.msgConversations}/>
+        this.state.profile= <AllMessages loadAllMessages={this.loadAllMessages} msgConversations ={this.state.msgConversations} allUserReview={this.state.userReviewData}/>
       }
       else {
         this.state.profile = <UserProfilePage />;
@@ -243,24 +258,25 @@ export default class ProfileContainer extends React.Component {
         <ul className="edit_sidbar_list">
           <li className={(this.state.selected_tag == 1)?"active":''}><a href="/profile">Edit Profile</a></li>
           <li><a href="javascript:void(0)">Verification</a></li>
-          <li><a href="javascript:void(0)">Reviews</a></li>
+          <li className={(this.state.selected_tag == 3)?"active":''}><a href="javascript:void(0)" onClick={this.reviewStatus}>Reviews</a></li>
           <li className={(this.state.selected_tag == 5)?"active":''}><a onClick={this.addAccount} href="javascript:void(0)">Bank Account</a></li>
           <li ><a onClick={this.allMessages.bind(this)} href="javascript:void(0)">Messages</a></li>
         </ul>
       )
     }
 
-    if(this.state.route == "/message"){
+    if(this.state.route == "/reviews"){
       left_menus =(
         <ul className="edit_sidbar_list">
-          <li className="active"><a href="/profile">Edit Profile</a></li>
+          <li className={(this.state.selected_tag == 1)?"active":''}><a href="/profile">Edit Profile</a></li>
           <li><a href="javascript:void(0)">Verification</a></li>
-          <li><a href="javascript:void(0)">Reviews</a></li>
+          <li className={(this.state.selected_tag == 3)?"active":''}><a href="javascript:void(0)" onClick={this.reviewStatus}>Reviews</a></li>
           <li className={(this.state.selected_tag == 5)?"active":''}><a onClick={this.addAccount} href="javascript:void(0)">Bank Account</a></li>
-          <li ><Link to="message" onClick={this.allMessages.bind(this)} href="javascript:void(0)">Messages</Link></li>
+          <li ><a onClick={this.allMessages.bind(this)} href="javascript:void(0)">Messages</a></li>
         </ul>
       )
     }
+
 
     if(this.state.route == "/setting"){
       left_menus = (
@@ -279,6 +295,7 @@ export default class ProfileContainer extends React.Component {
       </ul>
       )
     }
+
 
     return (
       <div>

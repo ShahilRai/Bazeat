@@ -20,11 +20,11 @@ export function allReviews(req, res, next) {
             .sort('-createdAt')
             .populate({
               path: 'reviewed_by',
-              select: 'full_name'
+              select: 'full_name photo'
             })
             .populate({
               path: 'reviewed_for',
-              select: 'full_name'
+              select: 'full_name photo'
             })
             .populate({
               path: 'comment',
@@ -37,7 +37,9 @@ export function allReviews(req, res, next) {
               }
               fullReviews.push(review1);
               if(fullReviews.length === reviews.length) {
-                return res.status(200).json({ reviews: fullReviews });
+                console.log('reviewsfullReviews')
+                console.log(fullReviews)
+                return res.status(200).json({fullReviews });
               }
             });
         });
@@ -47,16 +49,16 @@ export function allReviews(req, res, next) {
 
 
 export function getReview(req, res, next) {
-  Review.find({ rating_and_review_id: req.params.review_id })
+  Review.find({ rating_and_review_id: req.query.review_id })
     .select('createdAt comment rating reviewed_by reviewed_for')
     .sort('-createdAt')
     .populate({
       path: 'reviewed_by',
-      select: 'full_name'
+      select: 'full_name photo'
     })
     .populate({
       path: 'reviewed_for',
-      select: 'full_name'
+      select: 'full_name photo'
     })
     .populate({
       path: 'comment',
@@ -67,7 +69,7 @@ export function getReview(req, res, next) {
         res.send({ error: err });
         return next(err);
       }
-      res.status(200).json({reviews });
+      return res.json({ reviews: reviews });
     });
 }
 
@@ -90,8 +92,10 @@ export function newReview(req, res, next) {
         res.send({ error: err });
         return next(err);
       }
+      console.log('newRatingAndReview')
+      console.log(newRatingAndReview)
       const review = new Review({
-        conversation_id: newRatingAndReview._id,
+        rating_and_review_id: newRatingAndReview._id,
         review: req.body.review_body,
         reviewed_by: user._id,
         reviewed_for: req.params.reviewed_for,
@@ -103,9 +107,7 @@ export function newReview(req, res, next) {
           res.send({ error: err });
           return next(err);
         }
-
-        res.status(200).json({ message: 'Review submitted'});
-        return next();
+        return res.json({ review: newReview });
       });
     });
   });
@@ -122,12 +124,12 @@ export function sendReply(req, res, next) {
         res.send({ error: err });
       }
       else{
-        Review.findOneAndUpdate({ _id: req.body.review_id }, {$set: {is_replied: true, comment: comment._id}}, {new: true}).exec((err, comment) => {
+        Review.findOneAndUpdate({ _id: req.body.review_id }, {$set: {is_replied: true, comment: comment._id}}, {new: true}).exec((err, review) => {
           if (err){
             return res.status(500).send(err);
           }
           else{
-            res.status(200).json({ comment });
+          return res.json({ comment: newComment });
           }
         });
       }

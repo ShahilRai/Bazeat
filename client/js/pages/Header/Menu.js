@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import CartModal from './CartModal';
 import axios from 'axios';
 import MessageDropdown from '../MessageAndReviews/MessageDropdown';
-
+import { IndexRoute, Route, browserHistory } from 'react-router';
 import { Router, LoginLink, LogoutLink, NotAuthenticated, Authenticated } from 'react-stormpath';
 
 export default class Menu extends React.Component {
@@ -12,29 +12,33 @@ export default class Menu extends React.Component {
     authenticated: React.PropTypes.bool,
     user: React.PropTypes.object
   };
+
   constructor(props) {
     super(props);
     this.state = {
-      isMessage: '',
-      allMessages:[]
+      isReview : '',
+      isMessage : '',
+      allMessages:[],
+      all_reviews : []
     };
   }
-  
+
   loadAllMessages(){
      var self=this;
      var userEmail = self.context.user.email;
       self.getAllMessages(userEmail).then((response) => {
       if(response.data) {
-       self.setState({
-        allMessages: response.data.conversations
-       })
-     }
+        self.setState({
+          allMessages: response.data.conversations
+        })
+      }
     })
       .catch((err) => {
     console.log(err);
     });
-    this.messageIconValue()  
+    this.messageIconValue()
   }
+
   messageIconValue(){
     this.setState({
       isMessage: ''
@@ -45,15 +49,38 @@ export default class Menu extends React.Component {
     return axios.get("/api/conversations?email="+emailAddress);
   }
 
+  loadAllReviews(){
+    this.getAllReviews(this.context.user.email).then((response) => {
+      if(response.data) {
+          this.setState({
+            all_reviews : response.data.fullReviews
+          });
+      }
+    }).catch((err) => {
+        console.log(err);
+    });
+  }
+
+  getAllReviews(email){
+    return axios.get("/api/reviews?email="+email);
+  }
+
+  onNavigateHome(){
+    browserHistory.push("/user/:userId")
+  }
+
   render() {
     var MessageIcon;
+    var reviewIcon
     var userId = this.props.cuid ? this.props.cuid : 'null'
     var profileHead = this.context.authenticated ? "header_rht_menu profile_rht_header" : "header_rht_menu";
     if(this.state.isMessage){
       MessageIcon = ( <span className="msg_qty" >{this.state.isMessage}</span>)
     }
+    if(this.state.isReview){
+      reviewIcon = ( <span className="msg_qty" >{this.state.isReview}</span>)
+    }
     return (
-      
       <div>
         <ul className={profileHead}>
           <li><a href="javascript:void(0)" className="help_icon">Help</a></li>
@@ -63,13 +90,14 @@ export default class Menu extends React.Component {
             <li className="cart_icon"><a href="javascript:void(0)">Cart</a></li>
           </NotAuthenticated>
           <Authenticated>
-            <li data-toggle="collapse" data-target="#user_message" onClick ={this.loadAllMessages.bind(this)}>
+            <li data-toggle="collapse" data-target="#user_message" onClick ={this.loadAllReviews.bind(this)}>
               <a href="javascript:void(0)" className="message_icon">Messages
                 {MessageIcon}
+                {reviewIcon}
             </a>
-              <MessageDropdown allMessages={this.state.allMessages} />           
+              <MessageDropdown allMessages={this.state.allMessages} allReviews={this.state.all_reviews} />
             </li>
-            <li className="username_text"><Link to={"/user/"+userId}>{this.context.user ? this.context.user.givenName : ""}</Link>
+            <li className="username_text" onClick={this.onNavigateHome.bind(this)}><Link to={"/user/"+userId}>{this.context.user ? this.context.user.givenName : ""}</Link>
               <ul className="user_toggle_div collapse" id="" >
                 <li><a href="/profile">Edit Profile</a></li>
                 <li><a href="/setting">Settings</a></li>

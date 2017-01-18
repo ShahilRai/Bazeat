@@ -87,6 +87,8 @@ export default class ProjectRouter extends React.Component {
             <Route path="/user/:userId" component={UserHomePage} />
             <Route path='/setting' component={ProfileContainer} />
             <Route path='/message' component={ProfileContainer} />
+            <Route path='/allreviews' component={UserHomePage} />
+             <Route path='/reviews' component={ProfileContainer} />
           </AuthenticatedRoute>
         </HomeRoute>
         <Route path='/admin-login' component={AdminLoginModal} />
