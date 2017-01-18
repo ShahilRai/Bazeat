@@ -54,7 +54,7 @@ export default class AllMessages extends React.Component {
     });
   }
 
-    
+
   render(){
     if(this.state.selectedMessages){
       this.state.select = <SelectedMessages allMessage = {this.state.allConversation}/>
@@ -65,7 +65,7 @@ export default class AllMessages extends React.Component {
     else if(!this.state.newMessages) {
       this.state.select = <NewMessage/>
     }
-    var _msgConversations= this.props.msgConversations ? this.props.msgConversations : [] 
+    var _msgConversations= this.props.msgConversations ? this.props.msgConversations : []
     var _results = _msgConversations.map((result, index) => {
       return result.map((item,i) => {
         return(
@@ -101,13 +101,13 @@ export default class AllMessages extends React.Component {
         <div className="chat_window_left">
           <div className="modal-body mCustomScrollbar content" data-mcs-theme="dark">
             <div className="inner_chatwindow_left">
-              {_results}  
+              {_results}
             </div>
           </div>
         </div>
           {this.state.select}
-      </div>  
-    </div>               
-  
+      </div>
+    </div>
+
   )}
 }

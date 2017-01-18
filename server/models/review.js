@@ -7,10 +7,10 @@ const reviewSchema = new Schema({
   rating: { type: Number },
   reviewed_by: { type: Schema.Types.ObjectId, ref: 'User' },
   comment: { type: Schema.ObjectId, ref: 'Comment' },
+  is_replied: { type: Boolean, default: false },
   reviewed_for: { type: Schema.Types.ObjectId, ref: 'User' }},
   {
     timestamps: true // Saves createdAt and updatedAt as dates. createdAt will be our timestamp.
   }
 );
-
 module.exports = mongoose.model('Review', reviewSchema);
