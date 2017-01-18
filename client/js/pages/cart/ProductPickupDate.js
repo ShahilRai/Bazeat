@@ -80,6 +80,10 @@ export default class ProductPickupDate extends React.Component {
     });
   }
 
+  loadCurrentUserAddress(email) {
+    return axios.get("/api/user?email="+email);
+  }
+
   displayForm(){
     document.getElementById("checkout_form").style.display = "block";
   }
@@ -94,16 +98,22 @@ export default class ProductPickupDate extends React.Component {
     this.pickupdate();
   }
 
-  /*displayTimeSlot(){
-
+  displayTimeSlot(){
+    var email=this.context.user ? this.context.user.username : ''
+    this.loadTimeSlot(email).then((response) => {
+        if(response.data) {
+          this.setState({
+            currentTimeSlot: response.data
+          });
+        }
+    }).catch((err) => {
+        console.log(err);
+    });
   }
 
+//load the time slot for producer
   loadTimeSlot(){
-    return axios.post("/api/get_time_slots?product_id="+product_id);
-  }*/
-
-  loadCurrentUserAddress(email) {
-    return axios.get("/api/user?email="+email);
+    return axios.get("/api/get_time?email="+email);
   }
 
   createOrder(){
@@ -128,12 +138,24 @@ export default class ProductPickupDate extends React.Component {
   }
 
   createOrderRequest(email, cart_cuid){
-    return axios.post("api/orders",
+    if(this.props.method == 'hentemat')
+    {
+      return axios.post("api/orders",
+      {
+        email : email,
+        cart_cuid : cart_cuid,
+        shipment_price : 0
+      });
+    }
+    else
+    {
+      return axios.post("api/orders",
       {
         email : email,
         cart_cuid : cart_cuid,
         shipment_price : 100
       });
+    }
   }
 
   budmatAlternateAddress(){
@@ -242,7 +264,7 @@ export default class ProductPickupDate extends React.Component {
             )}
             <div className="chkout_step1btns">
             <button type="button" className="btn btn-default more_days_btn" onClick={this.showMoreDays.bind(this)}>Show more days</button>
-            <button type="button" className="btn btn-default continue_btn" onClick={this.props.nextStep}>Continue</button>
+            <button type="button" className="btn btn-default continue_btn" onClick={this.createOrder}>Continue</button>
             </div>
           </div>
         </div>
