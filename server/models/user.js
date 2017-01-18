@@ -72,6 +72,7 @@ const userSchema = new Schema({
     index: '2d'
   },
   timeslots: [slotSchema],
+  avg_rating: {type: Number},
   showInfo: { type: 'Boolean', default: false }
 });
 
