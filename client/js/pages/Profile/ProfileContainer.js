@@ -61,8 +61,6 @@ export default class ProfileContainer extends React.Component {
     this.orderStatus = this.orderStatus.bind(this)
     this.seeProfileBtnClck = this.seeProfileBtnClck.bind(this)
     this.addAccount = this.addAccount.bind(this)
-    this.showPurchaseOrders = this.showPurchaseOrders.bind(this)
-    this.showPackages = this.showPackages.bind(this)
     this.reviewStatus = this.reviewStatus.bind(this)
     this.receivedOrderStatus = this.receivedOrderStatus.bind(this)
     this.createPackageStatus = this.createPackageStatus.bind(this)

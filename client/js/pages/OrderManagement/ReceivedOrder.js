@@ -40,7 +40,6 @@ export default class ReceivedOrder extends React.Component {
           orderItems: response.data.orderitems,
           packages: response.data.packages
         });
-        console.log(response.data)
       }
     }).catch((err) => {
         console.log(err);
