@@ -3,7 +3,6 @@ import  Review from '../models/review'
 import  Comment from '../models/comment'
 import  User from '../models/user'
 
-
 export function allReviews(req, res, next) {
   let per_page = parseInt(req.query.per_page, 5);
   let off_set = parseInt(req.query.off_set, 5);
@@ -36,6 +35,7 @@ export function allReviews(req, res, next) {
 
 
 export function getReview(req, res, next) {
+
   if(!req.params.review_id) {
     res.status(422).send({ error: 'Send valid review id.' });
     return next();
@@ -46,11 +46,11 @@ export function getReview(req, res, next) {
     .limit(2)
     .populate({
       path: 'reviewed_by',
-      select: 'full_name'
+      select: 'full_name photo'
     })
     .populate({
       path: 'reviewed_for',
-      select: 'full_name'
+      select: 'full_name photo'
     })
     .populate({
       path: 'comment',
@@ -61,7 +61,7 @@ export function getReview(req, res, next) {
         res.send({ error: err });
         return next(err);
       }
-      res.status(200).json({reviews });
+      return res.json({ reviews: reviews });
     });
 }
 
@@ -84,6 +84,8 @@ export function newReview(req, res, next) {
         res.send({ error: err });
         return next(err);
       }
+      console.log('newRatingAndReview')
+      console.log(newRatingAndReview)
       const review = new Review({
         rating_and_review_id: newRatingAndReview._id,
         review: req.body.review_body,
@@ -99,7 +101,7 @@ export function newReview(req, res, next) {
          Review.find({reviewed_for: newReview.reviewed_for}, function(err, model) {
           let total_count = model.length
           let reviews = model
-          avg_ratings(reviews, null, total_count, res)
+          avg_ratings(reviews, newReview, null, total_count, res)
         })
       });
     });
@@ -107,7 +109,7 @@ export function newReview(req, res, next) {
 }
 
 
-export function avg_ratings(reviews, next, total_count, res){
+export function avg_ratings(reviews,newReview, next, total_count, res){
   let total_rating = 0
   reviews.forEach(function(item, index) {
       let avg_rating = 0
@@ -116,7 +118,7 @@ export function avg_ratings(reviews, next, total_count, res){
       User.findOneAndUpdate({_id: item.reviewed_for}, {$set: {'avg_ratings': avg_rating}}, {new: true}).
       exec(function(err) {
         if (reviews.length == index+1){
-          return res.status(200).json({ message: 'Rating Submitted'});
+          return res.status(200).json({newReview});
         }
       })
   })
@@ -134,12 +136,12 @@ export function sendReply(req, res, next) {
         res.send({ error: err });
       }
       else{
-        Review.findOneAndUpdate({ _id: req.body.review_id }, {$set: {is_replied: true, comment: comment._id}}, {new: true}).exec((err, comment) => {
+        Review.findOneAndUpdate({ _id: req.body.review_id }, {$set: {is_replied: true, comment: comment._id}}, {new: true}).exec((err, review) => {
           if (err){
             return res.status(500).send(err);
           }
           else{
-            res.status(200).json({ comment });
+          return res.json({ comment: newComment });
           }
         });
       }
