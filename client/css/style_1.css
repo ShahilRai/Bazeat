@@ -5009,3 +5009,6 @@ color:#666666;
   filter: progid: DXImageTransform.Microsoft.Blur(PixelRadius='10');
   overflow: hidden;
 }
+.hidden{
+	display: none;
+}

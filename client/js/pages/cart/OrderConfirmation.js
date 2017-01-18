@@ -90,7 +90,7 @@ export default class OrderConfirmation extends React.Component {
             <div className="chkout_pg chkoutstep4_1">
               <h3>Confirmation</h3>
               {this.changeTextConfirmationBelow()}
-              <CheckoutStep step={this.props.method}/>
+              <CheckoutStep step={this.props.step}/>
               {this.changeText()}
               <div className="confirmation_step1">
                 <div className="inner_confrm1">

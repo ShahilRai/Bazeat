@@ -50,7 +50,7 @@ export default class ImageUploader extends React.Component {
     if(this.state.uploadedImages) {
         imagePreview = <img src={this.state.uploadedImages} height="200" width="200" />;
       } else {
-        imagePreview = (<Dropzone className="add_prod_box__input" type="file" name="image" accept=".jpg,.jpeg,.png,.gif" onDrop={this.onDrop.bind(this)}>
+        imagePreview = (<Dropzone className="add_prod_box__input" type="file" name="image" accept=".jpg,.jpeg,.png,.gif,.tif,.bitmap" onDrop={this.onDrop.bind(this)}>
           <label className="input_upload">
             <span className="file_text">Select one of the files from your computer <br/><span className="drop_txt">or drag and drop them here</span></span>
           </label>
