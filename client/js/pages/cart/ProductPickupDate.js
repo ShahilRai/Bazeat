@@ -5,6 +5,7 @@ let days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturda
 let months = ["january","Feburary","March","April","May","June","July","August","September","October","November","December"];
 let perPageDateDisplay = 5;
 let orderDetailResponse ;
+let alternateAddress ;
 export default class ProductPickupDate extends React.Component {
 
   static contextTypes = {
@@ -18,7 +19,9 @@ export default class ProductPickupDate extends React.Component {
         method:this.props.method,
         _arrayOfMonthDayAndDate: [],
         currentUser_Detail : {},
-        orderDetail : {}
+        orderDetail : {},
+        sendematAlternateAddressDetail : {},
+        budmatAlternateAddressDetail : {}
       }
       this.pickupdate = this.pickupdate.bind(this);
       this.destination = this.destination.bind(this);
@@ -26,6 +29,10 @@ export default class ProductPickupDate extends React.Component {
       this.deliveryDetails = this.deliveryDetails.bind(this);
       this.displayForm = this.displayForm.bind(this);
       this.createOrder = this.createOrder.bind(this);
+      this.sendematAlternateAddress =this.sendematAlternateAddress.bind(this);
+      this.budmatAlternateAddress = this.budmatAlternateAddress.bind(this);
+      this.OptionalAlternateAddessButton = this.OptionalAlternateAddessButton.bind(this);
+      this.deliveryalternativeInfoRadioButton = this.deliveryalternativeInfoRadioButton.bind(this);
   }
 
   displayDataMonthDay(){
@@ -77,6 +84,7 @@ export default class ProductPickupDate extends React.Component {
     document.getElementById("checkout_form").style.display = "block";
   }
 
+//display more 5 days for the deliver method Hentemat
   showMoreDays(){
     perPageDateDisplay = perPageDateDisplay+5;
     this.displayDataMonthDay();
@@ -93,6 +101,7 @@ export default class ProductPickupDate extends React.Component {
   loadTimeSlot(){
     return axios.post("/api/get_time_slots?product_id="+product_id);
   }*/
+
   loadCurrentUserAddress(email) {
     return axios.get("/api/user?email="+email);
   }
@@ -101,21 +110,21 @@ export default class ProductPickupDate extends React.Component {
     var cart_cuid = this.props.cartCuid
     var email=this.context.user ? this.context.user.username : ''
     this.createOrderRequest(email, cart_cuid).then((response) => {
-        if(response.data) {
-          if(this.refs.myRef){
-           this.setState({
-            orderDetail : response.data
-           });
-          }
-    orderDetailResponse = response.data.order
-    if(orderDetailResponse)
-      {
-        this.props.nextStep("id",orderDetailResponse);
+      if(response.data) {
+        if(this.refs.myRef){
+         this.setState({
+          orderDetail : response.data
+         });
+        }
+      orderDetailResponse = response.data.order
+      if(orderDetailResponse)
+        {
+          this.props.nextStep("id",orderDetailResponse,alternateAddress);
+        }
       }
-       }
-    }).catch((err) => {
-        console.log(err);
-    });
+      }).catch((err) => {
+          console.log(err);
+      });
   }
 
   createOrderRequest(email, cart_cuid){
@@ -125,6 +134,134 @@ export default class ProductPickupDate extends React.Component {
         cart_cuid : cart_cuid,
         shipment_price : 100
       });
+  }
+
+  budmatAlternateAddress(){
+    var cart_cuid = this.props.cartCuid
+    var _newEmail = this.refs.newEmail.value
+    var _firstName = this.refs.firstName.value
+    var _co = this.refs.co.value
+    var _postCode = this.refs.postCode.value
+    var _phoneNo = this.refs.phoneNo.value
+    var _lastName = this.refs.lastName.value
+    var _address  = this.refs.address.value
+    var _city = this.refs.city.value
+    this.budmatAlternateAddressRequest( cart_cuid, _newEmail, _firstName, _co, _postCode, _phoneNo, _lastName, _address, _city).then((response) => {
+      if(response.data) {
+          this.setState({
+            budmatAlternateAddressDetail: response.data.updated_order
+          });
+          this.deliveryalternativeInfoRadioButton();
+        }
+    }).catch((err) => {
+        console.log(err);
+    });
+  }
+
+// save alternate address for delivery method budmat
+  budmatAlternateAddressRequest(cart_cuid, _newEmail, _firstName, _co, _postCode, _phoneNo, _lastName, _address, _city){
+    return axios.put("api/budamat_address?cart_cuid="+cart_cuid,
+      {
+        email : _newEmail,
+        first_name : _firstName,
+        co : _co,
+        postal_code : _postCode,
+        phone_num : _phoneNo,
+        last_name : _lastName,
+        line1 : _address,
+        city : _city
+      });
+  }
+
+  sendematAlternateAddress(){
+    var cart_cuid = this.props.cartCuid
+    var email=this.context.user ? this.context.user.username : ''
+    var _newEmail = this.refs.newEmail.value
+    var _firstName = this.refs.firstName.value
+    var _co = this.refs.co.value
+    var _postCode = this.refs.postCode.value
+    var _phoneNo = this.refs.phoneNo.value
+    var _lastName = this.refs.lastName.value
+    var _address  = this.refs.address.value
+    var _city = this.refs.city.value
+    this.sendematAlternateAddressRequest(email, cart_cuid, _newEmail, _firstName, _co, _postCode, _phoneNo, _lastName, _address, _city).then((response) => {
+        if(response.data) {
+          this.setState({
+            sendematAlternateAddressDetail: response.data
+          });
+          this.deliveryalternativeInfoRadioButton();
+        }
+    }).catch((err) => {
+        console.log(err);
+    });
+  }
+
+// save alternate address for delivery method sendemat
+  sendematAlternateAddressRequest(email, cart_cuid, _newEmail, _firstName, _co, _postCode, _phoneNo, _lastName, _address, _city){
+    return axios.put("/api/shipping_price?email="+email+"&cart_cuid="+cart_cuid,
+      {
+        email : _newEmail,
+        first_name : _firstName,
+        co : _co,
+        postal_code : _postCode,
+        phone_num : _phoneNo,
+        last_name : _lastName,
+        line1 : _address,
+        city : _city
+      });
+  }
+
+  setAddress(e){
+    alternateAddress = e.target.value
+  }
+
+  OptionalAlternateAddessButton(){
+    if(this.props.method == 'Sendemat')
+    {
+      return(
+        <button type="submit" className="btn btn-default continue_btn" onClick={this.sendematAlternateAddress}>Save</button>
+        )
+    }
+    else
+    {
+      return(
+        <button type="submit" className="btn btn-default continue_btn" onClick={this.budmatAlternateAddress}>Save</button>
+        )
+    }
+  }
+
+  deliveryalternativeInfoRadioButton(){
+    if(this.props.method == 'Sendemat')
+    {
+      return(
+        <div className="del_info_row grey_bg" onChange={this.setAddress.bind(this)}>
+            <span className="custom_radio_edit del_alter hot_food">
+              <input id="detail6" type="radio" name="c_detail" value="Hjem p&aring; kvelden, 17-21"/>
+              <label htmlFor="detail6">Hjem p&aring; kvelden, 17-21</label>
+            </span>
+            <span className="del_info">
+              <p className="pbot0">
+                Pakken leveres hjem til deg, sj&aring;f&oslash;ren<br/>ringer 30-60 min. f&oslash;r ankomst
+              </p>
+            </span>
+          </div>
+      )
+    }
+    else
+    {
+      return(
+        <div className="del_info_row grey_bg" onChange={this.setAddress.bind(this)}>
+            <span className="custom_radio_edit del_alter hot_food">
+              <input id="detail6" type="radio" name="c_detail" value={this.state.budmatAlternateAddressDetail.address ? this.state.budmatAlternateAddressDetail.address.line1 : ''}/>
+              <label htmlFor="detail6"></label>
+            </span>
+            <span className="del_info">
+              <p className="pbot0">
+                &nbsp;&nbsp;{this.state.budmatAlternateAddressDetail.address ? this.state.budmatAlternateAddressDetail.address.line1 : ''}&nbsp;&nbsp;{this.state.budmatAlternateAddressDetail.address ?this.state.budmatAlternateAddressDetail.address.postal_code : ''}&nbsp;&nbsp;{this.state.budmatAlternateAddressDetail.address ? this.state.budmatAlternateAddressDetail.address.city : ''}</p>
+            </span>
+          </div>
+      )
+    }
   }
 
   pickupdate(){
@@ -190,7 +327,7 @@ export default class ProductPickupDate extends React.Component {
           <p>
           { this.state.currentUser_Detail ? this.state.currentUser_Detail.delivery_options : 'undefined'}
           </p>
-          <button type="button" className="btn btn-default continue_btn" onClick={this.createOrder}>Continue</button>
+          <button type="button" className="btn btn-default continue_btn" onClick={this.createOrder} ref="myRef">Continue</button>
         </div>
       </div>
     );
@@ -222,25 +359,25 @@ export default class ProductPickupDate extends React.Component {
             <div className="form-group row">
               <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">E-mail*</label>
               <div className="col-md-7 col-xs-12">
-                <input className="form-control" type="text" name="email"/>
+                <input className="form-control" type="text" name="_newEmail" ref="newEmail" value={this.state._newEmail} />
               </div>
             </div>
             <div className="form-group row">
               <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">First name*</label>
               <div className="col-md-7 col-xs-12">
-                <input className="form-control" type="text" name="firstname"/>
+                <input className="form-control" type="text" name="_firstName" ref="firstName" value={this.state._firstName} />
               </div>
             </div>
             <div className="form-group row">
               <label for="example-url-input" className="col-md-5 col-xs-12 col-form-label">C/O</label>
               <div className="col-md-7 col-xs-12">
-                <input className="form-control" type="text" name="c/o"/>
+                <input className="form-control" type="text" name="_co" ref="co" value={this.state._co} />
               </div>
             </div>
             <div className="form-group row">
               <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">Post code*</label>
               <div className="col-md-7 col-xs-12">
-                <input className="form-control" type="text" name="postCode"/>
+                <input className="form-control" type="text" name="postCode" ref="postCode" value={this.state._postCode} />
               </div>
             </div>
           </div>
@@ -248,81 +385,38 @@ export default class ProductPickupDate extends React.Component {
             <div className="form-group row">
               <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">Phone number*</label>
               <div className="col-md-7 col-xs-12">
-                <input className="form-control" type="text" name="phoneNo"/>
+                <input className="form-control" type="text" name="_phoneNo" ref="phoneNo" value={this.state._phoneNo} />
               </div>
             </div>
             <div className="form-group row">
               <label for="example-url-input" className="col-md-5 col-xs-12 col-form-label">Last Name*</label>
               <div className="col-md-7 col-xs-12">
-              <input className="form-control" type="text" name="lastName"/>
+              <input className="form-control" type="text" name="_lastName" ref="lastName" value={this.state._lastName} />
               </div>
             </div>
             <div className="form-group row">
               <label for="example-url-input" className="col-md-5 col-xs-12 col-form-label">Address*</label>
               <div className="col-md-7 col-xs-12">
-              <input className="form-control" type="text" name="address"/>
+              <input className="form-control" type="text" name="_address" ref="address" value={this.state._address} />
               </div>
             </div>
             <div className="form-group row">
               <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">City*</label>
               <div className="col-md-7 col-xs-12">
-                <input className="form-control" type="text" name="city"/>
+                <input className="form-control" type="text" name="_city" ref="city" value={this.state._city} />
               </div>
             </div>
           </div>
           <p className="mandatory_txt">* Mandatory fields</p>
         </form>
         <div className="profile_gry_bot_bar chkout_step1btns">
-          <button type="submit" className="btn btn-default continue_btn" onClick={this.props.nextStep}>Continue</button>
+            { this.OptionalAlternateAddessButton() }
         </div>
         <div className="del_det_head">
           <span className="del_alter">Delivery alternative</span>
           <span className="del_info">Info</span>
-          <span className="del_date">Delivery date</span>
-          <span className="del_price">Price</span>
         </div>
-        <div className="del_info_row grey_bg">
-          <span className="custom_radio_edit del_alter hot_food">
-            <input id="detail6" type="radio" name="c_detail" value="detail1"/>
-            <label for="detail6">Hjem p&aring; kvelden, 17-21</label>
-          </span>
-          <span className="del_info">
-            <p className="pbot0">
-              Pakken leveres hjem til deg, sj&aring;f&oslash;ren<br/>ringer 30-60 min. f&oslash;r ankomst
-            </p>
-          </span>
-          <span className="del_date text-center">
-            <p className="pbot0">
-              2016-12-12
-            </p>
-          </span>
-          <span className="del_price text-center">
-            <p className="pbot0">
-              134,00
-            </p>
-          </span>
-        </div>
-        <div className="del_info_row">
-          <span className="custom_radio_edit del_alter hot_food">
-            <input id="detail7" type="radio" name="c_detail" value="detail1"/>
-            <label for="detail7">P&aring; posten, 08-16</label>
-          </span>
-          <span className="del_info">
-            <p className="pbot0">
-              Majorstuen postkontor. &Aring;pningstider Man - Fre: 0800-1800, L&oslash;r: 1000-1500
-            </p>
-          </span>
-          <span className="del_date text-center">
-            <p className="pbot0">
-              2016-12-12
-            </p>
-          </span>
-          <span className="del_price text-center">
-            <p className="pbot0">
-              134,00
-            </p>
-          </span>
-        </div>
+        {this.deliveryalternativeInfoRadioButton()}
       </div>
     )
   }

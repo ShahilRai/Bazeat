@@ -22,6 +22,7 @@ export default class Payment extends React.Component {
             <div className="chkout_pg chkoutstep5">
               <h3>Payment</h3>
               <h4>Your goods are soon to be delivered!</h4>
+              <CheckoutStep step={this.props.step}/>
               <div className="payment_order_details">
                 <div className="paymnt_sum">
                   <span className="sum_label">Sum: </span>
