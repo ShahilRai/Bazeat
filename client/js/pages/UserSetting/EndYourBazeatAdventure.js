@@ -1,4 +1,5 @@
 import React from 'react';
+import toastr from 'toastr';
 import axios from 'axios';
 import TextAreaField from '../components/TextAreaField';
 import {RadioGroup, Radio} from 'react-radio-group';
@@ -24,12 +25,14 @@ export default class EndYourBazeatAdventure extends React.Component {
 
   endYourBazeatAdventureBtnClck() {
     this.endYourBazeatAdventure(this.context.user.email).then((response) => {
+      toastr.success('Your account successfully deleted');
       if(response.data) {
         this.context.router.push('/');
         this.setState({
         });
       }
     }).catch((err) => {
+     toastr.error('Sorry, your account not deleted');
     console.log(err);
     });
   }

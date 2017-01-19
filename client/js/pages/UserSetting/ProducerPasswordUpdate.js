@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import toastr from 'toastr';
 import axios from 'axios';
 import UpdateYourPassword from './UpdateYourPassword';
 import EndYourBazeatAdventure from './EndYourBazeatAdventure';
@@ -45,17 +46,20 @@ export default class ProducerPasswordUpdate extends React.Component {
     this.disableUserAccount(this.context.user.email).then((response) => {
       if(response.data) {
         if(this.state.break_button_text == "Take a break"){
+          toastr.success('Now, you are on break');
           this.setState({
             break_button_text : "Resume"
           });
         }else{
+          toastr.success('Resumed');
           this.setState({
             break_button_text : "Take a break"
           });
         }
       }
     }).catch((err) => {
-    console.log(err);
+      toastr.error('Error');
+      console.log(err);
     });
   }
 
