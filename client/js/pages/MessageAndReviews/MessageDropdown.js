@@ -31,8 +31,7 @@ export default class MessageDropdown extends React.Component {
     })
 
     var _allReviews = this.props.allReviews ? this.props.allReviews : []
-    var reviewResults = _allReviews.map((result, index) => {
-      return result.map((item,i) => {
+    var reviewResults = _allReviews.map((item, i) => {
         return(
           <div className={item.reviewed_by.full_name==this.context.user.fullName?'':"chat_list white_bg"} key={i}>
             <span className="user_img" ><img src={item.reviewed_by.full_name==this.context.user.fullName?'':item.reviewed_by.photo} className={item.reviewed_by.full_name==this.context.user.fullName?'':"profile_image"} /></span>
@@ -45,7 +44,6 @@ export default class MessageDropdown extends React.Component {
             </span>
           </div>
         )
-      });
     })
 	  	return(
 				<div className="msg_dropdown" id="user_message" >

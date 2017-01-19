@@ -34,7 +34,6 @@ export default class ProjectRouter extends React.Component {
     var _arr  = {};
     if (!_arr[scriptName]) {
       _arr[scriptName] = true;
-
       var body   = document.getElementsByTagName('body')[0];
       var script   = document.createElement('script');
       script.type  = 'text/javascript';

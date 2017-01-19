@@ -17,7 +17,7 @@ export default class ReviewsAndLikes extends React.Component {
              <li><a href="javascript:void(0)"><img src="/images/star_rating.png" /></a></li>
              <li><a href="javascript:void(0)"><img src="/images/star_rating.png" /></a></li>
           </ul>
-          <span className="review_num" onClick={this.props.onClick}><Link to="allreviews">613 reviews</Link></span>
+          <span className="review_num" onClick={this.props.onClick}><Link to="allreviews">{this.props.all_reviews_count} reviews</Link></span>
         </span>
         <span className="star_rating">
           <ul>
