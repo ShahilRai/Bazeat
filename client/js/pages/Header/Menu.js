@@ -19,7 +19,8 @@ export default class Menu extends React.Component {
       isReview : '',
       isMessage : '',
       allMessages:[],
-      all_reviews : []
+      all_reviews : [],
+      offset: 1,
     };
   }
 
@@ -50,10 +51,10 @@ export default class Menu extends React.Component {
   }
 
   loadAllReviews(){
-    this.getAllReviews(this.context.user.email).then((response) => {
+    this.getAllReviews(this.context.user.email,this.state.offset,2).then((response) => {
       if(response.data) {
           this.setState({
-            all_reviews : response.data.fullReviews
+            all_reviews : response.data.reviews
           });
       }
     }).catch((err) => {
@@ -61,13 +62,10 @@ export default class Menu extends React.Component {
     });
   }
 
-  getAllReviews(email){
-    return axios.get("/api/reviews?email="+email);
+  getAllReviews(email, off_set, per_page ){
+     return axios.get("/api/review?email="+email+"&off_set="+off_set+"&per_page="+per_page)
   }
 
-  onNavigateHome(){
-    browserHistory.push("/user/:userId")
-  }
 
   render() {
     var MessageIcon;

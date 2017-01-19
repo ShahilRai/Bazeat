@@ -33,7 +33,7 @@ export default class ReviewsWrittenByUser extends React.Component {
                 </form>
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn btn-default nxt_btn orange_bg">Close</button>
+                <button type="button" className="btn btn-default nxt_btn orange_bg" data-dismiss="modal">Close</button>
               </div>
             </div>
           </div>

@@ -95,6 +95,7 @@
     "sjcl": "^1.0.6",
     "stormpath": "^0.19.0",
     "stripe": "^4.14.0",
+    "toastr": "^2.1.2",
     "twilio": "^2.11.0"
   },
   "devDependencies": {

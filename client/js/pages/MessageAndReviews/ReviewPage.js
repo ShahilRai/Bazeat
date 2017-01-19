@@ -85,27 +85,23 @@ export default class ReviewPage extends React.Component {
   }
 
   getReviewId(e, index) {
-    this.setState({
-        review_index : index,
-    })
     this.state.current_user_review[index].map((current_review, r_index)=>{
       this.setState({
         review_id : current_review.id,
         reviewedBy : current_review.reviewed_by.full_name,
         review_user : current_review.review,
-        is_replied : current_review.is_replied
+        is_replied : current_review.is_replied,
+        review_index : r_index
       })
     })
   }
 
    getWriteReviewId(e, index) {
-    this.setState({
-      write_index : index,
-    })
     this.state.current_user_review[index].map((current_review, r_index)=>{
       this.setState({
         write_review_user : current_review.review,
-        write_review_name : current_review.reviewed_for.full_name
+        write_review_name : current_review.reviewed_for.full_name,
+        write_index : r_index
       })
     })
    }
@@ -140,7 +136,7 @@ export default class ReviewPage extends React.Component {
       if(this.context.user.email==review.email?'':review){
         return(
           <div className="user_reveiw_list">
-            <span className="rvw_user_img"><img src={review.photo} height="50" width="50" /></span>
+            <span className="rvw_user_img"><img src={review.photo} className="profile_image" /></span>
             <span className="rvw_username">{review.full_name}<br/>
               <span className="prod_review_date">{review.date_joined}</span>
             </span>

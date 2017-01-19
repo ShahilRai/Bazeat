@@ -1,4 +1,5 @@
 import React from 'react';
+import toastr from 'toastr';
 import axios from 'axios';
 import AddHoursListing from './AddHoursListing';
 import SelectBox from '../components/SelectBox';
@@ -47,12 +48,14 @@ export default class AddHoursDetail extends React.Component {
 
     this.saveTimeSlot(this.props.email, hoursArray).then((response) => {
       if(response.data) {
+        toastr.success('Hours detail successfully added');
         this.state.items = [];
         this.setState({
           items: response.data
         });
       }
       }).catch((err) => {
+        toastr.error(err);
         console.log(err);
     });
     this.state.selectDays = [];

@@ -1,4 +1,5 @@
 import React from 'react';
+import toastr from 'toastr';
 import axios from 'axios';
 import DeleteProductBtn from '../Button/DeleteProductBtn';
 import HideProductBtn from '../Button/HideProductBtn';
@@ -40,16 +41,19 @@ export default class ProductList extends React.Component {
     this.hideProdData(this.props.productData.cuid).then((response) => {
       if(response.data.product.ok == 1) {
         if(this.state._hideShowText == "hide"){
+          toastr.success('Your product successfully hide');
           this.setState({
             _hideShowText: "show"
           });
         }else{
+          toastr.success('Your product successfully shown');
           this.setState({
             _hideShowText: "hide"
           });
         }
       }
     }).catch((err) => {
+      toastr.error(err);
       console.log(err);
     });
   }
@@ -70,16 +74,19 @@ export default class ProductList extends React.Component {
     this.disableProdData(this.props.productData.cuid).then((response) => {
        if(response.data) {
         if(this.state._disableEnableText == "disable"){
+          toastr.success('Your product successfully disabled');
           this.setState({
             _disableEnableText: "enable"
           })
         }else{
+          toastr.success('Your product successfully enabled');
           this.setState({
             _disableEnableText: "disable"
           })
         }
       }
     }).catch((err) => {
+      toastr.error(err);
      console.log(err);
     });
   }
