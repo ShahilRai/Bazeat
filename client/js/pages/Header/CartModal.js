@@ -120,13 +120,13 @@ export default class CartModal extends React.Component {
 
   openBag() {
     if(this.context.authenticated == true){
-      this.context.router.push('/viewcart');
+      this.context.router.push('/checkout');
     }
     else
       {
         if(<LoginModal />)
         {
-          this.context.router.push('/viewcart');
+          this.context.router.push('/checkout');
         }
       }
   }
