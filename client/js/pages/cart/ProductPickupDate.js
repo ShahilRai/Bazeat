@@ -18,6 +18,7 @@ export default class ProductPickupDate extends React.Component {
     super(props);
       this.state = {
         method:this.props.method,
+        cart_detail : this.props.cart_detail,
         _arrayOfMonthDayAndDate: [],
         currentUser_Detail : {},
         orderDetail : {},
@@ -33,7 +34,6 @@ export default class ProductPickupDate extends React.Component {
       this.sendematAlternateAddress =this.sendematAlternateAddress.bind(this);
       this.budmatAlternateAddress = this.budmatAlternateAddress.bind(this);
       this.OptionalAlternateAddessButton = this.OptionalAlternateAddessButton.bind(this);
-      this.deliveryalternativeInfoRadioButton = this.deliveryalternativeInfoRadioButton.bind(this);
   }
 
   displayDataMonthDay(){
@@ -97,6 +97,10 @@ export default class ProductPickupDate extends React.Component {
     });
   }
 
+  loadCurrentUserAddress(email) {
+    return axios.get("/api/user?email="+email);
+  }
+
   displayForm(){
     document.getElementById("checkout_form").style.display = "block";
   }
@@ -111,20 +115,26 @@ export default class ProductPickupDate extends React.Component {
     this.pickupdate();
   }
 
-  /*displayTimeSlot(){
-
+  displayTimeSlot(){
+    var email=this.context.user ? this.context.user.username : ''
+    this.loadTimeSlot(email).then((response) => {
+        if(response.data) {
+          this.setState({
+            currentTimeSlot: response.data
+          });
+        }
+    }).catch((err) => {
+        console.log(err);
+    });
   }
 
+//load the time slot for producer
   loadTimeSlot(){
-    return axios.post("/api/get_time_slots?product_id="+product_id);
-  }*/
-
-  loadCurrentUserAddress(email) {
-    return axios.get("/api/user?email="+email);
+    return axios.get("/api/get_time?email="+email);
   }
 
   createOrder(){
-    var cart_cuid = this.props.cartCuid
+    var cart_cuid = this.props.cart_detail.cuid
     var email=this.context.user ? this.context.user.username : ''
     this.createOrderRequest(email, cart_cuid).then((response) => {
       if(response.data) {
@@ -136,7 +146,7 @@ export default class ProductPickupDate extends React.Component {
       orderDetailResponse = response.data.order
       if(orderDetailResponse)
         {
-          this.props.nextStep("id",orderDetailResponse,alternateAddress);
+          this.props.nextStep(orderDetailResponse,orderDetailResponse);
         }
       }
       }).catch((err) => {
@@ -145,16 +155,28 @@ export default class ProductPickupDate extends React.Component {
   }
 
   createOrderRequest(email, cart_cuid){
-    return axios.post("api/orders",
+    if(this.props.method == 'hentemat')
+    {
+      return axios.post("api/orders",
+      {
+        email : email,
+        cart_cuid : cart_cuid,
+        shipment_price : 0
+      });
+    }
+    else
+    {
+      return axios.post("api/orders",
       {
         email : email,
         cart_cuid : cart_cuid,
         shipment_price : 100
       });
+    }
   }
 
   budmatAlternateAddress(){
-    var cart_cuid = this.props.cartCuid
+    var cart_cuid = this.props.cart_detail.cuid
     var _newEmail = this.refs.newEmail.value
     var _firstName = this.refs.firstName.value
     var _co = this.refs.co.value
@@ -168,7 +190,6 @@ export default class ProductPickupDate extends React.Component {
           this.setState({
             budmatAlternateAddressDetail: response.data.updated_order
           });
-          this.deliveryalternativeInfoRadioButton();
         }
     }).catch((err) => {
         console.log(err);
@@ -191,7 +212,7 @@ export default class ProductPickupDate extends React.Component {
   }
 
   sendematAlternateAddress(){
-    var cart_cuid = this.props.cartCuid
+    var cart_cuid = this.props.cart_detail.cuid
     var email=this.context.user ? this.context.user.username : ''
     var _newEmail = this.refs.newEmail.value
     var _firstName = this.refs.firstName.value
@@ -201,12 +222,12 @@ export default class ProductPickupDate extends React.Component {
     var _lastName = this.refs.lastName.value
     var _address  = this.refs.address.value
     var _city = this.refs.city.value
-    this.sendematAlternateAddressRequest(email, cart_cuid, _newEmail, _firstName, _co, _postCode, _phoneNo, _lastName, _address, _city).then((response) => {
+    var type = this.refs.updateaddress.value
+    this.sendematAlternateAddressRequest(email, cart_cuid, _newEmail, _firstName, _co, _postCode, _phoneNo, _lastName, _address, _city, type).then((response) => {
         if(response.data) {
           this.setState({
             sendematAlternateAddressDetail: response.data
           });
-          this.deliveryalternativeInfoRadioButton();
         }
     }).catch((err) => {
         console.log(err);
@@ -214,7 +235,7 @@ export default class ProductPickupDate extends React.Component {
   }
 
 // save alternate address for delivery method sendemat
-  sendematAlternateAddressRequest(email, cart_cuid, _newEmail, _firstName, _co, _postCode, _phoneNo, _lastName, _address, _city){
+  sendematAlternateAddressRequest(email, cart_cuid, _newEmail, _firstName, _co, _postCode, _phoneNo, _lastName, _address, _city, type){
     return axios.put("/api/shipping_price?email="+email+"&cart_cuid="+cart_cuid,
       {
         email : _newEmail,
@@ -224,12 +245,9 @@ export default class ProductPickupDate extends React.Component {
         phone_num : _phoneNo,
         last_name : _lastName,
         line1 : _address,
-        city : _city
+        city : _city,
+        type: type
       });
-  }
-
-  setAddress(e){
-    alternateAddress = e.target.value
   }
 
   OptionalAlternateAddessButton(){
@@ -244,40 +262,6 @@ export default class ProductPickupDate extends React.Component {
       return(
         <button type="submit" className="btn btn-default continue_btn" onClick={this.budmatAlternateAddress}>Save</button>
         )
-    }
-  }
-
-  deliveryalternativeInfoRadioButton(){
-    if(this.props.method == 'Sendemat')
-    {
-      return(
-        <div className="del_info_row grey_bg" onChange={this.setAddress.bind(this)}>
-            <span className="custom_radio_edit del_alter hot_food">
-              <input id="detail6" type="radio" name="c_detail" value="Hjem p&aring; kvelden, 17-21"/>
-              <label htmlFor="detail6">Hjem p&aring; kvelden, 17-21</label>
-            </span>
-            <span className="del_info">
-              <p className="pbot0">
-                Pakken leveres hjem til deg, sj&aring;f&oslash;ren<br/>ringer 30-60 min. f&oslash;r ankomst
-              </p>
-            </span>
-          </div>
-      )
-    }
-    else
-    {
-      return(
-        <div className="del_info_row grey_bg" onChange={this.setAddress.bind(this)}>
-            <span className="custom_radio_edit del_alter hot_food">
-              <input id="detail6" type="radio" name="c_detail" value={this.state.budmatAlternateAddressDetail.address ? this.state.budmatAlternateAddressDetail.address.line1 : ''}/>
-              <label htmlFor="detail6"></label>
-            </span>
-            <span className="del_info">
-              <p className="pbot0">
-                &nbsp;&nbsp;{this.state.budmatAlternateAddressDetail.address ? this.state.budmatAlternateAddressDetail.address.line1 : ''}&nbsp;&nbsp;{this.state.budmatAlternateAddressDetail.address ?this.state.budmatAlternateAddressDetail.address.postal_code : ''}&nbsp;&nbsp;{this.state.budmatAlternateAddressDetail.address ? this.state.budmatAlternateAddressDetail.address.city : ''}</p>
-            </span>
-          </div>
-      )
     }
   }
 
@@ -297,7 +281,7 @@ export default class ProductPickupDate extends React.Component {
             )}
             <div className="chkout_step1btns">
             <button type="button" className="btn btn-default more_days_btn" onClick={this.showMoreDays.bind(this)}>Show more days</button>
-            <button type="button" className="btn btn-default continue_btn" onClick={this.props.nextStep}>Continue</button>
+            <button type="button" className="btn btn-default continue_btn" onClick={this.createOrder}>Continue</button>
             </div>
           </div>
         </div>
@@ -312,7 +296,7 @@ export default class ProductPickupDate extends React.Component {
           <h3>Destination</h3>
           <h4>Where do you want your products delivered?</h4>
           <CheckoutStep step={this.props.step}/>
-          <h5>We will ship the goods to <br/>{this.state.currentUser_Detail.address}<br/>{this.state.currentUser_Detail.postal_code}<br/>{this.state.currentUser_Detail.city}.</h5>
+          <h5>We will ship the goods to <br/>{this.props.cart_detail.address.line1}<br/>{this.props.cart_detail.address.postal_code}<br/>{this.props.cart_detail.address.city}.</h5>
           <div className="del_addr_heading"><a href="javascript:void(0)" onClick={() =>{this.displayForm()}}><h6>Please deliver at this address instead</h6></a></div>
           <div  className="del_det_form">
             <div id="checkout_form" className="edit_prfile_detail_form">
@@ -330,10 +314,10 @@ export default class ProductPickupDate extends React.Component {
     return(
       <div className="full_width ptop0">
         <div className="chkout_pg">
-          <h3>A couple of words from {this.state.currentUser_Detail.full_name}</h3>
+          <h3>A couple of words from {this.props.cart_detail.address.first_name}</h3>
           <h4>We would like you to know that...</h4>
           <CheckoutStep step={this.props.step}/>
-          <h5>We will ship the the goods to <br/>{this.state.currentUser_Detail.address}<br/>{this.state.currentUser_Detail.postal_code}<br/>{this.state.currentUser_Detail.city}.</h5>
+          <h5>We will ship the the goods to <br/>{this.props.cart_detail.address.line1}<br/>{this.props.cart_detail.address.postal_code}<br/>{this.props.cart_detail.address.city}.</h5>
           <div className="del_addr_heading"><a href="javascript:void(0)" onClick={() =>{this.displayForm()}}><h6>Please deliver at this address instead</h6></a></div>
           <div  className="del_det_form">
             <div id="checkout_form" className="edit_prfile_detail_form">
@@ -423,17 +407,18 @@ export default class ProductPickupDate extends React.Component {
                 <input className="form-control" type="text" name="_city" ref="city" value={this.state._city} />
               </div>
             </div>
+            <div className="form-group row">
+
+              <div className="col-md-7 col-xs-12">
+                <input className="form-control" type="hidden" name="update" ref="updateaddress" value="update_address" />
+              </div>
+            </div>
           </div>
           <p className="mandatory_txt">* Mandatory fields</p>
         </form>
         <div className="profile_gry_bot_bar chkout_step1btns">
             { this.OptionalAlternateAddessButton() }
         </div>
-        <div className="del_det_head">
-          <span className="del_alter">Delivery alternative</span>
-          <span className="del_info">Info</span>
-        </div>
-        {this.deliveryalternativeInfoRadioButton()}
       </div>
     )
   }

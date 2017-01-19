@@ -5,11 +5,10 @@ const router = new Router();
 router.route('/reviews').get(CommentController.allReviews);
 
 // Get single conversation messages
-router.route('/review/:rating_and_review_id').get(CommentController.getReview);
+router.route('/review').get(CommentController.getReview);
 
 // Create New Conversation
-router.route('/new/:reviewed_for_id').post(CommentController.newReview);
-
+router.route('/new/review/:reviewed_for').post(CommentController.newReview);
 // Send reply
-router.route('/:rating_and_review_id').post(CommentController.sendReply);
+router.route('/send_reply').put(CommentController.sendReply);
 export default router;

@@ -10,8 +10,8 @@ export default class PurchaseOrders extends React.Component {
     user: React.PropTypes.object,
   }
 
-  constructor(props) {
-    super(props);
+  constructor(props, context) {
+    super(props, context);
     this.state = {
       ordersList: []
     };
@@ -114,7 +114,7 @@ export default class PurchaseOrders extends React.Component {
                     <td className={statusClass}>{statusText}</td>
                     <td><span className={pckd}>{pckdSpan}</span></td>
                     <td><span className={shppd}>{shppdSpan}</span></td>
-                    <td className="bold">kr {order.total_amount}</td>
+                    <td className="bold">kr {order.total_amount.toFixed(2)}</td>
                   </tr>
                 )}
               </tbody>

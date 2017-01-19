@@ -18,19 +18,19 @@ export default class CheckoutContainer extends React.Component {
       step: 1,
       selected_method:'',
       orderDetail : {},
+      cart_detail : {},
       alternateAddressChoosen : ''
     }
     this.nextStep = this.nextStep.bind(this)
     this.methodChange =this.methodChange.bind(this)
   }
 
-  nextStep(cart_cuid, orderDetailResponse, alternateAddress) {
+  nextStep(cart_detail, orderDetailResponse) {
     var self = this
     this.setState({
       step : self.state.step + 1,
-      cartCuid : cart_cuid,
       orderDetail : orderDetailResponse,
-      alternateAddressChoosen : alternateAddress
+      cart_detail : cart_detail
     })
   }
 
@@ -46,13 +46,13 @@ export default class CheckoutContainer extends React.Component {
       case 1:
         return <ShoppingBag nextStep={this.nextStep} step={this.state.step}/>
       case 2:
-        return <DeliveryType nextStep={this.nextStep} step={this.state.step} deliveryMethodChange={this.methodChange} cartCuid={this.state.cartCuid}/>
+        return <DeliveryType nextStep={this.nextStep} step={this.state.step} deliveryMethodChange={this.methodChange} cart_detail={this.state.cart_detail}/>
       case 3:
-        return <ProductPickupDate nextStep={this.nextStep} step={this.state.step} method={this.state.selected_method} cartCuid={this.state.cartCuid}/>
+        return <ProductPickupDate nextStep={this.nextStep} step={this.state.step} method={this.state.selected_method} cart_detail={this.state.cart_detail}/>
       case 4:
-        return <OrderConfirmation nextStep={this.nextStep} step={this.state.step} method={this.state.selected_method} orderDetail={this.state.orderDetail} addressChange={this.state.alternateAddressChoosen}/>
+        return <OrderConfirmation nextStep={this.nextStep} step={this.state.step} method={this.state.selected_method} orderDetail={this.state.orderDetail}/>
       case 5:
-        return <Payment nextStep={this.nextStep} step={this.state.step}/>
+        return <Payment nextStep={this.nextStep} step={this.state.step} method={this.state.selected_method} orderDetailForPayment={this.state.orderDetail} />
     }
   }
 

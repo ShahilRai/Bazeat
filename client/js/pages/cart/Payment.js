@@ -8,9 +8,10 @@ export default class Payment extends React.Component {
     user: React.PropTypes.object
   };
 
-  constructor(props) {
-      super(props);
+  constructor(props, context) {
+      super(props, context);
       this.state = {
+        orderDetailPayment : this.props.orderDetailForPayment
       }
   }
 
@@ -26,11 +27,11 @@ export default class Payment extends React.Component {
               <div className="payment_order_details">
                 <div className="paymnt_sum">
                   <span className="sum_label">Sum: </span>
-                  <span className="sum_values">kr 2098,00</span>
+                  <span className="sum_values"></span>
                 </div>
                 <div className="paymnt_sum">
                   <span className="sum_label">Order number: </span>
-                  <span className="sum_values">XXXX XXX</span>
+                  <span className="sum_values"></span>
                 </div>
               </div>
               <div className="payment_card_details">

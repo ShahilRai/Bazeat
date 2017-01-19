@@ -8,6 +8,8 @@ import ReviewsAndLikes from './ReviewsAndLikes';
 import UserLogo from './UserLogo';
 import UserPersonalInfo from './UserPersonalInfo';
 import AddNewProductLogo from './AddNewProductLogo';
+import AllProducerReviews from '../MessageAndReviews/AllProducerReviews';
+import { IndexRoute, Route, browserHistory } from 'react-router';
 
 export default class UserHomePage extends React.Component {
 
@@ -20,6 +22,7 @@ export default class UserHomePage extends React.Component {
     super(props, context);
     this.state = {
       user : {},
+      route: props.route.path,
       _userInfo: {},
       data_loaded : false,
       cat_loaded : false
@@ -40,6 +43,7 @@ export default class UserHomePage extends React.Component {
       }).catch((err) => {
         console.log(err);
     });
+
     this.loadUserInformation(userEmail).then((response) =>{
       if(response.data){
         this.setState({
@@ -94,6 +98,12 @@ export default class UserHomePage extends React.Component {
     return axios.get("/api/products/category?category_id="+category_id+"&email="+ email);
   }
 
+  _reviewStatus(){
+    this.setState({
+      route: '/allreviews'
+    })
+   }
+
   render(){
     var img;
     var uData;
@@ -103,12 +113,18 @@ export default class UserHomePage extends React.Component {
       img ="/images/review_logo.png"
     }
 
-    if (this.state.data_loaded && !this.state.cat_loaded) {
-      uData = <ProductCollection productInfo = {this.state.user.products}/>
-    }
-    if(this.state.cat_loaded && !this.state.data_loaded){
-      uData = <ProductCollection cat_data = {this.state.user}/>
-  }
+    if(this.state.route == '/allreviews'){
+        var _allReviews=<AllProducerReviews />
+    } else if(this.state.route == '/user/:userId'){
+          var _category = <CategoryMenu categoryMenuClick = {this.selectCategoryData} allCategoryMenuClick = {this.showAllCategory}/>
+          var _logo = <AddNewProductLogo />
+          if (this.state.data_loaded && !this.state.cat_loaded) {
+            uData = <ProductCollection productInfo = {this.state.user.products}/>
+          }
+          if(this.state.cat_loaded && !this.state.data_loaded){
+            uData = <ProductCollection cat_data = {this.state.user}/>
+          }
+      }
 
     return(
       <div className="page_wrapper full_width">
@@ -123,10 +139,11 @@ export default class UserHomePage extends React.Component {
             </div>
             <div className="col-lg-8 col-md-8 col-sm-9 col-xs-12 prht43">
               <div className="prduct_detail_rht">
-                <ReviewsAndLikes userInfo = {this.state._userInfo} />
-                <CategoryMenu categoryMenuClick = {this.selectCategoryData} allCategoryMenuClick = {this.showAllCategory}/>
+                <ReviewsAndLikes userInfo = {this.state._userInfo} onClick={this._reviewStatus.bind(this)}/>
+                {_category}
+                {_allReviews}
                 <div className="grid_wall_wrapper prod_producer_grid products_section">
-                  <AddNewProductLogo />
+                  {_logo}
                 </div>
                 {uData}
               </div>

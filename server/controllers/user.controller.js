@@ -50,6 +50,17 @@ export function removeTimeSlot(req, res) {
   });
 }
 
+export function getTimeSlot(req, res){
+  User.find({email: req.query.email}).select('timeslots').exec((err, timeslot) => {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    else{
+      return res.json({timeslot});
+    }
+  });
+}
+
 export function getUsers(req, res) {
   User.find().sort('-dateAdded').exec((err, users) => {
     if (err) {
