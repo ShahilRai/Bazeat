@@ -165,8 +165,6 @@ export  function getShippingPrice(req, res){
   let cart_postcode, cart_weight;
   User.find({email: req.query.email}).exec((err, user) =>{
     Cart.findOne({cuid: req.query.cart_cuid}).exec((err, cart) =>{
-      console.log('req.body')
-      console.log(req.body)
       if (req.body.type == "update_address"){
         Cart.findOneAndUpdate({"_id": cart._id},
           {
@@ -189,7 +187,8 @@ export  function getShippingPrice(req, res){
           };
           request(options, function (error, response, body) {
             if (!error && response.statusCode == 200) {
-              return res.json({body})
+              let res_body = JSON.parse(body)
+              return res.json({res_body})
             }
             else {
               return res.json({response});
@@ -204,7 +203,8 @@ export  function getShippingPrice(req, res){
         };
         request(options, function (error, response, body) {
           if (!error && response.statusCode == 200) {
-            return res.json({body})
+            let res_body = JSON.parse(body)
+            return res.json({res_body})
           }
           else {
             return res.json({response});

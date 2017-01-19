@@ -265,7 +265,12 @@ export function create_card(customer, order, next, req, res){
         customer.id,
         { source: token.id },
         function(err, card) {
-          create_charge(customer, card, order, null, req, res)
+          if (err){
+            console.log(err)
+          }
+          else{
+            create_charge(customer, card, order, null, req, res)
+          }
         }
       );
       }
