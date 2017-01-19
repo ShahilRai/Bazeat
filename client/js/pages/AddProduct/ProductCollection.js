@@ -1,4 +1,5 @@
 import React from 'react';
+import toastr from 'toastr';
 import axios from 'axios';
 import ProductList from './ProductList';
 import ReactSlider from '../Product/ReactSlider';
@@ -26,13 +27,15 @@ export default class ProductCollection extends React.Component {
       var index = e.target.dataset.index-1;
       var productToDel = array[index].cuid;
 
-     this.deleteProducts(productToDel).then((response) => {
+      this.deleteProducts(productToDel).then((response) => {
+        toastr.success('Your product successfully deleted');
         if(response.statusText == "OK") {
           array.splice(index, 1);
           this.setState({products: array });
         }
       })
       .catch((err) => {
+      toastr.error(err);
       console.log(err);
       });
     }

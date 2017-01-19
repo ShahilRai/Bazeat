@@ -3,6 +3,7 @@ import axios from 'axios';
 import CheckoutStep from './CheckoutStep';
 let days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 let months = ["january","Feburary","March","April","May","June","July","August","September","October","November","December"];
+let dayInMonth = [31,28,31,30,31,30,31,31,30,31,30,31];
 let perPageDateDisplay = 5;
 let orderDetailResponse ;
 let alternateAddress ;
@@ -46,7 +47,23 @@ export default class ProductPickupDate extends React.Component {
     for( i=0;i<perPageDateDisplay;i++)
     {
       var getCDay = _currentDay + i
-      if(getCDay > 6){
+      if(date.getDate() + i > dayInMonth[date.getMonth()]){
+        if(getCDay > 6){
+          getCDay = startingday
+          startingday++
+          _placeHolderArr.push({
+            day: days[getCDay],
+            month: months[date.getMonth()+1],
+            current_date: (date.getDate() + i)- dayInMonth[date.getMonth()]
+          })
+        }else{
+          _placeHolderArr.push({
+            day: days[getCDay],
+            month: months[date.getMonth()+1],
+            current_date: (date.getDate() + i)- dayInMonth[date.getMonth()]
+          })
+        }
+      }else if(getCDay > 6){
         getCDay = startingday
         startingday++
         _placeHolderArr.push({
