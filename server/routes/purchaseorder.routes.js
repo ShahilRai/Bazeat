@@ -18,6 +18,8 @@ router.route('/valid_qty').get(PurchaseOrderController.beforePkgcreate);
 
 router.route('/update_deliver').put(PurchaseOrderController.updateToDeliver);
 
+router.route('/update_ship_address').put(PurchaseOrderController.updateOrderAddress);
+
 router.route('/destroy_package').delete(PurchaseOrderController.packageDestroy);
 
 export default router;
