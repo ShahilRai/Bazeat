@@ -6,7 +6,7 @@ router.route('/create_package').post(PurchaseOrderController.createPackage);
 
 router.route('/update_package').put(PurchaseOrderController.updatePackage);
 
-router.route('/ship_package').post(PurchaseOrderController.shipPackage);
+router.route('/ship_package').put(PurchaseOrderController.shipPackage);
 
 router.route('/get_orders').get(PurchaseOrderController.getpurchaseOrders);
 

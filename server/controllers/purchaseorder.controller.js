@@ -48,13 +48,17 @@ export function getPackages(req, res) {
       if (err) {
         return res.json(500, err);
       }
-      Order.find({ _id: {"$in": products.orders }, payment_status: "succeeded"}).exec((err, orders)=>{
+      Order.findOne({ _id: {"$in": products.orders }, payment_status: "succeeded"}).exec((err, orders)=>{
         if (err) {
           return res.json(500, err);
         }
         else{
+          console.log('orders')
+          console.log(orders.packages)
           if (orders){
             Package.find({ _id: {"$in": orders.packages }, pkg_status: "created"}).exec((err, packages)=>{
+              console.log('packages')
+              console.log(packages)
               if (err) {
                 return res.json(500, err);
               }
@@ -73,7 +77,7 @@ export function getPackages(req, res) {
 }
 
 export function getpurchaseOrder(req, res) {
-  Order.findOne({cuid: req.query.cuid}).populate("orderitems packages -_id").exec((err, order)=>{
+  Order.findOne({cuid: req.query.cuid}).populate("orderitems packages -_id _buyer").exec((err, order)=>{
       if (err) {
         return res.json(500, err);
       }
@@ -133,17 +137,20 @@ export function beforePkgcreate(req, res){
 }
 
 export function shipPackage(req, res) {
+  console.log(req.body)
   Package.findOneAndUpdate(
     { "_id": req.body.package_id },
     {
       "$set": {
-        "shippment.shippment_no": req.body.shippment_no,
-        "shippment.already_delivered": req.body.already_delivered,
-        "shippment.notify_to_customer": req.body.notify_to_customer,
-        "shippment.ship_date": req.body.ship_date,
+        "shippingdata.shippment_no": req.body.shippment_no,
+        "shippingdata.already_delivered": req.body.already_delivered,
+        "shippingdata.notify_to_customer": req.body.notify_to_customer,
+        "shippingdata.ship_date": req.body.ship_date,
         "status": req.body.status
       }
     }, {new: true}).exec((err, packge) => {
+      console.log('packge')
+      console.log(packge)
       if (err){
         return res.status(500).send(err);
        }
@@ -196,8 +203,8 @@ export  function updateToDeliver(req, res){
 
 
 export  function packageDestroy(req, res){
-  Package.findOne({ cuid: req.query.package_id }).exec((err, packge) => {
-    if (err || order == null) {
+  Package.findOne({_id: req.query.package_id }).exec((err, packge) => {
+    if (err || packge == null) {
       return res.status(500).send({msg: err});
     }
     packge.remove(() => {
