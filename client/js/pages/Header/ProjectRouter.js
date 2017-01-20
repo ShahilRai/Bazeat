@@ -8,7 +8,7 @@ import ResetPasswordPage from '../Authenticate/ResetPasswordPage';
 import VerifyEmailPage from '../Authenticate/VerifyEmailPage';
 import IndexPage from '../Home/IndexPage';
 import MasterPage from '../MasterPage';
-import ProfileContainer from '../Profile/ProfileContainer';
+import profileComponent from '../profileComponent';
 import ReactSlider from '../Product/ReactSlider';
 import UserHomePage from '../AddProduct/UserHomePage';
 import UserSettingPage from '../UserSetting/UserSettingPage';
@@ -23,6 +23,16 @@ import AdminLoginModal from '../admin/AdminLoginModal';
 import AdminRegisterModal from '../admin/AdminRegisterModal';
 import AdminPanel from '../admin/AdminPanel';
 import CheckoutContainer from '../cart/CheckoutContainer';
+import UserProfilePage from '../Profile/UserProfilePage';
+import AddAccount from '../Profile/AddAccount';
+import UserPasswordUpdate from '../UserSetting/UserPasswordUpdate';
+import Notification from '../UserSetting/Notification';
+import PurchaseOrders from '../OrderManagement/PurchaseOrders';
+import ReceivedOrder from '../OrderManagement/ReceivedOrder';
+import CreateNewPackage from '../OrderManagement/CreateNewPackage';
+import AllMessages from '../MessageAndReviews/AllMessages.js';
+import ReviewPage from '../MessageAndReviews/ReviewPage.js';
+import OrderMgmntPackages from '../OrderManagement/OrderMgmntPackages.js';
 
 export default class ProjectRouter extends React.Component {
   static contextTypes = {
@@ -78,16 +88,20 @@ export default class ProjectRouter extends React.Component {
           <Route path='/search' component={DisplaySearch} />
           <AuthenticatedRoute>
             <Route path='/checkout' component={CheckoutContainer} />
-            <Route path='/profile' component={ProfileContainer} />
             <Route path="/user/:userId" component={UserHomePage} />
-            <Route path='/setting' component={ProfileContainer} />
-            <Route path='/message' component={ProfileContainer} />
-            <Route path='/orders' component={ProfileContainer} />
-            <Route path='/orders/:orderId' component={ProfileContainer} />
-            <Route path='/new-package' component={ProfileContainer} />
-            <Route path='/packages' component={ProfileContainer} />
             <Route path='/allreviews' component={UserHomePage} />
-             <Route path='/reviews' component={ProfileContainer} />
+            <HomeRoute path='/' component={profileComponent}>
+              <Route path='/profile' component={UserProfilePage} />
+              <Route path='/setting' component={UserPasswordUpdate} />
+              <Route path='/message' component={AllMessages} />
+              <Route path='/orders' component={PurchaseOrders} />
+              <Route path='/orders/:orderId' component={ReceivedOrder} />
+              <Route path='/new-package' component={CreateNewPackage} />
+              <Route path='/packages' component={OrderMgmntPackages} />
+              <Route path='/reviews' component={ReviewPage} />
+              <Route path='/notification' component={Notification} />
+              <Route path='/add-account' component={AddAccount} />
+            </HomeRoute>
           </AuthenticatedRoute>
         </HomeRoute>
         <Route path='/admin-login' component={AdminLoginModal} />

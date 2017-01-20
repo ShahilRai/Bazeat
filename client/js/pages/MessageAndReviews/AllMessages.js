@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import SelectedMessages from './SelectedMessages';
 import NewMessage from './NewMessage';
 import axios from 'axios';
@@ -54,6 +55,17 @@ export default class AllMessages extends React.Component {
     });
   }
 
+  _renderleftMenus(){
+    return(
+      <ul className="edit_sidbar_list">
+        <li><Link to="/profile">Edit Profile</Link></li>
+        <li><Link to="javascript:void(0)">Verification</Link></li>
+        <li><Link to="/reviews">Reviews</Link></li>
+        <li><Link to="/add-account">Bank Account</Link></li>
+        <li className="active"><Link to="/message">Messages</Link></li>
+      </ul>
+    )
+  }
 
   render(){
     if(this.state.selectedMessages){
@@ -86,28 +98,36 @@ export default class AllMessages extends React.Component {
     })
 
     return(
-    <div className="chat_container">
-      <div className="full_chat_window">
-        <div className="full_chat_header">
-          <div className="inner_chat_header">
-            <h3>Messages
-            <span className="edit_icon" onClick ={this.showNewMsgTab.bind(this)}>
-              <a href="javascript:void(0)"><i className="fa fa-pencil-square-o" aria-hidden="true"></i>
-              </a>
-            </span>
-            </h3>
+    <div className="container padd_87">
+      <div className="full_width">
+        <div className="row">
+          <div className="col-lg-3 col-md-2 col-sm-2 col-xs-12 purchase_order_left_sidebar order_purchse_lt_wdth edit_profile_sidebar">
+            {this._renderleftMenus()}
           </div>
-        </div>
-        <div className="chat_window_left">
-          <div className="modal-body mCustomScrollbar content" data-mcs-theme="dark">
-            <div className="inner_chatwindow_left">
-              {_results}
+          <div className="chat_container">
+            <div className="full_chat_window">
+              <div className="full_chat_header">
+                <div className="inner_chat_header">
+                  <h3>Messages
+                  <span className="edit_icon" onClick ={this.showNewMsgTab.bind(this)}>
+                    <a href="javascript:void(0)"><i className="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </a>
+                  </span>
+                  </h3>
+                </div>
+              </div>
+              <div className="chat_window_left">
+                <div className="modal-body mCustomScrollbar content" data-mcs-theme="dark">
+                  <div className="inner_chatwindow_left">
+                    {_results}
+                  </div>
+                </div>
+              </div>
+                {this.state.select}
             </div>
           </div>
         </div>
-          {this.state.select}
       </div>
     </div>
-
   )}
 }

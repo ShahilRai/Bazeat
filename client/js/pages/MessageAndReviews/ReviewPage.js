@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { Link } from 'react-router';
 import WriteReview from './WriteReview';
 import ReviewAboutUser from './ReviewAboutUser';
 import ReviewsWrittenByUser from './ReviewsWrittenByUser';
@@ -106,6 +107,18 @@ export default class ReviewPage extends React.Component {
     })
    }
 
+  _renderleftMenus(){
+    return(
+      <ul className="edit_sidbar_list">
+        <li><Link to="/profile">Edit Profile</Link></li>
+        <li><Link to="javascript:void(0)">Verification</Link></li>
+        <li className="active"><Link to="/reviews">Reviews</Link></li>
+        <li><Link to="/add-account">Bank Account</Link></li>
+        <li><Link to="/message">Messages</Link></li>
+      </ul>
+    )
+  }
+
   render() {
     var _allCurrentReview = this.state.current_user_review ? this.state.current_user_review : []
     var _allCurrentReviewResult = _allCurrentReview.map((current_review, index)=>{
@@ -171,22 +184,31 @@ export default class ReviewPage extends React.Component {
       })
     })
     return (
-      <div className="col-lg-9 col-md-9 col-sm-10 col-xs-12 edit_profile_rht_sidebar review_all">
-        <div className="user_review_section mtop0">
-            <h3>Reviews to write<span className="show_all"><a href="#">Show all</a></span></h3>
-              {_allWriteReview}
+      <div className="container padd_87">
+        <div className="full_width">
+          <div className="row">
+            <div className="col-lg-3 col-md-2 col-sm-2 col-xs-12 purchase_order_left_sidebar order_purchse_lt_wdth edit_profile_sidebar">
+              {this._renderleftMenus()}
+            </div>
+            <div className="col-lg-9 col-md-9 col-sm-10 col-xs-12 edit_profile_rht_sidebar review_all">
+              <div className="user_review_section mtop0">
+                  <h3>Reviews to write<span className="show_all"><a href="#">Show all</a></span></h3>
+                    {_allWriteReview}
+                </div>
+                <div className="user_review_section">
+                  <h3>Reviews about you (2 new)<span className="show_all"><a href="#">Show all</a></span></h3>
+                  {_allCurrentReviewResult}
+                </div>
+                <div className="user_review_section">
+                  <h3>Reviews written by you<span className="show_all"><a href="#">Show all</a></span></h3>
+                  {_allCurrentWriteReviewResult}
+                </div>
+                <WriteReview user_id={this.state.user_id} index={this.state.index} />
+                <ReviewAboutUser reviewedBy={this.state.reviewedBy} review_index={this.state.review_index} review_id={this.state.review_id} review_user={this.state.review_user} is_replied={this.state.is_replied}/>
+                <ReviewsWrittenByUser write_index={this.state.write_index} write_review_user={this.state.write_review_user} write_review_name={this.state.write_review_name}/>
+            </div>
           </div>
-          <div className="user_review_section">
-            <h3>Reviews about you (2 new)<span className="show_all"><a href="#">Show all</a></span></h3>
-            {_allCurrentReviewResult}
-          </div>
-          <div className="user_review_section">
-            <h3>Reviews written by you<span className="show_all"><a href="#">Show all</a></span></h3>
-            {_allCurrentWriteReviewResult}
-          </div>
-          <WriteReview user_id={this.state.user_id} index={this.state.index} />
-          <ReviewAboutUser reviewedBy={this.state.reviewedBy} review_index={this.state.review_index} review_id={this.state.review_id} review_user={this.state.review_user} is_replied={this.state.is_replied}/>
-          <ReviewsWrittenByUser write_index={this.state.write_index} write_review_user={this.state.write_review_user} write_review_name={this.state.write_review_name}/>
+        </div>
       </div>
     )
   }

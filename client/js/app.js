@@ -18,7 +18,7 @@ function loadScript(scriptName, callback) {
     // fire the loading
     body.appendChild(script);
   } else if (callback) {
-   callback();
+    callback();
   }
 }
 

@@ -28,3 +28,5 @@ export DisplaySearch from './Searching/DisplaySearch';
 export ProjectRouter from './Header/ProjectRouter';
 export CheckoutContainer from './cart/CheckoutContainer';
 export CreateNewPackage from './OrderManagement/CreateNewPackage';
+export PurchaseOrders from './OrderManagement/PurchaseOrders';
+export Notification from './UserSetting/Notification';
