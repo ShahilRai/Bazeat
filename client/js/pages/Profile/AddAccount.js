@@ -65,7 +65,6 @@ export default class AddAccount extends React.Component {
     return (
       <DocumentTitle title={`My Profile`}>
         <div className="col-lg-9 col-md-8 col-sm-10 col-xs-12 edit_profile_rht_sidebar">
-          <form onSubmit = {this.saveBankDetails}>
             <div className="edit_prfile_detail_form">
               <h3>Bank Account</h3>
               <div className="edt_prf_inner_detail">
@@ -77,10 +76,9 @@ export default class AddAccount extends React.Component {
             </div>
             <div key="update-button" className="profile_gry_bot_bar">
               <button type="submit" className="btn pull-right">
-                <span data-spIf="!form.processing">Save details</span>
+                <span data-spIf="!form.processing" onClick = {this.saveBankDetails}>Save details</span>
               </button>
             </div>
-          </form>
         </div>
       </DocumentTitle>
     );
