@@ -115,6 +115,9 @@ export function deleteUser(req, res) {
 }
 
 export function addBankAccount(req, res) {
+  console.log(req.body)
+  console.log(req.query)
+  console.log(req.params)
   User.findOne({ email: req.body.email }).exec((err, user) => {
     if (err) {
       return res.status(500).send(err);
