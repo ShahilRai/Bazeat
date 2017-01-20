@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import toastr from 'toastr';
 import CheckoutStep from './CheckoutStep';
 let days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 let months = ["january","Feburary","March","April","May","June","July","August","September","October","November","December"];
@@ -188,12 +189,14 @@ export default class ProductPickupDate extends React.Component {
     var _city = this.refs.city.value
     this.budmatAlternateAddressRequest( cart_cuid, _newEmail, _firstName, _co, _postCode, _phoneNo, _lastName, _address, _city).then((response) => {
       if(response.data) {
-          this.setState({
-            budmatAlternateAddressDetail: response.data.updated_order
-          });
+        toastr.success('Your have changed your address for delivery');
+        this.setState({
+          budmatAlternateAddressDetail: response.data.updated_order
+        });
         }
     }).catch((err) => {
-        console.log(err);
+      toastr.success('sorry, address has not change ');
+      console.log(err);
     });
   }
 
@@ -226,12 +229,14 @@ export default class ProductPickupDate extends React.Component {
     var type = this.refs.updateaddress.value
     this.sendematAlternateAddressRequest(email, cart_cuid, _newEmail, _firstName, _co, _postCode, _phoneNo, _lastName, _address, _city, type).then((response) => {
         if(response.data) {
+          toastr.success('Your have changed your address for delivery');
           this.setState({
             sendematAlternateAddressDetail: response.data
           });
         }
     }).catch((err) => {
-        console.log(err);
+      toastr.success('sorry, address has not change ');
+      console.log(err);
     });
   }
 
