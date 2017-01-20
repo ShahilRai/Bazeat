@@ -212,6 +212,16 @@ export function addBankAccount(req, res) {
   });
 }
 
+export function checkAccount(req, res) {
+  User.findOne({ email: req.query.email }).exec((err, user) => {
+    if(user.account_id) {
+      res.json({status: false, last4: user.last4})
+    } else {
+      res.json({status: true})
+    }
+  })
+}
+
 export function Payment(req, res) {
   User.findOne({ email: req.body.email }).exec((err, user) => {
     Order.findOne({ _id: req.body.order_id }).exec((err, order) => {

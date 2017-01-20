@@ -1,4 +1,5 @@
 import React from 'react';
+import toastr from 'toastr';
 import axios from 'axios';
 import LoginModal from '../Authenticate/LoginModal';
 export default class CartModal extends React.Component {
@@ -57,12 +58,14 @@ export default class CartModal extends React.Component {
     incrCartProduct.qty = this.state.items[i].qty - 1
      this.incrCartData(incrCartProduct, self.context.user.email).then((response) => {
         if(response.data) {
+          toastr.success('Your item successfully added');
           this.setState({
             items: response.data.cart.cartitems,
             total_price: response.data.cart.total_price
           })
         }
        }).catch((err) => {
+        toastr.error(err);
         console.log(err);
       });
     }

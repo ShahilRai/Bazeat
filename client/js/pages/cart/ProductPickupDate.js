@@ -7,6 +7,13 @@ let dayInMonth = [31,28,31,30,31,30,31,31,30,31,30,31];
 let perPageDateDisplay = 5;
 let orderDetailResponse ;
 let alternateAddress ;
+let timeslots = [];
+let timeslotss = [];
+let timeslotday;
+let start_time;
+let end_time;
+let day;
+
 export default class ProductPickupDate extends React.Component {
 
   static contextTypes = {
@@ -20,6 +27,7 @@ export default class ProductPickupDate extends React.Component {
         method:this.props.method,
         shippingPrice : this.props._price,
         cart_detail : this.props.cart_detail,
+        currentTimeSlot : [],
         _arrayOfMonthDayAndDate: [],
         currentUser_Detail : {},
         orderDetail : {},
@@ -54,13 +62,17 @@ export default class ProductPickupDate extends React.Component {
           _placeHolderArr.push({
             day: days[getCDay],
             month: months[date.getMonth()+1],
-            current_date: (date.getDate() + i)- dayInMonth[date.getMonth()]
+            current_date: (date.getDate() + i)- dayInMonth[date.getMonth()],
+            start_time:this.start_time,
+            end_time:this.end_time
           })
         }else{
           _placeHolderArr.push({
             day: days[getCDay],
             month: months[date.getMonth()+1],
-            current_date: (date.getDate() + i)- dayInMonth[date.getMonth()]
+            current_date: (date.getDate() + i)- dayInMonth[date.getMonth()],
+            start_time:this.start_time,
+            end_time:this.end_time
           })
         }
       }else if(getCDay > 6){
@@ -69,13 +81,17 @@ export default class ProductPickupDate extends React.Component {
         _placeHolderArr.push({
           day: days[getCDay],
           month: months[date.getMonth()],
-          current_date: date.getDate() + i
+          current_date: date.getDate() + i,
+          start_time:this.start_time,
+          end_time:this.end_time
         })
       }else{
         _placeHolderArr.push({
           day: days[getCDay],
           month: months[date.getMonth()],
-          current_date: date.getDate() + i
+          current_date: date.getDate() + i,
+          start_time:this.start_time,
+          end_time:this.end_time
         })
       }
     }
@@ -85,7 +101,9 @@ export default class ProductPickupDate extends React.Component {
   }
 
   componentDidMount(){
+    
     this.displayDataMonthDay();
+    this.displayTimeSlot()
     var email=this.context.user ? this.context.user.username : ''
     this.loadCurrentUserAddress(email).then((response) => {
         if(response.data.user) {
@@ -117,11 +135,11 @@ export default class ProductPickupDate extends React.Component {
   }
 
   displayTimeSlot(){
-    var email=this.context.user ? this.context.user.username : ''
+    var email=this.context.user ? this.context.user.email : ''
     this.loadTimeSlot(email).then((response) => {
         if(response.data) {
           this.setState({
-            currentTimeSlot: response.data
+            currentTimeSlot: response.data.timeslot
           });
         }
     }).catch((err) => {
@@ -130,7 +148,7 @@ export default class ProductPickupDate extends React.Component {
   }
 
 //load the time slot for producer
-  loadTimeSlot(){
+  loadTimeSlot(email){
     return axios.get("/api/get_time?email="+email);
   }
 
@@ -425,6 +443,17 @@ export default class ProductPickupDate extends React.Component {
   }
 
   render() {
+    timeslots== this.state.currentTimeSlot.map((result, index) => {
+      timeslotss=result.timeslots
+    });
+    timeslots== timeslotss.map((result, index) => {
+      timeslotday=result.day
+    });
+    timeslots== timeslotss.map((result, index) => {
+      start_time=result.start_time
+      end_time=result.end_time
+    });
+    var id=this.state.currentTimeSlot?this.state.currentTimeSlot.id:'';
     return (
       <div className="full_width_container">
         {this.selected()}
