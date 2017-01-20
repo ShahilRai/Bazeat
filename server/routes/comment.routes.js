@@ -9,7 +9,6 @@ router.route('/review').get(CommentController.getReview);
 
 // Create New Conversation
 router.route('/reviews').post(CommentController.newReview);
-
 // Send reply
 router.route('/send_reply').put(CommentController.sendReply);
 export default router;
