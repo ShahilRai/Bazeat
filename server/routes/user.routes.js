@@ -20,6 +20,7 @@ router.route('/users').delete(UserController.deleteUser);
 
 // Add Stripe Bank Account User by cuid
 router.route('/bank_account').post(UserController.addBankAccount);
+router.route('/check_account').get(UserController.checkAccount);
 
 router.route('/payment').post(UserController.Payment);
 

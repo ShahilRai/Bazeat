@@ -115,6 +115,9 @@ export function deleteUser(req, res) {
 }
 
 export function addBankAccount(req, res) {
+  console.log(req.body)
+  console.log(req.query)
+  console.log(req.params)
   User.findOne({ email: req.body.email }).exec((err, user) => {
     if (err) {
       return res.status(500).send(err);
@@ -207,6 +210,16 @@ export function addBankAccount(req, res) {
       });
     }
   });
+}
+
+export function checkAccount(req, res) {
+  User.findOne({ email: req.query.email }).exec((err, user) => {
+    if(user.account_id) {
+      res.json({status: false, last4: user.last4})
+    } else {
+      res.json({status: true})
+    }
+  })
 }
 
 export function Payment(req, res) {

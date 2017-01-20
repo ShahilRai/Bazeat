@@ -50,7 +50,7 @@ export function getConversation(req, res, next) {
   Message.find({ conversation_id: req.params.conversation_id })
     .select('createdAt body sender receiver')
     .sort('-createdAt')
-    .limit(2)
+    // .limit(2)
     .populate({
       path: 'sender',
       select: 'full_name photo'
@@ -125,7 +125,7 @@ export function sendReply(req, res, next) {
       conversation_id: req.params.conversation_id,
       body: req.body.composedMessage,
       sender: user._id,
-      receiver: req.params.recipient_id
+      receiver: req.query.recipient_id
     });
     reply.save(function(err, sentReply) {
       if (err) {

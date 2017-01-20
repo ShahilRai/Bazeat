@@ -4,6 +4,8 @@ import User from '../models/user'
 import Product from '../models/product'
 import OrderItem from '../models/orderitem'
 import Package from '../models/package'
+import * as MailService from '../services/mailer';
+import * as MessageService from '../services/twillio';
 const keySecret = process.env.SECRET_KEY;
 const keyPublishable = process.env.PUBLISHABLE_KEY;
 const stripe = require("stripe")(keySecret);
@@ -191,6 +193,8 @@ export  function updateToDeliver(req, res){
       return res.status(500).send(err);
     }
     if(order.after_payment_status == "Fulfilled"){
+      MailService.orderFullfilled(order)
+      MessageService.orderFullfilled(order)
       stripe.charges.capture(
       order.charge_id,
       function(err, charge) {
