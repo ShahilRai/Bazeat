@@ -4,6 +4,8 @@ import User from '../models/user'
 import Product from '../models/product'
 import OrderItem from '../models/orderitem'
 import Package from '../models/package'
+import * as MailService from '../services/mailer';
+import * as MessageService from '../services/twillio';
 const keySecret = process.env.SECRET_KEY;
 const keyPublishable = process.env.PUBLISHABLE_KEY;
 const stripe = require("stripe")(keySecret);
@@ -12,11 +14,11 @@ const stripe = require("stripe")(keySecret);
 export function getpurchaseOrders(req, res) {
   User.findOne({email: req.query.email}).select("products -_id").exec((err, producer)=>{
       if (err) {
-        return res.json(500, err);
+        return res.json(422, err);
       }
       Product.findOne({ _id: {"$in": producer.products }}).select("orders -_id").exec((err, products)=>{
         if (err) {
-          return res.json(500, err);
+          return res.json(422, err);
         }
         console.log('products')
         console.log(products)
@@ -27,7 +29,7 @@ export function getpurchaseOrders(req, res) {
           console.log('orders')
         console.log(products)
           if (err) {
-            return res.json(500, err);
+            return res.json(422, err);
           }
           else{
             return res.json(orders);
@@ -42,15 +44,15 @@ export function getpurchaseOrders(req, res) {
 export function getPackages(req, res) {
   User.findOne({email: req.query.email}).select("products -_id").exec((err, producer)=>{
     if (err) {
-      return res.json(500, err);
+      return res.json(422, err);
     }
     Product.findOne({ _id: {"$in": producer.products }}).select("orders -_id").exec((err, products)=>{
       if (err) {
-        return res.json(500, err);
+        return res.json(422, err);
       }
       Order.findOne({ _id: {"$in": products.orders }, payment_status: "succeeded"}).exec((err, orders)=>{
         if (err) {
-          return res.json(500, err);
+          return res.json(422, err);
         }
         else{
           console.log('orders')
@@ -60,7 +62,7 @@ export function getPackages(req, res) {
               console.log('packages')
               console.log(packages)
               if (err) {
-                return res.json(500, err);
+                return res.json(422, err);
               }
               else{
                 return res.json(packages);
@@ -79,7 +81,7 @@ export function getPackages(req, res) {
 export function getpurchaseOrder(req, res) {
   Order.findOne({cuid: req.query.cuid}).populate("orderitems packages -_id _buyer").exec((err, order)=>{
       if (err) {
-        return res.json(500, err);
+        return res.json(422, err);
       }
       else{
         return res.json(order);
@@ -99,7 +101,7 @@ export function updatePackage(req, res) {
   req.body.orderitems.forEach(function(orderitem, index) {
     OrderItem.findOneAndUpdate({ _id: orderitem._id }, {$inc: {packed_qty: orderitem.packed_qty}}, {new: true}, function(err, updated_orderitem) {
       if (err){
-        return res.status(500).send(err);
+        return res.status(422).send(err);
       }
       if (orderitem.packed_qty != 0) {
         Package.findOneAndUpdate({"_id": req.body.package_id},
@@ -152,7 +154,7 @@ export function shipPackage(req, res) {
     console.log('packge')
     console.log(packge)
     if (err){
-      return res.status(500).send(err);
+      return res.status(422).send(err);
      }
      else {
       updateshipqty(packge, null, res)
@@ -162,7 +164,7 @@ export function shipPackage(req, res) {
 export  function updateshipqty(packge, next, res){
   Package.findOneAndUpdate({ _id: packge._id }, {$inc: {qty_shipped: packge.qty_packed}}, {new: true}).exec((err, pkg) => {
     if (err){
-      return res.status(500).send(err);
+      return res.status(422).send(err);
     }
     else {
       let ship_qty = 0;
@@ -188,9 +190,11 @@ export  function updateshipqty(packge, next, res){
 export  function updateToDeliver(req, res){
   Order.findOneAndUpdate({ _id: req.query.order_id }, {$set: {after_payment_status: "Fulfilled"}}, {new: true}).exec((err, order) => {
     if (err){
-      return res.status(500).send(err);
+      return res.status(422).send(err);
     }
     if(order.after_payment_status == "Fulfilled"){
+      MailService.orderFullfilled(order)
+      MessageService.orderFullfilled(order)
       stripe.charges.capture(
       order.charge_id,
       function(err, charge) {
@@ -219,7 +223,7 @@ export function updateOrderAddress(req, res) {
   }, {new: true})
   .exec((err, order) => {
     if (err){
-      return res.status(500).send(err);
+      return res.status(422).send(err);
      }
      else {
       return res.status(200).send({order});
@@ -231,7 +235,7 @@ export function updateOrderAddress(req, res) {
 export  function packageDestroy(req, res){
   Package.findOne({_id: req.query.package_id }).exec((err, packge) => {
     if (err || packge == null) {
-      return res.status(500).send({msg: err});
+      return res.status(422).send({msg: err});
     }
     packge.remove(() => {
       return res.status(200).send({msg: "Package deleted successfully"});

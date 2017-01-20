@@ -14,7 +14,7 @@ export function addUser(req, res) {
   newUser.cuid = cuid();
   newUser.save((err, saved) => {
     if (err) {
-      return res.status(500).send(err);
+      return res.status(422).send(err);
     }
     else{
       MailService.send_email(saved)
@@ -29,7 +29,7 @@ export function addTimeSlot(req, res) {
     $pushAll: { "timeslots": req.body.timeslots }
     }, {new: true}).exec((err, user) => {
     if (err){
-      return res.status(500).send(err);
+      return res.status(422).send(err);
      }
      else {
       return res.status(200).send(user.timeslots);
@@ -42,7 +42,7 @@ export function removeTimeSlot(req, res) {
     $pull: { "timeslots": { _id: req.query.timeslot_id }}
     },{new: true}).exec((err, timeslot) => {
     if (err){
-      return res.status(500).send(err);
+      return res.status(422).send(err);
      }
      else {
       return res.status(200).send({timeslot});
@@ -53,7 +53,7 @@ export function removeTimeSlot(req, res) {
 export function getTimeSlot(req, res){
   User.find({email: req.query.email}).select('timeslots').exec((err, timeslot) => {
     if (err) {
-      return res.status(500).send(err);
+      return res.status(422).send(err);
     }
     else{
       return res.json({timeslot});
@@ -64,7 +64,7 @@ export function getTimeSlot(req, res){
 export function getUsers(req, res) {
   User.find().sort('-dateAdded').exec((err, users) => {
     if (err) {
-      return res.status(500).send(err);
+      return res.status(422).send(err);
     }
     else{
       return res.json({ users });
@@ -85,7 +85,7 @@ export function getUser(req, res) {
   }
   User.findOne(data).exec((err, user) => {
     if (err) {
-      return res.status(500).send(err);
+      return res.status(422).send(err);
     }
     else{
       return res.json({ user });
@@ -98,7 +98,7 @@ import stormpath from 'stormpath';
 export function deleteUser(req, res) {
   User.findOne({ email: req.query.email }).exec((err, user) => {
     if (err || user == null) {
-      return res.status(500).send({msg: err});
+      return res.status(422).send({msg: err});
     }
     user.remove(() => {
       let client = new stormpath.Client();
@@ -115,9 +115,12 @@ export function deleteUser(req, res) {
 }
 
 export function addBankAccount(req, res) {
+  console.log(req.body)
+  console.log(req.query)
+  console.log(req.params)
   User.findOne({ email: req.body.email }).exec((err, user) => {
     if (err) {
-      return res.status(500).send(err);
+      return res.status(422).send(err);
     }
     else {
       stripe.tokens.create({
@@ -128,7 +131,7 @@ export function addBankAccount(req, res) {
         }
       }, function(err, token) {
         if(err) {
-          return res.status(500).send(err);
+          return res.status(422).send(err);
         } else {
           stripe.accounts.create({
             email: user.email,
@@ -155,20 +158,20 @@ export function addBankAccount(req, res) {
             }
           }, function(err, account) {
             if(err) {
-              return res.status(500).send(err);
+              return res.status(422).send(err);
             } else {
               user.account_id = account.id
               user.last4 = account.last4
               user.save((err, saved) => {
                 if (err) {
-                  return res.status(500).send(err);
+                  return res.status(422).send(err);
                 } else {
                   stripe.accounts.createExternalAccount(
                     user.account_id,
                     {external_account: token.id},
                     function(err, bank_account) {
                       if(err) {
-                        return res.status(500).send(err);
+                        return res.status(422).send(err);
                       } else {
                         stripe.fileUploads.create(
                           {
@@ -181,13 +184,13 @@ export function addBankAccount(req, res) {
                           },
                           {stripe_account: user.account_id}, function(err, file) {
                             if(err) {
-                              return res.status(500).send(err);
+                              return res.status(422).send(err);
                             } else {
                               stripe.accounts.update(
                                 user.account_id,
                                 {legal_entity: {verification: {document: file.id}}}, function(err, document) {
                                   if(err) {
-                                    return res.status(500).send(err);
+                                    return res.status(422).send(err);
                                   } else {
                                     return res.json({ account: document });
                                   }
@@ -209,18 +212,28 @@ export function addBankAccount(req, res) {
   });
 }
 
+export function checkAccount(req, res) {
+  User.findOne({ email: req.query.email }).exec((err, user) => {
+    if(user.account_id) {
+      res.json({status: false, last4: user.last4})
+    } else {
+      res.json({status: true})
+    }
+  })
+}
+
 export function Payment(req, res) {
   User.findOne({ email: req.body.email }).exec((err, user) => {
     Order.findOne({ _id: req.body.order_id }).exec((err, order) => {
       if (err) {
-        return res.status(500).send(err);
+        return res.status(422).send(err);
       }
       else {
         if (user.customer_id){
           stripe.customers.retrieve( user.customer_id,
           function(err, customer) {
             if (err) {
-              return res.status(500).send(err);
+              return res.status(422).send(err);
             }
             else{
               create_card(customer, order, null, req.body, res)
@@ -290,7 +303,7 @@ export  function create_charge(customer, card, order, next, req, res){
     application_fee: 123
     }, function(err, charge) {
     if(err) {
-      return res.status(500).send(err);
+      return res.status(422).send(err);
     }
     else {
       Order.findOneAndUpdate({"_id": order._id},
@@ -323,7 +336,7 @@ export function hideAccount(req, res) {
     }
     user.save((err, saved) => {
       if (err) {
-        return res.status(500).send(err);
+        return res.status(422).send(err);
       }
       else {
         return res.json({ user: saved });
@@ -342,7 +355,7 @@ export function disableAccount(req, res) {
     }
     user.save((err, saved) => {
       if (err) {
-        return res.status(500).send(err);
+        return res.status(422).send(err);
       }
       else {
         return res.json({ user: saved });

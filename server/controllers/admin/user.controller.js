@@ -7,7 +7,7 @@ export function addUser(req, res) {
   newUser.cuid = cuid();
   newUser.save((err, saved) => {
     if (err) {
-      return res.status(500).send(err);
+      return res.status(422).send(err);
     }
       return res.json({ user: saved });
   });
@@ -29,7 +29,7 @@ export function getUsers(req, res) {
   User.find().exec((err, total_users) => {
     User.find().sort([[sort, order]]).limit(end).skip(start).exec((err, users) => {
       if (err) {
-        return res.status(500).send(err);
+        return res.status(422).send(err);
       }
       res.setHeader('X-Total-Count', total_users.length);
       res.setHeader('Access-Control-Expose-Headers', 'X-Total-Count');
@@ -43,7 +43,7 @@ export function getUsers(req, res) {
 export function updateUser(req, res) {
   User.update({ _id: req.params._id }, req.body, function(err, user) {
     if (err){
-      return res.status(500).send(err);
+      return res.status(422).send(err);
     }
       return res.json({ user });
   })
@@ -52,7 +52,7 @@ export function updateUser(req, res) {
 export function deleteUser(req, res) {
   User.findOne({ _id: req.params._id }).exec((err, user) => {
     if (err || user == null) {
-      return res.status(500).send({msg: err});
+      return res.status(422).send({msg: err});
     }
     user.remove(() => {
       return res.status(200).send({msg: "User deleted successfully"});

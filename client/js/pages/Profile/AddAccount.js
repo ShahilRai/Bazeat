@@ -17,7 +17,6 @@ export default class AddAccount extends React.Component {
     super();
     this.state = {
       user:{},
-      file:'',
       imagePreviewUrl:'',
       account_number:''
     };
@@ -28,7 +27,7 @@ export default class AddAccount extends React.Component {
   }
 
   saveBankDetails() {
-    this.saveAccount(this.context.user.email,this.state.file,this.state.account_number).then((response) => {
+    this.saveAccount(this.context.user.email,this.state.account_number).then((response) => {
       if(response.data) {
         this.setState({
         });
@@ -38,11 +37,10 @@ export default class AddAccount extends React.Component {
     });
   }
 
-  saveAccount(email,file,account) {
+  saveAccount(email,account) {
     return axios.post("/api/bank_account",
       {
         email: email,
-        file: file,
         account_number: account
       }
     );
@@ -86,28 +84,26 @@ export default class AddAccount extends React.Component {
                 {this._renderleftMenus()}
               </div>
               <div className="col-lg-9 col-md-8 col-sm-10 col-xs-12 edit_profile_rht_sidebar">
-                <form onSubmit = {this.saveBankDetails}>
-                  <div className="edit_prfile_detail_form">
-                    <h3>Bank Account</h3>
-                    <div className="edt_prf_inner_detail">
-                      <div className="form-group row">
-                        <LabelField htmlFor="input_file" className="col-md-4 col-xs-12 col-form-label" label="Upload File" />
-                        <input type = "file" onChange={this._handleImageChange} />
-                      </div>
-                    </div>   
-                    <div className="edt_prf_inner_detail">
-                      <div className="form-group row">
-                        <LabelField htmlFor="account_number" className="col-md-4 col-xs-12 col-form-label" label="Account number" />
-                        <InputField type="number" name="account_number" value = {this.state.user.account_number} onChange={this.setAccountNumber} />
-                      </div>
+                <div className="edit_prfile_detail_form">
+                  <h3>Bank Account</h3>
+                  <div className="edt_prf_inner_detail">
+                    <div className="form-group row">
+                      <LabelField htmlFor="input_file" className="col-md-4 col-xs-12 col-form-label" />
+                      <input type = "file" onChange={this._handleImageChange} />
+                    </div>
+                  </div>   
+                  <div className="edt_prf_inner_detail">
+                    <div className="form-group row">
+                      <LabelField htmlFor="account_number" className="col-md-4 col-xs-12 col-form-label" label="Account number" />
+                      <InputField type="number" name="account_number" value = {this.state.user.account_number} onChange={this.setAccountNumber} />
                     </div>
                   </div>
-                  <div key="update-button" className="profile_gry_bot_bar">
-                    <button type="submit" className="btn pull-right">
-                      <span data-spIf="!form.processing">Save details</span>
-                    </button>
-                  </div>
-                </form>
+                </div>
+                <div key="update-button" className="profile_gry_bot_bar">
+                  <button type="submit" className="btn pull-right">
+                    <span data-spIf="!form.processing" onClick= {this.saveBankDetails}>Save details</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>

@@ -4,6 +4,7 @@ import DeliveryType from './DeliveryType'
 import ProductPickupDate from './ProductPickupDate'
 import OrderConfirmation from './OrderConfirmation'
 import Payment from './Payment';
+let orderDetailForPayment ;
 export default class CheckoutContainer extends React.Component {
 
   static contextTypes = {
@@ -33,6 +34,7 @@ export default class CheckoutContainer extends React.Component {
       orderDetail : orderDetailResponse,
       cart_detail : cart_detail
     })
+    orderDetailForPayment = this.state.orderDetail
   }
 
   methodChange(selected, selectedPrice){
@@ -54,7 +56,7 @@ export default class CheckoutContainer extends React.Component {
       case 4:
         return <OrderConfirmation nextStep={this.nextStep} step={this.state.step} method={this.state.selected_method} orderDetail={this.state.orderDetail}/>
       case 5:
-        return <Payment nextStep={this.nextStep} step={this.state.step} method={this.state.selected_method} orderDetail={this.state.orderDetail} />
+        return <Payment nextStep={this.nextStep} step={this.state.step} method={this.state.selected_method} orderDetail={orderDetailForPayment} />
     }
   }
 
