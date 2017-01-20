@@ -25,7 +25,9 @@ export default class UserHomePage extends React.Component {
       route: props.route.path,
       _userInfo: {},
       data_loaded : false,
-      cat_loaded : false
+      cat_loaded : false,
+      all_reviews_count : '',
+      offset : 0
     };
     this.selectCategoryData = this.selectCategoryData.bind(this);
     this.showAllCategory = this.showAllCategory.bind(this);
@@ -51,6 +53,21 @@ export default class UserHomePage extends React.Component {
         })
       }
     })
+
+   this.getAllProducerReviewsCount(this.context.user.email,this.state.offset,5).then((response) => {
+      if(response.data) {
+        this.setState({
+          all_reviews_count : response.data.total_count,
+        });
+      }
+    }).catch((err) => {
+        console.log(err);
+    });
+
+  }
+
+  getAllProducerReviewsCount(email, off_set, per_page){
+    return axios.get("/api/review?email="+email+"&off_set="+(off_set)+"&per_page="+per_page)
   }
 
   loadUserProductsData(emailAddress) {
@@ -139,7 +156,7 @@ export default class UserHomePage extends React.Component {
             </div>
             <div className="col-lg-8 col-md-8 col-sm-9 col-xs-12 prht43">
               <div className="prduct_detail_rht">
-                <ReviewsAndLikes userInfo = {this.state._userInfo} onClick={this._reviewStatus.bind(this)}/>
+                <ReviewsAndLikes userInfo = {this.state._userInfo} onClick={this._reviewStatus.bind(this)} all_reviews_count={this.state.all_reviews_count}/>
                 {_category}
                 {_allReviews}
                 <div className="grid_wall_wrapper prod_producer_grid products_section">

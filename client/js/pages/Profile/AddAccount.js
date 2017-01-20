@@ -16,7 +16,6 @@ export default class AddAccount extends React.Component {
     super();
     this.state = {
       user:{},
-      file:'',
       imagePreviewUrl:'',
       account_number:''
     };
@@ -27,7 +26,7 @@ export default class AddAccount extends React.Component {
   }
 
   saveBankDetails() {
-    this.saveAccount(this.context.user.email,this.state.file,this.state.account_number).then((response) => {
+    this.saveAccount(this.context.user.email,this.state.account_number).then((response) => {
       if(response.data) {
         this.setState({
         });
@@ -37,11 +36,10 @@ export default class AddAccount extends React.Component {
     });
   }
 
-  saveAccount(email,file,account) {
+  saveAccount(email,account) {
     return axios.post("/api/bank_account",
       {
         email: email,
-        file: file,
         account_number: account
       }
     );
@@ -70,12 +68,6 @@ export default class AddAccount extends React.Component {
           <form onSubmit = {this.saveBankDetails}>
             <div className="edit_prfile_detail_form">
               <h3>Bank Account</h3>
-              <div className="edt_prf_inner_detail">
-                <div className="form-group row">
-                  <LabelField htmlFor="input_file" className="col-md-4 col-xs-12 col-form-label" label="Upload File" />
-                  <input type = "file" onChange={this._handleImageChange} />
-                </div>
-              </div>   
               <div className="edt_prf_inner_detail">
                 <div className="form-group row">
                   <LabelField htmlFor="account_number" className="col-md-4 col-xs-12 col-form-label" label="Account number" />

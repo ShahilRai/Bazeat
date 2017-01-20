@@ -115,6 +115,9 @@ export function deleteUser(req, res) {
 }
 
 export function addBankAccount(req, res) {
+  console.log(req.body)
+  console.log(req.query)
+  console.log(req.params)
   User.findOne({ email: req.body.email }).exec((err, user) => {
     if (err) {
       return res.status(500).send(err);
@@ -265,7 +268,12 @@ export function create_card(customer, order, next, req, res){
         customer.id,
         { source: token.id },
         function(err, card) {
-          create_charge(customer, card, order, null, req, res)
+          if (err){
+            console.log(err)
+          }
+          else{
+            create_charge(customer, card, order, null, req, res)
+          }
         }
       );
       }

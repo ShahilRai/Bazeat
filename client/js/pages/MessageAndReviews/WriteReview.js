@@ -17,8 +17,6 @@ export default class WriteReview extends React.Component {
 
   WriteAReview(){
     this.WriteReviewData(this.context.user.email, this.refs.review.state.value).then((response) => {
-      console.log("response.data")
-       console.log(response.data)
         if(response.data) {
           this.setState({
             reviewUserData : response.data
@@ -30,7 +28,7 @@ export default class WriteReview extends React.Component {
   }
 
   WriteReviewData(email,review_body){
-    return axios.post("api/new/review/"+this.props.user_id ,{
+    return axios.post("api/reviews?reviewed_for="+this.props.user_id ,{
       email: email,
       review_body: review_body
     })

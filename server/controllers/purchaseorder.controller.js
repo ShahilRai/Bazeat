@@ -4,6 +4,8 @@ import User from '../models/user'
 import Product from '../models/product'
 import OrderItem from '../models/orderitem'
 import Package from '../models/package'
+import * as MailService from '../services/mailer';
+import * as MessageService from '../services/twillio';
 const keySecret = process.env.SECRET_KEY;
 const keyPublishable = process.env.PUBLISHABLE_KEY;
 const stripe = require("stripe")(keySecret);
@@ -137,27 +139,27 @@ export function beforePkgcreate(req, res){
 }
 
 export function shipPackage(req, res) {
-  console.log(req.body)
   Package.findOneAndUpdate(
-    { "_id": req.body.package_id },
-    {
-      "$set": {
-        "shippingdata.shippment_no": req.body.shippment_no,
-        "shippingdata.already_delivered": req.body.already_delivered,
-        "shippingdata.notify_to_customer": req.body.notify_to_customer,
-        "shippingdata.ship_date": req.body.ship_date,
-        "status": req.body.status
-      }
-    }, {new: true}).exec((err, packge) => {
-      console.log('packge')
-      console.log(packge)
-      if (err){
-        return res.status(500).send(err);
-       }
-       else {
-        updateshipqty(packge, null, res)
-      }
-    });
+  { "_id": req.body.package_id },
+  {
+    "$set": {
+      "shippingdata.shippment_no": req.body.shippment_no,
+      "shippingdata.already_delivered": req.body.already_delivered,
+      "shippingdata.notify_to_customer": req.body.notify_to_customer,
+      "shippingdata.ship_date": req.body.ship_date,
+      "status": req.body.status
+    }
+  }, {new: true})
+  .exec((err, packge) => {
+    console.log('packge')
+    console.log(packge)
+    if (err){
+      return res.status(500).send(err);
+     }
+     else {
+      updateshipqty(packge, null, res)
+    }
+  });
 }
 export  function updateshipqty(packge, next, res){
   Package.findOneAndUpdate({ _id: packge._id }, {$inc: {qty_shipped: packge.qty_packed}}, {new: true}).exec((err, pkg) => {
@@ -191,6 +193,8 @@ export  function updateToDeliver(req, res){
       return res.status(500).send(err);
     }
     if(order.after_payment_status == "Fulfilled"){
+      MailService.orderFullfilled(order)
+      MessageService.orderFullfilled(order)
       stripe.charges.capture(
       order.charge_id,
       function(err, charge) {
@@ -200,6 +204,32 @@ export  function updateToDeliver(req, res){
   })
 }
 
+
+export function updateOrderAddress(req, res) {
+  Order.findOneAndUpdate(
+  { "_id": req.body.order_id },
+  {
+    "$set": {
+      "address.city": req.body.city,
+      "address.country": req.body.country,
+      "address.line1": req.body.line1,
+      "address.postal_code": req.body.postal_code,
+      "address.phone_num": req.body.phone_num,
+      "address.email": req.body.email,
+      "address.first_name": req.body.first_name,
+      "address.last_name": req.body.last_name,
+      "address.co": req.body.co,
+    }
+  }, {new: true})
+  .exec((err, order) => {
+    if (err){
+      return res.status(500).send(err);
+     }
+     else {
+      return res.status(200).send({order});
+    }
+  });
+}
 
 
 export  function packageDestroy(req, res){

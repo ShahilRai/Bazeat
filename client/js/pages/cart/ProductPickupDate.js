@@ -25,6 +25,7 @@ export default class ProductPickupDate extends React.Component {
     super(props);
       this.state = {
         method:this.props.method,
+        shippingPrice : this.props._price,
         cart_detail : this.props.cart_detail,
         currentTimeSlot : [],
         _arrayOfMonthDayAndDate: [],
@@ -188,7 +189,7 @@ export default class ProductPickupDate extends React.Component {
       {
         email : email,
         cart_cuid : cart_cuid,
-        shipment_price : 100
+        shipment_price : this.props._price
       });
     }
   }

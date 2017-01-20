@@ -2,6 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import CheckoutStep from './CheckoutStep';
 let item = [];
+let productArray = [];
+let selectedPrice ;
 export default class DeliveryType extends React.Component {
 
   static contextTypes = {
@@ -13,19 +15,21 @@ export default class DeliveryType extends React.Component {
     super(props);
     this.state = {
       item : [],
-      shipmentDetails : {}
+      shipmentDetails : []
     }
+  }
+
+  deliveryAlternateSelected(e){
+    selectedPrice = e.currentTarget.value
   }
 
   componentDidMount(){
     var cart_cuid = this.props.cart_detail.cuid
     var email = this.context.user.email;
     this.loadShippingDetail(email, cart_cuid).then((response) => {
-      if(response.data) {
+      if(response.data.res_body) {
         this.setState({
-          shipmentDetails : response.data,
-          item : response.data.body.Product
-
+          shipmentDetails : response.data.res_body ? response.data.res_body.Product : 'noelement'
         })
       }
     }).catch((err) => {
@@ -47,72 +51,59 @@ export default class DeliveryType extends React.Component {
             <CheckoutStep step={this.props.step}/>
             <div className="delvery_steps">
               <div className="del_step1">
-                <a href="javascript:void(0)" onClick={() =>{this.props.deliveryMethodChange('hentemat')}}><img src="images/hentemat.png" /></a>
+                <a href="javascript:void(0)" onClick={() =>{this.props.deliveryMethodChange('hentemat', selectedPrice)}}><img src="images/hentemat.png" /></a>
                 <h4>Hentemat</h4>
                 <span>kr. 0,-</span>
                 <p>You pick up the goods at the producer</p>
               </div>
               <div className="del_step1">
-                <a href="javascript:void(0)" onClick={() =>{this.props.deliveryMethodChange('Sendemat')}}><img src="images/del_car.png" /></a>
+                <a href="javascript:void(0)" onClick={() =>{this.props.deliveryMethodChange('Sendemat', selectedPrice)}}><img src="images/del_car.png" /></a>
                 <h4>Sendemat</h4>
                 <span>From kr. 99,-</span>
                 <p>Bring delivers to you with a range of deliverey methods</p>
               </div>
               <div className="del_step1">
-                <a href="javascript:void(0)" onClick={() =>{this.props.deliveryMethodChange('Budmat')}}><img src="images/budmat.png" /></a>
+                <a href="javascript:void(0)" onClick={() =>{this.props.deliveryMethodChange('Budmat', selectedPrice)}}><img src="images/budmat.png" /></a>
                 <h4>Budmat</h4>
                 <span>From kr. 99,-</span>
                 <p>The producer delivers to your desired location</p>
               </div>
             </div>
           </div>
-          <div className="del_det_head">
-            <span className="del_alter">Delivery alternative</span>
-            <span className="del_info">Info</span>
-            <span className="del_date">Delivery date</span>
-            <span className="del_price">Price</span>
-          </div>
-          <div className="del_info_row grey_bg">
-            <span className="custom_radio_edit del_alter hot_food">
-              <input id="detail6" type="radio" name="c_detail" value="detail1"/>
-              <label htmlFor="detail6">Hjem p&aring; kvelden, 17-21</label>
-            </span>
-            <span className="del_info">
-              <p className="pbot0">
-                Pakken leveres hjem til deg, sj&aring;f&oslash;ren<br/>ringer 30-60 min. f&oslash;r ankomst
-              </p>
-            </span>
-            <span className="del_date text-center">
-              <p className="pbot0">
-                2016-12-12
-              </p>
-            </span>
-            <span className="del_price text-center">
-              <p className="pbot0">
-                134,00
-              </p>
-            </span>
-          </div>
-          <div className="del_info_row">
-            <span className="custom_radio_edit del_alter hot_food">
-              <input id="detail7" type="radio" name="c_detail" value="detail1"/>
-              <label htmlFor="detail7">P&aring; posten, 08-16</label>
-            </span>
-            <span className="del_info">
-              <p className="pbot0">
-                Majorstuen postkontor. &Aring;pningstider Man - Fre: 0800-1800, L&oslash;r: 1000-1500
-              </p>
-            </span>
-            <span className="del_date text-center">
-              <p className="pbot0">
-                2016-12-12
-              </p>
-            </span>
-            <span className="del_price text-center">
-              <p className="pbot0">
-                134,00
-              </p>
-            </span>
+          <div className="table-main mtop40">
+            <div className="table-wrapper">
+              <table className="table table-striped">
+                <thead>
+                 <tr>
+                  <th className="text-left">Delivery alternative</th>
+                  <th className="text-left ">Info</th>
+                  <th className="">Delivery date</th>
+                  <th className="">Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {this.state.shipmentDetails.map((product, i)=>
+                  <tr key={i}>
+                    <td className="text-left">
+                        <span className="custom_radio_edit del_alter hot_food">
+                          <input id={i} type="radio" name="c_detail" value={product.Price.PackagePriceWithoutAdditionalServices.AmountWithVAT} onChange={this.deliveryAlternateSelected}/>
+                          <label htmlFor={i}>{product.GuiInformation.DisplayName}</label>
+                        </span>
+                    </td>
+                    <td className="text-left">
+                      {product.GuiInformation.DescriptionText}
+                    </td>
+                    <td>
+                      {product.ExpectedDelivery.WorkingDays}
+                    </td>
+                    <td>
+                      {product.Price.PackagePriceWithoutAdditionalServices.AmountWithVAT}
+                    </td>
+                  </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

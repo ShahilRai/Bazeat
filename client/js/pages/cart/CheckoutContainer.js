@@ -16,7 +16,8 @@ export default class CheckoutContainer extends React.Component {
     this.state = {
       cart_cuid : '',
       step: 1,
-      selected_method:'',
+      selected_method : '',
+      selected_price : '',
       orderDetail : {},
       cart_detail : {},
       alternateAddressChoosen : ''
@@ -34,10 +35,11 @@ export default class CheckoutContainer extends React.Component {
     })
   }
 
-  methodChange(selected){
+  methodChange(selected, selectedPrice){
     this.setState({
       selected_method: selected,
-      step : 3
+      step : 3,
+      selected_price : selectedPrice
     });
   }
 
@@ -48,11 +50,11 @@ export default class CheckoutContainer extends React.Component {
       case 2:
         return <DeliveryType nextStep={this.nextStep} step={this.state.step} deliveryMethodChange={this.methodChange} cart_detail={this.state.cart_detail}/>
       case 3:
-        return <ProductPickupDate nextStep={this.nextStep} step={this.state.step} method={this.state.selected_method} cart_detail={this.state.cart_detail}/>
+        return <ProductPickupDate nextStep={this.nextStep} step={this.state.step} method={this.state.selected_method} cart_detail={this.state.cart_detail} _price={this.state.selected_price}/>
       case 4:
         return <OrderConfirmation nextStep={this.nextStep} step={this.state.step} method={this.state.selected_method} orderDetail={this.state.orderDetail}/>
       case 5:
-        return <Payment nextStep={this.nextStep} step={this.state.step} method={this.state.selected_method} orderDetailForPayment={this.state.orderDetail} />
+        return <Payment nextStep={this.nextStep} step={this.state.step} method={this.state.selected_method} orderDetail={this.state.orderDetail} />
     }
   }
 
