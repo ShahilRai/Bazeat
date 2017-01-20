@@ -16,7 +16,7 @@ export function addOrder(req, res) {
     let data = {};
     Cart.findOne({cuid: req.body.cart_cuid}).select("address total_price total_weight total_qty cartitems -_id").exec(function(err, data) {
       if(err){
-        return res.status(500).send({err_msg: "Your cart is empty"});
+        return res.status(422).send({err_msg: "Your cart is empty"});
       }
         const newOrder = new Order();
         newOrder.cuid = cuid();
@@ -31,7 +31,7 @@ export function addOrder(req, res) {
         newOrder._buyer = user._id;
         newOrder.save((err, order) => {
           if (err) {
-            return res.status(500).send(err);
+            return res.status(422).send(err);
           }
         data.cartitems.forEach(function(item) {
           let total_weight = 0;
@@ -52,7 +52,7 @@ export function addOrder(req, res) {
             newOrderItem.product_qty = item.qty
             newOrderItem.save((err, orderitem) => {
               if (err) {
-                return res.status(500).send(err);
+                return res.status(422).send(err);
               }
               if(req.body.timeslot){
                 order.timeslot.push(req.body.timeslot);
@@ -72,7 +72,7 @@ export function addOrder(req, res) {
                 order.price_with_ship = data.total_price + parseInt(req.body.shipment_price) ;
                 order.save(function (errors, order1) {
                   if (errors){
-                    return res.status(500).send(errors);
+                    return res.status(422).send(errors);
                   }
                   else{
                     return res.json({ order: order1 });
@@ -91,7 +91,7 @@ export function addOrder(req, res) {
 export function getOrders(req, res) {
   Order.find().sort('-dateAdded').exec((err, orders) => {
     if (err) {
-      return res.status(500).send(err);
+      return res.status(422).send(err);
     }
     else{
       return res.json({ orders });
@@ -103,7 +103,7 @@ export function getOrders(req, res) {
 export function getOrder(req, res) {
   Order.findOne({ cuid: req.params.cuid }).exec((err, order) => {
     if (err) {
-      return res.status(500).send(err);
+      return res.status(422).send(err);
     }
     else{
       return res.json({ order });
@@ -119,7 +119,7 @@ export function getCart(req, res) {
   User.findOne({ email: req.params.email }).exec((err, user) => {
     Cart.findOne({ user: user._id }).exec((err, cart) => {
       if (err) {
-        return res.status(500).send(err);
+        return res.status(422).send(err);
       }
       else{
         return res.json({ cart });
@@ -233,7 +233,7 @@ export function budamatAddress(req, res){
     },{new: true}
       ).exec(function(err, updated_order){
       if (err){
-        return res.status(500).send(err);
+        return res.status(422).send(err);
       }
       else{
         return res.json({updated_order});
@@ -244,7 +244,7 @@ export function budamatAddress(req, res){
 export function deleteOrder(req, res) {
   Order.findOne({ cuid: req.params.cuid }).exec((err, order) => {
     if (err || order == null) {
-      return res.status(500).send({msg: err});
+      return res.status(422).send({msg: err});
     }
     order.remove(() => {
       return res.status(200).send({msg: "Order deleted successfully"});
@@ -258,7 +258,7 @@ export function addCart(req, res) {
     User.findOne({  email: req.body.email }).exec((error, user) => {
       Cart.findOne({ user: user._id }).exec(function ( err, cart ){
         if (err) {
-          return res.json(500,{error_msg: "Cart not found"});
+          return res.json(422,{error_msg: "Cart not found"});
         }
         if (!cart){
           const newCart = new Cart(req.body);
@@ -274,7 +274,7 @@ export function addCart(req, res) {
           newCart.address.last_name = user.last_name;
           newCart.save((error, savedcart) => {
             if (error) {
-              return res.status(500).send(error);
+              return res.status(422).send(error);
             }
             cart_sum(savedcart, null, res)
           });
@@ -293,7 +293,7 @@ export function addCart(req, res) {
                 }
               },{new: true}).exec(function(err, updated_cart_item){
                 if (err){
-                    return res.status(500).send(err);
+                    return res.status(422).send(err);
                   }
                   else{
                      cart_sum(updated_cart_item, null, res)
@@ -305,7 +305,7 @@ export function addCart(req, res) {
               { "_id": cart._id },
               {$pushAll: {"cartitems": [req.body.cartitems]}},{new: true}).exec(function(err, cart2){
                 if (err){
-                  return res.status(500).send(err);
+                  return res.status(422).send(err);
                 }
                 else{
                   cart_sum(cart2, null, res)
@@ -395,12 +395,12 @@ export function removeCartItems(req, res) {
   User.findOne({email: req.query.email}).exec((err,user) =>{
   Cart.findOne({ user: user._id }).exec((err, cart) => {
     if (err) {
-      return res.status(500).send(err);
+      return res.status(422).send(err);
     }
     let cartItem = cart.cartitems.id(req.query.cartitem_id)
     Product.findOne({ _id: cartItem.product_id }).exec((err, product) => {
       if (err){
-        return res.status(500).send(err);
+        return res.status(422).send(err);
       }
       product_total_price = (product.calculated_price*cartItem.qty);
       item_price = (product.calculated_price*cartItem.qty);
@@ -425,7 +425,7 @@ export function removeCartItems(req, res) {
             {new: true},
             function(err, doc){
              if (err){
-              return res.status(500).send(err);
+              return res.status(422).send(err);
              }
              else{
               return res.status(200).send({doc});
@@ -461,7 +461,7 @@ export function emptyCart(req, res) {
       {new: true}).
       exec(function(err,doc) {
         if (err) {
-        return res.status(500).send({msg: err});
+        return res.status(422).send({msg: err});
         }
         return res.status(200).send({msg: "Cart Empty"});
     });

@@ -16,7 +16,7 @@ export function gecodeLocation(req, res) {
     center : { type : 'Point', coordinates :
     coords}, minDistance: 100, maxDistance : 50000 }).exec(function(err, users) {
       if (err) {
-        return res.json(500, err);
+        return res.json(422, err);
       }
         return res.json (users);
    });
@@ -28,7 +28,7 @@ export function usersResults(req, res) {
   User.find({$or:[{'full_name':re}, { 'email':re}]}).sort('full_name').exec(
     function(err,users){
       if (err) {
-        return res.json(500, err);
+        return res.json(422, err);
       }
       else{
         return res.json (users);
@@ -54,7 +54,7 @@ export function productsResults(req, res) {
       console.log('products')
       console.log(products)
       if (err) {
-        return res.json(500, err);
+        return res.json(422, err);
       }
       else{
         return res.json(products);
