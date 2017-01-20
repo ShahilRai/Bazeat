@@ -1,4 +1,5 @@
 import React from 'react';
+var moment = require('moment');
 export default class MessageDropdown extends React.Component {
 	static contextTypes = {
     authenticated: React.PropTypes.bool,
@@ -38,7 +39,7 @@ export default class MessageDropdown extends React.Component {
             <span className="chat_description" key ={i}>
               <h3 >
                 {item.reviewed_by.full_name==this.context.user.fullName?'':item.reviewed_by.full_name}
-                <span> {item.reviewed_by.full_name==this.context.user.fullName?'':item.createdAt}</span>
+                <span> {item.reviewed_by.full_name==this.context.user.fullName?'':moment(item.createdAt).format('DD-MM-YYYY')}</span>
               </h3>
               <p> {item.reviewed_by.full_name==this.context.user.fullName?'':item.review}</p>
             </span>
