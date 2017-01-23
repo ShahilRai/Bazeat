@@ -241,6 +241,18 @@ export function budamatAddress(req, res){
   })
 }
 
+
+export function hentematAddress(req, res){
+  Product.find({"_id": req.query.product_id}).populate("_producer")
+    .exec(function(err, producer){
+      if (err){
+        return res.status(500).send(err);
+      }
+      else{
+        return res.json({producer});
+      }
+  })
+}
 export function deleteOrder(req, res) {
   Order.findOne({ cuid: req.params.cuid }).exec((err, order) => {
     if (err || order == null) {

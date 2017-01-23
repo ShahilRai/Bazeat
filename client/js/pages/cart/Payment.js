@@ -8,7 +8,8 @@ export default class Payment extends React.Component {
 
   static contextTypes = {
     authenticated: React.PropTypes.bool,
-    user: React.PropTypes.object
+    user: React.PropTypes.object,
+    router: React.PropTypes.object.isRequired
   };
 
   constructor(props) {
@@ -49,10 +50,13 @@ export default class Payment extends React.Component {
     var cvc = this.refs._cvv.value
     this.requestForPayment(email, order_id, card_no, exp_month, exp_year, cvc ).then((response) => {
       if(response.data) {
+        if(this.refs.myRef){
         toastr.success('Your Have done your payment successfully');
+        this.context.router.push('/login');
         this.setState({
           orderDetail : response.data
          });
+        }
       }
       }).catch((err) => {
         toastr.error('Sorry, here is problem in payment');
@@ -80,7 +84,6 @@ export default class Payment extends React.Component {
   render() {
     order_id = this.props.orderDetail.id
     email = this.props.orderDetail.address.email
-    email = this.context.user ? this.context.user.username : ''
     return (
       <div className="full_width_container">
         <div className="page_wrapper">
@@ -155,7 +158,7 @@ export default class Payment extends React.Component {
               </form>
               <div className="chkout5_btns">
                 <div className="chkout5_btns_inner">
-                  <button type="button" className="btn btn-default chkout_paymnt_btn" onClick={this.payMoney}>Pay</button>
+                  <button type="button" className="btn btn-default chkout_paymnt_btn" onClick={this.payMoney} ref="myRef">Pay</button>
                   <button type="button" className="btn btn-default cancel_paymnt_btn" onClick={this.cancelPayment.bind(this)}>Cancel</button>
                 </div>
               </div>
