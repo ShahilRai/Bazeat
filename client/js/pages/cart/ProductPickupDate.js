@@ -102,7 +102,6 @@ export default class ProductPickupDate extends React.Component {
   }
 
   componentDidMount(){
-
     this.displayDataMonthDay();
     this.displayTimeSlot()
     var email=this.context.user ? this.context.user.username : ''
@@ -130,7 +129,7 @@ export default class ProductPickupDate extends React.Component {
     perPageDateDisplay = perPageDateDisplay+5;
     if(perPageDateDisplay>10)
     {
-      toastr.success('sorry, you can only order for next 10 days only');
+      toastr.success('sorry, you can order only for next 10 days');
     }
     else{
       this.displayDataMonthDay();
@@ -305,8 +304,8 @@ export default class ProductPickupDate extends React.Component {
           <div className="pick_update">
             {this.state._arrayOfMonthDayAndDate.map((monthDayDate, index) =>
               <div className="pickup_row1" key={index}>
-                <span className="pickup_day" >{monthDayDate.day} - {monthDayDate.month}-{monthDayDate.current_date}</span>
-                <span className="chkout_pickup_time">{"10:00"}-{"17:00"}</span>
+                <a href="javascript:void(0)"><span className="pickup_day" >{monthDayDate.day} - {monthDayDate.month}-{monthDayDate.current_date}</span></a>
+                <a href="javascript:void(0)"><span className="chkout_pickup_time">{start_time}-{end_time}</span></a>
               </div>
             )}
             <div className="chkout_step1btns">
