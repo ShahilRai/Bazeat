@@ -76,7 +76,7 @@ export function getReview(req, res, next) {
         })
       .exec(function(err, review1){
         if (err) {
-          return res.status(500).send(err);
+          return res.status(422).send(err);
         }
         return res.json({reviews: review1, total_count: reviews.length  });
         ;
@@ -160,7 +160,7 @@ export function sendReply(req, res, next) {
       else{
         Review.findOneAndUpdate({ _id: req.body.review_id }, {$set: {is_replied: true, comment: comment._id}}, {new: true}).exec((err, review) => {
           if (err){
-            return res.status(500).send(err);
+            return res.status(422).send(err);
           }
           else{
           return res.json({ comment: newComment });

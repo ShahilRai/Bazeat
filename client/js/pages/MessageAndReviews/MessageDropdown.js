@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router';
+
 var moment = require('moment');
 export default class MessageDropdown extends React.Component {
 	static contextTypes = {
@@ -51,16 +53,16 @@ export default class MessageDropdown extends React.Component {
 					<div className="chat_header" >
 						<span className="msgs_title">Messages (1 new)</span>
 							<span className="edit_icon">
-								<a href="/message"><i className="fa fa-pencil-square-o" aria-hidden="true" ></i>
-								</a>
+								<Link to="/message"><i className="fa fa-pencil-square-o" aria-hidden="true" ></i>
+								</Link>
 							</span>
 					</div>
 					{results}
           <div className="chat_header" >
             <span className="msgs_title">Reviews (1 new)</span>
               <span className="edit_icon">
-                <a href="reviews"><h5>all Reviews</h5>
-                </a>
+                <Link to="/reviews"><h5>all Reviews</h5>
+                </Link>
               </span>
           </div>
           {reviewResults}

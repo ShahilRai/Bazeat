@@ -14,7 +14,7 @@ export function addProduct(req, res) {
       newProduct.save((err, product) => {
         console.log(err)
         if (err) {
-         return res.status(500).send(err);
+         return res.status(422).send(err);
         }
         else{
           return res.json({ product: product });;
@@ -69,7 +69,7 @@ export function purchaseProduct(req, res) {
         product.buyers.push(user);
         product.save((err, product1) => {
           if (err) {
-            return  res.status(500).send(err);
+            return  res.status(422).send(err);
           }
           else{
             return res.json({ product: product1 });
@@ -82,7 +82,7 @@ export function purchaseProduct(req, res) {
 export function getProducts(req, res) {
   Product.find().sort('-dateAdded').populate('_producer ingredients allergens product_category').exec((err, products) => {
     if (err) {
-      return res.status(500).send(err);
+      return res.status(422).send(err);
     }
     else{
       return res.json({ products });
@@ -94,7 +94,7 @@ export function getProduct(req, res) {
   console.log(req.params)
   Product.findOne({cuid: req.params.cuid}).populate('ingredients').exec((err, product) => {
     if (err) {
-      return res.status(500).send(err);
+      return res.status(422).send(err);
     }
     else{
      return res.json({ product });
@@ -105,7 +105,7 @@ export function getProduct(req, res) {
 export function getBuyers(req, res) {
   Product.findOne({ cuid: req.params.cuid }).populate('buyers _producer').exec((err, buyers) => {
     if (err) {
-      return res.status(500).send(err);
+      return res.status(422).send(err);
     }
     else{
       return res.json({ product: buyers });
@@ -116,7 +116,7 @@ export function getBuyers(req, res) {
 export function deleteProduct(req, res) {
   Product.findOne({ cuid: req.params.cuid }).exec((err, product) => {
     if (err || product == null) {
-      return res.status(500).send({msg: err});
+      return res.status(422).send({msg: err});
     }
     product.remove(() => {
       return res.status(200).send({msg: "Product deleted successfully"});
@@ -129,7 +129,7 @@ export function getIngrdients(req, res){
   Ingredient.find().or([{ 'name': { $regex: re }}]).sort('name').select("-_products -__v").exec(function
     (err, ingredients) {
       if (err){
-        return res.status(500).send(err);
+        return res.status(422).send(err);
       }
       else {
         return res.json(ingredients: ingredients);
@@ -140,11 +140,11 @@ export function getIngrdients(req, res){
 export function getDetails(req, res){
   Allergen.find().sort('-dateAdded').select("-_products -__v").exec((err, allergens) => {
     if (err) {
-      return res.status(500).send(err);
+      return res.status(422).send(err);
     }
     ProductCategory.find().sort('-dateAdded').select("-_products -_product -__v").exec((err, productcategories) => {
       if (err) {
-        return res.status(500).send(err);
+        return res.status(422).send(err);
       }
       return res.json({allergens_list: allergens, product_category_list: productcategories  });
     });
@@ -164,7 +164,7 @@ export function getUserProducts(req, res) {
   }
   User.findOne(data).populate('products').exec((err, user) => {
     if(err){
-      return res.status(500).send(err);
+      return res.status(422).send(err);
     }
     else {
       if (user.products.length > 0) {
@@ -172,7 +172,7 @@ export function getUserProducts(req, res) {
           Product.findOne({ cuid: item.cuid }).populate('allergens').populate('ingredients').populate('product_category').exec((err, product) =>{
 
             if(err){
-              return res.status(500).send(err);
+              return res.status(422).send(err);
             }
             else{
               user.products[index].allergens = product.allergens;
@@ -196,7 +196,7 @@ export function getUserProducts(req, res) {
 export function disableProduct(req, res) {
   Product.update({ cuid: req.params.cuid }, req.body, function(err, product) {
     if (err){
-      return res.status(500).send(err);
+      return res.status(422).send(err);
     }
       return res.json({ product });
   });
@@ -205,7 +205,7 @@ export function disableProduct(req, res) {
 export function hideProduct(req, res) {
   Product.update({ cuid: req.params.cuid }, req.body, function(err, product) {
     if (err){
-      return res.status(500).send(err);
+      return res.status(422).send(err);
     }
       return res.json({ product });
   });
@@ -214,7 +214,7 @@ export function hideProduct(req, res) {
 export function showProduct(req, res) {
   Product.update({ cuid: req.params.cuid }, req.body, function(err, product) {
     if (err){
-      return res.status(500).send(err);
+      return res.status(422).send(err);
     }
       return res.json({ product });
   });
@@ -234,7 +234,7 @@ export function handleProducts(req, res) {
     console.log(user._id)
     Product.update({_producer: user._id}, data, {multi: true}, function(err,product){
       if (err){
-      return res.status(500).send(err);
+      return res.status(422).send(err);
     }
       return res.json({ product });
     });
@@ -247,7 +247,7 @@ export function getProductsByCategory(req, res) {
   User.findOne({email: req.query.email}).exec((err, producer) => {
     Product.find({ _producer: producer._id, product_category: req.query.category_id }).exec((err, products) => {
       if (err) {
-        return res.status(500).send(err);
+        return res.status(422).send(err);
       }
       else {
         return res.json({ products });
