@@ -29,4 +29,5 @@ export ProjectRouter from './Header/ProjectRouter';
 export CheckoutContainer from './cart/CheckoutContainer';
 export CreateNewPackage from './OrderManagement/CreateNewPackage';
 export PurchaseOrders from './OrderManagement/PurchaseOrders';
+export ReceivedOrder from './OrderManagement/ReceivedOrder';
 export Notification from './UserSetting/Notification';

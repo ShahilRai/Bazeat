@@ -5,7 +5,7 @@ import PackagesList from './PackagesList';
 import EditPurchaseOrder from './EditPurchaseOrder';
 import newPackageCreateLink from './newPackageCreateLink';
 import ProfileContainer from '../Profile/ProfileContainer';
-import NewShipment from './NewShipment';
+import PurchaseOrders from './PurchaseOrders';
 import ToggleDisplay from 'react-toggle-display';
 import confirm from 'bootstrap-confirm';
 import PubSub from 'pubsub-js';
@@ -20,6 +20,7 @@ export default class ReceivedOrder extends React.Component {
 
   constructor(props) {
     super(props);
+    PurchaseOrders.purchsCuid= this.props.params.orderId
     this.state = {
       orderDetails: [],
       fullAddress: [],
@@ -61,7 +62,6 @@ export default class ReceivedOrder extends React.Component {
     var self = this;
     confirm('To create a shipment you need to create a package. Do you want to create a new package?', function(confirmed) {
       self.context.router.push('/new-package')
-      self.props.createPackageStatus()
     });
   }
 
@@ -88,7 +88,7 @@ export default class ReceivedOrder extends React.Component {
     if(this.state.packages){
       if(this.state.packages.length > 0)
         {
-          showPackage = <PackagesList packages= {this.state.packages} receivedOrderStatus={this.props.receivedOrderStatus} orderId = {this.props.purchaseOrdrId} />
+          showPackage = <PackagesList packages= {this.state.packages} />
         }
     }
     var paymnt_status= "";
@@ -125,7 +125,7 @@ export default class ReceivedOrder extends React.Component {
             <div className="col-lg-9 col-md-9 col-sm-12 col-xs-12">
                 <div className="received_order_rght">
                   <div className="rcv_order_header">
-                    <h2 className="text-left">{this.props.purchaseOrdrId}</h2>
+                    <h2 className="text-left">{"PO-"+this.state.orderDetails.orderId}</h2>
                     <div className="order_header_rght">
                       <ul>
                         <li className="active">
@@ -150,7 +150,6 @@ export default class ReceivedOrder extends React.Component {
                           </ul>
                         </ToggleDisplay>
                       </div>
-                      <NewShipment id="Create_new_shipment" />
                       <span className="close_order">
                         <a href="#"><img src={require('../../../images/close_order.png')} /></a>
                       </span>

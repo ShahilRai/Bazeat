@@ -2,9 +2,11 @@ import React from 'react';
 import ToggleDisplay from 'react-toggle-display';
 import NewShipment from './NewShipment';
 import confirm from 'bootstrap-confirm';
+import toastr from 'toastr';
 import moment from 'moment';
 import axios from 'axios';
 import PubSub from 'pubsub-js';
+import PurchaseOrders from './PurchaseOrders';
 
 var pId;
 
@@ -36,17 +38,18 @@ export default class DisplayPackageList extends React.Component {
     var self = this;
     confirm('Are you sure you want to delete the package?', function(confirmed) {
       self._deletePackage()
-      self.context.router.push('/orders/'+pId)
-      self.props.receivedOrderStatus()
     });
   }
 
   _deletePackage(){
+    pId= PurchaseOrders.purchsCuid
     var _deletePId= this.state._pckg.id
     this.packageToBeDeleted(_deletePId).then((response) => {
+      toastr.success('Package successfully deleted');
       if(response.data) {
         console.log("redirect-to");
       }
+      this.context.router.push('/orders/'+pId)
     }).catch((err) => {
       console.log(err);
     });
@@ -71,11 +74,6 @@ export default class DisplayPackageList extends React.Component {
     var statusClass='';
     var pckg_date = this.state._pckg.pkg_date
     pckg_date = moment(pckg_date).format('DD-MM-YYYY');
-    if(this.props.orderId){
-      var _orderId = this.props.orderId
-      self.state.pOrdrID = _orderId
-      pId = self.state.pOrdrID
-    }
     if(this.state._pckg.shippingdata){
       var _shpDte= this.state._pckg.shippingdata.ship_date;
       shipDate = moment(_shpDte).format('DD-MM-YYYY');
