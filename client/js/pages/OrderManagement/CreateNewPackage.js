@@ -53,7 +53,6 @@ export default class CreateNewPackage extends React.Component {
   }
 
   generatePackageId() {
-    console.log("=====")
     this.newPackageId().then((response) => {
       if(response.data) {
         this.setState({
