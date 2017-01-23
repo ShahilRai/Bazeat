@@ -23,9 +23,9 @@ import AdminLoginModal from '../admin/AdminLoginModal';
 import AdminRegisterModal from '../admin/AdminRegisterModal';
 import AdminPanel from '../admin/AdminPanel';
 import CheckoutContainer from '../cart/CheckoutContainer';
-import UserProfilePage from '../Profile/UserProfilePage';
+import ProfilePage from '../Profile/ProfilePage';
 import AddAccount from '../Profile/AddAccount';
-import UserPasswordUpdate from '../UserSetting/UserPasswordUpdate';
+import ProducerPasswordUpdate from '../UserSetting/ProducerPasswordUpdate';
 import Notification from '../UserSetting/Notification';
 import PurchaseOrders from '../OrderManagement/PurchaseOrders';
 import ReceivedOrder from '../OrderManagement/ReceivedOrder';
@@ -91,8 +91,8 @@ export default class ProjectRouter extends React.Component {
             <Route path="/user/:userId" component={UserHomePage} />
             <Route path='/allreviews' component={UserHomePage} />
             <HomeRoute path='/' component={profileComponent}>
-              <Route path='/profile' component={UserProfilePage} />
-              <Route path='/setting' component={UserPasswordUpdate} />
+              <Route path='/profile' component={ProfilePage} />
+              <Route path='/setting' component={ProducerPasswordUpdate} />
               <Route path='/message' component={AllMessages} />
               <Route path='/orders' component={PurchaseOrders} />
               <Route path='/orders/:orderId' component={ReceivedOrder} />
