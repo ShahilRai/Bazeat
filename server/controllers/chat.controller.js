@@ -16,7 +16,7 @@ export function allConversations(req, res, next) {
         let fullConversations = [];
         conversations.forEach(function(conversation) {
           Message.find({ 'conversation_id': conversation._id })
-            .sort('-createdAt')
+            .sort('-updatedAt')
             .limit(5)
             .populate({
               path: 'sender',
@@ -134,6 +134,45 @@ export function sendReply(req, res, next) {
       }
       res.status(200).json({ message: sentReply });
       return(next);
+    });
+  });
+}
+
+
+export function msgCount(req, res){
+  User.findOne({ email: req.query.email }).exec((err, user) => {
+    Conversation.find({ participants: user._id })
+      .select('_id')
+      .exec(function(err, conversations) {
+        if (err) {
+          res.send({ error: err });
+          return next(err);
+        }
+        // Set up empty array to hold conversations + most recent message
+        let fullConversations = [];
+        conversations.forEach(function(conversation, index) {
+          Message.find({ 'conversation_id': conversation._id, unread: true })
+            .sort('-updatedAt')
+            .populate({
+              path: 'sender',
+              select: 'full_name photo'
+            })
+            .populate({
+              path: 'receiver',
+              select: 'full_name photo'
+            })
+            .exec(function(err, message) {
+              if (err) {
+                res.send({ error: err });
+                return next(err);
+              }if(message.length>0){
+                fullConversations.push(message);
+              }
+              if(index+1 === conversations.length) {
+                return res.status(200).json({ conversations: fullConversations });
+              }
+            });
+        });
     });
   });
 }
