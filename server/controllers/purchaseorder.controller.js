@@ -58,7 +58,14 @@ export function getPackages(req, res) {
           console.log('orders')
           console.log(orders.packages)
           if (orders){
-            Package.find({ _id: {"$in": orders.packages }, pkg_status: "created"}).exec((err, packages)=>{
+            Package.find({ _id: {"$in": orders.packages }, pkg_status: "created"}).populate({
+              path: '_order',
+              model: 'Order',
+              populate: {
+                path: '_buyer',
+                model: 'User'
+              }
+              }).exec((err, packages)=>{
               console.log('packages')
               console.log(packages)
               if (err) {
