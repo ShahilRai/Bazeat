@@ -16,6 +16,7 @@ export default class PurchaseOrders extends React.Component {
 
   constructor(props, context) {
     super(props, context);
+    this.purchsCuid= "";
     this.state = {
       ordersList: []
     };
