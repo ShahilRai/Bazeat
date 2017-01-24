@@ -7,6 +7,8 @@ const transport = nodeMailer.createTransport(mandrillTransport({
   }
 }));
 export function send_email(charge) {
+  console.log('charge')
+  console.log(charge.email)
   transport.sendMail({
     from: 'noreply@bazeat.no',
     to: charge.email,
@@ -41,5 +43,44 @@ export function orderFullfilled(order){
       }
     }
   );
+  })
+}
+
+
+export  function cancel_account(email){
+   User.findOne({ email: email }).exec((err, user) => {
+    console.log('user')
+    console.log(user)
+    if (err) {
+      return res.status(422).send(err);
+    }
+    else {
+      transport.sendMail({
+        template_name: 'cancel-account',
+        template_content:[],
+        message: {
+          headers: {
+            'Reply-To': 'test@tet.com'
+          },
+          firstName: user.first_name,
+          subject: 'About Account Cancellation',
+          messageId: 'test',
+          from_email: 'sender@example.com',
+          from_name: 'bernie senders',
+          to: [{
+            email: user.email,
+            name: user.first_name,
+            type: 'to'
+          }]
+        },
+        function (err, info) {
+          if (err) {
+            console.error(err);
+          } else {
+            console.log(info);
+          }
+        }
+      })
+    }
   })
 }

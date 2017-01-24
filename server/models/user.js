@@ -73,7 +73,9 @@ const userSchema = new Schema({
   },
   timeslots: [slotSchema],
   avg_rating: {type: 'Number', default: 0},
-  showInfo: { type: 'Boolean', default: false }
+  showInfo: { type: 'Boolean', default: false },
+  profile_added: { type: 'Boolean', default: false },
+  account_added: { type: 'Boolean', default: false }
 });
 
 userSchema.post('remove', function(user) {

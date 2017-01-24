@@ -13,6 +13,8 @@ export function addUser(req, res) {
   const newUser = new User(req.body);
   newUser.cuid = cuid();
   newUser.save((err, saved) => {
+    console.log('saved')
+    console.log(saved)
     if (err) {
       return res.status(422).send(err);
     }
@@ -162,6 +164,7 @@ export function addBankAccount(req, res) {
             } else {
               user.account_id = account.id
               user.last4 = account.last4
+              user.account_added = true
               user.save((err, saved) => {
                 if (err) {
                   return res.status(422).send(err);
@@ -292,15 +295,17 @@ export function create_card(customer, order, next, req, res){
 
 
 export  function create_charge(customer, card, order, next, req, res){
+  let amount = Math.round(order.total_amount.toFixed(2)*100)
+  let app_fee = Math.round(amount.toFixed(2)*100)
   stripe.charges.create({
-    amount: Math.round(order.total_amount.toFixed(2)*100),
+    amount: amount,
     currency: "nok",
     capture: false,
     customer: customer.id,
     source: card.id, // obtained with Stripe.js
     description: "Charge for " + req.email,
     destination: "acct_19YaXiA3xoj18svo",
-    application_fee: 123
+    application_fee: app_fee
     }, function(err, charge) {
     if(err) {
       return res.status(422).send(err);
