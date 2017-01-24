@@ -211,6 +211,7 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
           user.postal_code = req.body.postal_code;
           user.delivery_options = req.body.delivery_options
           user.account_number = req.body.account_number;
+          user.profile_added = true;
           user.save((error, saveduser) => {
             let data = [];
           if(saveduser.if_producer == true){

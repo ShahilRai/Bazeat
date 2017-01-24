@@ -374,11 +374,11 @@ export  function cart_sum(cart, next, res){
         { "_id": cart._id, "cartitems.product_id": item.product_id  },
         {
           "$set": {
-              "total_price": total_price,
+              "total_price": (total_price).toFixed(2),
               "total_qty": item_qty,
               "total_weight": total_weight,
-              "cartitems.$.product_amt": item_price,
-              "cartitems.$.product_total_amt": product_total_price,
+              "cartitems.$.product_amt": item_price.toFixed(2),
+              "cartitems.$.product_total_amt": product_total_price.toFixed(2),
               "cartitems.$.product_image": product_image,
               "cartitems.$.product_name": product_name,
           }
@@ -424,7 +424,7 @@ export function removeCartItems(req, res) {
         { "_id": cart._id},
         {
           "$set": {
-              "total_price": total_price,
+              "total_price": total_price.toFixed(2),
               "total_qty": item_qty,
               "total_weight": total_weight
           }
@@ -455,20 +455,20 @@ export function emptyCart(req, res) {
     Cart.findOneAndUpdate(
       { "user": user._id},
       {
-          "$set": {
-              "cartitems": [],
-              "total_qty": 0,
-              "total_price": 0,
-              "address.city": user.city,
-              "address.country": user.country,
-              "address.line1": user.address,
-              "address.postal_code": user.postal_code,
-              "address.phone_num": user.phone_num,
-              "address.email": user.email,
-              "address.first_name": user.first_name,
-              "address.last_name": user.last_name,
-              "total_weight": 0
-          }
+        "$set": {
+          "cartitems": [],
+          "total_qty": 0,
+          "total_price": 0,
+          "address.city": user.city,
+          "address.country": user.country,
+          "address.line1": user.address,
+          "address.postal_code": user.postal_code,
+          "address.phone_num": user.phone_num,
+          "address.email": user.email,
+          "address.first_name": user.first_name,
+          "address.last_name": user.last_name,
+          "total_weight": 0
+        }
       },
       {new: true}).
       exec(function(err,doc) {

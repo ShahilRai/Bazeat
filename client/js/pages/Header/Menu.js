@@ -24,6 +24,11 @@ export default class Menu extends React.Component {
     };
   }
 
+  loadAllMessagesAndReviews(){
+    this.loadAllMessages()
+    this.loadAllReviews()
+  }
+
   loadAllMessages(){
      var self=this;
      var userEmail = self.context.user.email;
@@ -88,7 +93,7 @@ export default class Menu extends React.Component {
             <li className="cart_icon"><a href="javascript:void(0)">Cart</a></li>
           </NotAuthenticated>
           <Authenticated>
-            <li data-toggle="collapse" data-target="#user_message" onClick ={this.loadAllReviews.bind(this)}>
+            <li data-toggle="collapse" data-target="#user_message" onClick ={this.loadAllMessagesAndReviews.bind(this)}>
               <a href="javascript:void(0)" className="message_icon">Messages
                 {MessageIcon}
                 {reviewIcon}
