@@ -52,7 +52,11 @@ const userSchema = new Schema({
   address: { type: 'String' },
   country: { type: 'String' },
   postal_code: { type: 'String' },
-  birth_date: { type: 'Date'},
+  birth_date: {
+    day: { type: 'Number' },
+    month: { type: 'Number' },
+    year: { type: 'Number' }
+  },
   date_joined: { type: 'Date', default: Date.now },
   delivery_options: { type: 'String' },
   if_producer: { type: 'Boolean', default: false },

@@ -205,7 +205,9 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
           user.sub_to_vat = sub_to_vat
           user.country = req.body.country;
           user.address = req.body.address;
-          user.birth_date = req.body.birth_date;
+          user.birth_date.day = req.body.day;
+          user.birth_date.month = req.body.month;
+          user.birth_date.year = req.body.year;
           user.postal_code = req.body.postal_code;
           user.delivery_options = req.body.delivery_options
           user.account_number = req.body.account_number;
