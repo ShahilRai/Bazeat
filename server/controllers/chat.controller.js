@@ -63,7 +63,18 @@ export function getConversation(req, res, next) {
         res.send({ error: err });
         return next(err);
       }
-      res.status(200).json({ conversation: messages });
+      if(messages){
+        messages.forEach(function(msg, index) {
+           Message.findOneAndUpdate({_id: msg._id}, {$set: {'unread': false}}, {new: true}).exec(function(err, model){
+            if (messages.length == index+1){
+              return res.status(200).json({ conversation: model });
+            }
+           })
+        })
+      }
+      else{
+        return res.status(200).json({ conversation: "There are no messages for this conversation" });
+      }
     });
 }
 
