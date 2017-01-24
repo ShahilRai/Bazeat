@@ -8,8 +8,8 @@ router.route('/conversations').get(ChatController.allConversations);
 router.route('/conversation/:conversation_id').get(ChatController.getConversation);
 
 // Create New Conversation
-router.route('/new/:recipient_id').post(ChatController.newConversation);
+router.route('/conversations').post(ChatController.newConversation);
 
 // Send reply
-router.route('/conversation/:conversation_id').post(ChatController.sendReply);
+router.route('/send_reply').post(ChatController.sendReply);
 export default router;

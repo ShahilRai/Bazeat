@@ -15,9 +15,10 @@ export function allConversations(req, res, next) {
         // Set up empty array to hold conversations + most recent message
         let fullConversations = [];
         conversations.forEach(function(conversation) {
+          console.log(conversation)
           Message.find({ 'conversation_id': conversation._id })
             .sort('-createdAt')
-            .limit(5)
+            .limit(1)
             .populate({
               path: 'sender',
               select: 'full_name photo'
@@ -28,6 +29,8 @@ export function allConversations(req, res, next) {
             })
             .exec(function(err, message) {
               if (err) {
+                console.log('message')
+                console.log(message)
                 res.send({ error: err });
                 return next(err);
               }
@@ -43,14 +46,10 @@ export function allConversations(req, res, next) {
 
 
 export function getConversation(req, res, next) {
-  if(!req.params.conversation_id) {
-    res.status(422).send({ error: 'Please choose a valid conversation id.' });
-    return next();
-  }
   Message.find({ conversation_id: req.params.conversation_id })
     .select('createdAt body sender receiver')
     .sort('-createdAt')
-    // .limit(2)
+    .limit(2)
     .populate({
       path: 'sender',
       select: 'full_name photo'
@@ -64,18 +63,13 @@ export function getConversation(req, res, next) {
         res.send({ error: err });
         return next(err);
       }
-      if(messages){
-        return res.status(200).json({ conversation: messages });
-      }
-      else{
-        return res.status(200).json({ conversation: "There are no messages for this conversation" });
-      }
+      res.status(200).json({ conversation: messages });
     });
 }
 
 
-export function newConversation(req, res, next) {
-  if(!req.params.recipient_id) {
+export function newConversation(req, res) {
+  if(!req.query.recipient_id) {
     res.status(422).send({ error: 'Please choose a valid recipient for your message.' });
     return next();
   }
@@ -85,7 +79,7 @@ export function newConversation(req, res, next) {
   }
   User.findOne({ email: req.body.email }).exec((err, user) => {
     const conversation = new Conversation({
-      participants: [user._id, req.params.recipient_id]
+      participants: [user._id, req.query.recipient_id]
     });
     conversation.save(function(err, newConversation) {
       if (err) {
@@ -96,7 +90,7 @@ export function newConversation(req, res, next) {
         conversation_id: newConversation._id,
         body: req.body.composedMessage,
         sender: user._id,
-        receiver: req.params.recipient_id
+        receiver: req.query.recipient_id
       });
 
       message.save(function(err, newMessage) {
@@ -105,24 +99,15 @@ export function newConversation(req, res, next) {
           return next(err);
         }
         res.status(200).json({ message: 'Conversation started!', conversation_id: conversation._id, message: newMessage });
-        return next();
       });
     });
   });
 }
 
 export function sendReply(req, res, next) {
-  if(!req.body.email) {
-    res.status(422).send({ error: 'Send valid user email.' });
-    return next();
-  }
-  if(!req.params.conversation_id) {
-    res.status(422).send({ error: 'Send valid conversation id to send reply.' });
-    return next();
-  }
   User.findOne({ email: req.body.email }).exec((err, user) => {
     const reply = new Message({
-      conversation_id: req.params.conversation_id,
+      conversation_id: req.query.conversation_id,
       body: req.body.composedMessage,
       sender: user._id,
       receiver: req.query.recipient_id
