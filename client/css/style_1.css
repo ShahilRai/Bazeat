@@ -4103,6 +4103,10 @@ button.more_days_btn{
 .chkout_pickup_time{
 	width:33%;
 }
+
+.chkout_pickup_time input{
+	width:87%;
+}
 /*======checkout step3.2=================*/
 .del_det_form .edit_prfile_detail_form .col-form-label {
 	font-size:13px;
