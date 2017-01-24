@@ -291,7 +291,7 @@ border: 1px solid #cccccc;
 	font-weight: 400;
 	letter-spacing: 1.5px;
 	margin-top: 5px;
-	margin-right: 3px;
+	margin-right: 2px;
 }
 .header_rht_menu li a {
 	color: #666666;
@@ -4107,6 +4107,15 @@ button.more_days_btn{
 .chkout_pickup_time input{
 	width:87%;
 }
+.pickup_day input{
+	border:0;
+	background: none;
+	}
+.chkout_pickup_time input{
+	border:0;
+	background: none;
+	}
+
 /*======checkout step3.2=================*/
 .del_det_form .edit_prfile_detail_form .col-form-label {
 	font-size:13px;
