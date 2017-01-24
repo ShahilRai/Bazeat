@@ -10,10 +10,14 @@ let orderDetailResponse ;
 let alternateAddress ;
 let producer_timeslots = [];
 let producer_ifo ;
+let openTime;
+let openDay;
+let date_value_day;
+let time_value_day;
 let product_id;
 let start_time;
 let end_time;
-let day;
+let day = [];
 
 export default class ProductPickupDate extends React.Component {
 
@@ -102,7 +106,6 @@ export default class ProductPickupDate extends React.Component {
   }
 
   componentDidMount(){
-
     this.displayDataMonthDay();
     this.displayTimeSlot()
     var email=this.context.user ? this.context.user.username : ''
@@ -130,7 +133,7 @@ export default class ProductPickupDate extends React.Component {
     perPageDateDisplay = perPageDateDisplay+5;
     if(perPageDateDisplay>10)
     {
-      toastr.success('sorry, you can only order for next 10 days only');
+      toastr.success('sorry, you can order only for next 10 days');
     }
     else{
       this.displayDataMonthDay();
@@ -141,8 +144,15 @@ export default class ProductPickupDate extends React.Component {
     }
   }
 
+  getSelectedDate(e){
+    date_value_day = e.target.value
+  }
+
+  getSelectedTime(e){
+    time_value_day = e.target.value
+  }
+
   displayTimeSlot(){
-    //var email=this.context.user ? this.context.user.email : ''
     this.loadTimeSlot(product_id).then((response) => {
         if(response.data) {
           this.setState({
@@ -170,9 +180,9 @@ export default class ProductPickupDate extends React.Component {
          });
         }
       orderDetailResponse = response.data.order
-      if(orderDetailResponse,producer_ifo)
+      if((orderDetailResponse) || (producer_ifo,date_value_day,time_value_day))
         {
-          this.props.nextStep(orderDetailResponse,orderDetailResponse,producer_ifo);
+          this.props.nextStep(orderDetailResponse,orderDetailResponse,producer_ifo,date_value_day,time_value_day);
         }
       }
       }).catch((err) => {
@@ -303,11 +313,26 @@ export default class ProductPickupDate extends React.Component {
           <h4>When can we expect to see you?</h4>
           <CheckoutStep step={this.props.step}/>
           <div className="pick_update">
-            {this.state._arrayOfMonthDayAndDate.map((monthDayDate, index) =>
-              <div className="pickup_row1" key={index}>
-                <span className="pickup_day" >{monthDayDate.day} - {monthDayDate.month}-{monthDayDate.current_date}</span>
-                <span className="chkout_pickup_time">{"10:00"}-{"17:00"}</span>
-              </div>
+            {this.state._arrayOfMonthDayAndDate.map((monthDayDate, index)=>{
+              if(day.includes(monthDayDate.day)){
+                return(
+                  <div className="pickup_row1" key={index} ref="wrapperdiv">
+                    <a href="javascript:void(0)">
+                      <span className="pickup_day" id ="sp1" ref="span_value"  onClick={this.getSelectedDate.bind(this)}><input type="text" disabled="disabled" value={(monthDayDate.day)+" - "+(monthDayDate.month)+" - "+(monthDayDate.current_date)}/></span>
+                      <span className="chkout_pickup_time" value={start_time} onClick={this.getSelectedTime.bind(this)}><input type="text" disabled="disabled" value={openTime} /></span>
+                    </a>
+                  </div>
+                )
+              }else
+                return(
+                  <div className="pickup_row1" key={index} ref="wrapperdiv">
+                    <a href="javascript:void(0)" >
+                      <span className="pickup_day" onClick={this.getSelectedDate.bind(this)}><input type="text" disabled="disabled" value={(monthDayDate.day)+" - "+(monthDayDate.month)+" - "+(monthDayDate.current_date)}/></span>
+                      <span className="chkout_pickup_time"></span>
+                    </a>
+                 </div>
+                )
+              }
             )}
             <div className="chkout_step1btns">
             <button type="button" className="btn btn-default more_days_btn" onClick={this.showMoreDays.bind(this)}>Show more days</button>
@@ -462,6 +487,7 @@ export default class ProductPickupDate extends React.Component {
       end_time = result.end_time
       day = result.day
     });
+    openTime= (start_time)+" - "+(end_time)
     var cart_info = this.props.cart_detail.cartitems
     cart_info.map((result, i) =>{
       product_id = result.product_id

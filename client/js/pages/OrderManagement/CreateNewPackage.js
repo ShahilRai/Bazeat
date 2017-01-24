@@ -2,6 +2,12 @@ import React from 'react';
 import axios from 'axios';
 import PubSub from 'pubsub-js';
 import { Link } from 'react-router';
+import ReceivedOrder from './ReceivedOrder';
+import PurchaseOrders from './PurchaseOrders';
+import toastr from 'toastr';
+
+var orderItemID;
+var orderCuid;
 
 export default class CreateNewPackage extends React.Component {
 
@@ -16,7 +22,8 @@ export default class CreateNewPackage extends React.Component {
       packed_qty_value : 0,
       _updateState: [],
       pckge_date: '',
-      newPackageDetails: []
+      newPackageDetails: [],
+      po: ""
     };
     this.savePackageOrder = this.savePackageOrder.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
@@ -28,11 +35,12 @@ export default class CreateNewPackage extends React.Component {
 
   componentDidMount(){
     this.generatePackageId()
-    var orderCuid = this.props.params.orderId;
+    orderCuid = PurchaseOrders.purchsCuid;
     this.getOrderDetail(orderCuid).then((response) => {
       if(response.data) {
         this.setState({
-          orderItems: response.data
+          orderItems: response.data.orderitems,
+          po: response.data.orderId
         });
       }
     }).catch((err) => {
@@ -48,7 +56,6 @@ export default class CreateNewPackage extends React.Component {
   handlePackageDate(event){
     this.setState({
       pckge_date : event.target.value
-    },function(){
     })
   }
 
@@ -70,7 +77,7 @@ export default class CreateNewPackage extends React.Component {
 
   savePackageOrder(){
     var p_qty = this.state.packed_qty_value;
-    var o_Id = this.props.params.orderId;
+    var o_Id = orderItemID;
     var p_Id = this.state.newPackageDetails.id;
     var p_date = this.state.pckge_date;
     var orderitems =[];
@@ -79,6 +86,7 @@ export default class CreateNewPackage extends React.Component {
         _id: o_Id
       })
     this.addPackageOrder(orderitems, p_Id, p_date).then((response) => {
+      toastr.success('Package successfully created');
       if(response.data) {
         console.log("redirect-to");
       }
@@ -86,7 +94,7 @@ export default class CreateNewPackage extends React.Component {
     }).catch((err) => {
       console.log(err);
     });
-    this.context.router.push('/orders/'+o_Id)
+    this.context.router.push('/orders/'+orderCuid)
   }
 
   addPackageOrder(orderitems, p_Id, p_date){
@@ -99,7 +107,7 @@ export default class CreateNewPackage extends React.Component {
 
   checkProductQty(){
     var p_qty = this.state.packed_qty_value;
-    var o_Id = this.props.purchaseOrdrId;
+    var o_Id = orderItemID;
     this.isValidQty(o_Id, p_qty).then((response) => {
       if(response.data) {
         this.savePackageOrder()
@@ -144,7 +152,7 @@ export default class CreateNewPackage extends React.Component {
               <div className="received_order_rght">
                 <div className="rcv_order_header">
                   <ul className="order_breadcrumb">
-                    <li className="active"><a href="#"> &lt; {this.props.purchaseOrdrId} </a></li>
+                    <li className="active"><a href="#"> &lt; {"PO-"+this.state.po} </a></li>
                     <li><a href="#"> / New package</a></li>
                   </ul>
                   <div className="order_header_rght">
@@ -180,6 +188,7 @@ export default class CreateNewPackage extends React.Component {
                         </thead>
                         <tbody>
                         {this.state.orderItems.map((order, index) =>{
+                          orderItemID= order.id
                           return(
                             <tr key={index}>
                               <td className="">
