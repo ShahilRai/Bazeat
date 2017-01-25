@@ -1,5 +1,5 @@
 import React from 'react';
-
+import toastr from 'toastr';
 import { RegistrationForm, SocialLoginLink } from 'react-stormpath';
 import InputField from '../components/InputField';
 
@@ -7,7 +7,6 @@ export default class ProducerRegisterModal extends React.Component {
 
   onFormSubmit(e, next){
     var data = e.data;
-
     if (data.password.length < 8) {
       return next(new Error('Password must be at least 8 characters long.'));
     }
@@ -22,6 +21,15 @@ export default class ProducerRegisterModal extends React.Component {
     }
     $("#producer_modal").modal('hide')
     next(null, data);
+    toastr.success('Producer Successfully sign up. please check your inbox');
+  }
+
+  onFormSubmitSuccess(e, next) {
+    var data = e.data;
+    $("#login_modal").modal('hide')
+    $(".modal-backdrop.in").remove()
+    $(".modal-open").removeClass("modal-open")
+    next();
   }
 
   render() {
@@ -48,7 +56,7 @@ export default class ProducerRegisterModal extends React.Component {
                   <input type="text" className="form-control" id="surname" name="lastName" placeholder="Last Name" required={ true } />
                 </div>
                 <div className="form-group">
-                  <input type="text" className="form-control" id="email" name="email" placeholder="Email" required={ true } />
+                  <input type="email" className="form-control" id="email" name="email" placeholder="Email" required={ true } />
                 </div>
                 <div className="form-group">
                   <input type="password" className="form-control" id="password" name="password" placeholder="Password" required={ true } />

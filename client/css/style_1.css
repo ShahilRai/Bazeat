@@ -639,6 +639,12 @@ color:#808080;
 /*:::::::::::::::::::::::::::::::::::::::::::::::::::::
  ===============EDIT PROFILE STYLE START===============
 :::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+.loader-hidden {
+  display: none;
+}
+.loader-active {
+  display: block;
+}
 .header_rht_menu.profile_rht_header li {
 	letter-spacing:inherit;
 	position: relative;

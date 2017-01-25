@@ -73,7 +73,6 @@ export default class Menu extends React.Component {
   }
 
   render() {
-
     if((this.context.router.location.pathname == '/')|| (this.context.router.location.pathname == '/search'))
     {
       cart_icon = <CartModal />
