@@ -1,43 +1,102 @@
 import React from 'react';
+import { Link } from 'react-router';
+import moment from 'moment';
 import SelectedMessages from './SelectedMessages';
 import NewMessage from './NewMessage';
 import axios from 'axios';
 export default class AllMessages extends React.Component {
-	static contextTypes = {
-    	authenticated: React.PropTypes.bool,
-    	user: React.PropTypes.object
-  	};
+  static contextTypes = {
+      authenticated: React.PropTypes.bool,
+      user: React.PropTypes.object
+    };
 
-  	constructor(props) {
-    	super(props);
-    	this.state = {
-    		newMessages: false,
+    constructor(props) {
+      super(props);
+      this.state = {
+        newMessages: false,
         selectedMessages: false,
         select:'',
-        allConversation: []
-    	};
-  	}
+        allConversation: [] ,
+        msg: '',
+        conversation_id:'',
+        receiver_id:'',
+        sender_id:'',
+        receiver_name:'',
+        sender_name:'',
+        sender_photo:'',
+        allMsgConversations:[],
+        receiver_photo:'',
+        allMsg_Conversations:[],
+        selectedId: '',
+        allMsg:[],
+        newConversation: [],
+        selectedId: '',
+        activeState: ''
+
+      };
+    }
     componentDidMount(){
-      this.props.loadAllMessages
+       this.getAllMessagesData()
     }
 
-     showSingleMsgConverstation(conversation_id) {
-      this.showMsgConversation(conversation_id).then((response) => {
-         if(response.data) {
-            this.setState({
-             allConversation: response.data.conversation
-            });
+    getAllMessagesData(){
+    var userEmail = this.context.user.email;
+      this.getAllMessages(userEmail).then((response) => {
+      if(response.data) {
+       this.setState({
+        allMsgConversations: response.data.conversations
+       })
+     }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }
+   getAllMessages(emailAddress){
+    return axios.get("/api/conversations?email="+emailAddress);
+  }
+
+  showSingleMsgConverstation(conversation_id,receiver_id,sender_id,receiver_name,sender_name,sender_photo,receiver_photo) {
+    this.showMsgConversation(conversation_id).then((response) => {
+      if(response.data) {
+        this.setState({
+          allConversation: response.data.fullMessages,
+          conversation_id: conversation_id,
+          receiver_id:receiver_id,
+          sender_id:sender_id,
+          receiver_name:receiver_name,
+          sender_name:sender_name,
+          sender_photo:sender_photo,
+          receiver_photo:receiver_photo,
+          activeState: conversation_id
+        });
+      }
+    })
+    .catch((err) => {
+    console.log(err);
+    });
+    this.selectedMsgTab()
+    }
+
+    showMsgConversation(conversation_id){
+      return axios.get("/api/conversation/" + conversation_id)
+    }
+
+    updateSingleConversation(singleConversation,conversation_id){
+      this.showMsgConversation(conversation_id).then((response) =>{
+        if(response.data){
+          this.setState({
+            allConversation: response.data.fullMessages,
+            singleConversation: singleConversation.message,
+            conversation_id: conversation_id
+          });
         }
       })
       .catch((err) => {
-      console.log(err);
+        console.log(err);
       });
       this.selectedMsgTab()
     }
-
-      showMsgConversation(conversation_id){
-         return axios.get("/api/conversation/" + conversation_id)
-      }
 
 
     selectedMsgTab(){
@@ -50,64 +109,102 @@ export default class AllMessages extends React.Component {
   showNewMsgTab(){
       this.setState({
       newMessages: true,
-      selectedMessages: false
+      selectedMessages: false,
+      activeState:''
     });
   }
 
+    updateConversation(newConversation) {
+      var userEmail = this.context.user.email;
+        this.getAllMessages(userEmail).then((response) => {
+          if(response.data) {
+            this.setState({
+              allMsgConversations: response.data.conversations,
+              conversation_id: newConversation.message.conversation_id
+          })
+        }
+    })
+      .catch((err) => {
+      console.log(err);
+    });
+  }
+
+    msgBody(result){
+      return result.map((item, i) => {
+        return(
+          <p key={i}>{item.body}</p>
+        )
+      })
+    }
+
+    _renderleftMenus(){
+      return(
+        <ul className="edit_sidbar_list">
+          <li><Link to="/profile">Edit Profile</Link></li>
+          <li><Link to="javascript:void(0)">Verification</Link></li>
+          <li><Link to="/reviews">Reviews</Link></li>
+          <li><Link to="/add-account">Bank Account</Link></li>
+          <li className="active"><Link to="/message">Messages</Link></li>
+        </ul>
+      )
+    }
 
   render(){
+    console.log(this.state.activeState)
     if(this.state.selectedMessages){
-      this.state.select = <SelectedMessages allMessage = {this.state.allConversation}/>
+      this.state.select = <SelectedMessages  updateSingleConversation ={this.updateSingleConversation.bind(this)} sender_id={this.state.sender_id} receiver_name={this.state.receiver_name}receiver_id={this.state.receiver_id} conversation_id={this.state.conversation_id} sender_name={this.state.sender_name} sender_photo={this.state.sender_photo} receiver_photo={this.state.receiver_photo} allMessage = {this.state.allConversation} allMsgConversations ={this.state.allMsgConversations}/>
+    } else {
+      this.state.select = <NewMessage conversation_id ={this.state.conversation_id} updateConversation={this.updateConversation.bind(this)}  conversation_id={this.state.conversation_id}/>
     }
-    else if(this.state.newMessages){
-      this.state.select = <NewMessage/>
-    }
-    else if(!this.state.newMessages) {
-      this.state.select = <NewMessage/>
-    }
-    var _msgConversations= this.props.msgConversations ? this.props.msgConversations : []
+    var _msgConversations = this.state.allMsgConversations ? this.state.allMsgConversations : []
     var _results = _msgConversations.map((result, index) => {
-      return result.map((item,i) => {
-        return(
-          <div className="chat_list" key={i} onClick = {this.showSingleMsgConverstation.bind(this,item.conversation_id)}>
-            <a href="javascript:void(0)">
-              <span className="user_img"><img src="images/user_picture.png"/></span>
-              <span className="chat_description" >
-                <h3 >
-                  {item.sender.full_name}
-                  <span >{item.createdAt}</span>
-                </h3>
-                <p >{item.body}</p>
-              </span>
-            </a>
-          </div>
-            )
-       });
-    })
-
-    return(
-    <div className="chat_container">
-      <div className="full_chat_window">
-        <div className="full_chat_header">
-          <div className="inner_chat_header">
-            <h3>Messages
-            <span className="edit_icon" onClick ={this.showNewMsgTab.bind(this)}>
-              <a href="javascript:void(0)"><i className="fa fa-pencil-square-o" aria-hidden="true"></i>
-              </a>
+      var data = result[0];
+      return(
+        <div className={this.state.activeState === data.conversation_id?"chat_list active_user":"chat_list"} key={index} onClick = {this.showSingleMsgConverstation.bind(this, data.conversation_id, data.receiver.id, data.sender.id, data.receiver.full_name, data.sender.full_name, data.sender.photo, data.receiver.photo)}>
+          <a href="javascript:void(0)">
+            <span className="user_img"><img className="user_profile_img" src={(data.sender.full_name == this.context.user.fullName) ? data.receiver.photo : data.sender.photo} /></span>
+            <span className="chat_description" >
+              <h3 >
+                {(data.sender.full_name==this.context.user.fullName) ? data.receiver.full_name : data.sender.full_name}
+                <span > {moment(data.createdAt).format('DD-MM-YYYY')}</span>
+              </h3>
+               {this.msgBody(result)}
             </span>
-            </h3>
-          </div>
+          </a>
         </div>
-        <div className="chat_window_left">
-          <div className="modal-body mCustomScrollbar content" data-mcs-theme="dark">
-            <div className="inner_chatwindow_left">
-              {_results}
+      )
+    })
+    return(
+      <div className="container padd_87">
+        <div className="full_width">
+          <div className="row">
+            <div className="col-lg-3 col-md-2 col-sm-2 col-xs-12 purchase_order_left_sidebar order_purchse_lt_wdth edit_profile_sidebar">
+              {this._renderleftMenus()}
+            </div>
+          <div className="chat_container">
+            <div className="full_chat_window">
+              <div className="full_chat_header">
+                <div className="inner_chat_header">
+                  <h3>Messages
+                  <span className="edit_icon" onClick ={this.showNewMsgTab.bind(this)}>
+                    <a href="javascript:void(0)"><i className="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </a>
+                  </span>
+                  </h3>
+                </div>
+              </div>
+            <div className="chat_window_left">
+              <div className="modal-body mCustomScrollbar content" data-mcs-theme="dark">
+                <div className="inner_chatwindow_left">
+                  {_results}
+                </div>
+              </div>
+            </div>
+                {this.state.select}
             </div>
           </div>
         </div>
-          {this.state.select}
       </div>
     </div>
-
   )}
 }

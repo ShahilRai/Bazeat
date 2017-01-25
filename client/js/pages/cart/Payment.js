@@ -1,52 +1,101 @@
 import React from 'react';
+import axios from 'axios';
+import toastr from 'toastr';
 import CheckoutStep from './CheckoutStep'
 let email ;
-let order_id =  Number("58789530525edb153fc2f9ab");
+let order_id ;
+let payment_month_arr = [];
+let payment_year_arr = [];
 export default class Payment extends React.Component {
 
   static contextTypes = {
     authenticated: React.PropTypes.bool,
-    user: React.PropTypes.object
+    user: React.PropTypes.object,
+    router: React.PropTypes.object.isRequired
   };
 
   constructor(props) {
       super(props);
       this.state = {
-        orderDetailPayment : this.props.orderDetail
+        orderDetailPayment : this.props.orderDetail,
+        card_no : '',
+        cvc : '',
+        exp_month : '',
+        exp_year : ''
       }
+      this.payMoney = this.payMoney.bind(this);
+  }
+
+  handleChange(e){
+    this.setState({
+      card_no : e.target.value,
+      cvc : e.target.value
+    });
+  }
+
+  handleChangeSelect(e){
+    this.setState({
+      exp_month : e.target.value,
+    })
+  }
+
+  handleChangeSelectYear(e){
+    this.setState({
+      exp_year : e.target.value
+    })
   }
 
   payMoney(){
-    var number = this.refs.cardNo.value
-    var exp_month = this.refs.month.value
-    var exp_year = this.refs.year.value
+    var card_no = this.refs.cardNo.value
+    var exp_month = this.state.exp_month
+    var exp_year = this.state.exp_year
     var cvc = this.refs._cvv.value
-    this.createOrderRequest(email, order_id, number, exp_month, exp_year, cvc ).then((response) => {
+    this.requestForPayment(email, order_id, card_no, exp_month, exp_year, cvc ).then((response) => {
       if(response.data) {
+        if(this.refs.myRef){
+        toastr.success('Your Have done your payment successfully');
+        this.context.router.push('/login');
         this.setState({
           orderDetail : response.data
          });
+        }
       }
       }).catch((err) => {
+        toastr.error('Sorry, here is problem in payment');
           console.log(err);
       });
   }
 
 // api for checkout process payment
-  requestForPayment(email, order_id){
+  requestForPayment(email, order_id, card_no, exp_month, exp_year, cvc){
     return axios.post("api/payment",
       {
         email : email,
         order_id : order_id,
-        number : number,
-        exp_month : exp_month,
-        exp_year : exp_year,
+        card_number : card_no,
+        month : exp_month,
+        year : exp_year,
         cvc : cvc
       });
   }
 
+  cancelPayment(){
+    toastr.error('You have cancel your Payment');
+  }
+
   render() {
-    email = this.context.user ? this.context.user.username : ''
+    var num_of_month;
+    var num_of_year;
+    for(num_of_month=1; num_of_month<=12;num_of_month++)
+    {
+      payment_month_arr.push(num_of_month);
+    }
+    for(num_of_year=2017; num_of_year<=2027;num_of_year++)
+    {
+      payment_year_arr.push(num_of_year);
+    }
+    order_id = this.props.orderDetail.id
+    email = this.props.orderDetail.address.email
     return (
       <div className="full_width_container">
         <div className="page_wrapper">
@@ -58,18 +107,19 @@ export default class Payment extends React.Component {
               <div className="payment_order_details">
                 <div className="paymnt_sum">
                   <span className="sum_label">Sum: </span>
-                  <span className="sum_values"></span>
+                  <span className="sum_values">kr{this.props.orderDetail.total_amount.toFixed(2)}</span>
                 </div>
                 <div className="paymnt_sum">
                   <span className="sum_label">Order number: </span>
-                  <span className="sum_values"></span>
+                  <span className="sum_values">{"PO"}{this.props.orderDetail.orderId}</span>
                 </div>
               </div>
+              <form className="ptop30">
               <div className="payment_card_details">
                 <div className="form-group row">
                   <label for="" className="col-sm-4 col-form-label">Card number</label>
                   <div className="col-sm-7 prht_zero plft_zero">
-                    <input type="text" className="form-control" ref="cardNo" value={this.state.cardno}/>
+                    <input className="form-control" type="text" name="card_no" ref="cardNo" value={this.state.card_no} onChange={this.handleChange.bind(this)}/>
                   </div>
                 </div>
                 <div className="form-group row">
@@ -77,29 +127,28 @@ export default class Payment extends React.Component {
                     <small>(Month/Year)</small>
                   </label>
                   <div className="custom_select_box mrht10">
-                    <select className="">
-                      <option ref="month" value="01">01</option>
-                      <option ref="month" value="02">02</option>
-                      <option ref="month" value="03">03</option>
-                      <option ref="month" value="04">04</option>
-                      <option ref="month" value="05">05</option>
-                      <option ref="month" value="06">06</option>
-                      <option ref="month" value="07">07</option>
-                      <option ref="month" value="08">08</option>
-                      <option ref="month" value="09">09</option>
-                      <option ref="month" value="10">10</option>
-                      <option ref="month" value="11">11</option>
-                      <option ref="month" value="12">12</option>
+                    <select className="" onChange={this.handleChangeSelect.bind(this)}>
+                      <option value="month" selected>month</option>
+                      {
+                        payment_month_arr.map((result, i) =>{
+                          return(
+                          <option key={i} value={result}>{result}</option>
+
+                          )
+                        })
+                      }
                     </select>
                   </div>
                   <div className="custom_select_box">
-                    <select className="">
-                      <option ref="year" value="2016">2016</option>
-                      <option ref="year" value="2017">2017</option>
-                      <option ref="year" value="2018">2018</option>
-                      <option ref="year" value="2019">2019</option>
-                      <option ref="year" value="2020">2020</option>
-                      <option ref="year" value="2021">2021</option>
+                    <select className="" onChange={this.handleChangeSelectYear.bind(this)}>
+                      <option value="year" selected>year</option>
+                      {
+                        payment_year_arr.map((result, i) =>{
+                          return(
+                          <option key={i} value={result}>{result}</option>
+                          )
+                        })
+                      }
                     </select>
                   </div>
                 </div>
@@ -108,14 +157,15 @@ export default class Payment extends React.Component {
                     <small>(CVV2)</small>
                   </label>
                   <div className="col-sm-7 prht_zero plft_zero">
-                    <input type="text" className="form-control cvv_wdth" id="" ref="_cvv" value={this.state.cvvno} />
+                    <input type="text" className="form-control cvv_wdth" name="cvvNo" ref="_cvv" value={this.state.cvv}/>
                   </div>
                 </div>
               </div>
+              </form>
               <div className="chkout5_btns">
                 <div className="chkout5_btns_inner">
-                  <button type="button" className="btn btn-default chkout_paymnt_btn" onClick={this.payMoney}>Pay</button>
-                  <button type="button" className="btn btn-default cancel_paymnt_btn">Cancel</button>
+                  <button type="button" className="btn btn-default chkout_paymnt_btn" onClick={this.payMoney} ref="myRef">Pay</button>
+                  <button type="button" className="btn btn-default cancel_paymnt_btn" onClick={this.cancelPayment.bind(this)}>Cancel</button>
                 </div>
               </div>
             </div>
@@ -125,5 +175,4 @@ export default class Payment extends React.Component {
     );
   }
 }
-
 

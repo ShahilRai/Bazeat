@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import toastr from 'toastr';
 import CheckoutStep from './CheckoutStep';
 let days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 let months = ["january","Feburary","March","April","May","June","July","August","September","October","November","December"];
@@ -7,12 +8,16 @@ let dayInMonth = [31,28,31,30,31,30,31,31,30,31,30,31];
 let perPageDateDisplay = 5;
 let orderDetailResponse ;
 let alternateAddress ;
-let timeslots = [];
-let timeslotss = [];
-let timeslotday;
+let producer_timeslots = [];
+let producer_ifo ;
+let openTime;
+let openDay;
+let date_value_day;
+let time_value_day;
+let product_id;
 let start_time;
 let end_time;
-let day;
+let day = [];
 
 export default class ProductPickupDate extends React.Component {
 
@@ -63,16 +68,16 @@ export default class ProductPickupDate extends React.Component {
             day: days[getCDay],
             month: months[date.getMonth()+1],
             current_date: (date.getDate() + i)- dayInMonth[date.getMonth()],
-            start_time:this.start_time,
-            end_time:this.end_time
+            start_time: start_time,
+            end_time: end_time
           })
         }else{
           _placeHolderArr.push({
             day: days[getCDay],
             month: months[date.getMonth()+1],
             current_date: (date.getDate() + i)- dayInMonth[date.getMonth()],
-            start_time:this.start_time,
-            end_time:this.end_time
+            start_time: start_time,
+            end_time: end_time
           })
         }
       }else if(getCDay > 6){
@@ -82,16 +87,16 @@ export default class ProductPickupDate extends React.Component {
           day: days[getCDay],
           month: months[date.getMonth()],
           current_date: date.getDate() + i,
-          start_time:this.start_time,
-          end_time:this.end_time
+          start_time: start_time,
+          end_time: end_time
         })
       }else{
         _placeHolderArr.push({
           day: days[getCDay],
           month: months[date.getMonth()],
           current_date: date.getDate() + i,
-          start_time:this.start_time,
-          end_time:this.end_time
+          start_time: start_time,
+          end_time: end_time
         })
       }
     }
@@ -101,7 +106,6 @@ export default class ProductPickupDate extends React.Component {
   }
 
   componentDidMount(){
-    
     this.displayDataMonthDay();
     this.displayTimeSlot()
     var email=this.context.user ? this.context.user.username : ''
@@ -127,19 +131,32 @@ export default class ProductPickupDate extends React.Component {
 //display more 5 days for the deliver method Hentemat
   showMoreDays(){
     perPageDateDisplay = perPageDateDisplay+5;
-    this.displayDataMonthDay();
-    this.setState({
-    _arrayOfMonthDayAndDate : _placeHolderArr
-    });
-    this.pickupdate();
+    if(perPageDateDisplay>10)
+    {
+      toastr.success('sorry, you can order only for next 10 days');
+    }
+    else{
+      this.displayDataMonthDay();
+      this.setState({
+      _arrayOfMonthDayAndDate : _placeHolderArr
+      });
+      this.pickupdate();
+    }
+  }
+
+  getSelectedDate(e){
+    date_value_day = e.target.value
+  }
+
+  getSelectedTime(e){
+    time_value_day = e.target.value
   }
 
   displayTimeSlot(){
-    var email=this.context.user ? this.context.user.email : ''
-    this.loadTimeSlot(email).then((response) => {
+    this.loadTimeSlot(product_id).then((response) => {
         if(response.data) {
           this.setState({
-            currentTimeSlot: response.data.timeslot
+            currentTimeSlot: response.data.producer
           });
         }
     }).catch((err) => {
@@ -147,9 +164,9 @@ export default class ProductPickupDate extends React.Component {
     });
   }
 
-//load the time slot for producer
+//load the time slot for producer with address
   loadTimeSlot(email){
-    return axios.get("/api/get_time?email="+email);
+    return axios.get("/api/hentemat_address?product_id="+product_id);
   }
 
   createOrder(){
@@ -163,9 +180,9 @@ export default class ProductPickupDate extends React.Component {
          });
         }
       orderDetailResponse = response.data.order
-      if(orderDetailResponse)
+      if((orderDetailResponse) || (producer_ifo,date_value_day,time_value_day))
         {
-          this.props.nextStep(orderDetailResponse,orderDetailResponse);
+          this.props.nextStep(orderDetailResponse,orderDetailResponse,producer_ifo,date_value_day,time_value_day);
         }
       }
       }).catch((err) => {
@@ -206,12 +223,14 @@ export default class ProductPickupDate extends React.Component {
     var _city = this.refs.city.value
     this.budmatAlternateAddressRequest( cart_cuid, _newEmail, _firstName, _co, _postCode, _phoneNo, _lastName, _address, _city).then((response) => {
       if(response.data) {
-          this.setState({
-            budmatAlternateAddressDetail: response.data.updated_order
-          });
+        toastr.success('Your have changed your address for delivery');
+        this.setState({
+          budmatAlternateAddressDetail: response.data.updated_order
+        });
         }
     }).catch((err) => {
-        console.log(err);
+      toastr.success('sorry, address has not change ');
+      console.log(err);
     });
   }
 
@@ -244,12 +263,14 @@ export default class ProductPickupDate extends React.Component {
     var type = this.refs.updateaddress.value
     this.sendematAlternateAddressRequest(email, cart_cuid, _newEmail, _firstName, _co, _postCode, _phoneNo, _lastName, _address, _city, type).then((response) => {
         if(response.data) {
+          toastr.success('Your have changed your address for delivery');
           this.setState({
             sendematAlternateAddressDetail: response.data
           });
         }
     }).catch((err) => {
-        console.log(err);
+      toastr.success('sorry, address has not change ');
+      console.log(err);
     });
   }
 
@@ -292,11 +313,26 @@ export default class ProductPickupDate extends React.Component {
           <h4>When can we expect to see you?</h4>
           <CheckoutStep step={this.props.step}/>
           <div className="pick_update">
-            {this.state._arrayOfMonthDayAndDate.map((monthDayDate, index) =>
-              <div className="pickup_row1" key={index}>
-                <span className="pickup_day" >{monthDayDate.day} - {monthDayDate.month}-{monthDayDate.current_date}</span>
-                <span className="chkout_pickup_time">{monthDayDate.date}</span>
-              </div>
+            {this.state._arrayOfMonthDayAndDate.map((monthDayDate, index)=>{
+              if(day.includes(monthDayDate.day)){
+                return(
+                  <div className="pickup_row1" key={index} ref="wrapperdiv">
+                    <a href="javascript:void(0)">
+                      <span className="pickup_day" id ="sp1" ref="span_value"  onClick={this.getSelectedDate.bind(this)}><input type="text" disabled="disabled" value={(monthDayDate.day)+" - "+(monthDayDate.month)+" - "+(monthDayDate.current_date)}/></span>
+                      <span className="chkout_pickup_time" value={start_time} onClick={this.getSelectedTime.bind(this)}><input type="text" disabled="disabled" value={openTime} /></span>
+                    </a>
+                  </div>
+                )
+              }else
+                return(
+                  <div className="pickup_row1" key={index} ref="wrapperdiv">
+                    <a href="javascript:void(0)" >
+                      <span className="pickup_day" onClick={this.getSelectedDate.bind(this)}><input type="text" disabled="disabled" value={(monthDayDate.day)+" - "+(monthDayDate.month)+" - "+(monthDayDate.current_date)}/></span>
+                      <span className="chkout_pickup_time"></span>
+                    </a>
+                 </div>
+                )
+              }
             )}
             <div className="chkout_step1btns">
             <button type="button" className="btn btn-default more_days_btn" onClick={this.showMoreDays.bind(this)}>Show more days</button>
@@ -427,7 +463,6 @@ export default class ProductPickupDate extends React.Component {
               </div>
             </div>
             <div className="form-group row">
-
               <div className="col-md-7 col-xs-12">
                 <input className="form-control" type="hidden" name="update" ref="updateaddress" value="update_address" />
               </div>
@@ -443,17 +478,20 @@ export default class ProductPickupDate extends React.Component {
   }
 
   render() {
-    timeslots== this.state.currentTimeSlot.map((result, index) => {
-      timeslotss=result.timeslots
+   this.state.currentTimeSlot.map((result, i) =>{
+      producer_ifo = result._producer
+      producer_timeslots = result._producer.timeslots
     });
-    timeslots== timeslotss.map((result, index) => {
-      timeslotday=result.day
+    producer_timeslots.map((result, i) =>{
+      start_time = result.start_time
+      end_time = result.end_time
+      day = result.day
     });
-    timeslots== timeslotss.map((result, index) => {
-      start_time=result.start_time
-      end_time=result.end_time
+    openTime= (start_time)+" - "+(end_time)
+    var cart_info = this.props.cart_detail.cartitems
+    cart_info.map((result, i) =>{
+      product_id = result.product_id
     });
-    var id=this.state.currentTimeSlot?this.state.currentTimeSlot.id:'';
     return (
       <div className="full_width_container">
         {this.selected()}
@@ -461,4 +499,3 @@ export default class ProductPickupDate extends React.Component {
     );
   }
 }
-

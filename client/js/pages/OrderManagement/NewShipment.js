@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import axios from 'axios';
+import toastr from 'toastr';
 
 var _pId;
 var _sId;
@@ -32,6 +33,7 @@ export default class NewShipment extends React.Component {
     var _shpDate = this.state.shpmnt_date;
     var status = "Shipped";
     this.addNewShipment(p_id, s_no, alrdy_dlvrd, ntfy_to_cstmr, _shpDate, status).then((response) => {
+      toastr.success('Shipment successfully created');
       if(response.data) {
         console.log("redirect-to");
       }
@@ -56,7 +58,7 @@ export default class NewShipment extends React.Component {
     _pId= this.props._pckge ? this.props._pckge.pkgId: ""
     _sId= this.props._pckge? this.props._pckge.shpId: ""
     return(
-      <div className="modal fade prod_modal order_modal shipment_modal" id={this.props.index ? this.props.index: this.props.id} tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div className="modal fade prod_modal order_modal shipment_modal" id={this.props.index} tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div className="modal-dialog new_shipment_dialog" role="document">
           <div className="modal-content">
             <div className="modal-header">

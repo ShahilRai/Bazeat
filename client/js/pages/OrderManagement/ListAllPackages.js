@@ -24,14 +24,14 @@ export default class ListAllPackages extends React.Component {
         <td className="text-left">{"PKG-" + this.props.listOfPackage.pkgId}</td>
         <td className="text-center">Bring</td>
         <td className="text-center">
-          <a href="#">SO-000001</a>
+          <a href="#">{"SO-"+ (this.props.listOfPackage._order? this.props.listOfPackage._order.orderId: "")}</a>
         </td>
         <td className="green_txt">{this.props.listOfPackage.status}</td>
         <td className="text-center">
           {shp_date}
         </td>
-        <td className="text-center">Kari Norman</td>
-        <td className="text-center">5.00</td>
+        <td className="text-center">{this.props.listOfPackage._order? this.props.listOfPackage._order._buyer.full_name: "" }</td>
+        <td className="text-center">{this.props.listOfPackage.qty_packed}</td>
       </tr>
     )
   }

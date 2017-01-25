@@ -1,6 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router';
 import axios from 'axios';
+import PubSub from 'pubsub-js';
+
+let orderCuid= '';
+let purchaseOrdrId: '';
 
 export default class PurchaseOrders extends React.Component {
 
@@ -12,6 +16,7 @@ export default class PurchaseOrders extends React.Component {
 
   constructor(props, context) {
     super(props, context);
+    this.purchsCuid= "";
     this.state = {
       ordersList: []
     };
@@ -35,6 +40,15 @@ export default class PurchaseOrders extends React.Component {
     });
   }
 
+  _renderleftMenus(){
+    return(
+      <ul className="edit_sidbar_list">
+        <li className="active"><Link to="/orders">Purchase orders</Link></li>
+        <li><Link to="/packages">Packages</Link></li>
+      </ul>
+    )
+  }
+
   render(){
     var statusClass = "";
     var statusText = "";
@@ -44,10 +58,7 @@ export default class PurchaseOrders extends React.Component {
     var orderId = "";
     var shppdSpan= "";
     {this.state.ordersList.map((order, index) =>{
-      {order.orderitems.map((item, i) =>{
-        orderId = item.id
-        this.props.receiveCuid(order.cuid, item.id)
-      })}
+        orderId = order.cuid
         if(order.after_payment_status == 'Received'){
           statusClass = "bold grey_txt";
           statusText  = "RECEIVED";
@@ -90,35 +101,44 @@ export default class PurchaseOrders extends React.Component {
   }
     var thValue=['Date','Package order#','Customer','Status','Packed','Shipped','Amount']
     return(
-      <div className="col-lg-9 col-md-9 col-sm-10 col-xs-12 purchase_order_rght_sidebar rt_order_mgmnt">
-        <div className="table-main">
-          <div className="table-wrapper">
-            <table className="table purchase_order_table">
-              <thead>
-                <tr className="f2f2f2_bg">
-                  {thValue.map((heading, index) =>
-                      <th key={index} className="">{heading}</th>
-                    )}
-                </tr>
-              </thead>
-              <tbody>
-                {this.state.ordersList.map((order, index) =>
-                  <tr key={index}>
-                    <td className="bold">
-                      21-10-2016
-                    </td>
-                    <td className="text-left bold">
-                      <Link to={"/orders/"+orderId} onClick={this.props.receivedOrderStatus}>{orderId}</Link>
-                    </td>
-                    <td className="bold">{order._buyer ? order._buyer.full_name : ""}</td>
-                    <td className={statusClass}>{statusText}</td>
-                    <td><span className={pckd}>{pckdSpan}</span></td>
-                    <td><span className={shppd}>{shppdSpan}</span></td>
-                    <td className="bold">kr {order.total_amount.toFixed(2)}</td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+      <div className="container padd_87">
+        <div className="full_width">
+          <div className="row">
+            <div className="col-lg-3 col-md-2 col-sm-2 col-xs-12 purchase_order_left_sidebar order_purchse_lt_wdth edit_profile_sidebar">
+              {this._renderleftMenus()}
+            </div>
+            <div className="col-lg-9 col-md-9 col-sm-10 col-xs-12 purchase_order_rght_sidebar rt_order_mgmnt">
+              <div className="table-main">
+                <div className="table-wrapper">
+                  <table className="table purchase_order_table">
+                    <thead>
+                      <tr className="f2f2f2_bg">
+                        {thValue.map((heading, index) =>
+                            <th key={index} className="">{heading}</th>
+                          )}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {this.state.ordersList.map((order, index) =>
+                        <tr key={index}>
+                          <td className="bold">
+                            21-10-2016
+                          </td>
+                          <td className="text-left bold">
+                            <Link to={"/orders/"+orderId}>{"SO-"+order.orderId}</Link>
+                          </td>
+                          <td className="bold">{order._buyer ? order._buyer.full_name : ""}</td>
+                          <td className={statusClass}>{statusText}</td>
+                          <td><span className={pckd}>{pckdSpan}</span></td>
+                          <td><span className={shppd}>{shppdSpan}</span></td>
+                          <td className="bold">kr {order.total_amount.toFixed(2)}</td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

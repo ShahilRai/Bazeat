@@ -1,5 +1,7 @@
 import React from 'react';
-var moment = require('moment');
+import { Link } from 'react-router';
+import moment from 'moment';
+
 export default class MessageDropdown extends React.Component {
 	static contextTypes = {
     authenticated: React.PropTypes.bool,
@@ -12,25 +14,31 @@ export default class MessageDropdown extends React.Component {
     	};
   	}
 
+  	msgBody(result){
+    return result.map((item, i) => {
+      return(
+        <p key={i}> {result[0].sender.full_name==this.context.user.fullName? '':item.body}</p>
+      )
+    })
+  }
+
   render(){
   	var _allMessages = this.props.allMessages ? this.props.allMessages : []
   	var results = _allMessages.map((result, index) => {
-      return result.map((item,i) => {
-        return(
-        	<div className="chat_list white_bg" key={i}>
-						<span className="user_img"><img src="images/user_picture.png" /></span>
-						<span className="chat_description" key ={i}>
-						<h3>
-							{item.sender.full_name}
-							<span>{item.createdAt} </span>
+  	var data = result[0];
+	    return(
+	        <div key={index} className={data.sender.full_name==this.context.user.fullName?'':"chat_list white_bg"} >
+				<span className="user_img"><img className={data.sender.full_name==this.context.user.fullName?'':"user_profile_img"} src={data.sender.full_name==this.context.user.fullName?'':data.sender.photo}/></span>
+					<span className="chat_description" key ={index}>
+						<h3 >
+							{data.sender.full_name==this.context.user.fullName?'':data.sender.full_name}
+							<span>{data.sender.full_name==this.context.user.fullName?'': moment(data.createdAt).format('DD-MM-YYYY')} </span>
 						</h3>
-						<p> {item.body}</p>
-						</span>
-					</div>
-				)
-      });
-    })
-
+						{this.msgBody(result)}
+					</span>
+			</div>
+			)
+	})
     var _allReviews = this.props.allReviews ? this.props.allReviews : []
     var reviewResults = _allReviews.map((item, i) => {
         return(
@@ -48,19 +56,19 @@ export default class MessageDropdown extends React.Component {
     })
 	  	return(
 				<div className="msg_dropdown" id="user_message" >
-					<div className="chat_header" >
-						<span className="msgs_title">Messages (1 new)</span>
-							<span className="edit_icon">
-								<a href="/message"><i className="fa fa-pencil-square-o" aria-hidden="true" ></i>
-								</a>
-							</span>
-					</div>
+            <div className="chat_header" >
+              <span className="msgs_title">Messages</span>
+                <span className="edit_icon">
+                  <Link to="/message"><i className="fa fa-pencil-square-o" aria-hidden="true" ></i>
+                  </Link>
+                </span>
+            </div>
 					{results}
           <div className="chat_header" >
-            <span className="msgs_title">Reviews (1 new)</span>
+            <span className="msgs_title">Reviews ({this.props.allReviews.length} new)</span>
               <span className="edit_icon">
-                <a href="reviews"><h5>all Reviews</h5>
-                </a>
+                <Link to="/reviews"><h5>all Reviews</h5>
+                </Link>
               </span>
           </div>
           {reviewResults}

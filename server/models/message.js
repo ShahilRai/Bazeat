@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const messageSchema = new Schema({
   conversation_id: { type: Schema.Types.ObjectId, required: true },
   body: { type: String, required: true },
-  status: { type: String, default: "unread" },
+  unread: { type: Boolean, default: true },
   sender: { type: Schema.Types.ObjectId, ref: 'User' },
   receiver: { type: Schema.Types.ObjectId, ref: 'User' }},
   {

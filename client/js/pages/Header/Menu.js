@@ -5,12 +5,13 @@ import axios from 'axios';
 import MessageDropdown from '../MessageAndReviews/MessageDropdown';
 import { IndexRoute, Route, browserHistory } from 'react-router';
 import { Router, LoginLink, LogoutLink, NotAuthenticated, Authenticated } from 'react-stormpath';
-
+let cart_icon = "";
 export default class Menu extends React.Component {
 
   static contextTypes = {
     authenticated: React.PropTypes.bool,
-    user: React.PropTypes.object
+    user: React.PropTypes.object,
+    router: React.PropTypes.object.isRequired
   };
 
   constructor(props) {
@@ -20,8 +21,13 @@ export default class Menu extends React.Component {
       isMessage : '',
       allMessages:[],
       all_reviews : [],
-      offset: 1,
+      offset: 0,
     };
+  }
+
+  loadAllMessagesAndReviews(){
+    this.loadAllMessages()
+    this.loadAllReviews()
   }
 
   loadAllMessages(){
@@ -66,8 +72,12 @@ export default class Menu extends React.Component {
      return axios.get("/api/review?email="+email+"&off_set="+off_set+"&per_page="+per_page)
   }
 
-
   render() {
+
+    if((this.context.router.location.pathname == '/')|| (this.context.router.location.pathname == '/search'))
+    {
+      cart_icon = <CartModal />
+    }
     var MessageIcon;
     var reviewIcon
     var userId = this.props.cuid ? this.props.cuid : 'null'
@@ -88,7 +98,7 @@ export default class Menu extends React.Component {
             <li className="cart_icon"><a href="javascript:void(0)">Cart</a></li>
           </NotAuthenticated>
           <Authenticated>
-            <li data-toggle="collapse" data-target="#user_message" onClick ={this.loadAllReviews.bind(this)}>
+            <li data-toggle="collapse" data-target="#user_message" onClick ={this.loadAllMessagesAndReviews.bind(this)}>
               <a href="javascript:void(0)" className="message_icon">Messages
                 {MessageIcon}
                 {reviewIcon}
@@ -97,8 +107,8 @@ export default class Menu extends React.Component {
             </li>
             <li className="username_text"><Link to={"/user/"+userId}>{this.context.user ? this.context.user.givenName : ""}</Link>
               <ul className="user_toggle_div collapse" id="" >
-                <li><a href="/profile">Edit Profile</a></li>
-                <li><a href="/setting">Settings</a></li>
+                <li><Link to="/profile">Edit Profile</Link></li>
+                <li><Link to="/setting">Settings</Link></li>
                 <li><Link to="/orders">Orders</Link></li>
                 <li><Link to="javascript:void(0)">Guides</Link></li>
                 <li><LogoutLink>Log out</LogoutLink></li>
@@ -108,7 +118,7 @@ export default class Menu extends React.Component {
             <a href="javascript:void(0)" className="user_icon"></a>
             </li>
           </Authenticated>
-          <CartModal />
+          {cart_icon}
         </ul>
       </div>
     );

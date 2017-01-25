@@ -19,6 +19,7 @@ router.route('/shipping_price').put(OrderController.getShippingPrice);
 // Update order address when budamat
 router.route('/budamat_address').put(OrderController.budamatAddress);
 
+router.route('/hentemat_address').get(OrderController.hentematAddress);
 
 // router.route('/orders/cart/:cuid').get(OrderController.cartCheckout);
 

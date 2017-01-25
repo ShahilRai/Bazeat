@@ -272,7 +272,7 @@ export default class ProfileContainer extends React.Component {
         <ul className="edit_sidbar_list">
           <li className={(this.state.selected_tag == 1)?"active":''}><a href="/profile">Edit Profile</a></li>
           <li><a href="javascript:void(0)">Verification</a></li>
-          <li className={(this.state.selected_tag == 3)?"active":''}><a href="javascript:void(0)" onClick={this.reviewStatus}>Reviews</a></li>
+          <li className={(this.state.selected_tag == 3)?"active":''}><a href="javascript:void(0)" onClick={this.reviewStatus} ref="myRef">Reviews</a></li>
           <li className={(this.state.selected_tag == 5)?"active":''}><a onClick={this.addAccount} href="javascript:void(0)">Bank Account</a></li>
           <li ><a onClick={this.allMessages.bind(this)} href="javascript:void(0)">Messages</a></li>
         </ul>

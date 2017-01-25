@@ -14,8 +14,8 @@ export function addProfile(req, res) {
   // newOrder.orderitems.create( req.body.orderitems );
   newUser.save((err, saved) => {
     if (err) {
-      // res.json(500, { err: err });
-      return res.status(500).send(err);
+      // res.json(422, { err: err });
+      return res.status(422).send(err);
     }
     else{
       saved.producerInfo.push(req.body.producerinfo);
@@ -29,7 +29,7 @@ export function getProfile(req, res) {
   console.log(req.query.email);
   User.findOne({ email: req.query.email }).exec((err, user) => {
     if (err) {
-      return res.status(500).send(err);
+      return res.status(422).send(err);
     }
     else{
       return res.json({ user });
