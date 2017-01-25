@@ -60,7 +60,7 @@ export default class AllMessages extends React.Component {
     this.showMsgConversation(conversation_id).then((response) => {
       if(response.data) {
         this.setState({
-          allConversation: response.data.conversation,
+          allConversation: response.data.fullMessages,
           conversation_id: conversation_id,
           receiver_id:receiver_id,
           sender_id:sender_id,
@@ -86,7 +86,7 @@ export default class AllMessages extends React.Component {
       this.showMsgConversation(conversation_id).then((response) =>{
         if(response.data){
           this.setState({
-            allConversation: response.data.conversation,
+            allConversation: response.data.fullMessages,
             singleConversation: singleConversation.message,
             conversation_id: conversation_id
           });
