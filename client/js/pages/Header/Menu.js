@@ -21,7 +21,7 @@ export default class Menu extends React.Component {
       isMessage : '',
       allMessages:[],
       all_reviews : [],
-      offset: 1,
+      offset: 0,
     };
   }
 

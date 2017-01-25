@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from 'axios';
-import TextAreaField from '../components/TextAreaField';
+import toastr from 'toastr';
+import CurrentUserRating from './CurrentUserRating';
+let cuRating;
 export default class ReviewAboutUser extends React.Component {
 
 static contextTypes = {
@@ -11,18 +13,23 @@ static contextTypes = {
   constructor(props, context) {
       super(props, context);
         this.state = {
-          commentUserData : []
+          commentUserData : [],
+          value :''
+
         }
   }
 
   WriteAComment(){
-    this.WriteCommentData(this.context.user.email, this.refs.comment_review.state.value,this.props.review_id).then((response) => {
+    this.WriteCommentData(this.context.user.email, this.refs.comment_review.value,this.props.review_id).then((response) => {
+        toastr.success('Your comment successfully submitted');
         if(response.data) {
           this.setState({
-            commentUserData : response.data
+            commentUserData : response.data,
+            value : ''
           });
         }
     }).catch((err) => {
+       toastr.error('Sorry, your comment not submitted');
         console.log(err);
     });
   }
@@ -35,7 +42,13 @@ static contextTypes = {
     })
   }
 
+  textAreaValue(event){
+      this.setState({ value: event.target.value });
+    }
+
   render(){
+    cuRating = this.props.ratingCount
+
     var submitComment
      if(this.props.is_replied){
        submitComment = <button type="button" className="btn btn-default nxt_btn orange_bg" onClick={this.WriteAComment.bind(this)} disabled>Submit comment</button>
@@ -59,20 +72,14 @@ static contextTypes = {
                     <div className="rvw_by_user">
                       <span className="user_rvw_txt">{this.props.review_user}</span>
                       <span className="star_rating">
-                        <ul>
-                          <li><a href="#"><img src="images/star_rating.png"/></a></li>
-                          <li><a href="#"><img src="images/star_rating.png"/></a></li>
-                          <li><a href="#"><img src="images/star_rating.png"/></a></li>
-                          <li><a href="#"><img src="images/star_rating.png"/></a></li>
-                          <li><a href="#"><img src="images/star_rating.png"/></a></li>
-                        </ul>
+                          <CurrentUserRating  />
                       </span>
                     </div>
                   </div>
                   <div className="form-group">
                     <label className="user_rvw_label">Comment</label>
                     <div className="rvw_by_user">
-                      <TextAreaField name="descy" ref="comment_review" ></TextAreaField>
+                      <textarea ref="comment_review" className=""  onChange={this.textAreaValue.bind(this)} value={this.state.value} ></textarea>
                     </div>
                   </div>
                 </div>

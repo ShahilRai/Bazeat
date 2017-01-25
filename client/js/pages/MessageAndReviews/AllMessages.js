@@ -5,15 +5,15 @@ import SelectedMessages from './SelectedMessages';
 import NewMessage from './NewMessage';
 import axios from 'axios';
 export default class AllMessages extends React.Component {
-	static contextTypes = {
-    	authenticated: React.PropTypes.bool,
-    	user: React.PropTypes.object
-  	};
+  static contextTypes = {
+      authenticated: React.PropTypes.bool,
+      user: React.PropTypes.object
+    };
 
-  	constructor(props) {
-    	super(props);
-    	this.state = {
-    		newMessages: false,
+    constructor(props) {
+      super(props);
+      this.state = {
+        newMessages: false,
         selectedMessages: false,
         select:'',
         allConversation: [] ,
@@ -33,8 +33,8 @@ export default class AllMessages extends React.Component {
         selectedId: '',
         activeState: ''
 
-    	};
-  	}
+      };
+    }
     componentDidMount(){
        this.getAllMessagesData()
     }
@@ -60,7 +60,7 @@ export default class AllMessages extends React.Component {
     this.showMsgConversation(conversation_id).then((response) => {
       if(response.data) {
         this.setState({
-          allConversation: response.data.conversation,
+          allConversation: response.data.fullMessages,
           conversation_id: conversation_id,
           receiver_id:receiver_id,
           sender_id:sender_id,
@@ -86,7 +86,7 @@ export default class AllMessages extends React.Component {
       this.showMsgConversation(conversation_id).then((response) =>{
         if(response.data){
           this.setState({
-            allConversation: response.data.conversation,
+            allConversation: response.data.fullMessages,
             singleConversation: singleConversation.message,
             conversation_id: conversation_id
           });
@@ -127,7 +127,7 @@ export default class AllMessages extends React.Component {
       .catch((err) => {
       console.log(err);
     });
-  } 
+  }
 
     msgBody(result){
       return result.map((item, i) => {
@@ -156,7 +156,7 @@ export default class AllMessages extends React.Component {
     } else {
       this.state.select = <NewMessage conversation_id ={this.state.conversation_id} updateConversation={this.updateConversation.bind(this)}  conversation_id={this.state.conversation_id}/>
     }
-    var _msgConversations = this.state.allMsgConversations ? this.state.allMsgConversations : [] 
+    var _msgConversations = this.state.allMsgConversations ? this.state.allMsgConversations : []
     var _results = _msgConversations.map((result, index) => {
       var data = result[0];
       return(
@@ -175,36 +175,36 @@ export default class AllMessages extends React.Component {
       )
     })
     return(
-      <div className="container padd_87">     
-        <div className="full_width">         
-          <div className="row">          
-            <div className="col-lg-3 col-md-2 col-sm-2 col-xs-12 purchase_order_left_sidebar order_purchse_lt_wdth edit_profile_sidebar">        
+      <div className="container padd_87">
+        <div className="full_width">
+          <div className="row">
+            <div className="col-lg-3 col-md-2 col-sm-2 col-xs-12 purchase_order_left_sidebar order_purchse_lt_wdth edit_profile_sidebar">
               {this._renderleftMenus()}
-            </div>               
-          <div className="chat_container">          
-            <div className="full_chat_window">          
-              <div className="full_chat_header">              
-                <div className="inner_chat_header">            
-                  <h3>Messages                
-                  <span className="edit_icon" onClick ={this.showNewMsgTab.bind(this)}>   
-                    <a href="javascript:void(0)"><i className="fa fa-pencil-square-o" aria-hidden="true"></i>   
-                    </a>    
-                  </span>   
-                  </h3>   
-                </div>    
-              </div>
-            <div className="chat_window_left">    
-              <div className="modal-body mCustomScrollbar content" data-mcs-theme="dark">   
-                <div className="inner_chatwindow_left">   
-                  {_results}    
-                </div>    
-              </div>    
             </div>
-                {this.state.select}   
-            </div>                
-          </div>             
-        </div>            
-      </div>              
-    </div>       
-  )}     
+          <div className="chat_container">
+            <div className="full_chat_window">
+              <div className="full_chat_header">
+                <div className="inner_chat_header">
+                  <h3>Messages
+                  <span className="edit_icon" onClick ={this.showNewMsgTab.bind(this)}>
+                    <a href="javascript:void(0)"><i className="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </a>
+                  </span>
+                  </h3>
+                </div>
+              </div>
+            <div className="chat_window_left">
+              <div className="modal-body mCustomScrollbar content" data-mcs-theme="dark">
+                <div className="inner_chatwindow_left">
+                  {_results}
+                </div>
+              </div>
+            </div>
+                {this.state.select}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )}
 }

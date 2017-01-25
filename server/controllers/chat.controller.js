@@ -46,9 +46,10 @@ export function allConversations(req, res, next) {
 
 
 export function getConversation(req, res, next) {
+  let fullMessages = [];
   Message.find({ conversation_id: req.params.conversation_id })
     .select('createdAt body sender receiver')
-    .sort('-createdAt')
+    .sort('-updatedAt')
     .limit(2)
     .populate({
       path: 'sender',
@@ -66,8 +67,11 @@ export function getConversation(req, res, next) {
       if(messages){
         messages.forEach(function(msg, index) {
            Message.findOneAndUpdate({_id: msg._id}, {$set: {'unread': false}}, {new: true}).exec(function(err, model){
-            if (messages.length == index+1){
-              return res.status(200).json({ conversation: model });
+            console.log('msg')
+            console.log(messages.length == index+1)
+            fullMessages.push(model)
+            if (messages.length == fullMessages.length){
+              return res.status(200).json({ fullMessages });
             }
            })
         })
@@ -136,6 +140,7 @@ export function sendReply(req, res, next) {
 
 
 export function msgCount(req, res){
+  console.log(req.query)
   User.findOne({ email: req.query.email }).exec((err, user) => {
     Conversation.find({ participants: user._id })
       .select('_id')

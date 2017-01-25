@@ -89,7 +89,7 @@ export default class ProjectRouter extends React.Component {
           <AuthenticatedRoute>
             <Route path='/checkout' component={CheckoutContainer} />
             <Route path="/user/:userId" component={UserHomePage} />
-            <Route path='/allreviews' component={UserHomePage} />
+            <Route path='/user-reviews' component={UserHomePage} />
             <HomeRoute path='/' component={profileComponent}>
               <Route path='/profile' component={ProfilePage} />
               <Route path='/setting' component={ProducerPasswordUpdate} />
