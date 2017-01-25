@@ -5,12 +5,13 @@ import axios from 'axios';
 import MessageDropdown from '../MessageAndReviews/MessageDropdown';
 import { IndexRoute, Route, browserHistory } from 'react-router';
 import { Router, LoginLink, LogoutLink, NotAuthenticated, Authenticated } from 'react-stormpath';
-
+let cart_icon = "";
 export default class Menu extends React.Component {
 
   static contextTypes = {
     authenticated: React.PropTypes.bool,
-    user: React.PropTypes.object
+    user: React.PropTypes.object,
+    router: React.PropTypes.object.isRequired
   };
 
   constructor(props) {
@@ -71,8 +72,12 @@ export default class Menu extends React.Component {
      return axios.get("/api/review?email="+email+"&off_set="+off_set+"&per_page="+per_page)
   }
 
-
   render() {
+
+    if((this.context.router.location.pathname == '/')|| (this.context.router.location.pathname == '/search'))
+    {
+      cart_icon = <CartModal />
+    }
     var MessageIcon;
     var reviewIcon
     var userId = this.props.cuid ? this.props.cuid : 'null'
@@ -113,7 +118,7 @@ export default class Menu extends React.Component {
             <a href="javascript:void(0)" className="user_icon"></a>
             </li>
           </Authenticated>
-          <CartModal />
+          {cart_icon}
         </ul>
       </div>
     );
