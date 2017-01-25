@@ -1,5 +1,5 @@
 import React from 'react';
-let month_arr = [];
+let month_arr = [1,2,3,4,5,6,7,8,9,10,11,12];
 export default class SelectFieldBirthMonth extends React.Component{
 
   constructor(props,context) {
@@ -18,12 +18,11 @@ export default class SelectFieldBirthMonth extends React.Component{
   }
 
   render(){
-    var i=1;
-
+    /*var i=1;
     for(i=1; i<=12;i++)
     {
       month_arr.push(i);
-    }
+    }*/
     return(
       <select name ={this.props.name} onChange={this.handleChange} value={this.state.value}>
         <option value="mm" name="birth_date" selected={this.state.value}>mm</option>
