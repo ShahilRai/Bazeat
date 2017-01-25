@@ -164,7 +164,7 @@ export function addBankAccount(req, res) {
             } else {
               user.account_id = account.id
               user.last4 = account.last4
-              user.account_added = true
+              user.account_added = req.body.account_added
               user.save((err, saved) => {
                 if (err) {
                   return res.status(422).send(err);
