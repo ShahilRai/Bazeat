@@ -121,10 +121,6 @@ export default class ProducerProfilePage extends React.Component {
                           <InputField type="number" name="org_number" value = {this.state.producer_info.org_number} />
                       </div>
                       <div className="form-group row">
-                        <LabelField htmlFor="account_number" className="col-md-4 col-xs-12 col-form-label" label="Account number" />
-                          <InputField type="number" name="account_number" value = {this.state.user.account_number} />
-                      </div>
-                      <div className="form-group row">
                         <LabelField htmlFor="subject_to_vat" className="col-md-4 col-xs-12 col-form-label" label="Subject to VAT" />
                         <div className="col-md-8 col-xs-12">
                           <SelectField vat ={true} name="sub_to_vat" value = {this.state.user.sub_to_vat} />

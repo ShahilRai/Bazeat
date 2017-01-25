@@ -91,11 +91,11 @@ export default class AddAccount extends React.Component {
                       <LabelField htmlFor="input_file" className="col-md-4 col-xs-12 col-form-label" />
                       <input type = "file" onChange={this._handleImageChange} />
                     </div>
-                  </div>   
+                  </div>
                   <div className="edt_prf_inner_detail">
                     <div className="form-group row">
                       <LabelField htmlFor="account_number" className="col-md-4 col-xs-12 col-form-label" label="Account number" />
-                      <InputField type="number" name="account_number" value = {this.state.user.account_number} onChange={this.setAccountNumber} />
+                      <InputField type="text" name="account_number" value = {this.state.user.account_number} onChange={this.setAccountNumber} />
                     </div>
                   </div>
                 </div>
