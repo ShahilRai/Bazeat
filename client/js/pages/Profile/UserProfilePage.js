@@ -9,6 +9,9 @@ import InputField from '../components/InputField';
 import DateComponent from '../components/DateComponent';
 import LabelField from '../components/LabelField';
 import SelectField from '../components/SelectField';
+import SelectFieldBirthDate from '../components/SelectFieldBirthDate';
+import SelectFieldBirthMonth from '../components/SelectFieldBirthMonth';
+import SelectFieldBirthYear from '../components/SelectFieldBirthYear';
 import AddHoursDetail from './AddHoursDetail';
 var moment = require('moment');
 
@@ -129,7 +132,15 @@ export default class UserProfilePage extends React.Component {
                         <div className="form-group row">
                           <LabelField className = "col-md-4 col-xs-12 col-form-label" htmlFor="Birth date" label="Birth date" />
                           <div className="col-md-8 col-xs-12">
-                            <input type="date" id="birth_date" name="birth_date" className="birth_date"  onChange={this.handleDateChange} value = {this.state.birth_date}/>
+                            <div className="custom_select_box day_select_edit">
+                              <SelectFieldBirthDate name="day" value = {this.state.user.birth_date ? this.state.user.birth_date.day : ''}/>
+                            </div>
+                            <div className="custom_select_box month_select_edit">
+                              <SelectFieldBirthMonth name="month" value = {this.state.user.birth_date ? this.state.user.birth_date.month : ''}/>
+                            </div>
+                            <div className="custom_select_box day_select_edit">
+                              <SelectFieldBirthYear name="year" value = {this.state.user.birth_date ? this.state.user.birth_date.year : ''}/>
+                            </div>
                           </div>
                         </div>
                         <div className="form-group row">

@@ -8,6 +8,9 @@ import TextAreaField from '../components/TextAreaField';
 import ImageUploader from './ImageUploader';
 import LabelField from '../components/LabelField';
 import SelectField from '../components/SelectField';
+import SelectFieldBirthDate from '../components/SelectFieldBirthDate';
+import SelectFieldBirthMonth from '../components/SelectFieldBirthMonth';
+import SelectFieldBirthYear from '../components/SelectFieldBirthYear';
 import moment from 'moment';
 import AddHoursDetail from './AddHoursDetail';
 
@@ -38,7 +41,7 @@ export default class ProducerProfilePage extends React.Component {
         this.setState({
           user: response.data.user,
           producer_info: response.data.user.producer_info,
-          birth_date: moment(response.data.user.birth_date).format('YYYY-MM-DD'),
+          //birth_date: moment(response.data.user.birth_date).format('YYYY-MM-DD'),
           user_info: response.data.user.user_info,
           data_loaded: true
         });
@@ -93,7 +96,7 @@ export default class ProducerProfilePage extends React.Component {
 
   render() {
     if(!this.state.data_loaded){
-      return (<div></div>);
+    return (<div></div>);
     }
     return (
       <DocumentTitle title={`My Profile`}>
@@ -111,15 +114,11 @@ export default class ProducerProfilePage extends React.Component {
                     <div className="edt_prf_inner_detail">
                       <div className="form-group row">
                         <LabelField htmlFor="business_name" className="col-md-4 col-xs-12 col-form-label" label="Business name" />
-                        <InputField  name="business_name" value = {this.state.producer_info.business_name} />
+                        <InputField name="business_name" value = {this.state.producer_info.business_name} />
                       </div>
                       <div className="form-group row">
                         <LabelField htmlFor="org_number" className="col-md-4 col-xs-12 col-form-label" label="Org. number" />
                           <InputField type="number" name="org_number" value = {this.state.producer_info.org_number} />
-                      </div>
-                      <div className="form-group row">
-                        <LabelField htmlFor="account_number" className="col-md-4 col-xs-12 col-form-label" label="Account number" />
-                          <InputField type="number" name="account_number" value = {this.state.user.account_number} />
                       </div>
                       <div className="form-group row">
                         <LabelField htmlFor="subject_to_vat" className="col-md-4 col-xs-12 col-form-label" label="Subject to VAT" />
@@ -178,13 +177,20 @@ export default class ProducerProfilePage extends React.Component {
                           <LabelField className = "col-md-4 col-xs-12 col-form-label" htmlFor="example-url-input" label="Country*" />
                           <InputField name="country" value = {this.state.user.country} />
                       </div>
-                      <div className="form-group expiry_date_col " id="">
-                        <label htmlFor="" className="col-form-label qty_label">Birth date</label>
-                        <div id="datetimepicker1" className="date_section">
-                        <input type="date" id="birth_date" name="birth_date" value={this.state.birth_date} className="form-control date_input" ref="expiry_date" onChange={this.handleDateChange}/>
-                        <span className="add-on"><i aria-hidden="true"></i></span>
+                      <div className="form-group row">
+                        <LabelField className = "col-md-4 col-xs-12 col-form-label" htmlFor="Birth date" label="Birth date" />
+                        <div className="col-md-8 col-xs-12">
+                          <div className="custom_select_box day_select_edit">
+                            <SelectFieldBirthDate name="day" value = {this.state.user.birth_date ? this.state.user.birth_date.day : ''}/>
+                          </div>
+                          <div className="custom_select_box month_select_edit">
+                            <SelectFieldBirthMonth name="month" value = {this.state.user.birth_date ? this.state.user.birth_date.month : ''}/>
+                          </div>
+                          <div className="custom_select_box day_select_edit">
+                            <SelectFieldBirthYear name="year" value = {this.state.user.birth_date ? this.state.user.birth_date.year : ''}/>
+                          </div>
+                        </div>
                       </div>
-                  </div>
                     </div>
                   </div>
                   <div className="edit_prfile_detail_form">

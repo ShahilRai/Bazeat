@@ -3,7 +3,6 @@ import { Link } from 'react-router';
 import axios from 'axios';
 import PackagesList from './PackagesList';
 import EditPurchaseOrder from './EditPurchaseOrder';
-import newPackageCreateLink from './newPackageCreateLink';
 import ProfileContainer from '../Profile/ProfileContainer';
 import PurchaseOrders from './PurchaseOrders';
 import ToggleDisplay from 'react-toggle-display';
@@ -141,7 +140,7 @@ export default class ReceivedOrder extends React.Component {
                           <a href="#"><i className="fa fa-envelope-o" aria-hidden="true"></i></a>
                         </li>
                       </ul>
-                      <EditPurchaseOrder />
+                      <EditPurchaseOrder orderDetails={this.state.orderDetails} orderItems={this.state.orderItems}/>
                       <div className="form-group portion_form custom_select_box portion_select" onClick={this.dropDownOption}>
                         <ToggleDisplay show={this.state.toggle_box}>
                           <ul>

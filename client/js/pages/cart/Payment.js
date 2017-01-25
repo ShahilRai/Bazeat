@@ -4,6 +4,8 @@ import toastr from 'toastr';
 import CheckoutStep from './CheckoutStep'
 let email ;
 let order_id ;
+let payment_month_arr = [];
+let payment_year_arr = [];
 export default class Payment extends React.Component {
 
   static contextTypes = {
@@ -82,6 +84,16 @@ export default class Payment extends React.Component {
   }
 
   render() {
+    var num_of_month;
+    var num_of_year;
+    for(num_of_month=1; num_of_month<=12;num_of_month++)
+    {
+      payment_month_arr.push(num_of_month);
+    }
+    for(num_of_year=2017; num_of_year<=2027;num_of_year++)
+    {
+      payment_year_arr.push(num_of_year);
+    }
     order_id = this.props.orderDetail.id
     email = this.props.orderDetail.address.email
     return (
@@ -116,33 +128,27 @@ export default class Payment extends React.Component {
                   </label>
                   <div className="custom_select_box mrht10">
                     <select className="" onChange={this.handleChangeSelect.bind(this)}>
-                      <option value="01">01</option>
-                      <option value="02">02</option>
-                      <option value="03">03</option>
-                      <option value="04">04</option>
-                      <option value="05">05</option>
-                      <option value="06">06</option>
-                      <option value="07">07</option>
-                      <option value="08">08</option>
-                      <option value="09">09</option>
-                      <option value="10">10</option>
-                      <option value="11">11</option>
-                      <option value="12">12</option>
+                      <option value="month" selected>month</option>
+                      {
+                        payment_month_arr.map((result, i) =>{
+                          return(
+                          <option key={i} value={result}>{result}</option>
+
+                          )
+                        })
+                      }
                     </select>
                   </div>
                   <div className="custom_select_box">
                     <select className="" onChange={this.handleChangeSelectYear.bind(this)}>
-                      <option value="2016" selected>2016</option>
-                      <option value="2017">2017</option>
-                      <option value="2018">2018</option>
-                      <option value="2019">2019</option>
-                      <option value="2020">2020</option>
-                      <option value="2021">2021</option>
-                      <option value="2022">2021</option>
-                      <option value="2023">2021</option>
-                      <option value="2024">2021</option>
-                      <option value="2025">2021</option>
-                      <option value="2026">2021</option>
+                      <option value="year" selected>year</option>
+                      {
+                        payment_year_arr.map((result, i) =>{
+                          return(
+                          <option key={i} value={result}>{result}</option>
+                          )
+                        })
+                      }
                     </select>
                   </div>
                 </div>
