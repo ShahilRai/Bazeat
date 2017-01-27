@@ -127,7 +127,7 @@ export default class ReceivedOrder extends React.Component {
                     <h2 className="text-left">{"PO-"+this.state.orderDetails.orderId}</h2>
                     <div className="order_header_rght">
                       <ul>
-                        <li className="active">
+                        <li>
                           <a href="#" data-toggle="modal" data-target="#edit_purchase"><i className="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                         </li>
                         <li className="fax_icon">
@@ -167,7 +167,7 @@ export default class ReceivedOrder extends React.Component {
                         </div>
                         <div className="full_width_del">
                           <span><strong>Delivery method</strong></span>
-                          <span className="text-left">Bring</span>
+                          <span className="text-left"></span>
                         </div>
                       </div>
                     </div>

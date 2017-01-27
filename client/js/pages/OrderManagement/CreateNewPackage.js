@@ -4,10 +4,13 @@ import PubSub from 'pubsub-js';
 import { Link } from 'react-router';
 import ReceivedOrder from './ReceivedOrder';
 import PurchaseOrders from './PurchaseOrders';
+import OrderItemsList from './OrderItemsList';
 import toastr from 'toastr';
 
 var orderItemID;
 var orderCuid;
+var _orditems =[];
+var _pckdQty =[];
 
 export default class CreateNewPackage extends React.Component {
 
@@ -30,6 +33,7 @@ export default class CreateNewPackage extends React.Component {
     this.checkProductQty = this.checkProductQty.bind(this)
     this.handlePackageDate = this.handlePackageDate.bind(this)
     this.getViewPackge = this.getViewPackge.bind(this)
+    this.validate = this.validate.bind(this)
     PubSub.subscribe('pckg detail', this.getViewPackge);
   }
 
@@ -53,6 +57,16 @@ export default class CreateNewPackage extends React.Component {
     });
   }
 
+  validate() {
+    var valid= true;
+    var _date = this.state.pckge_date
+    if (_date == "") {
+      alert("Date cannot be blank");
+      valid = false;
+    }
+    return valid
+  }
+
   handlePackageDate(event){
     this.setState({
       pckge_date : event.target.value
@@ -65,6 +79,7 @@ export default class CreateNewPackage extends React.Component {
         this.setState({
           newPackageDetails: response.data
         })
+        console.log(this.state.newPackageDetails)
       }
     }).catch((err) => {
     console.log(err);
@@ -76,41 +91,73 @@ export default class CreateNewPackage extends React.Component {
   }
 
   savePackageOrder(){
-    var p_qty = this.state.packed_qty_value;
-    var o_Id = orderItemID;
-    var p_Id = this.state.newPackageDetails.id;
-    var p_date = this.state.pckge_date;
-    var orderitems =[];
-      orderitems.push({
-        packed_qty: p_qty,
-        _id: o_Id
-      })
-    this.addPackageOrder(orderitems, p_Id, p_date).then((response) => {
-      toastr.success('Package successfully created');
-      if(response.data) {
-        console.log("redirect-to");
-      }
-      this.getViewPackge("status", response.data)
-    }).catch((err) => {
-      console.log(err);
-    });
-    this.context.router.push('/orders/'+orderCuid)
+    if(this.validate()){
+      console.log(_orditems)
+      //var p_qty = this.state.packed_qty_value;
+      var o_Id = orderItemID;
+      var p_Id = this.state.newPackageDetails.id;
+      var p_date = this.state.pckge_date;
+      /*var orderitems =[];
+        orderitems.push({
+          packed_qty: p_qty,
+          _id: o_Id
+        })*/
+      this.addPackageOrder(_orditems, p_Id, p_date).then((response) => {
+        toastr.success('Package successfully created');
+         console.log(response.statusText)
+        if(response.statusText== "Ok") {
+          this.getViewPackge("status", response.data)
+        }
+      }).catch((err) => {
+        toastr.error('Creating Package failed. Packed order quantity cannot be null');
+        console.log(err);
+      });
+      this.context.router.push('/orders/'+orderCuid)
+    }
   }
 
-  addPackageOrder(orderitems, p_Id, p_date){
+  addPackageOrder(_orditems, p_Id, p_date){
+    if(_orditems.length == 0){
+      toastr.error('Creating Package failed. Packed order quantity must be less than ordered quantity');
+    }
     return axios.put("/api/update_package", {
-      orderitems: orderitems,
+      orderitems: _orditems,
       package_id: p_Id,
       pkg_date: p_date
     });
   }
 
-  checkProductQty(){
-    var p_qty = this.state.packed_qty_value;
-    var o_Id = orderItemID;
+  checkProductQty(shp_value, id){
+    var p_qty = shp_value;
+    var o_Id = id;
     this.isValidQty(o_Id, p_qty).then((response) => {
-      if(response.data) {
-        this.savePackageOrder()
+      if(response.data.msg== "Ok") {
+        if (_orditems.length == 0){
+          _orditems.push({
+            packed_qty: p_qty,
+            _id: o_Id
+          })
+        }
+        else {
+          {_orditems.map((ord, i) => {
+            if(_orditems[i]._id == o_Id && _orditems[i].packed_qty == p_qty ) {
+            }
+            else if(_orditems[i]._id == o_Id && _orditems[i].packed_qty !== p_qty){
+              _orditems[i].packed_qty = p_qty;
+            }
+            else if(_orditems[i]._id !== o_Id){
+              _orditems.push({
+                packed_qty: p_qty,
+                _id: o_Id
+              })
+            }
+          })}
+        }
+        console.log(_orditems)
+      }
+      else{
+        alert("Please fill Quantity to pack less than Ordered")
+        return false;
       }
     }).catch((err) => {
       console.log(err);
@@ -122,10 +169,11 @@ export default class CreateNewPackage extends React.Component {
     });
   }
 
-  handleInputChange(event){
+  handleInputChange(event, index, oID){
     this.setState({
-      packed_qty_value: event.target.value
+      [event.target.name]: event.target.value
     })
+    this.checkProductQty(event.target.value, oID)
   }
 
   getViewPackge(msg, result){
@@ -165,11 +213,11 @@ export default class CreateNewPackage extends React.Component {
                   <form className="pckg_form">
                     <div className="form-group">
                       <label htmlFor="" className="col-form-label">Package#</label>
-                      <input type="text" className="form-control" value= {"PKG-"+this.state.newPackageDetails.pkgId} required disabled />
+                      <input type="text" className="form-control" value= {"PKG-"+this.state.newPackageDetails.pkgId} disabled />
                     </div>
                     <div className="form-group">
                       <label htmlFor="" className="col-form-label">Date</label>
-                      <input type="date" className="form-control" placeholder="21-10-2016" onChange={this.handlePackageDate}/>
+                      <input type="date" className="form-control" onChange={this.handlePackageDate} />
                     </div>
                   </form>
                 </div>
@@ -187,31 +235,16 @@ export default class CreateNewPackage extends React.Component {
                           </tr>
                         </thead>
                         <tbody>
-                        {this.state.orderItems.map((order, index) =>{
-                          orderItemID= order.id
-                          return(
-                            <tr key={index}>
-                              <td className="">
-                                1
-                              </td>
-                              <td className="">
-                                Item name
-                              </td>
-                              <td className="text-center">{order.product_qty}</td>
-                              <td className="text-center">
-                                <span>{order.packed_qty}</span>
-                              </td>
-                              <td className="text-center">
-                                <input type="text" className="form-control pck_input" value={this.state.packed_qty_value} onChange={this.handleInputChange} />
-                              </td>
-                            </tr>
-                          )
-                        })}
+                            {this.state.orderItems.map((order, index) => 
+                              <OrderItemsList name={"ord"+index} ref="ordItem"
+                              key = {index} index = {index} order={order} 
+                              value={this.state.packed_qty_value} 
+                              handleInputChange={(event) => this.handleInputChange(event, index, order.id)} />)}
                         </tbody>
                       </table>
                       <div className="gross_order">
                         <button type="button" className="btn btn-default pckg_cncel_btn mtop0">Cancel</button>
-                        <button type="button" className="btn btn-default nxt_btn orange_bg mtop0" onClick={this.checkProductQty}>Save details</button>
+                        <button type="button" className="btn btn-default nxt_btn orange_bg mtop0" onClick={this.savePackageOrder}>Save details</button>
                       </div>
                     </div>
                   </div>

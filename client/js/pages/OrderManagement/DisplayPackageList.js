@@ -92,13 +92,13 @@ export default class DisplayPackageList extends React.Component {
     return(
       <tr>
         <td className="plft30">
-          {this.state._pckg.id}
+          {"PKG-"+this.state._pckg.pkgId}
         </td>
         <td className="">
           {pckg_date ? pckg_date: ""}
         </td>
         <td className={statusClass}>{statusText}</td>
-        <td className="">Bring</td>
+        <td className=""></td>
         <td className="text-center prht30">{shipDate ? shipDate: ""}</td>
         <td className="text-left prht30 ">
         <span className="shipping_toggle" onClick={this.showDropDownBox}>

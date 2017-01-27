@@ -139,8 +139,11 @@ export function updatePackage(req, res) {
 
 export function beforePkgcreate(req, res){
   OrderItem.findOne({ _id: req.query.order_id }).exec((err, orderitem1) => {
-    if(orderitem1.product_qty <= (parseInt(req.query.packed_qty) + orderitem1.packed_qty)){
+    if(orderitem1.product_qty < (parseInt(req.query.packed_qty) + orderitem1.packed_qty)){
       return res.json({ msg: "packed order quantity must be less than ordered quantity" })
+    }
+    else{
+      return res.json({ msg: "Ok" })
     }
   })
 }

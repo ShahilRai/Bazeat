@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router';
+import toastr from 'toastr';
 import DocumentTitle from 'react-document-title';
 import { UserProfileForm } from 'react-stormpath';
 import ImageUploader from './ImageUploader';
@@ -71,8 +72,9 @@ export default class UserProfilePage extends React.Component {
   }
 
   onFormSubmitSuccess(e, next){
-    this.context.router.push('/add-account');
     next();
+    toastr.success('Profile successfully Updated');
+    this.context.router.push('/add-account');
   }
 
   handleDateChange(event) {
