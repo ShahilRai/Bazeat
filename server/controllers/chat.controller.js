@@ -1,6 +1,8 @@
-import  Conversation from '../models/conversation'
-import  Message from '../models/message'
-import  User from '../models/user'
+import  Conversation from '../models/conversation';
+import  Message from '../models/message';
+import  User from '../models/user';
+import * as MailService from '../services/mailer';
+import * as MessageService from '../services/twillio';
 
 
 export function allConversations(req, res, next) {
@@ -113,6 +115,7 @@ export function newConversation(req, res) {
           res.send({ error: err });
           return next(err);
         }
+        MailService.new_message(newMessage, user)
         res.status(200).json({ message: 'Conversation started!', conversation_id: conversation._id, message: newMessage });
       });
     });
@@ -132,6 +135,7 @@ export function sendReply(req, res, next) {
         res.send({ error: err });
         return next(err);
       }
+      MailService.send_email(sentReply)
       res.status(200).json({ message: sentReply });
       return(next);
     });
