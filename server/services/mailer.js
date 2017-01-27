@@ -90,7 +90,7 @@ export  function new_message(message, sender){
   User.find({ _id: message.receiver }).exec((err, user) => {
     transport.sendMail({
       mandrillOptions: {
-        template_name: 'New message',
+        template_name: 'new-message-from-name',
         template_content: [
         ],
         message: {
@@ -98,13 +98,13 @@ export  function new_message(message, sender){
           "merge": true,
           "merge_language": "handlebars",
           "global_merge_vars": [{
-              // "name": "name",
-              // "content": sender.first_name},
-              // { "name": "message",
-              //   "content": message.body},
-              // {
-              //     // "name": "email",
-              //     // "content": "john@gmail.com"
+              "name": "name",
+              "content": sender.first_name},
+              { "name": "message",
+                "content": message.body},
+              {
+                "name": "email",
+                "content": "john@gmail.com"
               }
           ]
         }
