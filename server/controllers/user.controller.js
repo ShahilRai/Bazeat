@@ -117,10 +117,9 @@ export function deleteUser(req, res) {
 }
 
 export function addBankAccount(req, res) {
-  console.log(req.body)
-  console.log(req.query)
-  console.log(req.params)
   User.findOne({ email: req.body.email }).exec((err, user) => {
+    console.log('user')
+    console.log(user)
     if (err) {
       return res.status(422).send(err);
     }
@@ -145,13 +144,13 @@ export function addBankAccount(req, res) {
             },
             legal_entity: {
               dob: {
-                day: user.birth_date,
-                month: user.birth_month,
-                year: user.birth_year
+                day: user.birth_date.day,
+                month: user.birth_date.month,
+                year: user.birth_date.year
               },
               address: {
                 city: user.city,
-                line1: user.line1,
+                line1: user.address,
                 postal_code: user.postal_code
               },
               first_name: user.first_name,
@@ -159,11 +158,16 @@ export function addBankAccount(req, res) {
               type: "individual"
             }
           }, function(err, account) {
+            console.log('err')
+            console.log(err)
+            console.log('account')
+            console.log(account)
             if(err) {
               return res.status(422).send(err);
             } else {
               user.account_id = account.id
-              user.last4 = account.last4
+              user.last4 = req.body.account_number.slice(-4)
+              user.account_number = req.body.account_number
               user.account_added = true
               user.save((err, saved) => {
                 if (err) {
@@ -173,6 +177,8 @@ export function addBankAccount(req, res) {
                     user.account_id,
                     {external_account: token.id},
                     function(err, bank_account) {
+                      console.log('bank_account')
+                      console.log(bank_account)
                       if(err) {
                         return res.status(422).send(err);
                       } else {
@@ -180,7 +186,7 @@ export function addBankAccount(req, res) {
                           {
                             purpose: 'identity_document',
                             file: {
-                              data: fs.readFileSync('/home/abhinav/Pictures/account.png'),
+                              data: fs.readFileSync('/home/atif/Desktop/DSC_0000046.jpg'),
                               name: 'account.png',
                               type: 'application/octet-stream'
                             }
