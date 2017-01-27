@@ -209,8 +209,6 @@ a:hover {
 /*:::::::::::::::::::::::::::::::::::::::::::::::::::::
  ===============HEADER START====================
 :::::::::::::::::::::::::::::::::::::::::::::::::::::*/
-
-
 .header_wrapper {
 	width: 100%;
 	float: left;
@@ -221,8 +219,8 @@ a:hover {
     top: 0;
     background-color: white;
     position: fixed;
-
 }
+
 .pdt30{
   padding-top: 100px;
   float: left;
@@ -325,6 +323,53 @@ border: 1px solid #cccccc;
 /*:::::::::::::::::::::::::::::::::::::::::::::::::::::
  ===============HEADER END====================
 :::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+
+/*========FOOTER====================*/
+#footer{
+	background:#F2F2F2;
+	border-top:1px
+	 solid #CCCCCC;
+	 width: 100%;
+   position: fixed;
+   bottom: 0;
+}
+.footer_container{
+	padding: 15px 138px 15px;
+}
+.logo {
+	margin: 6px 25px 0 0;
+  padding-top: 12px;
+}
+.logo img {
+	height: auto;
+	max-width: 190px;
+	width: 100%;
+}
+.footer_menu{
+	list-style:none;
+	float:left;
+	margin-top: 6px;
+	padding-top: 9px;
+}
+.footer_menu li{
+	display:inline-block;
+	padding:0 9px;
+}
+.footer_menu li a{
+	font-size:13px;
+	color:#666666;
+	font-weight:600;
+}
+.footer_copy{
+	font-size:13px;
+	color:#666666;
+	font-weight:600;
+}
+
+p {
+   margin-bottom: 0;
+}
+
 
 
 /*:::::::::::::::::::::::::::::::::::::::::::::::::::::
