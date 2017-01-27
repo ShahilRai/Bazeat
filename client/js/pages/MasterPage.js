@@ -3,6 +3,7 @@ import React, { PropTypes } from 'react';
 import DocumentTitle from 'react-document-title';
 
 import Header from './Header/Header';
+import Footer from './Header/Footer';
 import LoginModal from './Authenticate/LoginModal';
 import AddProduct from './Product/AddProduct';
 import Ingredients from './Product/Ingredients'
@@ -29,6 +30,7 @@ export default class MasterPage extends React.Component {
           <Authenticated>
             <ReactSlider />
           </Authenticated>
+          <Footer />
         </div>
       </DocumentTitle>
     );

@@ -119,7 +119,7 @@ export default class Payment extends React.Component {
                 <div className="form-group row">
                   <label for="" className="col-sm-4 col-form-label">Card number</label>
                   <div className="col-sm-7 prht_zero plft_zero">
-                    <input className="form-control" type="text" name="card_no" ref="cardNo" value={this.state.card_no} onChange={this.handleChange.bind(this)}/>
+                    <input className="form-control" type="text" name="card_no" ref="cardNo" value={this.state.card_no} onChange={this.handleChange.bind(this)} required={ true }/>
                   </div>
                 </div>
                 <div className="form-group row">
@@ -157,7 +157,7 @@ export default class Payment extends React.Component {
                     <small>(CVV2)</small>
                   </label>
                   <div className="col-sm-7 prht_zero plft_zero">
-                    <input type="text" className="form-control cvv_wdth" name="cvvNo" ref="_cvv" value={this.state.cvv}/>
+                    <input type="text" className="form-control cvv_wdth" name="cvvNo" ref="_cvv" value={this.state.cvv} required={ true }/>
                   </div>
                 </div>
               </div>
