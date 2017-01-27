@@ -1,4 +1,6 @@
 import React from 'react';
+import Loader from 'react-loaders'
+import Loading from 'react-loading';
 import Dropzone from 'react-dropzone';
 import request from 'superagent';
 import UserLogo from '../AddProduct/UserLogo';
@@ -43,11 +45,10 @@ export default class ImageUploader extends React.Component {
 
   render() {
     let $imagePreview = null;
-
+    let loader_image = <Loading type='balls' color='#e3e3e3' />
     if(this.state.uploadedImages) {
       var url = this.state.uploadedImages;
     }
-
     if(url)
     {
       $imagePreview = (<UserLogo url={url} height="101" width="101" />);
@@ -61,7 +62,7 @@ export default class ImageUploader extends React.Component {
     return (
       <div className="edt_prf_inner_detail">
         <div className="form-group row">
-          <label htmlFor="file-1" className="col-md-4 col-xs-12 col-form-label mtop40">Company logo</label>
+          <label htmlFor="file-1" className="col-md-4 col-xs-12 col-form-label mtop40">Profile Picture</label>
           <div className="col-md-8 col-xs-12 mbot30">
             {$imagePreview}
             <div className="select_files">

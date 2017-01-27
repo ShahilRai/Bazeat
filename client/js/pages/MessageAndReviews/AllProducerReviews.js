@@ -34,11 +34,11 @@ export default class AllProducerReviews extends React.Component {
   }
 
   handlePageClick(data){
-    this.getAllProducerReviews(this.context.user.email,this.state.offset,2).then((response) => {
+    this.getAllProducerReviews(this.context.user.email,this.state.offset,5).then((response) => {
       if(response.data) {
         this.setState({
           all_producer_reviews : response.data.reviews,
-          total_pages_count: Math.ceil(response.data.total_count / 2)
+          total_pages_count: Math.ceil(response.data.total_count / 5)
         });
       }
     }).catch((err) => {
@@ -62,9 +62,13 @@ export default class AllProducerReviews extends React.Component {
   }
 
   render() {
+    var _allProducerReviewResult
     var expandedDiv = this.getMoreTextDiv();
     var _allProducerReview = this.state.all_producer_reviews ? this.state.all_producer_reviews : []
-    var _allProducerReviewResult = _allProducerReview.map((item, i)=>{
+    if(this.state.all_producer_reviews.length==0){
+      _allProducerReviewResult = <h3> <center>no reviews to show.</center></h3>
+    }else {
+     _allProducerReviewResult = _allProducerReview.map((item, i)=>{
         if(item.comment){
           var _comment= <div className="rvw_replies">
                           <span className="rvw_user_img"><img src={item.reviewed_for.photo} className="profile_image"/></span>
@@ -80,13 +84,14 @@ export default class AllProducerReviews extends React.Component {
             <span className="rvw_user_description">
               <h4>{item.reviewed_by.full_name}</h4>
               <p>{item.review}</p>
-              <a href="javascript:void(0)" onClick={this.expandedText.bind(this)} className="more_msgs">{this.state.expanded ? ' ' : '+MORE'}</a>
+              <a href="javascript:void(0)" onClick={this.expandedText.bind(this)} className="more_msgs">{this.state.expanded ? ' ' : ''}</a>
               { expandedDiv }
               {_comment}
             </span>
           </div>
         )
     })
+  }
     var expandedDiv = this.getMoreTextDiv();
     return (
       <div className="review_display_inner">

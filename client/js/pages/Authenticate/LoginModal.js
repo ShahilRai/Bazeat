@@ -1,4 +1,5 @@
 import React from 'react';
+import toastr from 'toastr';
 import { LoginForm, SocialLoginLink } from 'react-stormpath';
 
 export default class LoginModal extends React.Component {
@@ -10,6 +11,7 @@ export default class LoginModal extends React.Component {
   }
 
   onFormSubmitSuccess(e, next) {
+    toastr.success('Successfully sign in');
     $("#login_modal").modal('hide')
     $(".modal-backdrop.in").remove()
     $(".modal-open").removeClass("modal-open")
@@ -55,13 +57,7 @@ export default class LoginModal extends React.Component {
                 </p>
                 <span className="error_txt"><a href="#login_modal" data-dismiss="modal" data-toggle="modal" data-target="#forgot_modal">Have you forgotten your password?</a></span>
                 <span className="or_txt">or</span>
-                <div className="social_btn">
-                  <i className="fa fa-facebook" aria-hidden="true"></i>
-                  <SocialLoginLink providerId='facebook' className="modal_btns fb_btn">Log in with <b>Facebook</b></SocialLoginLink>
-                </div>
-                <div className="social_btn">
-                  <SocialLoginLink providerId='google' className="modal_btns google_btn">Log in with <b>Google</b></SocialLoginLink>
-                </div>
+
               </LoginForm>
             </div>
             <div className="modal-footer">
