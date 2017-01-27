@@ -72,14 +72,6 @@ export default class UserRegisterModal extends React.Component {
                 <InputField type="hidden" name="customData.is_producer" value="false" />
                 <input type="submit" value="Bli en Bazeater" className="login_sbmit" />
               </RegistrationForm>
-              <span className="or_txt mtop10">eller</span>
-              <div className="social_btn">
-                <i className="fa fa-facebook" aria-hidden="true"></i>
-                <SocialLoginLink providerId='facebook' className="modal_btns fb_btn">Register with <b>Facebook</b></SocialLoginLink>
-              </div>
-              <div className="social_btn">
-                <SocialLoginLink providerId='google' className="modal_btns google_btn">Register with <b>Google</b></SocialLoginLink>
-              </div>
             </div>
             <div className="modal-footer">
             </div>
