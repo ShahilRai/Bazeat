@@ -53,6 +53,7 @@ import admin_users from './routes/admin/users.routes';
 import admin_products from './routes/admin/products.routes';
 import static_pages from './routes/admin/pages.routes';
 import chat from './routes/chat.routes';
+import cart from './routes/cart.routes';
 import comment from './routes/comment.routes';
 import dummyData from './dummyData';
 import serverConfig from './config';
@@ -95,6 +96,7 @@ app.use('/api', search);
 app.use('/api', purchaseorder);
 app.use('/api', chat);
 app.use('/api', comment);
+app.use('/api', cart);
 
 // Admin Routes Defination
   app.use('/api/admin/authenticate', admin);
