@@ -381,7 +381,7 @@ app.post('/api/verification_file', verificationUpload.single('verification_file'
               if(err) {
                 return res.status(422).send(err);
               } else {
-                return res.status(200).send(saved.stripe_file_id);
+                return res.status(200).send({status: true});
               }
             })
           }

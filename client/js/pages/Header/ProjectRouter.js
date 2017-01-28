@@ -33,6 +33,7 @@ import CreateNewPackage from '../OrderManagement/CreateNewPackage';
 import AllMessages from '../MessageAndReviews/AllMessages.js';
 import ReviewPage from '../MessageAndReviews/ReviewPage.js';
 import OrderMgmntPackages from '../OrderManagement/OrderMgmntPackages.js';
+import RouteComponent from '../AddProduct/RouteComponent';
 
 export default class ProjectRouter extends React.Component {
   static contextTypes = {
@@ -107,6 +108,7 @@ export default class ProjectRouter extends React.Component {
         <Route path='/admin-login' component={AdminLoginModal} />
         <Route path='/admin-register' component={AdminRegisterModal} />
         <Route path='/admin-dashboard' component={AdminPanel} />
+        <Route path='/tester' component={RouteComponent} />
       </Router>
     );
   }

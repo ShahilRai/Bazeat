@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
+import axios from 'axios';
+import Rating from 'react-simple-rating';
 export default class ReviewsAndLikes extends React.Component {
   static contextTypes = {
     authenticated: React.PropTypes.bool,
@@ -7,11 +9,34 @@ export default class ReviewsAndLikes extends React.Component {
   };
 
   constructor(props, context) {
-      super(props, context);
-        this.state = {
-        }
+    super(props, context);
+      this.state = {
+        current_user_rating :[]
+      }
   }
+
+  componentDidMount(){
+    this.loadCurrentUserRating(this.context.user.email).then((response) => {
+      if(response.data) {
+        console.log("response.data")
+        console.log(response.data)
+        this.setState({
+          current_user_rating : response.data.user.avg_rating
+        });
+      }
+    }).catch((err) => {
+        console.log(err);
+    });
+  }
+
+
+  loadCurrentUserRating(email) {
+    return axios.get("/api/user?email="+email)
+  }
+
   render(){
+    console.log("current_user_rating")
+    console.log(this.state.current_user_rating)
     return(
       <div className="revw_top">
         <h3>{this.props.userInfo.full_name}
@@ -19,16 +44,8 @@ export default class ReviewsAndLikes extends React.Component {
             <img src="/images/revw_icon.png"/>
           </span>
         </h3>
-        <span className="star_rating">
-          <ul>
-             <li><a href="javascript:void(0)"><img src="/images/star_rating.png" /></a></li>
-             <li><a href="javascript:void(0)"><img src="/images/star_rating.png" /></a></li>
-             <li><a href="javascript:void(0)"><img src="/images/star_rating.png" /></a></li>
-             <li><a href="javascript:void(0)"><img src="/images/star_rating.png" /></a></li>
-             <li><a href="javascript:void(0)"><img src="/images/star_rating.png" /></a></li>
-          </ul>
+          <Rating rating={3.5} displayOnly={true} maxRating={5}  ratingSymbol={"\u2764"} />
           <span className="review_num" onClick={this.props.onClick}><Link to="user-reviews">{this.props.all_reviews_count} reviews</Link></span>
-        </span>
         <span className="star_rating">
           <ul>
             <li><a href="javascript:void(0)"><img src="/images/like.png" /></a></li>

@@ -5316,36 +5316,61 @@ margin-bottom: 7px;
 }
 
 
-.star-rating__checkbox {
-  position: absolute;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  height: 1px;
-  width: 1px;
-  margin: -1px;
-  padding: 0;
-  border: 0;
-}
-
-.star-rating__star {
+.rating {
   display: inline-block;
-  padding: 3px;
-  vertical-align: middle;
-  line-height: 1;
-  font-size: 1.5em;
-  color: #ABABAB;
-  transition: color .2s ease-out;
+  position: relative;
+  unicode-bidi: bidi-override;
+  direction: rtl;
 }
 
-.star-rating__star:hover {
+.current-rating {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 0;
+}
+
+.current-rating > i {
+  color: #000;
+  font-style: normal;
+}
+
+.rating.display-only > i {
+  color: #ccc;
+}
+
+.rating.display-only > .current-rating {
+  direction: ltr;
+  opacity: 1;
+}
+
+.rating > i {
+  display: inline-block;
+  position: relative;
+  font-style: normal;
+  color: #ccc;
+}
+
+.rating:not(.display-only) > i {
   cursor: pointer;
 }
 
-.star-rating__star.is-selected {
-  color: #FFD700;
+.rating:not(.display-only) > i:hover,
+.rating:not(.display-only) > i.active,
+.rating:not(.display-only) > i:hover ~ i,
+.rating:not(.display-only) > i.active ~ i {
+  color: transparent;
 }
 
-.star-rating__star.is-disabled:hover {
-  cursor: default;
+.rating:not(.display-only) > i:hover:before,
+.rating:not(.display-only) > i.active:before,
+.rating:not(.display-only) > i:hover ~ i::before,
+.rating:not(.display-only) > i.active ~ i::before {
+  content: "\2605";
+  position: absolute;
+  left: 0;
+  color: #000;
 }
->>>>>>> Stashed changes
