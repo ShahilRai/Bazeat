@@ -28,8 +28,8 @@ export default class ProductCollection extends React.Component {
       var productToDel = array[index].cuid;
 
       this.deleteProducts(productToDel).then((response) => {
-        toastr.success('Your product successfully deleted');
         if(response.statusText == "OK") {
+          toastr.success('Your product successfully deleted');
           array.splice(index, 1);
           this.setState({products: array });
         }

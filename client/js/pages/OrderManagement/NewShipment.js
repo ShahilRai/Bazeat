@@ -16,6 +16,7 @@ export default class NewShipment extends React.Component {
     };
     this.saveNewShipment = this.saveNewShipment.bind(this)
     this.handleDateChange = this.handleDateChange.bind(this)
+    this.validateDate = this.validateDate.bind(this)
   }
 
   handleDateChange(event){
@@ -25,22 +26,33 @@ export default class NewShipment extends React.Component {
     })
   }
 
+  validateDate() {
+    var valid= true;
+    var shp_date = this.state.shpmnt_date
+    if (shp_date == "") {
+      alert("Date cannot be blank");
+      valid = false;
+    }
+    return valid
+  }
+
   saveNewShipment(){
-    var p_id = this.props._pckge? this.props._pckge.id: ""
-    var s_no = _sId
-    var alrdy_dlvrd= this.refs.dlvrd.checked;
-    var ntfy_to_cstmr= this.refs.ntfy.checked;
-    var _shpDate = this.state.shpmnt_date;
-    var status = "Shipped";
-    this.addNewShipment(p_id, s_no, alrdy_dlvrd, ntfy_to_cstmr, _shpDate, status).then((response) => {
-      toastr.success('Shipment successfully created');
-      if(response.data) {
-        console.log("redirect-to");
-      }
-      this.props.viewPackage("data", response.data.pkg)
-    }).catch((err) => {
-      console.log(err);
-    });
+    if(this.validateDate()){
+      var p_id = this.props._pckge? this.props._pckge.id: ""
+      var s_no = _sId
+      var alrdy_dlvrd= this.refs.dlvrd.checked;
+      var ntfy_to_cstmr= this.refs.ntfy.checked;
+      var _shpDate = this.state.shpmnt_date;
+      var status = "Shipped";
+      this.addNewShipment(p_id, s_no, alrdy_dlvrd, ntfy_to_cstmr, _shpDate, status).then((response) => {
+        if(response.statusText== "OK") {
+          toastr.success('Shipment successfully created');
+          this.props.viewPackage("data", response.data.pkg)
+        }
+      }).catch((err) => {
+        console.log(err);
+      });
+    }
   }
 
   addNewShipment(p_id, s_no, alrdy_dlvrd, ntfy_to_cstmr, _shpDate, status){

@@ -10,6 +10,7 @@ export default class EditPurchaseOrder extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      addressDetails: []
     };
     this.handleChange = this.handleChange.bind(this)
     this.SaveShippingAddress = this.SaveShippingAddress.bind(this)
@@ -17,8 +18,16 @@ export default class EditPurchaseOrder extends React.Component {
 
   handleChange(e){
     this.setState({
-      [e.target.name]:  e.target.value
-  })
+      addressDetails : {
+        [e.target.name]:  e.target.value
+      }
+    })
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      addressDetails: nextProps.orderDetails.address
+    },function(){})
   }
 
   SaveShippingAddress(){
@@ -29,10 +38,9 @@ export default class EditPurchaseOrder extends React.Component {
     var city= this.refs.city.value;
     var line1= this.refs.line1.value;
     this.updateShippingAddress(_oId, first_name, last_name, line1, postal_code, city).then((response) => {
-      toastr.success('Shipping Address successfully updated');
       if(response.data) {
-        this.setState({
-        });
+        toastr.success('Shipping Address successfully updated');
+        this.props._updateAddress(response.data.order)
       }
     }).catch((err) => {
       console.log(err);
@@ -71,29 +79,29 @@ export default class EditPurchaseOrder extends React.Component {
                   <div className="form-group row">
                     <label htmlFor="" className="col-sm-3 col-form-label">First name</label>
                     <div className="col-sm-7">
-                      <input type="text" className="form-control" name="first_name" ref="first_name" id="" onChange={this.handleChange} value ={this.props.orderDetails.address ? this.props.orderDetails.address.first_name: ""} />
+                      <input type="text" className="form-control" name="first_name" ref="first_name" id="" onChange={this.handleChange} value ={this.state.addressDetails.first_name} />
                     </div>
                   </div>
                   <div className="form-group row">
                     <label htmlFor="" className="col-sm-3 col-form-label">Last name</label>
                     <div className="col-sm-7">
-                      <input type="text" className="form-control" name="last_name" ref="last_name" id="" onChange={this.handleChange} value ={this.props.orderDetails.address ? this.props.orderDetails.address.last_name: ""} />
+                      <input type="text" className="form-control" name="last_name" ref="last_name" id="" onChange={this.handleChange} value ={this.state.addressDetails.last_name} />
                     </div>
                   </div>
                   <div className="form-group row">
                     <label htmlFor="" className="col-sm-3 col-form-label">Address</label>
                     <div className="col-sm-7">
-                      <input type="text" className="form-control" id="" name="line1" ref="line1" onChange={this.handleChange} value ={this.props.orderDetails.address ? this.props.orderDetails.address.line1: ""} />
+                      <input type="text" className="form-control" id="" name="line1" ref="line1" onChange={this.handleChange} value ={this.state.addressDetails.line1} />
                     </div>
                   </div>
                   <div className="form-group row">
                     <label htmlFor="" className="col-sm-3 col-form-label">Postal code</label>
                     <div className="col-sm-3 postal_input">
-                      <input type="text" className="form-control" id="" name="postal_code" ref="postal_code" onChange={this.handleChange} value ={this.props.orderDetails.address ? this.props.orderDetails.address.postal_code: ""} />
+                      <input type="text" className="form-control" id="" name="postal_code" ref="postal_code" onChange={this.handleChange} value ={this.state.addressDetails.postal_code} />
                   </div>
                   <label htmlFor="" className="col-sm-2 col-form-label city_order_label">City</label>
                   <div className="col-sm-4">
-                    <input type="text" className="form-control city_input" id="" name="city" ref="city" onChange={this.handleChange} value ={this.props.orderDetails.address ? this.props.orderDetails.address.city: ""} />
+                    <input type="text" className="form-control city_input" id="" name="city" ref="city" onChange={this.handleChange} value ={this.state.addressDetails.city} />
                   </div>
                 </div>
               </form>

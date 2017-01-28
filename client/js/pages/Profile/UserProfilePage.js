@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router';
+import toastr from 'toastr';
 import DocumentTitle from 'react-document-title';
 import { UserProfileForm } from 'react-stormpath';
 import ImageUploader from './ImageUploader';
@@ -19,7 +20,8 @@ export default class UserProfilePage extends React.Component {
 
   static contextTypes = {
     authenticated: React.PropTypes.bool,
-    user: React.PropTypes.object
+    user: React.PropTypes.object,
+    router: React.PropTypes.object.isRequired
   };
 
   constructor(props, context) {
@@ -32,6 +34,7 @@ export default class UserProfilePage extends React.Component {
     };
     this.handleDateChange = this.handleDateChange.bind(this)
     this.formatDate=this.formatDate.bind(this)
+    this.onFormSubmitSuccess=this.onFormSubmitSuccess.bind(this)
   }
 
   componentDidMount() {
@@ -66,6 +69,12 @@ export default class UserProfilePage extends React.Component {
     if (month.length < 2) month = '0' + month;
     if (day.length < 2) day = '0' + day;
     return [year, month, day].join('-');
+  }
+
+  onFormSubmitSuccess(e, next){
+    next();
+    toastr.success('Profile successfully Updated');
+    this.context.router.push('/add-account');
   }
 
   handleDateChange(event) {
@@ -107,7 +116,7 @@ export default class UserProfilePage extends React.Component {
                   <div className="edit_prfile_detail_form">
                     <h3>Profile details </h3>
                     <ImageUploader image={this.state.user.photo} />
-                    <UserProfileForm method = "post">
+                    <UserProfileForm method = "post" onSubmit={this.onFormSubmitSuccess.bind(this)}>
                       <div className="edt_prf_inner_detail">
                         <div className="form-group row">
                           <LabelField className = "col-md-4 col-xs-12 col-form-label" htmlFor="givenName" label="First name*" />
@@ -172,6 +181,7 @@ export default class UserProfilePage extends React.Component {
                         <div className="form-group row">
                           <LabelField className = "col-md-4 col-xs-12 col-form-label" htmlFor="desc" label="Description" />
                           <TextAreaField name="desc" value = {this.state.user.description}>{this.state.user.description}</TextAreaField>
+                          <InputField type="hidden" name="profile_added" value = "true" />
                         </div>
                       </div>
                       <div className="edt_prf_inner_detail">
