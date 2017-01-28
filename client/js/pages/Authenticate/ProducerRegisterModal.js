@@ -21,11 +21,12 @@ export default class ProducerRegisterModal extends React.Component {
     }
     $("#producer_modal").modal('hide')
     next(null, data);
-    toastr.success('Producer Successfully sign up. please check your inbox');
   }
 
   onFormSubmitSuccess(e, next) {
     var data = e.data;
+    $("#producer_modal").modal('hide')
+    toastr.success('Producer Successfully sign up. please check your inbox');
     $("#login_modal").modal('hide')
     $(".modal-backdrop.in").remove()
     $(".modal-open").removeClass("modal-open")
@@ -45,7 +46,8 @@ export default class ProducerRegisterModal extends React.Component {
                 <img src={require('../../../images/login_logo.png')} />
               </a>
               <h4 className="modal-title" id="myModalLabel">REGISTRER DEG</h4>
-              <h5><span>eller </span><a href="#register_modal" data-dismiss="modal" data-toggle="modal" data-target="#login_modal">Log in</a></h5>
+              <h5><span>eller </span><a href="#producer_modal" data-dismiss="modal" data-toggle="modal" data-target="#login_modal">Log in</a></h5>
+              <h5 className="register_heading"><a href="#producer_modal" data-dismiss="modal" data-toggle="modal" data-target="#producer_modal">Er du en produsent?</a></h5>
             </div>
             <div className="modal-body">
               <RegistrationForm onSubmit={this.onFormSubmit.bind(this)} className="login_form mtop0">

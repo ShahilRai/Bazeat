@@ -39,27 +39,32 @@ export function usersResults(req, res) {
 
 
 export function productsResults(req, res) {
-  let data = {};
-  if(req.query.search){
-    data.product_name = new RegExp(req.query.search, 'i');
-  }
-  if(req.query.start_price && req.query.end_price){
-    data.calculated_price = {'$gte': parseInt(req.query.start_price), '$lte': parseInt(req.query.end_price)};
-  }
-  if(req.query.category_id){
-    data.product_category = {"$in": req.query.category_id };
-  }
-  Product.find(data).populate("_producer ingredients allergens product_category").sort('product_name').exec(
-    function(err,products){
-      console.log('products')
-      console.log(products)
-      if (err) {
-        return res.json(422, err);
-      }
-      else{
-        return res.json(products);
-      }
+  User.findOne({email: req.query.email}).exec(function(err,user){
+    console.log('user')
+    console.log(user)
+    let data = {}
+    if(req.query.search){
+      data.product_name = new RegExp(req.query.search, 'i')
     }
-  );
+    if(req.query.start_price && req.query.end_price){
+      data.calculated_price = {'$gte': parseInt(req.query.start_price), '$lte': parseInt(req.query.end_price)};
+    }
+    if(req.query.category_id){
+      data.product_category = {"$in": req.query.category_id }
+    }
+    data._producer = {"$ne": user._id}
+    Product.find(data).populate("_producer ingredients allergens product_category").sort('product_name').exec(
+      function(err,products){
+        console.log('products')
+        console.log(products)
+        if (err) {
+          return res.json(422, err);
+        }
+        else{
+          return res.json(products);
+        }
+      }
+    );
+  });
 }
 
