@@ -50,4 +50,7 @@ router.route('/handleproducts').put(ProductController.handleProducts);
 //Get Products By Category
 router.route('/products/category').get(ProductController.getProductsByCategory);
 
+// Like and unlike product
+router.route('/like/:cuid').post(ProductController.addRemoveLike);
+
 export default router;
