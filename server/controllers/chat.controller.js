@@ -86,6 +86,7 @@ export function getConversation(req, res, next) {
 
 
 export function newConversation(req, res) {
+  let conv
   if(!req.query.recipient_id) {
     res.status(422).send({ error: 'Please choose a valid recipient for your message.' });
     return next();
@@ -95,32 +96,48 @@ export function newConversation(req, res) {
     return next();
   }
   User.findOne({ email: req.body.email }).exec((err, user) => {
-    const conversation = new Conversation({
-      participants: [user._id, req.query.recipient_id]
-    });
-    conversation.save(function(err, newConversation) {
-      if (err) {
-        res.send({ error: err });
-        return next(err);
+    Conversation.findOne({participants: [user._id, req.query.recipient_id]}).exec(function(err,conversation){
+        console.log("1")
+      console.log(conversation)
+      if(conversation){
+        newMessage(conversation, null, res, user, req)
       }
-      const message = new Message({
-        conversation_id: newConversation._id,
-        body: req.body.composedMessage,
-        sender: user._id,
-        receiver: req.query.recipient_id
-      });
+      else{
+        const conversation = new Conversation({
+          participants: [user._id, req.query.recipient_id]
+        });
+        conversation.save(function(err, newConversation) {
+            console.log('2')
+            console.log(newConversation)
+          if (err) {
+            res.status(422).send({err});
+          }
+          else{
+            newMessage(newConversation, null, res, user, req)
+          }
+        });
+      }
 
-      message.save(function(err, newMessage) {
-        if (err) {
-          res.send({ error: err });
-          return next(err);
-        }
-        MailService.new_message(newMessage, user)
-        res.status(200).json({ message: 'Conversation started!', conversation_id: conversation._id, message: newMessage });
-      });
-    });
+    })
   });
 }
+
+export  function newMessage(conversation, next, res, user, req){
+  const message = new Message({
+    conversation_id: conversation._id,
+    body: req.body.composedMessage,
+    sender: user._id,
+    receiver: req.query.recipient_id
+  });
+  message.save(function(err, newMessage) {
+    if (err) {
+      res.status(422).send({err});
+    }
+    MailService.new_message(newMessage, user)
+    res.status(200).json({ message: newMessage });
+  });
+}
+
 
 export function sendReply(req, res, next) {
   User.findOne({ email: req.body.email }).exec((err, user) => {
