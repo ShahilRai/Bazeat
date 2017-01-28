@@ -70,9 +70,9 @@ export function getConversation(req, res, next) {
             console.log('msg')
             console.log(messages.length == index+1)
             fullMessages.push(model)
-            if (messages.length == fullMessages.length){
+            //if (messages.length == fullMessages.length){
               return res.status(200).json({ fullMessages });
-            }
+            //}
            })
         })
       }
