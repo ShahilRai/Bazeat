@@ -1,5 +1,5 @@
 import React from 'react';
-import CurrentUserRating from './CurrentUserRating';
+import Rating from 'react-simple-rating';
 let moreCount;
 export default class ReviewsWrittenByUser extends React.Component {
 
@@ -15,7 +15,9 @@ export default class ReviewsWrittenByUser extends React.Component {
   }
 
   render(){
-    moreCount = this.props.userRating
+    moreCount = this.props.given_rating_count
+    console.log("sdssds");
+    console.log(moreCount);
     return(
         <div className="modal fade prod_modal review_modal" id={"producer_review" +this.props.write_index} tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
           <div className="modal-dialog user_review_modal wdth_448" role="document">
@@ -33,7 +35,7 @@ export default class ReviewsWrittenByUser extends React.Component {
                       <div className="rvw_by_user">
                         <h4>{this.props.write_review_name}</h4>
                         <span className="user_rvw_txt">{this.props.write_review_user}</span>
-                         <CurrentUserRating _rating = "4" />
+                        <Rating rating={moreCount} displayOnly={true} maxRating={5}  ratingSymbol={"\u2764"} />
                       </div>
                     </div>
                   </div>

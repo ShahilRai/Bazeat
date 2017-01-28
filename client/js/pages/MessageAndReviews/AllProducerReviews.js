@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import ReactPaginate from 'react-paginate';
+import { Link } from 'react-router';
+let userId;
 export default class AllProducerReviews extends React.Component {
 
   static contextTypes = {
@@ -69,6 +71,7 @@ export default class AllProducerReviews extends React.Component {
       _allProducerReviewResult = <h3> <center>no reviews to show.</center></h3>
     }else {
      _allProducerReviewResult = _allProducerReview.map((item, i)=>{
+         userId = item.reviewed_by.id
         if(item.comment){
           var _comment= <div className="rvw_replies">
                           <span className="rvw_user_img"><img src={item.reviewed_for.photo} className="profile_image"/></span>
@@ -82,7 +85,7 @@ export default class AllProducerReviews extends React.Component {
           <div className="review_display1">
             <span className="rvw_user_img"><img src={item.reviewed_by.photo} className="profile_image"/></span>
             <span className="rvw_user_description">
-              <h4>{item.reviewed_by.full_name}</h4>
+              <h4><Link to={"/user/"+userId}>{item.reviewed_by.full_name}</Link></h4>
               <p>{item.review}</p>
               <a href="javascript:void(0)" onClick={this.expandedText.bind(this)} className="more_msgs">{this.state.expanded ? ' ' : ''}</a>
               { expandedDiv }
@@ -92,15 +95,17 @@ export default class AllProducerReviews extends React.Component {
         )
     })
   }
+    console.log("this.state.all_producer_reviews.length")
+    console.log(this.state.all_producer_reviews.length)
     var expandedDiv = this.getMoreTextDiv();
     return (
       <div className="review_display_inner">
         <h3 className="plft20">Reviews</h3>
           {_allProducerReviewResult}
-        <ReactPaginate previousLabel={"previous"} nextLabel={"next"} breakLabel={<a href="">...</a>}
+        {this.state.all_producer_reviews.length>5?<ReactPaginate previousLabel={"previous"} nextLabel={"next"} breakLabel={<a href="">...</a>}
             breakClassName={"break-me"} pageCount={this.state.total_pages_count} marginPagesDisplayed={3}
             pageRangeDisplayed={2} onPageChange={this.handlePageClick.bind(this)} containerClassName={"pagination"}
-            subContainerClassName={"pages pagination"} activeClassName={"active"} />
+            subContainerClassName={"pages pagination"} activeClassName={"active"} />:""}
       </div>
     )
   }

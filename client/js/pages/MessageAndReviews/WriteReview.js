@@ -1,7 +1,8 @@
 import React from 'react';
 import toastr from 'toastr';
 import axios from 'axios';
-import Rating from './Rating';
+import Rating from 'react-simple-rating';
+let data;
 export default class WriteReview extends React.Component {
 
   static contextTypes = {
@@ -14,19 +15,29 @@ export default class WriteReview extends React.Component {
         this.state = {
           reviewUserData : [],
           rating : '',
-          value : ''
+          value : '',
+          currentRating : 0,
+          count : 0
         }
-        this.getRating=this.getRating.bind(this);
+
+  }
+
+  handleClick(rating) {
+    this.setState({
+      currentRating: rating
+    });
   }
 
   WriteAReview(){
-    this.WriteReviewData(this.context.user.email, this.refs.review.value,this.state.rating).then((response) => {
+    this.WriteReviewData(this.context.user.email, this.refs.review.value,this.state.currentRating).then((response) => {
         toastr.success('Your review successfully submitted');
         this.props.updateReviews(response.data)
         if(response.data) {
           this.setState({
             reviewUserData : response.data,
-            value : ''
+            value : '',
+            currentRating : 0,
+            count : 1
           });
         }
     }).catch((err) => {
@@ -43,19 +54,20 @@ export default class WriteReview extends React.Component {
     })
   }
 
-  getRating(data){
-    console.log("data")
-    console.log(data)
-    this.setState({
-      rating : data
-    })
-  }
 
   textAreaValue(event){
       this.setState({ value: event.target.value });
     }
 
+
   render(){
+    console.log("this.state.count")
+    console.log(this.state.count)
+    if(this.state.count>0){
+      data = <Rating rating={0} displayOnly={false} maxRating={5} onSubmit={this.handleClick.bind(this)} ratingSymbol={"\u2764"} />
+    }else{
+      data = <Rating  displayOnly={false} maxRating={5} onSubmit={this.handleClick.bind(this)} ratingSymbol={"\u2764"} />
+    }
     console.log("child rating")
     console.log(this.state.rating)
     return(
@@ -79,9 +91,7 @@ export default class WriteReview extends React.Component {
                 <div className="form-group">
                   <label className="user_rvw_label">Your rating</label>
                 <div className="rvw_by_user">
-                  <span className="star_rating mtop0">
-                   <Rating get_rating={this.getRating} />
-                  </span>
+                  {data}
                 </div>
               </div>
             </div>
