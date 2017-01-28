@@ -48,40 +48,32 @@ export function allConversations(req, res, next) {
 
 
 export function getConversation(req, res, next) {
-  let fullMessages = [];
-  Message.find({ conversation_id: req.params.conversation_id })
-    .select('createdAt body sender receiver')
-    .sort('-updatedAt')
-    .limit(2)
-    .populate({
-      path: 'sender',
-      select: 'full_name photo'
-    })
-    .populate({
-      path: 'receiver',
-      select: 'full_name photo'
-    })
-    .exec(function(err, messages) {
-      if (err) {
-        res.send({ error: err });
-        return next(err);
-      }
-      if(messages){
-        messages.forEach(function(msg, index) {
-           Message.findOneAndUpdate({_id: msg._id}, {$set: {'unread': false}}, {new: true}).exec(function(err, model){
-            console.log('msg')
-            console.log(messages.length == index+1)
-            fullMessages.push(model)
-            if (messages.length == fullMessages.length){
-              return res.status(200).json({ fullMessages });
-            }
-           })
+  Message.update({conversation_id: req.params.conversation_id}, {unread: false}, {multi: true, new: true}).exec(function(err, updated_messages) {
+    if(err) {
+      return res.status(422).json({ err });
+    } else {
+      Message.find({ conversation_id: req.params.conversation_id })
+        .select('createdAt body sender receiver')
+        .sort('createdAt')
+        .limit(2)
+        .populate({
+          path: 'sender',
+          select: 'full_name photo'
         })
-      }
-      else{
-        return res.status(200).json({ conversation: "There are no messages for this conversation" });
-      }
-    });
+        .populate({
+          path: 'receiver',
+          select: 'full_name photo'
+        })
+        .exec(function(err, messages) {
+          if (err) {
+            return res.status(422).json({ err });
+            return next(err);
+          } else {
+            return res.status(200).json({ messages });
+          }
+      });
+    }
+  })
 }
 
 
