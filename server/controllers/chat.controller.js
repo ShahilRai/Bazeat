@@ -76,7 +76,6 @@ export function getConversation(req, res, next) {
   })
 }
 
-
 export function newConversation(req, res) {
   let conv
   if(!req.query.recipient_id) {
