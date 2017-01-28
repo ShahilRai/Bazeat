@@ -97,14 +97,14 @@ export default class NewMessage extends React.Component {
     sendMessageData(){
       var userEmail = this.context.user.email
       var _uid = this.state.selectedId
-      console.log(this.props.conversation_id)
       this.sendMessage(userEmail,this.state.value,_uid).then((response) => {
          this.props.updateConversation(response.data,this.state.selectedId)
         if(response.data) {
           this.setState({
             send_message: response.data,
             value : '',
-            input_value:''
+            input_value:'',
+            loaded: !this.props.loaded
            });
         }
       }).catch((err) => {
@@ -121,6 +121,15 @@ export default class NewMessage extends React.Component {
 
   
     render(){
+      var options = {
+      lines: 13,length: 20,width: 10,radius: 30,scale: 1.00,corners: 1,color: '#000',
+      opacity: 0.25,rotate: 0,direction: 1,speed: 1,trail: 60,fps: 20,zIndex: 2e9,
+      top: '50%',left: '50%',shadow: false,hwaccel: false,position: 'absolute'
+    }
+    
+    if(this.state.loaded){
+      var loader = <Loader loaded={this.state.loaded} options={options}/>
+    }
       return(
         <div className="chat_window_right">
           <form className="form_chat">
@@ -129,6 +138,7 @@ export default class NewMessage extends React.Component {
               <datalist id="userList">{this.getUserList()}</datalist>
             </div>
               <textarea ref="message" className=""  onChange={this.textAreaValue.bind(this)} value={this.state.value} placeholder="Write your message here"></textarea>
+                {loader}
               <button type="button" className="btn btn-default chat_submit" onClick={this.sendMessageData.bind(this)}>Send</button>
           </form>
         </div>

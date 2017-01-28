@@ -178,6 +178,37 @@ export function addBankAccount(req, res) {
                         if(err) {
                           return res.status(422).send(err);
                         } else {
+                          stripe.fileUploads.create(
+                            {
+                              purpose: 'identity_document',
+                              file: {
+                                data: fs.readFileSync('/home/atif/Desktop/DSC_0000046.jpg'),
+                                name: 'account.png',
+                                type: 'application/octet-stream'
+                              }
+                            },
+                            {stripe_account: user.account_id}, function(err, file) {
+                              if(err) {
+                                return res.status(422).send(err);
+                              } else {
+                                stripe.accounts.update(
+                                  user.account_id,
+                                  {legal_entity: {verification: {document: file.id}}}, function(err, document) {
+                                    console.log('document')
+                                    console.log(document)
+                                    console.log('user')
+                                    console.log(user)
+                                    if(err) {
+                                      return res.status(422).send(err);
+                                    } else {
+                                      return res.json({ account: document });
+                                    }
+
+                                  }
+                                );
+                              }
+                            }
+                          );
                           return res.json({ account: bank_account });
                         }
                       }

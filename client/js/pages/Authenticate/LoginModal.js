@@ -4,6 +4,10 @@ import { LoginForm, SocialLoginLink } from 'react-stormpath';
 
 export default class LoginModal extends React.Component {
 
+   static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  };
+
   onFormSubmit(e, next) {
     var data = e.data;
     data.username = data.username.toLowerCase();
@@ -16,6 +20,7 @@ export default class LoginModal extends React.Component {
     $(".modal-backdrop.in").remove()
     $(".modal-open").removeClass("modal-open")
     next();
+    this.context.router.push('/profile');
   }
 
   onFormSubmitError(e, next) {

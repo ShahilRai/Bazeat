@@ -1,5 +1,5 @@
 import nodeMailer from 'nodemailer';
-import mandrillTransport from 'nodemailer-mandrill-template-transport';
+import mandrillTransport from 'nodemailer-mandrill-transport';
 import User from '../models/user';
 const transport = nodeMailer.createTransport(mandrillTransport({
   auth: {
