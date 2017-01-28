@@ -151,4 +151,3 @@ export default class OrderConfirmation extends React.Component {
   }
 }
 
-

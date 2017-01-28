@@ -1,5 +1,5 @@
 import nodeMailer from 'nodemailer';
-import mandrillTransport from 'nodemailer-mandrill-transport';
+import mandrillTransport from 'nodemailer-mandrill-template-transport';
 import User from '../models/user';
 const transport = nodeMailer.createTransport(mandrillTransport({
   auth: {
@@ -29,26 +29,26 @@ export function send_email(charge) {
 export function orderFullfilled(order){
   User.find(_id: order._buyer).exec((user)  =>{
     transport.sendMail({
-    from: 'noreply@bazeat.no',
-    to: user.email,
-    // to: 'get.atifhabib@gmail.com',
-    subject: 'Order Fullfilled',
-    html: '<p>You order has been fullfilled</p>'
-    },
-    function (err, info) {
-      if (err) {
-        console.error(err);
-      } else {
-        console.log(info);
+      from: 'noreply@bazeat.no',
+      to: user.email,
+      // to: 'get.atifhabib@gmail.com',
+      subject: 'Order Fullfilled',
+      html: '<p>You order has been fullfilled</p>'
+      },
+      function (err, info) {
+        if (err) {
+          console.error(err);
+        } else {
+          console.log(info);
+        }
       }
-    }
-  );
+    );
   })
 }
 
 
 export  function cancel_account(email){
-   User.findOne({ email: email }).exec((err, user) => {
+   User.find({ email: email }).exec((err, user) => {
     console.log('user')
     console.log(user)
     if (err) {
@@ -84,3 +84,60 @@ export  function cancel_account(email){
     }
   })
 }
+
+
+export  function new_message(message, sender){
+  User.find({ _id: message.receiver }).exec((err, user) => {
+    transport.sendMail({
+      mandrillOptions: {
+        template_name: 'new-message-from-name',
+        template_content: [
+        ],
+        message: {
+          to: user.email,
+          "merge": true,
+          "merge_language": "handlebars",
+          "global_merge_vars": [{
+              "name": "name",
+              "content": sender.first_name},
+              { "name": "message",
+                "content": message.body},
+              {
+                "name": "email",
+                "content": "john@gmail.com"
+              }
+          ]
+        }
+      }
+      },
+      function (err, info) {
+        console.log('err')
+        console.log(err)
+        console.log('info')
+        console.log(info)
+        if (err) {
+          console.error(err);
+        } else {
+          console.log(info);
+        }
+    })
+  })
+}
+
+
+// transport.sendMail({
+//   template_name: 'contact-form',
+//   template_content: [],
+//   subject: 'Hello',
+//   from: 'bernie senders sender@example.com',
+//   to: 'user@example.com, user2@example.com',
+//   cc: 'cc@example.com, cc@example.com',
+//   bcc: [
+//     'foobar@blurdybloop.com', {
+//       name: 'Майлер, Ноде',
+//       address: 'foobar@blurdybloop.com'
+//     }
+//   ],
+//   replyTo: 'test@tet.com',
+//   messageId: 'test',
+// });

@@ -16,9 +16,9 @@ export function gecodeLocation(req, res) {
     center : { type : 'Point', coordinates :
     coords}, minDistance: 100, maxDistance : 50000 }).exec(function(err, users) {
       if (err) {
-        return res.json(422, err);
+        return res.status(422).send(err);;
       }
-        return res.json (users);
+        return res.status(200).json({users});
    });
 }
 
@@ -28,10 +28,10 @@ export function usersResults(req, res) {
   User.find({$or:[{'full_name':re}, { 'email':re}]}).sort('full_name').exec(
     function(err,users){
       if (err) {
-        return res.json(422, err);
+        return res.status(422).send(err);;
       }
       else{
-        return res.json (users);
+        return res.status(200).json({users});
       }
     }
   );
@@ -39,27 +39,36 @@ export function usersResults(req, res) {
 
 
 export function productsResults(req, res) {
-  let data = {};
-  if(req.query.search){
-    data.product_name = new RegExp(req.query.search, 'i');
-  }
-  if(req.query.start_price && req.query.end_price){
-    data.calculated_price = {'$gte': parseInt(req.query.start_price), '$lte': parseInt(req.query.end_price)};
-  }
-  if(req.query.category_id){
-    data.product_category = {"$in": req.query.category_id };
-  }
-  Product.find(data).populate("_producer ingredients allergens product_category").sort('product_name').exec(
-    function(err,products){
-      console.log('products')
-      console.log(products)
-      if (err) {
-        return res.json(422, err);
-      }
-      else{
-        return res.json(products);
-      }
+  User.findOne({email: req.query.email}).exec(function(err,user){
+    console.log('user')
+    console.log(user)
+    let data = {}
+    if(req.query.search){
+      data.product_name = new RegExp(req.query.search, 'i')
     }
-  );
+    if(req.query.start_price && req.query.end_price){
+      data.calculated_price = {'$gte': parseInt(req.query.start_price), '$lte': parseInt(req.query.end_price)};
+    }
+    if(req.query.category_id){
+      data.product_category = {"$in": req.query.category_id }
+    }
+    if(user){
+      data._producer = {"$ne": user._id}
+    }
+    console.log('data')
+    console.log(data)
+    Product.find(data).populate("_producer ingredients allergens product_category").sort('product_name').exec(
+      function(err,products){
+        console.log('products')
+        console.log(products)
+        if (err) {
+          return res.status(422).send(err);;
+        }
+        else{
+          return res.status(200).json({products});
+        }
+      }
+    );
+  });
 }
 

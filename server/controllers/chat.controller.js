@@ -1,6 +1,8 @@
-import  Conversation from '../models/conversation'
-import  Message from '../models/message'
-import  User from '../models/user'
+import  Conversation from '../models/conversation';
+import  Message from '../models/message';
+import  User from '../models/user';
+import * as MailService from '../services/mailer';
+import * as MessageService from '../services/twillio';
 
 
 export function allConversations(req, res, next) {
@@ -46,44 +48,36 @@ export function allConversations(req, res, next) {
 
 
 export function getConversation(req, res, next) {
-  let fullMessages = [];
-  Message.find({ conversation_id: req.params.conversation_id })
-    .select('createdAt body sender receiver')
-    .sort('-updatedAt')
-    .limit(2)
-    .populate({
-      path: 'sender',
-      select: 'full_name photo'
-    })
-    .populate({
-      path: 'receiver',
-      select: 'full_name photo'
-    })
-    .exec(function(err, messages) {
-      if (err) {
-        res.send({ error: err });
-        return next(err);
-      }
-      if(messages){
-        messages.forEach(function(msg, index) {
-           Message.findOneAndUpdate({_id: msg._id}, {$set: {'unread': false}}, {new: true}).exec(function(err, model){
-            console.log('msg')
-            console.log(messages.length == index+1)
-            fullMessages.push(model)
-            //if (messages.length == fullMessages.length){
-              return res.status(200).json({ fullMessages });
-            //}
-           })
+  Message.update({conversation_id: req.params.conversation_id}, {unread: false}, {multi: true, new: true}).exec(function(err, updated_messages) {
+    if(err) {
+      return res.status(422).json({ err });
+    } else {
+      Message.find({ conversation_id: req.params.conversation_id })
+        .select('createdAt body sender receiver')
+        .sort('createdAt')
+        .limit(2)
+        .populate({
+          path: 'sender',
+          select: 'full_name photo'
         })
-      }
-      else{
-        return res.status(200).json({ conversation: "There are no messages for this conversation" });
-      }
-    });
+        .populate({
+          path: 'receiver',
+          select: 'full_name photo'
+        })
+        .exec(function(err, messages) {
+          if (err) {
+            return res.status(422).json({ err });
+            return next(err);
+          } else {
+            return res.status(200).json({ messages });
+          }
+      });
+    }
+  })
 }
 
-
 export function newConversation(req, res) {
+  let conv
   if(!req.query.recipient_id) {
     res.status(422).send({ error: 'Please choose a valid recipient for your message.' });
     return next();
@@ -93,31 +87,48 @@ export function newConversation(req, res) {
     return next();
   }
   User.findOne({ email: req.body.email }).exec((err, user) => {
-    const conversation = new Conversation({
-      participants: [user._id, req.query.recipient_id]
-    });
-    conversation.save(function(err, newConversation) {
-      if (err) {
-        res.send({ error: err });
-        return next(err);
+    Conversation.findOne({participants: [user._id, req.query.recipient_id]}).exec(function(err,conversation){
+        console.log("1")
+      console.log(conversation)
+      if(conversation){
+        newMessage(conversation, null, res, user, req)
       }
-      const message = new Message({
-        conversation_id: newConversation._id,
-        body: req.body.composedMessage,
-        sender: user._id,
-        receiver: req.query.recipient_id
-      });
+      else{
+        const conversation = new Conversation({
+          participants: [user._id, req.query.recipient_id]
+        });
+        conversation.save(function(err, newConversation) {
+            console.log('2')
+            console.log(newConversation)
+          if (err) {
+            res.status(422).send({err});
+          }
+          else{
+            newMessage(newConversation, null, res, user, req)
+          }
+        });
+      }
 
-      message.save(function(err, newMessage) {
-        if (err) {
-          res.send({ error: err });
-          return next(err);
-        }
-        res.status(200).json({ message: 'Conversation started!', conversation_id: conversation._id, message: newMessage });
-      });
-    });
+    })
   });
 }
+
+export  function newMessage(conversation, next, res, user, req){
+  const message = new Message({
+    conversation_id: conversation._id,
+    body: req.body.composedMessage,
+    sender: user._id,
+    receiver: req.query.recipient_id
+  });
+  message.save(function(err, newMessage) {
+    if (err) {
+      res.status(422).send({err});
+    }
+    MailService.new_message(newMessage, user)
+    res.status(200).json({ message: newMessage });
+  });
+}
+
 
 export function sendReply(req, res, next) {
   User.findOne({ email: req.body.email }).exec((err, user) => {
@@ -132,6 +143,7 @@ export function sendReply(req, res, next) {
         res.send({ error: err });
         return next(err);
       }
+      MailService.send_email(sentReply)
       res.status(200).json({ message: sentReply });
       return(next);
     });

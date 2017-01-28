@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
-import SelectedMessages from './SelectedMessages'
 export default class MessageDropdown extends React.Component {
 	static contextTypes = {
     authenticated: React.PropTypes.bool,
@@ -26,8 +25,8 @@ export default class MessageDropdown extends React.Component {
   	var _allMessages = this.props.allMessages ? this.props.allMessages : []
   	var results = _allMessages.map((result, index) => {
   	var data = result[0];
-	    return( 
-	        <div key={index} className={data.sender.full_name==this.context.user.fullName?'':"chat_list white_bg"}>
+	    return(
+	        <div key={index} className={data.sender.full_name==this.context.user.fullName?'':"chat_list white_bg"} >
 				<span className="user_img"><img className={data.sender.full_name==this.context.user.fullName?'':"user_profile_img"} src={data.sender.full_name==this.context.user.fullName?'':data.sender.photo}/></span>
 					<span className="chat_description" key ={index}>
 						<h3 >
@@ -75,5 +74,6 @@ export default class MessageDropdown extends React.Component {
 			</div>
 		);
 	  }
+	  	
 	}
 

@@ -5,7 +5,7 @@ import axios from 'axios';
 import MessageDropdown from '../MessageAndReviews/MessageDropdown';
 import { IndexRoute, Route, browserHistory } from 'react-router';
 import { Router, LoginLink, LogoutLink, NotAuthenticated, Authenticated } from 'react-stormpath';
-let cart_icon = "";
+
 export default class Menu extends React.Component {
 
   static contextTypes = {
@@ -21,7 +21,7 @@ export default class Menu extends React.Component {
       isMessage : '',
       allMessages:[],
       all_reviews : [],
-      offset: 1,
+      offset: 0,
     };
   }
 
@@ -73,10 +73,10 @@ export default class Menu extends React.Component {
   }
 
   render() {
-
-    if((this.context.router.location.pathname == '/')|| (this.context.router.location.pathname == '/search'))
+    var cart_icon = <CartModal />
+    if((this.context.router.location.pathname == '/checkout')||(this.context.router.location.pathname == '/orders'))
     {
-      cart_icon = <CartModal />
+      cart_icon = "";
     }
     var MessageIcon;
     var reviewIcon
@@ -93,7 +93,7 @@ export default class Menu extends React.Component {
         <ul className={profileHead}>
           <li><a href="javascript:void(0)" className="help_icon">Help</a></li>
           <NotAuthenticated>
-            <li className="active"><a href="" data-toggle="modal" data-target="#register_modal">Join Bazeat</a></li>
+            <li><a href="" data-toggle="modal" data-target="#register_modal">Join Bazeat</a></li>
             <li><a href="" data-toggle="modal" data-target="#login_modal">Log in</a></li>
             <li className="cart_icon"><a href="javascript:void(0)">Cart</a></li>
           </NotAuthenticated>

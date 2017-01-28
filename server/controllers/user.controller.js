@@ -3,7 +3,6 @@ import Order from '../models/order';
 import * as MailService from '../services/mailer';
 import * as MessageService from '../services/twillio';
 import cuid from 'cuid';
-import fs from 'fs';
 //Stripe Implementation
 const keySecret = process.env.SECRET_KEY;
 const keyPublishable = process.env.PUBLISHABLE_KEY;
@@ -117,100 +116,110 @@ export function deleteUser(req, res) {
 }
 
 export function addBankAccount(req, res) {
-  console.log(req.body)
-  console.log(req.query)
-  console.log(req.params)
   User.findOne({ email: req.body.email }).exec((err, user) => {
     if (err) {
       return res.status(422).send(err);
     }
     else {
-      stripe.tokens.create({
-        bank_account: {
-          country: 'NO',
-          currency: 'nok',
-          account_number: req.body.account_number
-        }
-      }, function(err, token) {
-        if(err) {
-          return res.status(422).send(err);
-        } else {
-          stripe.accounts.create({
-            email: user.email,
-            country: "NO",
-            managed: true,
-            tos_acceptance: {
-              date: 1482909367,
-              ip: "203.115.106.212"
-            },
-            legal_entity: {
-              dob: {
-                day: user.birth_date,
-                month: user.birth_month,
-                year: user.birth_year
+      if (user.account_id) {
+        return res.json(user.last4);
+      }
+      else {
+        stripe.tokens.create({
+          bank_account: {
+            country: 'NO',
+            currency: 'nok',
+            account_number: req.body.account_number
+          }
+        }, function(err, token) {
+          if(err) {
+            return res.status(422).send(err);
+          } else {
+            stripe.accounts.create({
+              email: user.email,
+              country: "NO",
+              managed: true,
+              tos_acceptance: {
+                date: 1482909367,
+                ip: "203.115.106.212"
               },
-              address: {
-                city: user.city,
-                line1: user.line1,
-                postal_code: user.postal_code
-              },
-              first_name: user.first_name,
-              last_name: user.last_name,
-              type: "individual"
-            }
-          }, function(err, account) {
-            if(err) {
-              return res.status(422).send(err);
-            } else {
-              user.account_id = account.id
-              user.last4 = account.last4
-              user.account_added = true
-              user.save((err, saved) => {
-                if (err) {
-                  return res.status(422).send(err);
-                } else {
-                  stripe.accounts.createExternalAccount(
-                    user.account_id,
-                    {external_account: token.id},
-                    function(err, bank_account) {
-                      if(err) {
-                        return res.status(422).send(err);
-                      } else {
-                        stripe.fileUploads.create(
-                          {
-                            purpose: 'identity_document',
-                            file: {
-                              data: fs.readFileSync('/home/abhinav/Pictures/account.png'),
-                              name: 'account.png',
-                              type: 'application/octet-stream'
-                            }
-                          },
-                          {stripe_account: user.account_id}, function(err, file) {
-                            if(err) {
-                              return res.status(422).send(err);
-                            } else {
-                              stripe.accounts.update(
-                                user.account_id,
-                                {legal_entity: {verification: {document: file.id}}}, function(err, document) {
-                                  if(err) {
-                                    return res.status(422).send(err);
-                                  } else {
-                                    return res.json({ account: document });
+              legal_entity: {
+                dob: {
+                  day: user.birth_date.day,
+                  month: user.birth_date.month,
+                  year: user.birth_date.year
+                },
+                address: {
+                  city: user.city,
+                  line1: user.address,
+                  postal_code: user.postal_code
+                },
+                verification: {document: user.stripe_file_id},
+                first_name: user.first_name,
+                last_name: user.last_name,
+                type: "individual"
+              }
+            }, function(err, account) {
+              if(err) {
+                return res.status(422).send(err);
+              } else {
+                user.account_id = account.id
+                user.last4 = req.body.account_number.slice(-4)
+                user.account_number = req.body.account_number
+                user.account_added = true
+                user.save((err, saved) => {
+                  if (err) {
+                    return res.status(422).send(err);
+                  } else {
+                    stripe.accounts.createExternalAccount(
+                      user.account_id,
+                      {external_account: token.id},
+                      function(err, bank_account) {
+                        if(err) {
+                          return res.status(422).send(err);
+                        } else {
+                          stripe.fileUploads.create(
+                            {
+                              purpose: 'identity_document',
+                              file: {
+                                data: fs.readFileSync('/home/atif/Desktop/DSC_0000046.jpg'),
+                                name: 'account.png',
+                                type: 'application/octet-stream'
+                              }
+                            },
+                            {stripe_account: user.account_id}, function(err, file) {
+                              if(err) {
+                                return res.status(422).send(err);
+                              } else {
+                                stripe.accounts.update(
+                                  user.account_id,
+                                  {legal_entity: {verification: {document: file.id}}}, function(err, document) {
+                                    console.log('document')
+                                    console.log(document)
+                                    console.log('user')
+                                    console.log(user)
+                                    if(err) {
+                                      return res.status(422).send(err);
+                                    } else {
+                                      return res.json({ account: document });
+                                    }
+
                                   }
-                                }
-                              );
+                                );
+                              }
                             }
-                          }
-                        );
+                          );
+                          return res.json({ account: bank_account });
+                        }
                       }
-                    }
-                  );
-                }
-              });
-            }
-          });
-        }
-      });
+                    );
+                  }
+                });
+              }
+            });
+          }
+        });
+      }
     }
   });
 }

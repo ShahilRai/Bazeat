@@ -1,6 +1,21 @@
 import React from 'react';
+import CurrentUserRating from './CurrentUserRating';
+let moreCount;
 export default class ReviewsWrittenByUser extends React.Component {
+
+  static contextTypes = {
+    authenticated: React.PropTypes.bool,
+    user: React.PropTypes.object
+  };
+
+  constructor(props, context) {
+      super(props, context);
+        this.state = {
+        }
+  }
+
   render(){
+    moreCount = this.props.userRating
     return(
         <div className="modal fade prod_modal review_modal" id={"producer_review" +this.props.write_index} tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
           <div className="modal-dialog user_review_modal wdth_448" role="document">
@@ -18,15 +33,7 @@ export default class ReviewsWrittenByUser extends React.Component {
                       <div className="rvw_by_user">
                         <h4>{this.props.write_review_name}</h4>
                         <span className="user_rvw_txt">{this.props.write_review_user}</span>
-                          <span className="star_rating mlft_zero">
-                            <ul>
-                              <li><a href="#"><img src="images/star_rating.png"/></a></li>
-                              <li><a href="#"><img src="images/star_rating.png"/></a></li>
-                              <li><a href="#"><img src="images/star_rating.png"/></a></li>
-                              <li><a href="#"><img src="images/star_rating.png"/></a></li>
-                              <li><a href="#"><img src="images/star_rating.png"/></a></li>
-                            </ul>
-                          </span>
+                         <CurrentUserRating _rating = "4" />
                       </div>
                     </div>
                   </div>

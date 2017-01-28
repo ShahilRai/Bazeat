@@ -42,6 +42,7 @@ const userSchema = new Schema({
   email: { type: 'String' },
   photo: { type: 'String' },
   bgphoto: { type: 'String' },
+  stripe_file_id: { type: 'String' },
   description: { type: 'String' },
   sub_to_vat: { type: 'Boolean', default: false },
   phone: { type: 'Number' },
@@ -69,7 +70,7 @@ const userSchema = new Schema({
   orderitems: [{ type: Schema.ObjectId, ref: 'OrderItem' }],
   unique_id: { type: String },
   default_shipping: { type: Number },
-  account_number: {type: Number},
+  account_number: {type: String},
   last4: {type: String},
   loc: {
     type: [Number],

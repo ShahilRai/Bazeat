@@ -86,7 +86,14 @@ export function getPackages(req, res) {
 }
 
 export function getpurchaseOrder(req, res) {
-  Order.findOne({cuid: req.query.cuid}).populate("orderitems packages -_id _buyer").exec((err, order)=>{
+  Order.findOne({cuid: req.query.cuid})
+  .populate("packages -_id _buyer")
+  .populate({path: 'orderitems',
+    model: 'OrderItem',
+    populate: {
+      path: '_product',
+      model: 'Product'
+    }}).exec((err, order)=>{
       if (err) {
         return res.json(422, err);
       }
@@ -125,8 +132,8 @@ export function updatePackage(req, res) {
             })
             Order.update({_id: packed._order}, {$set: {after_payment_status: "Confirmed"}},function(err) {
             });
-            OrderItem.update({_id: updated_orderitem._id}, { $set: {shipped_qty: packed.qty_packed}}, function(err) {
-            });
+            // OrderItem.update({_id: updated_orderitem._id}, { $set: {shipped_qty: packed.qty_packed}}, function(err) {
+            // });
           if (req.body.orderitems.length == index+1){
             return res.json(packed);
           }
@@ -139,8 +146,11 @@ export function updatePackage(req, res) {
 
 export function beforePkgcreate(req, res){
   OrderItem.findOne({ _id: req.query.order_id }).exec((err, orderitem1) => {
-    if(orderitem1.product_qty <= (parseInt(req.query.packed_qty) + orderitem1.packed_qty)){
+    if(orderitem1.product_qty < (parseInt(req.query.packed_qty) + orderitem1.packed_qty)){
       return res.json({ msg: "packed order quantity must be less than ordered quantity" })
+    }
+    else{
+      return res.json({ msg: "Ok" })
     }
   })
 }

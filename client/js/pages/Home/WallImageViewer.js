@@ -1,6 +1,7 @@
 import React from 'react';
 import ProductDetails from '../AddProduct/ProductDetails';
 import ReactSlider from '../Product/ReactSlider';
+import CartModal from '../Header/CartModal';
 import pubSub from 'pubsub-js';
 import axios from 'axios';
 export default class WallImageViewer extends React.Component {
