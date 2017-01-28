@@ -131,15 +131,17 @@ export function newReview(req, res, next) {
 
 export function avg_ratings(reviews, newReview, next, total_count, res){
   let total_rating = 0
+  let avg_rating = 0
   reviews.forEach(function(item, index) {
-      let avg_rating = 0
       total_rating += item.rating
       avg_rating = (total_rating/total_count)
       console.log('avg_rating')
       console.log(avg_rating)
-      User.findOneAndUpdate({_id: item.reviewed_for}, {$set: {'avg_ratings': avg_rating}}, {new: true}).
+      User.findOneAndUpdate({_id: item.reviewed_for}, {$set: {'avg_rating': avg_rating}}, {new: true}).
       exec(function(err, model) {
         if (reviews.length == index+1){
+        console.log('model')
+        console.log(model)
           return res.status(200).json({newReview});
         }
       })
