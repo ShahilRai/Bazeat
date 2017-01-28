@@ -8,6 +8,7 @@ let dayInMonth = [31,28,31,30,31,30,31,31,30,31,30,31];
 let perPageDateDisplay = 5;
 let orderDetailResponse ;
 let alternateAddress ;
+let budmat_shipment_price;
 let producer_timeslots = [];
 let producer_ifo ;
 let openTime;
@@ -197,7 +198,8 @@ export default class ProductPickupDate extends React.Component {
       {
         email : email,
         cart_cuid : cart_cuid,
-        shipment_price : 0
+        shipment_price : 0,
+        delivery_method : this.props.method
       });
     }
     else if(this.props.method == 'Budmat')
@@ -206,7 +208,8 @@ export default class ProductPickupDate extends React.Component {
       {
         email : email,
         cart_cuid : cart_cuid,
-        shipment_price : 10
+        shipment_price : budmat_shipment_price,
+        delivery_method : this.props.method
       });
     }
     else
@@ -215,7 +218,8 @@ export default class ProductPickupDate extends React.Component {
       {
         email : email,
         cart_cuid : cart_cuid,
-        shipment_price : this.props._price
+        shipment_price : this.props._price,
+        delivery_method : this.props.method
       });
     }
   }
@@ -485,20 +489,24 @@ export default class ProductPickupDate extends React.Component {
   }
 
   render() {
-   this.state.currentTimeSlot.map((result, i) =>{
-      producer_ifo = result._producer
-      producer_timeslots = result._producer.timeslots
+    this.state.currentTimeSlot.map((result, i) =>{
+    producer_ifo = result._producer
+    producer_timeslots = result._producer.timeslots
+    budmat_shipment_price = result.shipment
     });
+
     producer_timeslots.map((result, i) =>{
       start_time = result.start_time
       end_time = result.end_time
       day = result.day
     });
+
     openTime= (start_time)+" - "+(end_time)
     var cart_info = this.props.cart_detail.cartitems
     cart_info.map((result, i) =>{
       product_id = result.product_id
     });
+
     return (
       <div className="full_width_container">
         {this.selected()}

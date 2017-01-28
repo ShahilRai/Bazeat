@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import toastr from 'toastr';
 import CheckoutStep from './CheckoutStep';
 let item = [];
 let productArray = [];
@@ -28,16 +29,21 @@ export default class DeliveryType extends React.Component {
   shippingAlternateDetail(){
     var cart_cuid = this.props.cart_detail.cuid
     var email = this.context.user.email;
-    this.loadShippingDetail(email, cart_cuid).then((response) => {
+    if(this.props.cart_detail.total_weight<10){
+      this.loadShippingDetail(email, cart_cuid).then((response) => {
       if(response.data.res_body) {
         sendematSelected = 'sendemat';
         this.setState({
           shipmentDetails : response.data.res_body ? response.data.res_body.Product : 'noelement'
         })
       }
-    }).catch((err) => {
-      console.log(err);
-    });
+      }).catch((err) => {
+        console.log(err);
+      });
+    }
+    else{
+      toastr.success('cart weight is more than 10 kg so choose delivery method hentemat or budmat');
+    }
   }
 
   loadShippingDetail(email, cart_cuid){
@@ -54,43 +60,43 @@ export default class DeliveryType extends React.Component {
     }
   }
   render() {
-      if(sendematSelected)
-        sendemat_shipping_detail=<div className="table-main mtop40">
-            <div className="table-wrapper">
-              <table className="table table-striped">
-                <thead>
-                 <tr>
-                  <th className="text-left">Delivery alternative</th>
-                  <th className="text-left ">Info</th>
-                  <th className="">Delivery date</th>
-                  <th className="">Price</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {this.state.shipmentDetails.map((product, i)=>
-                  <tr key={i}>
-                    <td className="text-left">
-                        <span className="custom_radio_edit del_alter hot_food">
-                          <input id={i} type="radio" name="c_detail" value={product.Price.PackagePriceWithoutAdditionalServices.AmountWithVAT} onChange={this.deliveryAlternateSelected}/>
-                          <label htmlFor={i}>{product.GuiInformation.DisplayName}</label>
-                        </span>
-                    </td>
-                    <td className="text-left">
-                      {product.GuiInformation.DescriptionText}
-                    </td>
-                    <td>
-                      {product.ExpectedDelivery.WorkingDays}
-                    </td>
-                    <td>
-                      {product.Price.PackagePriceWithoutAdditionalServices.AmountWithVAT}
-                    </td>
-                  </tr>
-                  )}
-                </tbody>
-              </table>
-                 <button type="button" className="btn btn-default continue_btn" onClick={this.shipping_alternate_selected.bind(this)} ref="myRef">Continue</button>
-            </div>
+    if(sendematSelected)
+      sendemat_shipping_detail=<div className="table-main mtop40">
+          <div className="table-wrapper">
+            <table className="table table-striped">
+              <thead>
+               <tr>
+                <th className="text-left">Delivery alternative</th>
+                <th className="text-left ">Info</th>
+                <th className="">Delivery date</th>
+                <th className="">Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.state.shipmentDetails.map((product, i)=>
+                <tr key={i}>
+                  <td className="text-left">
+                      <span className="custom_radio_edit del_alter hot_food">
+                        <input id={i} type="radio" name="c_detail" value={product.Price.PackagePriceWithoutAdditionalServices.AmountWithVAT} onChange={this.deliveryAlternateSelected}/>
+                        <label htmlFor={i}>{product.GuiInformation.DisplayName}</label>
+                      </span>
+                  </td>
+                  <td className="text-left">
+                    {product.GuiInformation.DescriptionText}
+                  </td>
+                  <td>
+                    {product.ExpectedDelivery.WorkingDays}
+                  </td>
+                  <td>
+                    {product.Price.PackagePriceWithoutAdditionalServices.AmountWithVAT}
+                  </td>
+                </tr>
+                )}
+              </tbody>
+            </table>
+               <button type="button" className="btn btn-default continue_btn" onClick={this.shipping_alternate_selected.bind(this)} ref="myRef">Continue</button>
           </div>
+        </div>
     return (
       <div className="full_width_container">
         <div className="full_width ptop0">
