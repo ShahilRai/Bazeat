@@ -350,6 +350,47 @@ app.post('/api/profile_image', profileupload.single('image'), function (req, res
   });
 })
 
+let verificationUpload = multer({ dest: 'uploads/' })
+import fs from 'fs';
+//Stripe Implementation
+const keySecret = process.env.SECRET_KEY;
+const keyPublishable = process.env.PUBLISHABLE_KEY;
+const stripe = require("stripe")(keySecret);
+
+app.post('/api/verification_file', verificationUpload.single('verification_file'), function (req, res, next) {
+  User.findOne({ email: req.body.email }).exec((err, user) => {
+    if (err) {
+      return  res.status(422).send(err);
+    }
+    else {
+      stripe.fileUploads.create(
+        {
+          purpose: 'identity_document',
+          file: {
+            data: fs.readFileSync(req.file.path),
+            name: req.file.originalname,
+            type: 'application/octet-stream'
+          }
+        },
+        function(err, file) {
+          if(err) {
+            return res.status(422).send(err);
+          } else {
+            user.stripe_file_id = file.id
+            user.save((err, saved) => {
+              if(err) {
+                return res.status(422).send(err);
+              } else {
+                return res.status(200).send(saved.stripe_file_id);
+              }
+            })
+          }
+        }
+      );
+    }
+  });
+})
+
 app.post('/api/bg_profile_image', bg_img_upload.single('file_upload'), function (req, res, next) {
   console.log(req)
   User.findOne({ email: req.body.email }).exec((err, user) => {

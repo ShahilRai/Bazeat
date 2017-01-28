@@ -5,3 +5,4 @@ stormpath.yml
 nodemon.json
 *.iml
 .idea
+uploads/
