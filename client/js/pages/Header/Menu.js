@@ -5,7 +5,7 @@ import axios from 'axios';
 import MessageDropdown from '../MessageAndReviews/MessageDropdown';
 import { IndexRoute, Route, browserHistory } from 'react-router';
 import { Router, LoginLink, LogoutLink, NotAuthenticated, Authenticated } from 'react-stormpath';
-let cart_icon = "";
+
 export default class Menu extends React.Component {
 
   static contextTypes = {
@@ -73,9 +73,10 @@ export default class Menu extends React.Component {
   }
 
   render() {
-    if((this.context.router.location.pathname == '/')|| (this.context.router.location.pathname == '/search'))
+    var cart_icon = <CartModal />
+    if((this.context.router.location.pathname == '/checkout')||(this.context.router.location.pathname == '/orders'))
     {
-      cart_icon = <CartModal />
+      cart_icon = "";
     }
     var MessageIcon;
     var reviewIcon

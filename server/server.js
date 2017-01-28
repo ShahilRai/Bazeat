@@ -53,6 +53,7 @@ import admin_users from './routes/admin/users.routes';
 import admin_products from './routes/admin/products.routes';
 import static_pages from './routes/admin/pages.routes';
 import chat from './routes/chat.routes';
+import cart from './routes/cart.routes';
 import comment from './routes/comment.routes';
 import dummyData from './dummyData';
 import serverConfig from './config';
@@ -95,6 +96,7 @@ app.use('/api', search);
 app.use('/api', purchaseorder);
 app.use('/api', chat);
 app.use('/api', comment);
+app.use('/api', cart);
 
 // Admin Routes Defination
   app.use('/api/admin/authenticate', admin);
@@ -346,6 +348,47 @@ app.post('/api/profile_image', profileupload.single('image'), function (req, res
           return res.json({ image_url: saveduser.photo });
         }
       });
+    }
+  });
+})
+
+let verificationUpload = multer({ dest: 'uploads/' })
+import fs from 'fs';
+//Stripe Implementation
+const keySecret = process.env.SECRET_KEY;
+const keyPublishable = process.env.PUBLISHABLE_KEY;
+const stripe = require("stripe")(keySecret);
+
+app.post('/api/verification_file', verificationUpload.single('verification_file'), function (req, res, next) {
+  User.findOne({ email: req.body.email }).exec((err, user) => {
+    if (err) {
+      return  res.status(422).send(err);
+    }
+    else {
+      stripe.fileUploads.create(
+        {
+          purpose: 'identity_document',
+          file: {
+            data: fs.readFileSync(req.file.path),
+            name: req.file.originalname,
+            type: 'application/octet-stream'
+          }
+        },
+        function(err, file) {
+          if(err) {
+            return res.status(422).send(err);
+          } else {
+            user.stripe_file_id = file.id
+            user.save((err, saved) => {
+              if(err) {
+                return res.status(422).send(err);
+              } else {
+                return res.status(200).send(saved.stripe_file_id);
+              }
+            })
+          }
+        }
+      );
     }
   });
 })
