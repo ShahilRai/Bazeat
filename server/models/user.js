@@ -42,6 +42,7 @@ const userSchema = new Schema({
   email: { type: 'String' },
   photo: { type: 'String' },
   bgphoto: { type: 'String' },
+  stripe_file_id: { type: 'String' },
   description: { type: 'String' },
   sub_to_vat: { type: 'Boolean', default: false },
   phone: { type: 'Number' },

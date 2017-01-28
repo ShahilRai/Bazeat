@@ -121,7 +121,8 @@ export default class ShoppingBag extends React.Component {
   }
 
   gotoHome(){
-    window.location.href = "/"
+    //window.location.href = "/"
+    this.context.router.push('/');
   }
 
   goToNextPage(){

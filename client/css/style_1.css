@@ -4124,13 +4124,21 @@ text-align:center;
 width:100%;margin:0 auto;
 }
 .pickup_row1 span.green_txt{
-	color:#00ACA2;
+	background-color:#00ACA2;
 }
+.green_txt{
+	background-color: green
+}
+
 button.more_days_btn{
     width: 148px;
     padding: 8px 0;
     color: #666666;
     border-radius: 2px;
+}
+.rdonly:hover
+{
+   cursor: pointer;
 }
 .pick_update .chkout_step1btns {
     padding: 0;
@@ -4149,17 +4157,23 @@ button.more_days_btn{
 	margin-left: 40px;
 }
 .pickup_day{
-    width: 55%;
-    text-align: right;
+  width: 87%;
+  text-align: right;
+}
+.pickup_day_time{
+  width: 87%;
+  text-align: center;
 }
 .chkout_pickup_time{
 	width:33%;
 }
 
 .chkout_pickup_time input{
-	width:87%;
+	width:97%;
 }
 .pickup_day input{
+	cursor: pointer;
+	width:87%;
 	border:0;
 	background: none;
 	}

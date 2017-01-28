@@ -200,6 +200,15 @@ export default class ProductPickupDate extends React.Component {
         shipment_price : 0
       });
     }
+    else if(this.props.method == 'Budmat')
+    {
+      return axios.post("api/orders",
+      {
+        email : email,
+        cart_cuid : cart_cuid,
+        shipment_price : 10
+      });
+    }
     else
     {
       return axios.post("api/orders",
@@ -316,19 +325,17 @@ export default class ProductPickupDate extends React.Component {
             {this.state._arrayOfMonthDayAndDate.map((monthDayDate, index)=>{
               if(day.includes(monthDayDate.day)){
                 return(
-                  <div className="pickup_row1" key={index} ref="wrapperdiv">
+                  <div className="pickup_row1 span green_txt" key={index} ref="wrapperdiv">
                     <a href="javascript:void(0)">
-                      <span className="pickup_day" id ="sp1" ref="span_value"  onClick={this.getSelectedDate.bind(this)}><input type="text" disabled="disabled" value={(monthDayDate.day)+" - "+(monthDayDate.month)+" - "+(monthDayDate.current_date)}/></span>
-                      <span className="chkout_pickup_time" value={start_time} onClick={this.getSelectedTime.bind(this)}><input type="text" disabled="disabled" value={openTime} /></span>
+                      <span className="pickup_day" id ="sp1" ref="span_value"  onClick={this.getSelectedDate.bind(this)}><input className="pickup_day green_txt rdonly" type="text" readonly disabled="disabled" value={(monthDayDate.day)+" - "+(monthDayDate.month)+" "+(monthDayDate.current_date)+"   "+(start_time)+" - "+(end_time)}/></span>
                     </a>
                   </div>
                 )
               }else
                 return(
-                  <div className="pickup_row1" key={index} ref="wrapperdiv">
+                  <div className="pickup_row1 span green_txt" key={index} ref="wrapperdiv">
                     <a href="javascript:void(0)" >
-                      <span className="pickup_day" onClick={this.getSelectedDate.bind(this)}><input type="text" disabled="disabled" value={(monthDayDate.day)+" - "+(monthDayDate.month)+" - "+(monthDayDate.current_date)}/></span>
-                      <span className="chkout_pickup_time"></span>
+                      <span className="pickup_day" onClick={this.getSelectedDate.bind(this)}><input className="pickup_day_time rdonly" type="text" readonly disabled="disabled" value={(monthDayDate.day)+" - "+(monthDayDate.month)+" "+(monthDayDate.current_date)}/></span>
                     </a>
                  </div>
                 )
@@ -352,7 +359,7 @@ export default class ProductPickupDate extends React.Component {
           <h4>Where do you want your products delivered?</h4>
           <CheckoutStep step={this.props.step}/>
           <h5>We will ship the goods to <br/>{this.props.cart_detail.address.line1}<br/>{this.props.cart_detail.address.postal_code}<br/>{this.props.cart_detail.address.city}.</h5>
-          <div className="del_addr_heading"><a href="javascript:void(0)" onClick={() =>{this.displayForm()}}><h6>Please deliver at this address instead</h6></a></div>
+          <div className="del_addr_heading "><a href="javascript:void(0)" onClick={() =>{this.displayForm()}}><h6>Please deliver at this address instead</h6></a></div>
           <div  className="del_det_form">
             <div id="checkout_form" className="edit_prfile_detail_form">
               <h3>Details</h3>
@@ -415,13 +422,13 @@ export default class ProductPickupDate extends React.Component {
             <div className="form-group row">
               <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">E-mail*</label>
               <div className="col-md-7 col-xs-12">
-                <input className="form-control" type="text" name="_newEmail" ref="newEmail" value={this.state._newEmail} />
+                <input className="form-control" type="email" name="_newEmail" ref="newEmail" value={this.state._newEmail} required={ true }/>
               </div>
             </div>
             <div className="form-group row">
               <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">First name*</label>
               <div className="col-md-7 col-xs-12">
-                <input className="form-control" type="text" name="_firstName" ref="firstName" value={this.state._firstName} />
+                <input className="form-control" type="text" name="_firstName" ref="firstName" value={this.state._firstName} required={ true }/>
               </div>
             </div>
             <div className="form-group row">
@@ -433,7 +440,7 @@ export default class ProductPickupDate extends React.Component {
             <div className="form-group row">
               <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">Post code*</label>
               <div className="col-md-7 col-xs-12">
-                <input className="form-control" type="text" name="postCode" ref="postCode" value={this.state._postCode} />
+                <input className="form-control" type="text" name="postCode" ref="postCode" value={this.state._postCode} required={ true }/>
               </div>
             </div>
           </div>
@@ -441,25 +448,25 @@ export default class ProductPickupDate extends React.Component {
             <div className="form-group row">
               <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">Phone number*</label>
               <div className="col-md-7 col-xs-12">
-                <input className="form-control" type="text" name="_phoneNo" ref="phoneNo" value={this.state._phoneNo} />
+                <input className="form-control" type="text" name="_phoneNo" ref="phoneNo" value={this.state._phoneNo} required={ true }/>
               </div>
             </div>
             <div className="form-group row">
               <label for="example-url-input" className="col-md-5 col-xs-12 col-form-label">Last Name*</label>
               <div className="col-md-7 col-xs-12">
-              <input className="form-control" type="text" name="_lastName" ref="lastName" value={this.state._lastName} />
+              <input className="form-control" type="text" name="_lastName" ref="lastName" value={this.state._lastName} required={ true }/>
               </div>
             </div>
             <div className="form-group row">
               <label for="example-url-input" className="col-md-5 col-xs-12 col-form-label">Address*</label>
               <div className="col-md-7 col-xs-12">
-              <input className="form-control" type="text" name="_address" ref="address" value={this.state._address} />
+              <input className="form-control" type="text" name="_address" ref="address" value={this.state._address} required={ true }/>
               </div>
             </div>
             <div className="form-group row">
               <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">City*</label>
               <div className="col-md-7 col-xs-12">
-                <input className="form-control" type="text" name="_city" ref="city" value={this.state._city} />
+                <input className="form-control" type="text" name="_city" ref="city" value={this.state._city} required={ true }/>
               </div>
             </div>
             <div className="form-group row">
