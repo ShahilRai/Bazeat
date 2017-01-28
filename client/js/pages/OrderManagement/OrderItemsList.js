@@ -21,7 +21,7 @@ export default class OrderItemsList extends React.Component {
           1
         </td>
         <td className="">
-          Item name
+          {this.props.order._product ? this.props.order._product.product_name : ""}
         </td>
         <td className="text-center">{this.props.order.product_qty}</td>
         <td className="text-center">

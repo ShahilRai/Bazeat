@@ -6,7 +6,6 @@ import EditPurchaseOrder from './EditPurchaseOrder';
 import ProfileContainer from '../Profile/ProfileContainer';
 import PurchaseOrders from './PurchaseOrders';
 import ToggleDisplay from 'react-toggle-display';
-import confirm from 'bootstrap-confirm';
 import PubSub from 'pubsub-js';
 
 export default class ReceivedOrder extends React.Component {
@@ -22,12 +21,12 @@ export default class ReceivedOrder extends React.Component {
     PurchaseOrders.purchsCuid= this.props.params.orderId
     this.state = {
       orderDetails: [],
-      fullAddress: [],
       orderItems:[],
       toggle_box: false
     };
     this.dropDownOption = this.dropDownOption.bind(this)
     this.showDialog = this.showDialog.bind(this)
+    this._updateAddress = this._updateAddress.bind(this)
   }
 
   componentDidMount(){
@@ -36,7 +35,6 @@ export default class ReceivedOrder extends React.Component {
       if(response.data) {
         this.setState({
           orderDetails: response.data,
-          fullAddress: response.data.address,
           orderItems: response.data.orderitems,
           packages: response.data.packages
         });
@@ -58,16 +56,24 @@ export default class ReceivedOrder extends React.Component {
   }
 
   showDialog(){
-    var self = this;
-    confirm('To create a shipment you need to create a package. Do you want to create a new package?', function(confirmed) {
-      self.context.router.push('/new-package')
-    });
+    var confirmCreate = confirm("To create a shipment you need to create a package. Do you want to create a new package?");
+    if (confirmCreate == true) {
+      this.context.router.push('/new-package')
+    }
   }
 
   _showPackage(rcvDetails){
     this.setState({
       packages: rcvDetails
     })
+  }
+
+  _updateAddress(details){
+    this.setState({
+      orderDetails: details
+    })
+    console.log(this.state.orderDetails)
+    console.log(details)
   }
 
   _renderleftMenus(){
@@ -140,7 +146,7 @@ export default class ReceivedOrder extends React.Component {
                           <a href="#"><i className="fa fa-envelope-o" aria-hidden="true"></i></a>
                         </li>
                       </ul>
-                      <EditPurchaseOrder orderDetails={this.state.orderDetails} orderItems={this.state.orderItems}/>
+                      <EditPurchaseOrder _updateAddress={this._updateAddress} orderDetails={this.state.orderDetails} orderItems={this.state.orderItems}/>
                       <div className="form-group portion_form custom_select_box portion_select" onClick={this.dropDownOption}>
                         <ToggleDisplay show={this.state.toggle_box}>
                           <ul>
@@ -173,7 +179,10 @@ export default class ReceivedOrder extends React.Component {
                     </div>
                     <div className="order_info_rt">
                       <h3>Delivery address</h3>
-                      <p>{this.state.orderDetails._buyer ? this.state.orderDetails._buyer.full_name : ""}<br/>{this.state.fullAddress.line1}<br/>{this.state.fullAddress.postal_code} {this.state.fullAddress.city}<br/>{this.state.fullAddress.country}</p>
+                      <p>{this.state.orderDetails.address? this.state.orderDetails.address.first_name: ""} {this.state.orderDetails.address? this.state.orderDetails.address.last_name: ""}
+                      <br/>{this.state.orderDetails.address? this.state.orderDetails.address.line1: ""}<br/>{this.state.orderDetails.address? this.state.orderDetails.address.postal_code: ""} {this.state.orderDetails.address? this.state.orderDetails.address.city: ""}
+                      <br/>{this.state.orderDetails.address? this.state.orderDetails.address.country: ""}
+                      </p>
                     </div>
                   </div>
                   <div className="rcvd_order_table">
@@ -196,10 +205,10 @@ export default class ReceivedOrder extends React.Component {
                             return(
                               <tr key={index}>
                                 <td className="">
-                                  1
+                                  {index+ 1}
                                 </td>
                                 <td className="">
-                                  Item name
+                                  {order._product ? order._product.product_name : ""}
                                 </td>
                                 <td className="text-center">{order.product_qty}</td>
                                 <td className="">
@@ -227,7 +236,7 @@ export default class ReceivedOrder extends React.Component {
                           </div>
                           <div className="inner_order_subtot">
                             <span className="mrht75">Shipment</span>
-                            <span>150,00</span>
+                            <span>{this.state.orderDetails.price_with_ship ? this.state.orderDetails.price_with_ship.toFixed(2): ""}</span>
                           </div>
                           <div className="inner_order_subtot">
                             <span className="mrht75 prht15">Where of MVA (25%)</span>
@@ -236,7 +245,7 @@ export default class ReceivedOrder extends React.Component {
                         </div>
                         <div className="gross_order">
                           <span className="mrht40">Total</span>
-                          <span>kr 1400,00</span>
+                          <span> kr {this.state.orderDetails.total_amount ? this.state.orderDetails.total_amount.toFixed(2): ""}</span>
                         </div>
                       </div>
                     </div>

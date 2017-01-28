@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
+
 export default class MessageDropdown extends React.Component {
 	static contextTypes = {
     authenticated: React.PropTypes.bool,
@@ -25,7 +26,7 @@ export default class MessageDropdown extends React.Component {
   	var _allMessages = this.props.allMessages ? this.props.allMessages : []
   	var results = _allMessages.map((result, index) => {
   	var data = result[0];
-	    return( 
+	    return(
 	        <div key={index} className={data.sender.full_name==this.context.user.fullName?'':"chat_list white_bg"} >
 				<span className="user_img"><img className={data.sender.full_name==this.context.user.fullName?'':"user_profile_img"} src={data.sender.full_name==this.context.user.fullName?'':data.sender.photo}/></span>
 					<span className="chat_description" key ={index}>
@@ -53,25 +54,25 @@ export default class MessageDropdown extends React.Component {
           </div>
         )
     })
-		  	return(
-					<div className="msg_dropdown" id="user_message" >
-						<div className="chat_header" >
-							<span className="msgs_title">Messages</span>
-								<span className="edit_icon">
-									<Link to="/message"><i className="fa fa-pencil-square-o" aria-hidden="true" ></i>
-									</Link>
-								</span>
-						</div>
-							{results}
-	          			<div className="chat_header" >
-	            			<span className="msgs_title">Reviews (1 new)</span>
-	              			<span className="edit_icon">
-	                			<Link to="/reviews"><h5>all Reviews</h5>
-	               			 	</Link>
-	              			</span>
-	          			</div>
-	          				{reviewResults}
-					</div>
+	  	return(
+				<div className="msg_dropdown" id="user_message" >
+            <div className="chat_header" >
+              <span className="msgs_title">Messages</span>
+                <span className="edit_icon">
+                  <Link to="/message"><i className="fa fa-pencil-square-o" aria-hidden="true" ></i>
+                  </Link>
+                </span>
+            </div>
+					{results}
+          <div className="chat_header" >
+            <span className="msgs_title">Reviews ({this.props.allReviews.length} new)</span>
+              <span className="edit_icon">
+                <Link to="/reviews"><h5>all Reviews</h5>
+                </Link>
+              </span>
+          </div>
+          {reviewResults}
+				</div>
 			);
 		}
 	}

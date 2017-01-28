@@ -1,7 +1,6 @@
 import React from 'react';
 import ToggleDisplay from 'react-toggle-display';
 import NewShipment from './NewShipment';
-import confirm from 'bootstrap-confirm';
 import toastr from 'toastr';
 import moment from 'moment';
 import axios from 'axios';
@@ -35,10 +34,10 @@ export default class DisplayPackageList extends React.Component {
   }
 
   deletePackageConfirm(){
-    var self = this;
-    confirm('Are you sure you want to delete the package?', function(confirmed) {
-      self._deletePackage()
-    });
+    var confirmDelete = confirm("Are you sure you want to delete the package?");
+    if (confirmDelete == true) {
+      this._deletePackage()
+    }
   }
 
   _deletePackage(){
@@ -109,7 +108,7 @@ export default class DisplayPackageList extends React.Component {
                 <li><a href="#">Mark for pickup</a></li>
                 <li><a href="#">PDF package slip</a></li>
                 <li><a href="#">Print package slip</a></li>
-                <li><a href="#" onClick={this.deletePackageConfirm}>Delete package</a></li>
+                <li><a href="javascript:void(0)" onClick={this.deletePackageConfirm}>Delete package</a></li>
               </ul>
             </ToggleDisplay>
           </span>

@@ -69,7 +69,7 @@ const userSchema = new Schema({
   orderitems: [{ type: Schema.ObjectId, ref: 'OrderItem' }],
   unique_id: { type: String },
   default_shipping: { type: Number },
-  account_number: {type: Number},
+  account_number: {type: String},
   last4: {type: String},
   loc: {
     type: [Number],

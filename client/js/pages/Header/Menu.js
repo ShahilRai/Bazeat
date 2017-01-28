@@ -21,7 +21,7 @@ export default class Menu extends React.Component {
       isMessage : '',
       allMessages:[],
       all_reviews : [],
-      offset: 1,
+      offset: 0,
     };
   }
 
@@ -73,7 +73,6 @@ export default class Menu extends React.Component {
   }
 
   render() {
-
     if((this.context.router.location.pathname == '/')|| (this.context.router.location.pathname == '/search'))
     {
       cart_icon = <CartModal />

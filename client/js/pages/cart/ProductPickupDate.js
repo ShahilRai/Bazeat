@@ -499,4 +499,3 @@ export default class ProductPickupDate extends React.Component {
     );
   }
 }
-

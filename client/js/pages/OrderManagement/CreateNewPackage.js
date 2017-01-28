@@ -79,7 +79,6 @@ export default class CreateNewPackage extends React.Component {
         this.setState({
           newPackageDetails: response.data
         })
-        console.log(this.state.newPackageDetails)
       }
     }).catch((err) => {
     console.log(err);
@@ -103,16 +102,16 @@ export default class CreateNewPackage extends React.Component {
           _id: o_Id
         })*/
       this.addPackageOrder(_orditems, p_Id, p_date).then((response) => {
-        toastr.success('Package successfully created');
          console.log(response.statusText)
         if(response.statusText== "Ok") {
+          toastr.success('Package successfully created');
           this.getViewPackge("status", response.data)
+          this.context.router.push('/orders/'+orderCuid)
         }
       }).catch((err) => {
         toastr.error('Creating Package failed. Packed order quantity cannot be null');
         console.log(err);
       });
-      this.context.router.push('/orders/'+orderCuid)
     }
   }
 
@@ -153,10 +152,9 @@ export default class CreateNewPackage extends React.Component {
             }
           })}
         }
-        console.log(_orditems)
       }
       else{
-        alert("Please fill Quantity to pack less than Ordered")
+        alert("Packed order quantity must be less than ordered quantity")
         return false;
       }
     }).catch((err) => {

@@ -1,6 +1,7 @@
 import React from 'react';
-import TextAreaField from '../components/TextAreaField';
+import toastr from 'toastr';
 import axios from 'axios';
+import Rating from './Rating';
 export default class WriteReview extends React.Component {
 
   static contextTypes = {
@@ -11,30 +12,52 @@ export default class WriteReview extends React.Component {
   constructor(props, context) {
       super(props, context);
         this.state = {
-          reviewUserData : []
+          reviewUserData : [],
+          rating : '',
+          value : ''
         }
+        this.getRating=this.getRating.bind(this);
   }
 
   WriteAReview(){
-    this.WriteReviewData(this.context.user.email, this.refs.review.state.value).then((response) => {
+    this.WriteReviewData(this.context.user.email, this.refs.review.value,this.state.rating).then((response) => {
+        toastr.success('Your review successfully submitted');
+        this.props.updateReviews(response.data)
         if(response.data) {
           this.setState({
-            reviewUserData : response.data
+            reviewUserData : response.data,
+            value : ''
           });
         }
     }).catch((err) => {
+        toastr.error('Sorry, your review not submitted');
         console.log(err);
     });
   }
 
-  WriteReviewData(email,review_body){
+  WriteReviewData(email,review_body,rating){
     return axios.post("api/reviews?reviewed_for="+this.props.user_id ,{
       email: email,
-      review_body: review_body
+      review_body: review_body,
+      rating : rating
     })
   }
 
+  getRating(data){
+    console.log("data")
+    console.log(data)
+    this.setState({
+      rating : data
+    })
+  }
+
+  textAreaValue(event){
+      this.setState({ value: event.target.value });
+    }
+
   render(){
+    console.log("child rating")
+    console.log(this.state.rating)
     return(
       <div className="modal fade prod_modal review_modal" id={"write_review" + this.props.index}  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div className="modal-dialog user_review_modal" role="document">
@@ -50,20 +73,14 @@ export default class WriteReview extends React.Component {
                 <div className="form-group">
                   <label className="user_rvw_label">Your review</label>
                   <div className="rvw_by_user">
-                     <TextAreaField name="desc" ref="review" ></TextAreaField>
+                      <textarea ref="review" className=""  onChange={this.textAreaValue.bind(this)} value={this.state.value} ></textarea>
                   </div>
                 </div>
                 <div className="form-group">
                   <label className="user_rvw_label">Your rating</label>
                 <div className="rvw_by_user">
                   <span className="star_rating mtop0">
-                    <ul>
-                      <li><a href="#"><img src="images/star_rating.png"/></a></li>
-                      <li><a href="#"><img src="images/star_rating.png"/></a></li>
-                      <li><a href="#"><img src="images/star_rating.png"/></a></li>
-                      <li><a href="#"><img src="images/star_rating.png"/></a></li>
-                      <li><a href="#"><img src="images/star_rating.png"/></a></li>
-                    </ul>
+                   <Rating get_rating={this.getRating} />
                   </span>
                 </div>
               </div>
