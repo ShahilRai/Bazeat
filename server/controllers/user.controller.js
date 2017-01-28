@@ -3,7 +3,6 @@ import Order from '../models/order';
 import * as MailService from '../services/mailer';
 import * as MessageService from '../services/twillio';
 import cuid from 'cuid';
-import fs from 'fs';
 //Stripe Implementation
 const keySecret = process.env.SECRET_KEY;
 const keyPublishable = process.env.PUBLISHABLE_KEY;
@@ -122,10 +121,10 @@ export function addBankAccount(req, res) {
       return res.status(422).send(err);
     }
     else {
-      if (user.account_id){
-        return res.json({ user });
+      if (user.account_id) {
+        return res.json(user.last4);
       }
-      else{
+      else {
         stripe.tokens.create({
           bank_account: {
             country: 'NO',
@@ -155,6 +154,7 @@ export function addBankAccount(req, res) {
                   line1: user.address,
                   postal_code: user.postal_code
                 },
+                verification: {document: user.stripe_file_id},
                 first_name: user.first_name,
                 last_name: user.last_name,
                 type: "individual"
@@ -175,41 +175,10 @@ export function addBankAccount(req, res) {
                       user.account_id,
                       {external_account: token.id},
                       function(err, bank_account) {
-                        console.log('bank_account')
-                        console.log(bank_account)
                         if(err) {
                           return res.status(422).send(err);
                         } else {
-                          stripe.fileUploads.create(
-                            {
-                              purpose: 'identity_document',
-                              file: {
-                                data: fs.readFileSync('/home/atif/Desktop/DSC_0000046.jpg'),
-                                name: 'account.png',
-                                type: 'application/octet-stream'
-                              }
-                            },
-                            {stripe_account: user.account_id}, function(err, file) {
-                              if(err) {
-                                return res.status(422).send(err);
-                              } else {
-                                stripe.accounts.update(
-                                  user.account_id,
-                                  {legal_entity: {verification: {document: file.id}}}, function(err, document) {
-                                    console.log('document')
-                                    console.log(document)
-                                    console.log('user')
-                                    console.log(user)
-                                    if(err) {
-                                      return res.status(422).send(err);
-                                    } else {
-                                      return res.json({ account: document });
-                                    }
-                                  }
-                                );
-                              }
-                            }
-                          );
+                          return res.json({ account: bank_account });
                         }
                       }
                     );
