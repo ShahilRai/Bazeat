@@ -134,6 +134,25 @@ export default class CartModal extends React.Component {
       }
   }
 
+  getCart() {
+    var email = this.context.user.email;
+    this.loadCartItem(email).then((response) => {
+      if(response.data){
+        this.setState({
+        item : response.data.cart,
+        items : response.data.cart.cartitems,
+        total_price : response.data.cart.total_price
+        })
+      }
+    }).catch((err) =>{
+      console.log(err);
+      });
+  }
+
+  loadCartItem(email) {
+    return axios.get("/api/cart/"+email);
+  }
+
   render(){
     var goTOBagBtn
     if(this.state.items.length<1){
@@ -143,7 +162,7 @@ export default class CartModal extends React.Component {
     }
     return(
       <li className="next_list" id="demo">
-        <a href="javaScript:void(0)">
+        <a href="javaScript:void(0)" onClick={this.getCart.bind(this)}>
           <div className="items_list_info">
             <p className="empty_item_text">You have {this.state.items.length} items in your bag • <span  className="empty_bag" onClick={this.removeAllItems.bind(this)} >Empty bag</span></p>
             <ul>
