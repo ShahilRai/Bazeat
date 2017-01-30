@@ -18,7 +18,8 @@ export default class Header extends React.Component {
     super(props);
     this.state={
       currentUser_cuid:{},
-      _cartList: []
+      _cartList: [],
+      allMessages: []
     };
   }
 
@@ -39,11 +40,30 @@ export default class Header extends React.Component {
     return axios.get("/api/user?email="+email);
   }
 
+
+   loadAllMessages(){
+      this.getAllMessages(email).then((response) => {
+      if(response.data) {
+        this.setState({
+          allMessages: response.data.conversations
+        })
+      }
+    })
+      .catch((err) => {
+    console.log(err);
+    });
+  }
+
+  getAllMessages(emailAddress){
+    return axios.get("/api/conversations?email="+emailAddress);
+  }
+
   render() {
     if(this.context.authenticated) {
       email = this.context.user.email
       if(check_email) {
         this.loadingUser()
+        this.loadAllMessages()
         check_email = false;
       }
     }
@@ -60,7 +80,7 @@ export default class Header extends React.Component {
             <SearchInputBox />
             <NearMeIcon />
             <div className="col-lg-5 col-md-5 col-sm-12 col-xs-12 pull-right">
-              <Menu _cartList = {this.state._cartList}  cuid={userId}/>
+              <Menu _cartList = {this.state._cartList}  cuid={userId} allMessages={this.state.allMessages}/>
             </div>
           </div>
         </div>
