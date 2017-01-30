@@ -2,6 +2,8 @@ import  RatingAndReview from '../models/ratingandreview'
 import  Review from '../models/review'
 import  Comment from '../models/comment'
 import  User from '../models/user'
+import  Order from '../models/order'
+import  Product from '../models/product'
 
 export function allReviews(req, res, next) {
   // console.log(req.query)
@@ -171,4 +173,28 @@ export function sendReply(req, res, next) {
       }
     });
   })
+}
+
+
+export function writeReviews(req, res){
+  User.findOne({ email: req.query.email }).exec((err, user) => {
+    Order.find({_buyer: user._id}).select("products").exec((err, products) => {
+      console.log('products')
+      console.log(products)
+      let products_arr = []
+      products.forEach(function(item, index) {
+        products_arr.push(item.products[0])
+        if(products.length == index+1){
+          Product.find({_id: {"$in": products_arr }}).populate("_producer").exec((err, producer)=>{
+            if (err){
+              return res.status(422).send(err);
+            }
+            else{
+              return res.json({ producer });
+            }
+          })
+        }
+      })
+    });
+  });
 }

@@ -12,6 +12,8 @@ let localStorage = new LocalStorage('./scratch');
 
 
 export function getCart(req, res) {
+  // console.log('session')
+  // console.log(session)
   if(!req.params.email) {
     res.status(422).send({ error: 'send valid email' });
   }
@@ -249,7 +251,5 @@ export function sessionCart(req,res){
       return res.status(422).send(error);
     }
     session.cart_id = savedcart._id;
-    console.log('session')
-    console.log(session)
   });
 }
