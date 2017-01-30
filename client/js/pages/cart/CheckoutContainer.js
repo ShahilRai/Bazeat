@@ -27,6 +27,7 @@ export default class CheckoutContainer extends React.Component {
       alternateAddressChoosen : ''
     }
     this.nextStep = this.nextStep.bind(this)
+    this.backStep = this.backStep.bind(this)
     this.methodChange =this.methodChange.bind(this)
   }
 
@@ -43,6 +44,13 @@ export default class CheckoutContainer extends React.Component {
     orderDetailForPayment = this.state.orderDetail
   }
 
+  backStep(){
+    var self = this
+    this.setState({
+      step :self.state.step-1
+    })
+  }
+
   methodChange(selected, selectedPrice){
     this.setState({
       selected_method: selected,
@@ -56,11 +64,11 @@ export default class CheckoutContainer extends React.Component {
       case 1:
         return <ShoppingBag nextStep={this.nextStep} step={this.state.step}/>
       case 2:
-        return <DeliveryType nextStep={this.nextStep} step={this.state.step} deliveryMethodChange={this.methodChange} cart_detail={this.state.cart_detail}/>
+        return <DeliveryType backStep={this.backStep} nextStep={this.nextStep} step={this.state.step} deliveryMethodChange={this.methodChange} cart_detail={this.state.cart_detail}/>
       case 3:
-        return <ProductPickupDate nextStep={this.nextStep} step={this.state.step} method={this.state.selected_method} cart_detail={this.state.cart_detail} _price={this.state.selected_price}/>
+        return <ProductPickupDate backStep={this.backStep} nextStep={this.nextStep} step={this.state.step} method={this.state.selected_method} cart_detail={this.state.cart_detail} _price={this.state.selected_price}/>
       case 4:
-        return <OrderConfirmation nextStep={this.nextStep} step={this.state.step} method={this.state.selected_method} orderDetail={this.state.orderDetail} producer_ifo={this.state.producer_ifo_for_orderConfirmation} date_value_for_order_confirmation={this.state.date_value_day} time_value_confirmatio={this.state.time_value_day}/>
+        return <OrderConfirmation backStep={this.backStep} nextStep={this.nextStep} step={this.state.step} method={this.state.selected_method} orderDetail={this.state.orderDetail} producer_ifo={this.state.producer_ifo_for_orderConfirmation} date_value_for_order_confirmation={this.state.date_value_day} time_value_confirmatio={this.state.time_value_day}/>
       case 5:
         return <Payment nextStep={this.nextStep} step={this.state.step} method={this.state.selected_method} orderDetail={orderDetailForPayment} />
     }

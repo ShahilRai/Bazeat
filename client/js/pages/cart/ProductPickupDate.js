@@ -129,6 +129,10 @@ export default class ProductPickupDate extends React.Component {
     document.getElementById("checkout_form").style.display = "block";
   }
 
+  goToBackPage(){
+    this.props.backStep()
+  }
+
 //display more 5 days for the deliver method Hentemat
   showMoreDays(){
     perPageDateDisplay = perPageDateDisplay+5;
@@ -349,6 +353,7 @@ export default class ProductPickupDate extends React.Component {
             <button type="button" className="btn btn-default more_days_btn" onClick={this.showMoreDays.bind(this)}>Show more days</button>
             <button type="button" className="btn btn-default continue_btn" onClick={this.createOrder}>Continue</button>
             </div>
+            <button type="button" className="btn btn-default continue_btn" onClick={ this.goToBackPage.bind(this)}>Back</button>
           </div>
         </div>
       </div>
@@ -371,6 +376,7 @@ export default class ProductPickupDate extends React.Component {
             </div>
           </div>
           <button type="button" className="btn btn-default continue_btn" onClick={this.createOrder} ref="myRef">Continue</button>
+          <button type="button" className="btn btn-default continue_btn" onClick={ this.goToBackPage.bind(this)}>Back</button>
         </div>
       </div>
     );
@@ -395,6 +401,7 @@ export default class ProductPickupDate extends React.Component {
           { this.state.currentUser_Detail ? this.state.currentUser_Detail.delivery_options : 'undefined'}
           </p>
           <button type="button" className="btn btn-default continue_btn" onClick={this.createOrder} ref="myRef">Continue</button>
+          <button type="button" className="btn btn-default continue_btn" onClick={ this.goToBackPage.bind(this)}>Back</button>
         </div>
       </div>
     );
