@@ -55,13 +55,13 @@ export default class SelectedMessages extends React.Component {
               <ul>
                 <li>
                   <span className={results.sender.full_name!==this.context.user.fullName?"chat_dates":''}>{results.sender.full_name!==this.context.user.fullName? moment(results.createdAt).format('DD-MM-YYYY'):''}</span>
-                    <span  className={results.sender.full_name!==this.context.user.fullName?"both_chat receiver_msg":''}>
+                    <span  className={results.sender.full_name!==this.context.user.fullName?"both_chat sender_msg":''}>
                       {results.sender.full_name==this.context.user.fullName?'':results.body}
                   </span>
                 </li>
                 <li>
                   <span className={results.sender.full_name==this.context.user.fullName?"chat_dates":''}>{results.sender.full_name==this.context.user.fullName?moment(results.createdAt).format('DD-MM-YYYY'):''}</span>
-                    <span  className={results.sender.full_name==this.context.user.fullName?"both_chat sender_msg":''}>
+                    <span  className={results.sender.full_name==this.context.user.fullName?"both_chat receiver_msg":''}>
                       {results.sender.full_name==this.context.user.fullName?results.body:''}
                     </span>
                 </li>

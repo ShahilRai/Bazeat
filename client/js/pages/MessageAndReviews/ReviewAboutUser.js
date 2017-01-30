@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import toastr from 'toastr';
-import CurrentUserRating from './CurrentUserRating';
+import Rating from 'react-simple-rating';
 let cuRating;
 export default class ReviewAboutUser extends React.Component {
 
@@ -71,9 +71,7 @@ static contextTypes = {
                     <label className="user_rvw_label">Review by<span>{this.props.reviewedBy}</span></label>
                     <div className="rvw_by_user">
                       <span className="user_rvw_txt">{this.props.review_user}</span>
-                      <span className="star_rating">
-                          <CurrentUserRating  />
-                      </span>
+                         <Rating rating={this.props.rating_count} displayOnly={true} maxRating={5}  ratingSymbol={"\u2764"} />
                     </div>
                   </div>
                   <div className="form-group">

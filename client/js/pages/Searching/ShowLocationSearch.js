@@ -28,7 +28,7 @@ export default class ShowLocationSearch extends React.Component {
     this.loadBazeaters(latitude, longitude).then((response) => {
         if(response.data) {
           this.setState({
-            allBazeaters: response.data
+            allBazeaters: response.data.users
           });
         }
       }).catch((err) => {

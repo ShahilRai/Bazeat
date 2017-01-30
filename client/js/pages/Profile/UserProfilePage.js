@@ -109,7 +109,7 @@ export default class UserProfilePage extends React.Component {
         <div className="container padd_87">
           <div className="full_width">
             <div className="row">
-              <div className="col-lg-3 col-md-2 col-sm-2 col-xs-12 purchase_order_left_sidebar order_purchse_lt_wdth edit_profile_sidebar">
+              <div className="col-lg-3 col-md-2 col-sm-2 col-xs-12 edit_profile_sidebar">
                 {this._renderleftMenus()}
               </div>
               <div className="col-lg-9 col-md-8 col-sm-10 col-xs-12 edit_profile_rht_sidebar">

@@ -4,6 +4,8 @@ import Menu from './Menu';
 import Logo from './Logo';
 import NearMeIcon from './NearMeIcon';
 import axios from 'axios';
+let email;
+let check_email = true;
 
 export default class Header extends React.Component {
   static contextTypes = {
@@ -20,21 +22,11 @@ export default class Header extends React.Component {
     };
   }
 
-  componentDidMount(){
-    var email=this.context.user ? this.context.user.username : ''
+  loadingUser(){
     this.loadCurrentUser(email).then((response) => {
         if(response.data.user) {
           this.setState({
             currentUser_cuid: response.data.user ? response.data.user.cuid : ''
-          });
-        }
-    }).catch((err) => {
-        console.log(err);
-    });
-    this._loadUserCartData(email).then((response) => {
-        if(response.data) {
-          this.setState({
-            _cartList: response.data.cart ? response.data.cart.cartitems : []
           });
         }
     }).catch((err) => {
@@ -46,12 +38,15 @@ export default class Header extends React.Component {
   loadCurrentUser(email) {
     return axios.get("/api/user?email="+email);
   }
-  //load current user cart's data
-  _loadUserCartData(email){
-    return axios.get("/api/cart/"+email);
-  }
 
   render() {
+    if(this.context.authenticated) {
+      email = this.context.user.email
+      if(check_email) {
+        this.loadingUser()
+        check_email = false;
+      }
+    }
     var headerClass = "header_wrapper";
     if(this.context.router.location.pathname == "/search"){
       headerClass = "header_wrapper border_bottom"
@@ -64,7 +59,7 @@ export default class Header extends React.Component {
             <Logo />
             <SearchInputBox />
             <NearMeIcon />
-            <div className="col-lg-5 pull-right">
+            <div className="col-lg-5 col-md-5 col-sm-12 col-xs-12 pull-right">
               <Menu _cartList = {this.state._cartList}  cuid={userId}/>
             </div>
           </div>

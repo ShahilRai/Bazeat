@@ -93,7 +93,7 @@
 }
 @media only screen and (min-width:250px) and (max-width:760px) {
 
-.wall-column { width: 50%; }
+.wall-column { width: 100%; }
 .grid_single_item {
     margin: 15px 0;
 	width:100%;

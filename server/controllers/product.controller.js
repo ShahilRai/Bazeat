@@ -3,11 +3,13 @@ import User from '../models/user';
 import ProductCategory from '../models/productcategory';
 import Allergen from '../models/allergen';
 import Ingredient from '../models/ingredient';
+import Like from '../models/like';
 import cuid from 'cuid';
 
 export function addProduct(req, res) {
   User.findOne({ email: req.body.fieldValues.email }).exec((error, user) => {
     console.log(req.body.fieldValues)
+    if(user.account_added == true){
       const newProduct = new Product(req.body.fieldValues);
       newProduct.cuid = cuid();
       newProduct._producer = user._id;
@@ -19,7 +21,11 @@ export function addProduct(req, res) {
         else{
           return res.json({ product: product });;
         }
-    })
+      })
+    }
+    else{
+      return res.status(422).send({err_msg: "Please add your bank account first"});
+    }
   });
 }
 
@@ -252,6 +258,35 @@ export function getProductsByCategory(req, res) {
       else {
         return res.json({ products });
       }
+    });
+  });
+}
+
+// like and unlike for product
+
+export function addRemoveLike(req, res) {
+  User.findOne({ email: req.query.email }).exec((error, user) => {
+    Product.findOne({ cuid: req.params.cuid }).exec((error, product) => {
+      Like.findOne({ _product: product._id, _liker: user._id }).exec((err, like) => {
+        if (like == null) {
+          const newLike = new Like();
+          newLike._product = product._id;
+          newLike._liker = user._id
+          newLike.cuid = cuid();
+          newLike.save((err, like) => {
+            if (err) {
+             return res.status(422).send(err);
+            }
+            else {
+              return res.json({ like: like });;
+            }
+          });
+        } else {
+          like.remove(() => {
+            return res.status(200).send({msg: "Unlike product successfully"});
+          });
+        }
+      });
     });
   });
 }
