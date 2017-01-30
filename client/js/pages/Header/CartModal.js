@@ -1,7 +1,9 @@
 import React from 'react';
 import toastr from 'toastr';
 import axios from 'axios';
+import cookie from 'react-cookie';
 import LoginModal from '../Authenticate/LoginModal';
+let cart_id;
 export default class CartModal extends React.Component {
 
   static contextTypes = {
@@ -12,6 +14,7 @@ export default class CartModal extends React.Component {
 
   constructor(props, context) {
     super(props, context);
+    cart_id = cookie.load('cart_cuid') ? cookie.load('cart_cuid') : ''
     this.state = {
       items: this.props._cartList ? this.props._cartList : [],
       total_price: '',
@@ -38,7 +41,7 @@ export default class CartModal extends React.Component {
     var incrCartProduct = this.state.incrCartProductItems
     incrCartProduct.product_id = this.state.items[i].product_id
     incrCartProduct.qty = this.state.items[i].qty + 1
-    this.incrCartData(incrCartProduct, self.context.user.email).then((response) => {
+    this.incrCartData(incrCartProduct, cart_id).then((response) => {
       if(response.data) {
         this.setState({
           items: response.data.cart.cartitems,
@@ -56,7 +59,7 @@ export default class CartModal extends React.Component {
     var incrCartProduct = this.state.incrCartProductItems
     incrCartProduct.product_id = this.state.items[i].product_id
     incrCartProduct.qty = this.state.items[i].qty - 1
-     this.incrCartData(incrCartProduct, self.context.user.email).then((response) => {
+     this.incrCartData(incrCartProduct, cart_id).then((response) => {
         if(response.data) {
           toastr.success('Your item successfully added');
           this.setState({
@@ -71,15 +74,15 @@ export default class CartModal extends React.Component {
     }
   }
 
-  incrCartData(cartArray, emailAddress) {
+  incrCartData(cartArray, cart_id) {
     return axios.post("/api/carts" , {
-      email: emailAddress,
+      cuid: cart_id,
       cartitems: cartArray
     });
   }
 
   removeItem(e, i) {
-    this.removeCartData(this.state.items[i].id, this.context.user.email).then((response) => {
+    this.removeCartData(this.state.items[i].id, cart_id).then((response) => {
       if(response.data) {
         this.setState({
           items: response.data.doc.cartitems,
@@ -91,18 +94,19 @@ export default class CartModal extends React.Component {
     });
    }
 
-  removeCartData(cartitem_id, emailAddress) {
+  removeCartData(cartitem_id, cart_id) {
     return axios.delete("/api/remove/cart_items" , {
       params: {
-        email: emailAddress,
+        cuid: cart_id,
         cartitem_id: cartitem_id
       }
     });
   }
 
   removeAllItems() {
-     this.removeAllCartData(this.context.user.email).then((response) => {
+     this.removeAllCartData(cart_id).then((response) => {
        if(response.data) {
+        cookie.remove('cart_cuid');
         this.setState({
           items : [],
           total_price: 0.0
@@ -113,10 +117,10 @@ export default class CartModal extends React.Component {
     });
   }
 
-  removeAllCartData(emailAddress) {
+  removeAllCartData(cart_id) {
     return axios.delete("/api/empty/cart", {
       params: {
-        email: emailAddress
+        cuid: cart_id
       }
     });
   }
@@ -135,8 +139,7 @@ export default class CartModal extends React.Component {
   }
 
   getCart() {
-    var email = this.context.user.email;
-    this.loadCartItem(email).then((response) => {
+    this.loadCartItem(cart_id).then((response) => {
       if(response.data){
         this.setState({
         item : response.data.cart,
@@ -149,8 +152,8 @@ export default class CartModal extends React.Component {
       });
   }
 
-  loadCartItem(email) {
-    return axios.get("/api/cart/"+email);
+  loadCartItem(cart_id) {
+    return axios.get("/api/cart/"+cart_id);
   }
 
   render(){

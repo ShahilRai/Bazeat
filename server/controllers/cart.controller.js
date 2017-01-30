@@ -12,114 +12,88 @@ let localStorage = new LocalStorage('./scratch');
 
 
 export function getCart(req, res) {
-  // console.log('session')
-  // console.log(session)
-  if(!req.params.email) {
-    res.status(422).send({ error: 'send valid email' });
+  if(!req.params.cuid) {
+    return res.status(422).send({msg: "send valid cart id"});
   }
-  User.findOne({ email: req.params.email }).exec((err, user) => {
-    Cart.findOne({ user: user._id }).exec((err, cart) => {
-      console.log('cart')
-      console.log(cart)
-      if (err) {
-        return res.status(422).send(err);
-      }
-      else{
-        if (cart != null){
-          set_total_price(cart, null, res)
-        }
-        else{
-          return res.status(422).send({error_msg: "Your cart is empty"});
-        }
-      }
-    });
+  Cart.findOne({ cuid: req.params.cuid }).exec((err, cart) => {
+    if (err) {
+      return res.status(422).send(err);
+    }
+    else{
+      set_total_price(cart, null, res)
+    }
   });
 }
 
 export function createCart(req, res) {
+  console.log(req.body)
   let flag = false;
-  if (req.body.email){
-    User.findOne({  email: req.body.email }).exec((error, user) => {
-      Cart.findOne({ user: user._id }).exec(function ( err, cart ){
-        if (err) {
-          return res.json(422,{error_msg: "Cart not found"});
-        }
-        if (!cart){
-          const newCart = new Cart(req.body);
-          newCart.cuid = cuid();
-          newCart.user = user._id;
-          newCart.address.postal_code = user.postal_code;
-          newCart.address.city = user.city;
-          newCart.address.line1 = user.address;
-          newCart.address.country = user.country;
-          newCart.address.phone_num = user.phone;
-          newCart.address.email = user.email;
-          newCart.address.first_name = user.first_name;
-          newCart.address.last_name = user.last_name;
-          newCart.save((error, savedcart) => {
-            if (error) {
-              return res.status(422).send(error);
-            }
-            else{
-              if (cart != null){
-                set_total_price(cart, null, res)
-              }
-              else{
-                return res.status(422).send({error_msg: "Your cart is empty"});
-              }
-            }
-          });
-        }
-        else{
-          cart.cartitems.forEach(function(item) {
-            if(item.product_id == req.body.cartitems.product_id){
-              flag = true;
-            }
-          });
-          if(flag === true){
-            Cart.findOneAndUpdate(
-              { "_id": cart._id, "cartitems.product_id": req.body.cartitems.product_id },
-              { "$set": {
-                  "cartitems.$.qty": req.body.cartitems.qty
-                }
-              },{new: true}).exec(function(err, updated_cart_item){
-                if (err){
-                    return res.status(422).send(err);
-                }
-                else{
-                  if (cart != null){
-                    set_total_price(cart, null, res)
-                  }
-                  else{
-                    return res.status(422).send({error_msg: "Your cart is empty"});
-                  }
-                }
-              });
-          }
-          else{
-            Cart.findOneAndUpdate(
-              { "_id": cart._id },
-              {$pushAll: {"cartitems": [req.body.cartitems]}},{new: true}).exec(function(err, cart2){
-                if (err){
-                  return res.status(422).send(err);
-                }
-                else{
-                  if (cart != null){
-                    set_total_price(cart, null, res)
-                  }
-                  else{
-                    return res.status(422).send({error_msg: "Your cart is empty"});
-                  }
-                }
-            });
-          } 
+  Cart.findOne({ cuid: req.body.cuid }).exec(function ( err, cart ) {
+      console.log(err)
+      console.log("err")
+      console.log(!cart)
+    if (err) {
+      return res.json(422,{error_msg: "Cart not found"});
+    }
+    if (!cart) {
+      const newCart = new Cart(req.body);
+      newCart.cuid = cuid();
+      // newCart.user = user._id;
+      // newCart.address.postal_code = user.postal_code;
+      // newCart.address.city = user.city;
+      // newCart.address.line1 = user.address;
+      // newCart.address.country = user.country;
+      // newCart.address.phone_num = user.phone;
+      // newCart.address.email = user.email;
+      // newCart.address.first_name = user.first_name;
+      // newCart.address.last_name = user.last_name;
+      newCart.save((error, savedcart) => {
+        if (error) {
+          return res.status(422).send(error);
+        } else {
+          set_total_price(savedcart, null, res)
         }
       });
-    });
-  }
+    }
+    else{
+      cart.cartitems.forEach(function(item) {
+        if(item.product_id == req.body.cartitems.product_id){
+          flag = true;
+        }
+      });
+      if(flag === true){
+        Cart.findOneAndUpdate(
+          { "_id": cart._id, "cartitems.product_id": req.body.cartitems.product_id },
+          { "$set": {
+              "cartitems.$.qty": req.body.cartitems.qty
+            }
+          },{new: true}).exec(function(err, updated_cart_item){
+            if (err){
+                return res.status(422).send(err);
+              }
+              else{
+                 set_total_price(updated_cart_item, null, res)
+              }
+          });
+      }
+      else{
+        Cart.findOneAndUpdate(
+          { "_id": cart._id },
+          {$pushAll: {"cartitems": [req.body.cartitems]}},{new: true}).exec(function(err, cart2){
+            if (err){
+              return res.status(422).send(err);
+            }
+            else{
+              set_total_price(cart2, null, res)
+            }
+        });
+      }
+    }
+  });
 }
 
 function set_total_price(cart, next, res){
+  console.log(cart)
   let item_qty = 0;
   let item_price = 0;
   let product_total_price = 0;
@@ -153,7 +127,7 @@ function set_total_price(cart, next, res){
         {new: true}).
         exec(function(err,doc) {
           if (cart.cartitems.length == index+1){
-          return res.json({ cart: doc});
+            return res.json({ cart: doc});
           }
         });
     })
@@ -168,11 +142,11 @@ export function removeCartItems(req, res) {
   let total_weight = 0;
   let product_weight = 0;
   let product_total_price = 0;
-  User.findOne({email: req.query.email}).exec((err,user) =>{
-  Cart.findOne({ user: user._id }).exec((err, cart) => {
+  Cart.findOne({ cuid: req.query.cuid }).exec((err, cart) => {
     if (err) {
       return res.status(422).send(err);
     }
+    console.log(req.query.cartitem_id)
     let cartItem = cart.cartitems.id(req.query.cartitem_id)
     Product.findOne({ _id: cartItem.product_id }).exec((err, product) => {
       if (err){
@@ -210,46 +184,19 @@ export function removeCartItems(req, res) {
         })
     })
   })
-  })
 }
 
 export function emptyCart(req, res) {
-  User.findOne({email: req.query.email}).exec((err,user) =>{
-    Cart.findOneAndUpdate(
-      { "user": user._id},
-      {
-        "$set": {
-          "cartitems": [],
-          "total_qty": 0,
-          "total_price": 0,
-          "address.city": user.city,
-          "address.country": user.country,
-          "address.line1": user.address,
-          "address.postal_code": user.postal_code,
-          "address.phone_num": user.phone_num,
-          "address.email": user.email,
-          "address.first_name": user.first_name,
-          "address.last_name": user.last_name,
-          "total_weight": 0
-        }
-      },
-      {new: true}).
-      exec(function(err,doc) {
-        if (err) {
-        return res.status(422).send({msg: err});
-        }
+  console.log(req.query.cuid)
+  Cart.findOne({cuid: req.query.cuid}).exec(function(err, cart) {
+    console.log("cart")
+    console.log(cart)
+    if(err) {
+      return res.status(422).send({msg: err});
+    } else {
+      cart.remove(() => {
         return res.status(200).send({msg: "Cart Empty"});
-    });
-  })
-}
-
-export function sessionCart(req,res){
-  const newCart = new Cart();
-  newCart.cuid = cuid();
-  newCart.save((error, savedcart) => {
-    if (error) {
-      return res.status(422).send(error);
+      });
     }
-    session.cart_id = savedcart._id;
-  });
+  })
 }

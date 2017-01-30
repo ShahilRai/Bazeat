@@ -76,6 +76,7 @@ const userSchema = new Schema({
     type: [Number],
     index: '2d'
   },
+  current_cart_id: {type: String},
   timeslots: [slotSchema],
   avg_rating: {type: 'Number', default: 0},
   showInfo: { type: 'Boolean', default: false },
