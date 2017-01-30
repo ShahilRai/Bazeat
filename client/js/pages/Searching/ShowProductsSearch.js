@@ -76,7 +76,7 @@ export default class ShowProductsSearch extends React.Component {
       this.fetchFilteredProducts(pName,minRnge,maxRnge,cIds).then((response) => {
         if(response.data) {
           this.setState({
-            allProductsData: response.data
+            allProductsData: response.data.products
           })
         }
       }).catch((err) => {
@@ -87,7 +87,7 @@ export default class ShowProductsSearch extends React.Component {
       this.fetchProducts(minRnge,maxRnge,cIds).then((response) => {
         if(response.data) {
           this.setState({
-            allProductsData: response.data
+            allProductsData: response.data.products
           })
         }
       }).catch((err) => {

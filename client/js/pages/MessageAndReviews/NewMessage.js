@@ -28,7 +28,7 @@ export default class NewMessage extends React.Component {
         this.getReceiverName(userEmail).then((response) => {
          if(response.data) {
             this.setState({
-             users: response.data
+             users: response.data.users
             });
           }
         })

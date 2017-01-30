@@ -150,7 +150,6 @@ export function sendReply(req, res, next) {
   });
 }
 
-
 export function msgCount(req, res){
   console.log(req.query)
   User.findOne({ email: req.query.email }).exec((err, user) => {

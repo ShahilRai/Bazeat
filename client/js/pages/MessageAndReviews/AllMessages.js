@@ -4,6 +4,7 @@ import moment from 'moment';
 import SelectedMessages from './SelectedMessages';
 import NewMessage from './NewMessage';
 import axios from 'axios';
+
 export default class AllMessages extends React.Component {
   static contextTypes = {
       authenticated: React.PropTypes.bool,
@@ -31,12 +32,15 @@ export default class AllMessages extends React.Component {
         allMsg:[],
         newConversation: [],
         selectedId: '',
-        activeState: ''
-
-      };
-    }
+        activeState: '',
+        loaded: false
+    	};
+  	}
     componentDidMount(){
        this.getAllMessagesData()
+       this.setState({
+        loaded: false
+       })
     }
 
     getAllMessagesData(){
@@ -44,7 +48,8 @@ export default class AllMessages extends React.Component {
       this.getAllMessages(userEmail).then((response) => {
       if(response.data) {
        this.setState({
-        allMsgConversations: response.data.conversations
+        allMsgConversations: response.data.conversations,
+         loaded: true
        })
      }
     })
@@ -60,7 +65,7 @@ export default class AllMessages extends React.Component {
     this.showMsgConversation(conversation_id).then((response) => {
       if(response.data) {
         this.setState({
-          allConversation: response.data.fullMessages,
+          allConversation: response.data.messages,
           conversation_id: conversation_id,
           receiver_id:receiver_id,
           sender_id:sender_id,
@@ -86,7 +91,7 @@ export default class AllMessages extends React.Component {
       this.showMsgConversation(conversation_id).then((response) =>{
         if(response.data){
           this.setState({
-            allConversation: response.data.fullMessages,
+            allConversation: response.data.messages,
             singleConversation: singleConversation.message,
             conversation_id: conversation_id
           });
@@ -120,7 +125,8 @@ export default class AllMessages extends React.Component {
           if(response.data) {
             this.setState({
               allMsgConversations: response.data.conversations,
-              conversation_id: newConversation.message.conversation_id
+              conversation_id: newConversation.message.conversation_id,
+              loaded: true
           })
         }
     })
@@ -150,7 +156,7 @@ export default class AllMessages extends React.Component {
     }
 
   render(){
-    console.log(this.state.activeState)
+    console.log(this.state.allMsgConversations)
     if(this.state.selectedMessages){
       this.state.select = <SelectedMessages  updateSingleConversation ={this.updateSingleConversation.bind(this)} sender_id={this.state.sender_id} receiver_name={this.state.receiver_name}receiver_id={this.state.receiver_id} conversation_id={this.state.conversation_id} sender_name={this.state.sender_name} sender_photo={this.state.sender_photo} receiver_photo={this.state.receiver_photo} allMessage = {this.state.allConversation} allMsgConversations ={this.state.allMsgConversations}/>
     } else {

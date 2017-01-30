@@ -91,19 +91,11 @@ export default class CreateNewPackage extends React.Component {
 
   savePackageOrder(){
     if(this.validate()){
-      console.log(_orditems)
-      //var p_qty = this.state.packed_qty_value;
       var o_Id = orderItemID;
       var p_Id = this.state.newPackageDetails.id;
       var p_date = this.state.pckge_date;
-      /*var orderitems =[];
-        orderitems.push({
-          packed_qty: p_qty,
-          _id: o_Id
-        })*/
       this.addPackageOrder(_orditems, p_Id, p_date).then((response) => {
-         console.log(response.statusText)
-        if(response.statusText== "Ok") {
+        if(response.statusText== "OK") {
           toastr.success('Package successfully created');
           this.getViewPackge("status", response.data)
           this.context.router.push('/orders/'+orderCuid)
