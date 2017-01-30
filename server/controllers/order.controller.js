@@ -13,78 +13,83 @@ let localStorage = new LocalStorage('./scratch');
 
 export function addOrder(req, res) {
   User.findOne({ email: req.body.email }).exec((err, user) => {
-    let data = {};
-    Cart.findOne({cuid: req.body.cart_cuid}).select("address total_price total_weight total_qty cartitems -_id").exec(function(err, data) {
-      if(err){
-        return res.status(422).send({err_msg: "Your cart is empty"});
-      }
-        const newOrder = new Order();
-        newOrder.cuid = cuid();
-        newOrder.address.postal_code = data.address.postal_code;
-        newOrder.address.city = data.address.city;
-        newOrder.address.line1 = data.address.line1;
-        newOrder.address.country = data.address.country;
-        newOrder.address.phone_num = data.address.phone_num;
-        newOrder.address.email = data.address.email;
-        newOrder.address.first_name = data.address.first_name;
-        newOrder.address.last_name = data.address.last_name;
-        newOrder._buyer = user._id;
-        newOrder.delivery_method = req.body.delivery_method;
-        newOrder.save((err, order) => {
-          if (err) {
-            return res.status(422).send(err);
-          }
-        data.cartitems.forEach(function(item) {
-          let total_weight = 0;
-          let total_price = 0;
-          let food_vat_value = 0;
-          let shipment_vat_value = 0;
-           Product.findOne({ _id: item.product_id }).exec((err, product) => {
-            console.log('item.qtyproduct')
-            console.log(product)
-            total_weight += (product.portion*item.qty)
-            total_price +=(product.calculated_price*item.qty)
-            const newOrderItem = new OrderItem();
-            newOrderItem.cuid = cuid();
-            newOrderItem._order = order._id
-            newOrderItem._product = item.product_id
-            newOrderItem.product_price = total_price
-            newOrderItem.product_weight = total_weight
-            newOrderItem.product_qty = item.qty
-            newOrderItem.save((err, orderitem) => {
-              if (err) {
-                return res.status(422).send(err);
-              }
-              if(req.body.timeslot){
-                order.timeslot.push(req.body.timeslot);
-              }
-              order.orderitems.push(orderitem);
-              order.products.push(orderitem._product);
-              if(data.cartitems.length == order.orderitems.length) {
-                food_vat_value = (data.total_price-(data.total_price/(1+(0.15)))) ;
-                shipment_vat_value = (parseInt(req.body.shipment_price)-(parseInt(req.body.shipment_price)/(1+(0.25)))) ;
-                order.total_amount = data.total_price + food_vat_value + shipment_vat_value + parseInt(req.body.shipment_price) ;
-                order.total_weight = data.total_weight;
-                order.total_qty = data.total_qty;
-                order.shipment_price = parseInt(req.body.shipment_price);
-                order.food_vat_value = food_vat_value.toFixed(2);
-                order.food_vat_value = food_vat_value;
-                order.shipment_vat_value = shipment_vat_value;
-                order.price_with_ship = data.total_price + parseInt(req.body.shipment_price) ;
-                order.save(function (errors, order1) {
-                  if (errors){
-                    return res.status(422).send(errors);
-                  }
-                  else{
-                    return res.json({ order: order1 });
-                  }
-                });
-              }
-            })
+    if(user.account_added == true){
+      let data = {};
+      Cart.findOne({cuid: req.body.cart_cuid}).select("address total_price total_weight total_qty cartitems -_id").exec(function(err, data) {
+        if(err){
+          return res.status(422).send({err_msg: "Your cart is empty"});
+        }
+          const newOrder = new Order();
+          newOrder.cuid = cuid();
+          newOrder.address.postal_code = data.address.postal_code;
+          newOrder.address.city = data.address.city;
+          newOrder.address.line1 = data.address.line1;
+          newOrder.address.country = data.address.country;
+          newOrder.address.phone_num = data.address.phone_num;
+          newOrder.address.email = data.address.email;
+          newOrder.address.first_name = data.address.first_name;
+          newOrder.address.last_name = data.address.last_name;
+          newOrder._buyer = user._id;
+          newOrder.delivery_method = req.body.delivery_method;
+          newOrder.save((err, order) => {
+            if (err) {
+              return res.status(422).send(err);
+            }
+          data.cartitems.forEach(function(item) {
+            let total_weight = 0;
+            let total_price = 0;
+            let food_vat_value = 0;
+            let shipment_vat_value = 0;
+             Product.findOne({ _id: item.product_id }).exec((err, product) => {
+              console.log('item.qtyproduct')
+              console.log(product)
+              total_weight += (product.portion*item.qty)
+              total_price +=(product.calculated_price*item.qty)
+              const newOrderItem = new OrderItem();
+              newOrderItem.cuid = cuid();
+              newOrderItem._order = order._id
+              newOrderItem._product = item.product_id
+              newOrderItem.product_price = total_price
+              newOrderItem.product_weight = total_weight
+              newOrderItem.product_qty = item.qty
+              newOrderItem.save((err, orderitem) => {
+                if (err) {
+                  return res.status(422).send(err);
+                }
+                if(req.body.timeslot){
+                  order.timeslot.push(req.body.timeslot);
+                }
+                order.orderitems.push(orderitem);
+                order.products.push(orderitem._product);
+                if(data.cartitems.length == order.orderitems.length) {
+                  food_vat_value = (data.total_price-(data.total_price/(1+(0.15)))) ;
+                  shipment_vat_value = (parseInt(req.body.shipment_price)-(parseInt(req.body.shipment_price)/(1+(0.25)))) ;
+                  order.total_amount = data.total_price + food_vat_value + shipment_vat_value + parseInt(req.body.shipment_price) ;
+                  order.total_weight = data.total_weight;
+                  order.total_qty = data.total_qty;
+                  order.shipment_price = parseInt(req.body.shipment_price);
+                  order.food_vat_value = food_vat_value.toFixed(2);
+                  order.food_vat_value = food_vat_value;
+                  order.shipment_vat_value = shipment_vat_value;
+                  order.price_with_ship = data.total_price + parseInt(req.body.shipment_price) ;
+                  order.save(function (errors, order1) {
+                    if (errors){
+                      return res.status(422).send(errors);
+                    }
+                    else{
+                      return res.json({ order: order1 });
+                    }
+                  });
+                }
+              })
+            });
           });
         });
       });
-    });
+    }
+    else{
+      return res.status(422).send({err_msg: "Please add your bank account first"});
+    }
   });
 }
 
