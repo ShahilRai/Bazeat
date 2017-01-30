@@ -7,6 +7,9 @@ router.route('/reviews').get(CommentController.allReviews);
 // Get single conversation messages
 router.route('/review').get(CommentController.getReview);
 
+
+router.route('/reviewusers').get(CommentController.writeReviews);
+
 // Create New Conversation
 router.route('/reviews').post(CommentController.newReview);
 // Send reply

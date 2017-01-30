@@ -20,21 +20,24 @@ export function getpurchaseOrders(req, res) {
         if (err) {
           return res.json(422, err);
         }
-        console.log('products')
-        console.log(products)
-        Order.find({ _id: {"$in": products.orders }, payment_status: "succeeded"})
-        .populate("orderitems _buyer")
-        .populate("packages", null, {pkg_status: 'created'})
-        .exec((err, orders)=>{
-          console.log('orders')
-        console.log(products)
-          if (err) {
-            return res.json(422, err);
+        else{
+          if(orders){
+            Order.find({ _id: {"$in": products.orders }, payment_status: "succeeded"})
+            .populate("orderitems _buyer")
+            .populate("packages", null, {pkg_status: 'created'})
+            .exec((err, orders)=>{
+              if (err) {
+                return res.json(422, err);
+              }
+              else{
+                return res.json(orders);
+              }
+            })
           }
           else{
-            return res.json(orders);
+            return res.json({packages: "You don't have any orders yet"});
           }
-        })
+        }
       })
   })
 }

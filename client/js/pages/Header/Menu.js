@@ -26,34 +26,13 @@ export default class Menu extends React.Component {
   }
 
   loadAllMessagesAndReviews(){
-    this.loadAllMessages()
     this.loadAllReviews()
-  }
-
-  loadAllMessages(){
-     var self=this;
-     var userEmail = self.context.user.email;
-      self.getAllMessages(userEmail).then((response) => {
-      if(response.data) {
-        self.setState({
-          allMessages: response.data.conversations
-        })
-      }
-    })
-      .catch((err) => {
-    console.log(err);
-    });
-    this.messageIconValue()
   }
 
   messageIconValue(){
     this.setState({
       isMessage: ''
     })
-  }
-
-  getAllMessages(emailAddress){
-    return axios.get("/api/conversations?email="+emailAddress);
   }
 
   loadAllReviews(){
@@ -81,7 +60,7 @@ export default class Menu extends React.Component {
     var MessageIcon;
     var reviewIcon
     var userId = this.props.cuid ? this.props.cuid : 'null'
-    var profileHead = this.context.authenticated ? "header_rht_menu profile_rht_header" : "header_rht_menu";
+    var profileHead = this.context.authenticated ? "header_rht_menu profile_rht_header dropdown" : "header_rht_menu";
     if(this.state.isMessage){
       MessageIcon = ( <span className="msg_qty" >{this.state.isMessage}</span>)
     }
@@ -97,12 +76,12 @@ export default class Menu extends React.Component {
             <li className="cart_icon"><a href="javascript:void(0)">Cart</a></li>
           </NotAuthenticated>
           <Authenticated>
-            <li data-toggle="collapse" data-target="#user_message" onClick ={this.loadAllMessagesAndReviews.bind(this)}>
+            <li className="dropbtn">
               <a href="javascript:void(0)" className="message_icon">Messages
                 {MessageIcon}
                 {reviewIcon}
             </a>
-              <MessageDropdown allMessages={this.state.allMessages} allReviews={this.state.all_reviews} />
+              <MessageDropdown allMessages={this.props.allMessages} allReviews={this.state.all_reviews} />
             </li>
             <li className="username_text"><Link to={"/user/"+userId}>{this.context.user ? this.context.user.givenName : ""}</Link>
               <ul className="user_toggle_div collapse" id="" >
