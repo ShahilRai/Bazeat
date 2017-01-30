@@ -179,6 +179,7 @@ export default class ProductPickupDate extends React.Component {
     var email=this.context.user ? this.context.user.username : ''
     this.createOrderRequest(email, cart_cuid).then((response) => {
       if(response.data) {
+        toastr.success('your order created successfully');
         if(this.refs.myRef){
          this.setState({
           orderDetail : response.data
@@ -192,6 +193,7 @@ export default class ProductPickupDate extends React.Component {
       }
       }).catch((err) => {
           console.log(err);
+          toastr.success('Please add your bank account first');
       });
   }
 
