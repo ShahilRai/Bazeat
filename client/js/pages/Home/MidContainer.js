@@ -16,8 +16,9 @@ export default class MidContainer extends React.Component {
       <div className="container">
         <div className="mid_container">
           <div className="grid_wall_wrapper">
-            {this.props.productList.map((wallImages, index) => <WallImageViewer
-                key = {index} index={index + 1} wallImages = {wallImages}/>)}
+            {this.props.productList.map((wallImages, index) =><div className="wall-column" key = {index}><WallImageViewer
+                key = {index} index={index + 1} wallImages = {wallImages}/> </div>)}
+            
           </div>
         </div>
       </div>

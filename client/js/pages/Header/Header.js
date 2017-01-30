@@ -59,7 +59,7 @@ export default class Header extends React.Component {
             <Logo />
             <SearchInputBox />
             <NearMeIcon />
-            <div className="col-lg-5 pull-right">
+            <div className="col-lg-5 col-md-5 col-sm-12 col-xs-12 pull-right">
               <Menu _cartList = {this.state._cartList}  cuid={userId}/>
             </div>
           </div>

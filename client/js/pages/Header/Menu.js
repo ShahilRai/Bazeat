@@ -89,7 +89,6 @@ export default class Menu extends React.Component {
       reviewIcon = ( <span className="msg_qty" >{this.state.isReview}</span>)
     }
     return (
-      <div>
         <ul className={profileHead}>
           <li><a href="javascript:void(0)" className="help_icon">Help</a></li>
           <NotAuthenticated>
@@ -120,7 +119,6 @@ export default class Menu extends React.Component {
           </Authenticated>
           {cart_icon}
         </ul>
-      </div>
     );
   }
 }

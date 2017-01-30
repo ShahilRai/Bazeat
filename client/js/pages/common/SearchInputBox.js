@@ -68,7 +68,7 @@ export default class SearchInputBox extends React.Component {
       srchIcon = <input name="" type="submit" className="header_search_icon_button" disabled={this.state.disabled} value="Search"/>
     }
     return (
-      <div className="col-lg-4 header_search_bar" onClick={this.onMouseClick}>
+      <div className="col-lg-4 col-md-4 col-sm-5 col-xs-10 ipad_pull_rht header_search_bar" onClick={this.onMouseClick}>
         <form className="form-search" method="get" id="s" action="">
           <input type="text" className="input-medium" id="pac-input" name="search" placeholder="What do you want to eat?" onChange={this.handleChange}/>
           {srchIcon}

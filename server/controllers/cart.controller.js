@@ -16,11 +16,18 @@ export function getCart(req, res) {
   }
   User.findOne({ email: req.params.email }).exec((err, user) => {
     Cart.findOne({ user: user._id }).exec((err, cart) => {
+      console.log('cart')
+      console.log(cart)
       if (err) {
         return res.status(422).send(err);
       }
       else{
-        set_total_price(cart, null, res)
+        if (cart != null){
+          set_total_price(cart, null, res)
+        }
+        else{
+          return res.status(422).send({error_msg: "Your cart is empty"});
+        }
       }
     });
   });
@@ -50,7 +57,14 @@ export function createCart(req, res) {
             if (error) {
               return res.status(422).send(error);
             }
-            set_total_price(savedcart, null, res)
+            else{
+              if (cart != null){
+                set_total_price(cart, null, res)
+              }
+              else{
+                return res.status(422).send({error_msg: "Your cart is empty"});
+              }
+            }
           });
         }
         else{
@@ -68,10 +82,15 @@ export function createCart(req, res) {
               },{new: true}).exec(function(err, updated_cart_item){
                 if (err){
                     return res.status(422).send(err);
+                }
+                else{
+                  if (cart != null){
+                    set_total_price(cart, null, res)
                   }
                   else{
-                     set_total_price(updated_cart_item, null, res)
+                    return res.status(422).send({error_msg: "Your cart is empty"});
                   }
+                }
               });
           }
           else{
@@ -82,10 +101,15 @@ export function createCart(req, res) {
                   return res.status(422).send(err);
                 }
                 else{
-                  set_total_price(cart2, null, res)
+                  if (cart != null){
+                    set_total_price(cart, null, res)
+                  }
+                  else{
+                    return res.status(422).send({error_msg: "Your cart is empty"});
+                  }
                 }
             });
-          }
+          } 
         }
       });
     });
