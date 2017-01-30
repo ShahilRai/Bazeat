@@ -65,7 +65,7 @@ export default class AllMessages extends React.Component {
     this.showMsgConversation(conversation_id).then((response) => {
       if(response.data) {
         this.setState({
-          allConversation: response.data.fullMessages,
+          allConversation: response.data.messages,
           conversation_id: conversation_id,
           receiver_id:receiver_id,
           sender_id:sender_id,
@@ -91,7 +91,7 @@ export default class AllMessages extends React.Component {
       this.showMsgConversation(conversation_id).then((response) =>{
         if(response.data){
           this.setState({
-            allConversation: response.data.fullMessages,
+            allConversation: response.data.messages,
             singleConversation: singleConversation.message,
             conversation_id: conversation_id
           });
@@ -160,7 +160,7 @@ export default class AllMessages extends React.Component {
     if(this.state.selectedMessages){
       this.state.select = <SelectedMessages  updateSingleConversation ={this.updateSingleConversation.bind(this)} sender_id={this.state.sender_id} receiver_name={this.state.receiver_name}receiver_id={this.state.receiver_id} conversation_id={this.state.conversation_id} sender_name={this.state.sender_name} sender_photo={this.state.sender_photo} receiver_photo={this.state.receiver_photo} allMessage = {this.state.allConversation} allMsgConversations ={this.state.allMsgConversations}/>
     } else {
-      this.state.select = <NewMessage loaded ={this.state.loaded} conversation_id ={this.state.conversation_id} updateConversation={this.updateConversation.bind(this)}  conversation_id={this.state.conversation_id}/>
+      this.state.select = <NewMessage conversation_id ={this.state.conversation_id} updateConversation={this.updateConversation.bind(this)}  conversation_id={this.state.conversation_id}/>
     }
     var _msgConversations = this.state.allMsgConversations ? this.state.allMsgConversations : []
     var _results = _msgConversations.map((result, index) => {
