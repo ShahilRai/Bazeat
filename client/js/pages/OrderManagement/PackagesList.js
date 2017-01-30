@@ -35,7 +35,7 @@ export default class PackagesList extends React.Component {
               </thead>
               <tbody>
               {this.props.packages.map((_pckge, index) => <DisplayPackageList
-                key = {index} index={index + 2} _pckge = {_pckge} />)}
+                _showPackage={this.props._showPackage} key = {index} index={index + 2} _pckge = {_pckge} />)}
               </tbody>
             </table>
           </div>

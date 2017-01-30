@@ -35,6 +35,7 @@ export default class CreateNewPackage extends React.Component {
     this.getViewPackge = this.getViewPackge.bind(this)
     this.validate = this.validate.bind(this)
     PubSub.subscribe('pckg detail', this.getViewPackge);
+    PubSub.subscribe( 'state', this._showAddedPackage );
   }
 
   componentDidMount(){
@@ -98,6 +99,7 @@ export default class CreateNewPackage extends React.Component {
         if(response.statusText== "OK") {
           toastr.success('Package successfully created');
           this.getViewPackge("status", response.data)
+          this._showAddedPackage("data", response.data)
           this.context.router.push('/orders/'+orderCuid)
         }
       }).catch((err) => {
@@ -169,6 +171,9 @@ export default class CreateNewPackage extends React.Component {
   getViewPackge(msg, result){
   }
 
+  _showAddedPackage(receivedMsg, receivedData){
+  }
+
   _renderleftMenus(){
     return(
       <ul className="edit_sidbar_list">
@@ -225,10 +230,10 @@ export default class CreateNewPackage extends React.Component {
                           </tr>
                         </thead>
                         <tbody>
-                            {this.state.orderItems.map((order, index) => 
+                            {this.state.orderItems.map((order, index) =>
                               <OrderItemsList name={"ord"+index} ref="ordItem"
-                              key = {index} index = {index} order={order} 
-                              value={this.state.packed_qty_value} 
+                              key = {index} index = {index} order={order}
+                              value={this.state.packed_qty_value}
                               handleInputChange={(event) => this.handleInputChange(event, index, order.id)} />)}
                         </tbody>
                       </table>

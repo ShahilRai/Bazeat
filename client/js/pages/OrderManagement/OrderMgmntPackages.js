@@ -46,7 +46,36 @@ export default class OrderMgmntPackages extends React.Component {
   }
 
   render(){
-    var tableheadValue=['Package date','Package#','Carrier','Sales order#','Status','Shipped date','Customer','Quantity']
+    let packageTable;
+     if(this.state.packgesList.length > 0){
+      let tableheadValue=['Package date','Package#','Carrier','Sales order#','Status','Shipped date','Customer','Quantity']
+        packageTable= (
+          <div className="table-main">
+            <div className="table-wrapper">
+              <table className="table purchase_order_table">
+                <thead>
+                  <tr className="f2f2f2_bg">
+                    {tableheadValue.map((head, index) =>
+                          <th key={index} className="text-center">{head}</th>
+                    )}
+                  </tr>
+                </thead>
+                <tbody>
+                  {this.state.packgesList.map((listOfPackage, index) => <ListAllPackages
+                  key = {index} listOfPackage = {listOfPackage} />)}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )
+      }
+      else{
+        packageTable = (
+          <div>
+            <h3 className="search_tabbd_heading text-left pad_lf211">You have no packages</h3>
+          </div>
+        )
+      }
     return(
       <div className="container padd_87">
         <div className="full_width">
@@ -55,23 +84,7 @@ export default class OrderMgmntPackages extends React.Component {
               {this._renderleftMenus()}
             </div>
             <div className="col-lg-9 col-md-9 col-sm-10 col-xs-12 purchase_order_rght_sidebar rt_order_mgmnt">
-              <div className="table-main">
-                <div className="table-wrapper">
-                  <table className="table purchase_order_table">
-                    <thead>
-                      <tr className="f2f2f2_bg">
-                        {tableheadValue.map((head, index) =>
-                              <th key={index} className="text-center">{head}</th>
-                        )}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {this.state.packgesList.map((listOfPackage, index) => <ListAllPackages
-                      key = {index} listOfPackage = {listOfPackage} />)}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+             {packageTable}
             </div>
           </div>
         </div>

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
 import axios from 'axios';
-import PubSub from 'pubsub-js';
 import PurchaseOrdersList from './PurchaseOrdersList';
 
 let orderCuid= '';
@@ -51,7 +50,36 @@ export default class PurchaseOrders extends React.Component {
   }
 
   render(){
-    var thValue=['Date','Package order#','Customer','Status','Packed','Shipped','Amount']
+    let purchaseTable;
+    if(this.state.ordersList.length > 0){
+      let thValue=['Date','Package order#','Customer','Status','Packed','Shipped','Amount']
+      purchaseTable = (
+        <div className="table-main">
+          <div className="table-wrapper">
+            <table className="table purchase_order_table">
+              <thead>
+                <tr className="f2f2f2_bg">
+                  {thValue.map((heading, index) =>
+                      <th key={index} className="">{heading}</th>
+                    )}
+                </tr>
+              </thead>
+              <tbody>
+                {this.state.ordersList.map((order, index) =>
+                <PurchaseOrdersList key = {index} index = {index} order={order} />)}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )
+    }
+    else {
+      purchaseTable = (
+        <div>
+          <h3 className="search_tabbd_heading text-left pad_lf211">You have no orders</h3>
+        </div>
+      )
+    }
     return(
       <div className="container padd_87">
         <div className="full_width">
@@ -60,23 +88,7 @@ export default class PurchaseOrders extends React.Component {
               {this._renderleftMenus()}
             </div>
             <div className="col-lg-9 col-md-9 col-sm-10 col-xs-12 purchase_order_rght_sidebar rt_order_mgmnt">
-              <div className="table-main">
-                <div className="table-wrapper">
-                  <table className="table purchase_order_table">
-                    <thead>
-                      <tr className="f2f2f2_bg">
-                        {thValue.map((heading, index) =>
-                            <th key={index} className="">{heading}</th>
-                          )}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {this.state.ordersList.map((order, index) => 
-                      <PurchaseOrdersList key = {index} index = {index} order={order} />)}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+              {purchaseTable}
             </div>
           </div>
         </div>

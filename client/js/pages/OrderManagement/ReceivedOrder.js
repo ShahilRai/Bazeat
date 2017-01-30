@@ -27,6 +27,7 @@ export default class ReceivedOrder extends React.Component {
     this.dropDownOption = this.dropDownOption.bind(this)
     this.showDialog = this.showDialog.bind(this)
     this._updateAddress = this._updateAddress.bind(this)
+    this._showPackage = this._showPackage.bind(this)
   }
 
   componentDidMount(){
@@ -62,7 +63,7 @@ export default class ReceivedOrder extends React.Component {
     }
   }
 
-  _showPackage(rcvDetails){
+  _showPackage(getMsg,rcvDetails){
     this.setState({
       packages: rcvDetails
     })
@@ -72,8 +73,6 @@ export default class ReceivedOrder extends React.Component {
     this.setState({
       orderDetails: details
     })
-    console.log(this.state.orderDetails)
-    console.log(details)
   }
 
   _renderleftMenus(){
@@ -87,14 +86,14 @@ export default class ReceivedOrder extends React.Component {
 
   render(){
     PubSub.publish( 'state', this._showPackage );
-    var showPackage = <div className="order_caption">
-      <p>No packages yet for this order.<span className="green_txt"> <Link to="/new-package" onClick={this.props.createPackageStatus}>Create new package</Link></span></p>
-    </div>
-    if(this.state.packages){
-      if(this.state.packages.length > 0)
-        {
-          showPackage = <PackagesList packages= {this.state.packages} />
-        }
+    let showPackage;
+    if(undefined !== this.state.packages && this.state.packages.length > 0){
+      showPackage = <PackagesList _showPackage={this._showPackage} packages= {this.state.packages} />
+    }
+    else{
+      showPackage = <div className="order_caption">
+        <p>No packages yet for this order.<span className="green_txt"> <Link to="/new-package">Create new package</Link></span></p>
+      </div>
     }
     var paymnt_status= "";
     var paymnt_text= "";

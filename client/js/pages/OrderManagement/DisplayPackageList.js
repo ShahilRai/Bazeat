@@ -33,25 +33,22 @@ export default class DisplayPackageList extends React.Component {
     })
   }
 
-  deletePackageConfirm(){
+  deletePackageConfirm(e){
     var confirmDelete = confirm("Are you sure you want to delete the package?");
     if (confirmDelete == true) {
-      this._deletePackage()
+      e.preventDefault();
+      var _deletePId= this.props._pckge.id
+      pId= PurchaseOrders.purchsCuid
+      this.packageToBeDeleted(_deletePId).then((response) => {
+        if(response.statusText == "OK") {
+          this.props._showPackage("delete", response.data)
+          toastr.success('Package successfully deleted');
+        }
+        this.context.router.push('/orders/'+pId)
+      }).catch((err) => {
+        console.log(err);
+      });
     }
-  }
-
-  _deletePackage(){
-    pId= PurchaseOrders.purchsCuid
-    var _deletePId= this.state._pckg.id
-    this.packageToBeDeleted(_deletePId).then((response) => {
-      toastr.success('Package successfully deleted');
-      if(response.data) {
-        console.log("redirect-to");
-      }
-      this.context.router.push('/orders/'+pId)
-    }).catch((err) => {
-      console.log(err);
-    });
   }
 
   packageToBeDeleted(_deletePId){
