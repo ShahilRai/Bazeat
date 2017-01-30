@@ -1,5 +1,4 @@
 import React from 'react';
-import PubSub from 'pubsub-js';
 import { Link } from 'react-router';
 
 export default class OrderItemsList extends React.Component {
