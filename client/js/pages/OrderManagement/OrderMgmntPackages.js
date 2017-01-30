@@ -72,7 +72,7 @@ export default class OrderMgmntPackages extends React.Component {
       else{
         packageTable = (
           <div>
-            <h3 className="search_tabbd_heading text-left pad_lf211">You have no packages</h3>
+            <h3 className="search_tabbd_heading text-left pad_lf211">You dont have any packages yet</h3>
           </div>
         )
       }

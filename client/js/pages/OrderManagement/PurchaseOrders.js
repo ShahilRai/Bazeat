@@ -76,7 +76,7 @@ export default class PurchaseOrders extends React.Component {
     else {
       purchaseTable = (
         <div>
-          <h3 className="search_tabbd_heading text-left pad_lf211">You have no orders</h3>
+          <h3 className="search_tabbd_heading text-left pad_lf211">You dont have any orders yet</h3>
         </div>
       )
     }
