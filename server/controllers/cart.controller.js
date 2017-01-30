@@ -6,6 +6,7 @@ import Product from '../models/product';
 import async from 'async';
 import cuid from 'cuid';
 import request from 'request';
+import session from 'express-session';
 let LocalStorage = require('node-localstorage').LocalStorage;
 let localStorage = new LocalStorage('./scratch');
 
@@ -216,45 +217,15 @@ export function emptyCart(req, res) {
   })
 }
 
-// export function addCartItems(req,res){
-//   let flag = false
-//   Cart.findOne({ user: user._id }).exec(function ( err, cart ){
-//     if (err) {
-//       return res.json(422,{error_msg: "Cart not found"});
-//     }
-//     else{
-//       cart.cartitems.forEach(function(item) {
-//         if(item.product_id == req.body.cartitems.product_id){
-//           flag = true;
-//         }
-//       });
-//       if(flag === true){
-//         Cart.findOneAndUpdate(
-//           { "_id": cart._id, "cartitems.product_id": req.body.cartitems.product_id },
-//           { "$set": {
-//               "cartitems.$.qty": req.body.cartitems.qty
-//             }
-//           },{new: true}).exec(function(err, updated_cart_item){
-//             if (err){
-//                 return res.status(422).send(err);
-//               }
-//               else{
-//                  set_total_price(cart, null, res)
-//               }
-//           });
-//       }
-//       else{
-//         Cart.findOneAndUpdate(
-//           { "_id": cart._id },
-//           {$pushAll: {"cartitems": [req.body.cartitems]}},{new: true}).exec(function(err, cart2){
-//             if (err){
-//               return res.status(422).send(err);
-//             }
-//             else{
-//               set_total_price(cart, null, res)
-//             }
-//         });
-//       }
-//     }
-//   });
-// }
+export function sessionCart(req,res){
+  const newCart = new Cart();
+  newCart.cuid = cuid();
+  newCart.save((error, savedcart) => {
+    if (error) {
+      return res.status(422).send(error);
+    }
+    session.cart_id = savedcart._id;
+    console.log('session')
+    console.log(session)
+  });
+}

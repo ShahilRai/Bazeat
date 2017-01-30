@@ -7,6 +7,9 @@ const router = new Router();
 // Add to cart
   router.route('/carts').post(CartController.createCart);
 
+
+  router.route('/sessioncarts').post(CartController.sessionCart);
+
 // Remove cartitems by _id
   router.route('/remove/cart_items').delete(CartController.removeCartItems);
 
