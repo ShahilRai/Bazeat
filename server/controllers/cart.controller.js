@@ -20,6 +20,9 @@ export function getCart(req, res) {
       return res.status(422).send(err);
     }
     else{
+      if(req.query.check_email) {
+        set_current_cart_to_user(req.query.check_email, cart.cuid, null, res)
+      }
       set_total_price(cart, null, res)
     }
   });
@@ -90,6 +93,30 @@ export function createCart(req, res) {
       }
     }
   });
+}
+
+function set_current_cart_to_user(check_email, cart_cuid, next, res) {
+  User.findOneAndUpdate({email: check_email}, {$set: {current_cart_id:  cart_cuid}}).exec(function(err, user) {
+    Cart.findOneAndUpdate
+      ({"cuid": cart_cuid },
+        {
+          "$set": {
+            "user": user._id,
+            "address.postal_code": user.postal_code,
+            "address.city": user.city,
+            "address.line1": user.address,
+            "address.country": user.country,
+            "address.phone_num": user.phone,
+            "address.email": user.email,
+            "address.first_name": user.first_name,
+            "address.last_name": user.last_name,
+          }
+        }
+      ).exec(function(err, cart){
+        console.log('cart')
+        console.log(cart)
+    })
+  })
 }
 
 function set_total_price(cart, next, res){

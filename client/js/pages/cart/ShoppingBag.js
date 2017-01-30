@@ -1,7 +1,8 @@
 import React from 'react';
 import CheckoutStep from './CheckoutStep';
 import axios from "axios";
-let cart_cuid ;
+import cookie from 'react-cookie';
+let cart_id;
 let cart_detail;
 export default class ShoppingBag extends React.Component {
 
@@ -13,6 +14,7 @@ export default class ShoppingBag extends React.Component {
 
   constructor(props, context) {
     super(props, context);
+    cart_id = cookie.load('cart_cuid') ? cookie.load('cart_cuid') : ''
     this.state = {
       items: [],
       step:this.props.step,
@@ -32,7 +34,7 @@ export default class ShoppingBag extends React.Component {
   var incrCartProduct = this.state.incrCartProductItems
   incrCartProduct.product_id = this.state.items[i].product_id
   incrCartProduct.qty = this.state.items[i].qty + 1
-  this.incrCartData(incrCartProduct, self.context.user.email).then((response) => {
+  this.incrCartData(incrCartProduct, cart_id).then((response) => {
     if(response.data) {
       this.setState({
         items: response.data.cart.cartitems,
@@ -51,7 +53,7 @@ export default class ShoppingBag extends React.Component {
     var incrCartProduct = this.state.incrCartProductItems
     incrCartProduct.product_id = this.state.items[i].product_id
     incrCartProduct.qty = this.state.items[i].qty - 1
-     this.incrCartData(incrCartProduct, self.context.user.email).then((response) => {
+     this.incrCartData(incrCartProduct, cart_id).then((response) => {
         if(response.data) {
           this.setState({
             items: response.data.cart.cartitems,
@@ -65,18 +67,18 @@ export default class ShoppingBag extends React.Component {
     }
   }
 
-  incrCartData(cartArray, emailAddress) {
+  incrCartData(cartArray, cart_id) {
     return axios.post("/api/carts" , {
-      email: emailAddress,
+      cuid: cart_id,
       cartitems: cartArray
     });
   }
 
   removeAllItems(){
     var self = this
-    var emailAddress = self.context.user.email
-    this.emptyBag(emailAddress).then((response) => {
+    this.emptyBag(cart_id).then((response) => {
       if(response.data) {
+        cookie.remove('cart_cuid');
         this.setState({
           items : [],
           total_price: 0,
@@ -89,15 +91,14 @@ export default class ShoppingBag extends React.Component {
   }
 
 //delete all item from bag
-  emptyBag(emailAddress){
-    return axios.delete("/api/empty/cart?email="+emailAddress);
+  emptyBag(cart_id) {
+    return axios.delete("/api/empty/cart?cuid="+cart_id);
   }
 
   removeSingleitem(i){
     var self = this
-    var emailAddress = self.context.user.email
     var cartitem_id = this.state.items[i].id
-    this.removeItem(emailAddress, cartitem_id).then((response) => {
+    this.removeItem(cart_id, cartitem_id).then((response) => {
       if(response.data) {
         this.setState({
           items : response.data.doc.cartitems,
@@ -111,10 +112,10 @@ export default class ShoppingBag extends React.Component {
   }
 
 // delete single item from bag
-  removeItem(emailAddress, cartitem_id){
+  removeItem(cart_id, cartitem_id){
     return axios.delete("/api/remove/cart_items/",{
       params:{
-        email: emailAddress,
+        cuid: cart_id,
         cartitem_id: cartitem_id
       }
     });
@@ -130,8 +131,8 @@ export default class ShoppingBag extends React.Component {
   }
 
   componentDidMount(){
-    var email = this.context.user.email;
-    this.loadCartItem(email).then((response) => {
+    let email = this.context.user.email
+    this.loadCartItem(cart_id, email).then((response) => {
       if(response.data){
         this.setState({
         item : response.data.cart,
@@ -144,12 +145,11 @@ export default class ShoppingBag extends React.Component {
       });
   }
 
-  loadCartItem(email) {
-    return axios.get("/api/cart/"+email);
+  loadCartItem(cart_id, email) {
+    return axios.get("/api/cart/"+cart_id+"?check_email="+email);
   }
 
   render() {
-    cart_cuid = this.state.item.cuid
     cart_detail = this.state.item
     var self = this;
     var goToShopBtn
