@@ -59,6 +59,11 @@ export default class DeliveryType extends React.Component {
       alert("please select delivery alternative")
     }
   }
+
+  goToBackPage(){
+    this.props.backStep()
+  }
+
   render() {
     if(sendematSelected)
       sendemat_shipping_detail=<div className="table-main mtop40">
@@ -127,6 +132,7 @@ export default class DeliveryType extends React.Component {
           </div>
           {sendemat_shipping_detail}
         </div>
+          <button type="button" className="btn btn-default continue_btn" onClick={ this.goToBackPage.bind(this)}>Back</button>
       </div>
     );
   }

@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import toastr from 'toastr';
-import CheckoutStep from './CheckoutStep'
+import CheckoutStep from './CheckoutStep';
 let email ;
 let order_id ;
 let payment_month_arr = [1,2,3,4,5,6,7,8,9,10,11,12];
@@ -81,6 +81,7 @@ export default class Payment extends React.Component {
 
   cancelPayment(){
     toastr.error('You have cancel your Payment');
+    this.context.router.push('/');
   }
 
   render() {
