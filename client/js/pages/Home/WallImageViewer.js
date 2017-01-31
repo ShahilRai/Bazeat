@@ -5,6 +5,7 @@ import CartModal from '../Header/CartModal';
 import cookie from 'react-cookie';
 import pubSub from 'pubsub-js';
 import axios from 'axios';
+let cart_id;
 export default class WallImageViewer extends React.Component {
 
   static contextTypes = {
@@ -30,28 +31,21 @@ export default class WallImageViewer extends React.Component {
     var cartData = this.props.wallImages?this.props.wallImages:this.props.prodlist;
     cartData.qty = 1;
     cartProduct.product_id = cartData.id
-    this.sendCartData(cartProduct).then((response) => {
+    cart_id = cookie.load('cart_cuid') ? cookie.load('cart_cuid') : ''
+    this.sendCartData(cartProduct, cart_id).then((response) => {
       if(response.data) {
         cookie.save('cart_cuid', response.data.cart.cuid);
         this.setState({
           items : response.data.cart
         })
-       if(!self.state.added) {
-          PubSub.publish('cart.added', this.state.items);
-        }
-       if(!self.state.added){
-        self.setState({
-          added: !self.state.added
-        });
-       }
+        PubSub.publish('cart.added', this.state.items);
       }
     }).catch((err) => {
       console.log(err);
     });
   }
 
-  sendCartData(cartArray) {
-    let cart_id = cookie.load('cart_cuid') ? cookie.load('cart_cuid') : ''
+  sendCartData(cartArray, cart_id) {
     return axios.post("/api/carts" , {
       cuid: cart_id,
       cartitems: cartArray
