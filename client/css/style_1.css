@@ -2816,7 +2816,7 @@ height:30px;
     letter-spacing: normal;
     text-align: left;
     float: left;
-    width: 72%;
+    width: 70%;
     margin-left: 13px;
 }
 .cross_items{
@@ -2872,14 +2872,16 @@ font-weight:600;
     background: none;
     padding: 0;
     position: relative;
-    /*top: -10px;*/
+    top: -10px;
     margin: 0;
 }
 .tot_price_item{
 padding-right: 19px;
 }
 .gross_price{padding-right: 12px;}
-
+.profile_rht_header.header_rht_menu li.next_list .items_list_info ul li:last-child{
+	padding-right: 19px;
+}
 /*============GOOGLE MAP CONTENT===========================*/
 
 .google_map_content{
@@ -5427,6 +5429,14 @@ margin-left: 0;}
 .attnding_days li{width: 14%;}
 .attnding_days li a{padding: 3px 0;}
 .rvw_by_user{width: 70%;}
+
+.items_list_info{left: -154px;right: 0;}
+
+
+
+
+
+
 
 }
  @media only screen and (min-width:761px) and (max-width:999px) {
