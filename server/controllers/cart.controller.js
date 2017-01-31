@@ -12,11 +12,16 @@ let localStorage = new LocalStorage('./scratch');
 
 
 export function getCart(req, res) {
+  console.log('req.query')
+  console.log(req.query)
+  console.log('req.params')
+  console.log(req.params)
   if(!req.params.cuid) {
     return res.status(422).send({msg: "send valid cart id"});
   }
   // co
   User.findOne({email: req.params.cuid}).exec((err, user) => {
+    console.log('user')
     console.log(user)
     let data = {}
     if(user) {
@@ -26,6 +31,7 @@ export function getCart(req, res) {
     }
     console.log(data)
     Cart.findOne(data).exec((err, cart) => {
+      console.log('cart')
       console.log(cart)
       if (err) {
         return res.status(422).send(err);

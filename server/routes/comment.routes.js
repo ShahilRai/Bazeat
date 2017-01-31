@@ -8,7 +8,7 @@ router.route('/reviews').get(CommentController.allReviews);
 router.route('/review').get(CommentController.getReview);
 
 
-router.route('/reviewusers').get(CommentController.writeReviews);
+router.route('/reviewusers').get(CommentController.reviewUserList);
 
 // Create New Conversation
 router.route('/reviews').post(CommentController.newReview);
