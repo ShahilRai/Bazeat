@@ -19,10 +19,7 @@ export function getCart(req, res) {
   if(!req.params.cuid) {
     return res.status(422).send({msg: "send valid cart id"});
   }
-  // co
   User.findOne({email: req.params.cuid}).exec((err, user) => {
-    console.log('user')
-    console.log(user)
     let data = {}
     if(user) {
       data.user = user._id;

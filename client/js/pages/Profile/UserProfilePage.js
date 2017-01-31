@@ -117,7 +117,7 @@ export default class UserProfilePage extends React.Component {
                     <h3>Profile details </h3>
                     <ImageUploader image={this.state.user.photo} />
                     <UserProfileForm method = "post" onSubmit={this.onFormSubmitSuccess.bind(this)}>
-                      <div className="edt_prf_inner_detail">
+                      <div className="edt_prf_inner_detail ptop0">
                         <div className="form-group row">
                           <LabelField className = "col-md-4 col-xs-12 col-form-label" htmlFor="givenName" label="First name*" />
                           <div className="col-md-8 col-xs-12">
@@ -183,7 +183,7 @@ export default class UserProfilePage extends React.Component {
                           <TextAreaField name="desc" value = {this.state.user.description}>{this.state.user.description}</TextAreaField>
                         </div>
                       </div>
-                      <div className="edt_prf_inner_detail">
+                      <div className="edt_prf_inner_detail ">
                         <div className="form-group row">
                           <LabelField htmlFor="desc" className="col-md-4 col-xs-12 col-form-label" label="Delivery information" />
                           <TextAreaField name="delivery_options"  value = {this.state.user.delivery_options} >{this.state.user.delivery_options}</TextAreaField>

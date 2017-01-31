@@ -27,7 +27,7 @@ export default class DisplaySearch extends React.Component {
     var pName = this.props.location ? this.props.location.query.search : '';
     return (
       <div className="full_width_container">
-        <Tabs onSelect={this._handleSelect}>
+        <Tabs onSelect={this._handleSelect} className ="custom_tab">
           <TabList>
             <Tab>Products</Tab>
             <Tab>Bazeaters</Tab>

@@ -63,7 +63,7 @@ export default class ImageUploader extends React.Component {
       <div className="edt_prf_inner_detail">
         <div className="form-group row">
           <label htmlFor="file-1" className="col-md-4 col-xs-12 col-form-label mtop40">Profile Picture</label>
-          <div className="col-md-8 col-xs-12 mbot30">
+          <div className="col-md-8 col-xs-12">
             {$imagePreview}
             <div className="select_files">
               <Dropzone className="box__input" type="file" accept=".jpg,.jpeg,.png,.gif" onDrop={this.onDrop.bind(this)}>

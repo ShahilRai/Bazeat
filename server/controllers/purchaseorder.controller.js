@@ -21,7 +21,7 @@ export function getpurchaseOrders(req, res) {
           return res.json(422, err);
         }
         else{
-          if(orders){
+          if(products){
             Order.find({ _id: {"$in": products.orders }, payment_status: "succeeded"})
             .populate("orderitems _buyer")
             .populate("packages", null, {pkg_status: 'created'})
