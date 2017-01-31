@@ -332,6 +332,8 @@ border: 1px solid #cccccc;
 	 width: 100%;
 	 float: left;
 	 width: 100%;
+	 position: absolute;
+	 bottom: 0;
 }
 .footer_container{
 	padding: 15px 138px 15px;

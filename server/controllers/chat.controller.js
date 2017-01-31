@@ -55,7 +55,7 @@ export function getConversation(req, res, next) {
       Message.find({ conversation_id: req.params.conversation_id })
         .select('createdAt body sender receiver')
         .sort('createdAt')
-        .limit(2)
+        // .limit(2)
         .populate({
           path: 'sender',
           select: 'full_name photo'
