@@ -332,8 +332,6 @@ border: 1px solid #cccccc;
 	 width: 100%;
 	 float: left;
 	 width: 100%;
-	 position: absolute;
-	 bottom: 0;
 }
 .footer_container{
 	padding: 15px 138px 15px;
@@ -1136,6 +1134,11 @@ ul.edit_sidbar_list li a:hover, ul.edit_sidbar_list li.active a {
 	width:100%;
 	background:#999999;
 	    padding: 10px;
+}
+.profile_rht_header.header_rht_menu li a.msgs_link_title{
+	    float: left;
+    padding: 0;
+    width: auto;
 }
 .msgs_title{
 	float:left;
