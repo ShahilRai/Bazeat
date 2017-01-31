@@ -41,6 +41,7 @@ export default class CartModal extends React.Component {
     var incrCartProduct = this.state.incrCartProductItems
     incrCartProduct.product_id = this.state.items[i].product_id
     incrCartProduct.qty = this.state.items[i].qty + 1
+    cart_id = cookie.load('cart_cuid') ? cookie.load('cart_cuid') : ''
     this.incrCartData(incrCartProduct, cart_id).then((response) => {
       if(response.data) {
         this.setState({
@@ -59,6 +60,7 @@ export default class CartModal extends React.Component {
     var incrCartProduct = this.state.incrCartProductItems
     incrCartProduct.product_id = this.state.items[i].product_id
     incrCartProduct.qty = this.state.items[i].qty - 1
+    cart_id = cookie.load('cart_cuid') ? cookie.load('cart_cuid') : ''
      this.incrCartData(incrCartProduct, cart_id).then((response) => {
         if(response.data) {
           toastr.success('Your item successfully added');
@@ -82,6 +84,7 @@ export default class CartModal extends React.Component {
   }
 
   removeItem(e, i) {
+    cart_id = cookie.load('cart_cuid') ? cookie.load('cart_cuid') : ''
     this.removeCartData(this.state.items[i].id, cart_id).then((response) => {
       if(response.data) {
         this.setState({
@@ -104,9 +107,9 @@ export default class CartModal extends React.Component {
   }
 
   removeAllItems() {
+     cart_id = cookie.load('cart_cuid') ? cookie.load('cart_cuid') : ''
      this.removeAllCartData(cart_id).then((response) => {
        if(response.data) {
-        cookie.remove('cart_cuid');
         this.setState({
           items : [],
           total_price: 0.0
@@ -139,6 +142,11 @@ export default class CartModal extends React.Component {
   }
 
   getCart() {
+    if(this.context.authenticated == true) {
+      cart_id = this.context.user.email
+    } else {
+      cart_id = cookie.load('cart_cuid') ? cookie.load('cart_cuid') : ''
+    }
     this.loadCartItem(cart_id).then((response) => {
       if(response.data){
         this.setState({
