@@ -81,8 +81,9 @@ const userSchema = new Schema({
   avg_rating: {type: 'Number', default: 0},
   showInfo: { type: 'Boolean', default: false },
   profile_added: { type: 'Boolean', default: false },
-  account_added: { type: 'Boolean', default: false }
-});
+  account_added: { type: 'Boolean', default: false }},
+  { timestamps: true }
+);
 
 userSchema.post('remove', function(user) {
   Product.update({_producer: {"$in": user._id }}, { $pullAll: {_producer: user._id }}, {multi: true}, function(err) {

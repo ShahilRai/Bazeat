@@ -6,8 +6,9 @@ const Schema = mongoose.Schema;
 const pageSchema = new Schema({
   type: { type: 'String', required: true },
   description: { type: 'String'},
-  date_added: { type: 'Date', default: Date.now, required: true },
-});
+  date_added: { type: 'Date', default: Date.now, required: true }},
+  { timestamps: true }
+);
 
 export default mongoose.model('Page', pageSchema);
 

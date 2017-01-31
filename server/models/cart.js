@@ -29,7 +29,8 @@ const cartSchema = new Schema({
     country: { type: 'String' },
     phone_num: { type: 'String' }
   },
-  cartitems: [cartitems]
-});
+  cartitems: [cartitems]},
+  { timestamps: true }
+);
 
 export default mongoose.model('Cart', cartSchema);

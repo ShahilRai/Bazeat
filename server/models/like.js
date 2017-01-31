@@ -6,10 +6,8 @@ import Product from '../models/product';
 const likeSchema = new Schema({
   _product: { type: Schema.ObjectId, ref: 'Product' },
   _liker: { type: Schema.ObjectId, ref: 'User' },
-  cuid: { type: 'String' }
-}, {
-    timestamps: true
-  }
+  cuid: { type: 'String' }},
+  { timestamps: true }
 );
 
 export default mongoose.model('Like', likeSchema);
