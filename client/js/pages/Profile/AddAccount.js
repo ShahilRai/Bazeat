@@ -179,7 +179,7 @@ if(this.state.status){
                   updateDetail =<div className="col-lg-9 col-md-8 col-sm-10 col-xs-12 edit_profile_rht_sidebar">
                         <div className="edit_prfile_detail_form">
                           <h3>Bank Account</h3>
-                          <div className="edt_prf_inner_detail">
+                          <div className="bank_inner_detail">
                             <div className="form-group row">
                               <center> <h3>your bank  account no is ******************{this.state.lastDigit}</h3></center>
                             </div>
