@@ -181,7 +181,6 @@ export default class UserProfilePage extends React.Component {
                         <div className="form-group row">
                           <LabelField className = "col-md-4 col-xs-12 col-form-label" htmlFor="desc" label="Description" />
                           <TextAreaField name="desc" value = {this.state.user.description}>{this.state.user.description}</TextAreaField>
-                          <InputField type="hidden" name="profile_added" value = "true" />
                         </div>
                       </div>
                       <div className="edt_prf_inner_detail">

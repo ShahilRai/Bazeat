@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
 import axios from 'axios';
-import PubSub from 'pubsub-js';
 
 export default class PurchaseOrdersList extends React.Component {
 

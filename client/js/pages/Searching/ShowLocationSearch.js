@@ -50,14 +50,28 @@ export default class ShowLocationSearch extends React.Component {
   }
 
   render() {
-    return (
-      <div className="tab-pane" id="location">
+    let locationTable;
+    if(this.state.allBazeaters.length > 0){
+      let thValue=['Date','Package order#','Customer','Status','Packed','Shipped','Amount']
+      locationTable = (
         <div className="search_v1">
           <h3 className="search_tabbd_heading text-left pad_lf211">Your search for <span className="italic">'location'</span> returned <span className="italic">{this.state.allBazeaters.length}</span> results</h3>
           <LocationHeadingTab />
           {this.state.allBazeaters.map((locData, index) =>  <LazyLoad key={index}><LocationTabView
             key = {index} locData = {locData} /></LazyLoad>)}
         </div>
+      )
+    }
+    else {
+      locationTable = (
+        <div>
+          <h3 className="search_tabbd_heading text-left pad_lf211">Your search for <span className="italic">'location'</span> returned <span className="italic">{this.state.allBazeaters.length}</span> results</h3>
+        </div>
+      )
+    }
+    return (
+      <div className="tab-pane" id="location">
+        {locationTable}
       </div>
     );
   }

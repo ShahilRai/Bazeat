@@ -2,6 +2,7 @@ import React from 'react';
 import ProductDetails from '../AddProduct/ProductDetails';
 import ReactSlider from '../Product/ReactSlider';
 import CartModal from '../Header/CartModal';
+import cookie from 'react-cookie';
 import pubSub from 'pubsub-js';
 import axios from 'axios';
 export default class WallImageViewer extends React.Component {
@@ -29,8 +30,9 @@ export default class WallImageViewer extends React.Component {
     var cartData = this.props.wallImages?this.props.wallImages:this.props.prodlist;
     cartData.qty = 1;
     cartProduct.product_id = cartData.id
-    this.sendCartData(cartProduct, self.context.user.email).then((response) => {
+    this.sendCartData(cartProduct).then((response) => {
       if(response.data) {
+        cookie.save('cart_cuid', response.data.cart.cuid);
         this.setState({
           items : response.data.cart
         })
@@ -48,11 +50,12 @@ export default class WallImageViewer extends React.Component {
     });
   }
 
-  sendCartData(cartArray, emailAddress) {
+  sendCartData(cartArray) {
+    let cart_id = cookie.load('cart_cuid') ? cookie.load('cart_cuid') : ''
     return axios.post("/api/carts" , {
-      email: emailAddress,
+      cuid: cart_id,
       cartitems: cartArray
-    });
+    })
   }
 
   render() {
