@@ -191,7 +191,7 @@ export function removeCartItems(req, res) {
     if (err) {
       return res.status(422).send(err);
     }
-    console.log(req.query.cartitem_id)
+    console.log(req.query)
     let cartItem = cart.cartitems.id(req.query.cartitem_id)
     Product.findOne({ _id: cartItem.product_id }).exec((err, product) => {
       if (err){

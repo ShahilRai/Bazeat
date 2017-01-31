@@ -7,42 +7,47 @@ import * as MessageService from '../services/twillio';
 
 export function allConversations(req, res, next) {
   User.findOne({ email: req.query.email }).exec((err, user) => {
-    Conversation.find({ participants: user._id })
-      .select('_id')
-      .exec(function(err, conversations) {
-        if (err) {
-          res.send({ error: err });
-          return next(err);
-        }
-        // Set up empty array to hold conversations + most recent message
-        let fullConversations = [];
-        conversations.forEach(function(conversation) {
-          console.log(conversation)
-          Message.find({ 'conversation_id': conversation._id })
-            .sort('-createdAt')
-            .limit(1)
-            .populate({
-              path: 'sender',
-              select: 'full_name photo'
-            })
-            .populate({
-              path: 'receiver',
-              select: 'full_name photo'
-            })
-            .exec(function(err, message) {
-              if (err) {
-                console.log('message')
-                console.log(message)
-                res.send({ error: err });
-                return next(err);
-              }
-              fullConversations.push(message);
-              if(fullConversations.length === conversations.length) {
-                return res.status(200).json({ conversations: fullConversations });
-              }
-            });
-        });
-    });
+    if(err || user == null){
+      res.status(422).send({err});
+    }
+    else{
+      Conversation.find({ participants: user._id })
+        .select('_id')
+        .exec(function(err, conversations) {
+          if (err) {
+            res.send({ error: err });
+            return next(err);
+          }
+          // Set up empty array to hold conversations + most recent message
+          let fullConversations = [];
+          conversations.forEach(function(conversation) {
+            console.log(conversation)
+            Message.find({ 'conversation_id': conversation._id })
+              .sort('-createdAt')
+              .limit(1)
+              .populate({
+                path: 'sender',
+                select: 'full_name photo'
+              })
+              .populate({
+                path: 'receiver',
+                select: 'full_name photo'
+              })
+              .exec(function(err, message) {
+                if (err) {
+                  console.log('message')
+                  console.log(message)
+                  res.send({ error: err });
+                  return next(err);
+                }
+                fullConversations.push(message);
+                if(fullConversations.length === conversations.length) {
+                  return res.status(200).json({ conversations: fullConversations });
+                }
+              });
+          });
+      });
+    }
   });
 }
 
@@ -55,7 +60,7 @@ export function getConversation(req, res, next) {
       Message.find({ conversation_id: req.params.conversation_id })
         .select('createdAt body sender receiver')
         .sort('createdAt')
-        .limit(2)
+        // .limit(2)
         .populate({
           path: 'sender',
           select: 'full_name photo'

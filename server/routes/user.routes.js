@@ -20,6 +20,7 @@ router.route('/users').delete(UserController.deleteUser);
 
 // Add Stripe Bank Account User by cuid
 router.route('/bank_account').post(UserController.addBankAccount);
+
 router.route('/check_account').get(UserController.checkAccount);
 
 router.route('/payment').post(UserController.Payment);
@@ -27,5 +28,7 @@ router.route('/payment').post(UserController.Payment);
 router.route('/hide_account').put(UserController.hideAccount);
 
 router.route('/disable_account').put(UserController.disableAccount);
+
+router.route('/check_user').get(UserController.checkUserAccount);
 
 export default router;

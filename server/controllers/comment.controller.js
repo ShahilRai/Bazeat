@@ -156,6 +156,7 @@ export function sendReply(req, res, next) {
     const comment = new Comment({
       comment: req.body.comment_body,
       review: req.body.review_id ,
+      is_commented: req.body.is_commented ,
     });
     comment.save(function(err, newComment) {
       if (err) {

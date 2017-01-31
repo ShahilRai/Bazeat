@@ -67,15 +67,23 @@ export default class Menu extends React.Component {
     if(this.state.isReview){
       reviewIcon = ( <span className="msg_qty" >{this.state.isReview}</span>)
     }
+
+    if(this.context.authenticated) {
+          //var auth_icons =  ()
+      }
+
     return (
         <ul className={profileHead}>
-          <li><a href="javascript:void(0)" className="help_icon">Help</a></li>
+          
           <NotAuthenticated>
+          <li><a href="javascript:void(0)" className="help_icon">Help</a></li>
             <li><a href="" data-toggle="modal" data-target="#register_modal">Join Bazeat</a></li>
             <li><a href="" data-toggle="modal" data-target="#login_modal">Log in</a></li>
             <li className="cart_icon"><a href="javascript:void(0)">Cart</a></li>
+          {cart_icon}
           </NotAuthenticated>
           <Authenticated>
+<li><a href="javascript:void(0)" className="help_icon">Help</a></li>
             <li className="dropbtn">
               <a href="javascript:void(0)" className="message_icon">Messages
                 {MessageIcon}
@@ -95,8 +103,10 @@ export default class Menu extends React.Component {
             <li data-toggle="collapse" data-target="">
             <a href="javascript:void(0)" className="user_icon"></a>
             </li>
+{cart_icon}
           </Authenticated>
-          {cart_icon}
+         
+          
         </ul>
     );
   }
