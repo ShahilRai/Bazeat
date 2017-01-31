@@ -1124,7 +1124,7 @@ ul.edit_sidbar_list li a:hover, ul.edit_sidbar_list li.active a {
     border-radius: 2px;
     float: left;
     position: absolute;
-    top: 54px;
+    top: 50px;
     right: 13px;
 	display:none;
 	z-index:9;
@@ -2962,6 +2962,7 @@ margin-bottom:10px;display: inline-block;
 .header_rht_menu li {
  font-size: 12px;
  margin-top: 5px;
+ margin-right: 0;
 }
 .mid_container {
  padding: 5px 0 15px;
@@ -3197,9 +3198,15 @@ br{display:none;}
 .banner_wrapper{height: auto;}
 .banner_wrapper img {
 	width: 100%;
-	padding-top: 137px;
+	padding-top: 205px;
 	height: 100%;
 }
+
+.msg_dropdown{width:300px;right:0;left: -83px;}
+
+.profile_rht_header.header_rht_menu li.username_text a{margin-left: 0;}
+
+
 }
  @media only screen and (min-width:761px) and (max-width:999px) {
 .mid_container {
@@ -5439,6 +5446,6 @@ margin-bottom: 7px;
 }
 
 /* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {
-    display: block;
+.dropbtn:hover .msg_dropdown{
+	display: block;
 }
