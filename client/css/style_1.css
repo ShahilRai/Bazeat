@@ -4664,10 +4664,15 @@ border-bottom:1px solid #b3b3b3;
     z-index: 9999;}
 .shipping_toggle{position: relative;
  cursor: pointer}
-.shipping_toggle ul{ position: absolute;
-    width: 130px;
+.shipping_toggle ul{
+    position: absolute;
+    width: 110px;
     top: 100%;
-    z-index: 9999;}
+    z-index: 9999;
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 10px 5px 10px 5px;
+  }
   .table-main.overflow_none{overflow:inherit;}
 .shipping_toggle ul li{    font-size: 12px;
     width: 100%;
