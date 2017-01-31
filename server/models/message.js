@@ -7,9 +7,7 @@ const messageSchema = new Schema({
   unread: { type: Boolean, default: true },
   sender: { type: Schema.Types.ObjectId, ref: 'User' },
   receiver: { type: Schema.Types.ObjectId, ref: 'User' }},
-  {
-    timestamps: true // Saves createdAt and updatedAt as dates. createdAt will be our timestamp.
-  }
+  { timestamps: true }
 );
 
 module.exports = mongoose.model('Message', messageSchema);

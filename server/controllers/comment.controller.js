@@ -156,6 +156,7 @@ export function sendReply(req, res, next) {
     const comment = new Comment({
       comment: req.body.comment_body,
       review: req.body.review_id ,
+      is_commented: req.body.is_commented ,
     });
     comment.save(function(err, newComment) {
       if (err) {
@@ -176,7 +177,7 @@ export function sendReply(req, res, next) {
 }
 
 
-export function writeReviews(req, res){
+export function reviewUserList(req, res){
   User.findOne({ email: req.query.email }).exec((err, user) => {
     Order.find({_buyer: user._id}).select("products").exec((err, products) => {
       console.log('products')
@@ -198,3 +199,42 @@ export function writeReviews(req, res){
     });
   });
 }
+
+// export function reviewUserList(req, res){
+//   User.findOne({ email: req.query.email }).exec((err, user) => {
+//     Order.find({_buyer: user._id}).select("products").exec((err, products) => {
+//       console.log('products')
+//       console.log(products)
+//       let products_arr = []
+//       let producer_arr = []
+//       products.forEach(function(item, index1) {
+//         products_arr.push(item.products[0])
+//         if(products.length == index1+1){
+//           Product.find({_id: {"$in": products_arr }}).populate("_producer").exec((err, producer)=>{
+//             if(producer){
+//               producer.forEach(function(item, index) {
+//                 console.log('item')
+//                 console.log(item)
+//                 Review.find({reviewed_for: item._producer._id, is_replied: true}).exec((err,review) =>{
+//                   console.log('review')
+//                   console.log(review)
+//                   console.log('producer.length == index+1')
+//                   console.log(producer.length == index+1)
+//                   if(review.length == 0){
+//                     producer_arr.push(item._producer)
+//                   }
+//                   if(producer.length == index+1){
+//                     console.log('producer_arr')
+//                     console.log(producer_arr)
+//                     return res.json({producer_arr});
+//                   }
+
+//                 })
+//               })
+//             }
+//           })
+//         }
+//       })
+//     });
+//   });
+// }

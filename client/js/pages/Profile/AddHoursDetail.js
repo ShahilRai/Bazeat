@@ -124,11 +124,11 @@ export default class AddHoursDetail extends React.Component {
         <a href="javascript:void(0)" className="add_hrs_btn" onClick={this.displayAddHoursForm.bind(this)}>+ Add hours</a>
         <span className="visting_hr_time_col" id="addHours">
           <span className="visting_hr_inner_col" >
-            <span className="pull-left">
+            <span className="pull-left col-md-6 time_label">
               <label>From</label>
               <SelectBox ref="from_time" selectlist={this.state.options} name="fromTime" />
             </span>
-            <span className="pull-right">
+            <span className="pull-right col-md-6 time_label">
               <label>to</label>
               <SelectBox ref="to_time" selectlist={this.state.options} name="toTime" />
             </span>

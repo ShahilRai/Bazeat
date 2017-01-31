@@ -35,8 +35,8 @@ export default class ShowBazeatersSearch extends React.Component {
         <div className="container pad_lf151">
           <div className="bazeaters_sec">
             <h3 className="search_tabbd_heading text-left">Your search for <span className="italic">'bazeaters'</span> returned <span className="italic">{this.state.allBazeaters.length}</span> results</h3>
-              {this.state.allBazeaters.map((bazeatersData, index) => <LazyLoad key={index}><BazeatersWall
-                key = {index} bazeatersData = {bazeatersData}/></LazyLoad>)}
+              {this.state.allBazeaters.map((bazeatersData, index) => <BazeatersWall
+                key = {index} bazeatersData = {bazeatersData}/>)}
           </div>
         </div>
       </div>

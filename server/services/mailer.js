@@ -90,7 +90,7 @@ export  function new_message(message, sender){
   User.find({ _id: message.receiver }).exec((err, user) => {
     transport.sendMail({
       mandrillOptions: {
-        template_name: 'new-message-from-name',
+        template_name: '03-velkommen',
         template_content: [
         ],
         message: {

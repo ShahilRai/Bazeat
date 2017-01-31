@@ -1,5 +1,6 @@
 import User from '../models/user';
 import Order from '../models/order';
+import Cart from '../models/cart';
 import * as MailService from '../services/mailer';
 import * as MessageService from '../services/twillio';
 import cuid from 'cuid';
@@ -302,11 +303,22 @@ export  function create_charge(customer, card, order, next, req, res){
         },{new: true}
         ).exec(function(err, updated_order){
       });
-        MailService.send_email(charge)
-        update_order_after_paymnt(charge, order)
-        return res.json({ charge: charge });
+      MailService.send_email(charge)
+      clear_cart(order._buyer)
+      update_order_after_paymnt(charge, order)
+      return res.json({ charge: charge });
     }
   });
+}
+
+function clear_cart(user_id) {
+  User.findOne({_id: user_id}).exec(function(err, user) {
+    Cart.findOne({cuid: user.current_cart_id}).exec(function(err, cart) {
+      cart.remove(() => {
+        console.log("Cart deleted successfully");
+      })
+    })
+  })
 }
 
 export function hideAccount(req, res) {
@@ -360,4 +372,24 @@ export function update_order_after_paymnt(charge, order){
     ).exec(function(err, updated_order){
       // Send email to promoter for shipping
   });
+}
+
+
+export function checkUserAccount(req,res){
+  User.findOne({email: req.query.email}).exec((err, user) => {
+    if(err){
+      return res.status(422).send(err);
+    }
+    else{
+      if(user.profile_added == false) {
+        return res.status(422).send({status: false, err_msg: "Update your profile first"});
+      }
+      if(user.account_added == false){
+        return res.status(422).send({status: false, err_msg: "Add your account first"});
+      }
+      if(user.profile_added == true && user.account_added == true){
+        return res.status(200).send({status: true, err_msg: "You are ready to go"});
+      }
+    }
+  })
 }

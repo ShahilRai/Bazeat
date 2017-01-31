@@ -174,13 +174,13 @@ export default class ShowProductsSearch extends React.Component {
             <AppliedFilters categoryName={this.state.categoryNames} handlecategoryFilter={this.handlecategoryFilter} categoryIds={this.state.categoryIds} clearFilters={this.clearFilters}/>
             <div className="prod_result1">
               <div className="container pad_lf120">
+              <div className="col-xs-12">
                 <h3 className="search_tabbd_heading text-left">Your search for <span className="italic">'{varNotify}'</span> returned <span className="italic">{this.state.allProductsData.length}</span> results</h3>
+                </div>
                 <div className="grid_wall_wrapper">
                   {this.state.allProductsData.map((prodlist, index) => {
                     return (
-                      <LazyLoad key={index}>
-                        <WallImageViewer prodlist={prodlist} index={index+1}/>
-                      </LazyLoad>
+                        <div className="wall-column" key={index} index={index+1}><WallImageViewer prodlist={prodlist} index={index+1}/></div>
                     );
                   })}
                 </div>

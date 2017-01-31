@@ -12,20 +12,39 @@ let localStorage = new LocalStorage('./scratch');
 
 
 export function getCart(req, res) {
+  console.log('req.query')
+  console.log(req.query)
+  console.log('req.params')
+  console.log(req.params)
   if(!req.params.cuid) {
     return res.status(422).send({msg: "send valid cart id"});
   }
-  Cart.findOne({ cuid: req.params.cuid }).exec((err, cart) => {
-    if (err) {
-      return res.status(422).send(err);
+  User.findOne({email: req.params.cuid}).exec((err, user) => {
+    let data = {}
+    if(user) {
+      data.user = user._id;
+    } else {
+      data.cuid = req.params.cuid;
     }
-    else{
-      if(req.query.check_email) {
-        set_current_cart_to_user(req.query.check_email, cart.cuid, null, res)
+    console.log(data)
+    Cart.findOne(data).exec((err, cart) => {
+      console.log('cart')
+      console.log(cart)
+      if (err) {
+        return res.status(422).send(err);
       }
-      set_total_price(cart, null, res)
-    }
-  });
+      else{
+        if(cart) {
+          if(req.query.check_email) {
+            set_current_cart_to_user(req.query.check_email, cart.cuid, null, res)
+          }
+          set_total_price(cart, null, res)
+        } else {
+          return res.status(422).send({msg: "There are no item in cart"});
+        }
+      }
+    });
+  })
 }
 
 export function createCart(req, res) {
@@ -153,7 +172,9 @@ function set_total_price(cart, next, res){
         },
         {new: true}).
         exec(function(err,doc) {
+          console.log("doc")
           if (cart.cartitems.length == index+1){
+            console.log(doc)
             return res.json({ cart: doc});
           }
         });
@@ -173,7 +194,7 @@ export function removeCartItems(req, res) {
     if (err) {
       return res.status(422).send(err);
     }
-    console.log(req.query.cartitem_id)
+    console.log(req.query)
     let cartItem = cart.cartitems.id(req.query.cartitem_id)
     Product.findOne({ _id: cartItem.product_id }).exec((err, product) => {
       if (err){
@@ -214,16 +235,21 @@ export function removeCartItems(req, res) {
 }
 
 export function emptyCart(req, res) {
-  console.log(req.query.cuid)
-  Cart.findOne({cuid: req.query.cuid}).exec(function(err, cart) {
-    console.log("cart")
-    console.log(cart)
-    if(err) {
+  Cart.findOneAndUpdate(
+    { "cuid": req.query.cuid},
+    {
+      "$set": {
+        "cartitems": [],
+        "total_qty": 0,
+        "total_price": 0,
+        "total_weight": 0
+      }
+    },
+    {new: true}).
+    exec(function(err,doc) {
+      if (err) {
       return res.status(422).send({msg: err});
-    } else {
-      cart.remove(() => {
-        return res.status(200).send({msg: "Cart Empty"});
-      });
-    }
-  })
+      }
+      return res.status(200).send({msg: "Cart Empty"});
+  });
 }
