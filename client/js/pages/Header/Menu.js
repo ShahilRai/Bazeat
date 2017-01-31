@@ -68,10 +68,6 @@ export default class Menu extends React.Component {
       reviewIcon = ( <span className="msg_qty" >{this.state.isReview}</span>)
     }
 
-    if(this.context.authenticated) {
-          //var auth_icons =  ()
-      }
-
     return (
         <ul className={profileHead}>
           
@@ -83,7 +79,7 @@ export default class Menu extends React.Component {
           {cart_icon}
           </NotAuthenticated>
           <Authenticated>
-<li><a href="javascript:void(0)" className="help_icon">Help</a></li>
+          <li><a href="javascript:void(0)" className="help_icon">Help</a></li>
             <li className="dropbtn">
               <a href="javascript:void(0)" className="message_icon">Messages
                 {MessageIcon}

@@ -44,9 +44,12 @@ export default class ReviewsAndLikes extends React.Component {
             <img src="/images/revw_icon.png"/>
           </span>
         </h3>
+        <span className="rvw_qty">
           <Rating rating={3.5} displayOnly={true} maxRating={5}  ratingSymbol={"\u2764"} />
-          <span className="review_num" onClick={this.props.onClick}><Link to="user-reviews">{this.props.all_reviews_count} reviews</Link></span>
+          <span className="review_num" onClick={this.props.onClick}><Link to="user-reviews" className="total_reviews">{this.props.all_reviews_count} reviews</Link></span>
+        </span>
         <span className="star_rating">
+
           <ul>
             <li><a href="javascript:void(0)"><img src="/images/like.png" /></a></li>
           </ul>
