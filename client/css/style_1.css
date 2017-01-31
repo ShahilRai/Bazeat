@@ -1405,7 +1405,7 @@ line-height: 45px;
 .chat_msgs ul{list-style:none;}
 .chat_msgs ul li{
     display: block;
-    margin-bottom: 15px;
+    margin-bottom: 0px;
     float: left;
     width: 100%;
 }
@@ -1438,7 +1438,7 @@ border-radius:4px;
 .complt_user_chat{
     float: left;
     width: 100%;
-    margin-bottom: 57px;
+    margin-bottom: 0px;
 }
 
 /*:::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -2370,7 +2370,10 @@ width: 20%;
     float: left;
     margin: 0 0 7px;
 }
-
+.back_fwd_btn{
+	float: left;width:100%;padding-right: 15px;
+	margin-top: 15px;
+}
 /*::::::::::::::STEP-3::::::::::::::*/
 .del_method_col .prod_checkbox{
 	    width: 19%;
@@ -5431,7 +5434,16 @@ margin-left: 0;}
 .rvw_by_user{width: 70%;}
 
 .items_list_info{left: -154px;right: 0;}
-
+.chkout_pg {
+    padding-left: 10px;
+    padding-right: 10px;
+    margin: 147px auto 56px;
+}
+.del_step1 {
+    width: 100%;
+    margin-bottom: 10px;
+    margin-right: 0;
+}
 
 
 
