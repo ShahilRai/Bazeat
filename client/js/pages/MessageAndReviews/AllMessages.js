@@ -61,18 +61,12 @@ export default class AllMessages extends React.Component {
     return axios.get("/api/conversations?email="+emailAddress);
   }
 
-  showSingleMsgConverstation(conversation_id,receiver_id,sender_id,receiver_name,sender_name,sender_photo,receiver_photo) {
+  showSingleMsgConverstation(conversation_id) {
     this.showMsgConversation(conversation_id).then((response) => {
       if(response.data) {
         this.setState({
           allConversation: response.data.messages,
           conversation_id: conversation_id,
-          receiver_id:receiver_id,
-          sender_id:sender_id,
-          receiver_name:receiver_name,
-          sender_name:sender_name,
-          sender_photo:sender_photo,
-          receiver_photo:receiver_photo,
           activeState: conversation_id
         });
       }
@@ -156,9 +150,8 @@ export default class AllMessages extends React.Component {
     }
 
   render(){
-    console.log(this.state.allMsgConversations)
     if(this.state.selectedMessages){
-      this.state.select = <SelectedMessages  updateSingleConversation ={this.updateSingleConversation.bind(this)} sender_id={this.state.sender_id} receiver_name={this.state.receiver_name}receiver_id={this.state.receiver_id} conversation_id={this.state.conversation_id} sender_name={this.state.sender_name} sender_photo={this.state.sender_photo} receiver_photo={this.state.receiver_photo} allMessage = {this.state.allConversation} allMsgConversations ={this.state.allMsgConversations}/>
+      this.state.select = <SelectedMessages  updateSingleConversation ={this.updateSingleConversation.bind(this)}  conversation_id={this.state.conversation_id}  allMessage = {this.state.allConversation} allMsgConversations ={this.state.allMsgConversations}/>
     } else {
       this.state.select = <NewMessage conversation_id ={this.state.conversation_id} updateConversation={this.updateConversation.bind(this)}  conversation_id={this.state.conversation_id}/>
     }
@@ -166,7 +159,7 @@ export default class AllMessages extends React.Component {
     var _results = _msgConversations.map((result, index) => {
       var data = result[0];
       return(
-        <div className={this.state.activeState === data.conversation_id?"chat_list active_user":"chat_list"} key={index} onClick = {this.showSingleMsgConverstation.bind(this, data.conversation_id, data.receiver.id, data.sender.id, data.receiver.full_name, data.sender.full_name, data.sender.photo, data.receiver.photo)}>
+        <div className={this.state.activeState === data.conversation_id?"chat_list active_user":"chat_list"} key={index} onClick = {this.showSingleMsgConverstation.bind(this, data.conversation_id)}>
           <a href="javascript:void(0)">
             <span className="user_img"><img className="user_profile_img" src={(data.sender.full_name == this.context.user.fullName) ? data.receiver.photo : data.sender.photo} /></span>
             <span className="chat_description" >

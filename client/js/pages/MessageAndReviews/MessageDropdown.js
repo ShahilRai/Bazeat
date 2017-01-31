@@ -56,7 +56,7 @@ export default class MessageDropdown extends React.Component {
 		return(
 			<div className="msg_dropdown dropdown-content" id="user_message" >
 				<div className="chat_header" >
-					<Link to="/message"><span className="msgs_title">Messages</span></Link>
+					<Link to="/message" className = "msgs_link_title"><span className="msgs_title">Messages</span></Link>
 						<span className="edit_icon">
 							<Link to="/message"><i className="fa fa-pencil-square-o" aria-hidden="true" ></i>
 							</Link>

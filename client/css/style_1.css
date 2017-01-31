@@ -1135,6 +1135,11 @@ ul.edit_sidbar_list li a:hover, ul.edit_sidbar_list li.active a {
 	background:#999999;
 	    padding: 10px;
 }
+.profile_rht_header.header_rht_menu li a.msgs_link_title{
+	    float: left;
+    padding: 0;
+    width: auto;
+}
 .msgs_title{
 	float:left;
 	font-size:12px;
