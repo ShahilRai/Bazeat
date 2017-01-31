@@ -37,7 +37,7 @@ export function getCart(req, res) {
           }
           set_total_price(cart, null, res)
         } else {
-          return res.status(422).send({msg: "There are no item in cart"});
+          return res.status(200).send({msg: "There are no item in cart"});
         }
       }
     });

@@ -1,5 +1,6 @@
 import User from '../models/user';
 import Order from '../models/order';
+import Cart from '../models/cart';
 import * as MailService from '../services/mailer';
 import * as MessageService from '../services/twillio';
 import cuid from 'cuid';
@@ -302,11 +303,22 @@ export  function create_charge(customer, card, order, next, req, res){
         },{new: true}
         ).exec(function(err, updated_order){
       });
-        MailService.send_email(charge)
-        update_order_after_paymnt(charge, order)
-        return res.json({ charge: charge });
+      MailService.send_email(charge)
+      clear_cart(order._buyer)
+      update_order_after_paymnt(charge, order)
+      return res.json({ charge: charge });
     }
   });
+}
+
+function clear_cart(user_id) {
+  User.findOne({_id: user_id}).exec(function(err, user) {
+    Cart.findOne({cuid: user.current_cart_id}).exec(function(err, cart) {
+      cart.remove(() => {
+        console.log("Cart deleted successfully");
+      })
+    })
+  })
 }
 
 export function hideAccount(req, res) {
