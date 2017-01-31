@@ -84,12 +84,10 @@ export function getConversation(req, res, next) {
 export function newConversation(req, res) {
   let conv
   if(!req.query.recipient_id) {
-    res.status(422).send({ error: 'Please choose a valid recipient for your message.' });
-    return next();
+    return res.status(422).send({ error: 'Please choose a valid recipient for your message.' });
   }
   if(!req.body.composedMessage) {
-    res.status(422).send({ error: 'Please enter a message.' });
-    return next();
+    return res.status(422).send({ error: 'Please enter a message.' });
   }
   User.findOne({ email: req.body.email }).exec((err, user) => {
     Conversation.findOne({participants: [user._id, req.query.recipient_id]}).exec(function(err,conversation){
