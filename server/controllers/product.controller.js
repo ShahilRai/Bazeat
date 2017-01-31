@@ -8,24 +8,18 @@ import cuid from 'cuid';
 
 export function addProduct(req, res) {
   User.findOne({ email: req.body.fieldValues.email }).exec((error, user) => {
-    console.log(req.body.fieldValues)
-    if(user.account_added == true){
-      const newProduct = new Product(req.body.fieldValues);
-      newProduct.cuid = cuid();
-      newProduct._producer = user._id;
-      newProduct.save((err, product) => {
-        console.log(err)
-        if (err) {
-         return res.status(422).send(err);
-        }
-        else{
-          return res.json({ product: product });;
-        }
-      })
-    }
-    else{
-      return res.status(422).send({err_msg: "Please add your bank account first"});
-    }
+    const newProduct = new Product(req.body.fieldValues);
+    newProduct.cuid = cuid();
+    newProduct._producer = user._id;
+    newProduct.save((err, product) => {
+      console.log(err)
+      if (err) {
+       return res.status(422).send(err);
+      }
+      else{
+        return res.json({ product: product });;
+      }
+    })
   });
 }
 

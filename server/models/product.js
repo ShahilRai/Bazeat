@@ -46,8 +46,9 @@ const productSchema = new Schema({
   is_disable: { type: 'Boolean', default: false },
   product_category: { type: Schema.ObjectId, ref: 'ProductCategory' },
   allergens: [{ type: Schema.ObjectId, ref: 'Allergen' }],
-  ingredients: [{ type: Schema.ObjectId, ref: 'Ingredient' }],
-});
+  ingredients: [{ type: Schema.ObjectId, ref: 'Ingredient' }]},
+  { timestamps: true }
+);
 
 productSchema.post('save', function(product) {
   ProductCategory.findByIdAndUpdate(product.product_category, {$push: {_products: product}} , function(err, model) {

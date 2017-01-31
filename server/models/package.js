@@ -21,8 +21,9 @@ const packageSchema = new Schema({
     ship_date: { type: 'Date'},
     status: { type: 'String'},
     notify_to_customer: { type: 'Boolean', default: false }
-  }
-});
+  }},
+  { timestamps: true }
+);
 
 packageSchema.plugin(autoIncrement.plugin, {
     model: 'Package',

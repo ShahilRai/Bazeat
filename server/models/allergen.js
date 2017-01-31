@@ -5,8 +5,9 @@ const ObjectId = Schema.ObjectId;
 
 const allergenSchema = new Schema({
   name: String,
-  _products: [{ type: ObjectId, ref: 'Product' }]
-});
+  _products: [{ type: ObjectId, ref: 'Product' }]},
+  { timestamps: true }
+);
 
 export default mongoose.model('Allergen', allergenSchema);
 
