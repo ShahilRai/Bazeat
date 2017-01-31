@@ -17,6 +17,7 @@
 	 8. Responsive Style
 */
 
+html,body{ height: 100%}
 body {
 	margin: 0px;
 	padding: 0px;
@@ -330,13 +331,15 @@ border: 1px solid #cccccc;
 
 /*========FOOTER====================*/
 #footer{
-	background:#F2F2F2;
-	border-top:1px
-	 solid #CCCCCC;
-	 width: 100%;
-	 float: left;
-	 width: 100%;
-	 margin-top: 30px;
+	    background: #F2F2F2;
+    border-top: 1px
+ solid #CCCCCC;
+    width: 100%;
+    float: left;
+    width: 100%;
+    margin-top: 30px;
+    position: absolute;
+    bottom: 0;
 }
 .footer_container{
 	padding: 15px 138px 15px;
@@ -5114,8 +5117,23 @@ margin-bottom: 7px;
 .visting_hr_inner_col label{float: left;}
 .bank_inner_detail{padding: 18px 30px 0 30px}
 
-
-
+#app-container{
+	float: left;
+    width: 100%;
+    height: 100%;
+}
+.router_container{
+	width: 100%;
+    float: left;
+    height: 100%;
+}
+.full_container{
+	width: 100%;
+    float: left;
+    position: relative;
+    min-height: 100%;
+    padding-bottom: 66px;
+}
 
 /********MEDIA QUERY*********/
 
@@ -5445,13 +5463,12 @@ margin-left: 0;}
     margin-right: 0;
 }
 
-
-
-
-
+#footer {
+    position: static;
+}
 
 }
- @media only screen and (min-width:761px) and (max-width:999px) {
+@media only screen and (min-width:761px) and (max-width:999px) {
 .mid_container {
  padding: 25px 0 15px;
 }
