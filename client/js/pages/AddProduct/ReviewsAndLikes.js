@@ -48,7 +48,7 @@ export default class ReviewsAndLikes extends React.Component {
           <ul>
             <li><a href="javascript:void(0)"><img src="/images/like.png" /></a></li>
           </ul>
-          <span className="review_num">2.3K likes</span>
+          <span className="review_num">{this.props.userInfo.like_count} likes</span>
         </span>
       </div>
     )

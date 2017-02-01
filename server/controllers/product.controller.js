@@ -273,7 +273,7 @@ export function addRemoveLike(req, res) {
             }
             else {
               update_like_count(product)
-              return res.json({ like: like });
+              return res.json({msg: "like product successfully"});
             }
           });
         } else {
@@ -289,9 +289,6 @@ export function addRemoveLike(req, res) {
 
 function update_like_count(product) {
   Like.find({ _product: product._id }).exec(function(err, like) {
-    console.log(like.length)
-    console.log("like.length")
-    console.log(product._producer)
     product._producer.like_count = like.length
     product._producer.save();
   })

@@ -130,7 +130,7 @@ export default class UserHomePage extends React.Component {
       img ="/images/review_logo.png"
     }
 
-    if(this.state.route == '/allreviews'){
+    if(this.state.route == '/user-reviews'){
         var _allReviews=<AllProducerReviews />
     } else if(this.state.route == '/user/:userId'){
           var _category = <CategoryMenu categoryMenuClick = {this.selectCategoryData} allCategoryMenuClick = {this.showAllCategory}/>
