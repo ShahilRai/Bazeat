@@ -18,7 +18,7 @@ export default class SelectBox extends React.Component {
 
   render() {
     return(
-      <div className="col-md-8 col-xs-12">
+      <div className="col-md-6 col-sm-6 col-xs-12 time_pad0">
         <select ref="slectfromtime" className="form-control gender_selct" name={this.props.name} value={this.state.value} onChange = {this.handleChange}>
           {
             this.props.selectlist.map(function(item, i) {

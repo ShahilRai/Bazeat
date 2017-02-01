@@ -18,6 +18,7 @@ export default class MasterPage extends React.Component {
   render() {
     return (
       <DocumentTitle title='BAZEAT'>
+      <div className='full_container'>
         <div className='page_wrapper'>
           <Header />
           { this.props.children }
@@ -30,8 +31,9 @@ export default class MasterPage extends React.Component {
           <Authenticated>
             <ReactSlider />
           </Authenticated>
-          <Footer />
         </div>
+        <Footer />
+      </div>
       </DocumentTitle>
     );
   }

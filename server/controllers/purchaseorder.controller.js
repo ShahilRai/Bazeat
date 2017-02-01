@@ -97,6 +97,7 @@ export function getpurchaseOrder(req, res) {
       path: '_product',
       model: 'Product'
     }}).exec((err, order)=>{
+      console.log(orders)
       if (err) {
         return res.json(422, err);
       }
@@ -257,6 +258,8 @@ export function updateOrderAddress(req, res) {
 
 export  function packageDestroy(req, res){
   Package.findOne({_id: req.query.package_id }).exec((err, packge) => {
+    console.log('packge')
+    console.log(packge)
     if (err || packge == null) {
       return res.status(422).send({msg: err});
     }
