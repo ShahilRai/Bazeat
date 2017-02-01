@@ -10,14 +10,29 @@ export default class OrderItemsList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isDisabled: false
     };
+  }
+
+  componentDidMount(){
+    if(this.props.order.packed_qty == this.props.order.product_qty)
+    {
+      this.setState({
+        isDisabled: true
+      })
+    }
+    else{
+      this.setState({
+        isDisabled: false
+      })
+    }
   }
 
   render(){
     return(
     	<tr key = {this.props.index}>
         <td className="">
-          1
+          {this.props.index + 1}
         </td>
         <td className="">
           {this.props.order._product ? this.props.order._product.product_name : ""}
@@ -27,7 +42,7 @@ export default class OrderItemsList extends React.Component {
           <span>{this.props.order.packed_qty}</span>
         </td>
         <td className="text-center">
-          <input type="text" ref ="shpQty" name={this.props.name} className="form-control pck_input" onChange={this.props.handleInputChange} />
+          <input type="text" ref ="shpQty" name={this.props.name} className="form-control pck_input" onChange={this.props.handleInputChange} disabled={this.state.isDisabled} />
         </td>
       </tr>
     )
