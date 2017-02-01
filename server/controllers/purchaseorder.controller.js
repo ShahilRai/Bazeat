@@ -1,8 +1,10 @@
 import PurchaseOrder from '../models/purchaseorder';
-import Order from '../models/order'
-import User from '../models/user'
-import Product from '../models/product'
-import OrderItem from '../models/orderitem'
+import Order from '../models/order';
+import User from '../models/user';
+import Product from '../models/product';
+import OrderItem from '../models/orderitem';
+import PackageItem from '../models/packageitem';
+import cuid from 'cuid';
 import Package from '../models/package'
 import * as MailService from '../services/mailer';
 import * as MessageService from '../services/twillio';
@@ -13,6 +15,8 @@ const stripe = require("stripe")(keySecret);
 
 export function getpurchaseOrders(req, res) {
   User.findOne({email: req.query.email}).select("products -_id").exec((err, producer)=>{
+    console.log(producer)
+    console.log("producer")
       if (err) {
         return res.json(422, err);
       }
@@ -21,6 +25,9 @@ export function getpurchaseOrders(req, res) {
           return res.json(422, err);
         }
         else{
+          console.log(products)
+          console.log("products")
+          // products.orders
           if(products){
             Order.find({ _id: {"$in": products.orders }, payment_status: "succeeded"})
             .populate("orderitems _buyer")
@@ -42,13 +49,13 @@ export function getpurchaseOrders(req, res) {
   })
 }
 
-
-
 export function getPackages(req, res) {
   User.findOne({email: req.query.email}).select("products -_id").exec((err, producer)=>{
     if (err) {
       return res.json(422, err);
     }
+    console.log("producer")
+    console.log(producer)
     Product.findOne({ _id: {"$in": producer.products }}).select("orders -_id").exec((err, products)=>{
       if (err) {
         return res.json(422, err);
@@ -97,7 +104,6 @@ export function getpurchaseOrder(req, res) {
       path: '_product',
       model: 'Product'
     }}).exec((err, order)=>{
-      console.log(orders)
       if (err) {
         return res.json(422, err);
       }
@@ -116,36 +122,81 @@ export function createPackage(req, res){
 }
 
 export function updatePackage(req, res) {
-  req.body.orderitems.forEach(function(orderitem, index) {
-    OrderItem.findOneAndUpdate({ _id: orderitem._id }, {$inc: {packed_qty: orderitem.packed_qty}}, {new: true}, function(err, updated_orderitem) {
-      if (err){
+  Order.findOne({cuid: req.body.cuid}).exec(function(err, order) {
+    Package.findOneAndUpdate({"_id": req.body.package_id},
+    {$set:
+      { "_order" : order._id, "pkg_status": 'created', "pkg_date": req.body.pkg_date }
+    }, {new: true}).exec(function(err, upackage) {
+      if(err) {
         return res.status(422).send(err);
-      }
-      if (orderitem.packed_qty != 0) {
-        Package.findOneAndUpdate({"_id": req.body.package_id},
-        {
-          "$set": {
-            "qty_packed": orderitem.packed_qty,
-            "_order": updated_orderitem._order,
-            "pkg_status": 'created',
-            "pkg_date": req.body.pkg_date
-          }
-        },
-        {new: true}).exec(function(err, packed){
-           Order.findByIdAndUpdate({_id: packed._order}, {$pushAll: {packages: [packed]}} , function(err, model) {
-            })
-            Order.update({_id: packed._order}, {$set: {after_payment_status: "Confirmed"}},function(err) {
-            });
-            // OrderItem.update({_id: updated_orderitem._id}, { $set: {shipped_qty: packed.qty_packed}}, function(err) {
-            // });
-          if (req.body.orderitems.length == index+1){
-            return res.json(packed);
-          }
+      } else {
+        Order.findOneAndUpdate({_id: upackage._order}, {$pushAll: {packages: [upackage]}} , function(err, model) {
+          })
+        Order.update({_id: upackage._order}, {$set: {after_payment_status: "Confirmed"}},function(err) {
         });
+        req.body.orderitems.forEach(function(orderitem, index) {
+          OrderItem.findOneAndUpdate({ _id: orderitem._id }, {$inc: {packed_qty: orderitem.packed_qty}}, {new: true}, function(err, updated_orderitem) {
+            if (err){
+              return res.status(422).send(err);
+            } else {
+              const new_package_item = new PackageItem();
+              new_package_item._package = upackage._id;
+              new_package_item.cuid = cuid();
+              new_package_item.packed_qty = orderitem.packed_qty;
+              new_package_item.save((err, newpacked) => {
+                upackage.packageitems.push(newpacked);
+              })
+              if (req.body.orderitems.length == index+1) {
+                upackage.save((err, packed) => {
+                  return res.json(packed);
+                })
+              }
+            }
+          })
+        })
       }
-    });
+    })
   })
 }
+
+// export function updatePackage(req, res) {
+//   req.body.orderitems.forEach(function(orderitem, index) {
+//     OrderItem.findOneAndUpdate({ _id: orderitem._id }, {$inc: {packed_qty: orderitem.packed_qty}}, {new: true}, function(err, updated_orderitem) {
+//       if (err){
+//         return res.status(422).send(err);
+//       }
+//       if (orderitem.packed_qty != 0) {
+//         Package.findOneAndUpdate({"_id": req.body.package_id},
+//         {
+//           "$set": {
+//             "_order": updated_orderitem._order,
+//             "pkg_status": 'created',
+//             "pkg_date": req.body.pkg_date
+//           }
+//         },
+//         {new: true}).exec(function(err, packed) {
+//           Order.findByIdAndUpdate({_id: packed._order}, {$pushAll: {packages: [packed]}} , function(err, model) {
+//           })
+//           Order.update({_id: packed._order}, {$set: {after_payment_status: "Confirmed"}},function(err) {
+//           });
+//           const new_package_item = new PackageItem();
+//           new_package_item._package = packed._id;
+//           new_package_item.cuid = cuid();
+//           new_package_item.packed_qty = orderitem.packed_qty;
+//           new_package_item.save((err, newpacked) => {
+//             packed.packageitems.push(newpacked);
+//             // return res.json(packed);
+//           })
+//           // OrderItem.update({_id: updated_orderitem._id}, { $set: {shipped_qty: packed.qty_packed}}, function(err) {
+//           // });
+//           if (req.body.orderitems.length == index+1){
+//             return res.json(packed);
+//           }
+//         });
+//       }
+//     });
+//   })
+// }
 
 
 export function beforePkgcreate(req, res){
@@ -182,26 +233,33 @@ export function shipPackage(req, res) {
     }
   });
 }
+
 export  function updateshipqty(packge, next, res){
-  Package.findOneAndUpdate({ _id: packge._id }, {$inc: {qty_shipped: packge.qty_packed}}, {new: true}).exec((err, pkg) => {
-    if (err){
+  Package.findOne({ _id: packge._id }).exec((err, pkg) => {
+    if (err) {
       return res.status(422).send(err);
     }
     else {
-      let ship_qty = 0;
-      Order.findOne({_id: packge._order }).populate("packages").exec((err, orders) =>{
-        orders.packages.forEach(function(pakg, index) {
-          ship_qty += pakg.qty_shipped
-        })
-        if(orders.total_qty > ship_qty){
-          Order.update({_id: packge._order}, {$set: {after_payment_status: "Partially Shipped"}},function(err) {});
-        }
-        if (orders.total_qty == ship_qty){
-          Order.update({_id: packge._order}, {$set: {after_payment_status: "Shipped"}},function(err) {
-          })
-        }
-        return res.status(200).send({pkg});
-      })
+      // Order.findOne({ _id: pkg._order }).populate("packages").exec(function(err, order) {
+      //   order.orderitems.forEach
+
+      // })
+      // OrderItem.findOneAndUpdate({ _id: pkg._orderitem }, {$set: {shipped_qty: pkg.qty_shipped}}, {new: true}, function(err, updated_orderitem) {
+      //   let ship_qty = 0;
+      //   Order.findOne({_id: packge._order }).populate("packages").exec((err, orders) =>{
+      //     orders.packages.forEach(function(pakg, index) {
+      //       ship_qty += pakg.qty_shipped
+      //     })
+      //     if(orders.total_qty > ship_qty){
+      //       Order.update({_id: packge._order}, {$set: {after_payment_status: "Partially Shipped"}},function(err) {});
+      //     }
+      //     if (orders.total_qty == ship_qty){
+      //       Order.update({_id: packge._order}, {$set: {after_payment_status: "Shipped"}},function(err) {
+      //       })
+      //     }
+      //     return res.status(200).send({pkg});
+      //   })
+      // })
     }
   });
 }

@@ -40,7 +40,7 @@ export default class CreateNewPackage extends React.Component {
 
   componentDidMount(){
     this.generatePackageId()
-    orderCuid = PurchaseOrders.purchsCuid;
+    orderCuid = this.props.params.orderId;
     this.getOrderDetail(orderCuid).then((response) => {
       if(response.data) {
         this.setState({
@@ -96,14 +96,14 @@ export default class CreateNewPackage extends React.Component {
       var o_Id = orderItemID;
       var p_Id = this.state.newPackageDetails.id;
       var p_date = this.state.pckge_date;
+      var cuid = this.props.params.orderId;
       for (var i = 0, keys = Object.keys(_orditems), ii = keys.length; i < ii; i++) {
         ordList.push({
           _id:  keys[i],
           packed_qty: _orditems[keys[i]]
         })
-        console.log(ordList)
       }
-      this.addPackageOrder(ordList, p_Id, p_date).then((response) => {
+      this.addPackageOrder(ordList, p_Id, p_date, cuid).then((response) => {
         if(response.statusText == "OK") {
           toastr.success('Package successfully created');
           this.getViewPackge("status", response.data)
@@ -118,14 +118,15 @@ export default class CreateNewPackage extends React.Component {
     }
   }
 
-  addPackageOrder(ordList, p_Id, p_date){
+  addPackageOrder(ordList, p_Id, p_date, cuid){
     if(ordList.length == 0){
       toastr.error('Creating Package failed. Packed order quantity must be less than ordered quantity');
     }
     return axios.put("/api/update_package", {
       orderitems: ordList,
       package_id: p_Id,
-      pkg_date: p_date
+      pkg_date: p_date,
+      cuid: cuid
     });
   }
 
@@ -135,7 +136,6 @@ export default class CreateNewPackage extends React.Component {
     this.isValidQty(o_Id, p_qty).then((response) => {
       if(response.data.msg == "Ok") {
         _orditems[id]=p_qty
-        console.log(_orditems)
       }
       else{
         alert("Packed order quantity must be less than ordered quantity")

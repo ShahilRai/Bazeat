@@ -14,13 +14,14 @@ static contextTypes = {
       super(props, context);
         this.state = {
           commentUserData : [],
-          value :''
+          value :'',
+          is_commented : true
 
         }
   }
 
   WriteAComment(){
-    this.WriteCommentData(this.context.user.email, this.refs.comment_review.value,this.props.review_id).then((response) => {
+    this.WriteCommentData(this.context.user.email, this.refs.comment_review.value,this.props.review_id,this.state.is_commented).then((response) => {
         toastr.success('Your comment successfully submitted');
         if(response.data) {
           this.setState({
@@ -34,11 +35,12 @@ static contextTypes = {
     });
   }
 
-  WriteCommentData(email, comment_body, review_id){
+  WriteCommentData(email, comment_body, review_id,is_commented){
     return axios.put("api/send_reply",{
       email : email,
       comment_body : comment_body,
-      review_id : review_id
+      review_id : review_id,
+      is_commented : is_commented
     })
   }
 

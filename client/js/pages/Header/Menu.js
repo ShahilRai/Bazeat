@@ -19,36 +19,15 @@ export default class Menu extends React.Component {
     this.state = {
       isReview : '',
       isMessage : '',
-      allMessages:[],
-      all_reviews : [],
-      offset: 0,
+      allMessages:[]
     };
   }
 
-  loadAllMessagesAndReviews(){
-    this.loadAllReviews()
-  }
 
   messageIconValue(){
     this.setState({
       isMessage: ''
     })
-  }
-
-  loadAllReviews(){
-    this.getAllReviews(this.context.user.email,this.state.offset,2).then((response) => {
-      if(response.data) {
-          this.setState({
-            all_reviews : response.data.reviews
-          });
-      }
-    }).catch((err) => {
-        console.log(err);
-    });
-  }
-
-  getAllReviews(email, off_set, per_page ){
-     return axios.get("/api/review?email="+email+"&off_set="+off_set+"&per_page="+per_page)
   }
 
   render() {
@@ -85,7 +64,7 @@ export default class Menu extends React.Component {
                 {MessageIcon}
                 {reviewIcon}
             </a>
-              <MessageDropdown allMessages={this.props.allMessages} allReviews={this.state.all_reviews} />
+              <MessageDropdown allMessages={this.props.allMessages} allReviews={this.props.allReviews} />
             </li>
             <li className="username_text"><Link to={"/user/"+userId}>{this.context.user ? this.context.user.givenName : ""}</Link>
               <ul className="user_toggle_div collapse" id="" >

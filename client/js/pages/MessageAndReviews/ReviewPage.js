@@ -9,9 +9,9 @@ import Rating from 'react-simple-rating';
 var moment = require('moment');
 
 let _allCurrentReviewResult;
-let _allCurrentReviewResult1;
+let allCurrentReviewResult;
 let _allCurrentWriteReviewResult;
-let _allCurrentWriteReviewResult2;
+let allCurrentWriteReviewResult;
 let showReview;
 
 export default class ReviewPage extends React.Component {
@@ -44,8 +44,8 @@ export default class ReviewPage extends React.Component {
         new_count : ''
     }
     this.getUserId = this.getUserId.bind(this);
-    this.getReviewId = this.getReviewId.bind(this);
     this.getWriteReviewId = this.getWriteReviewId.bind(this);
+    this.getReviewId = this.getReviewId.bind(this);
   }
 
   componentDidMount() {
@@ -62,7 +62,7 @@ export default class ReviewPage extends React.Component {
     this.loadUserReviwData(this.context.user.email).then((response) => {
       if(response.data) {
         this.setState({
-          users_data : response.data.users
+          users_data : response.data.producer
         });
       }
     }).catch((err) => {
@@ -79,7 +79,7 @@ export default class ReviewPage extends React.Component {
         console.log(err);
     });
 
-    this.getAllUserReviewsCount(this.context.user.email,this.state.offset,5).then((response) => {
+     this.getAllUserReviewsCount(this.context.user.email,this.state.offset,5).then((response) => {
       if(response.data) {
         this.setState({
           new_count : response.data.total_count,
@@ -88,10 +88,11 @@ export default class ReviewPage extends React.Component {
     }).catch((err) => {
         console.log(err);
     });
+
   }
 
   loadUserReviwData(email) {
-    return axios.get("/api/users?email="+email)
+    return axios.get("/api/reviewusers?email="+email)
   }
 
   loadCurrentUserData(email) {
@@ -105,40 +106,6 @@ export default class ReviewPage extends React.Component {
   getAllUserReviewsCount(email, off_set, per_page){
     return axios.get("/api/review?email="+email+"&off_set="+(off_set)+"&per_page="+per_page)
   }
-  getUserId(e, i) {
-    this.setState({
-      user_id : this.state.users_data[i].id,
-      index : i
-    })
-  }
-
-  getReviewId(e, index) {
-    this.setState({
-      review_index : index
-    })
-    this.state.current_user_review[index].map((current_review, r_index)=>{
-      this.setState({
-        review_id : current_review.id,
-        reviewedBy : current_review.reviewed_by.full_name,
-        review_user : current_review.review,
-        is_replied : current_review.is_replied,
-        rating_count : current_review.rating
-      })
-    })
-  }
-
-   getWriteReviewId(e, index) {
-    this.setState({
-       write_index : index
-    })
-    this.state.current_user_review[index].map((current_review, r_index)=>{
-      this.setState({
-        write_review_user : current_review.review,
-        write_review_name : current_review.reviewed_for.full_name,
-        given_rating_count : current_review.rating
-      })
-    })
-   }
 
   _renderleftMenus(){
     return(
@@ -152,6 +119,40 @@ export default class ReviewPage extends React.Component {
     )
   }
 
+  getUserId(e, i) {
+    this.setState({
+      user_id : this.state.users_data[i]._producer.id,
+      index : i
+    })
+  }
+
+  getWriteReviewId(e, index) {
+    this.setState({
+       write_index : index
+    })
+    this.state.current_user_review[index].map((current_review, r_index)=>{
+      this.setState({
+        write_review_user : current_review.review,
+        write_review_name : current_review.reviewed_for.full_name,
+        given_rating_count : current_review.rating
+      })
+    })
+  }
+
+   getReviewId(e, index) {
+    this.setState({
+      review_index : index
+    })
+    this.state.current_user_review[index].map((current_review, r_index)=>{
+      this.setState({
+        review_id : current_review.id,
+        reviewedBy : current_review.reviewed_by.full_name,
+        review_user : current_review.review,
+        is_replied : current_review.is_commented,
+        rating_count : current_review.rating
+      })
+    })
+  }
   updateupdateReviews(newReviews) {
     this.loadCurrentUserReview(this.context.user.email).then((response) => {
       if(response.data) {
@@ -164,69 +165,68 @@ export default class ReviewPage extends React.Component {
       });
   }
 
-
   render() {
+    var _allWriteReview = this.state.users_data.map((review, i)=>{
+      return(
+        <div className="user_reveiw_list">
+          <span className="rvw_user_img"><img src={review._producer.photo} className="profile_image" /></span>
+          <span className="rvw_username">{review._producer.full_name}<br/>
+            <span className="prod_review_date">{review._producer.date_joined}</span>
+          </span>
+          <span className="rvw_description">Write a review to share your thoughts and provide helpful feedback to Producer Name. Please bare in mind that reviews are public.</span>
+          <button type="submit" className="btn read_btn write_rvw_btn" data-target={"#write_review" +this.state.index} data-toggle="modal" onClick={(e) => this.getUserId(e, i)} >Write a review</button>
+        </div>
+      )
+    })
+
+    var _allCurrentWriteReview = this.state.current_user_review ? this.state.current_user_review : []
+    _allCurrentWriteReviewResult = _allCurrentWriteReview.map((current_write_review, index)=>{
+      return current_write_review.map((item, i)=>{
+        this.state.write_count.push(item);
+        if(item.reviewed_by.id==this.state.current_user_data){
+          return(
+            <div className="user_reveiw_list">
+              <span className="rvw_user_img"><img src={item.reviewed_for.photo} className="profile_image"/></span>
+              <span className="rvw_username">{item.reviewed_for.full_name}<br/>
+                 <Rating  displayOnly={true} rating={item.rating} maxRating={5}  ratingSymbol={"\u2764"} />
+              </span>
+              <span className="rvw_description">{item.review}</span>
+              <button type="submit" className="btn read_btn" data-toggle="modal" data-target={"#producer_review" +this.state.write_index} onClick={(e) => this.getWriteReviewId(e, index)} >Read</button>
+            </div>
+          )
+        }
+      })
+    })
 
     var _allCurrentReview = this.state.current_user_review ? this.state.current_user_review : []
-     _allCurrentReviewResult = _allCurrentReview.map((current_review, index)=>{
-    return current_review.map((item, i)=>{
-      if(item.reviewed_for.id==this.state.current_user_data){
-        this.state.count.push(item);
-        return(
-          <div className="user_reveiw_list f2f2f2_bg">
-            <span className="rvw_user_img"><img src={item.reviewed_by.photo} height="50" width="50"/> </span>
-            <span className="rvw_username">{item.reviewed_by.full_name}<br/>
-              <Rating  displayOnly={true} rating={item.rating} maxRating={5}  ratingSymbol={"\u2764"} />
-            </span>
-            <span className="rvw_description">{item.review}</span>
-            <button type="submit" className="btn read_btn" data-toggle="modal" data-target={"#user_review" +this.state.review_index}  onClick={(e) => this.getReviewId(e, index)}>Read</button>
-          </div>
-        )}
+    _allCurrentReviewResult = _allCurrentReview.map((current_review, index)=>{
+      return current_review.map((item, i)=>{
+        if(item.reviewed_for.id==this.state.current_user_data){
+          this.state.count.push(item);
+          return(
+            <div className="user_reveiw_list f2f2f2_bg">
+              <span className="rvw_user_img"><img src={item.reviewed_by.photo} height="50" width="50"/> </span>
+              <span className="rvw_username">{item.reviewed_by.full_name}<br/>
+                <Rating  displayOnly={true} rating={item.rating} maxRating={5}  ratingSymbol={"\u2764"} />
+              </span>
+              <span className="rvw_description">{item.review}</span>
+              <button type="submit" className="btn read_btn" data-toggle="modal" data-target={"#user_review" +this.state.review_index}  onClick={(e) => this.getReviewId(e, index)}>Read</button>
+            </div>
+          )
+        }
       })
     })
 
      if(this.state.count.length>0){
-      _allCurrentReviewResult1 = _allCurrentReviewResult
+      allCurrentReviewResult = _allCurrentReviewResult
      } else {
-      _allCurrentReviewResult1 = <h3> <center> no reviews about you to show </center></h3>
+      allCurrentReviewResult = <h3> <center> no reviews about you to show </center></h3>
      }
 
-    var _allWriteReview = this.state.users_data.map((review, i)=>{
-      if(this.context.user.email==review.email?'':review){
-        return(
-          <div className="user_reveiw_list">
-            <span className="rvw_user_img"><img src={review.photo} className="profile_image" /></span>
-            <span className="rvw_username">{review.full_name}<br/>
-              <span className="prod_review_date">{moment(review.date_joined).format('DD-MM-YYYY')}</span>
-            </span>
-            <span className="rvw_description">Write a review to share your thoughts and provide helpful feedback to Producer Name. Please bare in mind that reviews are public.</span>
-            <button type="submit" className="btn read_btn write_rvw_btn" data-target={"#write_review" +this.state.index} data-toggle="modal" onClick={(e) => this.getUserId(e, i)} >Write a review</button>
-          </div>
-        )}
-      })
-
-    var _allCurrentWriteReview = this.state.current_user_review ? this.state.current_user_review : []
-     _allCurrentWriteReviewResult = _allCurrentWriteReview.map((current_write_review, index)=>{
-    return current_write_review.map((item, i)=>{
-      if(item.reviewed_by.id==this.state.current_user_data){
-        this.state.write_count.push(item);
-        return(
-          <div className="user_reveiw_list">
-            <span className="rvw_user_img"><img src={item.reviewed_for.photo} className="profile_image"/></span>
-            <span className="rvw_username">{item.reviewed_for.full_name}<br/>
-               <Rating  displayOnly={true} rating={item.rating} maxRating={5}  ratingSymbol={"\u2764"} />
-            </span>
-            <span className="rvw_description">{item.review}</span>
-            <button type="submit" className="btn read_btn" data-toggle="modal" data-target={"#producer_review" +this.state.write_index} onClick={(e) => this.getWriteReviewId(e, index)} >Read</button>
-          </div>
-        )}
-      })
-    })
-
-    if(this.state.write_count.length>0){
-      _allCurrentWriteReviewResult2 = _allCurrentWriteReviewResult
+     if(this.state.write_count.length>0){
+      allCurrentWriteReviewResult = _allCurrentWriteReviewResult
      } else {
-      _allCurrentWriteReviewResult2 = <h3> <center> no reviews written by you  </center></h3>
+      allCurrentWriteReviewResult = <h3> <center> no reviews written by you  </center></h3>
      }
 
     return (
@@ -243,15 +243,15 @@ export default class ReviewPage extends React.Component {
                 </div>
                 <div className="user_review_section">
                   <h3>Reviews about you ({this.state.new_count})<span className="show_all"><a href="#">Show all</a></span></h3>
-                   {_allCurrentReviewResult1}
+                    {allCurrentReviewResult}
                 </div>
                 <div className="user_review_section">
                   <h3>Reviews written by you<span className="show_all"><a href="#">Show all</a></span></h3>
-                  {_allCurrentWriteReviewResult2}
+                  {allCurrentWriteReviewResult}
                 </div>
-                <WriteReview user_id={this.state.user_id} index={this.state.index} updateReviews={this.updateupdateReviews.bind(this)}/>
                 <ReviewAboutUser reviewedBy={this.state.reviewedBy} review_index={this.state.review_index} review_id={this.state.review_id} review_user={this.state.review_user} is_replied={this.state.is_replied} rating_count={this.state.rating_count} />
-                <ReviewsWrittenByUser write_index={this.state.write_index} write_review_user={this.state.write_review_user} write_review_name={this.state.write_review_name} given_rating_count={this.state.given_rating_count}/>
+               <WriteReview user_id={this.state.user_id} index={this.state.index} updateReviews={this.updateupdateReviews.bind(this)} />
+               <ReviewsWrittenByUser write_index={this.state.write_index} write_review_user={this.state.write_review_user} write_review_name={this.state.write_review_name} given_rating_count={this.state.given_rating_count}/>
             </div>
           </div>
         </div>
