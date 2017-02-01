@@ -24,9 +24,11 @@ export default class OrderConfirmation extends React.Component {
   changeTextHentemat(){
     return(
       <div>
-        <h5>Your goods can be picked up</h5>
-        <h5 className="mtop10"><strong><br/>{this.props.producer_ifo.address}<br/>{this.props.producer_ifo.postal_code}<br/>{this.props.producer_ifo.city}</strong></h5>
-        <h5 className="mtop2"><strong><br/>{this.props.date_value_for_order_confirmation}<br/>{this.props.time_value_confirmatio}</strong></h5>
+        <h4>Your goods can be picked up</h4>
+        <h4 className="mtop10"><strong>{this.props.producer_ifo.address}</strong></h4>
+        <h4 className=""><strong>{this.props.producer_ifo.postal_code}</strong></h4>
+        <h4 className=""><strong>{this.props.producer_ifo.city}</strong></h4>
+        <h4 className="mtop2"><strong>{this.props.date_value_for_order_confirmation}<br/>{this.props.time_value_confirmatio}</strong></h4>
       </div>
       )
   }
@@ -66,7 +68,7 @@ export default class OrderConfirmation extends React.Component {
 
   changeTextConfirmationBelow(){
     if(this.state.method=='hentemat'){
-      return(<h5>You can soon pickup your order</h5>)
+      return(<h4>You can soon pickup your order</h4>)
     }else{
       return(<h5>Your goods are soon to be delivered!</h5>)
     }

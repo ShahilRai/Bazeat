@@ -68,7 +68,7 @@ a:hover {
 }
 
 .plft30 {
-	padding-left: 30px;
+	padding-left: 30px !important;
 }
 .plft48 {
 	padding-left: 48px;
@@ -92,7 +92,7 @@ a:hover {
 	padding-right: 25px;
 }
 .prht30 {
-	padding-right: 30px;
+	padding-right: 30px !important;
 }
 .mlft_zero {
 	margin-left: 0px;
@@ -1930,6 +1930,9 @@ ul.prod_lft_details li:hover a {
     font-size: 24px;
     color: #fff;
 }
+
+
+
 /*:::::::::::::::::::::::::::::::::::::::::::::::::::::
  ========ADD PRODUCT MODAL STYLE START============
 :::::::::::::::::::::::::::::::::::::::::::::::::::::*/
@@ -1981,7 +1984,7 @@ button.close.modal_close{    background: url(../images/close_icon.png) no-repeat
     border-radius: 100%;
     text-align: center;
     color: #fff;
-    line-height: 24px;
+    line-height: 22px;
 	    position: relative;
     font-weight: 700;}
 .product_step_col .steps_circle_col .steps_circle_icon.active{ background:#f3766f}
@@ -2740,7 +2743,10 @@ padding-left:0;
 	color:#808080;    margin-top: 8px;
 }
 
-
+.edt_prf_inner_detail  p{
+    font-size: 14px;
+    color: #808080;
+}
 
 
 
@@ -3574,6 +3580,8 @@ font-weight:700;
 
 .chkoutstep1 .prod_img{
 	margin-right:16px;
+	height: 31px;
+    width: 31px;
 }
 .table-main{
 	overflow-x: auto;
@@ -3584,7 +3592,7 @@ font-weight:700;
 	min-width:600px;
 }
 .chkoutstep1 .sr_no .fa-caret-up,.chkoutstep1 .sr_no .fa-caret-down{
-	/*position:static;*/
+	position:static;
 	display:block;
 }
 .text-left{
@@ -3642,8 +3650,9 @@ text-align:center;
 }
 
 .chkoutstep1 .sr_no{
-	/*float:none;*/
+	float:none;
 	width:auto;
+	height: auto;
 }
 .chkoutstep1 .items_list_info ul{min-height:auto;}
 .chkout_step1_footer{
@@ -3693,6 +3702,30 @@ display:block;
 
 #checkout_form{
 	display: none;
+}
+
+.width_th1 {
+    width: 12%;
+}
+
+.width_th2 {
+    width: 45%;
+}
+
+.width_th3 {
+    width: 10%;
+}
+
+.width_th4 {
+    width: 12%;
+}
+
+.width_th5 {
+    width: 15%;
+}
+
+.width_th6 {
+    width: 6%;
 }
 
 /*======checkout step2=================*/
@@ -3806,6 +3839,10 @@ text-align:center;
 
 
 /*======checkout step3.1=================*/
+.pickup_row1 span.green_txt {
+    color: #00ACA2;
+}
+
 .pick_update{max-width:422px;
 width:100%;margin:0 auto;
 }
@@ -4001,7 +4038,7 @@ text-decoration:underline;
 	float:left;width:100%;
 	border-top:1px solid #B3B3B3;
 	border-bottom:1px solid #B3B3B3;
-	padding:18px 35px;
+	padding:18px 17px;
 }
 .paymnt_sum span{
 	color:#808080;
@@ -4317,7 +4354,10 @@ border-bottom:1px solid #b3b3b3;
 .order_header_rght .custom_select_box.portion_select ul{    position: absolute;
     width: 130px;
     top: 100%;
-    z-index: 9999;}
+    z-index: 9999;
+    background: #f1f1f1;
+
+}
 .shipping_toggle{position: relative;
  cursor: pointer}
 .shipping_toggle ul{ position: absolute;
@@ -4330,7 +4370,11 @@ border-bottom:1px solid #b3b3b3;
     float: left;
     border: 0;
     list-style: none;}
-.order_header_rght .custom_select_box.portion_select ul li{font-size: 12px; width: 100%; float: left; border: 0;}
+.order_header_rght .custom_select_box.portion_select ul li{
+	font-size: 12px; width: 100%; float: left; border: 0;
+	border-bottom: 1px solid #bbb;
+	padding: 3px 0;
+}
 .close_order{
     margin-left: 25px;
     vertical-align: middle;
@@ -4909,6 +4953,7 @@ padding:15px 17px 25px 19px;
     background: #fff;
     border: 1px solid #ccc;
     padding: 10px 5px 10px 5px;
+    right: 0;
   }
   .table-main.overflow_none{overflow:inherit;}
 .shipping_toggle ul li{    font-size: 12px;
@@ -5338,7 +5383,6 @@ margin:10px 0;
 .lt_prod_sec{width:100%;}
 .rt_prod_sec{width:100%;}
 .expiry_date_col label{text-align:left;}
-.product_step_col .steps_circle_col .steps_circle_icon{width: 27px;}
 .product_step_col .steps_circle_col{width: 32%;}
 .ingrdnt_options{padding-left:0;}
 .nutrition_fact_col label{width:auto;padding-left:0;}
@@ -5393,7 +5437,7 @@ margin:10px 0;
  .vol_rt .date_section {
     width: 100%;margin-bottom: 17px;
 }
-br{display:none;}
+
 
 .footer_container{
 	padding: 15px 9px;
@@ -5458,7 +5502,7 @@ h3.search_tabbd_heading {
 .select_files{width: 100%;
 margin-left: 0;}
 
-.menu_wrapper{padding-top: 244px;}
+.menu_wrapper{padding-top: 212px;}
 
 .time_label{
 	padding: 0;
@@ -5473,7 +5517,7 @@ margin-left: 0;}
 .chkout_pg {
     padding-left: 10px;
     padding-right: 10px;
-    margin: 147px auto 56px;
+    margin: 123px auto 56px;
 }
 .del_step1 {
     width: 100%;
@@ -5484,6 +5528,95 @@ margin-left: 0;}
 #footer {
     position: static;
 }
+
+.chkout_pg .product_step_col {
+	padding: 0;
+}
+
+.product_step_col::before {
+    width: 83%;
+}
+.chkout_pg .product_step_col .steps_circle_col {
+	width: 20%;
+}
+.chkout_pg .product_step_col .steps_circle_col .steps_circle_icon {
+	height: 26px;
+}
+.product_step_col .steps_circle_col .steps_circle_icon {
+	width: 27px;
+}
+.chkout_pg h3 {
+	font-size: 19px;
+}
+.chkout_pg h4 {
+	font-size: 16px;
+}
+
+.header_rht_menu.profile_rht_header li{height: 34px;}
+.full_container{padding-bottom:0;}
+.chkout_pg h6 {
+	font-size: 15px;
+}
+.payment_order_details {
+	padding: 18px 15px;
+}
+.paymnt_sum {
+	width: 100%;
+}
+.sum_values {
+	text-align: left;
+	float: right;
+}
+.payment_card_details {
+	padding: 19px 26px 0 27px;
+}
+.payment_card_details label {
+	padding: 0 0 10px;
+}
+
+.payment_card_details small {
+	top: 0;
+}
+.chkout5_btns_inner {
+	margin: 0 auto 16px auto;
+}
+.page_wrapper{margin-bottom: 172px;}
+
+.purchase_order_left_sidebar.order_purchse_lt_wdth, .rt_order_mgmnt {
+	width: 100%;
+}
+.rcv_order_header h2 {
+	width: auto;
+	float: left;
+	margin-bottom: 15px;
+}
+
+.order_header_rght ul {
+	margin-bottom: 10px;
+}
+.close_order {
+	float: right;
+	margin-top: -82px;
+}
+.table-main.overflow_none{overflow: auto;}
+.order_info_lt {
+	width: 100%;
+}
+.order_information {
+	padding: 31px 24px 10px 27px;
+}
+.order_info_rt {
+	float: left;
+}
+
+
+
+
+
+
+
+
+
 
 }
 @media only screen and (min-width:761px) and (max-width:999px) {
@@ -5603,9 +5736,11 @@ display: inline-block;}
 
 .menu_wrapper{padding-top: 138px;}
 
-
-
-
+.chkout_pg{margin: 43px auto 56px;}
+.chkout5_btns_inner {
+	margin: 0 auto 16px auto;
+}
+.page_wrapper{margin-bottom: 172px;}
 
 
 

@@ -92,6 +92,9 @@ export default class Header extends React.Component {
     if(this.context.router.location.pathname == "/search"){
       headerClass = "header_wrapper border_bottom"
     }
+    if(this.context.router.location.pathname == "/checkout"){
+      headerClass = "header_wrapper border_bottom"
+    }
     var userId = this.state.currentUser_cuid ? this.state.currentUser_cuid : ''
     return (
       <div className={headerClass}>
