@@ -97,7 +97,6 @@ export function getpurchaseOrder(req, res) {
       path: '_product',
       model: 'Product'
     }}).exec((err, order)=>{
-      console.log(orders)
       if (err) {
         return res.json(422, err);
       }
