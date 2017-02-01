@@ -59,7 +59,7 @@ export default class ReceivedOrder extends React.Component {
   showDialog(){
     var confirmCreate = confirm("To create a shipment you need to create a package. Do you want to create a new package?");
     if (confirmCreate == true) {
-      this.context.router.push('/new-package')
+      this.context.router.push(this.props.params.orderId+'/new-package')
     }
   }
 
@@ -92,7 +92,7 @@ export default class ReceivedOrder extends React.Component {
     }
     else{
       showPackage = <div className="order_caption">
-        <p>No packages yet for this order.<span className="green_txt"> <Link to="/new-package">Create new package</Link></span></p>
+        <p>No packages yet for this order.<span className="green_txt"> <Link to={this.props.params.orderId+"/new-package"}>Create new package</Link></span></p>
       </div>
     }
     var paymnt_status= "";
@@ -149,7 +149,7 @@ export default class ReceivedOrder extends React.Component {
                       <div className="form-group portion_form custom_select_box portion_select" onClick={this.dropDownOption}>
                         <ToggleDisplay show={this.state.toggle_box}>
                           <ul>
-                            <li><Link to="/new-package" onClick={this.props.createPackageStatus}>New package</Link></li>
+                            <li><Link to={this.props.params.orderId+"/new-package"}>New package</Link></li>
                             <li><a href="#" onClick={this.showDialog}>New Shipment</a></li>
                           </ul>
                         </ToggleDisplay>
