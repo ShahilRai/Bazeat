@@ -14,6 +14,7 @@ const packageSchema = new Schema({
   delivery_method: String,
   status:{type: 'String', default: "Not Shipped"},
   _order: { type: Schema.ObjectId, ref: 'Order' },
+  _orderitem: { type: Schema.ObjectId, ref: 'OrderItem' },
   pkg_status: {type: 'String', default: null},
   pkg_date: {type: 'Date'},
   shippingdata: {
@@ -21,8 +22,9 @@ const packageSchema = new Schema({
     ship_date: { type: 'Date'},
     status: { type: 'String'},
     notify_to_customer: { type: 'Boolean', default: false }
-  }
-});
+  }},
+  { timestamps: true }
+);
 
 packageSchema.plugin(autoIncrement.plugin, {
     model: 'Package',

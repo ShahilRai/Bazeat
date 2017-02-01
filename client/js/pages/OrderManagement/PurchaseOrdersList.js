@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router';
+import ToggleDisplay from 'react-toggle-display';
 import axios from 'axios';
+import moment from 'moment';
 
 export default class PurchaseOrdersList extends React.Component {
 
@@ -13,7 +15,33 @@ export default class PurchaseOrdersList extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
+      dlvryDrpDwn: false
     };
+    this.showDropDownBox = this.showDropDownBox.bind(this)
+    this.updateToDeliver = this.updateToDeliver.bind(this)
+  }
+
+  showDropDownBox(){
+    this.setState({
+      dlvryDrpDwn: !this.state.dlvryDrpDwn
+    })
+  }
+
+  updateToDeliver(){
+    var orderID = this.props.order.id
+    this.updateDeliverStatus(orderID).then((response) => {
+      if(response.data) {
+        console.log("response.data")
+        console.log(response.data)
+      }
+    }).catch((err) => {
+        console.log(err);
+    });
+  }
+
+  updateDeliverStatus(orderID){
+    return axios.put("/api/update_deliver?order_id="+orderID , {
+    });
   }
 
   render(){
@@ -24,6 +52,7 @@ export default class PurchaseOrdersList extends React.Component {
     var pckdSpan = "";
     var orderId = "";
     var shppdSpan= "";
+    var dlvr="";
       if(this.props.order.after_payment_status == 'Received'){
         statusClass = "bold grey_txt";
         statusText  = "RECEIVED";
@@ -45,6 +74,16 @@ export default class PurchaseOrdersList extends React.Component {
         statusText  = "SHIPPED";
         pckd = "active_inactive active_green";
         shppd = "active_inactive active_green";
+        dlvr = (
+          <span className="shipping_toggle" >
+            <i className="fa fa-align-left" aria-hidden="true" onClick={this.showDropDownBox}></i>
+            <ToggleDisplay show={this.state.dlvryDrpDwn}>
+              <ul>
+                <li><a href="javascript:void(0)" onClick={this.updateToDeliver} >update To Deliver</a></li>
+              </ul>
+            </ToggleDisplay>
+          </span>
+        )
       }
       else if(this.props.order.after_payment_status == 'Fulfilled'){
         statusClass = "green_txt";
@@ -65,7 +104,7 @@ export default class PurchaseOrdersList extends React.Component {
     return(
       <tr key={this.props.index}>
         <td className="bold">
-          21-10-2016
+          {this.props.order.date? moment(this.props.order.date).format('DD-MM-YYYY'): ""}
         </td>
         <td className="text-left bold">
           <Link to={"/orders/"+(this.props.order.cuid)}>{"SO-"+(this.props.order.orderId)}</Link>
@@ -75,6 +114,7 @@ export default class PurchaseOrdersList extends React.Component {
         <td><span className={pckd}>{pckdSpan}</span></td>
         <td><span className={shppd}>{shppdSpan}</span></td>
         <td className="bold">kr {this.props.order.total_amount.toFixed(2)}</td>
+        {dlvr}
       </tr>
     )
   }

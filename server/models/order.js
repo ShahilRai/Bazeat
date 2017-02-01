@@ -54,8 +54,9 @@ const orderSchema = new Schema({
   packages: [{ type: Schema.ObjectId, ref: 'Package' }],
   payment_transaction_id: { type: 'String' },
   charge_id: { type: 'String' },
-  timeslot: [slotSchema]
-});
+  timeslot: [slotSchema]},
+  { timestamps: true }
+);
 
 import serverConfig from '../config';
 const connection = mongoose.createConnection(serverConfig.mongoURL);

@@ -19,11 +19,10 @@ export default class DisplayPackageList extends React.Component {
     super(props);
     this.state = {
       selectBox: false,
-      pOrdrID: '',
       _pckg: this.props._pckge
     };
     this.showDropDownBox = this.showDropDownBox.bind(this)
-    this.deletePackageConfirm = this.deletePackageConfirm.bind(this)
+    /*this.deletePackageConfirm = this.deletePackageConfirm.bind(this)*/
     this.viewPackage = this.viewPackage.bind(this)
   }
 
@@ -33,7 +32,9 @@ export default class DisplayPackageList extends React.Component {
     })
   }
 
-  deletePackageConfirm(e){
+  /*deletePackageConfirm(e){
+    var array = this.props.packages;
+    var index = e.target.dataset.index-2;
     var confirmDelete = confirm("Are you sure you want to delete the package?");
     if (confirmDelete == true) {
       e.preventDefault();
@@ -41,7 +42,12 @@ export default class DisplayPackageList extends React.Component {
       pId= PurchaseOrders.purchsCuid
       this.packageToBeDeleted(_deletePId).then((response) => {
         if(response.statusText == "OK") {
-          this.props._showPackage("delete", response.data)
+          console.log(array)
+          array.splice(index, 1);
+          var newArray = array
+          console.log(newArray)
+          console.log("==================================")
+          this.props._showPackage("delete", newArray)
           toastr.success('Package successfully deleted');
         }
         this.context.router.push('/orders/'+pId)
@@ -49,12 +55,12 @@ export default class DisplayPackageList extends React.Component {
         console.log(err);
       });
     }
-  }
+  }*/
 
-  packageToBeDeleted(_deletePId){
+/*  packageToBeDeleted(_deletePId){
     return axios.delete("/api/destroy_package?package_id="+ _deletePId, {
     });
-  }
+  }*/
 
   viewPackage(data, shpDetails){
     this.setState({
@@ -91,24 +97,24 @@ export default class DisplayPackageList extends React.Component {
           {"PKG-"+this.state._pckg.pkgId}
         </td>
         <td className="">
-          {pckg_date ? pckg_date: ""}
+          {this.state._pckg.pkg_date ? moment(this.state._pckg.pkg_date).format('DD-MM-YYYY'): ""}
         </td>
         <td className={statusClass}>{statusText}</td>
         <td className=""></td>
-        <td className="text-center prht30">{shipDate ? shipDate: ""}</td>
+        <td className="text-center prht30">{this.state._pckg.shippingdata.ship_date ? moment(this.state._pckg.shippingdata.ship_date).format('DD-MM-YYYY'): ""}</td>
         <td className="text-left prht30 ">
         <span className="shipping_toggle" onClick={this.showDropDownBox}>
           <i className="fa fa-align-left" aria-hidden="true"></i>
-            <ToggleDisplay show={this.state.selectBox}>
-              <ul>
-                <li><a href="#" data-toggle="modal" data-target={"#" + this.props.index}>Ship package</a></li>
-                <li><a href="#">Mark for pickup</a></li>
-                <li><a href="#">PDF package slip</a></li>
-                <li><a href="#">Print package slip</a></li>
-                <li><a href="javascript:void(0)" onClick={this.deletePackageConfirm}>Delete package</a></li>
-              </ul>
-            </ToggleDisplay>
-          </span>
+          <ToggleDisplay show={this.state.selectBox}>
+            <ul>
+              <li><a href="#" data-toggle="modal" data-target={"#" + this.props.index}>Ship package</a></li>
+              <li><a href="#">Mark for pickup</a></li>
+              <li><a href="#">PDF package slip</a></li>
+              <li><a href="#">Print package slip</a></li>
+              <li><a href="javascript:void(0)" data-index={this.props.index} onClick={(e) => this.props.deletePackageConfirm(e, this.state._pckg.id)}>Delete package</a></li>
+            </ul>
+          </ToggleDisplay>
+        </span>
           <NewShipment index={this.props.index} _pckge= {this.state._pckg} viewPackage={this.viewPackage} />
         </td>
       </tr>

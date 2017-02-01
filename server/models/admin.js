@@ -9,8 +9,9 @@ const adminSchema = new Schema({
   full_name: { type: 'String' },
   email: { type: 'String' },
   hash:  { type: 'String' },
-  salt:  { type: 'String' }
-});
+  salt:  { type: 'String' }},
+  { timestamps: true }
+);
 
 adminSchema.methods.setPassword = function(password){
   this.salt = crypto.randomBytes(16).toString('hex');

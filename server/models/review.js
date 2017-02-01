@@ -9,8 +9,6 @@ const reviewSchema = new Schema({
   comment: { type: Schema.ObjectId, ref: 'Comment' },
   is_replied: { type: Boolean, default: false },
   reviewed_for: { type: Schema.Types.ObjectId, ref: 'User' }},
-  {
-    timestamps: true // Saves createdAt and updatedAt as dates. createdAt will be our timestamp.
-  }
+  { timestamps: true }
 );
 module.exports = mongoose.model('Review', reviewSchema);

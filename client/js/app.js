@@ -23,7 +23,7 @@ function loadScript(scriptName, callback) {
 }
 
 ReactDOM.render(
-  <div>
+  <div className='router_container'>
     <ProjectRouter />
   </div>,
   document.getElementById('app-container')

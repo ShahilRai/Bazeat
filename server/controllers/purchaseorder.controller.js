@@ -21,7 +21,7 @@ export function getpurchaseOrders(req, res) {
           return res.json(422, err);
         }
         else{
-          if(orders){
+          if(products){
             Order.find({ _id: {"$in": products.orders }, payment_status: "succeeded"})
             .populate("orderitems _buyer")
             .populate("packages", null, {pkg_status: 'created'})
@@ -127,16 +127,17 @@ export function updatePackage(req, res) {
             "qty_packed": orderitem.packed_qty,
             "_order": updated_orderitem._order,
             "pkg_status": 'created',
-            "pkg_date": req.body.pkg_date
+            "pkg_date": req.body.pkg_date,
+            "_orderitem": updated_orderitem._id,
           }
         },
         {new: true}).exec(function(err, packed){
-           Order.findByIdAndUpdate({_id: packed._order}, {$pushAll: {packages: [packed]}} , function(err, model) {
-            })
-            Order.update({_id: packed._order}, {$set: {after_payment_status: "Confirmed"}},function(err) {
-            });
-            // OrderItem.update({_id: updated_orderitem._id}, { $set: {shipped_qty: packed.qty_packed}}, function(err) {
-            // });
+          Order.findByIdAndUpdate({_id: packed._order}, {$pushAll: {packages: [packed]}} , function(err, model) {
+          })
+          Order.update({_id: packed._order}, {$set: {after_payment_status: "Confirmed"}},function(err) {
+          });
+          // OrderItem.update({_id: updated_orderitem._id}, { $set: {shipped_qty: packed.qty_packed}}, function(err) {
+          // });
           if (req.body.orderitems.length == index+1){
             return res.json(packed);
           }
@@ -187,19 +188,21 @@ export  function updateshipqty(packge, next, res){
       return res.status(422).send(err);
     }
     else {
-      let ship_qty = 0;
-      Order.findOne({_id: packge._order }).populate("packages").exec((err, orders) =>{
-        orders.packages.forEach(function(pakg, index) {
-          ship_qty += pakg.qty_shipped
-        })
-        if(orders.total_qty > ship_qty){
-          Order.update({_id: packge._order}, {$set: {after_payment_status: "Partially Shipped"}},function(err) {});
-        }
-        if (orders.total_qty == ship_qty){
-          Order.update({_id: packge._order}, {$set: {after_payment_status: "Shipped"}},function(err) {
+      OrderItem.findOneAndUpdate({ _id: pkg._orderitem }, {$set: {shipped_qty: pkg.qty_shipped}}, {new: true}, function(err, updated_orderitem) {
+        let ship_qty = 0;
+        Order.findOne({_id: packge._order }).populate("packages").exec((err, orders) =>{
+          orders.packages.forEach(function(pakg, index) {
+            ship_qty += pakg.qty_shipped
           })
-        }
-        return res.status(200).send({pkg});
+          if(orders.total_qty > ship_qty){
+            Order.update({_id: packge._order}, {$set: {after_payment_status: "Partially Shipped"}},function(err) {});
+          }
+          if (orders.total_qty == ship_qty){
+            Order.update({_id: packge._order}, {$set: {after_payment_status: "Shipped"}},function(err) {
+            })
+          }
+          return res.status(200).send({pkg});
+        })
       })
     }
   });
@@ -254,6 +257,8 @@ export function updateOrderAddress(req, res) {
 
 export  function packageDestroy(req, res){
   Package.findOne({_id: req.query.package_id }).exec((err, packge) => {
+    console.log('packge')
+    console.log(packge)
     if (err || packge == null) {
       return res.status(422).send({msg: err});
     }

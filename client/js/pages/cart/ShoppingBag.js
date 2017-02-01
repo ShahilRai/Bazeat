@@ -15,6 +15,7 @@ export default class ShoppingBag extends React.Component {
   constructor(props, context) {
     super(props, context);
     cart_id = cookie.load('cart_cuid') ? cookie.load('cart_cuid') : ''
+    console.log(cart_id)
     this.state = {
       items: [],
       step:this.props.step,
@@ -34,6 +35,7 @@ export default class ShoppingBag extends React.Component {
   var incrCartProduct = this.state.incrCartProductItems
   incrCartProduct.product_id = this.state.items[i].product_id
   incrCartProduct.qty = this.state.items[i].qty + 1
+  cart_id = cookie.load('cart_cuid') ? cookie.load('cart_cuid') : ''
   this.incrCartData(incrCartProduct, cart_id).then((response) => {
     if(response.data) {
       this.setState({
@@ -53,6 +55,7 @@ export default class ShoppingBag extends React.Component {
     var incrCartProduct = this.state.incrCartProductItems
     incrCartProduct.product_id = this.state.items[i].product_id
     incrCartProduct.qty = this.state.items[i].qty - 1
+    cart_id = cookie.load('cart_cuid') ? cookie.load('cart_cuid') : ''
      this.incrCartData(incrCartProduct, cart_id).then((response) => {
         if(response.data) {
           this.setState({
@@ -76,9 +79,9 @@ export default class ShoppingBag extends React.Component {
 
   removeAllItems(){
     var self = this
+    cart_id = cookie.load('cart_cuid') ? cookie.load('cart_cuid') : ''
     this.emptyBag(cart_id).then((response) => {
       if(response.data) {
-        cookie.remove('cart_cuid');
         this.setState({
           items : [],
           total_price: 0,
@@ -98,6 +101,7 @@ export default class ShoppingBag extends React.Component {
   removeSingleitem(i){
     var self = this
     var cartitem_id = this.state.items[i].id
+    cart_id = cookie.load('cart_cuid') ? cookie.load('cart_cuid') : ''
     this.removeItem(cart_id, cartitem_id).then((response) => {
       if(response.data) {
         this.setState({
@@ -130,10 +134,12 @@ export default class ShoppingBag extends React.Component {
     this.props.nextStep(cart_detail)
   }
 
-  componentDidMount(){
+  componentDidMount() {
     let email = this.context.user.email
+    cart_id = cookie.load('cart_cuid') ? cookie.load('cart_cuid') : email
     this.loadCartItem(cart_id, email).then((response) => {
       if(response.data){
+        cookie.save('cart_cuid', response.data.cart.cuid);
         this.setState({
         item : response.data.cart,
         items : response.data.cart.cartitems,
