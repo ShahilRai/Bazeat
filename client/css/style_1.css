@@ -1642,7 +1642,9 @@ border-radius:4px;
 /*:::::::::::::::::::::::::::::::::::::::::::::::::::::
  ========PRODUCER PRODUCT DETAIL STYLE END============
 :::::::::::::::::::::::::::::::::::::::::::::::::::::*/
-
+.products_section .wall-column {
+	width: 33.33%;
+}
 .product_detail_lft {
 	width: 100%;
 	float: left;
@@ -5017,7 +5019,8 @@ font-size:12px;
 }
 
 .rvw_by_user .rating{
-	width:100%;direction: ltr;
+	width:100%;direction: rtl;
+	text-align: left;
 
 }
 .rvw_qty{
@@ -5217,6 +5220,12 @@ margin-bottom: 7px;
     min-height: 100%;
     padding-bottom: 66px;
 }
+.abt_section{
+	padding: 234px 15px 0;
+}
+
+
+
 
 /********MEDIA QUERY*********/
 
@@ -5515,7 +5524,7 @@ h3.search_tabbd_heading {
 
 .pad_lf211{padding-left: 0;}
 .purchase_order_left_sidebar.order_purchse_lt_wdth{width: 100%;}
-.chat_container{margin: 500px auto 0;}
+.chat_container{margin: 370px auto 0;}
 .chat_window_left{width: 100%;}
 .chat_window_right{width: 100%;}
 .form_chat{margin:19px 11px;}
@@ -5641,8 +5650,8 @@ margin-left: 0;}
 
 .pckg_form label{width: 34%;}
 
-
-
+.chat_window_left{height: auto;}
+.chat_window_right{height: auto;}
 
 }
 @media only screen and (min-width:761px) and (max-width:999px) {

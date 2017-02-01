@@ -204,11 +204,12 @@ export default class ShoppingBag extends React.Component {
                   </tbody>
                 </table>
               </div>
-              <div className="chkout_step1_footer">
+            </div>
+            <div className="chkout_step1_footer">
                 <span className="chkout_step1_prod">{"In total " +this.state.items.length +" products"}</span>
                 <span className="chkout_step1_totalprice">{"Total price incl. MVA: kr " +this.state.total_price}</span>
-              </div>
             </div>
+
             <div className="chkout_step1btns">
               <button type="submit" className="btn pull-left step1_emptybtn" onClick={this.removeAllItems.bind(this)}>Empty shopping bag</button>
               <button type="button" className="btn btn-default continue_btn" onClick={ this.goToNextPage.bind(this)} >Continue</button>
