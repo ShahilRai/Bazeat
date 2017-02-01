@@ -126,7 +126,6 @@ export default class Payment extends React.Component {
                         payment_month_arr.map((result, i) =>{
                           return(
                           <option key={i} value={result}>{result}</option>
-
                           )
                         })
                       }
