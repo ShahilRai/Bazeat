@@ -113,6 +113,7 @@ export function newReview(req, res, next) {
         review: req.body.review_body,
         reviewed_by: user._id,
         reviewed_for: req.query.reviewed_for,
+        is_reviewed: req.body.is_reviewed,
         rating: req.body.rating
       });
       review.save(function(err, newReview) {
@@ -152,25 +153,20 @@ export function avg_ratings(reviews, newReview, next, total_count, res){
 
 
 export function sendReply(req, res, next) {
+  console.log(req.body)
+  console.log(req.query)
   User.findOne({ email: req.body.email }).exec((err, user) => {
     const comment = new Comment({
       comment: req.body.comment_body,
       review: req.body.review_id ,
-      is_commented: req.body.is_commented ,
+      is_commented: req.body.is_commented
     });
     comment.save(function(err, newComment) {
       if (err) {
         res.send({ error: err });
       }
       else{
-        Review.findOneAndUpdate({ _id: req.body.review_id }, {$set: {is_replied: true, comment: comment._id}}, {new: true}).exec((err, review) => {
-          if (err){
-            return res.status(422).send(err);
-          }
-          else{
-          return res.json({ comment: newComment });
-          }
-        });
+        return res.json({ comment: newComment });
       }
     });
   })
