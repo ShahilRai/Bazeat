@@ -32,7 +32,7 @@ export default class AboutPage extends React.Component {
     }
     return(
       <div>
-        <div style= { {padding:' 200px '} } dangerouslySetInnerHTML={{__html: this.state.static_content.page ? this.state.static_content.page.description : 'Comming Soon...'}}></div>
+        <div className = "abt_section" dangerouslySetInnerHTML={{__html: this.state.static_content.page ? this.state.static_content.page.description : 'Comming Soon...'}}></div>
       </div>
     );
   }
