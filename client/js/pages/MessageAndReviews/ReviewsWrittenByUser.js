@@ -16,8 +16,6 @@ export default class ReviewsWrittenByUser extends React.Component {
 
   render(){
     moreCount = this.props.given_rating_count
-    console.log("sdssds");
-    console.log(moreCount);
     return(
         <div className="modal fade prod_modal review_modal" id={"producer_review" +this.props.write_index} tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
           <div className="modal-dialog user_review_modal wdth_448" role="document">
