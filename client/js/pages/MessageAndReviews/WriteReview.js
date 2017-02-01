@@ -17,10 +17,8 @@ export default class WriteReview extends React.Component {
           rating : '',
           value : '',
           currentRating : 0,
-          count : 0,
           is_reviewed : true
         }
-
   }
 
   handleClick(rating) {
@@ -29,22 +27,25 @@ export default class WriteReview extends React.Component {
     });
   }
 
+
   WriteAReview(){
     this.WriteReviewData(this.context.user.email, this.refs.review.value,this.state.currentRating,this.state.is_reviewed).then((response) => {
-        toastr.success('Your review successfully submitted');
-        this.props.updateReviews(response.data)
+         this.props.updateReviews(response.data)
+        console.log("response.data")
+        console.log(response.data)
         if(response.data) {
+          toastr.success('Your review successfully submitted');
           this.setState({
             reviewUserData : response.data,
             value : '',
-            currentRating : 0,
-            count : 1
+            currentRating : 0
           });
         }
     }).catch((err) => {
         toastr.error('Sorry, your review not submitted');
         console.log(err);
     });
+     
   }
 
   WriteReviewData(email,review_body,rating,is_reviewed){
@@ -63,15 +64,6 @@ export default class WriteReview extends React.Component {
 
 
   render(){
-    console.log("this.state.count")
-    console.log(this.state.count)
-    if(this.state.count>0){
-      data = <Rating rating={0} displayOnly={false} maxRating={5} onSubmit={this.handleClick.bind(this)} ratingSymbol={"\u2764"} />
-    }else{
-      data = <Rating  displayOnly={false} maxRating={5} onSubmit={this.handleClick.bind(this)} ratingSymbol={"\u2764"} />
-    }
-    console.log("child rating")
-    console.log(this.state.rating)
     return(
       <div className="modal fade prod_modal review_modal" id={"write_review" + this.props.index}  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div className="modal-dialog user_review_modal" role="document">
@@ -93,7 +85,7 @@ export default class WriteReview extends React.Component {
                 <div className="form-group">
                   <label className="user_rvw_label">Your rating</label>
                 <div className="rvw_by_user">
-                  {data}
+                  <Rating  displayOnly={false} maxRating={5} onSubmit={this.handleClick.bind(this)} ratingSymbol={"\u2764"} />
                 </div>
               </div>
             </div>
