@@ -17,13 +17,6 @@ export default class PackagesList extends React.Component {
     this.state = {
     };
     this.deletePackageConfirm = this.deletePackageConfirm.bind(this)
-    this.viewPackage = this.viewPackage.bind(this)
-  }
-
-  viewPackage(data, shpDetails){
-    this.setState({
-      _pckg: shpDetails
-    })
   }
 
   deletePackageConfirm(e, id){
@@ -36,11 +29,8 @@ export default class PackagesList extends React.Component {
       pId= PurchaseOrders.purchsCuid
       this.packageToBeDeleted(_deletePId).then((response) => {
         if(response.statusText == "OK") {
-          console.log(array)
           array.splice(index, 1);
           var newArray = array
-          console.log(newArray)
-          console.log("==================================")
           this.props._showPackage("delete", newArray)
           toastr.success('Package successfully deleted');
         }
@@ -57,8 +47,6 @@ export default class PackagesList extends React.Component {
   }
 
   render(){
-    console.log("this.props.packages")
-    console.log(this.props.packages)
     PubSub.publish( 'pckg detail', this.viewPackage );
     return(
       <div className="new_pckg_table">
@@ -78,7 +66,7 @@ export default class PackagesList extends React.Component {
               <tbody>
               {this.props.packages.map((_pckge, index) => <DisplayPackageList packages= {this.props.packages}
                 _showPackage={this.props._showPackage} key = {index} index={index + 2}
-                _pckge = {_pckge} deletePackageConfirm= {this.deletePackageConfirm} /> )}
+                _pckge = {_pckge} deletePackageConfirm= {this.deletePackageConfirm}/> )}
               </tbody>
             </table>
           </div>
