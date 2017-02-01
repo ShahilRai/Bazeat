@@ -50,6 +50,7 @@ const userSchema = new Schema({
   account_id: { type: 'String' },
   cuid: { type: 'String' },
   city: { type: 'String' },
+  like_count: {type: 'Number', default: 0},
   address: { type: 'String' },
   country: { type: 'String' },
   postal_code: { type: 'String' },

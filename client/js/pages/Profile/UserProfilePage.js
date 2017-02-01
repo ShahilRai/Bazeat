@@ -6,6 +6,7 @@ import DocumentTitle from 'react-document-title';
 import { UserProfileForm } from 'react-stormpath';
 import ImageUploader from './ImageUploader';
 import TextAreaField from '../components/TextAreaField';
+import TextAreaFieldForUser from '../components/TextAreaFieldForUser';
 import InputField from '../components/InputField';
 import DateComponent from '../components/DateComponent';
 import LabelField from '../components/LabelField';
@@ -186,8 +187,8 @@ export default class UserProfilePage extends React.Component {
                       <div className="edt_prf_inner_detail ">
                         <div className="form-group row">
                           <LabelField htmlFor="desc" className="col-md-4 col-xs-12 col-form-label" label="Delivery information" />
-                          <TextAreaField name="delivery_options"  value = {this.state.user.delivery_options} >{this.state.user.delivery_options}</TextAreaField>
-                          <p>if you will deliver the your products to your customers, it would be great to inform them about the particulars. This information will show up under *Delivery details* for Budmat.</p>
+                          <TextAreaFieldForUser name="delivery_options"  value = {this.state.user.delivery_options} >{this.state.user.delivery_options}</TextAreaFieldForUser>
+                          
                         </div>
                         <div className="form-group row">
                             <LabelField htmlFor="example-tel-input" className="col-md-4 col-xs-12 col-form-label" label="Visiting hours"/>
