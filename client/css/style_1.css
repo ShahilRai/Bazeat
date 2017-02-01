@@ -68,7 +68,7 @@ a:hover {
 }
 
 .plft30 {
-	padding-left: 30px;
+	padding-left: 30px !important;
 }
 .plft48 {
 	padding-left: 48px;
@@ -92,7 +92,7 @@ a:hover {
 	padding-right: 25px;
 }
 .prht30 {
-	padding-right: 30px;
+	padding-right: 30px !important;
 }
 .mlft_zero {
 	margin-left: 0px;
@@ -1930,6 +1930,9 @@ ul.prod_lft_details li:hover a {
     font-size: 24px;
     color: #fff;
 }
+
+
+
 /*:::::::::::::::::::::::::::::::::::::::::::::::::::::
  ========ADD PRODUCT MODAL STYLE START============
 :::::::::::::::::::::::::::::::::::::::::::::::::::::*/
@@ -2740,7 +2743,10 @@ padding-left:0;
 	color:#808080;    margin-top: 8px;
 }
 
-
+.edt_prf_inner_detail  p{
+    font-size: 14px;
+    color: #808080;
+}
 
 
 
@@ -4321,7 +4327,10 @@ border-bottom:1px solid #b3b3b3;
 .order_header_rght .custom_select_box.portion_select ul{    position: absolute;
     width: 130px;
     top: 100%;
-    z-index: 9999;}
+    z-index: 9999;
+    background: #f1f1f1;
+
+}
 .shipping_toggle{position: relative;
  cursor: pointer}
 .shipping_toggle ul{ position: absolute;
@@ -4334,7 +4343,11 @@ border-bottom:1px solid #b3b3b3;
     float: left;
     border: 0;
     list-style: none;}
-.order_header_rght .custom_select_box.portion_select ul li{font-size: 12px; width: 100%; float: left; border: 0;}
+.order_header_rght .custom_select_box.portion_select ul li{
+	font-size: 12px; width: 100%; float: left; border: 0;
+	border-bottom: 1px solid #bbb;
+	padding: 3px 0;
+}
 .close_order{
     margin-left: 25px;
     vertical-align: middle;
@@ -4913,6 +4926,7 @@ padding:15px 17px 25px 19px;
     background: #fff;
     border: 1px solid #ccc;
     padding: 10px 5px 10px 5px;
+    right: 0;
   }
   .table-main.overflow_none{overflow:inherit;}
 .shipping_toggle ul li{    font-size: 12px;
@@ -5539,6 +5553,43 @@ margin-left: 0;}
 .chkout5_btns_inner {
 	margin: 0 auto 16px auto;
 }
+.page_wrapper{margin-bottom: 172px;}
+
+.purchase_order_left_sidebar.order_purchse_lt_wdth, .rt_order_mgmnt {
+	width: 100%;
+}
+.rcv_order_header h2 {
+	width: auto;
+	float: left;
+	margin-bottom: 15px;
+}
+
+.order_header_rght ul {
+	margin-bottom: 10px;
+}
+.close_order {
+	float: right;
+	margin-top: -82px;
+}
+.table-main.overflow_none{overflow: auto;}
+.order_info_lt {
+	width: 100%;
+}
+.order_information {
+	padding: 31px 24px 10px 27px;
+}
+.order_info_rt {
+	float: left;
+}
+
+
+
+
+
+
+
+
+
 
 }
 @media only screen and (min-width:761px) and (max-width:999px) {
@@ -5662,7 +5713,7 @@ display: inline-block;}
 .chkout5_btns_inner {
 	margin: 0 auto 16px auto;
 }
-
+.page_wrapper{margin-bottom: 172px;}
 
 
 
