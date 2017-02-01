@@ -77,8 +77,6 @@ export default class Header extends React.Component {
   }
 
   render() {
-    console.log("allreviews")
-    console.log(this.state.all_reviews)
     if(this.context.authenticated) {
       email = this.context.user.email
       if(check_email) {
@@ -90,6 +88,9 @@ export default class Header extends React.Component {
     }
     var headerClass = "header_wrapper";
     if(this.context.router.location.pathname == "/search"){
+      headerClass = "header_wrapper border_bottom"
+    }
+    if(this.context.router.location.pathname == "/checkout"){
       headerClass = "header_wrapper border_bottom"
     }
     var userId = this.state.currentUser_cuid ? this.state.currentUser_cuid : ''

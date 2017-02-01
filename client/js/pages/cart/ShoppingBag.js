@@ -168,40 +168,48 @@ export default class ShoppingBag extends React.Component {
             <h3>Shopping bag</h3>
             <h4>Look over your shopping bag before continuing to payment</h4>
             <CheckoutStep step={this.state.step}/>
-            <ul className="shopping_list_heading">
-              <li className="shopping_no">Amount</li>
-              <li className="shopping_prod">Product</li>
-              <li className="shopping_price">Price</li>
-              <li className="shopping_mva">MVA</li>
-              <li className="shopping_price">Total price</li>
-              <li className="items_price">&nbsp;</li>
-            </ul>
-            <div className="items_list_info" style={{display: 'block'}}>
-              <ul>
-                {this.state.items.map((item, i)=>
-                  <li key={i}>
-                    <span className="sr_no">
-                      <button className="fa fa-caret-up" onClick={(e) => this.incrNumItems(e, i)}></button>
-                        <input type="text" className="form-control text-center" value={item.qty} data-rule="quantity" type="text" />
-                      <button className="fa fa-caret-down" onClick={(e) => this.decrNumItems(e, i)} ></button>
-                    </span>
-                    <span className="list_images"><img src={item.product_image} height="50" width="50"/>
-                      <small>{item.product_name}</small>
-                    </span>
-                    <span className="items_price">{"kr " + item.product_amt}</span>
-                    <span className="mva">15%</span>
-                    <span className="items_price">{item.product_total_amt.toFixed(2)}</span>
-                    <span className="del_bin">
-                    <a href= "javaScript:void(0)"><img src="images/del_bin.png" onClick={this.removeSingleitem.bind(this,i)}/></a>
-                    </span>
-                  </li>
-                )}
-              </ul>
-              <div className="chkout_step1_footer">
-                <span className="chkout_step1_prod">{"In total " +this.state.items.length +" products"}</span>
-                <span className="chkout_step1_totalprice">{"Total price incl. MVA: kr " +this.state.total_price}</span>
+            <div className="table-main">
+              <div className="table-wrapper">
+                <table className="table table-striped">
+                  <thead>
+                    <tr>
+                      <th className="width_th1">Amount</th>
+                      <th className="text-left width_th2">Product</th>
+                      <th className="width_th3">Price</th>
+                      <th className="width_th4">MVA</th>
+                      <th className="width_th5">Total price</th>
+                      <th className="width_th6"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {this.state.items.map((item, i)=>
+                      <tr key={i}>
+                        <td>
+                          <span className="sr_no">
+                            <i className="fa fa-caret-up" onClick={(e) => this.incrNumItems(e, i)}></i>
+                            <input className="form-control text-center" value={item.qty} data-rule="quantity" type="text" />
+                            <i className="fa fa-caret-down" onClick={(e) => this.decrNumItems(e, i)} ></i>
+                          </span>
+                        </td>
+                        <td className="text-left">
+                          <img src={item.product_image} className="prod_img"/>
+                          {item.product_name}
+                        </td>
+                        <td>{"kr " + item.product_amt}</td>
+                        <td>15%</td>
+                        <td>{item.product_total_amt.toFixed(2)}</td>
+                        <td><a href= "javaScript:void(0)"><img src="images/del_bin.png" onClick={this.removeSingleitem.bind(this,i)}/></a></td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
               </div>
             </div>
+            <div className="chkout_step1_footer">
+                <span className="chkout_step1_prod">{"In total " +this.state.items.length +" products"}</span>
+                <span className="chkout_step1_totalprice">{"Total price incl. MVA: kr " +this.state.total_price}</span>
+            </div>
+
             <div className="chkout_step1btns">
               <button type="submit" className="btn pull-left step1_emptybtn" onClick={this.removeAllItems.bind(this)}>Empty shopping bag</button>
               <button type="button" className="btn btn-default continue_btn" onClick={ this.goToNextPage.bind(this)} >Continue</button>
