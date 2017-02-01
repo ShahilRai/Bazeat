@@ -27,9 +27,12 @@
     <script type="text/javascript" src="/javascript/bootstrap.min.js"></script>
     <script type="text/javascript" src="/javascript/jaliswall.js"></script>
     <script>
-      $(".next_list").click(function(){
+    $(function(){
+      $(document).on("click", ".next_list a", function(){
         $(".items_list_info").toggle();
       });
+    })
+
       $('.grid_wall_wrapper').jaliswall({item:'.grid_single_item'});
     </script>
   </body>
