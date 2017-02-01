@@ -18,8 +18,6 @@ export default class ReviewsAndLikes extends React.Component {
   componentDidMount(){
     this.loadCurrentUserRating(this.context.user.email).then((response) => {
       if(response.data) {
-        console.log("response.data")
-        console.log(response.data)
         this.setState({
           current_user_rating : response.data.user.avg_rating
         });
@@ -35,8 +33,6 @@ export default class ReviewsAndLikes extends React.Component {
   }
 
   render(){
-    console.log("current_user_rating")
-    console.log(this.state.current_user_rating)
     return(
       <div className="revw_top">
         <h3>{this.props.userInfo.full_name}

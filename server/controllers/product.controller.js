@@ -260,7 +260,7 @@ export function getProductsByCategory(req, res) {
 
 export function addRemoveLike(req, res) {
   User.findOne({ email: req.query.email }).exec((error, user) => {
-    Product.findOne({ cuid: req.params.cuid }).exec((error, product) => {
+    Product.findOne({ cuid: req.params.cuid }).populate('_producer').exec((error, product) => {
       Like.findOne({ _product: product._id, _liker: user._id }).exec((err, like) => {
         if (like == null) {
           const newLike = new Like();
@@ -272,15 +272,27 @@ export function addRemoveLike(req, res) {
              return res.status(422).send(err);
             }
             else {
-              return res.json({ like: like });;
+              update_like_count(product)
+              return res.json({ like: like });
             }
           });
         } else {
           like.remove(() => {
+            update_like_count(product)
             return res.status(200).send({msg: "Unlike product successfully"});
           });
         }
       });
     });
   });
+}
+
+function update_like_count(product) {
+  Like.find({ _product: product._id }).exec(function(err, like) {
+    console.log(like.length)
+    console.log("like.length")
+    console.log(product._producer)
+    product._producer.like_count = like.length
+    product._producer.save();
+  })
 }
