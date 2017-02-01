@@ -23,7 +23,7 @@ export default class DisplayPackageList extends React.Component {
     };
     this.showDropDownBox = this.showDropDownBox.bind(this)
     /*this.deletePackageConfirm = this.deletePackageConfirm.bind(this)*/
-    /*this.viewPackage = this.viewPackage.bind(this)*/
+    this.viewPackage = this.viewPackage.bind(this)
   }
 
   showDropDownBox(){
@@ -62,14 +62,14 @@ export default class DisplayPackageList extends React.Component {
     });
   }*/
 
-/*  viewPackage(data, shpDetails){
+  viewPackage(data, shpDetails){
     this.setState({
       _pckg: shpDetails
     })
-  }*/
+  }
 
   render(){
-    /*PubSub.publish( 'pckg detail', this.viewPackage );*/
+    PubSub.publish( 'pckg detail', this.viewPackage );
     var self = this;
     var shipDate= '';
     var statusText='';
