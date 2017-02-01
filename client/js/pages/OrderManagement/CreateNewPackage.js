@@ -40,7 +40,7 @@ export default class CreateNewPackage extends React.Component {
 
   componentDidMount(){
     this.generatePackageId()
-    orderCuid = PurchaseOrders.purchsCuid;
+    orderCuid = this.props.params.orderId;
     this.getOrderDetail(orderCuid).then((response) => {
       if(response.data) {
         this.setState({
@@ -102,7 +102,6 @@ export default class CreateNewPackage extends React.Component {
           _id:  keys[i],
           packed_qty: _orditems[keys[i]]
         })
-        console.log(ordList)
       }
       this.addPackageOrder(ordList, p_Id, p_date, cuid).then((response) => {
         if(response.statusText == "OK") {
@@ -137,7 +136,6 @@ export default class CreateNewPackage extends React.Component {
     this.isValidQty(o_Id, p_qty).then((response) => {
       if(response.data.msg == "Ok") {
         _orditems[id]=p_qty
-        console.log(_orditems)
       }
       else{
         alert("Packed order quantity must be less than ordered quantity")
