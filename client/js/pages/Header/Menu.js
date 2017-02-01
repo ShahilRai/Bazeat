@@ -19,36 +19,15 @@ export default class Menu extends React.Component {
     this.state = {
       isReview : '',
       isMessage : '',
-      allMessages:[],
-      all_reviews : [],
-      offset: 0,
+      allMessages:[]
     };
   }
 
-  loadAllMessagesAndReviews(){
-    this.loadAllReviews()
-  }
 
   messageIconValue(){
     this.setState({
       isMessage: ''
     })
-  }
-
-  loadAllReviews(){
-    this.getAllReviews(this.context.user.email,this.state.offset,2).then((response) => {
-      if(response.data) {
-          this.setState({
-            all_reviews : response.data.reviews
-          });
-      }
-    }).catch((err) => {
-        console.log(err);
-    });
-  }
-
-  getAllReviews(email, off_set, per_page ){
-     return axios.get("/api/review?email="+email+"&off_set="+off_set+"&per_page="+per_page)
   }
 
   render() {
@@ -69,41 +48,38 @@ export default class Menu extends React.Component {
     }
 
     return (
-        <ul className={profileHead}>
-          
-          <NotAuthenticated>
+      <ul className={profileHead}>
+        <NotAuthenticated>
           <li><a href="javascript:void(0)" className="help_icon">Help</a></li>
-            <li><a href="" data-toggle="modal" data-target="#register_modal">Join Bazeat</a></li>
-            <li><a href="" data-toggle="modal" data-target="#login_modal">Log in</a></li>
-            <li className="cart_icon"><a href="javascript:void(0)">Cart</a></li>
+          <li><a href="" data-toggle="modal" data-target="#register_modal">Join Bazeat</a></li>
+          <li><a href="" data-toggle="modal" data-target="#login_modal">Log in</a></li>
+          <li className="cart_icon"><a href="javascript:void(0)">Cart</a></li>
           {cart_icon}
-          </NotAuthenticated>
-          <Authenticated>
+        </NotAuthenticated>
+        <Authenticated>
           <li><a href="javascript:void(0)" className="help_icon">Help</a></li>
-            <li className="dropbtn">
-              <a href="javascript:void(0)" className="message_icon">Messages
-                {MessageIcon}
-                {reviewIcon}
+          <li className="dropbtn">
+            <a href="javascript:void(0)" className="message_icon">Messages
+              {MessageIcon}
+              {reviewIcon}
             </a>
-              <MessageDropdown allMessages={this.props.allMessages} allReviews={this.state.all_reviews} />
-            </li>
-            <li className="username_text"><Link to={"/user/"+userId}>{this.context.user ? this.context.user.givenName : ""}</Link>
-              <ul className="user_toggle_div collapse" id="" >
-                <li><Link to="/profile">Edit Profile</Link></li>
-                <li><Link to="/setting">Settings</Link></li>
-                <li><Link to="/orders">Orders</Link></li>
-                <li><Link to="javascript:void(0)">Guides</Link></li>
-                <li><LogoutLink>Log out</LogoutLink></li>
-              </ul>
-            </li>
-            <li data-toggle="collapse" data-target="">
+            <MessageDropdown allMessages={this.props.allMessages} allReviews={this.props.allReviews} />
+          </li>
+          <li className="username_text"><Link to={"/user/"+userId}>{this.context.user ? this.context.user.givenName : ""}</Link>
+            <ul className="user_toggle_div collapse" id="" >
+              <li><Link to="/profile">Edit Profile</Link></li>
+              <li><Link to="/setting">Settings</Link></li>
+              <li><Link to="/orders">Orders</Link></li>
+              <li><Link to="javascript:void(0)">Guides</Link></li>
+              <li><LogoutLink>Log out</LogoutLink></li>
+            </ul>
+          </li>
+          <li data-toggle="collapse" data-target="">
             <a href="javascript:void(0)" className="user_icon"></a>
-            </li>
-{cart_icon}
-          </Authenticated>
-         
-          
-        </ul>
+          </li>
+          {cart_icon}
+        </Authenticated>
+      </ul>
     );
   }
 }

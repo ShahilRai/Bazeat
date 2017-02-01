@@ -143,7 +143,8 @@ export default class CartModal extends React.Component {
 
   getCart() {
     if(this.context.authenticated == true) {
-      cart_id = this.context.user.email
+      cart_id = cookie.load('cart_cuid') ? cookie.load('cart_cuid') : this.context.user.email
+      // cart_id = this.context.user.email
     } else {
       cart_id = cookie.load('cart_cuid') ? cookie.load('cart_cuid') : ''
     }

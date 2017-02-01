@@ -87,24 +87,51 @@ export  function cancel_account(email){
 
 
 export  function new_message(message, sender){
-  User.find({ _id: message.receiver }).exec((err, user) => {
+  console.log('message')
+  console.log(message)
+  User.findOne({ _id: message.receiver }).exec((err, user) => {
+    console.log(user.email)
+    console.log("user.email")
+    // transport.sendMail({
+    //     template_name: '01. Verifikasjonsmail',
+    //     template_content:[],
+    //     message: {
+    //       to: [{
+    //         email: "abhinav.fun90@gmail.com"
+    //       }],
+    //       // headers: {
+    //       //   'Reply-To': 'noreply@bazeat.no'
+    //       // },
+    //       // firstName: "abhinav",
+    //       subject: 'About Account Cancellation',
+    //       // messageId: 'test',
+    //       from_email: 'noreply@bazeat.no'
+    //       // from_name: 'Ali',
+
+    //     },
+    //     function (err, info) {
+    //       console.log("headers")
+    //       if (err) {
+    //         console.error(err);
+    //       } else {
+    //         console.log(info);
+    //       }
+    //     }
+    //   })
     transport.sendMail({
       mandrillOptions: {
-        template_name: '03-velkommen',
-        template_content: [
-        ],
+        template_name: '01. Verifikasjonsmail',
+        template_content: [],
         message: {
-          to: user.email,
-          "merge": true,
-          "merge_language": "handlebars",
-          "global_merge_vars": [{
-              "name": "name",
-              "content": sender.first_name},
-              { "name": "message",
-                "content": message.body},
+          to: [ {email: user.email}],
+          subject: 'About Account Cancellation',
+          // messageId: 'test',
+          from_email: 'noreply@bazeat.no',
+          // "merge": true,
+          // "merge_language": "handlebars",
+          "global_merge_vars": [
               {
-                "name": "email",
-                "content": "john@gmail.com"
+                "firstName": sender.first_name
               }
           ]
         }

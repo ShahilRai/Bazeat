@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import toastr from 'toastr';
+import cookie from 'react-cookie';
 import CheckoutStep from './CheckoutStep';
 let email ;
 let order_id ;
@@ -53,7 +54,8 @@ export default class Payment extends React.Component {
     this.requestForPayment(email, order_id, card_no, exp_month, exp_year, cvc ).then((response) => {
       if(response.data) {
         if(this.refs.myRef){
-        toastr.success('Your Have done your payment successfully');
+        toastr.success('Your payment has been successfully');
+        cookie.remove('cart_cuid');
         this.context.router.push('/');
         this.setState({
           orderDetail : response.data
@@ -124,7 +126,6 @@ export default class Payment extends React.Component {
                         payment_month_arr.map((result, i) =>{
                           return(
                           <option key={i} value={result}>{result}</option>
-
                           )
                         })
                       }

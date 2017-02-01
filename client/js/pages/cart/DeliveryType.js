@@ -129,10 +129,12 @@ export default class DeliveryType extends React.Component {
                 <p>The producer delivers to your desired location</p>
               </div>
             </div>
+            <div className="back_fwd_btn">
+               <button type="button" className="btn btn-default continue_btn" onClick={ this.goToBackPage.bind(this)}>Back</button>
+            </div>
           </div>
           {sendemat_shipping_detail}
         </div>
-          <button type="button" className="btn btn-default continue_btn" onClick={ this.goToBackPage.bind(this)}>Back</button>
       </div>
     );
   }

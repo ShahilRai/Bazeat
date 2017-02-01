@@ -19,7 +19,9 @@ export default class Header extends React.Component {
     this.state={
       currentUser_cuid:{},
       _cartList: [],
-      allMessages: []
+      allMessages: [],
+      all_reviews:[],
+      offset: 0,
     };
   }
 
@@ -58,17 +60,39 @@ export default class Header extends React.Component {
     return axios.get("/api/conversations?email="+emailAddress);
   }
 
+  loadAllReviews(){
+    this.getAllReviews(this.context.user.email,this.state.offset,2).then((response) => {
+      if(response.data) {
+          this.setState({
+            all_reviews : response.data.reviews
+          });
+      }
+    }).catch((err) => {
+        console.log(err);
+    });
+  }
+
+  getAllReviews(email, off_set, per_page ){
+     return axios.get("/api/review?email="+email+"&off_set="+off_set+"&per_page="+per_page)
+  }
+
   render() {
+    console.log("allreviews")
+    console.log(this.state.all_reviews)
     if(this.context.authenticated) {
       email = this.context.user.email
       if(check_email) {
         this.loadingUser()
         this.loadAllMessages()
+        this.loadAllReviews()
         check_email = false;
       }
     }
     var headerClass = "header_wrapper";
     if(this.context.router.location.pathname == "/search"){
+      headerClass = "header_wrapper border_bottom"
+    }
+    if(this.context.router.location.pathname == "/checkout"){
       headerClass = "header_wrapper border_bottom"
     }
     var userId = this.state.currentUser_cuid ? this.state.currentUser_cuid : ''
@@ -80,7 +104,7 @@ export default class Header extends React.Component {
             <SearchInputBox />
             <NearMeIcon />
             <div className="col-lg-5 col-md-5 col-sm-12 col-xs-12 pull-right">
-              <Menu _cartList = {this.state._cartList}  cuid={userId} allMessages={this.state.allMessages}/>
+              <Menu _cartList = {this.state._cartList}  cuid={userId} allMessages={this.state.allMessages} allReviews={this.state.all_reviews} />
             </div>
           </div>
         </div>
