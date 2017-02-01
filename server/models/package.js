@@ -9,19 +9,19 @@ const connection = mongoose.createConnection(serverConfig.mongoURL);
 autoIncrement.initialize(connection);
 
 const packageSchema = new Schema({
-  qty_packed: { type: 'Number', default: 0 },
-  qty_shipped: { type: 'Number', default: 0 },
-  delivery_method: String,
-  status:{type: 'String', default: "Not Shipped"},
-  _order: { type: Schema.ObjectId, ref: 'Order' },
-  pkg_status: {type: 'String', default: null},
-  pkg_date: {type: 'Date'},
-  shippingdata: {
-    already_delivered: { type: 'Boolean', default: false },
-    ship_date: { type: 'Date'},
-    status: { type: 'String'},
-    notify_to_customer: { type: 'Boolean', default: false }
-  }},
+    delivery_method: String,
+    status:{type: 'String', default: "Not Shipped"},
+    _order: { type: Schema.ObjectId, ref: 'Order' },
+    packageitems: [{ type: Schema.ObjectId, ref: 'PackageItem' }],
+    pkg_status: {type: 'String', default: null},
+    pkg_date: {type: 'Date'},
+    shippingdata: {
+      already_delivered: { type: 'Boolean', default: false },
+      ship_date: { type: 'Date'},
+      status: { type: 'String'},
+      notify_to_customer: { type: 'Boolean', default: false }
+    }
+  },
   { timestamps: true }
 );
 

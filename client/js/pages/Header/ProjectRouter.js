@@ -34,7 +34,7 @@ import AllMessages from '../MessageAndReviews/AllMessages.js';
 import ReviewPage from '../MessageAndReviews/ReviewPage.js';
 import OrderMgmntPackages from '../OrderManagement/OrderMgmntPackages.js';
 import RouteComponent from '../AddProduct/RouteComponent';
-
+import AllProducerReviews from '../MessageAndReviews/AllProducerReviews';
 export default class ProjectRouter extends React.Component {
   static contextTypes = {
     authenticated: React.PropTypes.bool,
@@ -87,17 +87,17 @@ export default class ProjectRouter extends React.Component {
           <Route path='/faq' component={FaqPage} />
           <Route path='/map-search' component={MapViewContainer} />
           <Route path='/search' component={DisplaySearch} />
+          <Route path="/user/:userId" component={UserHomePage} />
+          <Route path='/user-reviews' component={UserHomePage} />
           <AuthenticatedRoute>
             <Route path='/checkout' component={CheckoutContainer} />
-            <Route path="/user/:userId" component={UserHomePage} />
-            <Route path='/user-reviews' component={UserHomePage} />
             <HomeRoute path='/' component={profileComponent}>
               <Route path='/profile' component={ProfilePage} />
               <Route path='/setting' component={ProducerPasswordUpdate} />
               <Route path='/message' component={AllMessages} />
               <Route path='/orders' component={PurchaseOrders} />
               <Route path='/orders/:orderId' component={ReceivedOrder} />
-              <Route path='/new-package' component={CreateNewPackage} />
+              <Route path='/orders/:orderId/new-package' component={CreateNewPackage} />
               <Route path='/packages' component={OrderMgmntPackages} />
               <Route path='/reviews' component={ReviewPage} />
               <Route path='/notification' component={Notification} />

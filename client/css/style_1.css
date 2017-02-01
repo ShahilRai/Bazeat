@@ -17,6 +17,7 @@
 	 8. Responsive Style
 */
 
+html,body{ height: 100%}
 body {
 	margin: 0px;
 	padding: 0px;
@@ -330,13 +331,15 @@ border: 1px solid #cccccc;
 
 /*========FOOTER====================*/
 #footer{
-	background:#F2F2F2;
-	border-top:1px
-	 solid #CCCCCC;
-	 width: 100%;
-	 float: left;
-	 width: 100%;
-	 margin-top: 30px;
+	    background: #F2F2F2;
+    border-top: 1px
+ solid #CCCCCC;
+    width: 100%;
+    float: left;
+    width: 100%;
+    margin-top: 30px;
+    position: absolute;
+    bottom: 0;
 }
 .footer_container{
 	padding: 15px 138px 15px;
@@ -4891,7 +4894,25 @@ padding:15px 17px 25px 19px;
 .review_modal.prod_modal .modal-footer{
       padding: 12px 22px 12px 24px;
 }
-.user_rvw_right{width:36%;float:left;}
+<<<<<<< HEAD
+.order_header_rght .custom_select_box.portion_select ul{    position: absolute;
+    width: 130px;
+    top: 100%;
+    z-index: 9999;}
+.shipping_toggle{position: relative;
+ cursor: pointer}
+.shipping_toggle ul{
+    position: absolute;
+    width: 110px;
+    top: 100%;
+    z-index: 9999;
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 10px 5px 10px 5px;
+  }
+  .table-main.overflow_none{overflow:inherit;}
+.shipping_toggle ul li{    font-size: 12px;
+    width: 100%;}
 .user_rvw_left{    width: 60%;
     float: left;
     margin-right: 16px;}
@@ -5046,7 +5067,7 @@ margin-bottom: 7px;
     }
   .total_reviews{
   	color: #999999;
-  }  
+  }
 
 .rating > i {
   display: inline-block;
@@ -5114,8 +5135,23 @@ margin-bottom: 7px;
 .visting_hr_inner_col label{float: left;}
 .bank_inner_detail{padding: 18px 30px 0 30px}
 
-
-
+#app-container{
+	float: left;
+    width: 100%;
+    height: 100%;
+}
+.router_container{
+	width: 100%;
+    float: left;
+    height: 100%;
+}
+.full_container{
+	width: 100%;
+    float: left;
+    position: relative;
+    min-height: 100%;
+    padding-bottom: 66px;
+}
 
 /********MEDIA QUERY*********/
 
@@ -5398,7 +5434,7 @@ float: none;}
 }
 .pad_lf120{
 padding-left: 11px;
-    padding-right: 11px;	
+    padding-right: 11px;
 }
 h3.search_tabbd_heading {
     font-size: 17px;
@@ -5445,13 +5481,12 @@ margin-left: 0;}
     margin-right: 0;
 }
 
-
-
-
-
+#footer {
+    position: static;
+}
 
 }
- @media only screen and (min-width:761px) and (max-width:999px) {
+@media only screen and (min-width:761px) and (max-width:999px) {
 .mid_container {
  padding: 25px 0 15px;
 }
@@ -5598,3 +5633,11 @@ display: inline-block;}
  font-size: 10px;
 }
 }
+<<<<<<< HEAD
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+=======
+>>>>>>> 0809bf12cdd9ff4ee6af8fc04f79b525b8d31a62
