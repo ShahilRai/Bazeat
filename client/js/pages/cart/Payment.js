@@ -22,7 +22,10 @@ export default class Payment extends React.Component {
         card_no : '',
         cvc : '',
         exp_month : '',
-        exp_year : ''
+        exp_year : '',
+        disabled: false,
+        _cardNo: '',
+        _cvv: ''
       }
       this.payMoney = this.payMoney.bind(this);
   }
@@ -47,6 +50,8 @@ export default class Payment extends React.Component {
   }
 
   payMoney(){
+    if(this.validate()){
+      this.handleClik()
     var card_no = this.refs.cardNo.value
     var exp_month = this.state.exp_month
     var exp_year = this.state.exp_year
@@ -54,11 +59,13 @@ export default class Payment extends React.Component {
     this.requestForPayment(email, order_id, card_no, exp_month, exp_year, cvc ).then((response) => {
       if(response.data) {
         if(this.refs.myRef){
+
         toastr.success('Your payment has been successfully');
         cookie.remove('cart_cuid');
         this.context.router.push('/');
         this.setState({
-          orderDetail : response.data
+          orderDetail : response.data,
+          disabled:false
          });
         }
       }
@@ -67,7 +74,11 @@ export default class Payment extends React.Component {
           console.log(err);
       });
   }
+}
 
+   handleClik() {
+    this.setState( {disabled: !this.state.disabled} )
+  } 
 
 // api for checkout process payment
   requestForPayment(email, order_id, card_no, exp_month, exp_year, cvc){
@@ -85,6 +96,39 @@ export default class Payment extends React.Component {
   cancelPayment(){
     toastr.error('You have cancel your Payment');
     this.context.router.push('/');
+  }
+
+  validate() {
+    var valid= true;
+    if (this.state.card_no == '') {
+      this.setState({
+        disabled: false,
+        _cardNo: <p>Please fill card number </p>
+      })
+      valid = false
+    }
+    else{
+      this.setState({
+        _cardNo: '',
+        disabled: false
+      })
+     
+    }
+
+    if(this.refs._cvv.value == ''){
+      this.setState({
+        disabled: false,
+        _cvv: <p>Please fill cvv number </p>
+      })
+      valid = false
+    }
+    else{
+      this.setState({
+        _cvv: '',
+        disabled: false
+      })
+    }
+    return valid
   }
 
   render() {
@@ -114,6 +158,7 @@ export default class Payment extends React.Component {
                   <label for="" className="col-sm-4 col-form-label">Card number</label>
                   <div className="col-sm-7 prht_zero plft_zero">
                     <input className="form-control" type="text" name="card_no" ref="cardNo" value={this.state.card_no} onChange={this.handleChange.bind(this)} required={ true }/>
+                    {this.state._cardNo}
                   </div>
                 </div>
                 <div className="form-group row">
@@ -151,6 +196,7 @@ export default class Payment extends React.Component {
                   </label>
                   <div className="col-sm-7 prht_zero plft_zero">
                     <input type="text" className="form-control cvv_wdth" name="cvvNo" ref="_cvv" value={this.state.cvv} required={ true }/>
+                     {this.state._cvv}
                   </div>
                 </div>
               </div>

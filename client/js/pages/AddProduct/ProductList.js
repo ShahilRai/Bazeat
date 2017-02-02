@@ -108,7 +108,6 @@ export default class ProductList extends React.Component {
       <div className="wall-column">
         <div className="grid_single_item">
           <div className="hover_box">
-            <DeleteProductBtn index={this.props.index} onClick={this.props.onClick}/>
             <HideProductBtn handlerForHide = {this.hideAndShowProduct}  _hideShowText = {this.state._hideShowText} />
             <DisableProductBtn handlerForDisable = {this.disableAndEnableProduct} _disableEnableText = {this.state._disableEnableText}/>
           </div>
