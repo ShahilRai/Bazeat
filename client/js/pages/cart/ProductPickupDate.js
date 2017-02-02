@@ -38,7 +38,8 @@ export default class ProductPickupDate extends React.Component {
         currentUser_Detail : {},
         orderDetail : {},
         sendematAlternateAddressDetail : {},
-        budmatAlternateAddressDetail : {}
+        budmatAlternateAddressDetail : {},
+        select_input: false
       }
       this.pickupdate = this.pickupdate.bind(this);
       this.destination = this.destination.bind(this);
@@ -161,6 +162,10 @@ export default class ProductPickupDate extends React.Component {
 
   getSelectedDate(e){
     date_value_day = e.target.value
+    this.setState({
+      select_input: true
+    })
+    select_input
   }
 
   getSelectedTime(e){
@@ -347,7 +352,7 @@ export default class ProductPickupDate extends React.Component {
                 return(
                   <div className="pickup_row1 span green_txt" key={index} ref="wrapperdiv">
                     <a href="javascript:void(0)">
-                      <span className="pickup_day" id ="sp1" ref="span_value"  onClick={this.getSelectedDate.bind(this)}><input className="pickup_day green_txt rdonly" type="text" readonly disabled="disabled" value={(monthDayDate.day)+" - "+(monthDayDate.month)+" "+(monthDayDate.current_date)+"   "+(start_time)+" - "+(end_time)}/></span>
+                      <span className= {selectInput} id ="sp1" ref="span_value"  onClick={this.getSelectedDate.bind(this)}><input className="pickup_day rdonly" type="text" readonly disabled="disabled" value={(monthDayDate.day)+" - "+(monthDayDate.month)+" "+(monthDayDate.current_date)+"   "+(start_time)+" - "+(end_time)}/></span>
                     </a>
                   </div>
                 )
@@ -413,7 +418,7 @@ export default class ProductPickupDate extends React.Component {
           { this.state.currentUser_Detail ? this.state.currentUser_Detail.delivery_options : 'undefined'}
           </p>
           <button type="button" className="btn btn-default continue_btn" onClick={this.createOrder} ref="myRef">Continue</button>
-          <button type="button" className="btn btn-default continue_btn" onClick={ this.goToBackPage.bind(this)}>Back</button>
+          <button type="button" className="btn btn-default continue_btn mrht10" onClick={ this.goToBackPage.bind(this)}>Back</button>
         </div>
       </div>
     );
@@ -525,7 +530,12 @@ export default class ProductPickupDate extends React.Component {
     cart_info.map((result, i) =>{
       product_id = result.product_id
     });
-
+    if(this.state.select_input){
+      var selectInput = "pickup_day green_txt"
+    }
+    else{
+      var selectInput = "pickup_day"
+    }
     return (
       <div className="full_width_container">
         {this.selected()}

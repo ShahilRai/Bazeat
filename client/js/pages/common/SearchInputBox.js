@@ -16,7 +16,7 @@ export default class SearchInputBox extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this)
     this.onMouseClick = this.onMouseClick.bind(this)
-    PubSub.subscribe('selectedTab', this._renderGoogleSearch);
+    PubSub.subscribe('selectedTab', this._renderSearch);
   }
 
   handleChange(e){
@@ -36,13 +36,13 @@ export default class SearchInputBox extends React.Component {
     }
   }
 
-  _renderGoogleSearch(msg , data){
-    var lat_lng;
-    var latitude;
-    var longitute;
+  _renderSearch(msg , data){
+    var input = (document.getElementById('pac-input'));
     if(data == 2){
-      var input = (document.getElementById('pac-input'));
-      var searchBox = new google.maps.places.SearchBox((input));
+      var lat_lng;
+      var latitude;
+      var longitute;
+      var searchBox = new google.maps.places.SearchBox(input);
       google.maps.event.addListener(searchBox, 'places_changed', function () {
         var places = searchBox.getPlaces();
         if (places.length == 0) {
@@ -58,11 +58,13 @@ export default class SearchInputBox extends React.Component {
           PubSub.publish( 'latlongitude', [latitude,longitute]);
         }
       });
+    } else if(data == 1 || data == 0) {
+      google.maps.event.clearInstanceListeners(input);
     }
   }
 
   render() {
-    this._renderGoogleSearch();
+    this._renderSearch();
     var srchIcon = <input name="" type="submit" className="header_search_icon" disabled={this.state.disabled}/>
     if(this.context.router.location.pathname == "/search"){
       srchIcon = <input name="" type="submit" className="header_search_icon_button" disabled={this.state.disabled} value="Search"/>
