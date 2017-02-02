@@ -12,10 +12,12 @@ export default class SearchInputBox extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      disabled : true
+      disabled : true,
+      searchedText : ''
     };
     this.handleChange = this.handleChange.bind(this)
     this.onMouseClick = this.onMouseClick.bind(this)
+    this.ApplySearch = this.ApplySearch.bind(this)
     PubSub.subscribe('selectedTab', this._renderSearch);
   }
 
@@ -26,7 +28,8 @@ export default class SearchInputBox extends React.Component {
     })
   else
     this.setState({
-      disabled : false
+      disabled : false,
+      searchedText : e.target.value
     })
   }
 
@@ -34,6 +37,10 @@ export default class SearchInputBox extends React.Component {
     if(this.context.router.location.pathname !== "/search"){
       this.context.router.push('/search');
     }
+  }
+
+  ApplySearch(){
+    PubSub.publish( 'search-text', this.state.searchedText );
   }
 
   _renderSearch(msg , data){
@@ -65,9 +72,9 @@ export default class SearchInputBox extends React.Component {
 
   render() {
     this._renderSearch();
-    var srchIcon = <input name="" type="submit" className="header_search_icon" disabled={this.state.disabled}/>
+    var srchIcon = <input name="" type="button" className="header_search_icon" disabled={this.state.disabled}/>
     if(this.context.router.location.pathname == "/search"){
-      srchIcon = <input name="" type="submit" className="header_search_icon_button" disabled={this.state.disabled} value="Search"/>
+      srchIcon = <input name="" type="button" className="header_search_icon_button" disabled={this.state.disabled} value="Search" onClick={this.ApplySearch}/>
     }
     return (
       <div className="col-lg-4 col-md-4 col-sm-5 col-xs-10 ipad_pull_rht header_search_bar" onClick={this.onMouseClick}>
