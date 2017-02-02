@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 import Order from '../models/order'
 import OrderItem from '../models/orderitem'
+import PackageItem from '../models/packageitem'
 import autoIncrement from 'mongoose-auto-increment';
 import serverConfig from '../config';
 const connection = mongoose.createConnection(serverConfig.mongoURL);
@@ -48,19 +49,32 @@ packageSchema.plugin(autoIncrement.plugin, {
 
 
 packageSchema.post('remove', function(packg) {
-  // ProductCategory.update({ _products: product._id }, {$pullAll: {_products: [product._id]}}, { safe: true, multi: true }, function(err, model) {
-  //   })
-  // Allergen.update({ _products: product._id }, { $pullAll: { _products : [product._id] }},
-  //   { safe: true, multi: true },
-  //   function removeConnectionsCB(err, obj) {
-  //   });
-  // Ingredient.update({ _products: product._id }, { $pullAll: { _products : [product._id] }},
-  //   { safe: true, multi: true },
-  //   function removeConnectionsCB(err, obj) {
-  //   });
-  // User.update({ products: product._id }, { $pullAll: { products : [product._id] }},
-  //   { safe: true, multi: true },
-  //   function removeConnectionsCB(err, obj) {
-  //   });
+  let pkg_items
+  let ship_qty = 0;
+  let pack_qty = 0;
+  console.log('packg')
+  console.log(packg)
+  pkg_items = packg.packageitems
+  console.log('pkg_items')
+  console.log(pkg_items)
+  pkg_items.forEach(function(pitem, index){
+    console.log('pitem')
+    console.log(pitem)
+    PackageItem.findOne({_id: pitem}).exec((err, pkgitem) => {
+      OrderItem.findOne({ _id: pkgitem._orderitem }).exec((err, orderitem) => {
+        orderitem.packed_qty = (orderitem.packed_qty - pkgitem.packed_qty)
+        orderitem.shipped_qty = (orderitem.shipped_qty - pkgitem.shipped_qty)
+        orderitem.save()
+        OrderItem.update({ _id: pkgitem._orderitem }, {$pull: {packageitems: pitem}}, { safe: true, multi: true }, function(err, model) {
+        })
+      })
+    })
+    if(pkg_items.length == index+1){
+      Order.update({ _id: packg._order }, { $pullAll: { packages : [packg._id] }},
+     { safe: true, multi: true },
+     function removeConnectionsCB(err, obj) {
+     });
+    }
+  })
 });
 export default mongoose.model('Package', packageSchema);
