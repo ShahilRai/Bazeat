@@ -10,7 +10,7 @@ const orderitemSchema = new Schema({
   _buyer: { type: ObjectId, ref: 'User' },
   _order: { type: ObjectId, ref: 'Order' },
   cuid: { type: 'String', required: true },
-  packages: [{ type: Schema.ObjectId, ref: 'Package' }],
+  packageitems: [{ type: Schema.ObjectId, ref: 'PackageItem' }],
   packed_qty: { type: 'Number', default: 0 },
   shipped_qty: { type: 'Number', default: 0 }},
   { timestamps: true }

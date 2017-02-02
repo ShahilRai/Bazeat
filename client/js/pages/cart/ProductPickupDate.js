@@ -30,6 +30,13 @@ export default class ProductPickupDate extends React.Component {
   constructor(props) {
     super(props);
       this.state = {
+        e_mail:'',
+        phone_number:'',
+        first_name:'',
+        last_name:'',
+        address:'',
+        postal_code:'',
+        city:'',
         method:this.props.method,
         shippingPrice : this.props._price,
         cart_detail : this.props.cart_detail,
@@ -245,27 +252,104 @@ export default class ProductPickupDate extends React.Component {
     }
   }
 
+  isValidate(){
+    var valid = true;
+    var email = document.getElementById('E-mail');
+    var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    if (!filter.test(email.value)) {
+      this.setState({
+        e_mail:(<p>Please provide a valid email address</p>)
+      })
+      email.focus;
+      valid = false
+      document.getElementById('incorrect').style.visibility="visible";
+      document.getElementById('correct').style.visibility="hidden";
+    }else{
+      this.setState({
+      e_mail:''
+      })
+    }
+    if (!this.refs.phoneNo.value){
+      this.setState({
+      phone_number:(<p>Please fill your phone number</p>)
+      })
+      valid = false
+    }else{
+      this.setState({
+      phone_number:''
+      })
+    }if (!this.refs.firstName.value){
+      this.setState({
+      first_name:(<p>Please fill your first name</p>)
+      })
+      valid = false
+    }else{
+      this.setState({
+      first_name:''
+      })
+    }if (!this.refs.lastName.value){
+      this.setState({
+      last_name:(<p>Please fill your last name</p>)
+      })
+      valid = false
+    }else{
+      this.setState({
+      last_name:''
+      })
+    }if (!this.refs.address.value){
+      this.setState({
+      address:(<p>Please fill your address</p>)
+      })
+      valid = false
+    }else{
+      this.setState({
+      address:''
+      })
+    }if (!this.refs.postCode.value){
+      this.setState({
+      postal_code:(<p>Please fill your post code</p>)
+      })
+      valid = false
+    }else{
+      this.setState({
+      postal_code:''
+      })
+    }if (!this.refs.city.value){
+      this.setState({
+      city:(<p>Please fill your city name</p>)
+      })
+      valid = false
+    }else{
+      this.setState({
+      city:''
+      })
+    }
+    return valid;
+  }
+
   budmatAlternateAddress(){
-    var cart_cuid = this.props.cart_detail.cuid
-    var _newEmail = this.refs.newEmail.value
-    var _firstName = this.refs.firstName.value
-    var _co = this.refs.co.value
-    var _postCode = this.refs.postCode.value
-    var _phoneNo = this.refs.phoneNo.value
-    var _lastName = this.refs.lastName.value
-    var _address  = this.refs.address.value
-    var _city = this.refs.city.value
-    this.budmatAlternateAddressRequest( cart_cuid, _newEmail, _firstName, _co, _postCode, _phoneNo, _lastName, _address, _city).then((response) => {
-      if(response.data) {
-        toastr.success('Your have changed your address for delivery');
-        this.setState({
-          budmatAlternateAddressDetail: response.data.updated_order
-        });
-        }
-    }).catch((err) => {
-      toastr.success('sorry, address has not change ');
-      console.log(err);
-    });
+    if(this.isValidate()){
+      var cart_cuid = this.props.cart_detail.cuid
+      var _newEmail = this.refs.newEmail.value
+      var _firstName = this.refs.firstName.value
+      var _co = this.refs.co.value
+      var _postCode = this.refs.postCode.value
+      var _phoneNo = this.refs.phoneNo.value
+      var _lastName = this.refs.lastName.value
+      var _address  = this.refs.address.value
+      var _city = this.refs.city.value
+      this.budmatAlternateAddressRequest( cart_cuid, _newEmail, _firstName, _co, _postCode, _phoneNo, _lastName, _address, _city).then((response) => {
+        if(response.data) {
+          toastr.success('Your have changed your address for delivery');
+          this.setState({
+            budmatAlternateAddressDetail: response.data.updated_order
+          });
+          }
+      }).catch((err) => {
+        toastr.success('sorry, address has not change ');
+        console.log(err);
+      });
+    }
   }
 
 // save alternate address for delivery method budmat
@@ -284,28 +368,30 @@ export default class ProductPickupDate extends React.Component {
   }
 
   sendematAlternateAddress(){
-    var cart_cuid = this.props.cart_detail.cuid
-    var email=this.context.user ? this.context.user.username : ''
-    var _newEmail = this.refs.newEmail.value
-    var _firstName = this.refs.firstName.value
-    var _co = this.refs.co.value
-    var _postCode = this.refs.postCode.value
-    var _phoneNo = this.refs.phoneNo.value
-    var _lastName = this.refs.lastName.value
-    var _address  = this.refs.address.value
-    var _city = this.refs.city.value
-    var type = this.refs.updateaddress.value
-    this.sendematAlternateAddressRequest(email, cart_cuid, _newEmail, _firstName, _co, _postCode, _phoneNo, _lastName, _address, _city, type).then((response) => {
-        if(response.data) {
-          toastr.success('Your have changed your address for delivery');
-          this.setState({
-            sendematAlternateAddressDetail: response.data
-          });
-        }
-    }).catch((err) => {
-      toastr.success('sorry, address has not change ');
-      console.log(err);
-    });
+    if(this.isValidate()){
+      var cart_cuid = this.props.cart_detail.cuid
+      var email=this.context.user ? this.context.user.username : ''
+      var _newEmail = this.refs.newEmail.value
+      var _firstName = this.refs.firstName.value
+      var _co = this.refs.co.value
+      var _postCode = this.refs.postCode.value
+      var _phoneNo = this.refs.phoneNo.value
+      var _lastName = this.refs.lastName.value
+      var _address  = this.refs.address.value
+      var _city = this.refs.city.value
+      var type = this.refs.updateaddress.value
+      this.sendematAlternateAddressRequest(email, cart_cuid, _newEmail, _firstName, _co, _postCode, _phoneNo, _lastName, _address, _city, type).then((response) => {
+          if(response.data) {
+            toastr.success('Your have changed your address for delivery');
+            this.setState({
+              sendematAlternateAddressDetail: response.data
+            });
+          }
+      }).catch((err) => {
+        toastr.success('sorry, address has not change ');
+        console.log(err);
+      });
+    }
   }
 
 // save alternate address for delivery method sendemat
@@ -450,13 +536,15 @@ export default class ProductPickupDate extends React.Component {
             <div className="form-group row">
               <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">E-mail*</label>
               <div className="col-md-7 col-xs-12">
-                <input className="form-control" type="email" name="_newEmail" ref="newEmail" value={this.state._newEmail} required={ true }/>
+                <input id="E-mail" className="form-control" type="email" name="_newEmail" ref="newEmail" value={this.state._newEmail} required={ true }/>
+                {this.state.e_mail}
               </div>
             </div>
             <div className="form-group row">
               <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">First name*</label>
               <div className="col-md-7 col-xs-12">
                 <input className="form-control" type="text" name="_firstName" ref="firstName" value={this.state._firstName} required={ true }/>
+                {this.state.first_name}
               </div>
             </div>
             <div className="form-group row">
@@ -469,6 +557,7 @@ export default class ProductPickupDate extends React.Component {
               <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">Post code*</label>
               <div className="col-md-7 col-xs-12">
                 <input className="form-control" type="text" name="postCode" ref="postCode" value={this.state._postCode} required={ true }/>
+                {this.state.postal_code}
               </div>
             </div>
           </div>
@@ -477,24 +566,28 @@ export default class ProductPickupDate extends React.Component {
               <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">Phone number*</label>
               <div className="col-md-7 col-xs-12">
                 <input className="form-control" type="text" name="_phoneNo" ref="phoneNo" value={this.state._phoneNo} required={ true }/>
+                {this.state.phone_number}
               </div>
             </div>
             <div className="form-group row">
               <label for="example-url-input" className="col-md-5 col-xs-12 col-form-label">Last Name*</label>
               <div className="col-md-7 col-xs-12">
               <input className="form-control" type="text" name="_lastName" ref="lastName" value={this.state._lastName} required={ true }/>
+              {this.state.last_name}
               </div>
             </div>
             <div className="form-group row">
               <label for="example-url-input" className="col-md-5 col-xs-12 col-form-label">Address*</label>
               <div className="col-md-7 col-xs-12">
               <input className="form-control" type="text" name="_address" ref="address" value={this.state._address} required={ true }/>
+              {this.state.address}
               </div>
             </div>
             <div className="form-group row">
               <label for="example-search-input" className="col-md-5 col-xs-12 col-form-label">City*</label>
               <div className="col-md-7 col-xs-12">
                 <input className="form-control" type="text" name="_city" ref="city" value={this.state._city} required={ true }/>
+                {this.state.city}
               </div>
             </div>
             <div className="form-group row">

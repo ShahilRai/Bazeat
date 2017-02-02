@@ -4,6 +4,7 @@ const ObjectId = Schema.ObjectId;
 
 const packageitemSchema = new Schema({
     _package: { type: ObjectId, ref: 'Package' },
+    _orderitem: { type: ObjectId, ref: 'OrderItem' },
     cuid: { type: 'String', required: true },
     packed_qty: { type: 'Number', default: 0 },
     shipped_qty: { type: 'Number', default: 0 },
