@@ -5,7 +5,10 @@ import CartModal from '../Header/CartModal';
 import cookie from 'react-cookie';
 import pubSub from 'pubsub-js';
 import axios from 'axios';
+import toastr from 'toastr';
+import LoginModal from '../Authenticate/LoginModal';
 let cart_id;
+let cuid;
 export default class WallImageViewer extends React.Component {
 
   static contextTypes = {
@@ -21,7 +24,8 @@ export default class WallImageViewer extends React.Component {
         cartProductItems: {
           product_id: '',
           qty: 1
-        }
+        },
+        likeProduct:''
       }
    }
 
@@ -52,6 +56,27 @@ export default class WallImageViewer extends React.Component {
     })
   }
 
+  likeProduct(){
+    cuid = this.props.wallImages?this.props.wallImages.cuid:this.props.prodlist.cuid
+    if(this.context.authenticated == true){
+      this.getAllProductlikes(this.context.user.email,cuid).then((response) => {
+      if(response.data) {
+        toastr.success(response.data.msg);
+      }
+    }).catch((err) => {
+        console.log(err);
+    });
+      
+    }else{
+        <LoginModal />
+    }
+  }
+
+   getAllProductlikes(email,cuid) {
+    return axios.post("/api/like/"+cuid+"?email="+email)
+  }
+
+
   render() {
     var disable=(this.props.wallImages?this.props.wallImages.is_disable:false)
     var blur_class = (disable == true) ? 'blur':''
@@ -60,10 +85,10 @@ export default class WallImageViewer extends React.Component {
     return (
         <div className={"grid_single_item "+ blur_class +" "+hidden_class }>
           <div className="hover_box">
-            <a href="#" className="hover_icon"><img src="images/like_icon.png"/>
+            <a href="javaScript:void(0)" className="hover_icon" data-toggle="modal" data-target="#login_modal"  onClick={this.likeProduct.bind(this)}><img src="images/like_icon.png"/>
               <small className="icon_text">Like</small>
             </a>
-            <a href="#" className="hover_icon"><img src="images/share_icon.png"/>
+            <a href="javaScript:void(0)" className="hover_icon"><img src="images/share_icon.png"/>
               <small className="icon_text">Share</small>
             </a>
             <a href="javaScript:void(0)" className="hover_icon" onClick={this.addToCart.bind(this)}><img src="images/cart_plus_icon.png"/>

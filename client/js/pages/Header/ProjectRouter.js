@@ -33,7 +33,6 @@ import CreateNewPackage from '../OrderManagement/CreateNewPackage';
 import AllMessages from '../MessageAndReviews/AllMessages.js';
 import ReviewPage from '../MessageAndReviews/ReviewPage.js';
 import OrderMgmntPackages from '../OrderManagement/OrderMgmntPackages.js';
-import AllProducerReviews from '../MessageAndReviews/AllProducerReviews';
 export default class ProjectRouter extends React.Component {
   static contextTypes = {
     authenticated: React.PropTypes.bool,
