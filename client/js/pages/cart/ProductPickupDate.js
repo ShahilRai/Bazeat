@@ -352,7 +352,7 @@ export default class ProductPickupDate extends React.Component {
                 return(
                   <div className="pickup_row1 span green_txt" key={index} ref="wrapperdiv">
                     <a href="javascript:void(0)">
-                      <span className= {selectInput} id ="sp1" ref="span_value"  onClick={this.getSelectedDate.bind(this)}><input className="pickup_day rdonly" type="text" readonly disabled="disabled" value={(monthDayDate.day)+" - "+(monthDayDate.month)+" "+(monthDayDate.current_date)+"   "+(start_time)+" - "+(end_time)}/></span>
+                      <span className= "pickup_row1 span green_txt"  id ="sp1" ref="span_value"  onClick={this.getSelectedDate.bind(this)}><input className="pickup_day rdonly" type="text" readonly disabled="disabled" value={(monthDayDate.day)+" - "+(monthDayDate.month)+" "+(monthDayDate.current_date)+"   "+(start_time)+" - "+(end_time)}/></span>
                     </a>
                   </div>
                 )
@@ -530,12 +530,6 @@ export default class ProductPickupDate extends React.Component {
     cart_info.map((result, i) =>{
       product_id = result.product_id
     });
-    if(this.state.select_input){
-      var selectInput = "pickup_day green_txt"
-    }
-    else{
-      var selectInput = "pickup_day"
-    }
     return (
       <div className="full_width_container">
         {this.selected()}

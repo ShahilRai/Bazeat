@@ -22,7 +22,8 @@ export default class Payment extends React.Component {
         card_no : '',
         cvc : '',
         exp_month : '',
-        exp_year : ''
+        exp_year : '',
+        disabled: false
       }
       this.payMoney = this.payMoney.bind(this);
   }
@@ -58,7 +59,8 @@ export default class Payment extends React.Component {
         cookie.remove('cart_cuid');
         this.context.router.push('/');
         this.setState({
-          orderDetail : response.data
+          orderDetail : response.data,
+          disabled:false
          });
         }
       }
@@ -66,7 +68,12 @@ export default class Payment extends React.Component {
         toastr.error('Sorry, here is problem in payment');
           console.log(err);
       });
+      this.handleClik()
   }
+
+   handleClik() {
+    this.setState( {disabled: !this.state.disabled} )
+  } 
 
 // api for checkout process payment
   requestForPayment(email, order_id, card_no, exp_month, exp_year, cvc){
@@ -156,7 +163,7 @@ export default class Payment extends React.Component {
               </form>
               <div className="chkout5_btns">
                 <div className="chkout5_btns_inner">
-                  <button type="button" className="btn btn-default chkout_paymnt_btn" onClick={this.payMoney} ref="myRef">Pay</button>
+                  <button type="button" className="btn btn-default chkout_paymnt_btn" onClick={this.payMoney} ref="myRef"  disabled = {(this.state.disabled)? "disabled" : ""}>Pay</button>
                   <button type="button" className="btn btn-default cancel_paymnt_btn" onClick={this.cancelPayment.bind(this)}>Cancel</button>
                 </div>
               </div>

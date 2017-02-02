@@ -11,7 +11,8 @@ export default class DeliveryMethods extends React.Component {
     super(props);
     this.state = {
       prodDetails: {},
-      pickup_time:''
+      pickup_time:'',
+      disabled: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleDateChange=this.handleDateChange.bind(this)
@@ -25,10 +26,12 @@ export default class DeliveryMethods extends React.Component {
         pickup : this.refs.pickup.refs.prdctn_col.checked,
 	      shipment : this.refs.shipment.value,
 	      additional_items : this.refs.additional_items.value,
-	      pickup_time : this.refs.pickup_time.value
-			}
+	      pickup_time : this.refs.pickup_time.value,
+	      disabled: false
+		}
 		}
 		this.props.saveValues(this.state.data)
+		this.handleClik()
  	}
 
   componentDidMount() {
@@ -68,10 +71,14 @@ export default class DeliveryMethods extends React.Component {
 	  }
   }
 
+   handleClik() {
+    this.setState( {disabled: !this.state.disabled})
+  } 
+
 	render() {
-    var btnType = <button type="submit" className="btn btn-default nxt_btn" onClick={this.SaveAndContinue.bind(this)} >Add product</button>
+    var btnType = <button type="submit"  disabled = {(this.state.disabled)? "disabled" : ""} className="btn btn-default nxt_btn" onClick={this.SaveAndContinue.bind(this)} >Add product</button>
     if(this.props.prodDetails){
-      var btnType = <button type="submit" className="btn btn-default nxt_btn" onClick={this.SaveAndContinue.bind(this)} >Update product</button>
+      var btnType = <button type="submit"  disabled = {(this.state.disabled)? "disabled" : ""} className="btn btn-default nxt_btn" onClick={this.SaveAndContinue.bind(this)} >Update product</button>
     }
 		return (
 		<div>

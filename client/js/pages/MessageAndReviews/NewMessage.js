@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import toastr from 'toastr';
 var Loader = require('react-loader');
 export default class NewMessage extends React.Component {
   static contextTypes = {
@@ -100,6 +101,7 @@ export default class NewMessage extends React.Component {
       this.sendMessage(userEmail,this.state.value,_uid).then((response) => {
          this.props.updateConversation(response.data,this.state.selectedId)
         if(response.data) {
+          toastr.success('Your message sended successfully');
           this.setState({
             send_message: response.data,
             value : '',
@@ -108,6 +110,7 @@ export default class NewMessage extends React.Component {
            });
         }
       }).catch((err) => {
+         toastr.error('Sorry, your message not sended');
         console.log(err);
       });
       this.handleButtonClik()
