@@ -161,8 +161,8 @@ export default class UserHomePage extends React.Component {
                 {_allReviews}
                 <div className="grid_wall_wrapper prod_producer_grid products_section">
                   {_logo}
+                  {uData}
                 </div>
-                {uData}
               </div>
             </div>
           </div>
