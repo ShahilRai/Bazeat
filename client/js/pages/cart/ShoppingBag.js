@@ -15,7 +15,6 @@ export default class ShoppingBag extends React.Component {
   constructor(props, context) {
     super(props, context);
     cart_id = cookie.load('cart_cuid') ? cookie.load('cart_cuid') : ''
-    console.log(cart_id)
     this.state = {
       items: [],
       step:this.props.step,

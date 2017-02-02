@@ -24,7 +24,6 @@ export default class LoginModal extends React.Component {
 
   onFormSubmitSuccess(e, next) {
     this.setState({loader: "collapse"})
-
     toastr.success('Successfully sign in');
     $("#login_modal").modal('hide')
     $(".modal-backdrop.in").remove()
@@ -34,6 +33,7 @@ export default class LoginModal extends React.Component {
   }
 
   onFormSubmitError(e, next) {
+    this.setState({loader: "collapse"})
     next();
   }
 
