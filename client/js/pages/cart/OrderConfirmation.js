@@ -6,7 +6,8 @@ export default class OrderConfirmation extends React.Component {
 
   static contextTypes = {
     authenticated: React.PropTypes.bool,
-    user: React.PropTypes.object
+    user: React.PropTypes.object,
+    router: React.PropTypes.object.isRequired
   };
 
   constructor(props) {
