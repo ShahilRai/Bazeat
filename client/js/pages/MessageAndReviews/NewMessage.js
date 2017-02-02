@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import toastr from 'toastr';
 var Loader = require('react-loader');
 export default class NewMessage extends React.Component {
   static contextTypes = {
@@ -17,7 +18,7 @@ export default class NewMessage extends React.Component {
         selectedId: '',
         result:'',
         input_value: '',
-        loaded: this.props.loaded
+        disabled: false
       };
       this.getUserList = this.getUserList.bind(this)
       this.UserList = this.UserList.bind(this)
@@ -97,19 +98,28 @@ export default class NewMessage extends React.Component {
     sendMessageData(){
       var userEmail = this.context.user.email
       var _uid = this.state.selectedId
-      console.log(this.props.conversation_id)
       this.sendMessage(userEmail,this.state.value,_uid).then((response) => {
          this.props.updateConversation(response.data,this.state.selectedId)
         if(response.data) {
+          toastr.success('Your message sended successfully');
           this.setState({
             send_message: response.data,
             value : '',
-            input_value:''
+            input_value:'',
+            disabled: false
            });
         }
       }).catch((err) => {
+         toastr.error('Sorry, your message not sended');
         console.log(err);
       });
+      this.handleButtonClik()
+    }
+
+    handleButtonClik(){
+      this.setState({
+        disabled: !this.state.disabled
+      })
     }
 
     sendMessage(userEmail,composedMessage,_uid){
@@ -129,7 +139,7 @@ export default class NewMessage extends React.Component {
               <datalist id="userList">{this.getUserList()}</datalist>
             </div>
               <textarea ref="message" className=""  onChange={this.textAreaValue.bind(this)} value={this.state.value} placeholder="Write your message here"></textarea>
-              <button type="button" className="btn btn-default chat_submit" onClick={this.sendMessageData.bind(this)}>Send</button>
+              <button type="button" disabled = {(this.state.disabled)? "disabled" : ""} className="btn btn-default chat_submit" onClick={this.sendMessageData.bind(this)}>Send</button>
           </form>
         </div>
       )

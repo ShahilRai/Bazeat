@@ -197,6 +197,9 @@ export function addBankAccount(req, res) {
 
 export function checkAccount(req, res) {
   User.findOne({ email: req.query.email }).exec((err, user) => {
+    if(user.profile_added == false) {
+      return res.json({status: false, err_msg: "Update your profile first"});
+    }
     if(user.account_id) {
       res.json({status: false, last4: user.last4})
     } else {

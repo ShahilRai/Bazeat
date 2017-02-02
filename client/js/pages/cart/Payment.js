@@ -68,6 +68,7 @@ export default class Payment extends React.Component {
       });
   }
 
+
 // api for checkout process payment
   requestForPayment(email, order_id, card_no, exp_month, exp_year, cvc){
     return axios.post("api/payment",
@@ -156,7 +157,7 @@ export default class Payment extends React.Component {
               </form>
               <div className="chkout5_btns">
                 <div className="chkout5_btns_inner">
-                  <button type="button" className="btn btn-default chkout_paymnt_btn" onClick={this.payMoney} ref="myRef">Pay</button>
+                  <button type="button" className="btn btn-default chkout_paymnt_btn" onClick={this.payMoney} ref="myRef"  disabled = {(this.state.disabled)? "disabled" : ""}>Pay</button>
                   <button type="button" className="btn btn-default cancel_paymnt_btn" onClick={this.cancelPayment.bind(this)}>Cancel</button>
                 </div>
               </div>
