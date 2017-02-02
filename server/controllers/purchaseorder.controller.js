@@ -6,7 +6,7 @@ import OrderItem from '../models/orderitem';
 import PackageItem from '../models/packageitem';
 import cuid from 'cuid';
 import Package from '../models/package'
-import * as MailService from '../services/mailer';
+ import * as MailService from '../services/mailer';
 import * as MessageService from '../services/twillio';
 const keySecret = process.env.SECRET_KEY;
 const keyPublishable = process.env.PUBLISHABLE_KEY;
@@ -15,8 +15,6 @@ const stripe = require("stripe")(keySecret);
 
 export function getpurchaseOrders(req, res) {
   User.findOne({email: req.query.email}).select("products -_id").exec((err, producer)=>{
-    console.log(producer)
-    console.log("producer")
       if (err) {
         return res.json(422, err);
       }
@@ -25,9 +23,6 @@ export function getpurchaseOrders(req, res) {
           return res.json(422, err);
         }
         else{
-          console.log(products)
-          console.log("products")
-          // products.orders
           if(products){
             Order.find({ _id: {"$in": products.orders }, payment_status: "succeeded"})
             .populate("orderitems _buyer")
@@ -97,8 +92,8 @@ export function getPackages(req, res) {
 
 export function getpurchaseOrder(req, res) {
   Order.findOne({cuid: req.query.cuid})
-  .populate("packages -_id _buyer")
-  .populate({path: 'orderitems',
+    .populate("packages -_id _buyer")
+    .populate({path: 'orderitems',
     model: 'OrderItem',
     populate: {
       path: '_product',
@@ -122,31 +117,45 @@ export function createPackage(req, res){
 }
 
 export function updatePackage(req, res) {
+  console.log('req.body.orderitems')
+  console.log(req.body.orderitems)
   Order.findOne({cuid: req.body.cuid}).exec(function(err, order) {
-    Package.findOneAndUpdate({"_id": req.body.package_id},
-    {$set:
-      { "_order" : order._id, "pkg_status": 'created', "pkg_date": req.body.pkg_date }
-    }, {new: true}).exec(function(err, upackage) {
+    Package.findOne({_id: req.body.package_id}).exec(function(err, upackage) {
       if(err) {
         return res.status(422).send(err);
       } else {
-        Order.findOneAndUpdate({_id: upackage._order}, {$pushAll: {packages: [upackage]}} , function(err, model) {
-          })
-        Order.update({_id: upackage._order}, {$set: {after_payment_status: "Confirmed"}},function(err) {
-        });
         req.body.orderitems.forEach(function(orderitem, index) {
           OrderItem.findOneAndUpdate({ _id: orderitem._id }, {$inc: {packed_qty: orderitem.packed_qty}}, {new: true}, function(err, updated_orderitem) {
+            console.log('updated_orderitem')
+            console.log(orderitem.packed_qty != 0)
             if (err){
               return res.status(422).send(err);
-            } else {
-              const new_package_item = new PackageItem();
-              new_package_item._package = upackage._id;
-              new_package_item.cuid = cuid();
-              new_package_item.packed_qty = orderitem.packed_qty;
-              new_package_item.save((err, newpacked) => {
-                upackage.packageitems.push(newpacked);
-              })
+            }
+            else {
+              if (orderitem.packed_qty > 0) {
+                const new_package_item = new PackageItem();
+                new_package_item._package = upackage._id;
+                new_package_item.cuid = cuid();
+                new_package_item.packed_qty = orderitem.packed_qty;
+                new_package_item._orderitem = updated_orderitem._id
+                new_package_item.save((err, newpacked) => {
+                  // upackage.packageitems.push(newpacked);
+                  // upackage.save();
+                  Package.update({ _id: upackage._id }, {$push: {packageitems: newpacked}}, { safe: true, multi: true }, function(err, model) {
+                    console.log('upackage')
+                    console.log(model)
+                    updated_orderitem.packageitems.push(newpacked);
+                    updated_orderitem.save();
+                  })
+                })
+              }
               if (req.body.orderitems.length == index+1) {
+                order.packages.push(upackage);
+                order.after_payment_status = "Confirmed";
+                order.save();
+                upackage._order = order._id;
+                upackage.pkg_status = 'created';
+                upackage.pkg_date = req.body.pkg_date;
                 upackage.save((err, packed) => {
                   return res.json(packed);
                 })
@@ -159,53 +168,19 @@ export function updatePackage(req, res) {
   })
 }
 
-// export function updatePackage(req, res) {
-//   req.body.orderitems.forEach(function(orderitem, index) {
-//     OrderItem.findOneAndUpdate({ _id: orderitem._id }, {$inc: {packed_qty: orderitem.packed_qty}}, {new: true}, function(err, updated_orderitem) {
-//       if (err){
-//         return res.status(422).send(err);
-//       }
-//       if (orderitem.packed_qty != 0) {
-//         Package.findOneAndUpdate({"_id": req.body.package_id},
-//         {
-//           "$set": {
-//             "_order": updated_orderitem._order,
-//             "pkg_status": 'created',
-//             "pkg_date": req.body.pkg_date
-//           }
-//         },
-//         {new: true}).exec(function(err, packed) {
-//           Order.findByIdAndUpdate({_id: packed._order}, {$pushAll: {packages: [packed]}} , function(err, model) {
-//           })
-//           Order.update({_id: packed._order}, {$set: {after_payment_status: "Confirmed"}},function(err) {
-//           });
-//           const new_package_item = new PackageItem();
-//           new_package_item._package = packed._id;
-//           new_package_item.cuid = cuid();
-//           new_package_item.packed_qty = orderitem.packed_qty;
-//           new_package_item.save((err, newpacked) => {
-//             packed.packageitems.push(newpacked);
-//             // return res.json(packed);
-//           })
-//           // OrderItem.update({_id: updated_orderitem._id}, { $set: {shipped_qty: packed.qty_packed}}, function(err) {
-//           // });
-//           if (req.body.orderitems.length == index+1){
-//             return res.json(packed);
-//           }
-//         });
-//       }
-//     });
-//   })
-// }
-
 
 export function beforePkgcreate(req, res){
   OrderItem.findOne({ _id: req.query.order_id }).exec((err, orderitem1) => {
-    if(orderitem1.product_qty < (parseInt(req.query.packed_qty) + orderitem1.packed_qty)){
-      return res.json({ msg: "packed order quantity must be less than ordered quantity" })
+    if(parseInt(req.query.packed_qty) > 0){
+      if(orderitem1.product_qty < (parseInt(req.query.packed_qty) + orderitem1.packed_qty)){
+        return res.json({ msg: "packed order quantity must be less than ordered quantity" })
+      }
+      else{
+        return res.json({ msg: "Ok" })
+      }
     }
     else{
-      return res.json({ msg: "Ok" })
+      return res.status(422).send({msg: "Send valid data"});
     }
   })
 }
@@ -221,7 +196,13 @@ export function shipPackage(req, res) {
       "shippingdata.ship_date": req.body.ship_date,
       "status": req.body.status
     }
-  }, {new: true})
+  }, {new: true}).populate({
+              path: 'packageitems',
+              model: 'PackageItem',
+              populate: {
+                path: 'orderitems',
+                model: 'OrderItem'
+              }})
   .exec((err, packge) => {
     console.log('packge')
     console.log(packge)
@@ -229,41 +210,87 @@ export function shipPackage(req, res) {
       return res.status(422).send(err);
      }
      else {
-      updateshipqty(packge, null, res)
+      packge.packageitems.forEach(function(pitem, index){
+        if(pitem.packed_qty > pitem.shipped_qty){
+          PackageItem.findOneAndUpdate({_id: pitem._id}, {$set: {shipped_qty: pitem.packed_qty}}, {new: true}, function(err, updated_pakge_item) {
+            console.log('updated_pakge_item')
+            console.log(updated_pakge_item)
+            if(err){
+              return res.status(422).send({msg: "Something went wrong"});
+            }
+            else{
+              if(packge.packageitems.length == index+1){
+                console.log('packge0')
+                console.log(packge)
+                updateshipqty(packge, null, res)
+              }
+            }
+          })
+        }
+        else{
+          if(packge.packageitems.length == index+1){
+            return res.status(422).send({msg: "Errors"});
+          }
+        }
+      })
     }
   });
 }
 
 export  function updateshipqty(packge, next, res){
-  Package.findOne({ _id: packge._id }).exec((err, pkg) => {
-    if (err) {
-      return res.status(422).send(err);
-    }
-    else {
-      // Order.findOne({ _id: pkg._order }).populate("packages").exec(function(err, order) {
-      //   order.orderitems.forEach
-
-      // })
-      // OrderItem.findOneAndUpdate({ _id: pkg._orderitem }, {$set: {shipped_qty: pkg.qty_shipped}}, {new: true}, function(err, updated_orderitem) {
-      //   let ship_qty = 0;
-      //   Order.findOne({_id: packge._order }).populate("packages").exec((err, orders) =>{
-      //     orders.packages.forEach(function(pakg, index) {
-      //       ship_qty += pakg.qty_shipped
-      //     })
-      //     if(orders.total_qty > ship_qty){
-      //       Order.update({_id: packge._order}, {$set: {after_payment_status: "Partially Shipped"}},function(err) {});
-      //     }
-      //     if (orders.total_qty == ship_qty){
-      //       Order.update({_id: packge._order}, {$set: {after_payment_status: "Shipped"}},function(err) {
-      //       })
-      //     }
-      //     return res.status(200).send({pkg});
-      //   })
-      // })
-    }
-  });
+  console.log('packge1')
+  console.log(packge)
+  packge.packageitems.forEach(function(pitem, index){
+    OrderItem.findOneAndUpdate({ _id: pitem._orderitem }, {$set: {shipped_qty: pitem.packed_qty}}, {new: true}, function(err, updated_orderitem) {
+      if(packge.packageitems.length == index+1){
+        // return res.status(200).send({packge});
+        updated_order_after_ship(packge, null, res)
+      }
+    })
+  })
 }
 
+
+function updated_order_after_ship(packge, next, res){
+  let ship_qty = 0
+  Order.findOne({_id: packge._order}).populate("-_id _buyer")
+    .populate({path: 'orderitems',
+    model: 'OrderItem',
+    populate: {
+      path: '_product',
+      model: 'Product'
+    }})
+    .populate({path: 'packages',
+    model: 'Package',
+    populate: {
+      path: 'packageitems',
+      model: 'PackageItem'
+    }}).exec((err,order) =>{
+      console.log('packgeqwqewq')
+      console.log(order)
+    packge.packageitems.forEach(function(pitem, index){
+      ship_qty += pitem.packed_qty
+      console.log('ship_qty')
+      console.log(ship_qty)
+      if(packge.packageitems.length == index+1){
+        console.log('order.total_qty > ship_qty')
+        console.log(order.total_qty > ship_qty)
+        if(order.total_qty > ship_qty){
+          order.after_payment_status = "Partially Shipped"
+          order.save((err, order1) => {
+            return res.json(order1);
+          })
+        }
+        if (order.total_qty == ship_qty){
+          order.after_payment_status = "Shipped"
+          order.save((err, order1) => {
+            return res.json(order1);
+          })
+        }
+      }
+    })
+  })
+}
 
 
 export  function updateToDeliver(req, res){

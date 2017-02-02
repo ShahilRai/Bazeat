@@ -31,8 +31,6 @@ export default class WriteReview extends React.Component {
   WriteAReview(){
     this.WriteReviewData(this.context.user.email, this.refs.review.value,this.state.currentRating,this.state.is_reviewed).then((response) => {
          this.props.updateReviews(response.data)
-        console.log("response.data")
-        console.log(response.data)
         if(response.data) {
           toastr.success('Your review successfully submitted');
           this.setState({
@@ -60,7 +58,7 @@ export default class WriteReview extends React.Component {
 
   textAreaValue(event){
       this.setState({ value: event.target.value });
-    }
+  }
 
 
   render(){
