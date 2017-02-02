@@ -4,8 +4,10 @@ import { RegistrationForm, SocialLoginLink } from 'react-stormpath';
 import InputField from '../components/InputField';
 
 export default class UserRegisterModal extends React.Component {
+
   onFormSubmit(e, next){
     var data = e.data;
+
     if (data.password.length < 8) {
       return next(new Error('Password must be at least 8 characters long.'));
     }
@@ -18,15 +20,12 @@ export default class UserRegisterModal extends React.Component {
     if (data.password.search(/^(?=.*[A-Z]).+$/) == -1) {
     return next(new Error('Password must contain one upper case character.'));
     }
-    $("#user_modal").modal('hide')
     next(null, data);
   }
 
   onFormSubmitSuccess(e, next) {
-    var data = e.data;
     $("#register_modal").modal('hide')
     toastr.success('User Successfully sign up. please check your inbox');
-    $("#login_modal").modal('hide')
     $(".modal-backdrop.in").remove()
     $(".modal-open").removeClass("modal-open")
     next();
@@ -72,6 +71,7 @@ export default class UserRegisterModal extends React.Component {
                 <InputField type="hidden" name="customData.is_producer" value="false" />
                 <input type="submit" value="Bli en Bazeater" className="login_sbmit" />
               </RegistrationForm>
+              <span className="or_txt mtop10">eller</span>
             </div>
             <div className="modal-footer">
             </div>
