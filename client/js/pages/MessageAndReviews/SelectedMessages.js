@@ -21,26 +21,6 @@ export default class SelectedMessages extends React.Component {
       };
     }
 
-    showSingleMsgConverstation(conversation_id) {
-    this.showMsgConversation(conversation_id).then((response) => {
-      if(response.data) {
-        this.setState({
-          allConversation: response.data.messages,
-          conversation_id: conversation_id,
-          activeState: conversation_id
-        });
-      }
-    })
-    .catch((err) => {
-    console.log(err);
-    });
-    this.selectedMsgTab()
-    }
-
-    showMsgConversation(conversation_id){
-      return axios.get("/api/conversation/" + conversation_id)
-    }
-
     sendMessageData(){
       var userEmail = this.context.user.email
       var composedMessage = this.state.value

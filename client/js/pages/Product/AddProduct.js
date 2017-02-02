@@ -30,7 +30,8 @@ export default class AddProduct extends React.Component {
       Product_name: "",
       description: "",
       isPhoto: "",
-      calculated_price: 0
+      calculated_price: 0,
+      disabled: false
 	  };
     this.handleChange = this.handleChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
@@ -49,6 +50,9 @@ export default class AddProduct extends React.Component {
     var valid = true;
     var numbers = /^[0-9]+$/;
     var reWhiteSpace = new RegExp(/^\s+$/)
+    this.setState({
+      disabled: false
+    })
 
     if(this.state.photo){
       this.setState({
@@ -163,13 +167,19 @@ export default class AddProduct extends React.Component {
         food_type: this.state.food_type ? this.state.food_type : (this.props.prodDetails ? this.props.prodDetails.food_type : ""),
         photo: this.state.photo ? this.state.photo : (this.props.prodDetails ? this.props.prodDetails.photo : ""),
         email: this.context.user.email,
-        calculated_price: prod_cal
+        calculated_price: prod_cal,
+        disabled: false
       }
     }
       this.props.nextStep()
       this.props.saveValues(this.state.data)
+          this.handleClik()
     }
+  
   }
+   handleClik() {
+    this.setState( {disabled: !this.state.disabled} )
+  } 
 
 	handleChange(e){
     if(e.target.name == "price"){
@@ -313,7 +323,7 @@ export default class AddProduct extends React.Component {
 					</form>
 				</div>
 				<div className="modal-footer">
-					<button type="button" className="btn btn-default nxt_btn" onClick={this.SaveAndContinue.bind(this)}>Next</button>
+					<button type="button" disabled = {(this.state.disabled)? "disabled" : "" }className="btn btn-default nxt_btn" onClick={this.SaveAndContinue.bind(this)}>Next</button>
 				</div>
 			</div>
 		);

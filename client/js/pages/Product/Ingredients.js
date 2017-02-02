@@ -16,7 +16,8 @@ export default class Ingredients extends React.Component {
     	},
       algrnList: this.props.allrgnval,
       chckboxVal:[],
-      prodDetails:{}
+      prodDetails:{},
+      disabled: false
     };
   }
 
@@ -46,13 +47,19 @@ export default class Ingredients extends React.Component {
 				protein : this.refs.protein.refs.ntrtn.value,
 			},
 		  allergens: this.state.chckboxVal,
+		  disabled: false,
 		  bought_items: this.refs.bought_items.refs.prdctn_col.checked,
 		  locally_produced_items: this.refs.locally_produced_items.refs.prdctn_col.checked
     }
   }
   this.props.saveValues(this.state.data)
 	this.props.nextStep()
+	this.handleClik()
 }
+
+ handleClik() {
+    this.setState( {disabled: !this.state.disabled} )
+  } 
 
 	PreviousSteps() {
 		this.props.previousStep()
@@ -222,7 +229,7 @@ export default class Ingredients extends React.Component {
 					</form>
 				</div>
 				<div className="modal-footer">
-					<button type="button" className="btn btn-default nxt_btn" onClick={this.SaveAndContinue.bind(this)}>Next</button>
+					<button type="button" disabled = {(this.state.disabled)? "disabled" : ""} className="btn btn-default nxt_btn" onClick={this.SaveAndContinue.bind(this)}>Next</button>
 				</div>
 			</div>
 	  );
