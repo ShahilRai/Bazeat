@@ -44,12 +44,14 @@ export default class CartModal extends React.Component {
     cart_id = cookie.load('cart_cuid') ? cookie.load('cart_cuid') : ''
     this.incrCartData(incrCartProduct, cart_id).then((response) => {
       if(response.data) {
+        toastr.success('Your item successfully increased');
         this.setState({
           items: response.data.cart.cartitems,
           total_price: response.data.cart.total_price
         })
       }
     }).catch((err) => {
+      toastr.error(err);
       console.log(err);
     });
    }
@@ -63,7 +65,7 @@ export default class CartModal extends React.Component {
     cart_id = cookie.load('cart_cuid') ? cookie.load('cart_cuid') : ''
      this.incrCartData(incrCartProduct, cart_id).then((response) => {
         if(response.data) {
-          toastr.success('Your item successfully added');
+          toastr.success('Your item successfully decreased');
           this.setState({
             items: response.data.cart.cartitems,
             total_price: response.data.cart.total_price
@@ -87,12 +89,14 @@ export default class CartModal extends React.Component {
     cart_id = cookie.load('cart_cuid') ? cookie.load('cart_cuid') : ''
     this.removeCartData(this.state.items[i].id, cart_id).then((response) => {
       if(response.data) {
+        toastr.success('Your item successfully removed');
         this.setState({
           items: response.data.doc.cartitems,
           total_price: response.data.doc.total_price
         })
       }
     }).catch((err) => {
+      toastr.error(err);
       console.log(err);
     });
    }
@@ -110,12 +114,14 @@ export default class CartModal extends React.Component {
      cart_id = cookie.load('cart_cuid') ? cookie.load('cart_cuid') : ''
      this.removeAllCartData(cart_id).then((response) => {
        if(response.data) {
+        toastr.success('all items removed successfully');
         this.setState({
           items : [],
           total_price: 0.0
         })
        }
     }).catch((err) => {
+      toastr.error(err);
        console.log(err);
     });
   }

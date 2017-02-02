@@ -33,8 +33,6 @@ import CreateNewPackage from '../OrderManagement/CreateNewPackage';
 import AllMessages from '../MessageAndReviews/AllMessages.js';
 import ReviewPage from '../MessageAndReviews/ReviewPage.js';
 import OrderMgmntPackages from '../OrderManagement/OrderMgmntPackages.js';
-import RouteComponent from '../AddProduct/RouteComponent';
-import AllProducerReviews from '../MessageAndReviews/AllProducerReviews';
 export default class ProjectRouter extends React.Component {
   static contextTypes = {
     authenticated: React.PropTypes.bool,
@@ -87,9 +85,9 @@ export default class ProjectRouter extends React.Component {
           <Route path='/faq' component={FaqPage} />
           <Route path='/map-search' component={MapViewContainer} />
           <Route path='/search' component={DisplaySearch} />
-          <Route path="/user/:userId" component={UserHomePage} />
-          <Route path='/user-reviews' component={UserHomePage} />
           <AuthenticatedRoute>
+            <Route path="/user/:userId" component={UserHomePage} />
+            <Route path='/user-reviews' component={UserHomePage} />
             <Route path='/checkout' component={CheckoutContainer} />
             <HomeRoute path='/' component={profileComponent}>
               <Route path='/profile' component={ProfilePage} />
@@ -108,7 +106,6 @@ export default class ProjectRouter extends React.Component {
         <Route path='/admin-login' component={AdminLoginModal} />
         <Route path='/admin-register' component={AdminRegisterModal} />
         <Route path='/admin-dashboard' component={AdminPanel} />
-        <Route path='/tester' component={RouteComponent} />
       </Router>
     );
   }

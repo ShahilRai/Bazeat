@@ -5,14 +5,16 @@ import WriteReview from './WriteReview';
 import ReviewAboutUser from './ReviewAboutUser';
 import ReviewsWrittenByUser from './ReviewsWrittenByUser';
 import Rating from 'react-simple-rating';
-
-var moment = require('moment');
+import moment from 'moment';
 
 let _allCurrentReviewResult;
 let allCurrentReviewResult;
 let _allCurrentWriteReviewResult;
 let allCurrentWriteReviewResult;
 let showReview;
+let userId;
+let curUserId;
+let WriteuserId;
 
 export default class ReviewPage extends React.Component {
 
@@ -62,7 +64,7 @@ export default class ReviewPage extends React.Component {
     this.loadUserReviwData(this.context.user.email).then((response) => {
       if(response.data) {
         this.setState({
-          users_data : response.data.producer
+          users_data : response.data.producer_arr
         });
       }
     }).catch((err) => {
@@ -121,7 +123,7 @@ export default class ReviewPage extends React.Component {
 
   getUserId(e, i) {
     this.setState({
-      user_id : this.state.users_data[i]._producer.id,
+      user_id : this.state.users_data[i].id,
       index : i
     })
   }
@@ -148,11 +150,12 @@ export default class ReviewPage extends React.Component {
         review_id : current_review.id,
         reviewedBy : current_review.reviewed_by.full_name,
         review_user : current_review.review,
-        is_replied : current_review.is_commented,
+        is_replied : current_review.comment.is_commented,
         rating_count : current_review.rating
       })
     })
   }
+
   updateupdateReviews(newReviews) {
     this.loadCurrentUserReview(this.context.user.email).then((response) => {
       if(response.data) {
@@ -167,11 +170,12 @@ export default class ReviewPage extends React.Component {
 
   render() {
     var _allWriteReview = this.state.users_data.map((review, i)=>{
+       userId = review.cuid
       return(
         <div className="user_reveiw_list">
-          <span className="rvw_user_img"><img src={review._producer.photo} className="profile_image" /></span>
-          <span className="rvw_username">{review._producer.full_name}<br/>
-            <span className="prod_review_date">{review._producer.date_joined}</span>
+          <span className="rvw_user_img"><img src={review.photo} className="profile_image" /></span>
+          <span className="rvw_username"><Link to={"/user/"+userId}>{review.full_name}</Link><br/>
+            <span className="prod_review_date">{moment(review.date_joined).format('DD-MM-YYYY')}</span>
           </span>
           <span className="rvw_description">Write a review to share your thoughts and provide helpful feedback to Producer Name. Please bare in mind that reviews are public.</span>
           <button type="submit" className="btn read_btn write_rvw_btn" data-target={"#write_review" +this.state.index} data-toggle="modal" onClick={(e) => this.getUserId(e, i)} >Write a review</button>
