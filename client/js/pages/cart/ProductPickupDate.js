@@ -165,7 +165,6 @@ export default class ProductPickupDate extends React.Component {
     this.setState({
       select_input: true
     })
-    select_input
   }
 
   getSelectedTime(e){

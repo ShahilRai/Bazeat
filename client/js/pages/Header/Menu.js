@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import CartModal from './CartModal';
 import axios from 'axios';
+import cookie from 'react-cookie';
 import MessageDropdown from '../MessageAndReviews/MessageDropdown';
 import { IndexRoute, Route, browserHistory } from 'react-router';
 import { Router, LoginLink, LogoutLink, NotAuthenticated, Authenticated } from 'react-stormpath';
@@ -28,6 +29,10 @@ export default class Menu extends React.Component {
     this.setState({
       isMessage: ''
     })
+  }
+
+  logoutLink() {
+    cookie.remove('cart_cuid');
   }
 
   render() {
@@ -71,7 +76,7 @@ export default class Menu extends React.Component {
               <li><Link to="/setting">Settings</Link></li>
               <li><Link to="/orders">Orders</Link></li>
               <li><Link to="javascript:void(0)">Guides</Link></li>
-              <li><LogoutLink>Log out</LogoutLink></li>
+              <li id="logout" onClick = {this.logoutLink.bind(this)}><LogoutLink>Log out</LogoutLink></li>
             </ul>
           </li>
           <li data-toggle="collapse" data-target="">

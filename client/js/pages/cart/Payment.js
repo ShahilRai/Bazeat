@@ -22,8 +22,7 @@ export default class Payment extends React.Component {
         card_no : '',
         cvc : '',
         exp_month : '',
-        exp_year : '',
-        disabled: false
+        exp_year : ''
       }
       this.payMoney = this.payMoney.bind(this);
   }
@@ -59,8 +58,7 @@ export default class Payment extends React.Component {
         cookie.remove('cart_cuid');
         this.context.router.push('/');
         this.setState({
-          orderDetail : response.data,
-          disabled:false
+          orderDetail : response.data
          });
         }
       }
@@ -68,12 +66,8 @@ export default class Payment extends React.Component {
         toastr.error('Sorry, here is problem in payment');
           console.log(err);
       });
-      this.handleClik()
   }
 
-   handleClik() {
-    this.setState( {disabled: !this.state.disabled} )
-  } 
 
 // api for checkout process payment
   requestForPayment(email, order_id, card_no, exp_month, exp_year, cvc){
