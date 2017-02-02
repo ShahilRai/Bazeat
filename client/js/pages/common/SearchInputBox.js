@@ -12,11 +12,13 @@ export default class SearchInputBox extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      disabled : true
+      disabled : true,
+      searchedText : ''
     };
     this.handleChange = this.handleChange.bind(this)
     this.onMouseClick = this.onMouseClick.bind(this)
-    PubSub.subscribe('selectedTab', this._renderGoogleSearch);
+    this.ApplySearch = this.ApplySearch.bind(this)
+    PubSub.subscribe('selectedTab', this._renderSearch);
   }
 
   handleChange(e){
@@ -26,7 +28,8 @@ export default class SearchInputBox extends React.Component {
     })
   else
     this.setState({
-      disabled : false
+      disabled : false,
+      searchedText : e.target.value
     })
   }
 
@@ -36,13 +39,17 @@ export default class SearchInputBox extends React.Component {
     }
   }
 
-  _renderGoogleSearch(msg , data){
-    var lat_lng;
-    var latitude;
-    var longitute;
+  ApplySearch(){
+    PubSub.publish( 'search-text', this.state.searchedText );
+  }
+
+  _renderSearch(msg , data){
+    var input = (document.getElementById('pac-input'));
     if(data == 2){
-      var input = (document.getElementById('pac-input'));
-      var searchBox = new google.maps.places.SearchBox((input));
+      var lat_lng;
+      var latitude;
+      var longitute;
+      var searchBox = new google.maps.places.SearchBox(input);
       google.maps.event.addListener(searchBox, 'places_changed', function () {
         var places = searchBox.getPlaces();
         if (places.length == 0) {
@@ -58,14 +65,16 @@ export default class SearchInputBox extends React.Component {
           PubSub.publish( 'latlongitude', [latitude,longitute]);
         }
       });
+    } else if(data == 1 || data == 0) {
+      google.maps.event.clearInstanceListeners(input);
     }
   }
 
   render() {
-    this._renderGoogleSearch();
-    var srchIcon = <input name="" type="submit" className="header_search_icon" disabled={this.state.disabled}/>
+    this._renderSearch();
+    var srchIcon = <input name="" type="button" className="header_search_icon" disabled={this.state.disabled}/>
     if(this.context.router.location.pathname == "/search"){
-      srchIcon = <input name="" type="submit" className="header_search_icon_button" disabled={this.state.disabled} value="Search"/>
+      srchIcon = <input name="" type="button" className="header_search_icon_button" disabled={this.state.disabled} value="Search" onClick={this.ApplySearch}/>
     }
     return (
       <div className="col-lg-4 col-md-4 col-sm-5 col-xs-10 ipad_pull_rht header_search_bar" onClick={this.onMouseClick}>

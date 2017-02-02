@@ -8,13 +8,22 @@ export default class LoginModal extends React.Component {
     router: React.PropTypes.object.isRequired
   };
 
+  constructor(props, context) {
+    super(props, context);
+    this.state = {
+      loader: "collapse"
+    }
+  }
+
   onFormSubmit(e, next) {
+    this.setState({loader: ""})
     var data = e.data;
     data.username = data.username.toLowerCase();
     next(null, data);
   }
 
   onFormSubmitSuccess(e, next) {
+    this.setState({loader: "collapse"})
     toastr.success('Successfully sign in');
     $("#login_modal").modal('hide')
     $(".modal-backdrop.in").remove()
@@ -24,6 +33,7 @@ export default class LoginModal extends React.Component {
   }
 
   onFormSubmitError(e, next) {
+    this.setState({loader: "collapse"})
     next();
   }
 
@@ -39,6 +49,9 @@ export default class LoginModal extends React.Component {
               <a href="javascript:void(0)" className="login_logo">
                 <img src={require('../../../images/login_logo.png')} />
               </a>
+              <span id="login_loader" className={"pull-right mtop20 " + this.state.loader}>
+                <img src={require('../../../images/rolling.gif')}  alt="loading..." width="20"/>
+              </span>
               <h4 className="modal-title" id="myModalLabel">LOG IN</h4>
               <h5><span>or </span><a href="#login_modal" data-dismiss="modal" data-toggle="modal" data-target="#register_modal">Register</a></h5>
             </div>

@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import toastr from 'toastr';
 import Rating from 'react-simple-rating';
-let cuRating;
+
 export default class ReviewAboutUser extends React.Component {
 
 static contextTypes = {
@@ -15,8 +15,8 @@ static contextTypes = {
         this.state = {
           commentUserData : [],
           value :'',
-          is_commented : true
-
+          is_commented : true,
+          cuRating : ''
         }
   }
 
@@ -48,9 +48,8 @@ static contextTypes = {
       this.setState({ value: event.target.value });
     }
 
-  render(){
-    cuRating = this.props.ratingCount
 
+  render(){
     var submitComment
      if(this.props.is_replied){
        submitComment = <button type="button" className="btn btn-default nxt_btn orange_bg" onClick={this.WriteAComment.bind(this)} disabled>Submit comment</button>
@@ -73,7 +72,7 @@ static contextTypes = {
                     <label className="user_rvw_label">Review by<span>{this.props.reviewedBy}</span></label>
                     <div className="rvw_by_user">
                       <span className="user_rvw_txt">{this.props.review_user}</span>
-                         <Rating rating={this.props.rating_count} displayOnly={true} maxRating={5}  ratingSymbol={"\u2764"} />
+                         <Rating rating={3} displayOnly={true} maxRating={5}  ratingSymbol={"\u2764"} />
                     </div>
                   </div>
                   <div className="form-group">

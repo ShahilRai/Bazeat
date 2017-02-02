@@ -33,7 +33,7 @@ export function allReviews(req, res, next) {
               })
               .populate({
                 path: 'comment',
-                select: 'comment'
+                select: 'comment is_commented'
               })
               .exec(function(err, review1) {
                 if (err) {
@@ -74,7 +74,7 @@ export function getReview(req, res, next) {
         })
         .populate({
           path: 'comment',
-          select: 'comment'
+          select: 'comment is_commented'
         })
       .exec(function(err, review1){
         if (err) {
@@ -166,6 +166,9 @@ export function sendReply(req, res, next) {
         res.send({ error: err });
       }
       else{
+        Review.findOneAndUpdate({_id: req.body.review_id}, {$set: {'comment': comment._id}}, {new: true}).
+        exec(function(err, model) {
+      })
         return res.json({ comment: newComment });
       }
     });
