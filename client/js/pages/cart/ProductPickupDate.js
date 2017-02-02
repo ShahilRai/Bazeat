@@ -125,8 +125,18 @@ export default class ProductPickupDate extends React.Component {
     return axios.get("/api/user?email="+email);
   }
 
-  displayForm(){
+  /*displayForm(){
     document.getElementById("checkout_form").style.display = "block";
+  }*/
+
+  displayForm(){
+    var el = document.getElementById('checkout_form');
+    if ( el.style.display != 'none' ){
+      el.style.display = 'none';
+    }
+    else {
+      el.style.display = 'block';
+    };
   }
 
   goToBackPage(){
