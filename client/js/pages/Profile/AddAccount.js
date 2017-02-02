@@ -15,7 +15,8 @@ export default class AddAccount extends React.Component {
 
   static contextTypes = {
     authenticated: React.PropTypes.bool,
-    user: React.PropTypes.object
+    user: React.PropTypes.object,
+    router: React.PropTypes.object.isRequired
   };
 
   constructor() {
@@ -107,6 +108,10 @@ export default class AddAccount extends React.Component {
  addAccountDetails() {
     this.addAccount(this.context.user.email).then((response) => {
       if(response.data) {
+        if(response.data.status == false && response.data.err_msg) {
+          this.context.router.push('/profile');
+          toastr.error(response.data.err_msg);
+        }
         this.setState({
           status : response.data.status,
           lastDigit : response.data.last4
@@ -136,10 +141,6 @@ export default class AddAccount extends React.Component {
 
 
   render() {
-     console.log("status")
-     console.log(this.state.status)
-     console.log("status")
-     console.log(this.state.lastDigit)
         submitbutton = <button type="submit" className="btn pull-right" disabled>
                           <span data-spIf="!form.processing" onClick= {this.saveBankDetails} className="disabled" >Save details</span>
                        </button>
