@@ -45,4 +45,22 @@ packageSchema.plugin(autoIncrement.plugin, {
 //   // });
 
 // });
+
+
+packageSchema.post('remove', function(packg) {
+  // ProductCategory.update({ _products: product._id }, {$pullAll: {_products: [product._id]}}, { safe: true, multi: true }, function(err, model) {
+  //   })
+  // Allergen.update({ _products: product._id }, { $pullAll: { _products : [product._id] }},
+  //   { safe: true, multi: true },
+  //   function removeConnectionsCB(err, obj) {
+  //   });
+  // Ingredient.update({ _products: product._id }, { $pullAll: { _products : [product._id] }},
+  //   { safe: true, multi: true },
+  //   function removeConnectionsCB(err, obj) {
+  //   });
+  // User.update({ products: product._id }, { $pullAll: { products : [product._id] }},
+  //   { safe: true, multi: true },
+  //   function removeConnectionsCB(err, obj) {
+  //   });
+});
 export default mongoose.model('Package', packageSchema);
