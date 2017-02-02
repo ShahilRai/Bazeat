@@ -8,12 +8,21 @@ import PubSub from 'pubsub-js';
 
 export default class DisplaySearch extends React.Component {
 
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  }
+
   constructor(props, context) {
     super(props, context);
     this.state = {
-      selectedTab: 0
+      selectedTab: 0,
+      textToSearch: ''
     }
     this._handleSelect = this._handleSelect.bind(this)
+  }
+
+  componentDidMount(){
+    this.getSearchedText
   }
 
   _handleSelect = (index) => {
@@ -34,13 +43,13 @@ export default class DisplaySearch extends React.Component {
             <Tab>Location</Tab>
           </TabList>
           <TabPanel>
-            <ShowProductsSearch pName={pName}/>
+            <ShowProductsSearch pName={this.state.textToSearch} />
           </TabPanel>
           <TabPanel>
-            <ShowBazeatersSearch />
+            <ShowBazeatersSearch pName={this.state.textToSearch} />
           </TabPanel>
           <TabPanel>
-            <ShowLocationSearch />
+            <ShowLocationSearch pName={this.state.textToSearch} />
           </TabPanel>
         </Tabs>
       </div>

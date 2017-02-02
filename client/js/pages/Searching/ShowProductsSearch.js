@@ -3,7 +3,10 @@ import LazyLoad from 'react-lazy-load';
 import WallImageViewer from '../Home/WallImageViewer';
 import Filters from './Filters';
 import AppliedFilters from './AppliedFilters';
+import PubSub from 'pubsub-js';
 import axios from 'axios';
+
+let token;
 
 export default class ShowProductsSearch extends React.Component {
 
@@ -15,19 +18,33 @@ export default class ShowProductsSearch extends React.Component {
       categoryIds:[],
       categoryNames:[],
       start: 0,
-      end: 4000
+      end: 4000,
+      textToSearch: ''
     }
     this.handleCheckBoxChange = this.handleCheckBoxChange.bind(this);
     this.priceRangeChange = this.priceRangeChange.bind(this);
     this.handlecategoryFilter = this.handlecategoryFilter.bind(this);
     this.clearFilters = this.clearFilters.bind(this);
     this.handleProductsSrch = this.handleProductsSrch.bind(this);
+    this.getSearchedText = this.getSearchedText.bind(this)
+    token = PubSub.subscribe( 'search-text', this.getSearchedText );
   }
 
   componentDidMount(){
+    this.getSearchedText
     this.handleProductsSrch();
     this.displayCategoryList();
-    if(!this.props.pName==''){
+  }
+
+  componentWillUnmount(){
+    PubSub.unsubscribe( token );
+  }
+
+  getSearchedText(msg, text){
+    this.setState({
+      textToSearch: text
+    })
+    if(!this.state.textToSearch==''){
       this.filteredProducts();
     }
   }
@@ -71,8 +88,8 @@ export default class ShowProductsSearch extends React.Component {
     var minRnge = this.state.start;
     var maxRnge = this.state.end;
 
-    if(!this.props.pName==''){
-      var pName = this.props.pName;
+    if(!this.state.textToSearch==''){
+      var pName = this.state.textToSearch;
       this.fetchFilteredProducts(pName,minRnge,maxRnge,cIds).then((response) => {
         if(response.data) {
           this.setState({
@@ -165,7 +182,7 @@ export default class ShowProductsSearch extends React.Component {
   }
 
   render() {
-    var varNotify = this.props.pName ? this.props.pName : 'products';
+    var varNotify = this.state.textToSearch ? this.state.textToSearch : 'products';
     return (
       <div className="tab-content clearfix">
         <div className="tab-pane active" id="productss">
