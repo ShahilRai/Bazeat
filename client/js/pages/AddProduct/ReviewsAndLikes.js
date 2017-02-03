@@ -38,7 +38,7 @@ export default class ReviewsAndLikes extends React.Component {
         <h3>{this.props.userInfo.full_name}
         </h3>
         <span className="rvw_qty">
-          <Rating rating={3.5} displayOnly={true} maxRating={5}  ratingSymbol={"\u2764"} />
+          <Rating rating={this.props.userInfo.avg_rating} displayOnly={true} maxRating={5}  ratingSymbol={"\u2605"} />
           <span className="review_num" onClick={this.props.onClick}><Link to="/user-reviews">{this.props.all_reviews_count} reviews</Link></span>
         </span>
         <span className="star_rating">

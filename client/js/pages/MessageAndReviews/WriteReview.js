@@ -96,7 +96,7 @@ export default class WriteReview extends React.Component {
                 <div className="form-group">
                   <label className="user_rvw_label">Your rating</label>
                 <div className="rvw_by_user">
-                  <Rating  displayOnly={false} maxRating={5} onSubmit={this.handleClick.bind(this)} ratingSymbol={"\u2764"} />
+                  <Rating  displayOnly={false} maxRating={5} onSubmit={this.handleClick.bind(this)} ratingSymbol={"\u2605"} />
                 </div>
               </div>
             </div>
