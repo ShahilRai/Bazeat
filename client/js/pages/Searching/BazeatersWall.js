@@ -10,7 +10,6 @@ export default class BazeatersWall extends React.Component {
           <a href="#" className="search_open">Open</a>
           <div className="bazeater_logo1">
             <span className="pos_rel"><img className="bazeaters_logo" src={this.props.bazeatersData.photo} />
-              <img src="images/revw_icon.png" className="chkd_img" />
             </span>
           </div>
           <h4 ><Link to={"/user/"+this.props.bazeatersData.cuid} className = "font_colr">{this.props.bazeatersData.full_name}</Link></h4>
