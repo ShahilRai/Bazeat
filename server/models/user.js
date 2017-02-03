@@ -80,6 +80,7 @@ const userSchema = new Schema({
   current_cart_id: {type: String},
   timeslots: [slotSchema],
   avg_rating: {type: 'Number', default: 0},
+  reviews_count: {type: 'Number', default: 0},
   showInfo: { type: 'Boolean', default: false },
   profile_added: { type: 'Boolean', default: false },
   account_added: { type: 'Boolean', default: false }},

@@ -25,11 +25,11 @@ export function allReviews(req, res, next) {
               .limit(5)
               .populate({
                 path: 'reviewed_by',
-                select: 'full_name photo'
+                select: 'full_name photo cuid'
               })
               .populate({
                 path: 'reviewed_for',
-                select: 'full_name photo'
+                select: 'full_name photo cuid'
               })
               .populate({
                 path: 'comment',
@@ -66,11 +66,11 @@ export function getReview(req, res, next) {
         .sort("-createdAt").limit(per_page).skip(off_set)
         .populate({
           path: 'reviewed_by',
-          select: 'full_name photo'
+          select: 'full_name photo cuid'
         })
         .populate({
           path: 'reviewed_for',
-          select: 'full_name photo'
+          select: 'full_name photo cuid'
         })
         .populate({
           path: 'comment',
@@ -80,6 +80,8 @@ export function getReview(req, res, next) {
         if (err) {
           return res.status(422).send(err);
         }
+        user.reviews_count = reviews.length
+        user.save();
         return res.json({reviews: review1, total_count: reviews.length  });
         ;
       });
@@ -175,30 +177,6 @@ export function sendReply(req, res, next) {
   })
 }
 
-
-// export function reviewUserList(req, res){
-//   User.findOne({ email: req.query.email }).exec((err, user) => {
-//     Order.find({_buyer: user._id}).select("products").exec((err, products) => {
-//       console.log('products')
-//       console.log(products)
-//       let products_arr = []
-//       products.forEach(function(item, index) {
-//         products_arr.push(item.products[0])
-//         if(products.length == index+1){
-//           Product.find({_id: {"$in": products_arr }}).populate("_producer").exec((err, producer)=>{
-//             if (err){
-//               return res.status(422).send(err);
-//             }
-//             else{
-//               return res.json({ producer });
-//             }
-//           })
-//         }
-//       })
-//     });
-//   });
-// }
-
 export function reviewUserList(req, res){
   User.findOne({ email: req.query.email }).exec((err, user) => {
     Order.find({_buyer: user._id}).select("products").exec((err, products) => {
@@ -212,19 +190,11 @@ export function reviewUserList(req, res){
           Product.find({_id: {"$in": products_arr }}).populate("_producer").exec((err, producer)=>{
             if(producer){
               producer.forEach(function(item, index) {
-                console.log('item')
-                console.log(item)
                 Review.find({reviewed_for: item._producer._id, is_replied: true}).exec((err,review) =>{
-                  console.log('review')
-                  console.log(review)
-                  console.log('producer.length == index+1')
-                  console.log(producer.length == index+1)
                   if(review.length == 0){
                     producer_arr.push(item._producer)
                   }
                   if(producer.length == index+1){
-                    console.log('producer_arr')
-                    console.log(producer_arr)
                     return res.json({producer_arr});
                   }
                 })
