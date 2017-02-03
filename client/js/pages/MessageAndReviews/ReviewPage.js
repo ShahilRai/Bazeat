@@ -203,7 +203,7 @@ export default class ReviewPage extends React.Component {
             <div className="user_reveiw_list">
               <span className="rvw_user_img"><img src={item.reviewed_for.photo} className="profile_image"/></span>
               <span className="rvw_username">{item.reviewed_for.full_name}<br/>
-                 <Rating  displayOnly={true} rating={item.rating} maxRating={5}  ratingSymbol={"\u2764"} />
+                 <Rating  displayOnly={true} rating={item.rating} maxRating={5}  ratingSymbol={"\u2605"} />
               </span>
               <span className="rvw_description">{item.review}</span>
               <button type="submit" className="btn read_btn" data-toggle="modal" data-target={"#producer_review" +this.state.write_index} onClick={(e) => this.getWriteReviewId(e, index)} >Read</button>
@@ -222,7 +222,7 @@ export default class ReviewPage extends React.Component {
             <div className="user_reveiw_list f2f2f2_bg">
               <span className="rvw_user_img"><img src={item.reviewed_by.photo} height="50" width="50"/> </span>
               <span className="rvw_username">{item.reviewed_by.full_name}<br/>
-                <Rating  displayOnly={true} rating={item.rating} maxRating={5}  ratingSymbol={"\u2764"} />
+                <Rating  displayOnly={true} rating={item.rating} maxRating={5}  ratingSymbol={"\u2605"} />
               </span>
               <span className="rvw_description">{item.review}</span>
               <button type="submit" className="btn read_btn" data-toggle="modal" data-target={"#user_review" +this.state.review_index}  onClick={(e) => this.getReviewId(e, index)}>Read</button>

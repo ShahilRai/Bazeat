@@ -5167,7 +5167,7 @@ margin-bottom: 7px;
   content: "\2605";
   position: absolute;
   left: 0;
-  color: #000;
+  color: orange;
 }
 /* Dropdown Button */
 .dropbtn {
@@ -5816,3 +5816,6 @@ display: inline-block;}
 .rfont_colr{
 	color: #4d4d4d
 }
+
+.current-rating > i{color: orange;}
+
