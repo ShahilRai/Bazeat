@@ -166,7 +166,7 @@ export function sendReply(req, res, next) {
         res.send({ error: err });
       }
       else{
-        Review.findOneAndUpdate({_id: req.body.review_id}, {$set: {'comment': comment._id}}, {new: true}).
+        Review.findOneAndUpdate({_id: req.body.review_id}, {$set: {'comment': comment._id, is_commented: req.body.is_commented}}, {new: true}).
         exec(function(err, model) {
       })
         return res.json({ comment: newComment });
