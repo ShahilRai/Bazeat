@@ -43,6 +43,7 @@ export default class ReviewPage extends React.Component {
         given_rating_count : '',
         count : [],
         write_count : [],
+        written_count : [],
         new_count : ''
     }
     this.getUserId = this.getUserId.bind(this);
@@ -57,7 +58,7 @@ export default class ReviewPage extends React.Component {
           current_user_review : response.data.fullReviews
         });
       }
-  }).catch((err) => {
+    }).catch((err) => {
       console.log(err);
     });
 
@@ -81,7 +82,7 @@ export default class ReviewPage extends React.Component {
         console.log(err);
     });
 
-     this.getAllUserReviewsCount(this.context.user.email,this.state.offset,5).then((response) => {
+    this.getAllUserReviewsCount(this.context.user.email,this.state.offset,5).then((response) => {
       if(response.data) {
         this.setState({
           new_count : response.data.total_count,
@@ -90,7 +91,6 @@ export default class ReviewPage extends React.Component {
     }).catch((err) => {
         console.log(err);
     });
-
   }
 
   loadUserReviwData(email) {
@@ -130,7 +130,7 @@ export default class ReviewPage extends React.Component {
 
   getWriteReviewId(e, index) {
     this.setState({
-       write_index : index
+      write_index : index
     })
     this.state.current_user_review[index].map((current_review, r_index)=>{
       this.setState({
@@ -141,7 +141,7 @@ export default class ReviewPage extends React.Component {
     })
   }
 
-   getReviewId(e, index) {
+  getReviewId(e, index) {
     this.setState({
       review_index : index
     })
@@ -150,7 +150,7 @@ export default class ReviewPage extends React.Component {
         review_id : current_review.id,
         reviewedBy : current_review.reviewed_by.full_name,
         review_user : current_review.review,
-        is_replied : current_review.comment.is_commented,
+        is_replied : current_review.is_commented,
         rating_count : current_review.rating
       })
     })
@@ -168,8 +168,20 @@ export default class ReviewPage extends React.Component {
       });
   }
 
+  updateProducerReviews(updatedData){
+    this.setState({
+      users_data : updatedData.producer_arr
+    })
+  }
+
+  commentedData(newComment){
+    this.setState({
+      current_user_review :newComment.fullReviews
+    })
+  }
+
   render() {
-    var _allWriteReview = this.state.users_data.map((review, i)=>{
+     var _allWriteReview = this.state.users_data.map((review, i)=>{
        userId = review.cuid
       return(
         <div className="user_reveiw_list">
@@ -221,17 +233,17 @@ export default class ReviewPage extends React.Component {
       })
     })
 
-     if(this.state.count.length>0){
+    if(this.state.count.length>0){
       allCurrentReviewResult = _allCurrentReviewResult
-     } else {
+    } else {
       allCurrentReviewResult = <h3> <center> no reviews about you to show </center></h3>
-     }
+    }
 
-     if(this.state.write_count.length>0){
+    if(this.state.write_count.length>0){
       allCurrentWriteReviewResult = _allCurrentWriteReviewResult
-     } else {
+    } else {
       allCurrentWriteReviewResult = <h3> <center> no reviews written by you  </center></h3>
-     }
+    }
 
     return (
       <div className="container padd_87">
@@ -253,8 +265,8 @@ export default class ReviewPage extends React.Component {
                   <h3>Reviews written by you<span className="show_all"><a href="#">Show all</a></span></h3>
                   {allCurrentWriteReviewResult}
                 </div>
-                <ReviewAboutUser reviewedBy={this.state.reviewedBy} review_index={this.state.review_index} review_id={this.state.review_id} review_user={this.state.review_user} is_replied={this.state.is_replied} rating_count={this.state.rating_count} />
-               <WriteReview user_id={this.state.user_id} index={this.state.index} updateReviews={this.updateupdateReviews.bind(this)} />
+                <ReviewAboutUser reviewedBy={this.state.reviewedBy} review_index={this.state.review_index} review_id={this.state.review_id} review_user={this.state.review_user} is_replied={this.state.is_replied} updatedComment={this.commentedData.bind(this)} rating_count={this.state.rating_count} />
+               <WriteReview user_id={this.state.user_id} index={this.state.index} updateReviews={this.updateupdateReviews.bind(this)} updateWrittenReviews={this.updateProducerReviews.bind(this)}/>
                <ReviewsWrittenByUser write_index={this.state.write_index} write_review_user={this.state.write_review_user} write_review_name={this.state.write_review_name} given_rating_count={this.state.given_rating_count}/>
             </div>
           </div>

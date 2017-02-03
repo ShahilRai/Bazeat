@@ -214,7 +214,7 @@ export function reviewUserList(req, res){
               producer.forEach(function(item, index) {
                 console.log('item')
                 console.log(item)
-                Review.find({reviewed_for: item._producer._id, is_replied: true}).exec((err,review) =>{
+                Review.find({reviewed_for: item._producer._id, is_reviewed: true}).exec((err,review) =>{
                   console.log('review')
                   console.log(review)
                   console.log('producer.length == index+1')
