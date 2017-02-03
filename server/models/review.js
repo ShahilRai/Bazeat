@@ -7,7 +7,7 @@ const reviewSchema = new Schema({
   rating: { type: Number },
   reviewed_by: { type: Schema.Types.ObjectId, ref: 'User' },
   comment: { type: Schema.ObjectId, ref: 'Comment' },
-  is_replied: { type: Boolean, default: false },
+  is_reviewed: { type: Boolean, default: false },
   is_commented: { type: Boolean, default: false },
   reviewed_for: { type: Schema.Types.ObjectId, ref: 'User' }},
   { timestamps: true }

@@ -1,7 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router';
+import axios from 'axios';
+import Rating from 'react-simple-rating';
+
 
 export default class BazeatersWall extends React.Component {
+    static contextTypes = {
+    authenticated: React.PropTypes.bool,
+    user: React.PropTypes.object,
+  };
 
   render() {
     return (
@@ -18,14 +25,10 @@ export default class BazeatersWall extends React.Component {
 
           </ul>
           <div className="star_rating">
-            <ul>
-              <li><a href="#"><img src="images/star_rating.png" /></a></li>
-              <li><a href="#"><img src="images/star_rating.png" /></a></li>
-              <li><a href="#"><img src="images/star_rating.png" /></a></li>
-              <li><a href="#"><img src="images/star_rating.png" /></a></li>
-              <li><a href="#"><img src="images/star_rating.png" /></a></li>
-            </ul>
-            <span className="review_num">613 reviews</span>
+          <span className="rvw_qty">
+          <Rating rating={this.props.bazeatersData.avg_rating} displayOnly={true} maxRating={5}  ratingSymbol={"\u2764"} />
+        </span>
+            <span className="review_num"> 2 reviews</span>
           </div>
         </div>
       </div>

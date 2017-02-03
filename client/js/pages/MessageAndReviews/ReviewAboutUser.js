@@ -20,10 +20,27 @@ static contextTypes = {
         }
   }
 
+
+  updatedCommentData(){
+    this.loadCurrentUserReview(this.context.user.email).then((response) => {
+      if(response.data) {
+        this.props.updatedComment(response.data)
+      }
+  }).catch((err) => {
+      console.log(err);
+    });
+  }
+
+
+  loadCurrentUserReview(email) {
+    return axios.get("/api/reviews?email="+email)
+  }
+
   WriteAComment(){
     this.WriteCommentData(this.context.user.email, this.refs.comment_review.value,this.props.review_id,this.state.is_commented).then((response) => {
-        toastr.success('Your comment successfully submitted');
         if(response.data) {
+          this.updatedCommentData();
+          toastr.success('Your comment successfully submitted');
           this.setState({
             commentUserData : response.data,
             value : ''
@@ -46,14 +63,14 @@ static contextTypes = {
 
   textAreaValue(event){
       this.setState({ value: event.target.value });
-    }
+  }
 
 
   render(){
     var submitComment
      if(this.props.is_replied){
        submitComment = <button type="button" className="btn btn-default nxt_btn orange_bg" onClick={this.WriteAComment.bind(this)} disabled>Submit comment</button>
-     } else{
+     }else{
         submitComment = <button type="button" className="btn btn-default nxt_btn orange_bg" onClick={this.WriteAComment.bind(this)} data-dismiss="modal" >Submit comment</button>
       }
     return(
@@ -72,7 +89,7 @@ static contextTypes = {
                     <label className="user_rvw_label">Review by<span>{this.props.reviewedBy}</span></label>
                     <div className="rvw_by_user">
                       <span className="user_rvw_txt">{this.props.review_user}</span>
-                         <Rating rating={3} displayOnly={true} maxRating={5}  ratingSymbol={"\u2764"} />
+                         <Rating  displayOnly={true} maxRating={5}  ratingSymbol={"\u2764"} />
                     </div>
                   </div>
                   <div className="form-group">

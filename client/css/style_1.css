@@ -3857,9 +3857,9 @@ width:100%;margin:0 auto;
 .pickup_row1 span.green_txt{
 	background-color:#00ACA2;
 }
-.green_txt{
+/*.green_txt{
 	background-color: green
-}
+}*/
 
 button.more_days_btn{
     width: 148px;
@@ -4368,7 +4368,8 @@ border-bottom:1px solid #b3b3b3;
     margin-right: 0;
 }
 .shipping_toggle{position: relative;
- cursor: pointer}
+ cursor: pointer;
+}
 .shipping_toggle ul{ position: absolute;
     width: 130px;
     top: 100%;
@@ -4947,13 +4948,14 @@ padding:15px 17px 25px 19px;
 .review_modal.prod_modal .modal-footer{
       padding: 12px 22px 12px 24px;
 }
-<<<<<<< HEAD
 .order_header_rght .custom_select_box.portion_select ul{    position: absolute;
     width: 130px;
     top: 100%;
     z-index: 9999;}
 .shipping_toggle{position: relative;
- cursor: pointer}
+ cursor: pointer;
+ float: right
+}
 .shipping_toggle ul{
     position: absolute;
     width: 110px;
@@ -5168,7 +5170,7 @@ margin-bottom: 7px;
   content: "\2605";
   position: absolute;
   left: 0;
-  color: #000;
+  color: orange;
 }
 /* Dropdown Button */
 .dropbtn {
@@ -5813,3 +5815,10 @@ display: inline-block;}
 .font_colr{
 	color: #999999;
 }
+
+.rfont_colr{
+	color: #4d4d4d
+}
+
+.current-rating > i{color: orange;}
+
