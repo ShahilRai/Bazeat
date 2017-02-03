@@ -8,7 +8,6 @@ import DocumentTitle from 'react-document-title';
 import { UserProfileForm } from 'react-stormpath';
 import request from 'superagent';
 
-let verify;
 let submitbutton;
 let updateDetail;
 export default class AddAccount extends React.Component {
@@ -40,8 +39,6 @@ export default class AddAccount extends React.Component {
     componentDidMount() {
       this.addAccountDetails();
     }
-
-
 
   saveBankDetails() {
     this.saveAccount(this.context.user.email,this.state.account_number).then((response) => {
@@ -142,16 +139,10 @@ export default class AddAccount extends React.Component {
 
   render() {
         submitbutton = <button type="submit" className="btn pull-right" disabled>
-                          <span data-spIf="!form.processing" onClick= {this.saveBankDetails} className="disabled" >Save details</span>
-                       </button>
-         verify = <input type = "file" onChange={this._handleImageChange} style={{display : "block"}}/>
+        <span data-spIf="!form.processing" onClick= {this.saveBankDetails} className="disabled" >Save details</span>
+       </button>
 
-
-       if(this.state.uploadedImages>0 ){
-          verify = <p> file uploaded successfully </p>
-       }
-
-        if(this.state.uploadedImages>0 && this.state.account_number){
+        if(this.state.account_number){
           submitbutton = <button type="submit" className="btn pull-right"><span data-spIf="!form.processing" onClick= {this.saveBankDetails}>Save details</span></button>
         }
 
@@ -159,12 +150,6 @@ if(this.state.status){
       updateDetail =  <div className="col-lg-9 col-md-8 col-sm-10 col-xs-12 edit_profile_rht_sidebar">
                         <div className="edit_prfile_detail_form">
                           <h3>Bank Account</h3>
-                          <div className="edt_prf_inner_detail">
-                            <div className="form-group row">
-                                <LabelField htmlFor="input_file" className="col-md-4 col-xs-12 col-form-label" />
-                                { verify}
-                            </div>
-                          </div>
                           <div className="edt_prf_inner_detail">
                             <div className="form-group row">
                               <LabelField htmlFor="account_number" className="col-md-4 col-xs-12 col-form-label" label="Account number" />
