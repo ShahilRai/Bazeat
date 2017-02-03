@@ -29,7 +29,7 @@ export default class ProductDetails extends React.Component {
                 </div>
                 <div className="prod_descr_rt">
                   <div className="prod_price">
-                    <h4 className="">kr {this.props.dsplyProdDetails.price}<sup>00</sup></h4>
+                    <h4 className="">kr {this.props.dsplyProdDetails.base_price}<sup>00</sup></h4>
                     <span className="">per portion</span>
                     <button type="button" className="btn btn-default nxt_btn prod_buy_btn">Buy</button>
                   </div>
