@@ -13,8 +13,6 @@ let _allCurrentWriteReviewResult;
 let allCurrentWriteReviewResult;
 let showReview;
 let userId;
-let curUserId;
-let WriteuserId;
 
 export default class ReviewPage extends React.Component {
 
@@ -43,7 +41,6 @@ export default class ReviewPage extends React.Component {
         given_rating_count : '',
         count : [],
         write_count : [],
-        written_count : [],
         new_count : ''
     }
     this.getUserId = this.getUserId.bind(this);
@@ -169,6 +166,8 @@ export default class ReviewPage extends React.Component {
   }
 
   updateProducerReviews(updatedData){
+    console.log("updatedData")
+    console.log(updatedData)
     this.setState({
       users_data : updatedData.producer_arr
     })
@@ -186,7 +185,7 @@ export default class ReviewPage extends React.Component {
       return(
         <div className="user_reveiw_list">
           <span className="rvw_user_img"><img src={review.photo} className="profile_image" /></span>
-          <span className="rvw_username"><Link to={"/user/"+userId}>{review.full_name}</Link><br/>
+          <span className="rvw_username"><Link to={"/user/"+userId} className = "rfont_colr">{review.full_name}</Link><br/>
             <span className="prod_review_date">{moment(review.date_joined).format('DD-MM-YYYY')}</span>
           </span>
           <span className="rvw_description">Write a review to share your thoughts and provide helpful feedback to Producer Name. Please bare in mind that reviews are public.</span>
