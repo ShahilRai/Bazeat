@@ -80,8 +80,6 @@ export function getReview(req, res, next) {
         if (err) {
           return res.status(422).send(err);
         }
-        user.reviews_count = reviews.length
-        user.save();
         return res.json({reviews: review1, total_count: reviews.length  });
         ;
       });
@@ -140,13 +138,11 @@ export function avg_ratings(reviews, newReview, next, total_count, res){
   reviews.forEach(function(item, index) {
       total_rating += item.rating
       avg_rating = (total_rating/total_count)
-      console.log('avg_rating')
-      console.log(avg_rating)
       User.findOneAndUpdate({_id: item.reviewed_for}, {$set: {'avg_rating': avg_rating}}, {new: true}).
-      exec(function(err, model) {
+      exec(function(err, user) {
         if (reviews.length == index+1){
-        console.log('model')
-        console.log(model)
+          user.reviews_count = total_count
+          user.save();
           return res.status(200).json({newReview});
         }
       })
@@ -155,8 +151,6 @@ export function avg_ratings(reviews, newReview, next, total_count, res){
 
 
 export function sendReply(req, res, next) {
-  console.log(req.body)
-  console.log(req.query)
   User.findOne({ email: req.body.email }).exec((err, user) => {
     const comment = new Comment({
       comment: req.body.comment_body,
@@ -188,7 +182,6 @@ export function reviewUserList(req, res){
           Product.find({_id: {"$in": products_arr }}).populate("_producer").exec((err, producer)=>{
             if(producer){
               producer.forEach(function(item, index) {
-                Review.find({reviewed_for: item._producer._id, is_replied: true}).exec((err,review) =>{
                 Review.find({reviewed_for: item._producer._id, is_reviewed: true}).exec((err,review) =>{
                   if(review.length == 0){
                     producer_arr.push(item._producer)
