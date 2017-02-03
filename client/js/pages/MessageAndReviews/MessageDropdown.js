@@ -64,7 +64,7 @@ export default class MessageDropdown extends React.Component {
 				</div>
 					{results}
 	          	<div className="chat_header" >
-	            	<span className="msgs_title">Reviews (1 new)</span>
+	            	<span className="msgs_title">Reviews</span>
 		              	<span className="edit_icon">
 		                <Link to="/reviews"><h5>all Reviews</h5>
 		               	</Link>

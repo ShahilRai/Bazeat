@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { Link } from 'react-router';
 import CheckoutStep from './CheckoutStep'
 let orderDetailResponse ;
 export default class OrderConfirmation extends React.Component {
@@ -7,7 +8,8 @@ export default class OrderConfirmation extends React.Component {
   static contextTypes = {
     authenticated: React.PropTypes.bool,
     user: React.PropTypes.object,
-    router: React.PropTypes.object.isRequired
+    router: React.PropTypes.object.isRequired,
+    router: React.PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -103,45 +105,45 @@ export default class OrderConfirmation extends React.Component {
     var MVA = this.state.orderDetail.shipment_vat_value + this.state.orderDetail.food_vat_value
     MVA = MVA.toFixed(2);
     return(
-        <div className="page_wrapper">
-          <div className="full_width ptop0">
-            <div className="chkout_pg chkoutstep4_1">
-              <h3>Confirmation</h3>
-              {this.changeTextConfirmationBelow()}
-              <CheckoutStep step={this.props.step}/>
-              {this.changeText()}
-              <div className="confirmation_step1">
-                <div className="inner_confrm1">
-                  <div class="cnfrm_price_prod_heading brdr_btm0">
-                    <span className="pull-left">Price for products:</span>
-                    <span className="pull-right">kr {this.state.orderDetail.total_amount.toFixed(2)}</span>
-                  </div>
-                  <div className="cnfrm_price_prod_heading">
-                    <span className="pull-left">Price for delivery:</span>
-                    <span className="pull-right">kr {this.state.orderDetail.shipment_price}</span>
-                  </div>
-                  <div className="cnfrm_tot_price">
-                    <span className="pull-left">Total price:</span>
-                    <span className="pull-right">kr {this.state.orderDetail.total_amount.toFixed(2)}</span>
-                  </div>
-                  <div className="cnfrm_tot_mva">
-                    <span className="pull-left ">MVA hereof:</span>
-                    <span className="pull-right">kr {MVA}</span>
-                  </div>
+      <div className="page_wrapper">
+        <div className="full_width ptop0">
+          <div className="chkout_pg chkoutstep4_1">
+            <h3>Confirmation</h3>
+            {this.changeTextConfirmationBelow()}
+            <CheckoutStep step={this.props.step}/>
+            {this.changeText()}
+            <div className="confirmation_step1">
+              <div className="inner_confrm1">
+                <div class="cnfrm_price_prod_heading brdr_btm0">
+                  <span className="pull-left">Price for products:</span>
+                  <span className="pull-right">kr {this.state.orderDetail.total_amount.toFixed(2)}</span>
                 </div>
-                <div className="cnfirm_stmnt">
-                  <p>You will now proceed to payement.</p>
-                  <p>When you confirm, goods cannot be removed from the order. </p>
+                <div className="cnfrm_price_prod_heading">
+                  <span className="pull-left">Price for delivery:</span>
+                  <span className="pull-right">kr {this.state.orderDetail.shipment_price}</span>
                 </div>
-                <div className="cnfrmation_1btns">
-                   <button type="button" className="btn btn-default continue_btn" onClick={this.gotoPayment}>Confirm and pay for order</button>
+                <div className="cnfrm_tot_price">
+                  <span className="pull-left">Total price:</span>
+                  <span className="pull-right">kr {this.state.orderDetail.total_amount.toFixed(2)}</span>
                 </div>
-                <p className="sales_agreemnt">I agree with the <a href="#">sales conditions</a> and I am aware of .....</p>
+                <div className="cnfrm_tot_mva">
+                  <span className="pull-left ">MVA hereof:</span>
+                  <span className="pull-right">kr {MVA}</span>
+                </div>
               </div>
+              <div className="cnfirm_stmnt">
+                <p>You will now proceed to payement.</p>
+                <p>When you confirm, goods cannot be removed from the order. </p>
+              </div>
+              <div className="cnfrmation_1btns">
+                 <button type="button" className="btn btn-default continue_btn" onClick={this.gotoPayment}>Confirm and pay for order</button>
+              </div>
+              <p className="sales_agreemnt">I agree with the <a href="#">sales conditions</a> and I am aware of .....</p>
             </div>
           </div>
         </div>
-      );
+      </div>
+    );
   }
 
   render() {

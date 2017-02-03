@@ -180,8 +180,6 @@ export function sendReply(req, res, next) {
 export function reviewUserList(req, res){
   User.findOne({ email: req.query.email }).exec((err, user) => {
     Order.find({_buyer: user._id}).select("products").exec((err, products) => {
-      console.log('products')
-      console.log(products)
       let products_arr = []
       let producer_arr = []
       products.forEach(function(item, index1) {
@@ -191,6 +189,7 @@ export function reviewUserList(req, res){
             if(producer){
               producer.forEach(function(item, index) {
                 Review.find({reviewed_for: item._producer._id, is_replied: true}).exec((err,review) =>{
+                Review.find({reviewed_for: item._producer._id, is_reviewed: true}).exec((err,review) =>{
                   if(review.length == 0){
                     producer_arr.push(item._producer)
                   }
