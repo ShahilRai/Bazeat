@@ -303,7 +303,8 @@ export function create_card(customer, order, next, req, res){
 
 export  function create_charge(customer, card, order, next, req, res){
   let amount = Math.round(order.total_amount.toFixed(2)*100)
-  let app_fee = Math.round(amount.toFixed(2)*100)
+  let calculated_app_fee = ((order.total_amount*0.1)+(order.total_qty*3.00))
+  let app_fee = Math.round(calculated_app_fee.toFixed(2)*100)
   stripe.charges.create({
     amount: amount,
     currency: "nok",
