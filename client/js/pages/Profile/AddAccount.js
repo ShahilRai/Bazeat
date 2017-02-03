@@ -37,9 +37,11 @@ export default class AddAccount extends React.Component {
     this.addAccountDetails = this.addAccountDetails.bind(this)
   }
 
-  componentDidMount() {
-    this.addAccountDetails();
-  }
+    componentDidMount() {
+      this.addAccountDetails();
+    }
+
+
 
   saveBankDetails() {
     this.saveAccount(this.context.user.email,this.state.account_number).then((response) => {
@@ -68,6 +70,8 @@ export default class AddAccount extends React.Component {
     e.preventDefault();
     let reader = new FileReader();
     let file = e.target.files[0];
+    console.log("file")
+    console.log(file)
     reader.readAsDataURL(file)
     reader.onloadend = () => {
       this.setState({
@@ -101,7 +105,7 @@ export default class AddAccount extends React.Component {
     });
   }
 
-  addAccountDetails() {
+ addAccountDetails() {
     this.addAccount(this.context.user.email).then((response) => {
       if(response.data) {
         if(response.data.status == false && response.data.err_msg) {
@@ -118,9 +122,10 @@ export default class AddAccount extends React.Component {
     });
   }
 
-  addAccount(email) {
+ addAccount(email) {
     return axios.get("/api/check_account?email="+email)
   }
+
 
   _renderleftMenus(){
     return(
@@ -150,52 +155,52 @@ export default class AddAccount extends React.Component {
           submitbutton = <button type="submit" className="btn pull-right"><span data-spIf="!form.processing" onClick= {this.saveBankDetails}>Save details</span></button>
         }
 
-    if(this.state.status){
-        updateDetail =  <div className="col-lg-9 col-md-8 col-sm-10 col-xs-12 edit_profile_rht_sidebar">
-                          <div className="edit_prfile_detail_form">
-                            <h3>Bank Account</h3>
-                            <div className="edt_prf_inner_detail">
-                              <div className="form-group row">
-                                  <LabelField htmlFor="input_file" className="col-md-4 col-xs-12 col-form-label" />
-                                  { verify}
-                              </div>
-                            </div>
-                            <div className="edt_prf_inner_detail">
-                              <div className="form-group row">
-                                <LabelField htmlFor="account_number" className="col-md-4 col-xs-12 col-form-label" label="Account number" />
-                                <InputField type="text" name="account_number" value = {this.state.user.account_number} onChange={this.setAccountNumber} Required/>
-                              </div>
+if(this.state.status){
+      updateDetail =  <div className="col-lg-9 col-md-8 col-sm-10 col-xs-12 edit_profile_rht_sidebar">
+                        <div className="edit_prfile_detail_form">
+                          <h3>Bank Account</h3>
+                          <div className="edt_prf_inner_detail">
+                            <div className="form-group row">
+                                <LabelField htmlFor="input_file" className="col-md-4 col-xs-12 col-form-label" />
+                                { verify}
                             </div>
                           </div>
-                          <div key="update-button" className="profile_gry_bot_bar">
-                            {submitbutton}
-                          </div>
-                        </div>
-              }else{
-                    updateDetail =<div className="col-lg-9 col-md-8 col-sm-10 col-xs-12 edit_profile_rht_sidebar">
-                          <div className="edit_prfile_detail_form">
-                            <h3>Bank Account</h3>
-                            <div className="bank_inner_detail">
-                              <div className="form-group row">
-                                <center> <h3>your bank  account no is ******************{this.state.lastDigit}</h3></center>
-                              </div>
+                          <div className="edt_prf_inner_detail">
+                            <div className="form-group row">
+                              <LabelField htmlFor="account_number" className="col-md-4 col-xs-12 col-form-label" label="Account number" />
+                              <InputField type="text" name="account_number" value = {this.state.user.account_number} onChange={this.setAccountNumber} Required/>
                             </div>
                           </div>
                         </div>
-                }
-      return (
-        <DocumentTitle title={`My Profile`}>
-          <div className="container padd_87">
-            <div className="full_width">
-              <div className="row">
-                <div className="col-lg-3 col-md-2 col-sm-2 col-xs-12 purchase_order_left_sidebar order_purchse_lt_wdth edit_profile_sidebar">
-                  {this._renderleftMenus()}
-                </div>
-                {updateDetail}
+                        <div key="update-button" className="profile_gry_bot_bar">
+                          {submitbutton}
+                        </div>
+                      </div>
+            }else{
+                  updateDetail =<div className="col-lg-9 col-md-8 col-sm-10 col-xs-12 edit_profile_rht_sidebar">
+                        <div className="edit_prfile_detail_form">
+                          <h3>Bank Account</h3>
+                          <div className="bank_inner_detail">
+                            <div className="form-group row">
+                              <center> <h3>your bank  account no is ******************{this.state.lastDigit}</h3></center>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+              }
+    return (
+      <DocumentTitle title={`My Profile`}>
+        <div className="container padd_87">
+          <div className="full_width">
+            <div className="row">
+              <div className="col-lg-3 col-md-2 col-sm-2 col-xs-12 purchase_order_left_sidebar order_purchse_lt_wdth edit_profile_sidebar">
+                {this._renderleftMenus()}
               </div>
+              {updateDetail}
             </div>
           </div>
-        </DocumentTitle>
-      );
-    }
-    }
+        </div>
+      </DocumentTitle>
+    );
+  }
+}

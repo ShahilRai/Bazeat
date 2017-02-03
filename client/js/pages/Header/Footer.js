@@ -26,10 +26,8 @@ export default class Footer extends React.Component {
               <div className="col-lg-7 col-md-10 col-sm-12 col-xs-12">
                 <ul className="footer_menu">
                   <li><Link to="/about">About us</Link></li>
-                  <li><Link to="/faq">FAQ</Link></li>
                   <li><Link to="/privacy">Privacy</Link></li>
                   <li><Link to="/terms">Terms</Link></li>
-                  <li><Link to="/help">Help</Link></li>
                 </ul>
               </div>
               <div className="col-lg-2 col-md-2 col-sm-12 col-xs-12">

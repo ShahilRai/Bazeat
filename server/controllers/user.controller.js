@@ -5,6 +5,7 @@ import * as MailService from '../services/mailer';
 import * as MessageService from '../services/twillio';
 import cuid from 'cuid';
 //Stripe Implementation
+import fs from 'fs';
 const keySecret = process.env.SECRET_KEY;
 const keyPublishable = process.env.PUBLISHABLE_KEY;
 const stripe = require("stripe")(keySecret);
@@ -141,8 +142,8 @@ export function addBankAccount(req, res) {
               country: "NO",
               managed: true,
               tos_acceptance: {
-                date: 1482909367,
-                ip: "203.115.106.212"
+                date: token.created,
+                ip: token.client_ip
               },
               legal_entity: {
                 dob: {
@@ -155,7 +156,6 @@ export function addBankAccount(req, res) {
                   line1: user.address,
                   postal_code: user.postal_code
                 },
-                verification: {document: user.stripe_file_id},
                 first_name: user.first_name,
                 last_name: user.last_name,
                 type: "individual"
@@ -168,7 +168,6 @@ export function addBankAccount(req, res) {
                 user.last4 = req.body.account_number.slice(-4)
                 user.account_number = req.body.account_number
                 user.account_added = true
-                // user.account_added = req.body.account_added
                 user.save((err, saved) => {
                   if (err) {
                     return res.status(422).send(err);
@@ -180,7 +179,32 @@ export function addBankAccount(req, res) {
                         if(err) {
                           return res.status(422).send(err);
                         } else {
-                          return res.json({ account: bank_account });
+                          stripe.fileUploads.create(
+                            {
+                              purpose: 'identity_document',
+                              file: {
+                                data: fs.readFileSync('client/images/success.png'),
+                                name: 'account.png',
+                                type: 'application/octet-stream'
+                              }
+                            },
+                            {stripe_account: user.account_id}, function(err, file) {
+                              if(err) {
+                                return res.status(422).send(err);
+                              } else {
+                                stripe.accounts.update(
+                                  user.account_id,
+                                  {legal_entity: {verification: {document: file.id}}}, function(err, document) {
+                                    if(err) {
+                                      return res.status(422).send(err);
+                                    } else {
+                                      return res.json({ account: document });
+                                    }
+                                  }
+                                );
+                              }
+                            }
+                          );
                         }
                       }
                     );
