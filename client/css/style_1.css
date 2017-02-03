@@ -710,8 +710,12 @@ color:#808080;
 .profile_rht_header.header_rht_menu li {
 	padding-right: 19px;
 }
-.profile_rht_header.header_rht_menu li.username_text{    padding-right: 0;
-    width: 110px;}
+.profile_rht_header.header_rht_menu li.username_text{      padding-right: 7px;
+    width: 142px;
+    padding-left: 0;
+    text-align: left;
+
+}
 .profile_rht_header.header_rht_menu li.username_text a{    height: 37px;
     overflow: hidden;
     float: left;
@@ -738,11 +742,13 @@ color:#808080;
 	background: url(../images/chat_icon_hover.png) no-repeat right center;
 }
 .header_rht_menu.profile_rht_header li a.user_icon {
-	background: url(../images/baker_icon.png) no-repeat center center;
-	height:31px;
+    background: url(../images/baker_icon.png) no-repeat right center;
+    height: 31px;
+    float: right;
+    padding-left: 0;
 }
 .header_rht_menu.profile_rht_header li a.user_icon:hover {
-	background: url(../images/baker_icon_hover.png) no-repeat center center;
+	background: url(../images/baker_icon_hover.png) no-repeat right center;
 }
 .username_text:hover .user_toggle_div{
 	display:block;
@@ -5803,11 +5809,3 @@ display: inline-block;}
  font-size: 10px;
 }
 }
-<<<<<<< HEAD
-
-/* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-=======
->>>>>>> 0809bf12cdd9ff4ee6af8fc04f79b525b8d31a62
