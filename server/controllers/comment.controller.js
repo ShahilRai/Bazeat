@@ -25,11 +25,11 @@ export function allReviews(req, res, next) {
               .limit(5)
               .populate({
                 path: 'reviewed_by',
-                select: 'full_name photo'
+                select: 'full_name photo cuid'
               })
               .populate({
                 path: 'reviewed_for',
-                select: 'full_name photo'
+                select: 'full_name photo cuid'
               })
               .populate({
                 path: 'comment',
@@ -66,11 +66,11 @@ export function getReview(req, res, next) {
         .sort("-createdAt").limit(per_page).skip(off_set)
         .populate({
           path: 'reviewed_by',
-          select: 'full_name photo'
+          select: 'full_name photo cuid'
         })
         .populate({
           path: 'reviewed_for',
-          select: 'full_name photo'
+          select: 'full_name photo cuid'
         })
         .populate({
           path: 'comment',
@@ -138,13 +138,11 @@ export function avg_ratings(reviews, newReview, next, total_count, res){
   reviews.forEach(function(item, index) {
       total_rating += item.rating
       avg_rating = (total_rating/total_count)
-      console.log('avg_rating')
-      console.log(avg_rating)
       User.findOneAndUpdate({_id: item.reviewed_for}, {$set: {'avg_rating': avg_rating}}, {new: true}).
-      exec(function(err, model) {
+      exec(function(err, user) {
         if (reviews.length == index+1){
-        console.log('model')
-        console.log(model)
+          user.reviews_count = total_count
+          user.save();
           return res.status(200).json({newReview});
         }
       })
@@ -153,8 +151,6 @@ export function avg_ratings(reviews, newReview, next, total_count, res){
 
 
 export function sendReply(req, res, next) {
-  console.log(req.body)
-  console.log(req.query)
   User.findOne({ email: req.body.email }).exec((err, user) => {
     const comment = new Comment({
       comment: req.body.comment_body,
@@ -175,35 +171,9 @@ export function sendReply(req, res, next) {
   })
 }
 
-
-// export function reviewUserList(req, res){
-//   User.findOne({ email: req.query.email }).exec((err, user) => {
-//     Order.find({_buyer: user._id}).select("products").exec((err, products) => {
-//       console.log('products')
-//       console.log(products)
-//       let products_arr = []
-//       products.forEach(function(item, index) {
-//         products_arr.push(item.products[0])
-//         if(products.length == index+1){
-//           Product.find({_id: {"$in": products_arr }}).populate("_producer").exec((err, producer)=>{
-//             if (err){
-//               return res.status(422).send(err);
-//             }
-//             else{
-//               return res.json({ producer });
-//             }
-//           })
-//         }
-//       })
-//     });
-//   });
-// }
-
 export function reviewUserList(req, res){
   User.findOne({ email: req.query.email }).exec((err, user) => {
     Order.find({_buyer: user._id}).select("products").exec((err, products) => {
-      console.log('products')
-      console.log(products)
       let products_arr = []
       let producer_arr = []
       products.forEach(function(item, index1) {
@@ -212,19 +182,11 @@ export function reviewUserList(req, res){
           Product.find({_id: {"$in": products_arr }}).populate("_producer").exec((err, producer)=>{
             if(producer){
               producer.forEach(function(item, index) {
-                console.log('item')
-                console.log(item)
-                Review.find({reviewed_for: item._producer._id, is_replied: true}).exec((err,review) =>{
-                  console.log('review')
-                  console.log(review)
-                  console.log('producer.length == index+1')
-                  console.log(producer.length == index+1)
+                Review.find({reviewed_for: item._producer._id, is_reviewed: true}).exec((err,review) =>{
                   if(review.length == 0){
                     producer_arr.push(item._producer)
                   }
                   if(producer.length == index+1){
-                    console.log('producer_arr')
-                    console.log(producer_arr)
                     return res.json({producer_arr});
                   }
                 })

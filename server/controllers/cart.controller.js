@@ -149,8 +149,8 @@ function set_total_price(cart, next, res){
   let product_image, product_name;
   cart.cartitems.forEach(function(item, index){
     Product.findOne({ _id: item.product_id }).exec((err, product) => {
-      product_total_price = (product.calculated_price*item.qty);
-      item_price = (product.calculated_price);
+      product_total_price = (product.base_price*item.qty);
+      item_price = (product.base_price);
       product_weight = (product.portion*item.qty);
       total_price += product_total_price;
       total_weight += product_weight;
@@ -200,8 +200,8 @@ export function removeCartItems(req, res) {
       if (err){
         return res.status(422).send(err);
       }
-      product_total_price = (product.calculated_price*cartItem.qty);
-      item_price = (product.calculated_price*cartItem.qty);
+      product_total_price = (product.base_price*cartItem.qty);
+      item_price = (product.base_price*cartItem.qty);
       product_weight = (product.portion*cartItem.qty);
       total_price = (cart.total_price - product_total_price);
       total_weight = (cart.total_weight - product_weight);

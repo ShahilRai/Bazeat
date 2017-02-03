@@ -1,6 +1,14 @@
 import React from 'react';
+import { Link } from 'react-router';
+import axios from 'axios';
+import Rating from 'react-simple-rating';
+
 
 export default class BazeatersWall extends React.Component {
+    static contextTypes = {
+    authenticated: React.PropTypes.bool,
+    user: React.PropTypes.object,
+  };
 
   render() {
     return (
@@ -9,23 +17,18 @@ export default class BazeatersWall extends React.Component {
           <a href="#" className="search_open">Open</a>
           <div className="bazeater_logo1">
             <span className="pos_rel"><img className="bazeaters_logo" src={this.props.bazeatersData.photo} />
-              <img src="images/revw_icon.png" className="chkd_img" />
             </span>
           </div>
-          <h4>{this.props.bazeatersData.full_name}</h4>
+          <h4 ><Link to={"/user/"+this.props.bazeatersData.cuid} className = "font_colr">{this.props.bazeatersData.full_name}</Link></h4>
           <p>{this.props.bazeatersData.city}</p>
           <ul className="food_section">
 
           </ul>
           <div className="star_rating">
-            <ul>
-              <li><a href="#"><img src="images/star_rating.png" /></a></li>
-              <li><a href="#"><img src="images/star_rating.png" /></a></li>
-              <li><a href="#"><img src="images/star_rating.png" /></a></li>
-              <li><a href="#"><img src="images/star_rating.png" /></a></li>
-              <li><a href="#"><img src="images/star_rating.png" /></a></li>
-            </ul>
-            <span className="review_num">613 reviews</span>
+          <span className="rvw_qty">
+          <Rating rating={this.props.bazeatersData.avg_rating} displayOnly={true} maxRating={5}  ratingSymbol={"\u2764"} />
+        </span>
+            <span className="review_num"> 2 reviews</span>
           </div>
         </div>
       </div>

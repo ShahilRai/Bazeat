@@ -11,14 +11,14 @@ export default class WriteReview extends React.Component {
   };
 
   constructor(props, context) {
-      super(props, context);
-        this.state = {
-          reviewUserData : [],
-          rating : '',
-          value : '',
-          currentRating : 0,
-          is_reviewed : true
-        }
+    super(props, context);
+      this.state = {
+        reviewUserData : [],
+        rating : '',
+        value : '',
+        currentRating : 0,
+        is_reviewed : true
+      }
   }
 
   handleClick(rating) {
@@ -27,10 +27,23 @@ export default class WriteReview extends React.Component {
     });
   }
 
+  getProducerArray(){
+    this.loadUserReviwData(this.context.user.email).then((response) => {
+      if(response.data) {
+        this.props.updateWrittenReviews(response.data)
+      }
+    }).catch((err) => {
+        console.log(err);
+      });
+  }
+
+ loadUserReviwData(email) {
+  return axios.get("/api/reviewusers?email="+email)
+ }
 
   WriteAReview(){
     this.WriteReviewData(this.context.user.email, this.refs.review.value,this.state.currentRating,this.state.is_reviewed).then((response) => {
-         this.props.updateReviews(response.data)
+      this.props.updateReviews(response.data)
         if(response.data) {
           toastr.success('Your review successfully submitted');
           this.setState({
@@ -43,7 +56,7 @@ export default class WriteReview extends React.Component {
         toastr.error('Sorry, your review not submitted');
         console.log(err);
     });
-     
+    this. getProducerArray();
   }
 
   WriteReviewData(email,review_body,rating,is_reviewed){
@@ -83,7 +96,7 @@ export default class WriteReview extends React.Component {
                 <div className="form-group">
                   <label className="user_rvw_label">Your rating</label>
                 <div className="rvw_by_user">
-                  <Rating  displayOnly={false} maxRating={5} onSubmit={this.handleClick.bind(this)} ratingSymbol={"\u2764"} />
+                  <Rating  displayOnly={false} maxRating={5} onSubmit={this.handleClick.bind(this)} ratingSymbol={"\u2605"} />
                 </div>
               </div>
             </div>
@@ -101,6 +114,6 @@ export default class WriteReview extends React.Component {
       </div>
     </div>
   </div>
-    )
-  }
+  )
+}
 }

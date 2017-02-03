@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import toastr from 'toastr';
+import Loading from 'react-loading';
 import CheckoutStep from './CheckoutStep';
 let item = [];
 let productArray = [];
@@ -18,7 +19,8 @@ export default class DeliveryType extends React.Component {
     super(props);
     this.state = {
       item : [],
-      shipmentDetails : []
+      shipmentDetails : [],
+      sendematSelectedState : ''
     }
   }
 
@@ -27,6 +29,9 @@ export default class DeliveryType extends React.Component {
   }
 
   shippingAlternateDetail(){
+    this.setState({
+      sendematSelectedState : 'waiting'
+    })
     var cart_cuid = this.props.cart_detail.cuid
     var email = this.context.user.email;
     if(this.props.cart_detail.total_weight<10){
@@ -65,8 +70,8 @@ export default class DeliveryType extends React.Component {
   }
 
   render() {
-    if(sendematSelected)
-      sendemat_shipping_detail=<div className="table-main mtop40">
+    if(sendematSelected == 'sendemat'){
+      sendemat_shipping_detail = <div className="table-main mtop40">
           <div className="table-wrapper">
             <table className="table table-striped">
               <thead>
@@ -102,6 +107,12 @@ export default class DeliveryType extends React.Component {
                <button type="button" className="btn btn-default continue_btn" onClick={this.shipping_alternate_selected.bind(this)} ref="myRef">Continue</button>
           </div>
         </div>
+    }
+    else if(this.state.sendematSelectedState == 'waiting'){
+        sendemat_shipping_detail = <div className="table-main mtop40">
+        <Loading type='spokes' color='#e3e3e3'/>
+        </div>
+      }
     return (
       <div className="full_width_container">
         <div className="full_width ptop0">

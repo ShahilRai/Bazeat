@@ -126,13 +126,27 @@ export function deleteProduct(req, res) {
 
 export function getIngrdients(req, res){
   let re = new RegExp(req.query.search, 'i');
-  Ingredient.find().or([{ 'name': { $regex: re }}]).sort('name').select("-_products -__v").exec(function
+  Ingredient.find({ name: re }).sort('name').select("-_products -__v").exec(function
     (err, ingredients) {
       if (err){
         return res.status(422).send(err);
       }
       else {
-        return res.json(ingredients: ingredients);
+        if(ingredients.length > 0){
+          return res.json(ingredients: ingredients);
+        }
+        else{
+          const newIngredient = new Ingredient();
+          newIngredient.name = req.query.search
+          newIngredient.save((err, ingredient) => {
+            if (err) {
+             return res.status(422).send(err);
+            }
+            else{
+              return res.json([ingredient]);
+            }
+          })
+        }
       }
   })
 }
