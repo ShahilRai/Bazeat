@@ -114,7 +114,7 @@ export default class PurchaseOrdersList extends React.Component {
         <td><span className={pckd}>{pckdSpan}</span></td>
         <td><span className={shppd}>{shppdSpan}</span></td>
         <td className="bold">kr {this.props.order.total_amount.toFixed(2)}</td>
-        {dlvr}
+        <td>{dlvr}</td>
       </tr>
     )
   }

@@ -13,9 +13,6 @@ export default class ListAllPackages extends React.Component {
   }
 
   render(){
-    var pck_date = moment(this.props.listOfPackage.pkg_date).format('DD-MM-YYYY');
-    var shp_date = this.props.listOfPackage.shippingdata ? this.props.listOfPackage.shippingdata.ship_date : "";
-    shp_date = moment(shp_date).format('DD-MM-YYYY');
     return(
       <tr>
         <td className="text-center">

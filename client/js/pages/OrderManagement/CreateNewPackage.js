@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import PubSub from 'pubsub-js';
+import moment from 'moment';
 import { Link } from 'react-router';
 import ReceivedOrder from './ReceivedOrder';
 import PurchaseOrders from './PurchaseOrders';
@@ -24,7 +25,7 @@ export default class CreateNewPackage extends React.Component {
       orderItems: [],
       packed_qty_value : 0,
       _updateState: [],
-      pckge_date: '',
+      pckge_date: moment(new Date(),'YYYY-MM-DD').format('YYYY-MM-DD'),
       newPackageDetails: [],
       po: ""
     };
@@ -32,10 +33,10 @@ export default class CreateNewPackage extends React.Component {
     this.handleInputChange = this.handleInputChange.bind(this)
     this.checkProductQty = this.checkProductQty.bind(this)
     this.handlePackageDate = this.handlePackageDate.bind(this)
-    this.getViewPackge = this.getViewPackge.bind(this)
+    /*this.getViewPackge = this.getViewPackge.bind(this)*/
     this.validate = this.validate.bind(this)
-    PubSub.subscribe('pckg detail', this.getViewPackge);
-    PubSub.subscribe( 'state', this._showAddedPackage );
+    /*PubSub.subscribe('pckg detail', this.getViewPackge);*/
+    /*PubSub.subscribe( 'state', this._showAddedPackage );*/
   }
 
   componentDidMount(){
@@ -106,8 +107,8 @@ export default class CreateNewPackage extends React.Component {
       this.addPackageOrder(ordList, p_Id, p_date, cuid).then((response) => {
         if(response.statusText == "OK") {
           toastr.success('Package successfully created');
-          this.getViewPackge("status", response.data)
-          this._showAddedPackage("data", response.data)
+          /*this.getViewPackge("status", response.data)
+          this._showAddedPackage("data", response.data)*/
           _orditems=[];
           this.context.router.push('/orders/'+orderCuid)
         }
@@ -159,11 +160,11 @@ export default class CreateNewPackage extends React.Component {
     this.checkProductQty(event.target.value, oID, index)
   }
 
-  getViewPackge(msg, result){
-  }
+/*  getViewPackge(msg, result){
+  }*/
 
-  _showAddedPackage(receivedMsg, receivedData){
-  }
+ /* _showAddedPackage(receivedMsg, receivedData){
+  }*/
 
   _renderleftMenus(){
     return(
@@ -203,7 +204,7 @@ export default class CreateNewPackage extends React.Component {
                     </div>
                     <div className="form-group">
                       <label htmlFor="" className="col-form-label">Date</label>
-                      <input type="date" className="form-control" onChange={this.handlePackageDate} />
+                      <input type="date" className="form-control" value={this.state.pckge_date} onChange={this.handlePackageDate} />
                     </div>
                   </form>
                 </div>

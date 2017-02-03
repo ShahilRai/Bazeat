@@ -47,9 +47,12 @@ export default class NewShipment extends React.Component {
       this.addNewShipment(p_id, s_no, alrdy_dlvrd, ntfy_to_cstmr, _shpDate, status).then((response) => {
         if(response.statusText== "OK") {
           toastr.success('Shipment successfully created');
-          this.props.viewPackage("data", response.data.pkg)
+          this.props._showPackage("data", response.data.packages)
+          this.props.getSingleOrder(response.data.cuid)
+          this.props._updateShpQty(response.data.orderitems)
         }
       }).catch((err) => {
+        toastr.error('Shipment already created');
         console.log(err);
       });
     }

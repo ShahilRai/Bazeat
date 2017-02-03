@@ -28,6 +28,8 @@ export default class ReceivedOrder extends React.Component {
     this.showDialog = this.showDialog.bind(this)
     this._updateAddress = this._updateAddress.bind(this)
     this._showPackage = this._showPackage.bind(this)
+    this._updateShpQty = this._updateShpQty.bind(this)
+    this.getSingleOrder = this.getSingleOrder.bind(this)
   }
 
   componentDidMount(){
@@ -69,6 +71,12 @@ export default class ReceivedOrder extends React.Component {
     })
   }
 
+  _updateShpQty(shpMnt){
+    this.setState({
+      orderItems: shpMnt
+    })
+  }
+
   _updateAddress(details){
     this.setState({
       orderDetails: details
@@ -88,7 +96,7 @@ export default class ReceivedOrder extends React.Component {
     PubSub.publish( 'state', this._showPackage );
     let showPackage;
     if(undefined !== this.state.packages && this.state.packages.length > 0){
-      showPackage = <PackagesList _showPackage={this._showPackage} packages= {this.state.packages} />
+      showPackage = <PackagesList getSingleOrder={this.getSingleOrder} _showPackage={this._showPackage} _updateShpQty={this._updateShpQty} packages= {this.state.packages} />
     }
     else{
       showPackage = <div className="order_caption">
@@ -215,7 +223,7 @@ export default class ReceivedOrder extends React.Component {
                                   <span>{order.shipped_qty} Shipped</span>
                                 </td>
                                 <td className="text-right">{order.product_price}</td>
-                                <td className="text-right">1000,00</td>
+                                <td className="text-right">{order.product_weight}</td>
                                 <td className="">
                                   <a href="#" className="red_font"><i className="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                                 </td>
@@ -231,7 +239,7 @@ export default class ReceivedOrder extends React.Component {
                           </div>
                           <div className="inner_order_subtot">
                             <span className="mrht75 prht15">Where of MVA (15%)</span>
-                            <span>163,05</span>
+                            <span>{this.state.orderDetails.vat}</span>
                           </div>
                           <div className="inner_order_subtot">
                             <span className="mrht75">Shipment</span>
@@ -239,7 +247,7 @@ export default class ReceivedOrder extends React.Component {
                           </div>
                           <div className="inner_order_subtot">
                             <span className="mrht75 prht15">Where of MVA (25%)</span>
-                            <span>30,00</span>
+                            <span>{this.state.orderDetails.shipment_vat_value}</span>
                           </div>
                         </div>
                         <div className="gross_order">
