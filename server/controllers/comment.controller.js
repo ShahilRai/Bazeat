@@ -198,10 +198,11 @@ export function reviewUserList(req, res){
                   }
                 })
               })
-            }
-          })
-        }
-      })
+            })
+          }
+        })
+      }
     });
   });
+})
 }
