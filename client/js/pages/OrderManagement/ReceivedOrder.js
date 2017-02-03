@@ -96,7 +96,7 @@ export default class ReceivedOrder extends React.Component {
     PubSub.publish( 'state', this._showPackage );
     let showPackage;
     if(undefined !== this.state.packages && this.state.packages.length > 0){
-      showPackage = <PackagesList getSingleOrder={this.getSingleOrder} _showPackage={this._showPackage} _updateShpQty={this._updateShpQty} packages= {this.state.packages} />
+      showPackage = <PackagesList getSingleOrder={this.getSingleOrder} _showPackage={this._showPackage} _updateShpQty={this._updateShpQty} packages= {this.state.packages} orderDetails={this._updateAddress}/>
     }
     else{
       showPackage = <div className="order_caption">
