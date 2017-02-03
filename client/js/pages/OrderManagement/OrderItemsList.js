@@ -42,7 +42,9 @@ export default class OrderItemsList extends React.Component {
           <span>{this.props.order.packed_qty}</span>
         </td>
         <td className="text-center">
+        <form id={"shp"+ this.props.index}>
           <input type="text" ref ="shpQty" name={this.props.name} className="form-control pck_input" onChange={this.props.handleInputChange} disabled={this.state.isDisabled} />
+        </form>
         </td>
       </tr>
     )

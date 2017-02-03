@@ -36,9 +36,6 @@ export default class ReviewsAndLikes extends React.Component {
     return(
       <div className="revw_top">
         <h3>{this.props.userInfo.full_name}
-          <span className="revw_icon">
-            <img src="/images/revw_icon.png"/>
-          </span>
         </h3>
         <span className="rvw_qty">
           <Rating rating={3.5} displayOnly={true} maxRating={5}  ratingSymbol={"\u2764"} />

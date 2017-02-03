@@ -38,28 +38,12 @@ packageSchema.plugin(autoIncrement.plugin, {
     startAt: 100000
 });
 
-
-// packageSchema.post('save', function(packag) {
-//   // Order.findByIdAndUpdate({_id: packag._order}, {$pushAll: {packages: [packag]}} , function(err, model) {
-//   // })
-//   // Order.update({_id: packag._order}, {$set: {after_payment_status: "Confirmed"}},function(err) {
-//   // });
-
-// });
-
-
 packageSchema.post('remove', function(packg) {
   let pkg_items
   let ship_qty = 0;
   let pack_qty = 0;
-  console.log('packg')
-  console.log(packg)
   pkg_items = packg.packageitems
-  console.log('pkg_items')
-  console.log(pkg_items)
   pkg_items.forEach(function(pitem, index){
-    console.log('pitem')
-    console.log(pitem)
     PackageItem.findOne({_id: pitem}).exec((err, pkgitem) => {
       OrderItem.findOne({ _id: pkgitem._orderitem }).exec((err, orderitem) => {
         orderitem.packed_qty = (orderitem.packed_qty - pkgitem.packed_qty)

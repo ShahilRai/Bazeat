@@ -120,7 +120,7 @@ export default class CreateNewPackage extends React.Component {
 
   addPackageOrder(ordList, p_Id, p_date, cuid){
     if(ordList.length == 0){
-      toastr.error('Creating Package failed. Packed order quantity must be less than ordered quantity');
+      toastr.error('Please fill valid quantity to pack');
     }
     return axios.put("/api/update_package", {
       orderitems: ordList,
@@ -130,7 +130,7 @@ export default class CreateNewPackage extends React.Component {
     });
   }
 
-  checkProductQty(shp_value, id){
+  checkProductQty(shp_value, id, index){
     var p_qty = shp_value;
     var o_Id = id;
     this.isValidQty(o_Id, p_qty).then((response) => {
@@ -139,10 +139,11 @@ export default class CreateNewPackage extends React.Component {
       }
       else{
         alert("Packed order quantity must be less than ordered quantity")
-        return false;
+        document.getElementById("shp"+ index).reset()
+        delete _orditems[id];
       }
     }).catch((err) => {
-      console.log(err);
+      delete _orditems[id];
     });
   }
 
@@ -155,7 +156,7 @@ export default class CreateNewPackage extends React.Component {
     this.setState({
       [event.target.name]: event.target.value
     })
-    this.checkProductQty(event.target.value, oID)
+    this.checkProductQty(event.target.value, oID, index)
   }
 
   getViewPackge(msg, result){
@@ -221,7 +222,7 @@ export default class CreateNewPackage extends React.Component {
                         </thead>
                         <tbody>
                             {this.state.orderItems.map((order, index) =>
-                              <OrderItemsList name={"ord"+index} ref="ordItem"
+                              <OrderItemsList name={"ord"+index} ref="ordItem" id={index}
                               key = {index} index = {index} order={order}
                               value={this.state.packed_qty_value}
                               handleInputChange={(event) => this.handleInputChange(event, index, order.id)} />)}
