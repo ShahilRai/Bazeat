@@ -13,6 +13,8 @@ let _allCurrentWriteReviewResult;
 let allCurrentWriteReviewResult;
 let showReview;
 let userId;
+let cuUserId;
+let writeUserId;
 
 export default class ReviewPage extends React.Component {
 
@@ -197,12 +199,13 @@ export default class ReviewPage extends React.Component {
     var _allCurrentWriteReview = this.state.current_user_review ? this.state.current_user_review : []
     _allCurrentWriteReviewResult = _allCurrentWriteReview.map((current_write_review, index)=>{
       return current_write_review.map((item, i)=>{
-        this.state.write_count.push(item);
         if(item.reviewed_by.id==this.state.current_user_data){
+          this.state.write_count.push(item);
+          writeUserId = item.reviewed_for.cuid
           return(
             <div className="user_reveiw_list">
               <span className="rvw_user_img"><img src={item.reviewed_for.photo} className="profile_image"/></span>
-              <span className="rvw_username">{item.reviewed_for.full_name}<br/>
+              <span className="rvw_username"><Link to={"/user/"+writeUserId} className = "rfont_colr">{item.reviewed_for.full_name}</Link><br/>
                  <Rating  displayOnly={true} rating={item.rating} maxRating={5}  ratingSymbol={"\u2605"} />
               </span>
               <span className="rvw_description">{item.review}</span>
@@ -218,10 +221,11 @@ export default class ReviewPage extends React.Component {
       return current_review.map((item, i)=>{
         if(item.reviewed_for.id==this.state.current_user_data){
           this.state.count.push(item);
+          cuUserId =item.reviewed_by.cuid
           return(
             <div className="user_reveiw_list f2f2f2_bg">
               <span className="rvw_user_img"><img src={item.reviewed_by.photo} height="50" width="50"/> </span>
-              <span className="rvw_username">{item.reviewed_by.full_name}<br/>
+              <span className="rvw_username"><Link to={"/user/"+cuUserId} className = "rfont_colr">{item.reviewed_by.full_name}</Link><br/>
                 <Rating  displayOnly={true} rating={item.rating} maxRating={5}  ratingSymbol={"\u2605"} />
               </span>
               <span className="rvw_description">{item.review}</span>
