@@ -31,8 +31,36 @@ export default class PrivacyPage extends React.Component {
       return(<div>loading...........</div>);
     }
     return(
-      <div>
-        <div style= { {padding:' 200px '} } dangerouslySetInnerHTML={{__html: this.state.static_content.page ? this.state.static_content.page.description : 'Comming Soon....'}}></div>
+      <div className="page_wrapper">
+        <div className="outer_abt f2f2f2_bg">
+          <div className="container">
+            <div className="static_container">
+              <div className="row">
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 about_us">
+                  <h3>Perssonvern</h3>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
+                  molestie magna eu cursus viverra. Morbi ultricies sollicitudin ante, vitae ornare tellus maximus in. Cras viverra, ante et pretium scelerisque, tellus augue lacinia mi, in euismod turpis lacus quis
+                  magna. Fusce a arcu et purus commodo interdum. Donec ultricies massa ut magna feugiat, et volutpat sapien porttitor. Suspendisse massa ut magna feugiat, et volutpat sapien porttitor. Suspendisse massa ut magna feugiat, et volutpat sapien porttitor. Suspendisse
+                  </p>
+                </div>
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 inner_about">
+                  <h4 className="priv_subheading">Headline</h4>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
+                  molestie magna eu cursus viverra. Morbi ultricies sollicitudin ante, vitae ornare tellus maximus in. Cras viverra, ante et pretium scelerisque, tellus augue lacinia mi, in euismod turpis lacus quis
+                  magna. Fusce a arcu et purus commodo interdum. Donec ultricies massa ut magna feugiat, et volutpat sapien porttitor. Suspendisse massa ut magna feugiat, et volutpat sapien porttitor. Suspendisse massa ut magna feugiat, et volutpat sapien porttitor. Suspendisse
+                  </p>
+                </div>
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 inner_about">
+                  <h4 className="priv_subheading">Headline</h4>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
+                  molestie magna eu cursus viverra. Morbi ultricies sollicitudin ante, vitae ornare tellus maximus in. Cras viverra, ante et pretium scelerisque, tellus augue lacinia mi, in euismod turpis lacus quis
+                  magna. Fusce a arcu et purus commodo interdum. Donec ultricies massa ut magna feugiat, et volutpat sapien porttitor. Suspendisse massa ut magna feugiat, et volutpat sapien porttitor. Suspendisse massa ut magna feugiat, et volutpat sapien porttitor. Suspendisse
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
