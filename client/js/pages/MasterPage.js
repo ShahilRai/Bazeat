@@ -1,7 +1,6 @@
 import { Link } from 'react-router';
 import React, { PropTypes } from 'react';
 import DocumentTitle from 'react-document-title';
-
 import Header from './Header/Header';
 import Footer from './Header/Footer';
 import LoginModal from './Authenticate/LoginModal';
@@ -24,8 +23,6 @@ export default class MasterPage extends React.Component {
 
   render() {
     let website_pages;
-    console.log("this.context.router.location.pathname")
-    console.log(this.context.router.location.pathname)
     if((this.context.router.location.pathname=='/about') || (this.context.router.location.pathname=='/privacy') || (this.context.router.location.pathname=='/terms')){
       website_pages = <div className='about_container'>
         <div className='page_wrapper'>
