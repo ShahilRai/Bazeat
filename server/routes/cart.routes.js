@@ -4,6 +4,8 @@ const router = new Router();
 
   router.route('/cart/:cuid').get(CartController.getCart);
 
+  router.route('/check_product_qty').get(CartController.checkProductQty);
+
 // Add to cart
   router.route('/carts').post(CartController.createCart);
 
