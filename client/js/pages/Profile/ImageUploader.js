@@ -4,6 +4,7 @@ import Loading from 'react-loading';
 import Dropzone from 'react-dropzone';
 import request from 'superagent';
 import UserLogo from '../AddProduct/UserLogo';
+let picselected='select';
 export default class ImageUploader extends React.Component {
 
   static contextTypes = {
@@ -22,6 +23,7 @@ export default class ImageUploader extends React.Component {
   }
 
   onDrop(files) {
+    picselected = 'notselect'
     var file = files[0];
     this.setState({
       file: file,
@@ -37,6 +39,8 @@ export default class ImageUploader extends React.Component {
         return alert('uploading failed!');
       }
       const uploadedImagePath = JSON.parse(res.text);
+      picselected = 'select'
+
       this.setState({
         uploadedImages: uploadedImagePath.image_url
       });
@@ -45,20 +49,25 @@ export default class ImageUploader extends React.Component {
 
   render() {
     let $imagePreview = null;
-    let loader_image = <Loading type='balls' color='#e3e3e3' />
     if(this.state.uploadedImages) {
       var url = this.state.uploadedImages;
     }
-    if(url)
-    {
-      $imagePreview = (<UserLogo url={url} height="101" width="101" />);
+    if(picselected=='select'){
+      if(url)
+      {
+        $imagePreview = (<UserLogo url={url} height="101" width="101" />);
+      }
+      else if(this.props.image){
+        $imagePreview = (<UserLogo url={this.state.profileImage} height="101" width="101" />);
+      }
+      else {
+        $imagePreview = (<UserLogo url={require('../../../images/producer_logo.png')} />);
+      }
     }
-    else if(this.props.image){
-      $imagePreview = (<UserLogo url={this.state.profileImage} height="101" width="101" />);
+    else if(picselected == 'notselect'){
+      $imagePreview= <Loading type='spokes' color='#ff0000' />
     }
-    else {
-      $imagePreview = (<UserLogo url={require('../../../images/producer_logo.png')} />);
-    }
+
     return (
       <div className="edt_prf_inner_detail">
         <div className="form-group row">
@@ -77,7 +86,6 @@ export default class ImageUploader extends React.Component {
     );
   }
 }
-
 
 
 
