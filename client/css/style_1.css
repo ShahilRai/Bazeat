@@ -727,7 +727,7 @@ color:#808080;
 	padding-right: 33px;
 }
 .profile_rht_header.header_rht_menu li:last-child {
-	padding-right: 0;
+	
 }
 .header_rht_menu.profile_rht_header li a.help_icon {
 	background: url(../images/help_icon.png) no-repeat right center;
@@ -2338,7 +2338,9 @@ width: 48%;
 	opacity:0;
 	margin:0;
 }
-
+.items_list_info ul li span.items_price {
+  width: 25%;
+}
 
 .prod_checkbox label::before{
     background-color: #b3b3b3;
@@ -2779,7 +2781,7 @@ padding-left:0;
   display: none;
   position: absolute;
   right: -23px;
-  top: 50px;
+  top: 67px;
   width: 305px;
     background: #ffffff none repeat scroll 0 0;
 z-index:99999;
@@ -2827,6 +2829,8 @@ height:30px;
   float: left;
   width: 54%;
 }
+
+
 .list_images img{    float: left;
     width: 30px;
     height: 31px;}
@@ -2877,7 +2881,7 @@ font-weight:600;
 .sr_no .fa-caret-up{      color: #cccccc;
     display: inline-block;
     font-size: 16px;
-    left: 1px;
+    right: 6px;
     line-height: normal;
     position: relative;
     background: none;
@@ -2888,7 +2892,7 @@ font-weight:600;
 .sr_no .fa-caret-down {
     color: #cccccc;
     font-size: 16px;
-    left: 1px;
+    right: 6px;
     background: none;
     padding: 0;
     position: relative;
