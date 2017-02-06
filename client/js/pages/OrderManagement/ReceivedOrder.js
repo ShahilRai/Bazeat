@@ -150,7 +150,7 @@ export default class ReceivedOrder extends React.Component {
                           <a href="#"><i className="fa fa-file-pdf-o" aria-hidden="true"></i></a>
                         </li>
                         <li>
-                          <a href="#"><i className="fa fa-envelope-o" aria-hidden="true"></i></a>
+                          <Link to={"/orders/"+this.props.params.orderId+"/e-mail"}><i className="fa fa-envelope-o" aria-hidden="true"></i></Link>
                         </li>
                       </ul>
                       <EditPurchaseOrder _updateAddress={this._updateAddress} orderDetails={this.state.orderDetails} orderItems={this.state.orderItems}/>

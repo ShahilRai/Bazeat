@@ -5232,8 +5232,38 @@ margin-bottom: 7px;
 	padding: 234px 15px 0;
 }
 
+/*=========Mail form=======================*/
+.mail_outer{
+  float: left;width: 80%;
+}
+.mail_outer .edt_prf_inner_detail {
+  padding: 40px 64px 70px 28px;
+}
 
+.mail_outer .edt_prf_inner_detail textarea{
+  height: 350px;
+}
 
+.edit_prfile_detail_form.mail_outer h3{
+  background: none;
+    color: #828283;
+    font-size: 22px;
+    border-bottom: 1px solid #ccc;
+    padding-left: 40px;
+    padding-right: 16px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+}
+.close_mail{
+  float: right;    margin-top: 10px;
+
+}
+.close_mail img{margin-right: 0;}
+.mail_outer .fa-envelope-o{
+    margin-right: 10px;
+    font-size: 29px;
+    color: #a1a1a1;
+}
 
 /********MEDIA QUERY*********/
 

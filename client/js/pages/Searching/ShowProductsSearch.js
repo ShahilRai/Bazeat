@@ -197,7 +197,7 @@ export default class ShowProductsSearch extends React.Component {
                 <div className="grid_wall_wrapper">
                   {this.state.allProductsData.map((prodlist, index) => {
                     return (
-                        <div className="wall-column" key={index} index={index+1}><WallImageViewer prodlist={prodlist} index={index+1}/></div>
+                        <div className="wall-column" key={index}><WallImageViewer prodlist={prodlist} index={index+1}/></div>
                     );
                   })}
                 </div>
