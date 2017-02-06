@@ -41,8 +41,6 @@ export function addOrder(req, res) {
             let food_vat_value = 0;
             let shipment_vat_value = 0;
              Product.findOne({ _id: item.product_id }).exec((err, product) => {
-              console.log('item.qtyproduct')
-              console.log(product)
               total_weight += (product.portion*item.qty)
               total_price +=(product.calculated_price*item.qty)
               const newOrderItem = new OrderItem();
@@ -73,6 +71,7 @@ export function addOrder(req, res) {
                   order.shipment_vat_value = shipment_vat_value;
                   order.price_with_ship = data.total_price + parseInt(req.body.shipment_price) ;
                   order.save(function (errors, order1) {
+                    deduct_product_qty(order1)
                     if (errors){
                       return res.status(422).send(errors);
                     }
@@ -93,6 +92,23 @@ export function addOrder(req, res) {
   });
 }
 
+
+function deduct_product_qty(order){
+  order.orderitems.forEach(function(item, index){
+    OrderItem.findOne({_id: item}).exec((err, orderitem) =>{
+      let product_qty = -(orderitem.product_qty)
+      Product.findOneAndUpdate({_id: orderitem._product}, {$inc: {quantity: product_qty }},{new: true}).exec(function(err, product1){
+        if (err){
+          return res.status(422).send(err);
+        }
+        else{
+          console.log('product1')
+          console.log(product1)
+        }
+      });
+    })
+  })
+}
 
 export function getOrders(req, res) {
   Order.find().sort('-dateAdded').exec((err, orders) => {

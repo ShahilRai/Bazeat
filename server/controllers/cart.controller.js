@@ -243,3 +243,18 @@ export function emptyCart(req, res) {
       return res.status(200).send({msg: "Cart Empty"});
   });
 }
+
+
+export function checkProductQty(req,res){
+  Product.findOne({_id: req.query.product_id}).exec((err, product) =>{
+    if (err){
+      return res.status(422).send({msg: err});
+    }
+    if (product.quantity > req.query.qty){
+      return res.status(200).send({msg: "Product Available"});
+    }
+    else{
+      return res.status(200).send({msg: "Out of stock"});
+    }
+  })
+}
