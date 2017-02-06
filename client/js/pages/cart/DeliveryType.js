@@ -110,7 +110,7 @@ export default class DeliveryType extends React.Component {
     }
     else if(this.state.sendematSelectedState == 'waiting'){
         sendemat_shipping_detail = <div className="table-main mtop40">
-        <Loading type='spokes' color='#e3e3e3'/>
+        <Loading type='spokes' color='#ff0000'/>
         </div>
       }
     return (

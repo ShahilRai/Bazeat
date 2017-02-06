@@ -185,7 +185,6 @@ export default class CartModal extends React.Component {
       <li className="next_list" id="demo">
       <a href="#" onClick={this.getCart.bind(this)}></a>
       </li>
-        <a href="javaScript:void(0)" >
           <div className="items_list_info">
             <p className="empty_item_text">You have {this.state.items.length} items in your bag • <span  className="empty_bag" onClick={this.removeAllItems.bind(this)} >Empty bag</span></p>
             <ul>
@@ -210,7 +209,6 @@ export default class CartModal extends React.Component {
                 {goTOBagBtn}
               </div>
           </div>
-        </a>
       </span>
     );
   }
