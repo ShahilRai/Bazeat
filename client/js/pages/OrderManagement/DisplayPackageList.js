@@ -71,7 +71,7 @@ export default class DisplayPackageList extends React.Component {
             </ul>
           </ToggleDisplay>
         </span>
-          <NewShipment getSingleOrder={this.props.getSingleOrder} _updateShpQty={this.props._updateShpQty} _showPackage={this.props._showPackage} index={this.props.index} _pckge= {this.props._pckge} />
+          <NewShipment getSingleOrder={this.props.getSingleOrder} _updateShpQty={this.props._updateShpQty} _showPackage={this.props._showPackage} index={this.props.index} _pckge= {this.props._pckge} orderDetails={this.props.orderDetails} />
         </td>
       </tr>
     )

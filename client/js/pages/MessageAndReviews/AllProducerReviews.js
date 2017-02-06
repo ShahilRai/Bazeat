@@ -71,7 +71,7 @@ export default class AllProducerReviews extends React.Component {
       _allProducerReviewResult = <h3> <center>no reviews to show.</center></h3>
     }else {
      _allProducerReviewResult = _allProducerReview.map((item, i)=>{
-         userId = item.reviewed_by.id
+         userId = item.reviewed_by.cuid
         if(item.comment){
           var _comment= <div className="rvw_replies">
                           <span className="rvw_user_img"><img src={item.reviewed_for.photo} className="profile_image"/></span>
@@ -85,7 +85,7 @@ export default class AllProducerReviews extends React.Component {
           <div className="review_display1">
             <span className="rvw_user_img"><img src={item.reviewed_by.photo} className="profile_image"/></span>
             <span className="rvw_user_description">
-              <h4><Link to={"/user/"+userId}>{item.reviewed_by.full_name}</Link></h4>
+              <h4><Link to={"/user/"+userId} className = "rfont_colr">{item.reviewed_by.full_name}</Link></h4>
               <p>{item.review}</p>
               <a href="javascript:void(0)" onClick={this.expandedText.bind(this)} className="more_msgs">{this.state.expanded ? ' ' : ''}</a>
               { expandedDiv }
