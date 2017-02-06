@@ -168,8 +168,6 @@ export default class ReviewPage extends React.Component {
   }
 
   updateProducerReviews(updatedData){
-    console.log("updatedData")
-    console.log(updatedData)
     this.setState({
       users_data : updatedData.producer_arr
     })

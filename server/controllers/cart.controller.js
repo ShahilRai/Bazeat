@@ -1,4 +1,4 @@
-import Order from '../models/order';
+ import Order from '../models/order';
 import Cart from '../models/cart';
 import User from '../models/user';
 import OrderItem from '../models/orderitem';
@@ -12,10 +12,6 @@ let localStorage = new LocalStorage('./scratch');
 
 
 export function getCart(req, res) {
-  console.log('req.query')
-  console.log(req.query)
-  console.log('req.params')
-  console.log(req.params)
   if(!req.params.cuid) {
     return res.status(422).send({msg: "send valid cart id"});
   }
@@ -26,10 +22,7 @@ export function getCart(req, res) {
     } else {
       data.cuid = req.params.cuid;
     }
-    console.log(data)
     Cart.findOne(data).exec((err, cart) => {
-      console.log('cart')
-      console.log(cart)
       if (err) {
         return res.status(422).send(err);
       }
@@ -48,27 +41,14 @@ export function getCart(req, res) {
 }
 
 export function createCart(req, res) {
-  console.log(req.body)
   let flag = false;
   Cart.findOne({ cuid: req.body.cuid }).exec(function ( err, cart ) {
-      console.log(err)
-      console.log("err")
-      console.log(!cart)
     if (err) {
       return res.json(422,{error_msg: "Cart not found"});
     }
     if (!cart) {
       const newCart = new Cart(req.body);
       newCart.cuid = cuid();
-      // newCart.user = user._id;
-      // newCart.address.postal_code = user.postal_code;
-      // newCart.address.city = user.city;
-      // newCart.address.line1 = user.address;
-      // newCart.address.country = user.country;
-      // newCart.address.phone_num = user.phone;
-      // newCart.address.email = user.email;
-      // newCart.address.first_name = user.first_name;
-      // newCart.address.last_name = user.last_name;
       newCart.save((error, savedcart) => {
         if (error) {
           return res.status(422).send(error);
@@ -77,39 +57,55 @@ export function createCart(req, res) {
         }
       });
     }
-    else{
-      cart.cartitems.forEach(function(item) {
-        if(item.product_id == req.body.cartitems.product_id){
-          flag = true;
-        }
+    else if(cart.cartitems.length == 0){
+      Cart.findOneAndUpdate(
+        { "_id": cart._id },
+        {$pushAll: {"cartitems": [req.body.cartitems]}},{new: true}).exec(function(err, cart2){
+          if (err){
+            return res.status(422).send(err);
+          }
+          else{
+            set_total_price(cart2, null, res)
+          }
       });
-      if(flag === true){
-        Cart.findOneAndUpdate(
-          { "_id": cart._id, "cartitems.product_id": req.body.cartitems.product_id },
-          { "$set": {
-              "cartitems.$.qty": req.body.cartitems.qty
-            }
-          },{new: true}).exec(function(err, updated_cart_item){
-            if (err){
-                return res.status(422).send(err);
+    }
+    else{
+      Product.findOne({_id: cart.cartitems[0].product_id}).select(" -_id _producer").exec((err, product1) => {
+        Product.findOne({_id: req.body.cartitems.product_id}).select("-_id _producer").exec((err, product2) => {
+          if(product1._producer.toString() == product2._producer.toString()){
+            cart.cartitems.forEach(function(item) {
+              if(item.product_id == req.body.cartitems.product_id){
+                flag = true;
               }
-              else{
-                 set_total_price(updated_cart_item, null, res)
-              }
-          });
-      }
-      else{
-        Cart.findOneAndUpdate(
-          { "_id": cart._id },
-          {$pushAll: {"cartitems": [req.body.cartitems]}},{new: true}).exec(function(err, cart2){
-            if (err){
-              return res.status(422).send(err);
+            });
+            if(flag === true){
+              Cart.findOneAndUpdate(
+                { "_id": cart._id, "cartitems.product_id": req.body.cartitems.product_id },
+                {$inc: {'cartitems.$.qty': req.body.cartitems.qty}
+                },{new: true}).exec(function(err, updated_cart_item){
+                  if (err){
+                      return res.status(422).send(err);
+                    }
+                    else{
+                       set_total_price(updated_cart_item, null, res)
+                    }
+                });
+            }else{
+              Cart.findOneAndUpdate({ "_id": cart._id }, {$pushAll: {"cartitems": [req.body.cartitems]}},{new: true}).exec(function(err, cart2){
+                  if (err){
+                    return res.status(422).send(err);
+                  }
+                  else{
+                    set_total_price(cart2, null, res)
+                  }
+              });
             }
-            else{
-              set_total_price(cart2, null, res)
-            }
+          }
+          else{
+            return res.status(200).send({msg: "Add product of same producer"});
+          }
         });
-      }
+      });
     }
   });
 }
@@ -132,14 +128,11 @@ function set_current_cart_to_user(check_email, cart_cuid, next, res) {
           }
         }
       ).exec(function(err, cart){
-        console.log('cart')
-        console.log(cart)
     })
   })
 }
 
 function set_total_price(cart, next, res){
-  console.log(cart)
   let item_qty = 0;
   let item_price = 0;
   let product_total_price = 0;
@@ -172,9 +165,7 @@ function set_total_price(cart, next, res){
         },
         {new: true}).
         exec(function(err,doc) {
-          console.log("doc")
           if (cart.cartitems.length == index+1){
-            console.log(doc)
             return res.json({ cart: doc});
           }
         });
@@ -194,7 +185,6 @@ export function removeCartItems(req, res) {
     if (err) {
       return res.status(422).send(err);
     }
-    console.log(req.query)
     let cartItem = cart.cartitems.id(req.query.cartitem_id)
     Product.findOne({ _id: cartItem.product_id }).exec((err, product) => {
       if (err){
@@ -252,4 +242,19 @@ export function emptyCart(req, res) {
       }
       return res.status(200).send({msg: "Cart Empty"});
   });
+}
+
+
+export function checkProductQty(req,res){
+  Product.findOne({_id: req.query.product_id}).exec((err, product) =>{
+    if (err){
+      return res.status(422).send({msg: err});
+    }
+    if (product.quantity > req.query.qty){
+      return res.status(200).send({msg: "Product Available"});
+    }
+    else{
+      return res.status(200).send({msg: "Out of stock"});
+    }
+  })
 }
