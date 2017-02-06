@@ -48,8 +48,6 @@ export default class AllProducerReviews extends React.Component {
     });
     let selected = data.selected;
     let offset = Math.ceil(selected);
-    console.log(offset)
-    console.log("offset")
     this.setState({
       offset: offset
     });
@@ -95,8 +93,6 @@ export default class AllProducerReviews extends React.Component {
         )
     })
   }
-    console.log("this.state.all_producer_reviews.length")
-    console.log(this.state.all_producer_reviews.length)
     var expandedDiv = this.getMoreTextDiv();
     return (
       <div className="review_display_inner">
