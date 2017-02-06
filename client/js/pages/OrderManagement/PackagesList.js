@@ -31,7 +31,7 @@ export default class PackagesList extends React.Component {
         if(response.statusText == "OK") {
           array.splice(index, 1);
           var newArray = array
-          this.props._showPackage("delete", newArray)
+          //this.props._showPackage("delete", newArray)
           toastr.success('Package successfully deleted');
         }
         this.context.router.push('/orders/'+pId)
@@ -47,7 +47,6 @@ export default class PackagesList extends React.Component {
   }
 
   render(){
-    PubSub.publish( 'pckg detail', this.viewPackage );
     return(
       <div className="new_pckg_table">
         <div className="table-main overflow_none">
@@ -64,8 +63,8 @@ export default class PackagesList extends React.Component {
                 </tr>
               </thead>
               <tbody>
-              {this.props.packages.map((_pckge, index) => <DisplayPackageList packages= {this.props.packages}
-                _showPackage={this.props._showPackage} key = {index} index={index + 2}
+              {this.props.packages.map((_pckge, index) => <DisplayPackageList packages= {this.props.packages} orderDetails={this.props.orderDetails} _updateShpQty={this.props._updateShpQty}
+                _showPackage={this.props._showPackage} key = {index} index={index + 2} getSingleOrder={this.props.getSingleOrder}
                 _pckge = {_pckge} deletePackageConfirm= {this.deletePackageConfirm}/> )}
               </tbody>
             </table>

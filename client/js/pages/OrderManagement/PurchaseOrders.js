@@ -62,6 +62,7 @@ export default class PurchaseOrders extends React.Component {
                   {thValue.map((heading, index) =>
                       <th key={index} className="">{heading}</th>
                     )}
+                  <th></th>
                 </tr>
               </thead>
               <tbody>

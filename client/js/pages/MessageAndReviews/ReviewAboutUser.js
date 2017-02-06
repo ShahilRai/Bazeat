@@ -68,10 +68,13 @@ static contextTypes = {
 
   render(){
     var submitComment
+    var areaField
      if(this.props.is_replied){
        submitComment = <button type="button" className="btn btn-default nxt_btn orange_bg" onClick={this.WriteAComment.bind(this)} disabled>Submit comment</button>
+       areaField = <textarea ref="comment_review" className=""  onChange={this.textAreaValue.bind(this)} value={this.state.value} disabled></textarea>
      }else{
-        submitComment = <button type="button" className="btn btn-default nxt_btn orange_bg" onClick={this.WriteAComment.bind(this)} data-dismiss="modal" >Submit comment</button>
+       submitComment = <button type="button" className="btn btn-default nxt_btn orange_bg" onClick={this.WriteAComment.bind(this)} data-dismiss="modal" >Submit comment</button>
+        areaField = <textarea ref="comment_review" className=""  onChange={this.textAreaValue.bind(this)} value={this.state.value} ></textarea>
       }
     return(
       <div className="modal fade prod_modal review_modal" id={"user_review" +this.props.review_index} tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -95,7 +98,7 @@ static contextTypes = {
                   <div className="form-group">
                     <label className="user_rvw_label">Comment</label>
                     <div className="rvw_by_user">
-                      <textarea ref="comment_review" className=""  onChange={this.textAreaValue.bind(this)} value={this.state.value} ></textarea>
+                      {areaField}
                     </div>
                   </div>
                 </div>

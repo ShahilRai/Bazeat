@@ -1,4 +1,5 @@
 import React from 'react';
+import Rating from 'react-simple-rating';
 
 export default class LocationTabView extends React.Component {
 
@@ -9,13 +10,7 @@ export default class LocationTabView extends React.Component {
           <span className="s_name wdth_11"><img  className="location_logo" src={this.props.locData.photo} /></span>
           <span className="s_name name_wdth26">{this.props.locData.full_name}</span>
           <span className="rvws_wdth star_rating">
-            <ul>
-              <li><a href="#"><img src="images/star_rating.png" /></a></li>
-              <li><a href="#"><img src="images/star_rating.png" /></a></li>
-              <li><a href="#"><img src="images/star_rating.png" /></a></li>
-              <li><a href="#"><img src="images/star_rating.png" /></a></li>
-              <li><a href="#"><img src="images/star_rating.png" /></a></li>
-            </ul>
+            <Rating rating={this.props.locData.avg_rating} displayOnly={true} maxRating={5}  ratingSymbol={"\u2764"} />
             <span className="review_num">613 reviews</span>
           </span>
           <span className="wdth_15 categ_wdth">
