@@ -29,7 +29,7 @@ export default class MapViewContainer extends React.Component {
         url: "/api/search/location?longitude="+position.coords.longitude+'&latitude='+position.coords.latitude
      }).done(function(data) {
         self.setState({
-          users_with_coordinates: data
+          users_with_coordinates: data.users
         })
         }).fail(function() {
         console.log('failed to load');

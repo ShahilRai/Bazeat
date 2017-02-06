@@ -16,6 +16,7 @@ export default class UserHomePage extends React.Component {
   static contextTypes = {
     authenticated: React.PropTypes.bool,
     user: React.PropTypes.object,
+    router: React.PropTypes.object.isRequired
    }
 
   constructor(props, context) {
@@ -31,6 +32,7 @@ export default class UserHomePage extends React.Component {
     };
     this.selectCategoryData = this.selectCategoryData.bind(this);
     this.showAllCategory = this.showAllCategory.bind(this);
+   
   }
 
   componentDidMount() {
@@ -121,6 +123,8 @@ export default class UserHomePage extends React.Component {
     })
    }
 
+  
+
   render(){
     var img;
     var uData;
@@ -133,14 +137,14 @@ export default class UserHomePage extends React.Component {
     if(this.state.route == '/user-reviews'){
         var _allReviews=<AllProducerReviews />
     } else if(this.state.route == '/user/:userId'){
-          var _category = <CategoryMenu categoryMenuClick = {this.selectCategoryData} allCategoryMenuClick = {this.showAllCategory}/>
-          var _logo = <AddNewProductLogo />
-          if (this.state.data_loaded && !this.state.cat_loaded) {
-            uData = <ProductCollection productInfo = {this.state.user.products}/>
-          }
-          if(this.state.cat_loaded && !this.state.data_loaded){
-            uData = <ProductCollection cat_data = {this.state.user}/>
-          }
+        var _category = <CategoryMenu categoryMenuClick = {this.selectCategoryData} allCategoryMenuClick = {this.showAllCategory}/>
+        var _logo = <AddNewProductLogo />
+        if (this.state.data_loaded && !this.state.cat_loaded) {
+          uData = <ProductCollection productInfo = {this.state.user.products}/>
+        }
+        if(this.state.cat_loaded && !this.state.data_loaded){
+          uData = <ProductCollection cat_data = {this.state.user}/>
+        }
       }
 
     return(
