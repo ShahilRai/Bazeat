@@ -22,6 +22,8 @@ export default class Header extends React.Component {
       allMessages: [],
       all_reviews:[],
       offset: 0,
+      producer_info: {},
+      user_info:{}
     };
   }
 
@@ -29,7 +31,9 @@ export default class Header extends React.Component {
     this.loadCurrentUser(email).then((response) => {
         if(response.data.user) {
           this.setState({
-            currentUser_cuid: response.data.user ? response.data.user.cuid : ''
+            currentUser_cuid: response.data.user ? response.data.user.cuid : '',
+            producer_info: response.data.user.producer_info,
+            user_info: response.data.user
           });
         }
     }).catch((err) => {
@@ -102,7 +106,7 @@ export default class Header extends React.Component {
             <SearchInputBox />
             <NearMeIcon />
             <div className="col-lg-5 col-md-5 col-sm-12 col-xs-12 pull-right">
-              <Menu _cartList = {this.state._cartList}  cuid={userId} allMessages={this.state.allMessages} allReviews={this.state.all_reviews} />
+              <Menu _cartList = {this.state._cartList}  cuid={userId} allMessages={this.state.allMessages} allReviews={this.state.all_reviews} producer_name={this.state.producer_info} user_info={this.state.user_info}/>
             </div>
           </div>
         </div>
