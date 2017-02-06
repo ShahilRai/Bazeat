@@ -6,8 +6,8 @@ import CheckoutStep from './CheckoutStep';
 let item = [];
 let productArray = [];
 let selectedPrice ;
-let sendemat_shipping_detail;
-let sendematSelected = '';
+let sendemat_shipping_detail = null;
+let sendematSelected = null;
 export default class DeliveryType extends React.Component {
 
   static contextTypes = {
