@@ -5323,6 +5323,8 @@ font-size: 18px;
 .mid_container {
  padding: 5px 0 15px;
 }
+
+ 
 .home_top_category ul li {
  padding: 10px 0;
  width: 100%;
@@ -5752,6 +5754,9 @@ font-size: 20px;
 
 .items_list_info{top: 54px;}
 
+/*7feb17**/
+.chkd_icon img{max-width:100%;}
+.chkd_description{margin-left:15px;}
 
 
 }
@@ -5924,3 +5929,41 @@ display: inline-block;}
 }
 
 .current-rating > i{color: orange;}
+
+/*=====SHARE PRODUCT MODAL=====================*/
+.share_modal .modal-dialog{
+	max-width:500px;
+}
+.share_modal .modal-body{
+	padding: 15px 26px;
+}
+.share_modal .modal-content{
+	border:15px solid #ccc;
+}
+.share_modal .modal-header{
+	padding-top: 7px;
+    padding-bottom: 0;
+	border-bottom:0;}
+.fb_btn{
+	padding: 5px 19px;
+    font-size: 13px;
+    color: #fff;
+}
+.share_modal .btn-default{margin-top:0;}
+.modal-body span{
+	display:inline-block;
+	vertical-align:middle;
+}
+.chkd_icon{width:20%;}
+.chkd_description{
+    width: 72%;
+    margin-left: 26px;
+}
+.chkd_description p{
+    font-size: 15px;
+    color: #797979;
+    line-height: normal;
+    margin-bottom: 13px;
+}
+
+
