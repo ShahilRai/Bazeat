@@ -36,7 +36,7 @@ export default class PrivacyPage extends React.Component {
           <div className="container">
             <div className="static_container">
               <div className="row">
-                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 about_us">
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 about_us terms_section">
                   <h3>Perssonvern</h3>
                   <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
                   molestie magna eu cursus viverra. Morbi ultricies sollicitudin ante, vitae ornare tellus maximus in. Cras viverra, ante et pretium scelerisque, tellus augue lacinia mi, in euismod turpis lacus quis

@@ -40,7 +40,7 @@ export default class CartModal extends React.Component {
     var self = this
     var incrCartProduct = this.state.incrCartProductItems
     incrCartProduct.product_id = this.state.items[i].product_id
-    incrCartProduct.qty = this.state.items[i].qty + 1
+    incrCartProduct.qty = 1
     cart_id = cookie.load('cart_cuid') ? cookie.load('cart_cuid') : ''
     this.incrCartData(incrCartProduct, cart_id).then((response) => {
       if(response.data) {
@@ -61,7 +61,7 @@ export default class CartModal extends React.Component {
    if(this.state.items[i].qty > 1){
     var incrCartProduct = this.state.incrCartProductItems
     incrCartProduct.product_id = this.state.items[i].product_id
-    incrCartProduct.qty = this.state.items[i].qty - 1
+    incrCartProduct.qty = -1
     cart_id = cookie.load('cart_cuid') ? cookie.load('cart_cuid') : ''
      this.incrCartData(incrCartProduct, cart_id).then((response) => {
         if(response.data) {
@@ -179,8 +179,10 @@ export default class CartModal extends React.Component {
       goTOBagBtn = <button type="submit" className="btn pull-right redish_btn" data-toggle="modal" data-target="#login_modal" onClick={this.openBag.bind(this)}>Go to bag</button>
     }
     return(
+      <span>
       <li className="next_list" id="demo">
-        <a href="javaScript:void(0)" onClick={this.getCart.bind(this)}>
+      <a href="#" onClick={this.getCart.bind(this)}></a>
+      </li>
           <div className="items_list_info">
             <p className="empty_item_text">You have {this.state.items.length} items in your bag • <span  className="empty_bag" onClick={this.removeAllItems.bind(this)} >Empty bag</span></p>
             <ul>
@@ -205,8 +207,7 @@ export default class CartModal extends React.Component {
                 {goTOBagBtn}
               </div>
           </div>
-        </a>
-      </li>
+      </span>
     );
   }
 }

@@ -6,8 +6,8 @@ import CheckoutStep from './CheckoutStep';
 let item = [];
 let productArray = [];
 let selectedPrice ;
-let sendemat_shipping_detail;
-let sendematSelected = '';
+let sendemat_shipping_detail = null;
+let sendematSelected = null;
 export default class DeliveryType extends React.Component {
 
   static contextTypes = {
@@ -110,7 +110,7 @@ export default class DeliveryType extends React.Component {
     }
     else if(this.state.sendematSelectedState == 'waiting'){
         sendemat_shipping_detail = <div className="table-main mtop40">
-        <Loading type='spokes' color='#e3e3e3'/>
+        <Loading type='spokes' color='#ff0000'/>
         </div>
       }
     return (

@@ -1,11 +1,13 @@
 import React from 'react';
 import request from 'superagent';
+import Loading from 'react-loading';
+let picselected='select';
 export default class Banner extends React.Component {
   static contextTypes = {
     authenticated: React.PropTypes.bool,
     user: React.PropTypes.object
   };
-  
+
   constructor(props) {
     super(props);
     this.state = {
@@ -16,6 +18,7 @@ export default class Banner extends React.Component {
   }
 
   _handleImageChange(e) {
+    picselected = 'notselect'
     e.preventDefault();
     let reader = new FileReader();
     let file = e.target.files[0];
@@ -36,11 +39,11 @@ export default class Banner extends React.Component {
         return alert('uploading failed!');
       }
       const uploadedImagePath = JSON.parse(res.text);
+      picselected = 'select'
       this.setState({
-        uploadedImages: uploadedImagePath.bgimage_url      
+        uploadedImages: uploadedImagePath.bgimage_url
       });
-      console.log(this.state.uploadedImages)
-    });   
+    });
   }
   render(){
     let $imagePreview = null;
@@ -48,15 +51,20 @@ export default class Banner extends React.Component {
     if(this.state.uploadedImages) {
       url = this.state.uploadedImages;
     }
-    if (url) {
-      $imagePreview = (<img src={url} />);
+    if(picselected=='select'){
+      if (url) {
+        $imagePreview = (<img src={url} />);
+      }
+      else if(this.props.name){
+        $imagePreview = (<img src={this.props.name}/>);
+      }
+      else{
+         $imagePreview = ( <img src={require("../../../images/review_banner.jpg")} />)
+      }
     }
-    else if(this.props.name){
-      $imagePreview = (<img src={this.props.name}/>);
+    else if(picselected == 'notselect'){
+      $imagePreview=<Loading type='spokes' color='#ff0000'/>
     }
-    else{
-       $imagePreview = ( <img src={require("../../../images/review_banner.jpg")} />)
-    }       
     return(
       <div className="banner_wrapper" >
         {$imagePreview}
@@ -64,7 +72,7 @@ export default class Banner extends React.Component {
         <input type="file" onChange={this._handleImageChange} />
         <i className="fa fa-camera" aria-hidden="true"></i>
         Add a photo</label>
-        </div>
+      </div>
     )
   }
 }

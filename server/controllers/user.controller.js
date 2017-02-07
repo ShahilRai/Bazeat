@@ -411,13 +411,13 @@ export function checkUserAccount(req,res){
     }
     else{
       if(user.profile_added == false) {
-        return res.status(422).send({status: false, err_msg: "Update your profile first"});
+        return res.status(200).send({status: false, msg: "Update your profile first"});
       }
       if(user.account_added == false){
-        return res.status(422).send({status: false, err_msg: "Add your account first"});
+        return res.status(200).send({status: false, msg: "Add your account first"});
       }
       if(user.profile_added == true && user.account_added == true){
-        return res.status(200).send({status: true, err_msg: "You are ready to go"});
+        return res.status(200).send({status: true, msg: "You are ready to go"});
       }
     }
   })
