@@ -16,7 +16,10 @@ export function gecodeLocation(req, res) {
     center : { type : 'Point', coordinates :
     coords}, minDistance: 100, maxDistance : 50000 }).exec(function(err, users) {
       if (err) {
-        return res.status(422).send(err);;
+        console.log('err')
+        console.log(err)
+        return res.status(422).send(err);
+
       }
         return res.status(200).json({users});
    });
@@ -40,8 +43,6 @@ export function usersResults(req, res) {
 
 export function productsResults(req, res) {
   User.findOne({email: req.query.email}).exec(function(err,user){
-    console.log('user')
-    console.log(user)
     let data = {}
     if(req.query.search){
       data.product_name = new RegExp(req.query.search, 'i')

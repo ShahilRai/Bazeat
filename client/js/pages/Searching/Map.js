@@ -17,8 +17,6 @@ export default class Map extends React.Component {
           lat: venue.loc[1]
   			}
   		}
-      console.log("venue")
-      console.log(venue)
 			return(
         <Marker name={'Current location'} key={i} {...marker} onClick={() => this.props.onMarkerClick(venue)}>
           <InfoWindow onCloseClick={() => this.props.onMarkerClose(venue)}>

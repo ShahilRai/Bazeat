@@ -9,6 +9,7 @@ import toastr from 'toastr';
 import LoginModal from '../Authenticate/LoginModal';
 let cart_id;
 let cuid;
+let available_prod_msg;
 export default class WallImageViewer extends React.Component {
 
   static contextTypes = {
@@ -23,7 +24,8 @@ export default class WallImageViewer extends React.Component {
         items : {},
         cartProductItems: {
           product_id: '',
-          qty: 1
+          qty: 1,
+          available_msg : ''
         },
         likeProduct:''
       }
@@ -35,18 +37,36 @@ export default class WallImageViewer extends React.Component {
     var cartData = this.props.wallImages?this.props.wallImages:this.props.prodlist;
     cartData.qty = 1;
     cartProduct.product_id = cartData.id
-    cart_id = cookie.load('cart_cuid') ? cookie.load('cart_cuid') : ''
-    this.sendCartData(cartProduct, cart_id).then((response) => {
-      if(response.data) {
-        cookie.save('cart_cuid', response.data.cart.cuid);
+    var qty = cartProduct.qty
+    var product_id = cartProduct.product_id
+
+    this.chkProdAvailability(product_id,qty).then((response) => {
+      if(response.data){
         this.setState({
-          items : response.data.cart
+        available_msg : response.data.msg
         })
-        PubSub.publish('cart.added', this.state.items);
+        if(response.data.msg == 'Product Available'){
+          cart_id = cookie.load('cart_cuid') ? cookie.load('cart_cuid') : ''
+          this.sendCartData(cartProduct, cart_id).then((response) => {
+            if(response.data) {
+              cookie.save('cart_cuid', response.data.cart.cuid);
+              this.setState({
+                items : response.data.cart
+              })
+              PubSub.publish('cart.added', this.state.items);
+            }
+          }).catch((err) => {
+            console.log(err);
+            toastr.success("Sorry you can only Add product of same producer");
+            });
+        }
+        else if(response.data.msg == 'Out of stock'){
+          toastr.success("Out of stock");
+        }
       }
-    }).catch((err) => {
+    }).catch((err) =>{
       console.log(err);
-    });
+      });
   }
 
   sendCartData(cartArray, cart_id) {
@@ -54,6 +74,9 @@ export default class WallImageViewer extends React.Component {
       cuid: cart_id,
       cartitems: cartArray
     })
+  }
+  chkProdAvailability(product_id,qty){
+    return axios.get("/api/check_product_qty?product_id="+product_id+"&qty="+qty)
   }
 
   likeProduct(){
