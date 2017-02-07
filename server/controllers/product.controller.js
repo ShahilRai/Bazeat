@@ -291,7 +291,7 @@ export function handleProducts(req, res) {
 // fetch all products by category_id
 
 export function getProductsByCategory(req, res) {
-  User.findOne({email: req.query.email}).exec((err, producer) => {
+  User.findOne({cuid: req.query.cuid}).exec((err, producer) => {
     Product.find({ _producer: producer._id, product_category: req.query.category_id }).exec((err, products) => {
       if (err) {
         return res.status(422).send(err);
