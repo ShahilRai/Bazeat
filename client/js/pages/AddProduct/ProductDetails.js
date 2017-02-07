@@ -3,6 +3,7 @@ let delivery_info;
 let start_time;
 let end_time;
 let day;
+let bought_items;
 export default class ProductDetails extends React.Component {
 
   static contextTypes = {
@@ -24,6 +25,28 @@ export default class ProductDetails extends React.Component {
     }
     else if(this.props.dsplyProdDetails.pickup){
       delivery_info = <li className="prod_vehicle"><a href="#">Can be picked up</a></li>
+    }
+
+    if(this.props.dsplyProdDetails.bought_items && this.props.dsplyProdDetails.locally_produced_items){
+      bought_items = <li className="prod_pin">
+                      <a href="#">
+                        <img src="images/house.png" />
+                      </a>
+                    </li>
+    }
+    else if(this.props.dsplyProdDetails.bought_items){
+      bought_items = <li>
+                      <a href="#">
+                        <img src="images/house.png" />
+                      </a>
+                    </li>
+    }
+    else if(this.props.dsplyProdDetails.locally_produced_items){
+      bought_items = <li>
+                      <a href="#">
+                        <img src="images/prod_pin.png" />
+                      </a>
+                    </li>
     }
     var nutrtnTab;
     if(this.props.dsplyProdDetails._producer.if_producer){
@@ -57,11 +80,7 @@ export default class ProductDetails extends React.Component {
                     return <li className="prod_del" key={index}><a href="#">{result}: {start_time}-{end_time}</a></li>
                   })}
                     {delivery_info}
-                    <li className="prod_pin">
-                      <a href="#">
-                        <img src="images/house.png" />
-                      </a>
-                    </li>
+                    {bought_items}
                   </ul>
                   <button type="button" className="btn btn-default open_btn mtop15">Open</button>
                 </div>
