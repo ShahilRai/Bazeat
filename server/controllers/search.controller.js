@@ -1,4 +1,5 @@
 import User from '../models/user';
+import Like from '../models/like';
 import Product from '../models/product';
 import ProductCategory from '../models/productcategory';
 import cuid from 'cuid';
@@ -11,7 +12,6 @@ export function gecodeLocation(req, res) {
   let coords = [];
     coords[0] = req.query.longitude;
     coords[1] = req.query.latitude;
-    console.log(coords)
     User.where('loc').near({
     center : { type : 'Point', coordinates :
     coords}, minDistance: 100, maxDistance : 50000 }).exec(function(err, users) {
@@ -23,7 +23,6 @@ export function gecodeLocation(req, res) {
 }
 
 export function usersResults(req, res) {
-  console.log(req.query.search)
   let re = new RegExp(req.query.search, 'i');
   User.find({$or:[{'full_name':re}, { 'email':re}]}).sort('full_name').exec(
     function(err,users){
@@ -37,11 +36,8 @@ export function usersResults(req, res) {
   );
 }
 
-
 export function productsResults(req, res) {
-  User.findOne({email: req.query.email}).exec(function(err,user){
-    console.log('user')
-    console.log(user)
+  User.findOne({email: req.query.email}).exec(function(err,user) {
     let data = {}
     if(req.query.search){
       data.product_name = new RegExp(req.query.search, 'i')
@@ -52,23 +48,48 @@ export function productsResults(req, res) {
     if(req.query.category_id){
       data.product_category = {"$in": req.query.category_id }
     }
-    if(user){
+    if(user) {
       data._producer = {"$ne": user._id}
     }
-    console.log('data')
-    console.log(data)
     Product.find(data).populate("_producer ingredients allergens product_category").sort('product_name').exec(
-      function(err,products){
-        console.log('products')
-        console.log(products)
+      function(err, products){
         if (err) {
-          return res.status(422).send(err);;
+          return res.status(422).send(err);
         }
-        else{
-          return res.status(200).json({products});
+        let item_arrays = []
+        if(products.length == 0) {
+          return res.json({ item_arrays });
+        }
+        else {
+          if(user) {
+            for (var i = 0, len = products.length; i < len; i++) {
+              (function(i) {
+                let item = products[i];
+                let items = {item}
+                Like.find({ _product: item._id, _liker: user._id }).exec(function(err, plikes) {
+                  items.is_like = ((plikes.length == 0) ? false : true)
+                  item_arrays.push(items)
+                  if(item_arrays.length == products.length) {
+                    return res.json({ item_arrays });
+                  }
+                })
+              })(i);
+            }
+          } else {
+            for (var i = 0, len = products.length; i < len; i++) {
+              (function(i) {
+                let item = products[i];
+                let items = {item}
+                items.is_like = false
+                item_arrays.push(items)
+                if(item_arrays.length == products.length) {
+                  return res.json({ item_arrays });
+                }
+              })(i);
+            }
+          }
         }
       }
     );
   });
 }
-

@@ -20,6 +20,7 @@ export default class WallImageViewer extends React.Component {
       super(props, context);
       this.state = {
         added : false,
+        is_like: this.props.wall_is_like,
         items : {},
         cartProductItems: {
           product_id: '',
@@ -59,8 +60,11 @@ export default class WallImageViewer extends React.Component {
   likeProduct(){
     cuid = this.props.wallImages?this.props.wallImages.cuid:this.props.prodlist.cuid
     if(this.context.authenticated == true){
-      this.getAllProductlikes(this.context.user.email,cuid).then((response) => {
+      this.getProductlike(this.context.user.email,cuid).then((response) => {
       if(response.data) {
+        this.setState({
+          is_like : response.data.is_like
+        })
         toastr.success(response.data.msg);
       }
     }).catch((err) => {
@@ -72,12 +76,13 @@ export default class WallImageViewer extends React.Component {
     }
   }
 
-   getAllProductlikes(email,cuid) {
+   getProductlike(email,cuid) {
     return axios.post("/api/like/"+cuid+"?email="+email)
   }
 
 
   render() {
+    let is_like_src = (this.state.is_like == true)? 'images/like_icon_red.png' : 'images/like_icon.png'
     var disable=(this.props.wallImages?this.props.wallImages.is_disable:false)
     var blur_class = (disable == true) ? 'blur':''
     var hidden=(this.props.wallImages?this.props.wallImages.is_hidden:false)
@@ -85,7 +90,7 @@ export default class WallImageViewer extends React.Component {
     return (
         <div className={"grid_single_item "+ blur_class +" "+hidden_class }>
           <div className="hover_box">
-            <a href="javaScript:void(0)" className="hover_icon" data-toggle="modal" data-target="#login_modal"  onClick={this.likeProduct.bind(this)}><img src="images/like_icon.png"/>
+            <a href="javaScript:void(0)" className="hover_icon" data-toggle="modal" data-target="#login_modal"  onClick={this.likeProduct.bind(this)}><img src={is_like_src}/>
               <small className="icon_text">Like</small>
             </a>
             <a href="javaScript:void(0)" className="hover_icon"><img src="images/share_icon.png"/>
