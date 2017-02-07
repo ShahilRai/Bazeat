@@ -10,6 +10,8 @@ router.route('/review').get(CommentController.getReview);
 
 router.route('/reviewusers').get(CommentController.reviewUserList);
 
+router.route('/reviews_count').get(CommentController.reviewsCount);
+
 // Create New Conversation
 router.route('/reviews').post(CommentController.newReview);
 // Send reply
