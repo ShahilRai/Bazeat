@@ -12,7 +12,7 @@ export default class UserPersonalInfo extends React.Component {
       source = (
         <div>
           <li className="mail_adrrs">
-            <a href="javascript:void(0)">{this.props.userInfo.email}</a>
+            <a href="javascript:void(0)">{this.props.prodInfo?this.props.prodInfo.cmp_web_site:''}</a>
           </li>
           <li className="review_date">
             <a href="javascript:void(0)">Man-Lør: 08-15</a>
