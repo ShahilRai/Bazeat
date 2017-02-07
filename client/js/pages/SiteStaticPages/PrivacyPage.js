@@ -31,7 +31,6 @@ export default class PrivacyPage extends React.Component {
       return(<div>loading...........</div>);
     }
     return(
-      <div className="page_wrapper">
         <div className="outer_abt f2f2f2_bg">
           <div className="container">
             <div className="static_container">
@@ -61,7 +60,6 @@ export default class PrivacyPage extends React.Component {
             </div>
           </div>
         </div>
-      </div>
     );
   }
 }

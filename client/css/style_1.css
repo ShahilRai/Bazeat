@@ -391,8 +391,8 @@ p {
 	width: 100%;
 	text-align: center;
 	position: relative;
-	height: 407px;
 	overflow: hidden;
+	margin-top: 27px;
 }
 .img_upload_label{
 	position: absolute;
@@ -727,7 +727,6 @@ color:#808080;
 	padding-right: 33px;
 }
 .profile_rht_header.header_rht_menu li:last-child {
-	
 }
 .header_rht_menu.profile_rht_header li a.help_icon {
 	background: url(../images/help_icon.png) no-repeat right center;
@@ -2338,9 +2337,7 @@ width: 48%;
 	opacity:0;
 	margin:0;
 }
-.items_list_info ul li span.items_price {
-  width: 25%;
-}
+
 
 .prod_checkbox label::before{
     background-color: #b3b3b3;
@@ -2804,7 +2801,7 @@ z-index:99999;
 
   float: left;
   list-style: outside none none;
-  min-height: 53vh;
+  min-height: 75.2vh;
   width: 100%;
 }
 .items_list_info ul li {
@@ -2829,8 +2826,6 @@ height:30px;
   float: left;
   width: 54%;
 }
-
-
 .list_images img{    float: left;
     width: 30px;
     height: 31px;}
@@ -5237,6 +5232,66 @@ margin-bottom: 7px;
 }
 
 
+/*==================ABOUT US==================*/
+.static_container{padding:0 312px;}
+.about_container{
+	float: left;width: 100%;
+	position: relative;
+}
+.about_us {
+    margin-top: 55px;
+    margin-bottom: 50px;
+}
+.about_us h3{
+	font-size: 50px;
+	color:#00ACA2;
+	text-align:center;
+	margin-bottom:16px;
+}
+.about_us p{
+font-size: 17px;
+	color:#000000;
+font-weight:300;
+}
+.about_us ul{
+	margin-top:22px;
+}
+.about_us ul li {
+font-size: 17px;
+	color:#000000;
+font-weight:300;
+}
+.inner_about{margin-bottom:48px;}
+.inner_about h4{
+font-size: 35px;
+	color:#00ACA2;
+text-align:center;
+margin-bottom:16px;
+}
+.inner_about p{
+font-size: 18px;
+	color:#000000;
+	margin-bottom:28px;
+}
+.inner_about p:last-child{margin-bottom:0;}
+.inner_about .priv_subheading{
+	color:#000000;
+	text-align:left;
+}
+/*========About us==============*/
+.outer_abt{float:left;width:100%;margin-bottom: 60px;}
+.abt_caption{
+	position:absolute;
+	top:30%;
+	left:10%;
+}
+.abt_caption p{
+	font-size: 47px;
+	color:#fff;
+	text-shadow:0 0 2px #000;
+}
+
+.about_us.terms_section{    margin-top: 92px;}
 
 
 /********MEDIA QUERY*********/
@@ -5249,8 +5304,8 @@ margin-bottom: 7px;
  text-align: center;
 }
 .header_rht_menu li a {
- margin: 0 2px;
- padding: 7px 8px;
+ margin: 0 0px;
+ padding: 7px 0px;
 }
 .header_search_bar {
  margin-top: 20px;
@@ -5497,7 +5552,7 @@ margin:10px 0;
 .banner_wrapper{height: auto;}
 .banner_wrapper img {
 	width: 100%;
-	padding-top: 136px;
+	padding-top: 112px;
 	height: 100%;
 }
 
@@ -5543,7 +5598,7 @@ h3.search_tabbd_heading {
 .select_files{width: 100%;
 margin-left: 0;}
 
-.menu_wrapper{padding-top: 212px;}
+.menu_wrapper{padding-top: 169px;}
 
 .time_label{
 	padding: 0;
@@ -5568,6 +5623,7 @@ margin-left: 0;}
 
 #footer {
     position: static;
+    margin-top: 0;
 }
 
 .chkout_pg .product_step_col {
@@ -5621,7 +5677,7 @@ margin-left: 0;}
 .chkout5_btns_inner {
 	margin: 0 auto 16px auto;
 }
-.page_wrapper{margin-bottom: 172px;}
+.page_wrapper{margin-bottom: 0px;}
 
 .purchase_order_left_sidebar.order_purchse_lt_wdth, .rt_order_mgmnt {
 	width: 100%;
@@ -5665,12 +5721,36 @@ margin-left: 0;}
 .chat_window_left{height: auto;}
 .chat_window_right{height: auto;}
 .next_list a{height:45px;}
-.profile_rht_header.header_rht_menu li a{padding-left: 0;padding-right: 27px;}
+.profile_rht_header.header_rht_menu li a{padding-left: 0;padding-right: 32px;}
 .header_rht_menu.profile_rht_header .items_list_info ul li{
 	height:auto;
 }
 .sr_no .fa-caret-up{right: 0;}
 .sr_no .fa-caret-down{right: 0;}
+
+
+
+/*3feb17**/
+
+.abt_caption p{    font-size: 12px;}
+.static_container{padding: 0 4px;}
+.about_us ul{padding-left:20px;}
+.about_us {
+margin-top: 25px;
+}
+
+.inner_about h4 {
+font-size: 20px;
+}
+.about_us h3{    font-size: 22px;}
+.abt_caption{top: 70%;
+    left: 0px;}
+
+.outer_abt{margin-bottom: 0;}
+.about_us.terms_section{margin-top: 195px;}
+
+.items_list_info{top: 54px;}
+
 
 
 }
@@ -5795,11 +5875,20 @@ display: inline-block;}
 .chkout5_btns_inner {
 	margin: 0 auto 16px auto;
 }
-.page_wrapper{margin-bottom: 172px;}
+.page_wrapper{margin-bottom: 151px;}
 .sr_no .fa-caret-up{right: 0;}
 .sr_no .fa-caret-down{right: 0;}
 
-
+/*3feb17**/
+.abt_caption p{font-size: 28px;}
+.static_container {
+    padding: 0 15px;
+}
+.about_us ul{padding-left:20px;}
+.banner_wrapper{    margin-top: 138px;}
+.about_us.terms_section{margin-top: 195px;}
+.outer_abt{margin-bottom: 0;}
+.items_list_info{top: 72px;}
 
 
 }
@@ -5834,4 +5923,3 @@ display: inline-block;}
 }
 
 .current-rating > i{color: orange;}
-

@@ -15,6 +15,8 @@ let showReview;
 let userId;
 let cuUserId;
 let writeUserId;
+let allWriteReview
+let _allWriteReview
 
 export default class ReviewPage extends React.Component {
 
@@ -180,7 +182,7 @@ export default class ReviewPage extends React.Component {
   }
 
   render() {
-     var _allWriteReview = this.state.users_data.map((review, i)=>{
+      _allWriteReview = this.state.users_data.map((review, i)=>{
        userId = review.cuid
       return(
         <div className="user_reveiw_list">
@@ -246,6 +248,12 @@ export default class ReviewPage extends React.Component {
       allCurrentWriteReviewResult = <h3> <center> no reviews written by you  </center></h3>
     }
 
+    if(this.state.users_data.length>0){
+      allWriteReview = _allWriteReview
+    } else {
+      allWriteReview = <h3> <center> no producer to write  </center></h3>
+    }
+
     return (
       <div className="container padd_87">
         <div className="full_width">
@@ -256,7 +264,7 @@ export default class ReviewPage extends React.Component {
             <div className="col-lg-9 col-md-9 col-sm-10 col-xs-12 edit_profile_rht_sidebar review_all">
               <div className="user_review_section mtop0">
                   <h3>Reviews to write<span className="show_all"><a href="#">Show all</a></span></h3>
-                    {_allWriteReview}
+                    {allWriteReview}
                 </div>
                 <div className="user_review_section">
                   <h3>Reviews about you ({this.state.new_count})<span className="show_all"><a href="#">Show all</a></span></h3>

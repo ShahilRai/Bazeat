@@ -31,7 +31,7 @@ export default class AboutPage extends React.Component {
       return(<div>loading...........</div>);
     }
     return(
-      <div class="page_wrapper">
+      <div>
         <div className="banner_wrapper">
           <img src={require('../../../images/about_banner.jpg')}/>
           <div className="abt_caption">
