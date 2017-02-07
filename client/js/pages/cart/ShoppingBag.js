@@ -33,7 +33,7 @@ export default class ShoppingBag extends React.Component {
   var self = this
   var incrCartProduct = this.state.incrCartProductItems
   incrCartProduct.product_id = this.state.items[i].product_id
-  incrCartProduct.qty = this.state.items[i].qty + 1
+  incrCartProduct.qty = +1
   cart_id = cookie.load('cart_cuid') ? cookie.load('cart_cuid') : ''
   this.incrCartData(incrCartProduct, cart_id).then((response) => {
     if(response.data) {
@@ -53,7 +53,7 @@ export default class ShoppingBag extends React.Component {
    if(this.state.items[i].qty > 1){
     var incrCartProduct = this.state.incrCartProductItems
     incrCartProduct.product_id = this.state.items[i].product_id
-    incrCartProduct.qty = this.state.items[i].qty - 1
+    incrCartProduct.qty = -1
     cart_id = cookie.load('cart_cuid') ? cookie.load('cart_cuid') : ''
      this.incrCartData(incrCartProduct, cart_id).then((response) => {
         if(response.data) {

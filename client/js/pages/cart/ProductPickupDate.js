@@ -447,7 +447,7 @@ export default class ProductPickupDate extends React.Component {
                     <a href="javascript:void(0)" >
                       <span className="pickup_day" onClick={this.getSelectedDate.bind(this)}><input className="pickup_day_time rdonly" type="text" readonly disabled="disabled" value={(monthDayDate.day)+" - "+(monthDayDate.month)+" "+(monthDayDate.current_date)}/></span>
                     </a>
-                 </div>
+                  </div>
                 )
               }
             )}
