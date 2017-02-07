@@ -28,16 +28,18 @@ export default class UserHomePage extends React.Component {
       data_loaded : false,
       cat_loaded : false,
       all_reviews_count : '',
-      offset : 0
+      offset : 0,
+      current_cuid: ''
     };
     this.selectCategoryData = this.selectCategoryData.bind(this);
     this.showAllCategory = this.showAllCategory.bind(this);
-   
+
   }
 
   componentDidMount() {
-    var userEmail = this.context.user.email;
-    this.loadUserProductsData(userEmail).then((response) => {
+    var cuid = this.props.params.userId;
+
+    this.loadUserProductsData(cuid).then((response) => {
       if(response.data.producer) {
         this.setState({
           user: response.data.producer,
@@ -48,7 +50,7 @@ export default class UserHomePage extends React.Component {
         console.log(err);
     });
 
-    this.loadUserInformation(userEmail).then((response) =>{
+    this.loadUserInformation(cuid).then((response) =>{
       if(response.data){
         this.setState({
           _userInfo: response.data.user
@@ -56,7 +58,7 @@ export default class UserHomePage extends React.Component {
       }
     })
 
-   this.getAllProducerReviewsCount(this.context.user.email,this.state.offset,5).then((response) => {
+   this.getAllProducerReviewsCount(cuid, this.state.offset, 5).then((response) => {
       if(response.data) {
         this.setState({
           all_reviews_count : response.data.total_count,
@@ -66,23 +68,37 @@ export default class UserHomePage extends React.Component {
         console.log(err);
     });
 
+    this.loadCurrentUser(this.context.user.email).then((response) => {
+      if(response.data.user) {
+        this.setState({
+          current_cuid: response.data.user.cuid
+        });
+      }
+    }).catch((err) => {
+        console.log(err);
+    });
+
   }
 
-  getAllProducerReviewsCount(email, off_set, per_page){
-    return axios.get("/api/review?email="+email+"&off_set="+(off_set)+"&per_page="+per_page)
+  getAllProducerReviewsCount(cuid, off_set, per_page){
+    return axios.get("/api/review?cuid="+cuid+"&off_set="+(off_set)+"&per_page="+per_page)
   }
 
-  loadUserProductsData(emailAddress) {
-    return axios.get("/api/user_products?email="+emailAddress);
+  loadUserProductsData(cuid) {
+    return axios.get("/api/user_products?cuid="+cuid);
   }
 
-  loadUserInformation(emailAddress){
-   return axios.get("/api/user?email="+emailAddress);
+  loadUserInformation(cuid){
+   return axios.get("/api/user?cuid="+cuid);
+  }
+
+  loadCurrentUser(email) {
+    return axios.get("/api/user?email="+email);
   }
 
   showAllCategory(category_id){
-    var userEmail = this.context.user.email;
-    this.loadUserProductsData(userEmail).then((response) => {
+    var cuid = this.props.params.userId;
+    this.loadUserProductsData(cuid).then((response) => {
       if(response.data.producer) {
         this.setState({
           user: response.data.producer,
@@ -97,9 +113,8 @@ export default class UserHomePage extends React.Component {
   }
 
   selectCategoryData(category_id){
-   var email = this.context.user.email;
    var cuid = this.props.params.userId;
-    this.loadCategoryData(category_id, email ).then((response) => {
+    this.loadCategoryData(category_id, cuid ).then((response) => {
       if(response.data.products) {
         this.setState({
           user: response.data.products,
@@ -113,8 +128,8 @@ export default class UserHomePage extends React.Component {
     });
   }
 
-  loadCategoryData(category_id, email) {
-    return axios.get("/api/products/category?category_id="+category_id+"&email="+ email);
+  loadCategoryData(category_id, cuid) {
+    return axios.get("/api/products/category?category_id="+category_id+"&cuid="+ cuid);
   }
 
   _reviewStatus(){
@@ -123,11 +138,12 @@ export default class UserHomePage extends React.Component {
     })
    }
 
-  
+
 
   render(){
     var img;
     var uData;
+    var _logo;
     if(this.state._userInfo.photo){
       img = this.state._userInfo.photo
     }else{
@@ -138,9 +154,11 @@ export default class UserHomePage extends React.Component {
         var _allReviews=<AllProducerReviews />
     } else if(this.state.route == '/user/:userId'){
         var _category = <CategoryMenu categoryMenuClick = {this.selectCategoryData} allCategoryMenuClick = {this.showAllCategory}/>
-        var _logo = <AddNewProductLogo />
+        if(this.state.current_cuid == this.props.params.userId) {
+          _logo = <AddNewProductLogo />
+        }
         if (this.state.data_loaded && !this.state.cat_loaded) {
-          uData = <ProductCollection productInfo = {this.state.user.products}/>
+          uData = <ProductCollection productInfo = {this.state.user.products} current_cuid={this.state.current_cuid} user_cuid={this.props.params.userId}/>
         }
         if(this.state.cat_loaded && !this.state.data_loaded){
           uData = <ProductCollection cat_data = {this.state.user}/>

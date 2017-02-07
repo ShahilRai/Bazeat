@@ -201,6 +201,8 @@ app.post('/me', bodyParser.json(), ExpressStrompath.loginRequired,
         }
         else{
           user.email = req.body.email;
+          user.first_name = req.body.givenName;
+          user.last_name = req.body.surname;
           user.phone = req.body.phone;
           user.description = req.body.desc;
           user.city = req.body.city;
