@@ -41,8 +41,6 @@ export default class CartModal extends React.Component {
     var incrCartProduct = this.state.incrCartProductItems
     incrCartProduct.product_id = this.state.items[i].product_id
     incrCartProduct.qty = 1
-    console.log(" incrCartProduct.qty")
-    console.log(incrCartProduct.qty)
     cart_id = cookie.load('cart_cuid') ? cookie.load('cart_cuid') : ''
     this.incrCartData(incrCartProduct, cart_id).then((response) => {
       if(response.data) {
