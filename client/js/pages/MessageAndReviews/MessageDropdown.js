@@ -8,9 +8,9 @@ export default class MessageDropdown extends React.Component {
   	};
 
   	constructor(props) {
-    	super(props);
-    	this.state = {
-    	};
+		super(props);
+		this.state = {
+		};
   	}
 
   	msgBody(result){
@@ -64,7 +64,7 @@ export default class MessageDropdown extends React.Component {
 				</div>
 					{results}
 	          	<div className="chat_header" >
-	            	<span className="msgs_title">Reviews</span>
+	            	<span className="msgs_title">Reviews({this.props.allReviews.length} new)</span>
 		              	<span className="edit_icon">
 		                <Link to="/reviews"><h5>all Reviews</h5>
 		               	</Link>
