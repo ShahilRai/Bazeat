@@ -5923,3 +5923,7 @@ display: inline-block;}
 }
 
 .current-rating > i{color: orange;}
+
+.maindiv{
+ pointer-events: none;
+}

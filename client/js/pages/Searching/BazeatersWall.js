@@ -28,7 +28,7 @@ export default class BazeatersWall extends React.Component {
           <span className="rvw_qty">
           <Rating rating={this.props.bazeatersData.avg_rating} displayOnly={true} maxRating={5}  ratingSymbol={"\u2764"} />
         </span>
-            <span className="review_num"> 2 reviews</span>
+            <span className="review_num"> {this.props.bazeatersData.reviews_count}reviews</span>
           </div>
         </div>
       </div>

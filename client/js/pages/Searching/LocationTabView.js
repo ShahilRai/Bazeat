@@ -1,5 +1,6 @@
 import React from 'react';
 import Rating from 'react-simple-rating';
+import { Link } from 'react-router';
 
 export default class LocationTabView extends React.Component {
 
@@ -8,10 +9,10 @@ export default class LocationTabView extends React.Component {
       <div className="search_row1 grey_bg">
         <div className="search_row_wdth">
           <span className="s_name wdth_11"><img  className="location_logo" src={this.props.locData.photo} /></span>
-          <span className="s_name name_wdth26">{this.props.locData.full_name}</span>
+          <span className="s_name name_wdth26"><Link to={"/user/"+this.props.locData.cuid} className = "font_colr">{this.props.locData.full_name}</Link></span>
           <span className="rvws_wdth star_rating">
             <Rating rating={this.props.locData.avg_rating} displayOnly={true} maxRating={5}  ratingSymbol={"\u2764"} />
-            <span className="review_num">613 reviews</span>
+            <span className="review_num">{this.props.locData.reviews_count} reviews</span>
           </span>
           <span className="wdth_15 categ_wdth">
             <ul>
