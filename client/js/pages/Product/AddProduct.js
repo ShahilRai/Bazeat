@@ -259,7 +259,7 @@ export default class AddProduct extends React.Component {
     var categ = [];
     var chckd = false
     if(this.state.calculated_price){
-      cal_txt = <p ref="abc">NB! To recieve the amount {this.state.prodDetails?this.state.prodDetails.price:"0.0"} kr, you should set the price to {this.state.calculated_price?this.state.calculated_price:{prod_cal}} kr</p>
+      cal_txt = <p ref="abc">NB! To recieve the amount {this.refs.price.value} kr, you should set the price to {this.state.calculated_price?this.state.calculated_price:{prod_cal}} kr</p>
     }
     if(this.props.prodDetails){
       categ = this.props.prodDetails.product_category
