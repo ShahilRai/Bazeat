@@ -4,6 +4,7 @@ import ShowProductsSearch from './ShowProductsSearch';
 import ShowBazeatersSearch from './ShowBazeatersSearch';
 import ShowLocationSearch from './ShowLocationSearch';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { NotAuthenticated, Authenticated } from 'react-stormpath';
 import PubSub from 'pubsub-js';
 
 export default class DisplaySearch extends React.Component {
@@ -43,7 +44,12 @@ export default class DisplaySearch extends React.Component {
             <Tab>Location</Tab>
           </TabList>
           <TabPanel>
-            <ShowProductsSearch pName={this.state.textToSearch} />
+            <Authenticated>
+              <ShowProductsSearch pName={this.state.textToSearch} />
+            </Authenticated>
+            <NotAuthenticated>
+              <ShowProductsSearch pName={this.state.textToSearch} />
+            </NotAuthenticated>
           </TabPanel>
           <TabPanel>
             <ShowBazeatersSearch pName={this.state.textToSearch} />

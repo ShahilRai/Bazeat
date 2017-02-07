@@ -80,13 +80,46 @@ export function purchaseProduct(req, res) {
 }
 
 export function getProducts(req, res) {
-  Product.find().sort('-dateAdded').populate('_producer ingredients allergens product_category').exec((err, products) => {
-    if (err) {
-      return res.status(422).send(err);
+  User.findOne({email: req.query.email}).exec(function(err, cuser) {
+    let data = {}
+    if(cuser) {
+      data._producer = {"$ne": cuser._id}
     }
-    else{
-      return res.json({ products });
-    }
+    Product.find(data).sort('-dateAdded').populate('_producer ingredients allergens product_category').exec((err, products) => {
+      if (err) {
+        return res.status(422).send(err);
+      }
+      else {
+        let item_arrays = []
+        if(cuser) {
+            for (var i = 0, len = products.length; i < len; i++) {
+              (function(i) {
+                let item = products[i];
+                let items = {item}
+                Like.find({ _product: item._id, _liker: cuser._id }).exec(function(err, plikes) {
+                  items.is_like = ((plikes.length == 0) ? false : true)
+                  item_arrays.push(items)
+                  if(item_arrays.length == products.length) {
+                    return res.json({ item_arrays });
+                  }
+                })
+              })(i);
+            }
+        } else {
+          for (var i = 0, len = products.length; i < len; i++) {
+            (function(i) {
+              let item = products[i];
+              let items = {item}
+              items.is_like = false
+              item_arrays.push(items)
+              if(item_arrays.length == products.length) {
+                return res.json({ item_arrays });
+              }
+            })(i);
+          }
+        }
+      }
+    });
   });
 }
 
@@ -287,13 +320,13 @@ export function addRemoveLike(req, res) {
             }
             else {
               update_like_count(product)
-              return res.json({msg: "like product successfully"});
+              return res.json({is_like: true, msg: "like product successfully"});
             }
           });
         } else {
           like.remove(() => {
             update_like_count(product)
-            return res.status(200).send({msg: "Unlike product successfully"});
+            return res.status(200).send({is_like: false, msg: "Unlike product successfully"});
           });
         }
       });
