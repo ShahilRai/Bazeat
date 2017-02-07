@@ -33,19 +33,19 @@ export default class UpdateYourPassword extends React.Component {
               <div className="form-group row">
                 <label for="example-search-input" className="col-md-4 col-xs-12 col-form-label">Old password</label>
                 <div className="col-md-7 col-xs-12">
-                   <input type="text" className="form-control" id="Old password" name="Old password" required/>
+                   <input type="password" className="form-control" id="Old password" name="Old password" required/>
                 </div>
               </div>
               <div className="form-group row">
                 <label for="example-search-input" className="col-md-4 col-xs-12 col-form-label">New password</label>
                 <div className="col-md-7 col-xs-12">
-                 <input type="text" className="form-control" id="New password" name="New password" required />
+                 <input type="password" className="form-control" id="New password" name="New password" required />
                 </div>
               </div>
               <div className="form-group row">
                 <label for="example-url-input" className="col-md-4 col-xs-12 col-form-label">Confirm new password</label>
                 <div className="col-md-7 col-xs-12">
-                  <input type="text" className="form-control" id="Confirm new password" name="Confirm new password" required/>
+                  <input type="password" className="form-control" id="Confirm new password" name="Confirm new password" required/>
                 </div>
               </div>
             </div>
