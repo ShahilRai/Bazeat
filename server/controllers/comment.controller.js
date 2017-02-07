@@ -60,7 +60,14 @@ export function allReviews(req, res, next) {
 export function getReview(req, res, next) {
   let per_page = parseInt(req.query.per_page);
   let off_set = (parseInt(req.query.off_set) * per_page) ;
-  User.findOne({ email: req.query.email }).exec((err, user) => {
+  let data = {};
+  if(req.query.cuid) {
+    data.cuid = req.query.cuid;
+  }
+  if(req.query.email) {
+    data.email = req.query.email;
+  }
+  User.findOne(data).exec((err, user) => {
     Review.find({reviewed_for: user._id}).exec(function(err,reviews){
       Review.find({reviewed_for: user._id})
         .sort("-createdAt").limit(per_page).skip(off_set)

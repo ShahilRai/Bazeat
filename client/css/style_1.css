@@ -22,6 +22,7 @@ body {
 	margin: 0px;
 	padding: 0px;
 	color: #000000;
+  padding-right: 0 !important;
 	/*	font-family: 'HelveticaNeue';*/
 	font-family: 'Open Sans', sans-serif;
 	-webkit-text-stroke: 0px!important;
