@@ -18,10 +18,6 @@ export default class AddNewProductLogo extends React.Component {
       target : ''
     };
   }
-  
-  componentDidMount(){
-    this.addYourProduct()
-  }
 
   addYourProduct() {
     this.addProductAfterValidate(this.context.user.email).then((response) => {

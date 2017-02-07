@@ -175,11 +175,11 @@ export default class AddProduct extends React.Component {
       this.props.saveValues(this.state.data)
           this.handleClik()
     }
-  
+
   }
    handleClik() {
     this.setState( {disabled: !this.state.disabled} )
-  } 
+  }
 
 	handleChange(e){
     if(e.target.name == "price"){
