@@ -1,4 +1,8 @@
 import React from 'react';
+let delivery_info;
+let start_time;
+let end_time;
+let day;
 export default class ProductDetails extends React.Component {
 
   static contextTypes = {
@@ -7,6 +11,20 @@ export default class ProductDetails extends React.Component {
   };
 
 	render(){
+    this.props.dsplyProdDetails._producer.timeslots.map((result,index)=>{
+      start_time = result.start_time
+      end_time = result.end_time
+      day = result.day
+    })
+    if(this.props.dsplyProdDetails.send && this.props.dsplyProdDetails.pickup){
+      delivery_info = <li className="prod_vehicle"><a href="#">Can be delivered <br />Can be picked up</a></li>
+    }
+    else if(this.props.dsplyProdDetails.send){
+      delivery_info = <li className="prod_vehicle"><a href="#">Can be delivered</a></li>
+    }
+    else if(this.props.dsplyProdDetails.pickup){
+      delivery_info = <li className="prod_vehicle"><a href="#">Can be picked up</a></li>
+    }
     var nutrtnTab;
     if(this.props.dsplyProdDetails._producer.if_producer){
       nutrtnTab = <li className=""><a href="#" data-target={"#prd2" + this.props.index} data-toggle="tab">Nutrition</a></li>
@@ -35,8 +53,10 @@ export default class ProductDetails extends React.Component {
                   </div>
                   <p className="abt_prod">{this.props.dsplyProdDetails.description}</p>
                   <ul className="prod_del_details">
-                    <li className="prod_del"><a href="#">Mon-Sat: 08.00-15.00</a></li>
-                    <li className="prod_vehicle"><a href="#">Can be delivered <br />Can be picked up</a></li>
+                    {day.map((result,index)=>{
+                    return <li className="prod_del" key={index}><a href="#">{result}: {start_time}-{end_time}</a></li>
+                  })}
+                    {delivery_info}
                     <li className="prod_pin">
                       <a href="#">
                         <img src="images/house.png" />
