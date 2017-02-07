@@ -5930,6 +5930,7 @@ display: inline-block;}
 
 .current-rating > i{color: orange;}
 
+
 /*=====SHARE PRODUCT MODAL=====================*/
 .share_modal .modal-dialog{
 	max-width:500px;
@@ -5967,3 +5968,7 @@ display: inline-block;}
 }
 
 
+
+.maindiv{
+ pointer-events: none;
+}

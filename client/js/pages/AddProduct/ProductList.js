@@ -104,13 +104,17 @@ export default class ProductList extends React.Component {
   }
 
   render(){
-    return(
-      <div className="wall-column">
-        <div className="grid_single_item">
-          <div className="hover_box">
+    let _showProductEvent;
+    if(this.props.current_cuid == this.props.user_cuid) {
+      _showProductEvent = <div className="hover_box">
             <HideProductBtn handlerForHide = {this.hideAndShowProduct}  _hideShowText = {this.state._hideShowText} />
             <DisableProductBtn handlerForDisable = {this.disableAndEnableProduct} _disableEnableText = {this.state._disableEnableText}/>
           </div>
+    }
+    return(
+      <div className="wall-column">
+        <div className="grid_single_item">
+          {_showProductEvent}
           <a href="#" data-target={"#" + this.props.index} data-toggle="modal" onClick={this.editProduct}>
             <img src= {this.props.productData.photo}/>
           </a>

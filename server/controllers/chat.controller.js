@@ -154,9 +154,10 @@ export function sendReply(req, res, next) {
 }
 
 export function msgCount(req, res){
-  console.log(req.query)
   User.findOne({ email: req.query.email }).exec((err, user) => {
     Conversation.find({ participants: user._id })
+      .sort('-updatedAt')
+      .limit(2)
       .select('_id')
       .exec(function(err, conversations) {
         if (err) {
@@ -166,8 +167,9 @@ export function msgCount(req, res){
         // Set up empty array to hold conversations + most recent message
         let fullConversations = [];
         conversations.forEach(function(conversation, index) {
-          Message.find({ 'conversation_id': conversation._id, unread: true })
+          Message.find({ 'conversation_id': conversation._id})
             .sort('-updatedAt')
+            .limit(1)
             .populate({
               path: 'sender',
               select: 'full_name photo'
