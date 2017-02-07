@@ -10,6 +10,11 @@ let token;
 
 export default class ShowProductsSearch extends React.Component {
 
+  static contextTypes = {
+    authenticated: React.PropTypes.bool,
+    user: React.PropTypes.object
+  };
+
   constructor(props, context) {
     super(props, context);
     this.state = {
@@ -53,7 +58,7 @@ export default class ShowProductsSearch extends React.Component {
     this.loadProductsSearch().then((response) => {
       if(response.data) {
         this.setState({
-          allProductsData: response.data.products
+          allProductsData: response.data.item_arrays
         });
       }
     }).catch((err) => {
@@ -62,8 +67,13 @@ export default class ShowProductsSearch extends React.Component {
   }
 
   loadProductsSearch() {
-    return axios.get("/api/products" , {
-    });
+    if(this.context.authenticated == true) {
+      return axios.get("/api/products?email="+this.context.user.email, {
+      });
+    } else {
+      return axios.get("/api/products" , {
+      });
+    }
   }
 
   displayCategoryList(){
@@ -87,13 +97,13 @@ export default class ShowProductsSearch extends React.Component {
     var cIds = this.state.categoryIds;
     var minRnge = this.state.start;
     var maxRnge = this.state.end;
-
+    let is_email = (this.context.authenticated == true)? '&email='+this.context.user.email : '';
     if(!this.state.textToSearch==''){
       var pName = this.state.textToSearch;
-      this.fetchFilteredProducts(pName,minRnge,maxRnge,cIds).then((response) => {
+      this.fetchFilteredProducts(pName,minRnge,maxRnge,cIds,is_email).then((response) => {
         if(response.data) {
           this.setState({
-            allProductsData: response.data.products
+            allProductsData: response.data.item_arrays
           })
         }
       }).catch((err) => {
@@ -101,10 +111,10 @@ export default class ShowProductsSearch extends React.Component {
       });
     }
     else{
-      this.fetchProducts(minRnge,maxRnge,cIds).then((response) => {
+      this.fetchProducts(minRnge,maxRnge,cIds,is_email).then((response) => {
         if(response.data) {
           this.setState({
-            allProductsData: response.data.products
+            allProductsData: response.data.item_arrays
           })
         }
       }).catch((err) => {
@@ -113,16 +123,16 @@ export default class ShowProductsSearch extends React.Component {
     }
   }
 
-  fetchFilteredProducts(pName,minRnge,maxRnge,cIds) {
-    return axios.get("/api/search/products?"+ "search=" + pName+ "&start_price="+ minRnge +"&end_price=" + maxRnge, {
+  fetchFilteredProducts(pName,minRnge,maxRnge,cIds, email) {
+    return axios.get("/api/search/products?"+ "search=" + pName+ "&start_price="+ minRnge +"&end_price=" + maxRnge + email, {
       params: {
         category_id: cIds
       }
     });
   }
 
-  fetchProducts(minRnge,maxRnge,cIds) {
-    return axios.get("/api/search/products?"+"start_price="+ minRnge +"&end_price=" + maxRnge, {
+  fetchProducts(minRnge,maxRnge,cIds, email) {
+    return axios.get("/api/search/products?"+"start_price="+ minRnge +"&end_price=" + maxRnge + email, {
       params: {
         category_id: cIds
       }
@@ -197,7 +207,7 @@ export default class ShowProductsSearch extends React.Component {
                 <div className="grid_wall_wrapper">
                   {this.state.allProductsData.map((prodlist, index) => {
                     return (
-                        <div className="wall-column" key={index}><WallImageViewer prodlist={prodlist} index={index+1}/></div>
+                        <div className="wall-column" key={index} index={index+1}><WallImageViewer prodlist={prodlist.item} wall_is_like = {prodlist.is_like} index={index+1}/></div>
                     );
                   })}
                 </div>

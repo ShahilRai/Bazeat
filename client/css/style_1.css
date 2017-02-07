@@ -391,8 +391,8 @@ p {
 	width: 100%;
 	text-align: center;
 	position: relative;
-	height: 407px;
 	overflow: hidden;
+	margin-top: 68px;
 }
 .img_upload_label{
 	position: absolute;
@@ -727,7 +727,7 @@ color:#808080;
 	padding-right: 33px;
 }
 .profile_rht_header.header_rht_menu li:last-child {
-
+	padding-right: 0;
 }
 .header_rht_menu.profile_rht_header li a.help_icon {
 	background: url(../images/help_icon.png) no-repeat right center;
@@ -2338,9 +2338,7 @@ width: 48%;
 	opacity:0;
 	margin:0;
 }
-.items_list_info ul li span.items_price {
-  width: 25%;
-}
+
 
 .prod_checkbox label::before{
     background-color: #b3b3b3;
@@ -2781,7 +2779,7 @@ padding-left:0;
   display: none;
   position: absolute;
   right: -23px;
-  top: 67px;
+  top: 50px;
   width: 305px;
     background: #ffffff none repeat scroll 0 0;
 z-index:99999;
@@ -2829,8 +2827,6 @@ height:30px;
   float: left;
   width: 54%;
 }
-
-
 .list_images img{    float: left;
     width: 30px;
     height: 31px;}
@@ -2881,7 +2877,7 @@ font-weight:600;
 .sr_no .fa-caret-up{      color: #cccccc;
     display: inline-block;
     font-size: 16px;
-    right: 7px;
+    left: 1px;
     line-height: normal;
     position: relative;
     background: none;
@@ -2892,7 +2888,7 @@ font-weight:600;
 .sr_no .fa-caret-down {
     color: #cccccc;
     font-size: 16px;
-    right: 7px;
+    left: 1px;
     background: none;
     padding: 0;
     position: relative;
@@ -5261,6 +5257,66 @@ margin-bottom: 7px;
 .close_mail{
   float: right;    margin-top: 10px;
 
+/*==================ABOUT US==================*/
+.static_container{padding:0 312px;}
+.about_container{
+	float: left;width: 100%;
+	position: relative;
+}
+.about_us {
+    margin-top: 55px;
+    margin-bottom: 50px;
+}
+.about_us h3{
+	font-size: 50px;
+	color:#00ACA2;
+	text-align:center;
+	margin-bottom:16px;
+}
+.about_us p{
+font-size: 17px;
+	color:#000000;
+font-weight:300;
+}
+.about_us ul{
+	margin-top:22px;
+}
+.about_us ul li {
+font-size: 17px;
+	color:#000000;
+font-weight:300;
+}
+.inner_about{margin-bottom:48px;}
+.inner_about h4{
+font-size: 35px;
+	color:#00ACA2;
+text-align:center;
+margin-bottom:16px;
+}
+.inner_about p{
+font-size: 18px;
+	color:#000000;
+	margin-bottom:28px;
+}
+.inner_about p:last-child{margin-bottom:0;}
+.inner_about .priv_subheading{
+	color:#000000;
+	text-align:left;
+}
+/*========About us==============*/
+.outer_abt{float:left;width:100%;margin-bottom: 60px;}
+.abt_caption{
+	position:absolute;
+	top:30%;
+	left:10%;
+}
+.abt_caption p{
+	font-size: 47px;
+	color:#fff;
+	text-shadow:0 0 2px #000;
+}
+
+.about_us.terms_section{    margin-top: 92px;}
 
 }
 .close_mail img{margin-right: 0;}
@@ -5280,8 +5336,8 @@ margin-bottom: 7px;
  text-align: center;
 }
 .header_rht_menu li a {
- margin: 0 2px;
- padding: 7px 8px;
+ margin: 0 0px;
+ padding: 7px 0px;
 }
 .header_search_bar {
  margin-top: 20px;
@@ -5528,7 +5584,7 @@ margin:10px 0;
 .banner_wrapper{height: auto;}
 .banner_wrapper img {
 	width: 100%;
-	padding-top: 205px;
+	padding-top: 112px;
 	height: 100%;
 }
 
@@ -5696,6 +5752,25 @@ margin-left: 0;}
 .chat_window_left{height: auto;}
 .chat_window_right{height: auto;}
 
+
+/*3feb17**/
+
+.abt_caption p{    font-size: 12px;}
+.static_container{padding: 0 4px;}
+.about_us ul{padding-left:20px;}
+.about_us {
+margin-top: 25px;
+}
+
+.inner_about h4 {
+font-size: 20px;
+}
+.about_us h3{    font-size: 22px;}
+.abt_caption{top: 70%;
+    left: 0px;}
+
+.outer_abt{margin-bottom: 0;}
+.about_us.terms_section{margin-top: 195px;}
 }
 @media only screen and (min-width:761px) and (max-width:999px) {
 .mid_container {
@@ -5821,9 +5896,14 @@ display: inline-block;}
 .page_wrapper{margin-bottom: 172px;}
 
 
-
-
-
+/*3feb17**/
+.abt_caption p{font-size: 28px;}
+.static_container {
+    padding: 0 15px;
+}
+.about_us ul{padding-left:20px;}
+.banner_wrapper{    margin-top: 138px;}
+.about_us.terms_section{margin-top: 195px;}
 }
  @media only screen and (min-width:1000px) and (max-width:1200px) {
 .mid_container {
@@ -5856,4 +5936,3 @@ display: inline-block;}
 }
 
 .current-rating > i{color: orange;}
-
