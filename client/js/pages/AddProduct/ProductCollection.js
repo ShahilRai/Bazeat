@@ -49,10 +49,10 @@ export default class ProductCollection extends React.Component {
     var allProducts
     if(this.props.cat_data){
       allProducts = this.props.cat_data.map((product, index) =>
-        <ProductList key = {index+1} index={index+1} productData = {product} onClick={this.removeImage.bind(this)}/>)
+        <ProductList key = {index+1} index={index+1} productData = {product} current_cuid={this.props.current_cuid} user_cuid={this.props.user_cuid} onClick={this.removeImage.bind(this)}/>)
     }else{
       allProducts = this.state.products.map((product, index) =>
-      <ProductList key = {index+1} index={index+1} productData = {product} onClick={this.removeImage.bind(this)}/>)
+      <ProductList key = {index+1} index={index+1} productData = {product} current_cuid={this.props.current_cuid} user_cuid={this.props.user_cuid} onClick={this.removeImage.bind(this)}/>)
     }
 
     return(

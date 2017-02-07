@@ -6,8 +6,6 @@ import  Order from '../models/order'
 import  Product from '../models/product'
 
 export function allReviews(req, res, next) {
-  // console.log(req.query)
-  // console.log(req.query)
   User.findOne({ email: req.query.email }).exec((err, user) => {
     RatingAndReview.find({ participants: user._id })
     .select('_id')
@@ -60,7 +58,14 @@ export function allReviews(req, res, next) {
 export function getReview(req, res, next) {
   let per_page = parseInt(req.query.per_page);
   let off_set = (parseInt(req.query.off_set) * per_page) ;
-  User.findOne({ email: req.query.email }).exec((err, user) => {
+  let data = {};
+  if(req.query.cuid) {
+    data.cuid = req.query.cuid;
+  }
+  if(req.query.email) {
+    data.email = req.query.email;
+  }
+  User.findOne(data).exec((err, user) => {
     Review.find({reviewed_for: user._id}).exec(function(err,reviews){
       Review.find({reviewed_for: user._id})
         .sort("-createdAt").limit(per_page).skip(off_set)
@@ -106,8 +111,6 @@ export function newReview(req, res, next) {
         res.send({ error: err });
         return next(err);
       }
-      console.log('newRatingAndReview')
-      console.log(newRatingAndReview)
       const review = new Review({
         rating_and_review_id: newRatingAndReview._id,
         review: req.body.review_body,
@@ -195,6 +198,50 @@ export function reviewUserList(req, res){
           })
         }
       })
+    });
+  });
+}
+
+export function reviewsCount(req,res){
+  User.findOne({ email: req.query.email }).exec((err, user) => {
+    RatingAndReview.find({ participants: user._id })
+      .sort('-updatedAt')
+      .limit(2)
+      .select('_id')
+      .exec(function(err, reviews) {
+        if (err) {
+          res.send({ error: err });
+          return next(err);
+        }
+        let fullReviews = [];
+        reviews.forEach(function(review, index) {
+          Review.find({ 'conversation_id': review._id})
+            .sort('-updatedAt')
+            .limit(1)
+            .populate({
+              path: 'reviewed_by',
+              select: 'full_name photo cuid'
+            })
+            .populate({
+              path: 'reviewed_for',
+              select: 'full_name photo cuid'
+            })
+            .populate({
+              path: 'comment',
+              select: 'comment is_commented'
+            })
+            .exec(function(err, review) {
+              if (err) {
+                res.send({ error: err });
+                return next(err);
+              }if(review.length>0){
+                fullReviews.push(review);
+              }
+              if(index+1 === reviews.length) {
+                return res.status(200).json({ reviews: fullReviews });
+              }
+            });
+        });
     });
   });
 }

@@ -18,11 +18,12 @@ export default class AddNewProductLogo extends React.Component {
       target : ''
     };
   }
+<<<<<<< HEAD
   
-  componentDidMount(){
-    this.addYourProduct()
-  }
+  
+=======
 
+>>>>>>> 7d08f1e7f2561cd5354d571836ae1ed0da1366a6
   addYourProduct() {
     this.addProductAfterValidate(this.context.user.email).then((response) => {
     if(response.data.status == false  && response.data.msg=="Update your profile first") {
