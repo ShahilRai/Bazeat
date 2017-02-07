@@ -32,7 +32,6 @@ export default class AddAccount extends React.Component {
     };
     this.saveBankDetails = this.saveBankDetails.bind(this)
     this.saveAccount =this.saveAccount.bind(this)
-    this._handleImageChange = this._handleImageChange.bind(this)
     this.setAccountNumber = this.setAccountNumber.bind(this)
     this.addAccountDetails = this.addAccountDetails.bind(this)
   }
@@ -40,8 +39,6 @@ export default class AddAccount extends React.Component {
     componentDidMount() {
       this.addAccountDetails();
     }
-
-
 
   saveBankDetails() {
     this.saveAccount(this.context.user.email,this.state.account_number).then((response) => {
@@ -64,38 +61,6 @@ export default class AddAccount extends React.Component {
         account_number: account
       }
     );
-  }
-
-  _handleImageChange(e) {
-    e.preventDefault();
-    let reader = new FileReader();
-    let file = e.target.files[0];
-    console.log("file")
-    console.log(file)
-    reader.readAsDataURL(file)
-    reader.onloadend = () => {
-      this.setState({
-        file: file,
-        imagePreviewUrl: reader.result
-      });
-    }
-    const formData = new FormData();
-    formData.append('verification_file', file);
-    formData.append('email', this.context.user.email);
-    request.post('/api/verification_file')
-    .send(formData)
-    .end((err, res) => {
-      if (err) {
-        return alert('uploading failed!');
-      } else {
-        console.log("res.status")
-        console.log(res.status)
-        this.setState({
-          uploadedImages: res.status
-        });
-        toastr.success('Verification file uploaded successfully');
-      }
-    });
   }
 
 
@@ -141,17 +106,13 @@ export default class AddAccount extends React.Component {
 
 
   render() {
+    console.log("status")
+    console.log(this.state.status)
         submitbutton = <button type="submit" className="btn pull-right" disabled>
                           <span data-spIf="!form.processing" onClick= {this.saveBankDetails} className="disabled" >Save details</span>
                        </button>
-         verify = <input type = "file" onChange={this._handleImageChange} style={{display : "block"}}/>
 
-
-       if(this.state.uploadedImages>0 ){
-          verify = <p> file uploaded successfully </p>
-       }
-
-        if(this.state.uploadedImages>0 && this.state.account_number){
+        if(this.state.account_number){
           submitbutton = <button type="submit" className="btn pull-right"><span data-spIf="!form.processing" onClick= {this.saveBankDetails}>Save details</span></button>
         }
 
@@ -162,7 +123,6 @@ if(this.state.status){
                           <div className="edt_prf_inner_detail">
                             <div className="form-group row">
                                 <LabelField htmlFor="input_file" className="col-md-4 col-xs-12 col-form-label" />
-                                { verify}
                             </div>
                           </div>
                           <div className="edt_prf_inner_detail">

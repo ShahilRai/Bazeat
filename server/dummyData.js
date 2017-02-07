@@ -68,10 +68,24 @@ export default function () {
     if (count > 0) {
       return;
     }
-    const productcategory1 = new ProductCategory({ name: 'Spicy' });
-    const productcategory2 = new ProductCategory({ name: 'Crunchy' });
-    const productcategory3 = new ProductCategory({ name: 'Roasted' });
-    ProductCategory.create([productcategory1, productcategory2, productcategory3], (error) => {
+    const productcategory1 = new ProductCategory({ name: 'Middagsmat' });
+    const productcategory2 = new ProductCategory({ name: 'Snittar og smørbrød' });
+    const productcategory3 = new ProductCategory({ name: 'Lunsjretter' });
+    const productcategory4 = new ProductCategory({ name: 'Dessert' });
+    const productcategory5 = new ProductCategory({ name: 'Bakarvarer' });
+    const productcategory6 = new ProductCategory({ name: 'Frukt' });
+    const productcategory7 = new ProductCategory({ name: 'Grønnsaker' });
+    const productcategory8 = new ProductCategory({ name: 'Bær' });
+    const productcategory9 = new ProductCategory({ name: 'Sopp' });
+    const productcategory10 = new ProductCategory({ name: 'Tang og tare' });
+    const productcategory11 = new ProductCategory({ name: 'Pålegg' });
+    const productcategory12 = new ProductCategory({ name: 'Ost' });
+    const productcategory13 = new ProductCategory({ name: 'Vilt' });
+    const productcategory14 = new ProductCategory({ name: 'Kjøtt' });
+    const productcategory15 = new ProductCategory({ name: 'Fisk' });
+    const productcategory16 = new ProductCategory({ name: 'Skaldyr' });
+    const productcategory17 = new ProductCategory({ name: 'Drikke' });
+    ProductCategory.create([productcategory1, productcategory2, productcategory3, productcategory4, productcategory5, productcategory6, productcategory7, productcategory8, productcategory9, productcategory10, productcategory11, productcategory12, productcategory13, productcategory14, productcategory15, productcategory16, productcategory17 ], (error) => {
       if (!error) {
         // console.log('ready to go....');
       }
