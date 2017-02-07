@@ -6,6 +6,7 @@ import cookie from 'react-cookie';
 import pubSub from 'pubsub-js';
 import axios from 'axios';
 import toastr from 'toastr';
+import ShareProduct from './ShareProduct';
 import LoginModal from '../Authenticate/LoginModal';
 let cart_id;
 let cuid;
@@ -14,7 +15,8 @@ export default class WallImageViewer extends React.Component {
 
   static contextTypes = {
     authenticated: React.PropTypes.bool,
-    user: React.PropTypes.object
+    user: React.PropTypes.object,
+    router: React.PropTypes.object.isRequired
   };
 
    constructor(props, context) {
@@ -99,11 +101,10 @@ export default class WallImageViewer extends React.Component {
     }
   }
 
-   getProductlike(email,cuid) {
+  getProductlike(email,cuid) {
     return axios.post("/api/like/"+cuid+"?email="+email)
   }
-
-
+ 
   render() {
     let is_like_src = (this.state.is_like == true)? 'images/like_icon_red.png' : 'images/like_icon.png'
     var disable=(this.props.wallImages?this.props.wallImages.is_disable:false)
@@ -116,7 +117,7 @@ export default class WallImageViewer extends React.Component {
             <a href="javaScript:void(0)" className="hover_icon" data-toggle="modal" data-target="#login_modal"  onClick={this.likeProduct.bind(this)}><img src={is_like_src}/>
               <small className="icon_text">Like</small>
             </a>
-            <a href="javaScript:void(0)" className="hover_icon"><img src="images/share_icon.png"/>
+            <a href="javaScript:void(0)" className="hover_icon"  data-toggle="modal" data-target={"#share_prod" +this.props.index} ><img src="images/share_icon.png"/>
               <small className="icon_text">Share</small>
             </a>
             <a href="javaScript:void(0)" className="hover_icon" onClick={this.addToCart.bind(this)}><img src="images/cart_plus_icon.png"/>
@@ -133,6 +134,7 @@ export default class WallImageViewer extends React.Component {
           </a>
           <ProductDetails index={this.props.index} dsplyProdDetails={this.props.wallImages ? this.props.wallImages : this.props.prodlist}/>
           <ReactSlider prod_to_edit={this.props.wallImages ? this.props.wallImages : this.props.prodlist} index={this.props.index}/>
+          <ShareProduct shareIndex={this.props.index} wall_photo={this.props.wallImages.photo}/>
       </div>
     );
   }
