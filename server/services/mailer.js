@@ -87,11 +87,8 @@ export  function cancel_account(email){
 
 
 export  function new_message(message, sender){
-  console.log('message')
-  console.log(message)
   User.findOne({ _id: message.receiver }).exec((err, user) => {
-    console.log(user.email)
-    console.log("user.email")
+
     // transport.sendMail({
     //     template_name: '01. Verifikasjonsmail',
     //     template_content:[],
@@ -129,11 +126,22 @@ export  function new_message(message, sender){
           from_email: 'noreply@bazeat.no',
           // "merge": true,
           // "merge_language": "handlebars",
-          "global_merge_vars": [
-              {
-                "firstName": sender.first_name
-              }
-          ]
+          // "global_merge_vars": [
+          //     {
+          //       "firstName": sender.first_name
+          //     }
+          // ]
+          "merge_vars": [
+                {
+                  "rcpt": user.email,
+                  "vars": [
+                    {
+                      "name": '$firstName',
+                      "content": user.first_name
+                    }
+                  ]
+                }
+            ],
         }
       }
       },
