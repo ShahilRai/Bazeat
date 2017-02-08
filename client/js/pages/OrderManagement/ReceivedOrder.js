@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import axios from 'axios';
+import moment from 'moment';
 import PackagesList from './PackagesList';
 import EditPurchaseOrder from './EditPurchaseOrder';
 import ProfileContainer from '../Profile/ProfileContainer';
@@ -176,7 +177,7 @@ export default class ReceivedOrder extends React.Component {
                         <div className="delivery_process">
                           <div className="full_width_del">
                             <span><strong>Order date</strong></span>
-                            <span className="text-left">21-10-2016</span>
+                            <span className="text-left">{this.state.orderDetails.createdAt? moment(this.state.orderDetails.createdAt).format('DD-MM-YYYY'): ""}</span>
                         </div>
                         <div className="full_width_del">
                           <span><strong>Delivery method</strong></span>
