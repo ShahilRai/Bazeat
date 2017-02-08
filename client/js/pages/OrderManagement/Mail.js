@@ -19,7 +19,6 @@ export default class Mail extends React.Component {
   }
 
   componentDidMount(){
-    console.log(this.context.user.email)
     this.composeEmail(this.props.params.orderId).then((response) => {
       if(response.data) {
         this.setState({

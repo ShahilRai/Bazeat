@@ -247,7 +247,7 @@ export default class ReceivedOrder extends React.Component {
                           </div>
                           <div className="inner_order_subtot">
                             <span className="mrht75 prht15">Where of MVA (25%)</span>
-                            <span>{this.state.orderDetails.shipment_vat_value}</span>
+                            <span>{this.state.orderDetails.shipment_vat_value? this.state.orderDetails.shipment_vat_value.toFixed(2): ""}</span>
                           </div>
                         </div>
                         <div className="gross_order">

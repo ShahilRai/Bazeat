@@ -5326,6 +5326,59 @@ font-size: 18px;
     color: #a1a1a1;
 }
 
+/*=========P.O.Slip===================*/
+.po_slip.order_information{
+padding: 17px 43px 39px 38px;
+}
+.po_slip p{
+  font-size:13px;
+  color:#999999;
+}
+.order_information.po_slip h3{margin-bottom: 25px;}
+.order_information.po_slip h4{    color: #696969;
+    font-weight: 600;margin-bottom: 10px;}
+.payslip_details{
+  float:left;
+  width:100%;
+  border-top:1px solid #ccc;
+  border-bottom:1px solid #ccc;
+  background:#eee;
+  margin-bottom:30px;
+  padding:15px 20px 6px;
+}
+.payslip_left{
+  float:left;
+}
+.payslip_right{
+  float:right;
+}
+.payslip_details ul{
+  list-style:none;
+
+}
+.payslip_details ul li{margin-bottom:12px;}
+.payslip_details ul li:last-child{margin-bottom:0;}
+.payslip_left ul li h4{
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 6px;
+}
+.payslip_left ul li p{
+font-size: 13px;
+    color: #999;
+}
+.payslip_right  h4{
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 6px;
+}
+.payslip_right p{
+font-size: 13px;
+    color: #999;
+}
+
 /********MEDIA QUERY*********/
 
 @media only screen and (min-width:250px) and (max-width:760px) {
@@ -5355,7 +5408,7 @@ font-size: 18px;
  padding: 5px 0 15px;
 }
 
- 
+
 .home_top_category ul li {
  padding: 10px 0;
  width: 100%;
@@ -5785,9 +5838,26 @@ font-size: 20px;
 
 .items_list_info{top: 54px;}
 
+
 /*7feb17**/
 .chkd_icon img{max-width:100%;}
 .chkd_description{margin-left:15px;}
+
+.po_slip.order_information{
+  padding: 10px 38px 39px 19px;
+}
+.order_information.po_slip h3 {
+    margin-bottom: 10px;
+}
+.po_slip .order_info_rt{
+      width: 100%;
+    text-align: center;
+    margin-bottom: 14px;
+}
+.payslip_right {
+    float: left;
+    margin-top: 13px;
+}
 
 
 }
