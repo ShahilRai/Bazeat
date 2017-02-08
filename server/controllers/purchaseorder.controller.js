@@ -92,7 +92,8 @@ export function getPackages(req, res) {
                                     path: '_buyer',
                                     model: 'User'
                                   }
-                                  }).exec((err, packages)=>{
+                                  })
+                                  .populate('packageitems').exec((err, packages)=>{
                                   if (err) {
                                     return res.json(422, err);
                                   }
@@ -290,6 +291,28 @@ export  function updateshipqty(packge, next, res){
 }
 
 
+
+export function deleteShipment(req, res){
+  Package.findOne({_id: req.query.package_id}).populate({
+    path: 'packageitems',
+    model: 'PackageItem',
+    populate: {
+      path: 'orderitems',
+      model: 'OrderItem'
+    }})
+  .exec((err, packge)=>{
+    packge.packageitems.forEach(function(pitem, index){
+      pitem.shipped_qty = 0;
+      pitem.save();
+      OrderItem.findOneAndUpdate({ _id: pitem._orderitem }, {$set: {shipped_qty: 0}}, {new: true}, function(err, updated_orderitem) {
+        if(packge.packageitems.length == index+1){
+          return res.status(200).send({packge});
+        }
+      })
+    })
+  })
+}
+
 function updated_order_after_ship(packge, next, res){
   let ship_qty = 0
   Order.findOne({_id: packge._order}).populate("-_id _buyer")
@@ -386,4 +409,28 @@ export  function packageDestroy(req, res){
       return res.status(200).send({msg: "Package deleted successfully"});
     });
   });
+}
+
+
+export function getEmailOrders(req, res){
+  User.findOne({email: req.query.email}).exec((err, producer)=>{
+    if(err){
+       return res.status(422).send({err});
+    }else{
+      Order.findOne({_id: req.query.order_id}).populate('_buyer').exec((err, order)=>{
+        if(err){
+         return res.status(422).send({err});
+        }
+        else{
+          return res.status(200).send({email: producer.email, order: order});
+        }
+      })
+    }
+  })
+}
+
+
+export function sendOrderEmail(req, res){
+  console.log('req.body')
+  console.log(req.body)
 }
