@@ -6074,3 +6074,32 @@ display: inline-block;}
 .maindiv{
  pointer-events: none;
 }
+
+
+/*============Producer-Notification==========================*/	
+.edit_prfile_detail_form.prod_notification  .col-form-label{
+	    color: #666666;
+    font-size: 14px;
+	text-align:left;
+	font-weight:600;
+}
+.prod_notification	.prod_checkbox{
+	width:100%;
+}
+.prod_notification .checkbox label{
+ color: #999999;
+    font-size: 14px;	
+padding-left:30px;
+    line-height: 23px;
+}
+.prod_checkbox label::before{
+    background: #fff;
+    border: 1px solid #B3B3B3;
+    height: 15px;
+    width: 15px;
+}
+.prod_checkbox label::after{
+color:	#B3B3B3;
+    font-size: 11px;
+	top:0;
+}
