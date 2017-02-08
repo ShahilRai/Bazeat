@@ -64,7 +64,7 @@ export default class WallImageViewer extends React.Component {
             });
         }
         else if(response.data.msg == 'Out of stock'){
-          toastr.success("Out of stock");
+          toastr.error('Out of stock');
         }
       }
     }).catch((err) =>{
