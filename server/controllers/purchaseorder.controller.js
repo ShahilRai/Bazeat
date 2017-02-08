@@ -92,7 +92,8 @@ export function getPackages(req, res) {
                                     path: '_buyer',
                                     model: 'User'
                                   }
-                                  }).exec((err, packages)=>{
+                                  })
+                                  .populate('packageitems').exec((err, packages)=>{
                                   if (err) {
                                     return res.json(422, err);
                                   }
@@ -386,4 +387,28 @@ export  function packageDestroy(req, res){
       return res.status(200).send({msg: "Package deleted successfully"});
     });
   });
+}
+
+
+export function getEmailOrders(req, res){
+  User.findOne({email: req.query.email}).exec((err, producer)=>{
+    if(err){
+       return res.status(422).send({err});
+    }else{
+      Order.findOne({_id: req.query.order_id}).populate('_buyer').exec((err, order)=>{
+        if(err){
+         return res.status(422).send({err});
+        }
+        else{
+          return res.status(200).send({email: producer.email, order: order});
+        }
+      })
+    }
+  })
+}
+
+
+export function sendOrderEmail(req, res){
+  console.log('req.body')
+  console.log(req.body)
 }

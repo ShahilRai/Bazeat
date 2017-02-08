@@ -10,6 +10,10 @@ router.route('/ship_package').put(PurchaseOrderController.shipPackage);
 
 router.route('/get_orders').get(PurchaseOrderController.getpurchaseOrders);
 
+router.route('/order_email_data').get(PurchaseOrderController.getEmailOrders);
+
+router.route('/send_email').put(PurchaseOrderController.sendOrderEmail);
+
 router.route('/get_packages').get(PurchaseOrderController.getPackages);
 
 router.route('/get_order').get(PurchaseOrderController.getpurchaseOrder);
