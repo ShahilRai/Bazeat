@@ -6,7 +6,7 @@ import cookie from 'react-cookie';
 import MessageDropdown from '../MessageAndReviews/MessageDropdown';
 import { IndexRoute, Route, browserHistory } from 'react-router';
 import { Router, LoginLink, LogoutLink, NotAuthenticated, Authenticated } from 'react-stormpath';
-
+let ismsg= ''
 export default class Menu extends React.Component {
 
   static contextTypes = {
@@ -19,23 +19,24 @@ export default class Menu extends React.Component {
     super(props);
     this.state = {
       isReview : '',
-      isMessage : '',
       allMessages:[]
     };
+
   }
 
 
   messageIconValue(){
-    this.setState({
-      isMessage: ''
-    })
+    ismsg=''
   }
 
   logoutLink() {
     cookie.remove('cart_cuid');
   }
 
+
   render() {
+    ismsg=this.props.allMessages.length
+    
     var cart_icon = <CartModal />
     if((this.context.router.location.pathname == '/checkout')||(this.context.router.location.pathname == '/orders'))
     {
@@ -45,8 +46,8 @@ export default class Menu extends React.Component {
     var reviewIcon
     var userId = this.props.cuid ? this.props.cuid : 'null'
     var profileHead = this.context.authenticated ? "header_rht_menu profile_rht_header dropdown" : "header_rht_menu";
-    if(this.state.isMessage){
-      MessageIcon = ( <span className="msg_qty" >{this.state.isMessage}</span>)
+    if(ismsg == this.props.allMessages.length){
+      MessageIcon = ( <span className="msg_qty" id="msg_qty">{ismsg}</span>)
     }
     if(this.state.isReview){
       reviewIcon = ( <span className="msg_qty" >{this.state.isReview}</span>)
@@ -61,7 +62,7 @@ export default class Menu extends React.Component {
           {cart_icon}
         </NotAuthenticated>
         <Authenticated>
-          <li className="dropbtn"><Link to="/message">
+          <li className="dropbtn" id="dropbtn"><Link to="/message" onClick={this.messageIconValue.bind(this)}>
             <a href="javascript:void(0)" className="message_icon">Messages
               {MessageIcon}
               {reviewIcon}

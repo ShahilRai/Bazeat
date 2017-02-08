@@ -1,7 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import toastr from 'toastr';
-var Loader = require('react-loader');
+import Loading from 'react-loading';
+
 export default class NewMessage extends React.Component {
   static contextTypes = {
     authenticated: React.PropTypes.bool,
@@ -41,24 +42,6 @@ export default class NewMessage extends React.Component {
       return axios.get("/api/search/users?email="+userEmail)
     }
 
-    getAllMessagesData(){
-      var userEmail = this.context.user.email;
-        this.getAllMessages(userEmail).then((response) => {
-        if(response.data) {
-         this.setState({
-          allMsgConversations: response.data.conversations
-         })
-       }
-      })
-        .catch((err) => {
-      console.log(err);
-      });
-    }
-
-    getAllMessages(emailAddress){
-    return axios.get("/api/conversations?email="+emailAddress);
-    }
-
     handleChange(e){
       this.setState({
         input_value: e.target.value
@@ -70,7 +53,6 @@ export default class NewMessage extends React.Component {
     }
      
     selectUserId(e){
-      console.log(e.target.value)
       this.state.users.map((user, index)=>{
         if(user.full_name == e.target.value){
            this.setState({
@@ -105,13 +87,12 @@ export default class NewMessage extends React.Component {
             send_message: response.data,
             value : '',
             input_value:''
-           
+
            });
         }
       }).catch((err) => {
         console.log(err);
       });
-      this.handleButtonClik()
     }
 
     sendMessage(userEmail,composedMessage,_uid){

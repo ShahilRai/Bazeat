@@ -717,7 +717,7 @@ color:#808080;
     text-align: left;
 
 }
-.profile_rht_header.header_rht_menu li.username_text a{    height: 37px;
+.profile_rht_header.header_rht_menu li.username_text a{ 
     overflow: hidden;
     float: left;
     padding-right: 0;
@@ -736,20 +736,22 @@ color:#808080;
 	background: url(../images/help_icon_hover.png) no-repeat right center;
 }
 .header_rht_menu.profile_rht_header li a.message_icon {
-	background: url(../images/chat_icon.png) no-repeat right center;
-}
+background: url(../images/chat_icon.png) no-repeat right center;
+background-size:29px;}
 .header_rht_menu.profile_rht_header li a.message_icon:hover {
-	background: url(../images/chat_icon_hover.png) no-repeat right center;
-}
+background: url(../images/chat_icon_hover.png) no-repeat right center;
+	background-size:29px;}
+.msg_qty.dis_none{display: none;}
 .header_rht_menu.profile_rht_header li a.user_icon {
-    background: url(../images/baker_icon.png) no-repeat right center;
-    height: 31px;
+    height:auto;
     float: right;
     padding-left: 0;
+    background: url(../images/baker_icon.png) no-repeat right center;
+	background-size:29px;
 }
 .header_rht_menu.profile_rht_header li a.user_icon:hover {
-	background: url(../images/baker_icon_hover.png) no-repeat right center;
-}
+background: url(../images/baker_icon_hover.png) no-repeat right center;
+	background-size:29px;}
 .username_text:hover .user_toggle_div{
 	display:block;
 }
@@ -1121,8 +1123,8 @@ ul.edit_sidbar_list li a:hover, ul.edit_sidbar_list li.active a {
 }
 .msg_qty{
     position: absolute;
-    right: 15px;
-    top: 0;
+    right: 36px;
+    top: 1px;
     background: #F3766F;
     border-radius: 100%;
     font-size: 12px;
@@ -1704,16 +1706,19 @@ ul.prod_lft_details li:hover a {
 	padding-left: 25px;
 }
 .mail_adrrs a {
-	background:url(../images/attch.png)no-repeat 0 center;
+	background: url(../images/truck.png)no-repeat 0 7px;
+	background-size:20px;
 	padding-left: 25px;
 }
 .review_date a {
 	background:url(../images/clock.png)no-repeat 0 center;
 	padding-left: 25px;
+		background-size:16px;
 }
 .review_cal a {
 	background:url(../images/calender.png)no-repeat 0 0;
 	padding-left: 25px;
+	background-size:16px;
 }
 .product_detail_lft .product_left_dsc {
 	float:left;
@@ -1938,6 +1943,7 @@ ul.prod_lft_details li:hover a {
     font-size: 24px;
     color: #fff;
 }
+.hover_box a img{height:25px;}
 
 
 
@@ -2565,8 +2571,12 @@ input[type="file"] {
 	color:#999999;
 }
 .prod_del a {
-    background: url(../images/clock.png)no-repeat 0 0;
+background: url(../images/clock.png)no-repeat 0 0;
+	background-size:15px;	
 }
+
+.footer_logo img{max-width:190px;}
+
 .prod_vehicle a {
     background: url(../images/truck.png)no-repeat 0 7px;
 }
@@ -2921,7 +2931,7 @@ padding-right: 19px;
 	margin-right: 18px;
 }
 .star_rating ul li img{
-	    height: 14px;
+	    height: 17px;
 }
 .google_map_content .review_num {
     font-size: 12px;margin-left: 8px;

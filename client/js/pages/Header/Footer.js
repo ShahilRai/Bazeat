@@ -20,7 +20,7 @@ export default class Footer extends React.Component {
         <div className="container pad_25">
           <div className="footer_container">
             <div className="row">
-              <div className="col-lg-3 col-md-2 col-sm-12 col-xs-12">
+              <div className="col-lg-3 col-md-2 col-sm-12 col-xs-12 footer_logo">
                 <Link to="/" onlyActiveOnIndex={true}><img src={require('../../../images/logo.png')}  alt="BAZEAT"/></Link>
               </div>
               <div className="col-lg-7 col-md-10 col-sm-12 col-xs-12">

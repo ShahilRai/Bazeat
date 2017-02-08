@@ -33,6 +33,13 @@
       });
     })
 
+$(function(){
+      $(document).on("click", ".dropbtn", function(){
+        alert("alert")
+        $("#msg_qty").addClass("dis_none");
+      });
+    })
+
       $('.grid_wall_wrapper').jaliswall({item:'.grid_single_item'});
     </script>
   </body>

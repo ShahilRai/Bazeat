@@ -4,7 +4,7 @@ import moment from 'moment';
 import SelectedMessages from './SelectedMessages';
 import NewMessage from './NewMessage';
 import axios from 'axios';
-
+let updateSingleMsg
 export default class AllMessages extends React.Component {
   static contextTypes = {
       authenticated: React.PropTypes.bool,
@@ -82,21 +82,10 @@ export default class AllMessages extends React.Component {
     }
 
     updateSingleConversation(singleConversation,conversation_id){
-      this.showMsgConversation(conversation_id).then((response) =>{
-        if(response.data){
-          this.setState({
-            allConversation: response.data.messages,
-            singleConversation: singleConversation.message,
-            conversation_id: conversation_id
-          });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-      this.selectedMsgTab()
-    }
-
+      updateSingleMsg = this.state.allConversation
+      updateSingleMsg.push(singleConversation)
+       this.selectedMsgTab()
+      }
 
     selectedMsgTab(){
       this.setState({

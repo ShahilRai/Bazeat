@@ -53,6 +53,8 @@ export function allConversations(req, res, next) {
 
 
 export function getConversation(req, res, next) {
+  console.log('req.params.conversation_id')
+  console.log(req.params.conversation_id)
   Message.update({conversation_id: req.params.conversation_id}, {unread: false}, {multi: true, new: true}).exec(function(err, updated_messages) {
     if(err) {
       return res.status(422).json({ err });
@@ -146,9 +148,26 @@ export function sendReply(req, res, next) {
         res.send({ error: err });
         return next(err);
       }
-      MailService.send_email(sentReply)
-      res.status(200).json({ message: sentReply });
-      return(next);
+      // MailService.send_email(sentReply)
+        Message.findOne({_id: sentReply._id })
+          .select('createdAt updatedAt body sender receiver conversation_id')
+          .populate({
+            path: 'sender',
+            select: 'full_name photo'
+          })
+          .populate({
+            path: 'receiver',
+            select: 'full_name photo'
+          })
+          .exec(function(err, message) {
+            if (err) {
+              return res.status(422).json({ err });
+            } else {
+              console.log(message)
+              return res.status(200).json(message);
+            }
+        });
+      
     });
   });
 }
@@ -160,6 +179,8 @@ export function msgCount(req, res){
       .limit(2)
       .select('_id')
       .exec(function(err, conversations) {
+        console.log('conversations')
+        console.log(conversations)
         if (err) {
           res.send({ error: err });
           return next(err);
@@ -167,8 +188,8 @@ export function msgCount(req, res){
         // Set up empty array to hold conversations + most recent message
         let fullConversations = [];
         conversations.forEach(function(conversation, index) {
-          Message.find({ 'conversation_id': conversation._id})
-            .sort('-updatedAt')
+          Message.find({ 'conversation_id': conversation._id, receiver: user._id, unread: true})
+            .sort('-createdAt')
             .limit(1)
             .populate({
               path: 'sender',

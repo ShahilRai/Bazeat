@@ -27,7 +27,7 @@ export default class SelectedMessages extends React.Component {
       var conversation_id = this.props.conversation_id
       var recipient_id = receiver_id
       this.sendMessage(userEmail,composedMessage,conversation_id,recipient_id).then((response) => {
-         this.props.updateSingleConversation(response.data,response.data.message.conversation_id)
+         this.props.updateSingleConversation(response.data,response.data.conversation_id)
         if(response.data) {
           this.setState({
             value : ''
