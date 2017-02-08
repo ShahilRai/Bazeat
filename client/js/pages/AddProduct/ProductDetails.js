@@ -1,15 +1,86 @@
 import React from 'react';
+import cookie from 'react-cookie';
+import pubSub from 'pubsub-js';
+import axios from 'axios';
+import toastr from 'toastr';
 let delivery_info;
 let start_time;
 let end_time;
 let day;
 let bought_items;
+let cart_id;
+let cuid;
+let available_prod_msg;
 export default class ProductDetails extends React.Component {
 
   static contextTypes = {
     authenticated: React.PropTypes.bool,
     user: React.PropTypes.object
   };
+
+  constructor(props, context) {
+      super(props, context);
+      this.state = {
+        added : false,
+        is_like: this.props.wall_is_like,
+        items : {},
+        cartProductItems: {
+          product_id: '',
+          qty: 1,
+          available_msg : ''
+        },
+        likeProduct:''
+      }
+   }
+
+  addToCart(e) {
+    var self = this
+    var cartProduct = this.state.cartProductItems
+    var cartData = this.props.dsplyProdDetails?this.props.dsplyProdDetails:this.props.prodlist;
+    cartData.qty = 1;
+    cartProduct.product_id = cartData.id
+    var qty = cartProduct.qty
+    var product_id = cartProduct.product_id
+
+    this.chkProdAvailability(product_id,qty).then((response) => {
+      if(response.data){
+        this.setState({
+        available_msg : response.data.msg
+        })
+        if(response.data.msg == 'Product Available'){
+          cart_id = cookie.load('cart_cuid') ? cookie.load('cart_cuid') : ''
+          this.sendCartData(cartProduct, cart_id).then((response) => {
+            if(response.data) {
+              cookie.save('cart_cuid', response.data.cart.cuid);
+              this.setState({
+                items : response.data.cart
+              })
+              PubSub.publish('cart.added', this.state.items);
+            }
+          }).catch((err) => {
+            console.log(err);
+            toastr.success("Sorry you can only Add product of same producer");
+            });
+        }
+        else if(response.data.msg == 'Out of stock'){
+          toastr.success("Out of stock");
+        }
+      }
+    }).catch((err) =>{
+      console.log(err);
+      });
+  }
+
+  sendCartData(cartArray, cart_id) {
+    return axios.post("/api/carts" , {
+      cuid: cart_id,
+      cartitems: cartArray
+    })
+  }
+  chkProdAvailability(product_id,qty){
+    return axios.get("/api/check_product_qty?product_id="+product_id+"&qty="+qty)
+  }
+
 
 	render(){
     this.props.dsplyProdDetails._producer.timeslots.map((result,index)=>{
@@ -72,7 +143,7 @@ export default class ProductDetails extends React.Component {
                   <div className="prod_price">
                     <h4 className="">kr {this.props.dsplyProdDetails.base_price}<sup>00</sup></h4>
                     <span className="">per portion</span>
-                    <button type="button" className="btn btn-default nxt_btn prod_buy_btn">Buy</button>
+                    <button type="button" className="btn btn-default nxt_btn prod_buy_btn" onClick={this.addToCart.bind(this)}>Buy</button>
                   </div>
                   <p className="abt_prod">{this.props.dsplyProdDetails.description}</p>
                   <ul className="prod_del_details">
