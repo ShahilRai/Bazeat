@@ -47,6 +47,7 @@ export default class Banner extends React.Component {
   }
   render(){
     let $imagePreview = null;
+    let addPhotoLink;
     var url;
     if(this.state.uploadedImages) {
       url = this.state.uploadedImages;
@@ -65,13 +66,16 @@ export default class Banner extends React.Component {
     else if(picselected == 'notselect'){
       $imagePreview=<Loading type='spokes' color='#ff0000'/>
     }
+    if(this.props.current_cuid == this.props.user_cuid){
+      addPhotoLink= <label className="img_upload_label" >
+                    <input type="file" onChange={this._handleImageChange} />
+                    <i className="fa fa-camera" aria-hidden="true"></i>
+                    Add a photo</label>
+    }
     return(
       <div className="banner_wrapper" >
         {$imagePreview}
-        <label className="img_upload_label" >
-        <input type="file" onChange={this._handleImageChange} />
-        <i className="fa fa-camera" aria-hidden="true"></i>
-        Add a photo</label>
+        {addPhotoLink}
       </div>
     )
   }
