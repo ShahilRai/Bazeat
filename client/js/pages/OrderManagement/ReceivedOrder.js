@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import axios from 'axios';
+import moment from 'moment';
 import PackagesList from './PackagesList';
 import EditPurchaseOrder from './EditPurchaseOrder';
 import ProfileContainer from '../Profile/ProfileContainer';
@@ -176,7 +177,7 @@ export default class ReceivedOrder extends React.Component {
                         <div className="delivery_process">
                           <div className="full_width_del">
                             <span><strong>Order date</strong></span>
-                            <span className="text-left">21-10-2016</span>
+                            <span className="text-left">{this.state.orderDetails.createdAt? moment(this.state.orderDetails.createdAt).format('DD-MM-YYYY'): ""}</span>
                         </div>
                         <div className="full_width_del">
                           <span><strong>Delivery method</strong></span>
@@ -222,8 +223,8 @@ export default class ReceivedOrder extends React.Component {
                                   <span>{order.packed_qty} Packed</span>
                                   <span>{order.shipped_qty} Shipped</span>
                                 </td>
-                                <td className="text-right">{order.product_price}</td>
-                                <td className="text-right">{order.product_weight}</td>
+                                <td className="text-right">{order.product_price.toFixed(2)}</td>
+                                <td className="text-right">{order.total_price.toFixed(2)}</td>
                                 <td className="">
                                   <a href="#" className="red_font"><i className="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                                 </td>
@@ -235,15 +236,15 @@ export default class ReceivedOrder extends React.Component {
                         <div className="order_subtotal order_rcvd_subtot">
                           <div className="inner_order_subtot">
                             <span className="mrht75">Sub total</span>
-                            <span>1250,00</span>
+                            <span>{this.state.orderDetails.net_price? this.state.orderDetails.net_price.toFixed(2): ""}</span>
                           </div>
                           <div className="inner_order_subtot">
                             <span className="mrht75 prht15">Where of MVA (15%)</span>
-                            <span>{this.state.orderDetails.vat}</span>
+                            <span>{this.state.orderDetails.food_vat_value? this.state.orderDetails.food_vat_value.toFixed(2): ""}</span>
                           </div>
                           <div className="inner_order_subtot">
                             <span className="mrht75">Shipment</span>
-                            <span>{this.state.orderDetails.price_with_ship ? this.state.orderDetails.price_with_ship.toFixed(2): ""}</span>
+                            <span>{this.state.orderDetails.shipment_price ? this.state.orderDetails.shipment_price.toFixed(2): ""}</span>
                           </div>
                           <div className="inner_order_subtot">
                             <span className="mrht75 prht15">Where of MVA (25%)</span>

@@ -42,15 +42,14 @@ export default class ReactShare extends React.Component {
 
    	render() {
    		const shareUrl = 'http://github.com';
-    	const title = 'Bazeat';
-
    		return(
    			<div >
 		        <div>
 		          <FacebookShareButton
 		            url={shareUrl}
-		            title={title}
-		            picture={`${String(window.location)}/${exampleImage}`}
+		            title={this.props.wall_images.product_name}
+		            picture={this.props.wall_images.photo}
+                description={this.props.wall_images.description}
 		            className="Demo__some-network__share-button">
 		            <FacebookIcon
 		              size={32}

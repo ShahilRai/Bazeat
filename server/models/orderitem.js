@@ -5,6 +5,7 @@ const ObjectId = Schema.ObjectId;
 const orderitemSchema = new Schema({
   product_weight: { type: Number, default: 0 },
   product_price: { type: Number, default: 0 },
+  total_price: { type: Number, default: 0 },
   product_qty:   { type: Number },
   _product: { type: ObjectId, ref: 'Product' },
   _buyer: { type: ObjectId, ref: 'User' },

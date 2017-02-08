@@ -31,7 +31,7 @@ export default class ShareProduct extends React.Component {
               </span> 
             </div>
             <div className="modal-footer">
-              <ReactShare />
+              <ReactShare wall_images={this.props.wall_images}/>
               <button type="button" className="btn btn-default nxt_btn">OK</button>
             </div>
           </div>

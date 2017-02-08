@@ -56,7 +56,7 @@ export default class DisplayPackageList extends React.Component {
           {this.props._pckge.pkg_date ? moment(this.props._pckge.pkg_date).format('DD-MM-YYYY'): ""}
         </td>
         <td className={statusClass}>{statusText}</td>
-        <td className=""></td>
+        <td className="">Bring</td>
         <td className="text-center prht30">{this.props._pckge.shippingdata.ship_date ? moment(this.props._pckge.shippingdata.ship_date).format('DD-MM-YYYY'): "N.A"}</td>
         <td className="text-left prht30 ">
         <span className="shipping_toggle" onClick={this.showDropDownBox}>

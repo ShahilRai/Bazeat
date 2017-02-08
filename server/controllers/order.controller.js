@@ -42,12 +42,13 @@ export function addOrder(req, res) {
             let shipment_vat_value = 0;
              Product.findOne({ _id: item.product_id }).exec((err, product) => {
               total_weight += (product.portion*item.qty)
-              total_price +=(product.calculated_price*item.qty)
+              total_price +=(product.base_price*item.qty)
               const newOrderItem = new OrderItem();
               newOrderItem.cuid = cuid();
               newOrderItem._order = order._id
               newOrderItem._product = item.product_id
-              newOrderItem.product_price = total_price
+              newOrderItem.total_price = total_price
+              newOrderItem.product_price = product.base_price
               newOrderItem.product_weight = total_weight
               newOrderItem.product_qty = item.qty
               newOrderItem.save((err, orderitem) => {
@@ -69,6 +70,7 @@ export function addOrder(req, res) {
                   order.food_vat_value = food_vat_value.toFixed(2);
                   order.food_vat_value = food_vat_value;
                   order.shipment_vat_value = shipment_vat_value;
+                  order.net_price = data.total_price;
                   order.price_with_ship = data.total_price + parseInt(req.body.shipment_price) ;
                   order.save(function (errors, order1) {
                     deduct_product_qty(order1)
