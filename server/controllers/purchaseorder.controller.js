@@ -291,6 +291,28 @@ export  function updateshipqty(packge, next, res){
 }
 
 
+
+export function deleteShipment(req, res){
+  Package.findOne({_id: req.query.package_id}).populate({
+    path: 'packageitems',
+    model: 'PackageItem',
+    populate: {
+      path: 'orderitems',
+      model: 'OrderItem'
+    }})
+  .exec((err, packge)=>{
+    packge.packageitems.forEach(function(pitem, index){
+      pitem.shipped_qty = 0;
+      pitem.save();
+      OrderItem.findOneAndUpdate({ _id: pitem._orderitem }, {$set: {shipped_qty: 0}}, {new: true}, function(err, updated_orderitem) {
+        if(packge.packageitems.length == index+1){
+          return res.status(200).send({packge});
+        }
+      })
+    })
+  })
+}
+
 function updated_order_after_ship(packge, next, res){
   let ship_qty = 0
   Order.findOne({_id: packge._order}).populate("-_id _buyer")

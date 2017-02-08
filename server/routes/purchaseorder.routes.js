@@ -26,4 +26,6 @@ router.route('/update_ship_address').put(PurchaseOrderController.updateOrderAddr
 
 router.route('/destroy_package').delete(PurchaseOrderController.packageDestroy);
 
+router.route('/delete_shipment').get(PurchaseOrderController.deleteShipment);
+
 export default router;
