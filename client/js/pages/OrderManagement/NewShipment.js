@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import moment from 'moment';
 import axios from 'axios';
 import toastr from 'toastr';
 
@@ -12,7 +13,7 @@ export default class NewShipment extends React.Component {
       pckgeNumber: '',
       shpmntNumber: '',
       pckge_id: '',
-      shpmnt_date: ''
+      shpmnt_date: moment(new Date(),'YYYY-MM-DD').format('YYYY-MM-DD')
     };
     this.saveNewShipment = this.saveNewShipment.bind(this)
     this.handleDateChange = this.handleDateChange.bind(this)
@@ -100,7 +101,7 @@ export default class NewShipment extends React.Component {
                 <div className="form-group row">
                   <label htmlFor="" className="col-sm-5 col-form-label">Ship date</label>
                   <div className="col-sm-7">
-                    <input type="date" className="form-control" id="" placeholder="21-10-2016" onChange={this.handleDateChange} />
+                    <input type="date" className="form-control" id="" value={this.state.shpmnt_date} onChange={this.handleDateChange} />
                   </div>
                 </div>
                 <div className="chkbox_col order_chkbox_col">
