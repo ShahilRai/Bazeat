@@ -1,6 +1,8 @@
 import React from 'react';
 import toastr from 'toastr';
+import cookie from 'react-cookie';
 import { LoginForm, SocialLoginLink } from 'react-stormpath';
+let id;
 
 export default class LoginModal extends React.Component {
 
@@ -29,7 +31,13 @@ export default class LoginModal extends React.Component {
     $(".modal-backdrop.in").remove()
     $(".modal-open").removeClass("modal-open")
     next();
-    this.context.router.push('/profile');
+    id = cookie.load('cart_cuid') ? cookie.load('cart_cuid') : ''
+    if(id){
+      this.context.router.push('/checkout');
+    }
+    else{
+      this.context.router.push('/profile');
+    }
   }
 
   onFormSubmitError(e, next) {

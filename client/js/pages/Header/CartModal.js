@@ -140,10 +140,7 @@ export default class CartModal extends React.Component {
     }
     else
       {
-        if(<LoginModal />)
-        {
-          this.context.router.push('/checkout');
-        }
+        <LoginModal />
       }
   }
 
