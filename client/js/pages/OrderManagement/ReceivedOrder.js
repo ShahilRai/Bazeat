@@ -224,7 +224,7 @@ export default class ReceivedOrder extends React.Component {
                                   <span>{order.shipped_qty} Shipped</span>
                                 </td>
                                 <td className="text-right">{order.product_price.toFixed(2)}</td>
-                                <td className="text-right">{order.product_weight.toFixed(2)}</td>
+                                <td className="text-right">{order.total_price.toFixed(2)}</td>
                                 <td className="">
                                   <a href="#" className="red_font"><i className="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                                 </td>

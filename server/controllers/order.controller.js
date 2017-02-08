@@ -47,7 +47,8 @@ export function addOrder(req, res) {
               newOrderItem.cuid = cuid();
               newOrderItem._order = order._id
               newOrderItem._product = item.product_id
-              newOrderItem.product_price = total_price
+              newOrderItem.total_price = total_price
+              newOrderItem.product_price = product.base_price
               newOrderItem.product_weight = total_weight
               newOrderItem.product_qty = item.qty
               newOrderItem.save((err, orderitem) => {
