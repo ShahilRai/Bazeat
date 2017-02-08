@@ -42,7 +42,7 @@ export function addOrder(req, res) {
             let shipment_vat_value = 0;
              Product.findOne({ _id: item.product_id }).exec((err, product) => {
               total_weight += (product.portion*item.qty)
-              total_price +=(product.calculated_price*item.qty)
+              total_price +=(product.base_price*item.qty)
               const newOrderItem = new OrderItem();
               newOrderItem.cuid = cuid();
               newOrderItem._order = order._id
