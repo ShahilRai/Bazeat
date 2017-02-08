@@ -134,7 +134,7 @@ export default class WallImageViewer extends React.Component {
           </a>
           <ProductDetails index={this.props.index} dsplyProdDetails={this.props.wallImages ? this.props.wallImages : this.props.prodlist}/>
           <ReactSlider prod_to_edit={this.props.wallImages ? this.props.wallImages : this.props.prodlist} index={this.props.index}/>
-          <ShareProduct shareIndex={this.props.index} wall_photo={this.props.wallImages ? this.props.wallImages.photo : this.props.prodlist.photo}/>
+          <ShareProduct shareIndex={this.props.index} wall_photo={this.props.wallImages ? this.props.wallImages.photo : this.props.prodlist.photo} wall_images ={this.props.wallImages ? this.props.wallImages : this.props.prodlist}/>
       </div>
     );
   }
