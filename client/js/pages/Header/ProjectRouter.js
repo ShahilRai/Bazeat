@@ -29,6 +29,7 @@ import ProducerPasswordUpdate from '../UserSetting/ProducerPasswordUpdate';
 import Notification from '../UserSetting/Notification';
 import PurchaseOrders from '../OrderManagement/PurchaseOrders';
 import ReceivedOrder from '../OrderManagement/ReceivedOrder';
+import Mail from '../OrderManagement/Mail';
 import CreateNewPackage from '../OrderManagement/CreateNewPackage';
 import AllMessages from '../MessageAndReviews/AllMessages.js';
 import ReviewPage from '../MessageAndReviews/ReviewPage.js';
@@ -100,6 +101,7 @@ export default class ProjectRouter extends React.Component {
               <Route path='/reviews' component={ReviewPage} />
               <Route path='/notification' component={Notification} />
               <Route path='/add-account' component={AddAccount} />
+              <Route path='/orders/:orderId/e-mail' component={Mail} />
             </HomeRoute>
           </AuthenticatedRoute>
         </HomeRoute>

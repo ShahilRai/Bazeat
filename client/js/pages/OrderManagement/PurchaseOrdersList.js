@@ -104,7 +104,7 @@ export default class PurchaseOrdersList extends React.Component {
     return(
       <tr key={this.props.index}>
         <td className="bold">
-          {this.props.order.date? moment(this.props.order.date).format('DD-MM-YYYY'): ""}
+          {this.props.order.address? moment(this.props.order.address.createdAt).format('DD-MM-YYYY'): ""}
         </td>
         <td className="text-left bold">
           <Link to={"/orders/"+(this.props.order.cuid)}>{"SO-"+(this.props.order.orderId)}</Link>

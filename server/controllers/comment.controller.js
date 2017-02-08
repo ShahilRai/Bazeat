@@ -6,8 +6,6 @@ import  Order from '../models/order'
 import  Product from '../models/product'
 
 export function allReviews(req, res, next) {
-  // console.log(req.query)
-  // console.log(req.query)
   User.findOne({ email: req.query.email }).exec((err, user) => {
     RatingAndReview.find({ participants: user._id })
     .select('_id')
@@ -113,8 +111,6 @@ export function newReview(req, res, next) {
         res.send({ error: err });
         return next(err);
       }
-      console.log('newRatingAndReview')
-      console.log(newRatingAndReview)
       const review = new Review({
         rating_and_review_id: newRatingAndReview._id,
         review: req.body.review_body,
@@ -202,6 +198,50 @@ export function reviewUserList(req, res){
           })
         }
       })
+    });
+  });
+}
+
+export function reviewsCount(req,res){
+  User.findOne({ email: req.query.email }).exec((err, user) => {
+    RatingAndReview.find({ participants: user._id })
+      .sort('-updatedAt')
+      .limit(2)
+      .select('_id')
+      .exec(function(err, ratingreviews) {
+        if (err) {
+          res.send({ error: err });
+          return next(err);
+        }
+        let fullReviews = [];
+        ratingreviews.forEach(function(ratingreview, index) {
+          Review.find({ 'rating_and_review_id': ratingreview._id, reviewed_for: user._id, is_reviewed: true})
+            .sort('-createdAt')
+            .limit(1)
+            .populate({
+              path: 'reviewed_by',
+              select: 'full_name photo cuid'
+            })
+            .populate({
+              path: 'reviewed_for',
+              select: 'full_name photo cuid'
+            })
+            .populate({
+              path: 'comment',
+              select: 'comment is_commented'
+            })
+            .exec(function(err, review) {
+              if (err) {
+                res.send({ error: err });
+                return next(err);
+              }if(review.length>0){
+                fullReviews.push(review);
+              }
+              if(index+1 === ratingreviews.length) {
+                return res.status(200).json({ reviews: fullReviews });
+              }
+            });
+        });
     });
   });
 }

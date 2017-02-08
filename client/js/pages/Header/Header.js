@@ -21,7 +21,6 @@ export default class Header extends React.Component {
       _cartList: [],
       allMessages: [],
       all_reviews:[],
-      offset: 0,
       producer_info: {},
       user_info:{}
     };
@@ -65,7 +64,7 @@ export default class Header extends React.Component {
   }
 
   loadAllReviews(){
-    this.getAllReviews(this.context.user.email,this.state.offset,2).then((response) => {
+    this.getAllReviews(this.context.user.email).then((response) => {
       if(response.data) {
           this.setState({
             all_reviews : response.data.reviews
@@ -76,8 +75,8 @@ export default class Header extends React.Component {
     });
   }
 
-  getAllReviews(email, off_set, per_page ){
-     return axios.get("/api/review?email="+email+"&off_set="+off_set+"&per_page="+per_page)
+  getAllReviews(email){
+     return axios.get("/api/reviews_count?email="+email)
   }
 
   render() {
