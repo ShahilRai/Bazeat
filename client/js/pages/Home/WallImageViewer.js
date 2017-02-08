@@ -104,7 +104,7 @@ export default class WallImageViewer extends React.Component {
   getProductlike(email,cuid) {
     return axios.post("/api/like/"+cuid+"?email="+email)
   }
- 
+
   render() {
     let is_like_src = (this.state.is_like == true)? 'images/like_icon_red.png' : 'images/like_icon.png'
     var disable=(this.props.wallImages?this.props.wallImages.is_disable:false)
@@ -134,7 +134,7 @@ export default class WallImageViewer extends React.Component {
           </a>
           <ProductDetails index={this.props.index} dsplyProdDetails={this.props.wallImages ? this.props.wallImages : this.props.prodlist}/>
           <ReactSlider prod_to_edit={this.props.wallImages ? this.props.wallImages : this.props.prodlist} index={this.props.index}/>
-          <ShareProduct shareIndex={this.props.index} wall_photo={this.props.wallImages.photo}/>
+          <ShareProduct shareIndex={this.props.index} wall_photo={this.props.wallImages ? this.props.wallImages.photo : this.props.prodlist.photo}/>
       </div>
     );
   }

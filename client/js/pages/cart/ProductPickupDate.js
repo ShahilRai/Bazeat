@@ -169,13 +169,10 @@ export default class ProductPickupDate extends React.Component {
 
   getSelectedDate(e){
     date_value_day = e.target.value
+    $(e.target).addClass("input_green_txt");
     this.setState({
       select_input: true
     })
-  }
-
-  getSelectedTime(e){
-    time_value_day = e.target.value
   }
 
   displayTimeSlot(){
@@ -435,17 +432,17 @@ export default class ProductPickupDate extends React.Component {
             {this.state._arrayOfMonthDayAndDate.map((monthDayDate, index)=>{
               if(day.includes(monthDayDate.day)){
                 return(
-                  <div className="pickup_row1 span green_txt" key={index} ref="wrapperdiv">
+                  <div className="pickup_row1 span" key={index} ref="wrapperdiv">
                     <a href="javascript:void(0)">
-                      <span className= "pickup_day"  id ="sp1" ref="span_value"  onClick={this.getSelectedDate.bind(this)}><input className="pickup_day rdonly" type="text" readonly disabled="disabled" value={(monthDayDate.day)+" - "+(monthDayDate.month)+" "+(monthDayDate.current_date)+"   "+(start_time)+" - "+(end_time)}/></span>
+                      <span className="pickup_day" id ="sp1" ref="span_value"  onClick={this.getSelectedDate.bind(this)}><input className="pickup_day rdonly" id ="txt1" type="text" readonly disabled="disabled" value={(monthDayDate.day)+" - "+(monthDayDate.month)+" "+(monthDayDate.current_date)+"   "+(start_time)+" - "+(end_time)}/></span>
                     </a>
                   </div>
                 )
               }else
                 return(
-                  <div className="pickup_row1 span green_txt" key={index} ref="wrapperdiv">
+                  <div className="pickup_row1 span" key={index} ref="wrapperdiv">
                     <a href="javascript:void(0)" >
-                      <span className="pickup_day" onClick={this.getSelectedDate.bind(this)}><input className="pickup_day_time rdonly" type="text" readonly disabled="disabled" value={(monthDayDate.day)+" - "+(monthDayDate.month)+" "+(monthDayDate.current_date)}/></span>
+                      <span className="pickup_day" onClick={this.getSelectedDate.bind(this)}><input className="pickup_day_time rdonly" id ="txt1" type="text" readonly disabled="disabled" value={(monthDayDate.day)+" - "+(monthDayDate.month)+" "+(monthDayDate.current_date)}/></span>
                     </a>
                   </div>
                 )
@@ -622,6 +619,7 @@ export default class ProductPickupDate extends React.Component {
     cart_info.map((result, i) =>{
       product_id = result.product_id
     });
+
     return (
       <div className="full_width_container">
         {this.selected()}

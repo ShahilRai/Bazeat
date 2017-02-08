@@ -69,7 +69,6 @@ export default class ShowBazeatersSearch extends React.Component {
   }
 
   render() {
-    console.log(this.state.allBazeaters)
     return (
       <div className="tab-pane" id="bazeaters">
         <div className="container pad_lf151">

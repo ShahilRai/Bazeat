@@ -125,7 +125,7 @@ export function getProducts(req, res) {
 
 export function getProduct(req, res) {
   console.log(req.params)
-  Product.findOne({cuid: req.params.cuid}).populate('ingredients').exec((err, product) => {
+  Product.findOne({cuid: req.params.cuid}).populate('ingredients _producer').exec((err, product) => {
     if (err) {
       return res.status(422).send(err);
     }
