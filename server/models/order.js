@@ -37,6 +37,7 @@ const orderSchema = new Schema({
   food_vat_value: { type: Number, default: 0 },
   shipment_vat_value: { type: Number, default: 0 },
   price_with_ship: { type: Number, default: 0 },
+  net_price: { type: Number, default: 0 },
   vat: { type: Number, default: 0 },
   address: {
     email: { type: 'String' },
