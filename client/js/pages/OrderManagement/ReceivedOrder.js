@@ -150,7 +150,7 @@ export default class ReceivedOrder extends React.Component {
                           <a href="#"><i className="fa fa-file-pdf-o" aria-hidden="true"></i></a>
                         </li>
                         <li>
-                          <a href="#"><i className="fa fa-envelope-o" aria-hidden="true"></i></a>
+                          <Link to={"/orders/"+this.props.params.orderId+"/e-mail"}><i className="fa fa-envelope-o" aria-hidden="true"></i></Link>
                         </li>
                       </ul>
                       <EditPurchaseOrder _updateAddress={this._updateAddress} orderDetails={this.state.orderDetails} orderItems={this.state.orderItems}/>
@@ -247,7 +247,7 @@ export default class ReceivedOrder extends React.Component {
                           </div>
                           <div className="inner_order_subtot">
                             <span className="mrht75 prht15">Where of MVA (25%)</span>
-                            <span>{this.state.orderDetails.shipment_vat_value}</span>
+                            <span>{this.state.orderDetails.shipment_vat_value? this.state.orderDetails.shipment_vat_value.toFixed(2): ""}</span>
                           </div>
                         </div>
                         <div className="gross_order">
