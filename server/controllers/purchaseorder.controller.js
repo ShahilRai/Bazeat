@@ -18,26 +18,38 @@ export function getpurchaseOrders(req, res) {
       if (err) {
         return res.json(422, err);
       }
-      Product.findOne({ _id: {"$in": producer.products }}).select("orders -_id").exec((err, products)=>{
+      Product.find({ _id: { "$in": producer.products }}).select("orders -_id").exec((err, products)=>{
+
         if (err) {
           return res.json(422, err);
         }
         else{
           if(products){
-            Order.find({ _id: {"$in": products.orders }, payment_status: "succeeded"})
-            .populate("orderitems _buyer")
-            .populate("packages", null, {pkg_status: 'created'})
-            .exec((err, orders)=>{
-              if (err) {
-                return res.json(422, err);
-              }
-              else{
-                return res.json(orders);
+            let order_arr = []
+            products.forEach(function(item, index){
+              if (item.orders.length > 0){
+                item.orders.forEach(function(order_id, index1){
+                  order_arr.push(order_id)
+                  if((products.length == index+1) && (item.orders.length == index1+1))
+                  {
+                    Order.find({ _id: {"$in": order_arr }, payment_status: "succeeded"})
+                    .populate("orderitems _buyer")
+                    .populate("packages", null, {pkg_status: 'created'})
+                    .exec((err, orders)=>{
+                      if (err) {
+                        return res.json(422, err);
+                      }
+                      else{
+                        return res.json(orders);
+                      }
+                    })
+                  }
+                })
               }
             })
           }
           else{
-            return res.json({packages: "You don't have any orders yet"});
+            return res.json({orders: "You don't have any orders yet"});
           }
         }
       })
@@ -49,39 +61,60 @@ export function getPackages(req, res) {
     if (err) {
       return res.json(422, err);
     }
-    Product.findOne({ _id: {"$in": producer.products }}).select("orders -_id").exec((err, products)=>{
+    Product.find({ _id: {"$in": producer.products }}).select("orders -_id").exec((err, products)=>{
       if (err) {
         return res.json(422, err);
       }
-      Order.findOne({ _id: {"$in": products.orders }, payment_status: "succeeded"}).exec((err, orders)=>{
-        if (err) {
-          return res.json(422, err);
-        }
-        else{
-          if (orders){
-            Package.find({ _id: {"$in": orders.packages }, pkg_status: "created"})
-            .populate('packageitems')
-            .populate({
-              path: '_order',
-              model: 'Order',
-              populate: {
-                path: '_buyer',
-                model: 'User'
-              }
-              }).exec((err, packages)=>{
-              if (err) {
-                return res.json(422, err);
-              }
-              else{
-                return res.json(packages);
+      if(products){
+        let order_arr = []
+        products.forEach(function(pitem, index){
+          if (pitem.orders.length > 0){
+            pitem.orders.forEach(function(order_id, index1){
+              order_arr.push(order_id)
+              if((products.length == index+1) && (pitem.orders.length == index1+1)){
+                Order.find({ _id: {"$in": order_arr }, payment_status: "succeeded"}).select('packages -_id').exec((err, orders)=>{
+                  if (err) {
+                    return res.json(422, err);
+                  }
+                  else{
+                    if (orders){
+                      let package_arr = []
+                        orders.forEach(function(oitem, index3){
+                          if (oitem.packages.length > 0){
+                            oitem.packages.forEach(function(package_id, index4){
+                              package_arr.push(package_id)
+                              if((orders.length == index3+1) && (oitem.packages.length == index4+1))
+                              {
+                                Package.find({ _id: {"$in": package_arr}}).populate({
+                                  path: '_order',
+                                  model: 'Order',
+                                  populate: {
+                                    path: '_buyer',
+                                    model: 'User'
+                                  }
+                                  }).exec((err, packages)=>{
+                                  if (err) {
+                                    return res.json(422, err);
+                                  }
+                                  else{
+                                    return res.json(packages);
+                                  }
+                                })
+                              }
+                            })
+                          }
+                        })
+                    }
+                    else{
+                      return res.json({packages: "You don't have any packages yet"});
+                    }
+                  }
+                })
               }
             })
           }
-          else{
-            return res.json({packages: "You don't have any packages yet"});
-          }
-        }
-      })
+        })
+      }
     })
   })
 }
@@ -113,9 +146,27 @@ export function createPackage(req, res){
 }
 
 export function updatePackage(req, res) {
-  console.log('req.body.orderitems')
-  console.log(req.body.orderitems)
-  Order.findOne({cuid: req.body.cuid}).exec(function(err, order) {
+  let status
+  let ship_qty = 0
+  Order.findOne({cuid: req.body.cuid}).populate({path: 'packages',
+    model: 'Package',
+    populate: {
+      path: 'packageitems',
+      model: 'PackageItem'
+    }}).exec(function(err, order) {
+    order.packages.forEach(function(pkg, index){
+      pkg.packageitems.forEach(function(pkg_itm, indx){
+        ship_qty += pkg_itm.shipped_qty
+        if(pkg.packageitems.length == indx+1){
+          if(ship_qty > 0 ){
+            status = "Partially Shipped"
+          }
+          else {
+            status = "Confirmed"
+          }
+        }
+      })
+    })
     Package.findOne({_id: req.body.package_id}).exec(function(err, upackage) {
       if(err) {
         return res.status(422).send(err);
@@ -141,7 +192,7 @@ export function updatePackage(req, res) {
               }
               if (req.body.orderitems.length == index+1) {
                 order.packages.push(upackage);
-                order.after_payment_status = "Confirmed";
+                order.after_payment_status = status;
                 order.save();
                 upackage._order = order._id;
                 upackage.pkg_status = 'created';
@@ -228,8 +279,6 @@ export function shipPackage(req, res) {
 }
 
 export  function updateshipqty(packge, next, res){
-  console.log('packge1')
-  console.log(packge)
   packge.packageitems.forEach(function(pitem, index){
     OrderItem.findOneAndUpdate({ _id: pitem._orderitem }, {$set: {shipped_qty: pitem.packed_qty}}, {new: true}, function(err, updated_orderitem) {
       if(packge.packageitems.length == index+1){

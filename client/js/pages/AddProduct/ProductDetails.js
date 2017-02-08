@@ -83,11 +83,13 @@ export default class ProductDetails extends React.Component {
 
 
 	render(){
+    if(this.props.dsplyProdDetails._producer){
     this.props.dsplyProdDetails._producer.timeslots.map((result,index)=>{
       start_time = result.start_time
       end_time = result.end_time
       day = result.day
     })
+   }
     if(this.props.dsplyProdDetails.send && this.props.dsplyProdDetails.pickup){
       delivery_info = <li className="prod_vehicle"><a href="#">Can be delivered <br />Can be picked up</a></li>
     }
@@ -120,11 +122,18 @@ export default class ProductDetails extends React.Component {
                     </li>
     }
     var nutrtnTab;
-    if(this.props.dsplyProdDetails._producer.if_producer){
-      nutrtnTab = <li className=""><a href="#" data-target={"#prd2" + this.props.index} data-toggle="tab">Nutrition</a></li>
+    if(this.props.dsplyProdDetails._producer){
+      if(this.props.dsplyProdDetails._producer.if_producer){
+        nutrtnTab = <li className=""><a href="#" data-target={"#prd2" + this.props.index} data-toggle="tab">Nutrition</a></li>
+      }
     }
-    var IngrLen = this.props.dsplyProdDetails.ingredients.length
-    var AllrgnLen = this.props.dsplyProdDetails.allergens.length
+
+    var IngrLen;
+    var AllrgnLen;
+    if(this.props.dsplyProdDetails.ingredients){
+      IngrLen = this.props.dsplyProdDetails.ingredients.length
+      AllrgnLen = this.props.dsplyProdDetails.allergens.length
+    }
 		return(
 			<div className="modal fade prod_modal" id={"id1" + this.props.index} tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div className="modal-dialog add_prduct_modal" role="document">
@@ -132,7 +141,7 @@ export default class ProductDetails extends React.Component {
             <div className="modal-header">
               <button type="button" className="close modal_close" data-dismiss="modal" aria-label="Close"></button>
               <h3 className="modal-title" id="myModalLabel">{this.props.dsplyProdDetails.product_name}</h3>
-                <h5 className="prod_sponsor">{this.props.dsplyProdDetails._producer.full_name}</h5>
+                <h5 className="prod_sponsor">{this.props.dsplyProdDetails._producer? this.props.dsplyProdDetails._producer.full_name: ""}</h5>
             </div>
             <div className="modal-body pad_btm0">
               <div className="prod_descrip_top">
@@ -147,9 +156,9 @@ export default class ProductDetails extends React.Component {
                   </div>
                   <p className="abt_prod">{this.props.dsplyProdDetails.description}</p>
                   <ul className="prod_del_details">
-                    {day.map((result,index)=>{
+                    {day? day.map((result,index)=>{
                     return <li className="prod_del" key={index}><a href="#">{result}: {start_time}-{end_time}</a></li>
-                  })}
+                  }): ""}
                     {delivery_info}
                     {bought_items}
                   </ul>
@@ -169,17 +178,17 @@ export default class ProductDetails extends React.Component {
                       <ul>
                         <li>
                           <span className="categ_title">Category:</span>
-                          <span className="categ_content">{this.props.dsplyProdDetails.product_category.name}</span>
+                          <span className="categ_content">{this.props.dsplyProdDetails.product_category? this.props.dsplyProdDetails.product_category.name: ""}</span>
                         </li>
                         <li>
                           <span className="categ_title">Ingredients:</span>
-                          <span className="categ_content">{this.props.dsplyProdDetails.ingredients.map(
-                            (ingredientsName, index) => <span key={index}> {ingredientsName.name}{index == IngrLen-1?"":","}</span>)} </span>
+                          <span className="categ_content">{this.props.dsplyProdDetails.ingredients? this.props.dsplyProdDetails.ingredients.map(
+                            (ingredientsName, index) => <span key={index}> {ingredientsName.name}{index == IngrLen-1?"":","}</span>): ""} </span>
                         </li>
                         <li>
                           <span className="categ_title">Allergens:</span>
                           <span className="categ_content">
-                            <span className="warning_icon"><img src="images/warning_icon.png" /></span>{this.props.dsplyProdDetails.allergens.map((allergensName, index) =><span key={index}> {allergensName.name}{index == AllrgnLen-1?"":","} </span>)}
+                            <span className="warning_icon"><img src="images/warning_icon.png" /></span>{this.props.dsplyProdDetails.allergens? this.props.dsplyProdDetails.allergens.map((allergensName, index) =><span key={index}> {allergensName.name}{index == AllrgnLen-1?"":","} </span>): ""}
                           </span>
                         </li>
                       </ul>
@@ -188,17 +197,17 @@ export default class ProductDetails extends React.Component {
                   <div className="tab-pane" id={"prd2" + this.props.index}>
                     <div className="inner_prod_category">
                       <span className="categ_title">carbs:</span>
-                      <span className="categ_content">{this.props.dsplyProdDetails.nutrition_fact.carbs}</span>
+                      <span className="categ_content">{this.props.dsplyProdDetails.nutrition_fact? this.props.dsplyProdDetails.nutrition_fact.carbs: ""}</span>
                       <span className="categ_title">fat:</span>
-                      <span className="categ_content">{this.props.dsplyProdDetails.nutrition_fact.fat}</span>
+                      <span className="categ_content">{this.props.dsplyProdDetails.nutrition_fact? this.props.dsplyProdDetails.nutrition_fact.fat: ""}</span>
                       <span className="categ_title">fiber:</span>
-                      <span className="categ_content">{this.props.dsplyProdDetails.nutrition_fact.fiber}</span>
+                      <span className="categ_content">{this.props.dsplyProdDetails.nutrition_fact? this.props.dsplyProdDetails.nutrition_fact.fiber: ""}</span>
                       <span className="categ_title">kcal:</span>
-                      <span className="categ_content">{this.props.dsplyProdDetails.nutrition_fact.kcal}</span>
+                      <span className="categ_content">{this.props.dsplyProdDetails.nutrition_fact? this.props.dsplyProdDetails.nutrition_fact.kcal: ""}</span>
                       <span className="categ_title">kj:</span>
-                      <span className="categ_content">{this.props.dsplyProdDetails.nutrition_fact.kj}</span>
+                      <span className="categ_content">{this.props.dsplyProdDetails.nutrition_fact? this.props.dsplyProdDetails.nutrition_fact.kj: ""}</span>
                       <span className="categ_title">protein:</span>
-                      <span className="categ_content">{this.props.dsplyProdDetails.nutrition_fact.protein}</span>
+                      <span className="categ_content">{this.props.dsplyProdDetails.nutrition_fact? this.props.dsplyProdDetails.nutrition_fact.protein: ""}</span>
                     </div>
                   </div>
                 </div>
