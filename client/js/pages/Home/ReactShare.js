@@ -12,14 +12,14 @@ const {
   LinkedinShareButton,
   TwitterShareButton,
   PinterestShareButton,
-  VKShareButton 
+  VKShareButton
 } = ShareButtons;
 
 const {
   FacebookShareCount,
   GooglePlusShareCount,
   LinkedinShareCount,
-  PinterestShareCount 
+  PinterestShareCount
 } = ShareCounts;
 
 const FacebookIcon = generateShareIcon('facebook');
@@ -36,7 +36,7 @@ export default class ReactShare extends React.Component {
 	constructor(props, context) {
     	super(props, context);
       		this.state = {
-      			
+
       		}
    	}
 
