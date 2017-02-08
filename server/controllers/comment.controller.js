@@ -208,15 +208,15 @@ export function reviewsCount(req,res){
       .sort('-updatedAt')
       .limit(2)
       .select('_id')
-      .exec(function(err, reviews) {
+      .exec(function(err, ratingreviews) {
         if (err) {
           res.send({ error: err });
           return next(err);
         }
         let fullReviews = [];
-        reviews.forEach(function(review, index) {
-          Review.find({ 'conversation_id': review._id})
-            .sort('-updatedAt')
+        ratingreviews.forEach(function(ratingreview, index) {
+          Review.find({ 'rating_and_review_id': ratingreview._id, reviewed_for: user._id, is_reviewed: true})
+            .sort('-createdAt')
             .limit(1)
             .populate({
               path: 'reviewed_by',
@@ -237,7 +237,7 @@ export function reviewsCount(req,res){
               }if(review.length>0){
                 fullReviews.push(review);
               }
-              if(index+1 === reviews.length) {
+              if(index+1 === ratingreviews.length) {
                 return res.status(200).json({ reviews: fullReviews });
               }
             });

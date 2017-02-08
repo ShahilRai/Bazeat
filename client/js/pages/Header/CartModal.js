@@ -114,7 +114,7 @@ export default class CartModal extends React.Component {
      cart_id = cookie.load('cart_cuid') ? cookie.load('cart_cuid') : ''
      this.removeAllCartData(cart_id).then((response) => {
        if(response.data) {
-        toastr.success('all items removed successfully');
+        toastr.success(response.data.msg);
         this.setState({
           items : [],
           total_price: 0.0
@@ -178,7 +178,7 @@ export default class CartModal extends React.Component {
     return(
       <span>
       <li className="next_list" id="demo">
-      <a href="#" onClick={this.getCart.bind(this)}></a>
+      <a href="javaScript:void(0)" onClick={this.getCart.bind(this)}></a>
       </li>
           <div className="items_list_info">
             <p className="empty_item_text">You have {this.state.items.length} items in your bag • <span  className="empty_bag" onClick={this.removeAllItems.bind(this)} >Empty bag</span></p>

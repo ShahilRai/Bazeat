@@ -9,6 +9,12 @@ import ReactSlider from '../Product/ReactSlider';
 
 export default class ProductList extends React.Component {
 
+  static contextTypes = {
+    authenticated: React.PropTypes.bool,
+    user: React.PropTypes.object,
+    router: React.PropTypes.object.isRequired
+  };
+
   constructor(props, context) {
     super(props, context);
       this.state = {
@@ -115,7 +121,7 @@ export default class ProductList extends React.Component {
       <div className="wall-column">
         <div className="grid_single_item">
           {_showProductEvent}
-          <a href="#" data-target={"#" + this.props.index} data-toggle="modal" onClick={this.editProduct}>
+          <a href="#" data-target={this.props.current_cuid == this.props.user_cuid ? "#"+this.props.index: "#id1"+this.props.index} data-toggle="modal" onClick={this.editProduct}>
             <img src= {this.props.productData.photo}/>
           </a>
           <div className="grid_tile_desc">
@@ -124,6 +130,7 @@ export default class ProductList extends React.Component {
             <p>{this.props.productData.description}</p>
           </div>
         </div>
+        <ProductDetails dsplyProdDetails={this.state._prodToEdit} index={this.props.index}/>
         <ReactSlider prod_to_edit={this.state._prodToEdit} index={this.props.index}/>
       </div>
     );

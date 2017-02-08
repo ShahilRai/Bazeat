@@ -13,7 +13,7 @@ let localStorage = new LocalStorage('./scratch');
 
 export function addOrder(req, res) {
   User.findOne({ email: req.body.email }).exec((err, user) => {
-    if(user.account_added == true){
+    // if(user.account_added == true){
       let data = {};
       Cart.findOne({cuid: req.body.cart_cuid}).select("address total_price total_weight total_qty cartitems -_id").exec(function(err, data) {
         if(err){
@@ -85,10 +85,10 @@ export function addOrder(req, res) {
           });
         });
       });
-    }
-    else{
-      return res.status(422).send({err_msg: "Please add your bank account first"});
-    }
+    // }
+    // else{
+    //   return res.status(422).send({err_msg: "Please add your bank account first"});
+    // }
   });
 }
 
