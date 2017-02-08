@@ -59,7 +59,9 @@ export function getPackages(req, res) {
         }
         else{
           if (orders){
-            Package.find({ _id: {"$in": orders.packages }, pkg_status: "created"}).populate({
+            Package.find({ _id: {"$in": orders.packages }, pkg_status: "created"})
+            .populate('packageitems')
+            .populate({
               path: '_order',
               model: 'Order',
               populate: {

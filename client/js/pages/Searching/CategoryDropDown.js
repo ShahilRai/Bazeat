@@ -34,7 +34,7 @@ export default class CategoryDropDown extends React.Component {
                 <ul>
                   {this.props.searchCategory.map((product_category_list, index) => {
                     return (
-                      <li>
+                      <li key={index}>
                         <div className="checkbox prod_checkbox">
                           <input key={ index } id={product_category_list.id} name={product_category_list.name} value={product_category_list.id} type="checkbox" onChange={this.props.handleCheckBoxChange}/>
                           <label htmlFor={product_category_list.id}>

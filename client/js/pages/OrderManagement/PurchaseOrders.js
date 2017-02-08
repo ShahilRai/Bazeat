@@ -54,7 +54,7 @@ export default class PurchaseOrders extends React.Component {
     if(this.state.ordersList.length > 0){
       let thValue=['Date','Package order#','Customer','Status','Packed','Shipped','Amount']
       purchaseTable = (
-        <div className="table-main">
+        <div className="table-main overflow_none">
           <div className="table-wrapper">
             <table className="table purchase_order_table">
               <thead>
