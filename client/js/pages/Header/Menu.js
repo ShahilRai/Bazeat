@@ -33,6 +33,15 @@ export default class Menu extends React.Component {
     cookie.remove('cart_cuid');
   }
 
+  upperCase(str){
+    var array1 = str.split(' ');
+    var newarray1 = [];
+      
+    for(var x = 0; x < array1.length; x++){
+        newarray1.push(array1[x].charAt(0).toUpperCase()+array1[x].slice(1));
+    }
+    return newarray1.join(' ');
+  }
 
   render() {
     ismsg=this.props.allMessages.length
@@ -70,7 +79,7 @@ export default class Menu extends React.Component {
             </Link>
             <MessageDropdown allMessages={this.props.allMessages} allReviews={this.props.allReviews} />
           </li>
-          <li className="username_text"><Link to={"/user/"+userId}><a href="javascript:void(0)" className="user_icon">{(this.context.user?(this.context.user.customData.is_producer == "true" ? this.props.producer_name.business_name:this.context.user.givenName):'')}</a></Link>
+          <li className="username_text"><Link to={"/user/"+userId}><a href="javascript:void(0)" className="user_icon">{(this.context.user?(this.context.user.customData.is_producer == "true" ? this.upperCase (this.props.producer_name.business_name):this.upperCase(this.context.user.givenName)):'')}</a></Link>
             <ul className="user_toggle_div collapse" id="" >
               <li><Link to="/profile">Edit Profile</Link></li>
               <li><Link to="/setting">Settings</Link></li>

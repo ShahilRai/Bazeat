@@ -122,13 +122,13 @@ export default class UserProfilePage extends React.Component {
                         <div className="form-group row">
                           <LabelField className = "col-md-4 col-xs-12 col-form-label" htmlFor="givenName" label="First name*" />
                           <div className="col-md-8 col-xs-12">
-                            <input type="text" className="form-control" id="givenName" name="givenName" required />
+                            <input type="text" className="form-control capitalize" id="givenName" name="givenName" required />
                           </div>
                         </div>
                         <div className="form-group row">
                           <LabelField className = "col-md-4 col-xs-12 col-form-label" htmlFor="lastName" label="Last name*" />
                           <div className="col-md-8 col-xs-12">
-                            <input type="text" className="form-control" id="surname" name="surname" required/>
+                            <input type="text" className="form-control capitalize" id="surname" name="surname" required/>
                           </div>
                         </div>
                         <div className="form-group row">

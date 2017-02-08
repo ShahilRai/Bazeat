@@ -54,10 +54,10 @@ export default class UserRegisterModal extends React.Component {
             <div className="modal-body">
               <RegistrationForm onSubmit={this.onFormSubmit.bind(this)}  onSubmitSuccess={this.onFormSubmitSuccess.bind(this)} onSubmitError={this.onFormSubmitError.bind(this)} className="login_form mtop0">
                 <div className="form-group">
-                  <input type="text" className="form-control" id="givenName" name="firstName" placeholder="First Name" required={ true } />
+                  <input type="text" className="form-control capitalize" id="givenName" name="firstName" placeholder="First Name" required={ true } />
                 </div>
                 <div className="form-group">
-                  <input type="text" className="form-control" id="surname" name="lastName" placeholder="Last Name" required={ true } />
+                  <input type="text" className="form-control capitalize" id="surname" name="lastName" placeholder="Last Name" required={ true } />
                 </div>
                 <div className="form-group">
                   <input type="text" className="form-control" id="email" name="email" placeholder="Email" required={ true } />

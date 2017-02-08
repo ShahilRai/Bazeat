@@ -10,6 +10,15 @@ export default class BazeatersWall extends React.Component {
     user: React.PropTypes.object,
   };
 
+  upperCase(str){
+    var array1 = str.split(' ');
+    var newarray1 = [];
+      
+    for(var x = 0; x < array1.length; x++){
+        newarray1.push(array1[x].charAt(0).toUpperCase()+array1[x].slice(1));
+    }
+    return newarray1.join(' ');
+  }
   render() {
     return (
       <div className="bazeater_bg">
@@ -19,7 +28,7 @@ export default class BazeatersWall extends React.Component {
             <span className="pos_rel"><img className="bazeaters_logo" src={this.props.bazeatersData.photo} />
             </span>
           </div>
-          <h4 ><Link to={"/user/"+this.props.bazeatersData.cuid} className = "font_colr">{this.props.bazeatersData.full_name}</Link></h4>
+          <h4 ><Link to={"/user/"+this.props.bazeatersData.cuid} className = "font_colr">{this.upperCase(this.props.bazeatersData.full_name)}</Link></h4>
           <p>{this.props.bazeatersData.city}</p>
           <ul className="food_section">
 
