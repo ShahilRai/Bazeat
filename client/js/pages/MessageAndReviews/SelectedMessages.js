@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import moment from 'moment';
+var changeCase = require('change-case')
+
 let sender_name;
 let receiver_name;
 let sender_photo;
@@ -98,7 +100,7 @@ export default class SelectedMessages extends React.Component {
                 <span className="user_img"><a href="#"><img className="user_profile_img" src={sender_name==this.context.user.fullName?receiver_photo:sender_photo}/></a></span>
                   <span className="chat_description">
                     <h4 >
-                      {sender_name==this.context.user.fullName?receiver_name:sender_name}
+                      {sender_name==this.context.user.fullName?changeCase.titleCase(receiver_name):changeCase.titleCase(sender_name)}
                     </h4>
                   </span>
               </div>

@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-import toastr from 'toastr';
 import Loading from 'react-loading';
 
 export default class NewMessage extends React.Component {
@@ -82,7 +81,6 @@ export default class NewMessage extends React.Component {
       this.sendMessage(userEmail,this.state.value,_uid).then((response) => {
          this.props.updateConversation(response.data,this.state.selectedId)
         if(response.data) {
-          toastr.success('Your message sended successfully');
           this.setState({
             send_message: response.data,
             value : '',
@@ -104,6 +102,10 @@ export default class NewMessage extends React.Component {
 
   
     render(){
+      var loader
+    if(this.props.loaded=='notselect'){
+      loader=(<div className="loader_img"><Loading type='spokes' color='#ff0000'/></div>)
+    }
       return(
         <div className="chat_window_right">
           <form className="form_chat">
@@ -113,6 +115,7 @@ export default class NewMessage extends React.Component {
             </div>
               <textarea ref="message" className=""  onChange={this.textAreaValue.bind(this)} value={this.state.value} placeholder="Write your message here"></textarea>
               <button type="button"  className="btn btn-default chat_submit" onClick={this.sendMessageData.bind(this)}>Send</button>
+                {loader}
           </form>
         </div>
       )

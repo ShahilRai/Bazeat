@@ -4,6 +4,8 @@ import  Comment from '../models/comment'
 import  User from '../models/user'
 import  Order from '../models/order'
 import  Product from '../models/product'
+import * as MailService from '../services/mailer';
+import * as MessageService from '../services/twillio';
 
 export function allReviews(req, res, next) {
   User.findOne({ email: req.query.email }).exec((err, user) => {
@@ -113,7 +115,7 @@ export function newReview(req, res, next) {
       }
       const review = new Review({
         rating_and_review_id: newRatingAndReview._id,
-        review: req.body.review_body,
+        body: req.body.review_body,
         reviewed_by: user._id,
         reviewed_for: req.query.reviewed_for,
         is_reviewed: req.body.is_reviewed,
@@ -124,6 +126,7 @@ export function newReview(req, res, next) {
           res.send({ error: err });
           return next(err);
         }
+        MailService.review_email(newReview, user)
          Review.find({reviewed_for: newReview.reviewed_for}, function(err, model) {
           let total_count = model.length
           let reviews = model
@@ -156,7 +159,7 @@ export function avg_ratings(reviews, newReview, next, total_count, res){
 export function sendReply(req, res, next) {
   User.findOne({ email: req.body.email }).exec((err, user) => {
     const comment = new Comment({
-      comment: req.body.comment_body,
+      body: req.body.comment_body,
       review: req.body.review_id ,
       is_commented: req.body.is_commented
     });
@@ -165,8 +168,10 @@ export function sendReply(req, res, next) {
         res.send({ error: err });
       }
       else{
+
         Review.findOneAndUpdate({_id: req.body.review_id}, {$set: {'comment': comment._id, is_commented: req.body.is_commented}}, {new: true}).
         exec(function(err, model) {
+        MailService.replied_review_mail(newComment, model, user)
       })
         return res.json({ comment: newComment });
       }

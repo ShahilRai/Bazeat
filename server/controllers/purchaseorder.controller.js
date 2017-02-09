@@ -306,7 +306,23 @@ export function deleteShipment(req, res){
       pitem.save();
       OrderItem.findOneAndUpdate({ _id: pitem._orderitem }, {$set: {shipped_qty: 0}}, {new: true}, function(err, updated_orderitem) {
         if(packge.packageitems.length == index+1){
-          return res.status(200).send({packge});
+          packge.status = "Not Shipped"
+          packge.save();
+          Order.findOne({_id: packge._order}).populate("-_id _buyer")
+            .populate({path: 'orderitems',
+            model: 'OrderItem',
+            populate: {
+              path: '_product',
+              model: 'Product'
+            }})
+            .populate({path: 'packages',
+            model: 'Package',
+            populate: {
+              path: 'packageitems',
+              model: 'PackageItem'
+            }}).exec((err,order) =>{
+              return res.status(200).send({order});
+          })
         }
       })
     })
