@@ -150,7 +150,7 @@ export function review_email(review, sender){
                   },
                   {
                       "name": "REVIEWBODY",
-                      "content": review.body
+                      "content": review.review
                   },
                   {
                     "name": "SENDERSRC",
@@ -196,7 +196,7 @@ export function replied_review_mail(comment, review, sender){
                     },
                     {
                         "name": "COMMENTBODY",
-                        "content": comment.body
+                        "content": comment.comment
                     },
                     {
                       "name": "SENDERSRC",
