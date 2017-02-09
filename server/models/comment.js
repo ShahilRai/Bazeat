@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const commentSchema = new Schema({
-  comment: { type: String},
+  body: { type: String},
   is_commented: { type: Boolean, default: false},
   review: { type: Schema.ObjectId, ref: 'Review' }},
   {
