@@ -2,6 +2,7 @@ import React from 'react';
 import Dropzone from 'react-dropzone';
 import request from 'superagent';
 import Loading from 'react-loading';
+let picselected;
 
 export default class ImageUploader extends React.Component {
   static contextTypes = {
