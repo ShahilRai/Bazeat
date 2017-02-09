@@ -4,7 +4,6 @@ import NewShipment from './NewShipment';
 import toastr from 'toastr';
 import moment from 'moment';
 import axios from 'axios';
-/*import PubSub from 'pubsub-js';*/
 import PurchaseOrders from './PurchaseOrders';
 
 var pId;
@@ -21,8 +20,6 @@ export default class DisplayPackageList extends React.Component {
       selectBox: false
     };
     this.showDropDownBox = this.showDropDownBox.bind(this)
-    /*this.deletePackageConfirm = this.deletePackageConfirm.bind(this)*/
-    /*this.viewPackage = this.viewPackage.bind(this)*/
   }
 
   showDropDownBox(){
@@ -32,10 +29,10 @@ export default class DisplayPackageList extends React.Component {
   }
 
   render(){
-    /*PubSub.publish( 'pckg detail', this.viewPackage );*/
     var self = this;
     var statusText='';
     var statusClass='';
+    let dltShpmnt;
     if(this.props._pckge){
       if(this.props._pckge.status == "Not Shipped"){
         statusText= "NOT SHIPPED"
@@ -44,6 +41,7 @@ export default class DisplayPackageList extends React.Component {
       else if(this.props._pckge.status == "Shipped"){
         statusText= "SHIPPED"
         statusClass= "text-left blue_txt"
+        dltShpmnt= <li><a href="javascript:void(0)" data-index={this.props.index} onClick={(e) => this.props.deleteShipmentConfirm(e, this.props._pckge.id)}>Delete shipment</a></li>
       }
     }
 
@@ -68,6 +66,7 @@ export default class DisplayPackageList extends React.Component {
               <li><a href="#">PDF package slip</a></li>
               <li><a href="#">Print package slip</a></li>
               <li><a href="javascript:void(0)" data-index={this.props.index} onClick={(e) => this.props.deletePackageConfirm(e, this.props._pckge.id)}>Delete package</a></li>
+              {dltShpmnt}
             </ul>
           </ToggleDisplay>
         </span>

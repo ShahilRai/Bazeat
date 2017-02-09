@@ -18,7 +18,6 @@ export function allConversations(req, res, next) {
             res.send({ error: err });
             return next(err);
           }
-          // Set up empty array to hold conversations + most recent message
           let fullConversations = [];
           conversations.forEach(function(conversation) {
             console.log(conversation)
@@ -129,7 +128,7 @@ export  function newMessage(conversation, next, res, user, req){
     if (err) {
       res.status(422).send({err});
     }
-    MailService.new_message(newMessage, user)
+    MailService.message_email(newMessage, user)
     res.status(200).json({ message: newMessage });
   });
 }
@@ -148,7 +147,7 @@ export function sendReply(req, res, next) {
         res.send({ error: err });
         return next(err);
       }
-      // MailService.send_email(sentReply)
+      MailService.message_email(sentReply, user)
         Message.findOne({_id: sentReply._id })
           .select('createdAt updatedAt body sender receiver conversation_id')
           .populate({
@@ -167,7 +166,7 @@ export function sendReply(req, res, next) {
               return res.status(200).json(message);
             }
         });
-      
+
     });
   });
 }

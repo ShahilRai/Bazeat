@@ -20,7 +20,8 @@ export function addUser(req, res) {
       return res.status(422).send(err);
     }
     else{
-      MailService.send_email(saved)
+      // MailService.send_email(saved)
+      // MailService.budmat_order(saved)
       MessageService.sendMessage(saved.phone)
       return res.json({ user: saved });
     }
@@ -99,11 +100,18 @@ export function getUser(req, res) {
 import stormpath from 'stormpath';
 
 export function deleteUser(req, res) {
+  console.log('req.body')
+  console.log(req.body)
+  console.log('req.query')
+  console.log(req.query)
+  console.log('req.params')
+  console.log(req.params)
   User.findOne({ email: req.query.email }).exec((err, user) => {
     if (err || user == null) {
       return res.status(422).send({msg: err});
     }
     user.remove(() => {
+      MailService.cancel_account_to_user(user)
       let client = new stormpath.Client();
       client.getAccount(user.unique_id, function (err, account) {
         account.delete(function(err, success) {

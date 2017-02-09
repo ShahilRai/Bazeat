@@ -17,6 +17,7 @@ export default class PackagesList extends React.Component {
     this.state = {
     };
     this.deletePackageConfirm = this.deletePackageConfirm.bind(this)
+    this.deleteShipmentConfirm = this.deleteShipmentConfirm.bind(this)
   }
 
   deletePackageConfirm(e, id){
@@ -26,12 +27,11 @@ export default class PackagesList extends React.Component {
     if (confirmDelete == true) {
       e.preventDefault();
       var _deletePId= id
-      pId= PurchaseOrders.purchsCuid
+      pId= this.props.order_cuid
       this.packageToBeDeleted(_deletePId).then((response) => {
         if(response.statusText == "OK") {
           array.splice(index, 1);
           var newArray = array
-          //this.props._showPackage("delete", newArray)
           toastr.success('Package successfully deleted');
         }
         this.context.router.push('/orders/'+pId)
@@ -43,6 +43,29 @@ export default class PackagesList extends React.Component {
 
   packageToBeDeleted(_deletePId){
     return axios.delete("/api/destroy_package?package_id="+ _deletePId, {
+    });
+  }
+
+  deleteShipmentConfirm(e, id){
+    var confirmDelete = confirm("Are you sure you want to delete the shipment?");
+    if (confirmDelete == true) {
+      e.preventDefault();
+      pId= this.props.order_cuid
+      this.shipmentToBeDeleted(id).then((response) => {
+        if(response.statusText == "OK") {
+          toastr.success('Shipment successfully deleted');
+          this.props._showPackage("data", response.data.order.packages)
+          this.props._updateShpQty(response.data.order.orderitems)
+        }
+        this.context.router.push('/orders/'+pId)
+      }).catch((err) => {
+        console.log(err);
+      });
+    }
+  }
+
+  shipmentToBeDeleted(id){
+    return axios.get("/api/delete_shipment?package_id="+ id, {
     });
   }
 
@@ -65,7 +88,8 @@ export default class PackagesList extends React.Component {
               <tbody>
               {this.props.packages.map((_pckge, index) => <DisplayPackageList packages= {this.props.packages} orderDetails={this.props.orderDetails} _updateShpQty={this.props._updateShpQty}
                 _showPackage={this.props._showPackage} key = {index} index={index + 2} getSingleOrder={this.props.getSingleOrder}
-                _pckge = {_pckge} deletePackageConfirm= {this.deletePackageConfirm}/> )}
+                _pckge = {_pckge} deletePackageConfirm= {this.deletePackageConfirm}
+                deleteShipmentConfirm= {this.deleteShipmentConfirm}/> )}
               </tbody>
             </table>
           </div>
