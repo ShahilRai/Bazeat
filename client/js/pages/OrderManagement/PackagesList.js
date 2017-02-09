@@ -54,6 +54,8 @@ export default class PackagesList extends React.Component {
       this.shipmentToBeDeleted(id).then((response) => {
         if(response.statusText == "OK") {
           toastr.success('Shipment successfully deleted');
+          this.props._showPackage("data", response.data.order.packages)
+          this.props._updateShpQty(response.data.order.orderitems)
         }
         this.context.router.push('/orders/'+pId)
       }).catch((err) => {
