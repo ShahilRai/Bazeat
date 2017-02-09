@@ -106,10 +106,29 @@ export default class WallImageViewer extends React.Component {
   }
 
   render() {
+    var disable
+    var hidden
     let is_like_src = (this.state.is_like == true)? 'images/like_icon_red.png' : 'images/like_icon.png'
-    var disable=(this.props.wallImages?this.props.wallImages.is_disable:false)
+    if(this.props.wallImages){
+       disable=this.props.wallImages.is_disable
+    }
+    else if(this.props.prodlist){
+      disable=this.props.prodlist.is_disable
+    }
+    else{
+      disable=false
+    }
+    if(this.props.wallImages){
+      hidden=this.props.wallImages.is_hidden
+    }
+
+    else if(this.props.prodlist){
+      hidden=this.props.prodlist.is_hidden
+    }
+    else{
+      hideen=false
+    }
     var blur_class = (disable == true) ? 'blur':''
-    var hidden=(this.props.wallImages?this.props.wallImages.is_hidden:false)
     var hidden_class = (hidden == true) ? 'hidden':''
     return (
         <div className={"grid_single_item "+ blur_class +" "+hidden_class }>
