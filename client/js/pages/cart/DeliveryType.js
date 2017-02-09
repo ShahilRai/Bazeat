@@ -108,11 +108,11 @@ export default class DeliveryType extends React.Component {
           </div>
         </div>
     }
-    else if(this.state.sendematSelectedState == 'waiting'){
+    else if(this.state.sendematSelectedState == 'waiting' && (this.props.cart_detail.total_weight<10)){
         sendemat_shipping_detail = <div className="table-main mtop40">
         <Loading type='spokes' color='#ff0000'/>
         </div>
-      }
+    }
     return (
       <div className="full_width_container">
         <div className="full_width ptop0">
