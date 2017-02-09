@@ -717,7 +717,7 @@ color:#808080;
     text-align: left;
 
 }
-.profile_rht_header.header_rht_menu li.username_text a{ 
+.profile_rht_header.header_rht_menu li.username_text a{
     overflow: hidden;
     float: left;
     padding-right: 0;
@@ -2572,13 +2572,15 @@ input[type="file"] {
 }
 .prod_del a {
 background: url(../images/clock.png)no-repeat 0 0;
-	background-size:15px;	
+	background-size:15px;
 }
 
 .footer_logo img{max-width:190px;}
 
 .prod_vehicle a {
-    background: url(../images/truck.png)no-repeat 0 7px;
+    background: url(../images/truck.png)no-repeat 0 2px;
+    background-size:20px;
+
 }
 .prod_pin a {
     background: url(../images/prod_pin.png)no-repeat 0 0;
@@ -2998,6 +3000,38 @@ border: 0;
 /*============SEARCH V01===========================*/
 
 /*=====Product_tab=======*/
+.range_slider_col .irs-bar{
+  border-top: 1px solid #F3766F;
+  border-bottom: 1px solid #F3766F;
+  background: #428bca;
+  background: linear-gradient(to top, #F3766F 0%,#F3766F 100%);
+}
+.range_slider_col .irs-from{
+  background: #F3766F;
+}
+.range_slider_col .irs-to{
+  background: #F3766F;
+}
+.range_slider_col .irs-single{
+  background: #F3766F;
+}
+.range_slider_col .irs-line-left{
+  background: rgb(140, 140, 140);
+}
+.range_slider_col .irs-line-mid{
+  background: rgb(140, 140, 140);
+}
+.range_slider_col .irs-line-right{
+  background: rgb(140, 140, 140);
+}
+.range_slider_col .irs-min{
+  background: rgb(140, 140, 140);
+  color: white;
+}
+.range_slider_col .irs-max{
+  background: rgb(140, 140, 140);
+  color: white;
+}
 .pad_lf151{
   padding-left:151px;
   padding-right:151px;
@@ -3020,15 +3054,20 @@ border: 0;
     width: 42%;
 }
 .prod_tab_section label{
- color: #5a646d;
+    color: #5a646d;
     display: inline-block;
     float: left;
     font-size: 14px;
     font-weight: 600;
     margin-right: 11px;
     position: relative;
-    top: 8px;
     vertical-align: middle;
+}
+.prod_tab_section .range_label{
+  top: 27px;
+}
+.prod_tab_section .categ_label{
+  top: 5px;
 }
 .ui-rangeslider{
     display: inline-block;
@@ -6058,7 +6097,7 @@ display: inline-block;}
 	padding-top: 7px;
     padding-bottom: 0;
 	border-bottom:0;}
-.fb_btn{
+.share_modal .fb_btn{
 	padding: 5px 19px;
     font-size: 13px;
     color: #fff;
@@ -6087,7 +6126,7 @@ display: inline-block;}
 }
 
 
-/*============Producer-Notification==========================*/	
+/*============Producer-Notification==========================*/
 .edit_prfile_detail_form.prod_notification  .col-form-label{
 	    color: #666666;
     font-size: 14px;
@@ -6099,7 +6138,7 @@ display: inline-block;}
 }
 .prod_notification .checkbox label{
  color: #999999;
-    font-size: 14px;	
+    font-size: 14px;
 padding-left:30px;
     line-height: 23px;
 }

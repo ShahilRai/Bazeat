@@ -20,11 +20,11 @@ export default class CategoryDropDown extends React.Component {
   render() {
     return (
       <div className="prod_category">
-        <label htmlFor="price-min">Product:</label>
+        <label className="categ_label" htmlFor="price-min">Product</label>
         <dl className="dropdown">
           <dt>
             <a href="javascript:void(0)" onClick={this.displayDropdown}>
-              <span className="hida">Select</span>
+              <span className="hida">Category</span>
               <p className="multiSel text_overflow"></p>
             </a>
           </dt>

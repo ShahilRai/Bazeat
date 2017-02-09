@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
+var changeCase = require('change-case')
+
 export default class MessageDropdown extends React.Component {
 	static contextTypes = {
     authenticated: React.PropTypes.bool,
@@ -22,7 +24,7 @@ export default class MessageDropdown extends React.Component {
 		 		<span className={data[0].sender.full_name==this.context.user.fullName?'':"user_img"}><img className={data[0].sender.full_name==this.context.user.fullName?'':"user_profile_img"} src={data[0].sender.full_name==this.context.user.fullName?'':data[0].sender.photo}/></span>
 		 			<span className={data[0].sender.full_name==this.context.user.fullName?'':"chat_description"} key ={index}>
 		 				<h3 >
-		 					{data[0].sender.full_name==this.context.user.fullName?'':data[0].sender.full_name}
+		 					{data[0].sender.full_name==this.context.user.fullName?'':changeCase.titleCase(data[0].sender.full_name)}
 		 					<span>{data[0].sender.full_name==this.context.user.fullName?'': moment(data.createdAt).format('DD-MM-YYYY')} </span>
 		 				</h3>
 		 				<p > {data[0].sender.full_name==this.context.user.fullName? '':data[0].body}</p>
@@ -38,7 +40,7 @@ export default class MessageDropdown extends React.Component {
 		        <span className="user_img" ><img src={item.reviewed_by.full_name==this.context.user.fullName?'':item.reviewed_by.photo} className={item.reviewed_by.full_name==this.context.user.fullName?'':"profile_image"} /></span>
 		        <span className="chat_description" key ={i}>
 		          <h3 >
-		            {item.reviewed_by.full_name==this.context.user.fullName?'':item.reviewed_by.full_name}
+		            {item.reviewed_by.full_name==this.context.user.fullName?'':changeCase.titleCase(item.reviewed_by.full_name)}
 		            <span> {item.reviewed_by.full_name==this.context.user.fullName?'':moment(item.createdAt).format('DD-MM-YYYY')}</span>
 		          </h3>
 		          <p> {item.reviewed_by.full_name==this.context.user.fullName?'':item.review}</p>

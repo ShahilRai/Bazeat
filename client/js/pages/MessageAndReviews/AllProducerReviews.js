@@ -2,6 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import ReactPaginate from 'react-paginate';
 import { Link } from 'react-router';
+var changeCase = require('change-case')
+
 let userId;
 export default class AllProducerReviews extends React.Component {
 
@@ -83,7 +85,7 @@ export default class AllProducerReviews extends React.Component {
           <div className="review_display1">
             <span className="rvw_user_img"><img src={item.reviewed_by.photo} className="profile_image"/></span>
             <span className="rvw_user_description">
-              <h4><Link to={"/user/"+userId} className = "rfont_colr">{item.reviewed_by.full_name}</Link></h4>
+              <h4><Link to={"/user/"+userId} className = "rfont_colr">{changeCase.titleCase(item.reviewed_by.full_name)}</Link></h4>
               <p>{item.review}</p>
               <a href="javascript:void(0)" onClick={this.expandedText.bind(this)} className="more_msgs">{this.state.expanded ? ' ' : ''}</a>
               { expandedDiv }

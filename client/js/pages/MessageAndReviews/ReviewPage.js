@@ -6,6 +6,7 @@ import ReviewAboutUser from './ReviewAboutUser';
 import ReviewsWrittenByUser from './ReviewsWrittenByUser';
 import Rating from 'react-simple-rating';
 import moment from 'moment';
+var changeCase = require('change-case')
 
 let _allCurrentReviewResult;
 let allCurrentReviewResult;
@@ -187,7 +188,7 @@ export default class ReviewPage extends React.Component {
       return(
         <div className="user_reveiw_list">
           <span className="rvw_user_img"><img src={review.photo} className="profile_image" /></span>
-          <span className="rvw_username"><Link to={"/user/"+userId} className = "rfont_colr">{review.full_name}</Link><br/>
+          <span className="rvw_username"><Link to={"/user/"+userId} className = "rfont_colr">{changeCase.titleCase(review.full_name)}</Link><br/>
             <span className="prod_review_date">{moment(review.date_joined).format('DD-MM-YYYY')}</span>
           </span>
           <span className="rvw_description">Write a review to share your thoughts and provide helpful feedback to Producer Name. Please bare in mind that reviews are public.</span>
@@ -205,7 +206,7 @@ export default class ReviewPage extends React.Component {
           return(
             <div className="user_reveiw_list">
               <span className="rvw_user_img"><img src={item.reviewed_for.photo} className="profile_image"/></span>
-              <span className="rvw_username"><Link to={"/user/"+writeUserId} className = "rfont_colr">{item.reviewed_for.full_name}</Link><br/>
+              <span className="rvw_username"><Link to={"/user/"+writeUserId} className = "rfont_colr">{changeCase.titleCase(item.reviewed_for.full_name)}</Link><br/>
                  <Rating  displayOnly={true} rating={item.rating} maxRating={5}  ratingSymbol={"\u2605"} />
               </span>
               <span className="rvw_description">{item.review}</span>
@@ -225,7 +226,7 @@ export default class ReviewPage extends React.Component {
           return(
             <div className="user_reveiw_list f2f2f2_bg">
               <span className="rvw_user_img"><img src={item.reviewed_by.photo} height="50" width="50"/> </span>
-              <span className="rvw_username"><Link to={"/user/"+cuUserId} className = "rfont_colr">{item.reviewed_by.full_name}</Link><br/>
+              <span className="rvw_username"><Link to={"/user/"+cuUserId} className = "rfont_colr">{changeCase.titleCase(item.reviewed_by.full_name)}</Link><br/>
                 <Rating  displayOnly={true} rating={item.rating} maxRating={5}  ratingSymbol={"\u2605"} />
               </span>
               <span className="rvw_description">{item.review}</span>

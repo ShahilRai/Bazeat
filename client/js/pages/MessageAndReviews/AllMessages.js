@@ -4,7 +4,12 @@ import moment from 'moment';
 import SelectedMessages from './SelectedMessages';
 import NewMessage from './NewMessage';
 import axios from 'axios';
+import toastr from 'toastr';
+
+var changeCase = require('change-case')
+let picselected;
 let updateSingleMsg
+
 export default class AllMessages extends React.Component {
   static contextTypes = {
       authenticated: React.PropTypes.bool,
@@ -21,26 +26,18 @@ export default class AllMessages extends React.Component {
         msg: '',
         conversation_id:'',
         receiver_id:'',
-        sender_id:'',
-        receiver_name:'',
-        sender_name:'',
-        sender_photo:'',
         allMsgConversations:[],
-        receiver_photo:'',
         allMsg_Conversations:[],
         selectedId: '',
         allMsg:[],
         newConversation: [],
         selectedId: '',
         activeState: '',
-        loaded: false
+        picselected : 'select'
     	};
   	}
     componentDidMount(){
-       this.getAllMessagesData()
-       this.setState({
-        loaded: false
-       })
+      this.getAllMessagesData()
     }
 
     getAllMessagesData(){
@@ -48,8 +45,7 @@ export default class AllMessages extends React.Component {
       this.getAllMessages(userEmail).then((response) => {
       if(response.data) {
        this.setState({
-        allMsgConversations: response.data.conversations,
-         loaded: true
+        allMsgConversations: response.data.conversations
        })
      }
     })
@@ -103,13 +99,17 @@ export default class AllMessages extends React.Component {
   }
 
     updateConversation(newConversation) {
+      this.setState({
+        picselected : 'notselect'
+      })
       var userEmail = this.context.user.email;
         this.getAllMessages(userEmail).then((response) => {
           if(response.data) {
+            toastr.success('Your message sended successfully');
             this.setState({
               allMsgConversations: response.data.conversations,
               conversation_id: newConversation.message.conversation_id,
-              loaded: true
+              picselected: 'select'
           })
         }
     })
@@ -142,8 +142,9 @@ export default class AllMessages extends React.Component {
     if(this.state.selectedMessages){
       this.state.select = <SelectedMessages  updateSingleConversation ={this.updateSingleConversation.bind(this)}  conversation_id={this.state.conversation_id}  allMessage = {this.state.allConversation} allMsgConversations ={this.state.allMsgConversations}/>
     } else {
-      this.state.select = <NewMessage conversation_id ={this.state.conversation_id} updateConversation={this.updateConversation.bind(this)}  conversation_id={this.state.conversation_id}/>
+      this.state.select = <NewMessage conversation_id ={this.state.conversation_id} updateConversation={this.updateConversation.bind(this)}  conversation_id={this.state.conversation_id} loaded={this.state.picselected}/>
     }
+    
     var _msgConversations = this.state.allMsgConversations ? this.state.allMsgConversations : []
     var _results = _msgConversations.map((result, index) => {
       var data = result[0];
@@ -153,7 +154,7 @@ export default class AllMessages extends React.Component {
             <span className="user_img"><img className="user_profile_img" src={(data.sender.full_name == this.context.user.fullName) ? data.receiver.photo : data.sender.photo} /></span>
             <span className="chat_description" >
               <h3 >
-                {(data.sender.full_name==this.context.user.fullName) ? data.receiver.full_name : data.sender.full_name}
+                {(data.sender.full_name==this.context.user.fullName) ? changeCase.titleCase(data.receiver.full_name) : changeCase.titleCase(data.sender.full_name)}
                 <span > {moment(data.createdAt).format('DD-MM-YYYY')}</span>
               </h3>
                {this.msgBody(result)}
