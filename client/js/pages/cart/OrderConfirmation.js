@@ -102,8 +102,28 @@ export default class OrderConfirmation extends React.Component {
   }
 
   orderConfHentmat(){
+    let budmat_selected;
+    let hentmat_selected;
     var MVA = this.state.orderDetail.shipment_vat_value + this.state.orderDetail.food_vat_value
     MVA = MVA.toFixed(2);
+    if(this.state.method=='Budmat' || this.state.method=='Sendemat'){
+      budmat_selected = <div className="cnfrm_price_prod_heading">
+                  <span className="pull-left">Price for delivery:</span>
+                  <span className="pull-right">kr {this.state.orderDetail.shipment_price}</span>
+                </div>
+    }
+    if(this.state.method=='hentemat'){
+      hentmat_selected = <div className="cnfrm_price_prod_heading">
+                  <span className="pull-left">Price for products:</span>
+                  <span className="pull-right">kr {this.state.orderDetail.total_amount.toFixed(2)}</span>
+                </div>
+    }
+    else if(this.state.method=='Budmat' || this.state.method=='Sendemat'){
+      hentmat_selected = <div className="cnfrm_price_prod_heading brdr_btm0">
+                  <span className="pull-left">Price for products:</span>
+                  <span className="pull-right">kr {this.state.orderDetail.total_amount.toFixed(2)}</span>
+                </div>
+    }
     return(
       <div className="page_wrapper">
         <div className="full_width ptop0">
@@ -114,14 +134,8 @@ export default class OrderConfirmation extends React.Component {
             {this.changeText()}
             <div className="confirmation_step1">
               <div className="inner_confrm1">
-                <div class="cnfrm_price_prod_heading brdr_btm0">
-                  <span className="pull-left">Price for products:</span>
-                  <span className="pull-right">kr {this.state.orderDetail.total_amount.toFixed(2)}</span>
-                </div>
-                <div className="cnfrm_price_prod_heading">
-                  <span className="pull-left">Price for delivery:</span>
-                  <span className="pull-right">kr {this.state.orderDetail.shipment_price}</span>
-                </div>
+                {hentmat_selected}
+                {budmat_selected}
                 <div className="cnfrm_tot_price">
                   <span className="pull-left">Total price:</span>
                   <span className="pull-right">kr {this.state.orderDetail.total_amount.toFixed(2)}</span>
