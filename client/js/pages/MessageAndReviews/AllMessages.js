@@ -37,10 +37,7 @@ export default class AllMessages extends React.Component {
     	};
   	}
     componentDidMount(){
-      console.log(this.state.picselected)
       this.getAllMessagesData()
-      console.log(this.state.picselected)
-
     }
 
     getAllMessagesData(){
@@ -142,7 +139,6 @@ export default class AllMessages extends React.Component {
     }
 
   render(){
-    console.log(this.state.picselected)
     if(this.state.selectedMessages){
       this.state.select = <SelectedMessages  updateSingleConversation ={this.updateSingleConversation.bind(this)}  conversation_id={this.state.conversation_id}  allMessage = {this.state.allConversation} allMsgConversations ={this.state.allMsgConversations}/>
     } else {
