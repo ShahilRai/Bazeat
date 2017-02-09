@@ -717,7 +717,7 @@ color:#808080;
     text-align: left;
 
 }
-.profile_rht_header.header_rht_menu li.username_text a{ 
+.profile_rht_header.header_rht_menu li.username_text a{
     overflow: hidden;
     float: left;
     padding-right: 0;
@@ -2572,7 +2572,7 @@ input[type="file"] {
 }
 .prod_del a {
 background: url(../images/clock.png)no-repeat 0 0;
-	background-size:15px;	
+	background-size:15px;
 }
 
 .footer_logo img{max-width:190px;}
@@ -6058,7 +6058,7 @@ display: inline-block;}
 	padding-top: 7px;
     padding-bottom: 0;
 	border-bottom:0;}
-.fb_btn{
+.share_modal .fb_btn{
 	padding: 5px 19px;
     font-size: 13px;
     color: #fff;
@@ -6087,7 +6087,7 @@ display: inline-block;}
 }
 
 
-/*============Producer-Notification==========================*/	
+/*============Producer-Notification==========================*/
 .edit_prfile_detail_form.prod_notification  .col-form-label{
 	    color: #666666;
     font-size: 14px;
@@ -6099,7 +6099,7 @@ display: inline-block;}
 }
 .prod_notification .checkbox label{
  color: #999999;
-    font-size: 14px;	
+    font-size: 14px;
 padding-left:30px;
     line-height: 23px;
 }
