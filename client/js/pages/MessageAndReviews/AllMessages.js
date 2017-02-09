@@ -4,6 +4,8 @@ import moment from 'moment';
 import SelectedMessages from './SelectedMessages';
 import NewMessage from './NewMessage';
 import axios from 'axios';
+var changeCase = require('change-case')
+
 let updateSingleMsg
 export default class AllMessages extends React.Component {
   static contextTypes = {
@@ -153,7 +155,7 @@ export default class AllMessages extends React.Component {
             <span className="user_img"><img className="user_profile_img" src={(data.sender.full_name == this.context.user.fullName) ? data.receiver.photo : data.sender.photo} /></span>
             <span className="chat_description" >
               <h3 >
-                {(data.sender.full_name==this.context.user.fullName) ? data.receiver.full_name : data.sender.full_name}
+                {(data.sender.full_name==this.context.user.fullName) ? changeCase.titleCase(data.receiver.full_name) : changeCase.titleCase(data.sender.full_name)}
                 <span > {moment(data.createdAt).format('DD-MM-YYYY')}</span>
               </h3>
                {this.msgBody(result)}

@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router';
 import axios from 'axios';
 import Rating from 'react-simple-rating';
+var changeCase = require('change-case')
+
 export default class ReviewsAndLikes extends React.Component {
   static contextTypes = {
     authenticated: React.PropTypes.bool,
@@ -35,7 +37,7 @@ export default class ReviewsAndLikes extends React.Component {
   render(){
     return(
       <div className="revw_top">
-        <h3>{this.props.userInfo.full_name}
+        <h3>{changeCase.titleCase(this.props.userInfo.full_name)}
         </h3>
         <span className="rvw_qty">
           <Rating rating={this.props.userInfo.avg_rating} displayOnly={true} maxRating={5}  ratingSymbol={"\u2605"} />
