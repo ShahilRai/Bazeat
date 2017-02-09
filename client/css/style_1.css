@@ -2578,7 +2578,9 @@ background: url(../images/clock.png)no-repeat 0 0;
 .footer_logo img{max-width:190px;}
 
 .prod_vehicle a {
-    background: url(../images/truck.png)no-repeat 0 7px;
+    background: url(../images/truck.png)no-repeat 0 2px;
+    background-size:20px;
+
 }
 .prod_pin a {
     background: url(../images/prod_pin.png)no-repeat 0 0;
