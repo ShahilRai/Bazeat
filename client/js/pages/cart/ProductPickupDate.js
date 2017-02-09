@@ -139,12 +139,12 @@ export default class ProductPickupDate extends React.Component {
 
   displayForm(){
     var el = document.getElementById('checkout_form');
-    if ( el.style.display != 'none' ){
+    if ( el.style.display != 'block' ){
+      el.style.display = 'block';
+    }
+    else{
       el.style.display = 'none';
     }
-    else {
-      el.style.display = 'block';
-    };
   }
 
   goToBackPage(){
