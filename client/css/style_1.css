@@ -2998,6 +2998,38 @@ border: 0;
 /*============SEARCH V01===========================*/
 
 /*=====Product_tab=======*/
+.range_slider_col .irs-bar{
+  border-top: 1px solid #F3766F;
+  border-bottom: 1px solid #F3766F;
+  background: #428bca;
+  background: linear-gradient(to top, #F3766F 0%,#F3766F 100%);
+}
+.range_slider_col .irs-from{
+  background: #F3766F;
+}
+.range_slider_col .irs-to{
+  background: #F3766F;
+}
+.range_slider_col .irs-single{
+  background: #F3766F;
+}
+.range_slider_col .irs-line-left{
+  background: rgb(140, 140, 140);
+}
+.range_slider_col .irs-line-mid{
+  background: rgb(140, 140, 140);
+}
+.range_slider_col .irs-line-right{
+  background: rgb(140, 140, 140);
+}
+.range_slider_col .irs-min{
+  background: rgb(140, 140, 140);
+  color: white;
+}
+.range_slider_col .irs-max{
+  background: rgb(140, 140, 140);
+  color: white;
+}
 .pad_lf151{
   padding-left:151px;
   padding-right:151px;
@@ -3020,15 +3052,20 @@ border: 0;
     width: 42%;
 }
 .prod_tab_section label{
- color: #5a646d;
+    color: #5a646d;
     display: inline-block;
     float: left;
     font-size: 14px;
     font-weight: 600;
     margin-right: 11px;
     position: relative;
-    top: 8px;
     vertical-align: middle;
+}
+.prod_tab_section .range_label{
+  top: 27px;
+}
+.prod_tab_section .categ_label{
+  top: 5px;
 }
 .ui-rangeslider{
     display: inline-block;
