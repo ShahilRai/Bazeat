@@ -20,7 +20,7 @@ export default class ProductRangeSlider extends React.Component {
         <div data-role="main" className="ui-content">
           <form method="post" action="">
             <div data-role="rangeslider">
-              <label htmlFor="price-min">Price:</label>
+              <label className="range_label" htmlFor="price-min">Price</label>
               <div className="range_slider_col">
                 <input type="text" id="example_id" name="example_name" value="" />
               </div>

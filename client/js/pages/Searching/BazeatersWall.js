@@ -20,12 +20,17 @@ export default class BazeatersWall extends React.Component {
     return newarray1.join(' ');
   }
   render() {
+    var src=this.props.bazeatersData.photo
+    if(src==undefined){
+      src=require('../../../images/user_picture.png') 
+    }
+
     return (
       <div className="bazeater_bg">
         <div className="bazeater1">
           <a href="#" className="search_open">Open</a>
           <div className="bazeater_logo1">
-            <span className="pos_rel"><img className="bazeaters_logo" src={this.props.bazeatersData.photo} />
+            <span className="pos_rel"><img className="bazeaters_logo" src={src} />
             </span>
           </div>
           <h4 ><Link to={"/user/"+this.props.bazeatersData.cuid} className = "font_colr">{this.upperCase(this.props.bazeatersData.full_name)}</Link></h4>
