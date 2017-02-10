@@ -115,7 +115,7 @@ export function newReview(req, res, next) {
       }
       const review = new Review({
         rating_and_review_id: newRatingAndReview._id,
-        body: req.body.review_body,
+        review: req.body.review_body,
         reviewed_by: user._id,
         reviewed_for: req.query.reviewed_for,
         is_reviewed: req.body.is_reviewed,
@@ -159,7 +159,7 @@ export function avg_ratings(reviews, newReview, next, total_count, res){
 export function sendReply(req, res, next) {
   User.findOne({ email: req.body.email }).exec((err, user) => {
     const comment = new Comment({
-      body: req.body.comment_body,
+      comment: req.body.comment_body,
       review: req.body.review_id ,
       is_commented: req.body.is_commented
     });
