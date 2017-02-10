@@ -102,7 +102,6 @@ export default class AddHoursDetail extends React.Component {
 
   _deleteTitmeSlot(_timeSlotId){
     this.removeHours(_timeSlotId).then((response) => {
-      console.log(response.data)
       if(response.data) {
         this.setState({
           items: response.data.timeslot.timeslots
