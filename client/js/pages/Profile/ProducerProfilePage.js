@@ -30,6 +30,7 @@ export default class ProducerProfilePage extends React.Component {
       producer_info: {},
       user_info: {},
       data_loaded: false,
+      items: []
     };
     this.handleDateChange = this.handleDateChange.bind(this)
     this.formatDate=this.formatDate.bind(this)
@@ -44,7 +45,8 @@ export default class ProducerProfilePage extends React.Component {
           producer_info: response.data.user.producer_info,
           //birth_date: moment(response.data.user.birth_date).format('YYYY-MM-DD'),
           user_info: response.data.user.user_info,
-          data_loaded: true
+          data_loaded: true,
+          items: response.data.user.timeslots
         });
       }
     }).catch((err) => {
@@ -215,7 +217,7 @@ export default class ProducerProfilePage extends React.Component {
                       </div>
                       <div className="form-group row">
                         <LabelField htmlFor="example-tel-input" className="col-md-4 col-xs-12 col-form-label" label="Visiting hours"/>
-                        <AddHoursDetail  email = {this.context.user.email} />
+                        <AddHoursDetail  email = {this.context.user.email} items={this.state.items} />
                       </div>
                     </div>
                   </div>
