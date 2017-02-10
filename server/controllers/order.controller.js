@@ -104,8 +104,14 @@ function deduct_product_qty(order){
           return res.status(422).send(err);
         }
         else{
-          console.log('product1')
-          console.log(product1)
+          if (product1.quantity <= 0){
+            product1.is_disable = true
+            product1.save();
+          }
+          else{
+            product1.is_disable = false
+            product1.save();
+          }
         }
       });
     })
