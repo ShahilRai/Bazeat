@@ -24,7 +24,7 @@ export default class ShareProduct extends React.Component {
               </button>
             </div>
             <div className="modal-body">
-              <span className="chkd_icon"><img src={this.props.wall_photo} className="profile_image"/></span>  
+              <span className="chkd_icon"><img src={this.props.wall_photo} className="share_image"/></span>  
               <span className="chkd_description">
               <p>You have successfully added a new product! It should now show up in the producer profile.</p>
               <p>To reach out to your customers,you are only one step away.</p>
@@ -32,7 +32,6 @@ export default class ShareProduct extends React.Component {
             </div>
             <div className="modal-footer">
               <ReactShare wall_images={this.props.wall_images}/>
-              <button type="button" className="btn btn-default nxt_btn">OK</button>
             </div>
           </div>
         </div>
