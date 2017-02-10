@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import moment from 'moment';
 import { Link } from 'react-router';
 
 export default class Mail extends React.Component {
@@ -13,16 +14,22 @@ export default class Mail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      purchaseDetails: ''
+      senderEmail: '',
+      purchaseDetails: '',
+      buyer: '',
+      producerInfo: ''
     };
     this.sendEmail = this.sendEmail.bind(this)
   }
 
   componentDidMount(){
-    this.composeEmail(this.props.params.orderId).then((response) => {
+    this.composeEmail(this.context.user.email, this.props.params.id).then((response) => {
       if(response.data) {
         this.setState({
-          purchaseDetails: response.data
+          purchaseDetails: response.data.order,
+          senderEmail: response.data.email,
+          buyer: response.data.order._buyer,
+          producerInfo: response.data.order._buyer.producer_info
         });
       }
     }).catch((err) => {
@@ -30,8 +37,8 @@ export default class Mail extends React.Component {
     });
   }
 
-  composeEmail(orderCuid){
-    return axios.get("/api/get_order?cuid="+orderCuid , {
+  composeEmail(email, id){
+    return axios.get("/api/order_email_data?email="+ email+ "&order_id="+ id, {
     });
   }
 
@@ -50,7 +57,7 @@ export default class Mail extends React.Component {
   }
 
   mailToUser(sendrEmail, rcvrEmail, sub, msg){
-    return axios.post("/api/mail", {
+    return axios.put("/api/send_email", {
       sendrEmail: sendrEmail,
       rcvrEmail: rcvrEmail,
       sub: sub,
@@ -68,7 +75,7 @@ export default class Mail extends React.Component {
   }
 
   render(){
-    var usr_name = this.state.purchaseDetails._buyer? (this.state.purchaseDetails._buyer.full_name).toUpperCase(): ''
+    var usr_name = this.state.buyer? (this.state.buyer.full_name).toUpperCase(): ''
     return(
       <div className="container padd_87">
         <div className="full_width">
@@ -90,7 +97,7 @@ export default class Mail extends React.Component {
                       <div className="form-group row">
                         <label htmlFor="" className="col-md-2 col-xs-12 col-form-label">From</label>
                         <div className="col-md-10 col-xs-12">
-                          <input type="text" className="form-control" id="sender_email" ref="sender_email" name="sender_email" value={this.context.user.email} readOnly required />
+                          <input type="text" className="form-control" id="sender_email" ref="sender_email" name="sender_email" value={this.state.senderEmail} readOnly required />
                         </div>
                       </div>
                       <div className="form-group row">
@@ -102,13 +109,13 @@ export default class Mail extends React.Component {
                       <div className="form-group row">
                         <label htmlFor="" className="col-md-2 col-xs-12 col-form-label" >Subject</label>
                         <div className="col-md-10 col-xs-12">
-                          <input type="text" className="form-control" id="subject" name="subject" ref="subject" value={"Your purchase order (PO-"+this.state.purchaseDetails.orderId+ ")from" } required />
+                          <input type="text" className="form-control" id="subject" name="subject" ref="subject" value={"Your purchase order (PO-"+this.state.purchaseDetails.orderId+ ") from " } required />
                         </div>
                       </div>
                       <div className="form-group row">
                         <label htmlFor="" className="col-md-2 col-xs-12 col-form-label">Message</label>
                         <div className="col-md-10 col-xs-12">
-                          <textarea className="form-control" name="message" ref="message" value= {"Dear " + usr_name + " ,Thank you for your order and interest in our company! Please find your order attached in the mail. An overview of the purchase order is available below for your reference: Purchase Order#: PO-"+ this.state.purchaseDetails.orderId+ " Order date: 25-10-2016 Total amount: kr "+ (this.state.purchaseDetails.total_amount? this.state.purchaseDetails.total_amount.toFixed(2): '')+ " If you have any concerns regarding this order, please dont hesitate to contact us. Best regards FIRST NAME COMPANY NAME"} />
+                          <textarea className="form-control" name="message" ref="message" value= {"Dear " + usr_name + " ,Thank you for your order and interest in our company! Please find your order attached in the mail. An overview of the purchase order is available below for your reference: Purchase Order#: PO-"+ this.state.purchaseDetails.orderId+ " Order date: "+ (this.state.purchaseDetails.createdAt ? moment(this.state.purchaseDetails.createdAt).format('DD-MM-YYYY'): '') +" Total amount: kr "+ (this.state.purchaseDetails.total_amount? this.state.purchaseDetails.total_amount.toFixed(2): '')+ " If you have any concerns regarding this order, please dont hesitate to contact us. Best regards FIRST NAME COMPANY NAME"} />
                         </div>
                       </div>
                       <span className="pull-right">

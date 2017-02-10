@@ -109,7 +109,7 @@ export default class DeliveryType extends React.Component {
         </div>
     }
     else if(this.state.sendematSelectedState == 'waiting' && (this.props.cart_detail.total_weight<10)){
-        sendemat_shipping_detail = <div className="table-main mtop40">
+        sendemat_shipping_detail = <div className="loading_spinner">
         <Loading type='spokes' color='#ff0000'/>
         </div>
     }
@@ -144,7 +144,9 @@ export default class DeliveryType extends React.Component {
                <button type="button" className="btn btn-default continue_btn" onClick={ this.goToBackPage.bind(this)}>Back</button>
             </div>
           </div>
+          <div className="table-main mtop40">
           {sendemat_shipping_detail}
+          </div>
         </div>
       </div>
     );
