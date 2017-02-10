@@ -51,16 +51,8 @@ export default class ReactShare extends React.Component {
 		            picture={this.props.wall_images.photo}
                 description={this.props.wall_images.description}
 		            className="Demo__some-network__share-button">
-		            <FacebookIcon
-		              size={32}
-		              round />
+                <button type="button" className="btn btn-default fb_btn" data-dismiss="modal">Share on facebook</button>
 		          </FacebookShareButton>
-
-		          <FacebookShareCount
-		            url={shareUrl}
-		            className="Demo__some-network__share-count">
-		            {count => count}
-		          </FacebookShareCount>
         		</div>
         	</div>
    		)

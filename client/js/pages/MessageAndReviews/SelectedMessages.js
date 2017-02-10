@@ -1,11 +1,15 @@
 import React from 'react';
 import axios from 'axios';
 import moment from 'moment';
+var changeCase = require('change-case')
+
 let sender_name;
 let receiver_name;
 let sender_photo;
 let receiver_photo;
 let receiver_id;
+let src_sender;
+let src_receiver;
 export default class SelectedMessages extends React.Component {
   static contextTypes = {
       authenticated: React.PropTypes.bool,
@@ -68,6 +72,15 @@ export default class SelectedMessages extends React.Component {
         receiver_photo = results.receiver.photo
         receiver_id = results.receiver.id
       }
+      
+      src_sender=sender_photo
+      src_receiver=receiver_photo
+      if(src_sender==undefined){
+        src_sender=require('../../../images/producer_logo.png')
+      }
+      if(src_receiver==undefined){
+        src_receiver=require('../../../images/producer_logo.png')
+      }
         return(
           <div className="complt_user_chat" key ={index}>
             <div className="chat_msgs">
@@ -95,10 +108,10 @@ export default class SelectedMessages extends React.Component {
           <div className="modal-body mCustomScrollbar content" data-mcs-theme="dark">
             <div className="inner_chatwindow_left">
               <div className="chat_list" >
-                <span className="user_img"><a href="#"><img className="user_profile_img" src={sender_name==this.context.user.fullName?receiver_photo:sender_photo}/></a></span>
+                <span className="user_img"><a href="#"><img className="user_profile_img" src={sender_name==this.context.user.fullName?src_receiver:src_sender}/></a></span>
                   <span className="chat_description">
                     <h4 >
-                      {sender_name==this.context.user.fullName?receiver_name:sender_name}
+                      {sender_name==this.context.user.fullName?changeCase.titleCase(receiver_name):changeCase.titleCase(sender_name)}
                     </h4>
                   </span>
               </div>
