@@ -90,7 +90,6 @@ export default class WallImageViewer extends React.Component {
         this.setState({
           is_like : response.data.is_like
         })
-        toastr.success(response.data.msg);
       }
     }).catch((err) => {
         console.log(err);
