@@ -136,7 +136,7 @@ export default class WallImageViewer extends React.Component {
             <a href="javaScript:void(0)" className="hover_icon" data-toggle="modal" data-target="#login_modal"  onClick={this.likeProduct.bind(this)}><img src={is_like_src}/>
               <small className="icon_text">Like</small>
             </a>
-            <a href="javaScript:void(0)" className="hover_icon"  data-toggle="modal" data-target={"#share_prod" +this.props.index} ><img src="images/share_icon.png"/>
+            <a href="javaScript:void(0)" className="hover_icon" ><img src="images/share_icon.png"/>
               <small className="icon_text">Share</small>
             </a>
             <a href="javaScript:void(0)" className="hover_icon" onClick={this.addToCart.bind(this)}><img src="images/cart_plus_icon.png"/>
