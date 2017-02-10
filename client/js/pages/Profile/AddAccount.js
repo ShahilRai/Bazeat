@@ -7,7 +7,8 @@ import LabelField from '../components/LabelField';
 import DocumentTitle from 'react-document-title';
 import { UserProfileForm } from 'react-stormpath';
 import request from 'superagent';
-
+import Loading from 'react-loading';
+let picselected;
 let verify;
 let submitbutton;
 let updateDetail;
@@ -27,8 +28,10 @@ export default class AddAccount extends React.Component {
       account_number:'',
       file :'',
       uploadedImages :'',
-      status : true,
-      lastDigit :''
+      status : '',
+      status_account : 'true',
+      lastDigit :'',
+      picselected : 'notselect'
     };
     this.saveBankDetails = this.saveBankDetails.bind(this)
     this.saveAccount =this.saveAccount.bind(this)
@@ -41,10 +44,16 @@ export default class AddAccount extends React.Component {
     }
 
   saveBankDetails() {
+    this.setState({
+      picselected : 'select',
+      status_account : 'false'
+     });
     this.saveAccount(this.context.user.email,this.state.account_number).then((response) => {
       if(response.data) {
+        picselected = 'notselect';
         toastr.success('Your account  successfully created');
         this.setState({
+          picselected : 'notselect'
         });
         this.addAccountDetails();
       }
@@ -63,14 +72,13 @@ export default class AddAccount extends React.Component {
     );
   }
 
-
   setAccountNumber(e){
     this.setState({
       account_number: (e.target.value)
     });
   }
 
- addAccountDetails() {
+  addAccountDetails() {
     this.addAccount(this.context.user.email).then((response) => {
       if(response.data) {
         if(response.data.status == false && response.data.err_msg) {
@@ -87,7 +95,7 @@ export default class AddAccount extends React.Component {
     });
   }
 
- addAccount(email) {
+  addAccount(email) {
     return axios.get("/api/check_account?email="+email)
   }
 
@@ -106,23 +114,20 @@ export default class AddAccount extends React.Component {
 
 
   render() {
-    console.log("status")
-    console.log(this.state.status)
-        submitbutton = <button type="submit" className="btn pull-right" disabled>
-                          <span data-spIf="!form.processing" onClick= {this.saveBankDetails} className="disabled" >Save details</span>
-                       </button>
-
+    submitbutton = <button type="submit" className="btn pull-right" disabled>
+                      <span data-spIf="!form.processing" onClick= {this.saveBankDetails} className="disabled" >Save details</span>
+                   </button>
         if(this.state.account_number){
           submitbutton = <button type="submit" className="btn pull-right"><span data-spIf="!form.processing" onClick= {this.saveBankDetails}>Save details</span></button>
         }
 
-if(this.state.status){
+    if(this.state.status_account == 'true'){
       updateDetail =  <div className="col-lg-9 col-md-8 col-sm-10 col-xs-12 edit_profile_rht_sidebar">
                         <div className="edit_prfile_detail_form">
                           <h3>Bank Account</h3>
                           <div className="edt_prf_inner_detail">
                             <div className="form-group row">
-                                <LabelField htmlFor="input_file" className="col-md-4 col-xs-12 col-form-label" />
+                              <LabelField htmlFor="input_file" className="col-md-4 col-xs-12 col-form-label" />
                             </div>
                           </div>
                           <div className="edt_prf_inner_detail">
@@ -136,18 +141,41 @@ if(this.state.status){
                           {submitbutton}
                         </div>
                       </div>
-            }else{
-                  updateDetail =<div className="col-lg-9 col-md-8 col-sm-10 col-xs-12 edit_profile_rht_sidebar">
-                        <div className="edit_prfile_detail_form">
-                          <h3>Bank Account</h3>
-                          <div className="bank_inner_detail">
-                            <div className="form-group row">
-                              <center> <h3>your bank  account no is ******************{this.state.lastDigit}</h3></center>
-                            </div>
+    }
+    else if(this.state.status_account == 'true' || this.state.picselected == 'select'){
+      updateDetail =  <div className="col-lg-9 col-md-8 col-sm-10 col-xs-12 edit_profile_rht_sidebar">
+                      <div className="edit_prfile_detail_form">
+                        <h3>Bank Account</h3>
+                        <div className="edt_prf_inner_detail">
+                          <div className="form-group row">
+                              <LabelField htmlFor="input_file" className="col-md-4 col-xs-12 col-form-label" />
+                          </div>
+                        </div>
+                        <div className="edt_prf_inner_detail">
+                          <div className="form-group row">
+                            <LabelField htmlFor="account_number" className="col-md-4 col-xs-12 col-form-label" label="Account number" />
+                            <InputField type="text" name="account_number" value = {this.state.user.account_number} onChange={this.setAccountNumber} Required/>
                           </div>
                         </div>
                       </div>
-              }
+                      <div key="update-button" className="profile_gry_bot_bar">
+                      <Loading type='spokes' color='#ff0000'/>
+                        {submitbutton}
+                      </div>
+                    </div>
+    }
+    else{
+          updateDetail =<div className="col-lg-9 col-md-8 col-sm-10 col-xs-12 edit_profile_rht_sidebar">
+                <div className="edit_prfile_detail_form">
+                  <h3>Bank Account</h3>
+                  <div className="bank_inner_detail">
+                    <div className="form-group row">
+                      <center> <h3>your bank  account no is ******************{this.state.lastDigit}</h3></center>
+                    </div>
+                  </div>
+                </div>
+              </div>
+    }
     return (
       <DocumentTitle title={`My Profile`}>
         <div className="container padd_87">
