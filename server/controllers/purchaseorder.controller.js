@@ -31,11 +31,15 @@ export function getpurchaseOrders(req, res) {
                 item.orders.forEach(function(order_id, index1){
                   order_arr.push(order_id)
                   if((products.length == index+1) && (item.orders.length == index1+1))
+                  console.log('order_arr')
+                  console.log(order_arr)
                   {
                     Order.find({ _id: {"$in": order_arr }, payment_status: "succeeded"})
                     .populate("orderitems _buyer")
                     .populate("packages", null, {pkg_status: 'created'})
                     .exec((err, orders)=>{
+                      console.log('orders')
+                      console.log(orders)
                       if (err) {
                         return res.json(422, err);
                       }
@@ -246,8 +250,6 @@ export function shipPackage(req, res) {
                 model: 'OrderItem'
               }})
   .exec((err, packge) => {
-    console.log('packge')
-    console.log(packge)
     if (err){
       return res.status(422).send(err);
      }
@@ -255,15 +257,11 @@ export function shipPackage(req, res) {
       packge.packageitems.forEach(function(pitem, index){
         if(pitem.packed_qty > pitem.shipped_qty){
           PackageItem.findOneAndUpdate({_id: pitem._id}, {$set: {shipped_qty: pitem.packed_qty}}, {new: true}, function(err, updated_pakge_item) {
-            console.log('updated_pakge_item')
-            console.log(updated_pakge_item)
             if(err){
               return res.status(422).send({msg: "Something went wrong"});
             }
             else{
               if(packge.packageitems.length == index+1){
-                console.log('packge0')
-                console.log(packge)
                 updateshipqty(packge, null, res)
               }
             }

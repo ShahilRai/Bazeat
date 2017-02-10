@@ -34,32 +34,38 @@ export function calculatePrice(req, res){
 }
 
 export function updateProduct(req, res) {
-  Product.findOne({ cuid: req.params.cuid }).exec((err, product) => {
-    Product.update({ cuid: req.params.cuid }, req.body.fieldValues, function(err, model) {
-      ProductCategory.update({ _products: product._id }, {$pullAll: {_products: [product._id]}}, { safe: true, multi: true }, function(err, model) {
-      })
-
-      ProductCategory.findByIdAndUpdate(product.product_category, {$push: {_products: product}} , function(err, model) {
-      })
-
-      Allergen.update({ _products: product._id }, { $pullAll: { _products : [product._id] }},
-        { safe: true, multi: true },
-        function removeConnectionsCB(err, obj) {
-      });
-
-      Allergen.update({_id: {"$in": product.allergens }}, { $pushAll: {_products: [product] }}, {multi: true}, function(err) {
-      });
-
-      Ingredient.update({ _products: product._id }, { $pullAll: { _products : [product._id] }},
-        { safe: true, multi: true },
-        function removeConnectionsCB(err, obj) {
-      });
-
-      Ingredient.update({_id: {"$in": product.ingredients }}, { $pushAll: {_products: [product] }}, {multi: true}, function(err) {
-      });
-
-      res.json({ product });
+  Product.findOneAndUpdate({cuid: req.params.cuid }, {$set: req.body.fieldValues}, {new: true}).exec((err, product) => {
+    ProductCategory.update({ _products: product._id }, {$pullAll: {_products: [product._id]}}, { safe: true, multi: true }, function(err, model) {
     })
+
+    ProductCategory.findByIdAndUpdate(product.product_category, {$push: {_products: product}} , function(err, model) {
+    })
+
+    Allergen.update({ _products: product._id }, { $pullAll: { _products : [product._id] }},
+      { safe: true, multi: true },
+      function removeConnectionsCB(err, obj) {
+    });
+
+    Allergen.update({_id: {"$in": product.allergens }}, { $pushAll: {_products: [product] }}, {multi: true}, function(err) {
+    });
+
+    Ingredient.update({ _products: product._id }, { $pullAll: { _products : [product._id] }},
+      { safe: true, multi: true },
+      function removeConnectionsCB(err, obj) {
+    });
+
+    Ingredient.update({_id: {"$in": product.ingredients }}, { $pushAll: {_products: [product] }}, {multi: true}, function(err) {
+    });
+    if (product.quantity <= 0){
+      Product.findOneAndUpdate({_id: product._id}, {$set: {is_disable: true}}, {new: true}).exec((err, product1) => {
+        return res.json({product1});
+      })
+    }
+    else{
+      Product.findOneAndUpdate({_id: productr._id}, {$set: {is_disable: false}}, {new: true}).exec((err, product2) => {
+        return res.json({product2});
+      })
+    }
   });
 }
 
