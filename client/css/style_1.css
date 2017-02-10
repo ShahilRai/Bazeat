@@ -5432,7 +5432,6 @@ font-size: 13px;
 }
 .header_rht_menu li a {
  margin: 0 0px;
- padding: 7px 0px;
 }
 .header_search_bar {
  margin-top: 20px;
@@ -5709,12 +5708,12 @@ h3.search_tabbd_heading {
     font-size: 17px;
     text-align: center !important;
 }
-.custom_tab{padding-top: 171px;text-align: center;}
+.custom_tab{padding-top: 105px;text-align: center;}
 .react-tabs .ReactTabs__Tab.ReactTabs__Tab[role="tab"]{
 	margin: 0 20px;
 }
-.range_slider{width:100%;margin-right: 0;}
-.range_slider_col{width:100%;}
+.range_slider{width:100%;margin-right: 0;margin-top: -24px}
+.range_slider_col{width:100%;padding-top: 11px;}
 .prod_tab_section label{margin-bottom: 15px;}
 .bazeater_bg{width:100%;margin-right: 0;}
 
@@ -5738,7 +5737,7 @@ margin-left: 0;}
 .attnding_days li a{padding: 3px 0;}
 .rvw_by_user{width: 70%;}
 
-.items_list_info{left: -2px;right: 0;}
+.items_list_info{left: 11px;right: 0;}
 .chkout_pg {
     padding-left: 10px;
     padding-right: 10px;
@@ -6150,4 +6149,8 @@ input.capitalize {
  .loader_img{
  	padding-left: 364px;
  	zoom:70%;
+ }
+ .loading_spinner{
+ 	padding-left:602px;
+ 	padding-bottom: 35px;
  }
