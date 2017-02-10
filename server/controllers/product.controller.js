@@ -325,13 +325,13 @@ export function addRemoveLike(req, res) {
              return res.status(422).send(err);
             }
             else {
-              update_like_count(product)
+              update_like_count(product, 1)
               return res.json({is_like: true, msg: "like product successfully"});
             }
           });
         } else {
           like.remove(() => {
-            update_like_count(product)
+            update_like_count(product, -1)
             return res.status(200).send({is_like: false, msg: "Unlike product successfully"});
           });
         }
@@ -340,9 +340,7 @@ export function addRemoveLike(req, res) {
   });
 }
 
-function update_like_count(product) {
-  Like.find({ _product: product._id }).exec(function(err, like) {
-    product._producer.like_count = like.length
-    product._producer.save();
-  })
+function update_like_count(product, like_length) {
+  product._producer.like_count += like_length
+  product._producer.save();
 }

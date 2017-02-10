@@ -12,9 +12,8 @@ export default class BazeatersWall extends React.Component {
   render() {
     var src=this.props.bazeatersData.photo
     if(src==undefined){
-      src=require('../../../images/user_picture.png') 
+      src=require('../../../images/producer_logo.png') 
     }
-
     return (
       <div className="bazeater_bg">
         <div className="bazeater1">

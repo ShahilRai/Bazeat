@@ -31,7 +31,8 @@ export default class UserProfilePage extends React.Component {
       user : {},
       user_info: {},
       birth_date: {},
-      data_loaded: false
+      data_loaded: false,
+      items:[]
     };
     this.handleDateChange = this.handleDateChange.bind(this)
     this.formatDate=this.formatDate.bind(this)
@@ -46,7 +47,8 @@ export default class UserProfilePage extends React.Component {
             user: response.data.user,
             user_info:response.data.user.user_info,
             birth_date: moment(response.data.user.birth_date).format('YYYY-MM-DD'),
-            data_loaded: true
+            data_loaded: true,
+            items:response.data.user.timeslots
           });
         }
     }).catch((err) => {
@@ -192,7 +194,7 @@ export default class UserProfilePage extends React.Component {
                         </div>
                         <div className="form-group row">
                             <LabelField htmlFor="example-tel-input" className="col-md-4 col-xs-12 col-form-label" label="Visiting hours"/>
-                            <AddHoursDetail  email = {this.context.user.email} />
+                            <AddHoursDetail  email = {this.context.user.email}  items={this.state.items}/>
                         </div>
                       </div>
                       <div key="update-button" className="profile_gry_bot_bar">
