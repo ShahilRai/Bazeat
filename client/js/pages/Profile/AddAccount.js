@@ -28,7 +28,7 @@ export default class AddAccount extends React.Component {
       account_number:'',
       file :'',
       uploadedImages :'',
-      status : '',
+      status : 'true',
       status_account : 'true',
       lastDigit :'',
       picselected : 'notselect'
@@ -121,7 +121,7 @@ export default class AddAccount extends React.Component {
           submitbutton = <button type="submit" className="btn pull-right"><span data-spIf="!form.processing" onClick= {this.saveBankDetails}>Save details</span></button>
         }
 
-    if(this.state.status_account == 'true'){
+    if(this.state.status){
       updateDetail =  <div className="col-lg-9 col-md-8 col-sm-10 col-xs-12 edit_profile_rht_sidebar">
                         <div className="edit_prfile_detail_form">
                           <h3>Bank Account</h3>
@@ -141,28 +141,6 @@ export default class AddAccount extends React.Component {
                           {submitbutton}
                         </div>
                       </div>
-    }
-    else if(this.state.status_account == 'true' || this.state.picselected == 'select'){
-      updateDetail =  <div className="col-lg-9 col-md-8 col-sm-10 col-xs-12 edit_profile_rht_sidebar">
-                      <div className="edit_prfile_detail_form">
-                        <h3>Bank Account</h3>
-                        <div className="edt_prf_inner_detail">
-                          <div className="form-group row">
-                              <LabelField htmlFor="input_file" className="col-md-4 col-xs-12 col-form-label" />
-                          </div>
-                        </div>
-                        <div className="edt_prf_inner_detail">
-                          <div className="form-group row">
-                            <LabelField htmlFor="account_number" className="col-md-4 col-xs-12 col-form-label" label="Account number" />
-                            <InputField type="text" name="account_number" value = {this.state.user.account_number} onChange={this.setAccountNumber} Required/>
-                          </div>
-                        </div>
-                      </div>
-                      <div key="update-button" className="profile_gry_bot_bar">
-                      <Loading type='spokes' color='#ff0000'/>
-                        {submitbutton}
-                      </div>
-                    </div>
     }
     else{
           updateDetail =<div className="col-lg-9 col-md-8 col-sm-10 col-xs-12 edit_profile_rht_sidebar">
