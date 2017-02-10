@@ -5116,6 +5116,10 @@ margin-bottom: 7px;
   width : 50px;
 }
 
+.share_image{
+  height : 101px;
+  width : 101px;
+}
 
 
 #react-paginate ul {
