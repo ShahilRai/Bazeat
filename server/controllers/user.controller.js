@@ -19,7 +19,7 @@ export function addUser(req, res) {
     }
     else{
       // MailService.send_email(saved)
-      // MailService.budmat_order(saved)
+      MailService.budmat_order(saved)
       MessageService.sendMessage(saved.phone)
       return res.json({ user: saved });
     }
@@ -107,8 +107,6 @@ export function deleteUser(req, res) {
       let client = new stormpath.Client();
       client.getAccount(user.unique_id, function (err, account) {
         account.delete(function(err, success) {
-          console.log(err)
-          console.log(success)
           res.status(200).send({msg: "User deleted successfully"});
         });
       });
@@ -233,7 +231,13 @@ export function checkAccount(req, res) {
 
 export function Payment(req, res) {
   User.findOne({ email: req.body.email }).exec((err, user) => {
-    Order.findOne({ _id: req.body.order_id }).populate('products').exec((err, order) => {
+    Order.findOne({ _id: req.body.order_id }).populate({
+    path: 'orderitems',
+    model: 'OrderItem',
+    populate: {
+      path: '_product',
+      model: 'Product'
+    }}).exec((err, order) => {
       if (err) {
         return res.status(422).send(err);
       }
@@ -291,7 +295,9 @@ export function create_card(customer, order, next, req, res){
             console.log(err)
           }
           else{
-            User.findOne({_id: order.products[0]._producer}).exec((err, producer)=>{
+            console.log('order.products[0]._producer')
+            console.log(order.orderitems[0]._product._producer)
+            User.findOne({_id: order.orderitems[0]._product._producer}).exec((err, producer)=>{
               if(err){
                 console.log(err)
               }
@@ -338,7 +344,7 @@ export  function create_charge(customer, producer, card, order, next, req, res){
         },{new: true}
         ).exec(function(err, updated_order){
       });
-      MailService.send_email(charge)
+      // MailService.budmat_order(order)
       clear_cart(order._buyer)
       update_order_after_paymnt(charge, order)
       return res.json({ charge: charge });
