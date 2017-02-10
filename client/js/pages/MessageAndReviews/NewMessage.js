@@ -50,7 +50,7 @@ export default class NewMessage extends React.Component {
     textAreaValue(event){
       this.setState({ value: event.target.value });
     }
-     
+
     selectUserId(e){
       this.state.users.map((user, index)=>{
         if(user.full_name == e.target.value){
@@ -59,7 +59,6 @@ export default class NewMessage extends React.Component {
          })
         }
       })
-      console.log(this.state.selectedId)
      this.handleChange(e)
     }
 
@@ -100,7 +99,7 @@ export default class NewMessage extends React.Component {
       });
     }
 
-  
+
     render(){
       var loader
     if(this.props.loaded=='notselect'){
