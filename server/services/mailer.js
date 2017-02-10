@@ -225,146 +225,94 @@ export function replied_review_mail(comment, review, sender){
 
 
 export function budmat_order(order){
-  let order_arr = []
-  let data = {}
-  order.orderitems.forEach(function(orderitem, index){
-    console.log('orderitem._product')
-    console.log(orderitem._product)
-    console.log('orderitem[0]._product')
-    console.log(orderitem[0]._product)
-    data.name = orderitem._product.product_name
-    data.qty = orderitem.product_qty
-    data.description = orderitem._product.description
-    data.price = orderitem._product.base_price
-    data.ordPrice = orderitem.total_price
-    data.img = orderitem._productphoto
-    order_arr.push(data)
-    if (orders.orderitems.length == index+1){
-      order_arr
-    }
-    console.log('order_arr')
-    console.log(order_arr)
-  })
-  transport.sendMail({
-        mandrillOptions: {
-          template_name: 'Order verification mail (budmat)',
-          template_content: [],
-          message: {
-            to: [ {email: user.email} ],
-            subject: user.full_name + 'answered your review' ,
-            from_email: 'noreply@bazeat.no',
-            "merge": true,
-            "merge_language": "handlebars",
-            "merge_vars": [
-            {
-                "rcpt": user.email,
-                "vars": [
-                    {
-                        "name": "ordNumber",
-                        "content": "478366238"
-                    },
-                    {
-                        "name": "products",
-                        "content": [
-                            {
-                                "img": "http://kbcdn.mandrill.com/nesting-penguin.png",
-                                "qty": 2,
-                                "sku": "PENG001",
-                                "name": "Penguin",
-                                "description": "Solid wood, hand-painted penguin nesting doll with 5 different sizes included. Limited Edition.",
-                                "price": "12.99",
-                                "ordPrice": "25.98"
-                            },
-                            {
-                                "img": "http://kbcdn.mandrill.com/nesting-bear.png",
-                                "qty": 3,
-                                "sku": "BBEAR001",
-                                "name": "Brown bear",
-                                "description": "Solid wood, hand-painted brown bear nesting doll. Coordinates with our entire Bear collection. Includes 6 nested sizes.",
-                                "price": "12.99",
-                                "ordPrice": "38.97"
-                            },
-                            {
-                                "img": "http://kbcdn.mandrill.com/nesting-tiger.png",
-                                "qty": 1,
-                                "sku": "TIGER030",
-                                "name": "Tiger",
-                                "description": "Orange striped tiger from our jungle collection.",
-                                "price": "37.99",
-                                "ordPrice": "37.99"
-                            }
-                        ]
-                    },
-                    {
-                        "name": "subtotal",
-                        "content": "102.94"
-                    },
-                    {
-                        "name": "shipping",
-                        "content": "4.95"
-                    },
-                    {
-                        "name": "ordTotal",
-                        "content": "107.89"
-                    },
-                    {
-                        "name": "customerName",
-                        "content": [
-                            {
-                                "firstName": "Monty",
-                                "lastName": "Python"
-                            }
-                        ]
-                    },
-                    {
-                        "name": "coupon",
-                        "content": [
-                            {
-                                "code": "THANKS",
-                                "description": "15% off"
-                            }
-                        ]
-                    },
-                    {
-                        "name": "billingAddress",
-                        "content": [
-                            {
-                                "streetNum": "1234",
-                                "address1": "BoulevArd Lane",
-                                "city": "ATLANTA",
-                                "state": "ga",
-                                "zip": 30030
-                            }
-                        ]
-                    },
-                    {
-                        "name": "shippingAddress",
-                        "content": [
-                            {
-                                "streetNum": 5678,
-                                "address1": "BoulevArd Lane",
-                                "city": "atlanta",
-                                "state": "ga",
-                                "zip": 30328
-                            }
-                        ]
-                    },
-                    {
-                        "name": "member",
-                        "content": true
-                    }
-                ]
+  console.log('order')
+  console.log(order)
+  User.findOne({_id: order._buyer}).exec((err, user) =>{
+      let order_arr = []
+      order.orderitems.forEach(function(orderitem, index){
+        let data = {}
+        data.name = orderitem._product.product_name
+        data.qty = orderitem.product_qty
+        data.description = orderitem._product.description
+        data.price = orderitem._product.base_price
+        data.ordPrice = orderitem.total_price
+        data.img = orderitem._product.photo
+        order_arr.push(data)
+        if (order.orderitems.length == index+1){
+          order_arr
+        }
+      })
+      transport.sendMail({
+            mandrillOptions: {
+              template_name: 'Order verification mail (budmat)',
+              template_content: [],
+              message: {
+                to: [ {email: user.email} ],
+                subject: 'Order successfully placed' ,
+                from_email: 'noreply@bazeat.no',
+                "merge": true,
+                "merge_language": "handlebars",
+                "merge_vars": [
+                {
+                    "rcpt": user.email,
+                    "vars": [
+                        {
+                            "name": "ORDERNUMBER",
+                            "content": "PO" + order.orderId
+                        },
+                        {
+                            "name": "ORDERDATE",
+                            "content": order.createdAt.toDateString()
+                        },
+                        {
+                            "name": "products",
+                            "content": order_arr
+                        },
+                        {
+                            "name": "SUBTOTAL",
+                            "content": (order.net_price).toFixed(2)
+                        },
+                        {
+                            "name": "SHIPPINPRICE",
+                            "content": (order.shipment_vat_value).toFixed(2)
+                        },
+                        {
+                            "name": "ORDTOTAL",
+                            "content": (order.total_amount).toFixed(2)
+                        },
+                        {
+                            "name": "FNAME",
+                            "content": order.address.first_name
+                        },
+                        {
+                            "name": "LNAME",
+                            "content": order.address.last_name
+                        },
+                        {
+                            "name": "ADDRESSLINE1",
+                            "content": order.address.line1
+                        },
+                        {
+                            "name": "POSTNO",
+                            "content": order.address.postal_code
+                        },
+                        {
+                            "name": "CITY",
+                            "content": order.address.city
+                        },
+                    ]
+                }
+            ]
+              }
             }
-        ]
+          },
+          function (err, info) {
+            if (err) {
+              console.error(err);
+            } else {
+              console.log(info);
+            }
           }
-        }
-      },
-      function (err, info) {
-        if (err) {
-          console.error(err);
-        } else {
-          console.log(info);
-        }
-      }
-    )
+        )
+  })
 }

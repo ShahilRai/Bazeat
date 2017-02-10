@@ -344,8 +344,8 @@ export  function create_charge(customer, producer, card, order, next, req, res){
         },{new: true}
         ).exec(function(err, updated_order){
       });
-      // MailService.budmat_order(order)
       clear_cart(order._buyer)
+      MailService.budmat_order(order)
       update_order_after_paymnt(charge, order)
       return res.json({ charge: charge });
     }
