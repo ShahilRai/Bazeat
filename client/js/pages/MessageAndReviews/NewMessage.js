@@ -104,7 +104,7 @@ export default class NewMessage extends React.Component {
     render(){
       var loader
     if(this.props.loaded=='notselect'){
-      loader=<Loading type='spokes' color='#ff0000'/>
+      loader=(<div className="loader_img"><Loading type='spokes' color='#ff0000'/></div>)
     }
       return(
         <div className="chat_window_right">
@@ -115,8 +115,7 @@ export default class NewMessage extends React.Component {
             </div>
               <textarea ref="message" className=""  onChange={this.textAreaValue.bind(this)} value={this.state.value} placeholder="Write your message here"></textarea>
               <button type="button"  className="btn btn-default chat_submit" onClick={this.sendMessageData.bind(this)}>Send</button>
-                                        {loader}
-
+                {loader}
           </form>
         </div>
       )
