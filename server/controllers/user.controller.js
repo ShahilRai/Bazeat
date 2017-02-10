@@ -14,8 +14,6 @@ export function addUser(req, res) {
   const newUser = new User(req.body);
   newUser.cuid = cuid();
   newUser.save((err, saved) => {
-    console.log('saved')
-    console.log(saved)
     if (err) {
       return res.status(422).send(err);
     }
@@ -100,12 +98,6 @@ export function getUser(req, res) {
 import stormpath from 'stormpath';
 
 export function deleteUser(req, res) {
-  console.log('req.body')
-  console.log(req.body)
-  console.log('req.query')
-  console.log(req.query)
-  console.log('req.params')
-  console.log(req.params)
   User.findOne({ email: req.query.email }).exec((err, user) => {
     if (err || user == null) {
       return res.status(422).send({msg: err});
@@ -116,7 +108,6 @@ export function deleteUser(req, res) {
       client.getAccount(user.unique_id, function (err, account) {
         account.delete(function(err, success) {
           console.log(err)
-          console.log("kk")
           console.log(success)
           res.status(200).send({msg: "User deleted successfully"});
         });
@@ -242,7 +233,7 @@ export function checkAccount(req, res) {
 
 export function Payment(req, res) {
   User.findOne({ email: req.body.email }).exec((err, user) => {
-    Order.findOne({ _id: req.body.order_id }).exec((err, order) => {
+    Order.findOne({ _id: req.body.order_id }).populate('products').exec((err, order) => {
       if (err) {
         return res.status(422).send(err);
       }
@@ -300,7 +291,14 @@ export function create_card(customer, order, next, req, res){
             console.log(err)
           }
           else{
-            create_charge(customer, card, order, null, req, res)
+            User.findOne({_id: order.products[0]._producer}).exec((err, producer)=>{
+              if(err){
+                console.log(err)
+              }
+              else{
+                create_charge(customer, producer, card, order, null, req, res)
+              }
+            })
           }
         }
       );
@@ -309,7 +307,7 @@ export function create_card(customer, order, next, req, res){
 }
 
 
-export  function create_charge(customer, card, order, next, req, res){
+export  function create_charge(customer, producer, card, order, next, req, res){
   let amount = Math.round(order.total_amount.toFixed(2)*100)
   let calculated_app_fee = ((order.total_amount*0.1)+(order.total_qty*3.00))
   let app_fee = Math.round(calculated_app_fee.toFixed(2)*100)
@@ -320,7 +318,7 @@ export  function create_charge(customer, card, order, next, req, res){
     customer: customer.id,
     source: card.id, // obtained with Stripe.js
     description: "Charge for " + req.email,
-    destination: "acct_19YaXiA3xoj18svo",
+    destination: producer.account_id,
     application_fee: app_fee
     }, function(err, charge) {
     if(err) {

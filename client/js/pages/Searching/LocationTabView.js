@@ -7,7 +7,7 @@ export default class LocationTabView extends React.Component {
   render() {
     var src=this.props.locData.photo
     if(src==undefined){
-      src=require('../../../images/user_picture.png') 
+      src=require('../../../images/producer_logo.png') 
     }
     return (
       <div className="search_row1 grey_bg">

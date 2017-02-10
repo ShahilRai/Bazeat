@@ -18,7 +18,6 @@ export default class MessageDropdown extends React.Component {
   render(){
   	var _allMessages = this.props.allMessages ? this.props.allMessages : []
   	var results = _allMessages.map((data, index) => {
-  		console.log(data[0].receiver)
 	    return(
 	         <div key={index} className={data[0].sender.full_name==this.context.user.fullName?'':"chat_list white_bg"} >
 		 		<span className={data[0].sender.full_name==this.context.user.fullName?'':"user_img"}><img className={data[0].sender.full_name==this.context.user.fullName?'':"user_profile_img"} src={data[0].sender.full_name==this.context.user.fullName?'':data[0].sender.photo}/></span>

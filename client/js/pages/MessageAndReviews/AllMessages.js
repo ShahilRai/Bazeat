@@ -148,10 +148,19 @@ export default class AllMessages extends React.Component {
     var _msgConversations = this.state.allMsgConversations ? this.state.allMsgConversations : []
     var _results = _msgConversations.map((result, index) => {
       var data = result[0];
+      var src_sender=data.sender.photo
+      var src_receiver=data.receiver.photo
+      if(src_sender==undefined){
+        src_sender=require('../../../images/producer_logo.png')
+      }
+      if(src_receiver==undefined){
+        src_receiver=require('../../../images/producer_logo.png')
+      }
+
       return(
         <div className={this.state.activeState === data.conversation_id?"chat_list active_user":"chat_list"} key={index} onClick = {this.showSingleMsgConverstation.bind(this, data.conversation_id)}>
           <a href="javascript:void(0)">
-            <span className="user_img"><img className="user_profile_img" src={(data.sender.full_name == this.context.user.fullName) ? data.receiver.photo : data.sender.photo} /></span>
+            <span className="user_img"><img className="user_profile_img" src={(data.sender.full_name == this.context.user.fullName) ? src_receiver : src_sender} /></span>
             <span className="chat_description" >
               <h3 >
                 {(data.sender.full_name==this.context.user.fullName) ? changeCase.titleCase(data.receiver.full_name) : changeCase.titleCase(data.sender.full_name)}
