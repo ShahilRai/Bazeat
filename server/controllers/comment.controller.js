@@ -55,8 +55,6 @@ export function allReviews(req, res, next) {
   });
 }
 
-
-
 export function getReview(req, res, next) {
   let per_page = parseInt(req.query.per_page);
   let off_set = (parseInt(req.query.off_set) * per_page) ;
@@ -93,7 +91,6 @@ export function getReview(req, res, next) {
     })
   });
 }
-
 
 export function newReview(req, res, next) {
    if(!req.query.reviewed_for) {
@@ -137,7 +134,6 @@ export function newReview(req, res, next) {
   });
 }
 
-
 export function avg_ratings(reviews, newReview, next, total_count, res){
   let total_rating = 0
   let avg_rating = 0
@@ -155,7 +151,6 @@ export function avg_ratings(reviews, newReview, next, total_count, res){
   })
 }
 
-
 export function sendReply(req, res, next) {
   User.findOne({ email: req.body.email }).exec((err, user) => {
     const comment = new Comment({
@@ -167,8 +162,7 @@ export function sendReply(req, res, next) {
       if (err) {
         res.send({ error: err });
       }
-      else{
-
+      else {
         Review.findOneAndUpdate({_id: req.body.review_id}, {$set: {'comment': comment._id, is_commented: req.body.is_commented}}, {new: true}).
         exec(function(err, model) {
         MailService.replied_review_mail(newComment, model, user)

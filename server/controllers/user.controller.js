@@ -17,7 +17,7 @@ export function addUser(req, res) {
     if (err) {
       return res.status(422).send(err);
     }
-    else{
+    else {
       // MailService.send_email(saved)
       MailService.budmat_order(saved)
       MessageService.sendMessage(saved.phone)
@@ -42,8 +42,8 @@ export function addTimeSlot(req, res) {
 export function removeTimeSlot(req, res) {
   User.findOneAndUpdate({ "timeslots._id": req.query.timeslot_id }, {
     $pull: { "timeslots": { _id: req.query.timeslot_id }}
-    },{new: true}).exec((err, timeslot) => {
-    if (err){
+    }, {new: true}).exec((err, timeslot) => {
+    if (err) {
       return res.status(422).send(err);
      }
      else {
@@ -57,7 +57,7 @@ export function getTimeSlot(req, res){
     if (err) {
       return res.status(422).send(err);
     }
-    else{
+    else {
       return res.json({timeslot});
     }
   });
@@ -68,7 +68,7 @@ export function getUsers(req, res) {
     if (err) {
       return res.status(422).send(err);
     }
-    else{
+    else {
       return res.json({ users });
     }
   });
@@ -242,26 +242,26 @@ export function Payment(req, res) {
         return res.status(422).send(err);
       }
       else {
-        if (user.customer_id){
+        if (user.customer_id) {
           stripe.customers.retrieve( user.customer_id,
           function(err, customer) {
             if (err) {
               return res.status(422).send(err);
             }
-            else{
+            else {
               create_card(customer, order, null, req.body, res)
             }
           });
         }
-        else{
+        else {
           stripe.customers.create({
             email: user.email,
             description: "Customer created with email " + user.email
           }, function(err, customer) {
-           if(err){
+           if(err) {
             console.log(err);
            }
-           else{
+           else {
             User.update({_id: user._id}, {$set: {customer_id: customer.id}},function(err) {
             })
             create_card(customer, order, null, req.body, res)
@@ -308,12 +308,11 @@ export function create_card(customer, order, next, req, res){
           }
         }
       );
-      }
+    }
   })
 }
 
-
-export  function create_charge(customer, producer, card, order, next, req, res){
+export function create_charge(customer, producer, card, order, next, req, res) {
   let amount = Math.round(order.total_amount.toFixed(2)*100)
   let calculated_app_fee = ((order.total_amount*0.1)+(order.total_qty*3.00))
   let app_fee = Math.round(calculated_app_fee.toFixed(2)*100)
@@ -341,8 +340,8 @@ export  function create_charge(customer, producer, card, order, next, req, res){
             "address.phone_num": req.phone_num,
             "address.phone_num": req.phone_num,
           }
-        },{new: true}
-        ).exec(function(err, updated_order){
+        }, {new: true}
+        ).exec(function(err, updated_order) {
       });
       clear_cart(order._buyer)
       MailService.budmat_order(order)
@@ -364,10 +363,9 @@ function clear_cart(user_id) {
 
 export function hideAccount(req, res) {
   User.findOne({ email: req.body.email }).exec((err, user) => {
-    if (user.if_visible == false){
+    if(user.if_visible == false) {
       user.if_visible = true
-    }
-    else{
+    } else {
       user.if_visible = false
     }
     user.save((err, saved) => {
@@ -383,10 +381,10 @@ export function hideAccount(req, res) {
 
 export function disableAccount(req, res) {
   User.findOne({ email: req.body.email }).exec((err, user) => {
-    if (user.if_disable == false){
+    if(user.if_disable == false) {
       user.if_disable = true
     }
-    else{
+    else {
       user.if_disable = false
     }
     user.save((err, saved) => {
@@ -399,7 +397,6 @@ export function disableAccount(req, res) {
     });
   });
 }
-
 
 export function update_order_after_paymnt(charge, order){
   Order.findOneAndUpdate({"_id": order._id},
@@ -414,7 +411,6 @@ export function update_order_after_paymnt(charge, order){
       // Send email to promoter for shipping
   });
 }
-
 
 export function checkUserAccount(req,res){
   User.findOne({email: req.query.email}).exec((err, user) => {

@@ -4,25 +4,24 @@ import Product from '../models/product';
 import ProductCategory from '../models/productcategory';
 import cuid from 'cuid';
 
-
 export function gecodeLocation(req, res) {
   // let limit = req.query.limit || 10;
   // let maxDistance = req.query.distance || 50;
   // maxDistance /= 6371;
   let coords = [];
-    coords[0] = req.query.longitude;
-    coords[1] = req.query.latitude;
-    User.where('loc').near({
-    center : { type : 'Point', coordinates :
-    coords}, minDistance: 100, maxDistance : 50000 }).exec(function(err, users) {
-      if (err) {
-        console.log('err')
-        console.log(err)
-        return res.status(422).send(err);
+  coords[0] = req.query.longitude;
+  coords[1] = req.query.latitude;
+  User.where('loc').near({
+  center : { type : 'Point', coordinates :
+  coords}, minDistance: 100, maxDistance : 50000 }).exec(function(err, users) {
+    if (err) {
+      console.log('err')
+      console.log(err)
+      return res.status(422).send(err);
 
-      }
-        return res.status(200).json({users});
-   });
+    }
+    return res.status(200).json({users});
+ });
 }
 
 export function usersResults(req, res) {
@@ -42,13 +41,13 @@ export function usersResults(req, res) {
 export function productsResults(req, res) {
   User.findOne({email: req.query.email}).exec(function(err,user) {
     let data = {}
-    if(req.query.search){
+    if(req.query.search) {
       data.product_name = new RegExp(req.query.search, 'i')
     }
-    if(req.query.start_price && req.query.end_price){
+    if(req.query.start_price && req.query.end_price) {
       data.calculated_price = {'$gte': parseInt(req.query.start_price), '$lte': parseInt(req.query.end_price)};
     }
-    if(req.query.category_id){
+    if(req.query.category_id) {
       data.product_category = {"$in": req.query.category_id }
     }
     if(user) {
