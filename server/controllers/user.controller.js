@@ -408,7 +408,16 @@ export function update_order_after_paymnt(charge, order){
       }
     },{new: true}
     ).exec(function(err, updated_order){
-      // Send email to promoter for shipping
+      // updated_order.products.forEach(function(item, index){
+        Product.findOne({_id: item}).exec((err, product) =>{
+          const newPurchseorder = new PurchaseOrder();
+          newPurchseorder._order = order._id;
+          newPurchseorder._producer = updated_order.products[0]._producer;
+          newPurchseorder._buyer = order._buyer;
+          newPurchseorder.save();
+          // Send email to promoter for shipping
+        })
+      // })
   });
 }
 

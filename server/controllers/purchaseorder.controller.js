@@ -6,12 +6,11 @@ import OrderItem from '../models/orderitem';
 import PackageItem from '../models/packageitem';
 import cuid from 'cuid';
 import Package from '../models/package'
- import * as MailService from '../services/mailer';
+import * as MailService from '../services/mailer';
 import * as MessageService from '../services/twillio';
 const keySecret = process.env.SECRET_KEY;
 const keyPublishable = process.env.PUBLISHABLE_KEY;
 const stripe = require("stripe")(keySecret);
-
 
 export function getpurchaseOrders(req, res) {
   User.findOne({email: req.query.email}).select("products -_id").exec((err, producer)=>{
@@ -19,7 +18,6 @@ export function getpurchaseOrders(req, res) {
         return res.json(422, err);
       }
       Product.find({ _id: { "$in": producer.products }}).select("orders -_id").exec((err, products)=>{
-
         if (err) {
           return res.json(422, err);
         }
