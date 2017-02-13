@@ -1288,7 +1288,7 @@ height: 435px;
 	border-radius:100%;
 	position:absolute;
 	left:8px;
-	top:43%;
+	top:5%;
 }
 
 .chat_window_left .chat_list{
@@ -6158,3 +6158,4 @@ input.capitalize {
  .active_user_msg{
   
  }
+ 
