@@ -171,9 +171,15 @@ export default class ReviewPage extends React.Component {
   }
 
   updateProducerReviews(updatedData){
-    this.setState({
-      users_data : updatedData.producer_arr
-    })
+    this.loadUserReviwData(this.context.user.email).then((response) => {
+      if(response.data) {
+        this.setState({
+          users_data : response.data.producer_arr
+        });
+      }
+    }).catch((err) => {
+        console.log(err);
+    });
   }
 
   commentedData(newComment){

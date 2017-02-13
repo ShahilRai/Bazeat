@@ -78,7 +78,7 @@ export default class Payment extends React.Component {
 
    handleClik() {
     this.setState( {disabled: !this.state.disabled} )
-  } 
+  }
 
 // api for checkout process payment
   requestForPayment(email, order_id, card_no, exp_month, exp_year, cvc){
@@ -112,7 +112,7 @@ export default class Payment extends React.Component {
         _cardNo: '',
         disabled: false
       })
-     
+
     }
 
     if(this.refs._cvv.value == ''){

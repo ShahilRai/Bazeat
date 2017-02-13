@@ -35,13 +35,9 @@ export default class AddHoursDetail extends React.Component {
         return alert("Please select time" );
       }
       this.state.selectDays = [];
-      this.state.selectDays.push(this.state.days[0].value)
-      this.state.selectDays.push(this.state.days[1].value)
-      this.state.selectDays.push(this.state.days[2].value)
-      this.state.selectDays.push(this.state.days[3].value)
-      this.state.selectDays.push(this.state.days[4].value)
-      this.state.selectDays.push(this.state.days[5].value)
-      this.state.selectDays.push(this.state.days[6].value)
+      for(var i=0;i<7;i++){
+        this.state.selectDays.push(this.state.days[i].value)
+      }
     }
 
     var hoursArray = []
@@ -135,7 +131,7 @@ export default class AddHoursDetail extends React.Component {
             </span>
             <ul className="attnding_days">
               {this.state.days.map((days,index) =>
-                <li key = {index} onClick={this.handleDayClick.bind(this,index)} ><a id="week_day" href="javascript:void(0)">{days.name}</a></li>
+                <li className="onhover" key = {index} onClick={this.handleDayClick.bind(this,index)} ><a id="week_day" href="javascript:void(0)">{days.name}</a></li>
                 )}
             </ul>
           </span>

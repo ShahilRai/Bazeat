@@ -9,6 +9,8 @@ import toastr from 'toastr';
 var changeCase = require('change-case')
 let picselected;
 let updateSingleMsg
+let show_active;
+
 
 export default class AllMessages extends React.Component {
   static contextTypes = {
@@ -60,6 +62,7 @@ export default class AllMessages extends React.Component {
   showSingleMsgConverstation(conversation_id) {
     this.showMsgConversation(conversation_id).then((response) => {
       if(response.data) {
+        show_active:""
         this.setState({
           allConversation: response.data.messages,
           conversation_id: conversation_id,
@@ -156,8 +159,18 @@ export default class AllMessages extends React.Component {
       if(src_receiver==undefined){
         src_receiver=require('../../../images/producer_logo.png')
       }
-
+      var active_msg;
+      if(data.unread==true && this.context.user.fullName!==data.sender.full_name){
+        show_active=<span className="active_chat"></span>
+      }
+      else{
+        active_msg=""
+        show_active=<span></span>
+      }
+             
       return(
+        <Link to={"/message/"+data.conversation_id}>
+        {this.state.activeState==data.conversation_id? '': show_active}
         <div className={this.state.activeState === data.conversation_id?"chat_list active_user":"chat_list"} key={index} onClick = {this.showSingleMsgConverstation.bind(this, data.conversation_id)}>
           <a href="javascript:void(0)">
             <span className="user_img"><img className="user_profile_img" src={(data.sender.full_name == this.context.user.fullName) ? src_receiver : src_sender} /></span>
@@ -170,6 +183,7 @@ export default class AllMessages extends React.Component {
             </span>
           </a>
         </div>
+        </Link>
       )
     })
     return(

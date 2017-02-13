@@ -44,15 +44,19 @@ export default class Menu extends React.Component {
     }
     var MessageIcon;
     var reviewIcon
+    var msgIconShow=this.props.allMessages.length
     var userId = this.props.cuid ? this.props.cuid : 'null'
     var profileHead = this.context.authenticated ? "header_rht_menu profile_rht_header dropdown" : "header_rht_menu";
-    if(ismsg == this.props.allMessages.length){
+    if(ismsg >0){
       MessageIcon = ( <span className="msg_qty" id="msg_qty">{ismsg}</span>)
     }
     if(this.state.isReview){
       reviewIcon = ( <span className="msg_qty" >{this.state.isReview}</span>)
     }
-
+    var business_name= this.props.producer_name?this.props.producer_name.business_name:''
+    if(business_name==undefined){
+      business_name=this.context.user?this.context.user.givenName:''
+    }
     return (
       <ul className={profileHead}>
         <NotAuthenticated>
@@ -62,7 +66,7 @@ export default class Menu extends React.Component {
           {cart_icon}
         </NotAuthenticated>
         <Authenticated>
-          <li className="dropbtn" id="dropbtn"><Link to="/message" onClick={this.messageIconValue.bind(this)}>
+          <li className="dropbtn" id="dropbtn"><Link to={"/message/"+userId} onClick={this.messageIconValue.bind(this)}>
             <a href="javascript:void(0)" className="message_icon">Messages
               {MessageIcon}
               {reviewIcon}
@@ -70,7 +74,7 @@ export default class Menu extends React.Component {
             </Link>
             <MessageDropdown allMessages={this.props.allMessages} allReviews={this.props.allReviews} />
           </li>
-          <li className="username_text"><Link to={"/user/"+userId}><a href="javascript:void(0)" className="user_icon">{(this.context.user?(this.context.user.customData.is_producer == "true" ? changeCase.titleCase(this.props.producer_name.business_name):changeCase.titleCase(this.context.user.givenName)):'')}</a></Link>
+          <li className="username_text"><Link to={"/user/"+userId}><a href="javascript:void(0)" className="user_icon">{(this.context.user?(this.context.user.customData.is_producer == "true" ?business_name:changeCase.titleCase(this.context.user.givenName)):'')}</a></Link>
             <ul className="user_toggle_div collapse" id="" >
               <li><Link to="/profile">Edit Profile</Link></li>
               <li><Link to="/setting">Settings</Link></li>

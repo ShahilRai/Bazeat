@@ -106,7 +106,7 @@ export function getProducts(req, res) {
                   items.is_like = ((plikes.length == 0) ? false : true)
                   item_arrays.push(items)
                   if(item_arrays.length == products.length) {
-                    return res.json({ item_arrays });
+                    return res.json({ item_arrays: item_arrays.sort() });
                   }
                 })
               })(i);
@@ -119,7 +119,7 @@ export function getProducts(req, res) {
               items.is_like = false
               item_arrays.push(items)
               if(item_arrays.length == products.length) {
-                return res.json({ item_arrays });
+                return res.json({ item_arrays: item_arrays.sort() });
               }
             })(i);
           }
@@ -165,8 +165,11 @@ export function deleteProduct(req, res) {
 
 export function getIngrdients(req, res){
   let re = new RegExp(req.query.search, 'i');
+  // let re = new RegExp('^'+req.query.search+'$', "i");
   Ingredient.find({ name: re }).sort('name').select("-_products -__v").exec(function
     (err, ingredients) {
+      console.log('ingredients.length > 0')
+      console.log(ingredients.length > 0)
       if (err){
         return res.status(422).send(err);
       }

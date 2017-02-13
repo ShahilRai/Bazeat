@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import toastr from 'toastr';
 import CheckoutStep from './CheckoutStep';
-let days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+let days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
 let months = ["january","Feburary","March","April","May","June","July","August","September","October","November","December"];
 let dayInMonth = [31,28,31,30,31,30,31,31,30,31,30,31];
 let perPageDateDisplay = 5;
@@ -46,7 +46,8 @@ export default class ProductPickupDate extends React.Component {
         orderDetail : {},
         sendematAlternateAddressDetail : {},
         budmatAlternateAddressDetail : {},
-        select_input: false
+        select_input: false,
+        disabled: false
       }
       this.pickupdate = this.pickupdate.bind(this);
       this.destination = this.destination.bind(this);
@@ -153,10 +154,12 @@ export default class ProductPickupDate extends React.Component {
 
 //display more 5 days for the deliver method Hentemat
   showMoreDays(){
+
     perPageDateDisplay = perPageDateDisplay+5;
     if(perPageDateDisplay>10)
     {
-      toastr.success('sorry, you can order only for next 10 days');
+      this.handleClik()
+      toastr.error('sorry, you can not do it again');
     }
     else{
       this.displayDataMonthDay();
@@ -164,7 +167,12 @@ export default class ProductPickupDate extends React.Component {
       _arrayOfMonthDayAndDate : _placeHolderArr
       });
       this.pickupdate();
+
     }
+  }
+
+  handleClik() {
+    this.setState( {disabled: !this.state.disabled} )
   }
 
   getSelectedDate(e){
@@ -448,7 +456,7 @@ export default class ProductPickupDate extends React.Component {
               }
             )}
             <div className="chkout_step1btns">
-            <button type="button" className="btn btn-default more_days_btn" onClick={this.showMoreDays.bind(this)}>Show more days</button>
+            <button type="button" className="btn btn-default more_days_btn" disabled={this.state.disabled?"disabled":''}onClick={this.showMoreDays.bind(this)}>Show more days</button>
             <button type="button" className="btn btn-default continue_btn" onClick={this.createOrder}>Continue</button>
             </div>
             <button type="button" className="btn btn-default continue_btn" onClick={ this.goToBackPage.bind(this)}>Back</button>
