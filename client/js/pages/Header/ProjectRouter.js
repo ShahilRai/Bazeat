@@ -94,7 +94,7 @@ export default class ProjectRouter extends React.Component {
             <HomeRoute path='/' component={profileComponent}>
               <Route path='/profile' component={ProfilePage} />
               <Route path='/setting' component={ProducerPasswordUpdate} />
-              <Route path='/message' component={AllMessages} />
+              <Route path='/message/:conversation_id' component={AllMessages} />
               <Route path='/orders' component={PurchaseOrders} />
               <Route path='/orders/:orderId' component={ReceivedOrder} />
               <Route path='/orders/:orderId/new-package' component={CreateNewPackage} />

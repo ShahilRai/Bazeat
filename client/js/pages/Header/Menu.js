@@ -66,7 +66,7 @@ export default class Menu extends React.Component {
           {cart_icon}
         </NotAuthenticated>
         <Authenticated>
-          <li className="dropbtn" id="dropbtn"><Link to="/message" onClick={this.messageIconValue.bind(this)}>
+          <li className="dropbtn" id="dropbtn"><Link to={"/message/"+userId} onClick={this.messageIconValue.bind(this)}>
             <a href="javascript:void(0)" className="message_icon">Messages
               {MessageIcon}
               {reviewIcon}
