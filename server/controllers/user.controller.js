@@ -1,6 +1,8 @@
 import User from '../models/user';
 import Order from '../models/order';
 import Cart from '../models/cart';
+import Product from '../models/product';
+import PurchaseOrder from '../models/purchaseorder';
 import * as MailService from '../services/mailer';
 import * as MessageService from '../services/twillio';
 import cuid from 'cuid';
@@ -408,7 +410,16 @@ export function update_order_after_paymnt(charge, order){
       }
     },{new: true}
     ).exec(function(err, updated_order){
-      // Send email to promoter for shipping
+      // updated_order.products.forEach(function(item, index){
+        Product.findOne({_id: updated_order.products[0]}).exec((err, product) =>{
+          const newPurchseorder = new PurchaseOrder();
+          newPurchseorder._order = order._id;
+          newPurchseorder._producer = product._producer;
+          newPurchseorder._buyer = order._buyer;
+          newPurchseorder.save();
+          // Send email to promoter for shipping
+        })
+      // })
   });
 }
 

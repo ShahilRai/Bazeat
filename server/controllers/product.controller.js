@@ -165,8 +165,11 @@ export function deleteProduct(req, res) {
 
 export function getIngrdients(req, res){
   let re = new RegExp(req.query.search, 'i');
+  // let re = new RegExp('^'+req.query.search+'$', "i");
   Ingredient.find({ name: re }).sort('name').select("-_products -__v").exec(function
     (err, ingredients) {
+      console.log('ingredients.length > 0')
+      console.log(ingredients.length > 0)
       if (err){
         return res.status(422).send(err);
       }

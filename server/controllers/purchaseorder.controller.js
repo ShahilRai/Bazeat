@@ -6,121 +6,45 @@ import OrderItem from '../models/orderitem';
 import PackageItem from '../models/packageitem';
 import cuid from 'cuid';
 import Package from '../models/package'
- import * as MailService from '../services/mailer';
+import * as MailService from '../services/mailer';
 import * as MessageService from '../services/twillio';
 const keySecret = process.env.SECRET_KEY;
 const keyPublishable = process.env.PUBLISHABLE_KEY;
 const stripe = require("stripe")(keySecret);
 
-
 export function getpurchaseOrders(req, res) {
-  User.findOne({email: req.query.email}).select("products -_id").exec((err, producer)=>{
-      if (err) {
-        return res.json(422, err);
-      }
-      Product.find({ _id: { "$in": producer.products }}).select("orders -_id").exec((err, products)=>{
-
+  User.findOne({email: req.query.email}).exec((err, producer)=>{
+    if (err) {
+      return res.json(422, err);
+    }
+    else{
+      PurchaseOrder.find({_producer: producer._id}).populate('_order _buyer').exec((err, orders)=>{
         if (err) {
           return res.json(422, err);
         }
-        else{
-          if(products){
-            let order_arr = []
-            products.forEach(function(item, index){
-              if (item.orders.length > 0){
-                item.orders.forEach(function(order_id, index1){
-                  order_arr.push(order_id)
-                  if((products.length == index+1) && (item.orders.length == index1+1))
-                  console.log('order_arr')
-                  console.log(order_arr)
-                  {
-                    Order.find({ _id: {"$in": order_arr }, payment_status: "succeeded"})
-                    .populate("orderitems _buyer")
-                    .populate("packages", null, {pkg_status: 'created'})
-                    .exec((err, orders)=>{
-                      console.log('orders')
-                      console.log(orders)
-                      if (err) {
-                        return res.json(422, err);
-                      }
-                      else{
-                        return res.json(orders);
-                      }
-                    })
-                  }
-                })
-              }
-            })
-          }
-          else{
-            return res.json({orders: "You don't have any orders yet"});
-          }
+        else {
+          return res.json(orders);
         }
       })
+    }
   })
 }
 
 export function getPackages(req, res) {
-  User.findOne({email: req.query.email}).select("products -_id").exec((err, producer)=>{
+  User.findOne({email: req.query.email}).exec((err, producer)=>{
     if (err) {
       return res.json(422, err);
     }
-    Product.find({ _id: {"$in": producer.products }}).select("orders -_id").exec((err, products)=>{
-      if (err) {
-        return res.json(422, err);
-      }
-      if(products){
-        let order_arr = []
-        products.forEach(function(pitem, index){
-          if (pitem.orders.length > 0){
-            pitem.orders.forEach(function(order_id, index1){
-              order_arr.push(order_id)
-              if((products.length == index+1) && (pitem.orders.length == index1+1)){
-                Order.find({ _id: {"$in": order_arr }, payment_status: "succeeded"}).select('packages -_id').exec((err, orders)=>{
-                  if (err) {
-                    return res.json(422, err);
-                  }
-                  else{
-                    if (orders){
-                      let package_arr = []
-                        orders.forEach(function(oitem, index3){
-                          if (oitem.packages.length > 0){
-                            oitem.packages.forEach(function(package_id, index4){
-                              package_arr.push(package_id)
-                              if((orders.length == index3+1) && (oitem.packages.length == index4+1))
-                              {
-                                Package.find({ _id: {"$in": package_arr}}).populate({
-                                  path: '_order',
-                                  model: 'Order',
-                                  populate: {
-                                    path: '_buyer',
-                                    model: 'User'
-                                  }
-                                  })
-                                  .populate('packageitems').exec((err, packages)=>{
-                                  if (err) {
-                                    return res.json(422, err);
-                                  }
-                                  else{
-                                    return res.json(packages);
-                                  }
-                                })
-                              }
-                            })
-                          }
-                        })
-                    }
-                    else{
-                      return res.json({packages: "You don't have any packages yet"});
-                    }
-                  }
-                })
-              }
-            })
-          }
-        })
-      }
-    })
+    else{
+      Package.find({_producer: producer._id, pkg_status: 'created'}).populate('_order _buyer packageitems').exec((err, packages)=>{
+        if (err) {
+          return res.json(422, err);
+        }
+        else{
+          return res.json(packages);
+        }
+      })
+    }
   })
 }
 
@@ -144,14 +68,17 @@ export function getpurchaseOrder(req, res) {
 
 
 export function createPackage(req, res){
-  const newPackage = new Package();
-  newPackage.save((err, packed) => {
-    return res.json(packed);
+  User.findOne({email: req.query.email}).exec((err, producer) =>{
+    const newPackage = new Package();
+    newPackage._producer = producer._id
+    newPackage.save((err, packed) => {
+      return res.json(packed);
+    })
   })
 }
 
 export function updatePackage(req, res) {
-  let status
+  let status = "Confirmed"
   let ship_qty = 0
   Order.findOne({cuid: req.body.cuid}).populate({path: 'packages',
     model: 'Package',
@@ -165,9 +92,6 @@ export function updatePackage(req, res) {
         if(pkg.packageitems.length == indx+1){
           if(ship_qty > 0 ){
             status = "Partially Shipped"
-          }
-          else {
-            status = "Confirmed"
           }
         }
       })
@@ -200,6 +124,8 @@ export function updatePackage(req, res) {
                 order.after_payment_status = status;
                 order.save();
                 upackage._order = order._id;
+                upackage._buyer = order._buyer;
+                upackage.carrier = order.delivery_method;
                 upackage.pkg_status = 'created';
                 upackage.pkg_date = req.body.pkg_date;
                 upackage.save((err, packed) => {
@@ -242,13 +168,14 @@ export function shipPackage(req, res) {
       "shippingdata.ship_date": req.body.ship_date,
       "status": req.body.status
     }
-  }, {new: true}).populate({
-              path: 'packageitems',
-              model: 'PackageItem',
-              populate: {
-                path: 'orderitems',
-                model: 'OrderItem'
-              }})
+  }, {new: true})
+  .populate({
+  path: 'packageitems',
+  model: 'PackageItem',
+  populate: {
+    path: 'orderitems',
+    model: 'OrderItem'
+  }})
   .exec((err, packge) => {
     if (err){
       return res.status(422).send(err);
