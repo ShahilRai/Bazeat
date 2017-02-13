@@ -77,7 +77,6 @@ export default class UserProfilePage extends React.Component {
   onFormSubmitSuccess(e, next){
     next();
     toastr.success('Profile successfully Updated');
-    this.context.router.push('/add-account');
   }
 
   handleDateChange(event) {
@@ -190,7 +189,7 @@ export default class UserProfilePage extends React.Component {
                         <div className="form-group row">
                           <LabelField htmlFor="desc" className="col-md-4 col-xs-12 col-form-label" label="Delivery information" />
                           <TextAreaFieldForUser name="delivery_options"  value = {this.state.user.delivery_options} >{this.state.user.delivery_options}</TextAreaFieldForUser>
-                          
+
                         </div>
                         <div className="form-group row">
                             <LabelField htmlFor="example-tel-input" className="col-md-4 col-xs-12 col-form-label" label="Visiting hours"/>
