@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import moment from 'moment';
 import { Link } from 'react-router';
 
 export default class PurchaseOrderSlip extends React.Component {
@@ -58,15 +59,15 @@ export default class PurchaseOrderSlip extends React.Component {
                         </li>
                         <li>
                           <h4>Order date</h4>
-                          <p>25-10-2016</p>
+                          <p>{this.state.orderData.createdAt? moment(this.state.orderData.createdAt).format('DD-MM-YYYY'): ""}</p>
                         </li>
                       </ul>
                     </div>
                     <div className="payslip_right">
                       <h4>Delivery address</h4>
-                      <p>Kari Normal
-                        <br/>Gaten 1<br/>
-                        0355 Oslo
+                      <p>{this.state.orderData.address? this.state.orderData.address.first_name: ""} {this.state.orderData.address? this.state.orderData.address.last_name: ""}
+                        <br/>{this.state.orderData.address? this.state.orderData.address.line1: ""}<br/>
+                        {this.state.orderData.address? this.state.orderData.address.postal_code: ""} {this.state.orderData.address? this.state.orderData.address.city: ""}
                       </p>
                     </div>
                   </div>
