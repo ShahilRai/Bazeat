@@ -106,7 +106,7 @@ export function getProducts(req, res) {
                   items.is_like = ((plikes.length == 0) ? false : true)
                   item_arrays.push(items)
                   if(item_arrays.length == products.length) {
-                    return res.json({ item_arrays });
+                    return res.json({ item_arrays: item_arrays.sort() });
                   }
                 })
               })(i);
@@ -119,7 +119,7 @@ export function getProducts(req, res) {
               items.is_like = false
               item_arrays.push(items)
               if(item_arrays.length == products.length) {
-                return res.json({ item_arrays });
+                return res.json({ item_arrays: item_arrays.sort() });
               }
             })(i);
           }
