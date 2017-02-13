@@ -38,6 +38,7 @@ const orderSchema = new Schema({
   shipment_vat_value: { type: Number, default: 0 },
   price_with_ship: { type: Number, default: 0 },
   net_price: { type: Number, default: 0 },
+  total_mva: { type: Number, default: 0 },
   vat: { type: Number, default: 0 },
   address: {
     email: { type: 'String' },
@@ -53,7 +54,7 @@ const orderSchema = new Schema({
   payment_status: { type: 'String' },
   after_payment_status: { type: 'String',default: 'Received' },
   packages: [{ type: Schema.ObjectId, ref: 'Package' }],
-  payment_transaction_id: { type: 'String' },
+  // payment_transaction_id: { type: 'String' },
   charge_id: { type: 'String' },
   timeslot: [slotSchema]},
   { timestamps: true }
