@@ -55,8 +55,6 @@ export function allReviews(req, res, next) {
   });
 }
 
-
-
 export function getReview(req, res, next) {
   let per_page = parseInt(req.query.per_page);
   let off_set = (parseInt(req.query.off_set) * per_page) ;
@@ -94,7 +92,6 @@ export function getReview(req, res, next) {
   });
 }
 
-
 export function newReview(req, res, next) {
    if(!req.query.reviewed_for) {
     res.status(422).send({ error: 'Please choose a valid recipient for your message.' });
@@ -115,7 +112,7 @@ export function newReview(req, res, next) {
       }
       const review = new Review({
         rating_and_review_id: newRatingAndReview._id,
-        body: req.body.review_body,
+        review: req.body.review_body,
         reviewed_by: user._id,
         reviewed_for: req.query.reviewed_for,
         is_reviewed: req.body.is_reviewed,
@@ -137,7 +134,6 @@ export function newReview(req, res, next) {
   });
 }
 
-
 export function avg_ratings(reviews, newReview, next, total_count, res){
   let total_rating = 0
   let avg_rating = 0
@@ -155,11 +151,10 @@ export function avg_ratings(reviews, newReview, next, total_count, res){
   })
 }
 
-
 export function sendReply(req, res, next) {
   User.findOne({ email: req.body.email }).exec((err, user) => {
     const comment = new Comment({
-      body: req.body.comment_body,
+      comment: req.body.comment_body,
       review: req.body.review_id ,
       is_commented: req.body.is_commented
     });
@@ -167,8 +162,7 @@ export function sendReply(req, res, next) {
       if (err) {
         res.send({ error: err });
       }
-      else{
-
+      else {
         Review.findOneAndUpdate({_id: req.body.review_id}, {$set: {'comment': comment._id, is_commented: req.body.is_commented}}, {new: true}).
         exec(function(err, model) {
         MailService.replied_review_mail(newComment, model, user)

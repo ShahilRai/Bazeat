@@ -33,7 +33,7 @@ export default class ReviewsWrittenByUser extends React.Component {
                       <div className="rvw_by_user">
                         <h4>{this.props.write_review_name}</h4>
                         <span className="user_rvw_txt">{this.props.write_review_user}</span>
-                        <Rating rating={moreCount} displayOnly={true} maxRating={5}  ratingSymbol={"\u2764"} />
+                        <Rating rating={moreCount} displayOnly={true} maxRating={5}  ratingSymbol={"\u2605"} />
                       </div>
                     </div>
                   </div>

@@ -17,9 +17,9 @@ export function addUser(req, res) {
     if (err) {
       return res.status(422).send(err);
     }
-    else{
+    else {
       // MailService.send_email(saved)
-      // MailService.budmat_order(saved)
+      MailService.budmat_order(saved)
       MessageService.sendMessage(saved.phone)
       return res.json({ user: saved });
     }
@@ -42,8 +42,8 @@ export function addTimeSlot(req, res) {
 export function removeTimeSlot(req, res) {
   User.findOneAndUpdate({ "timeslots._id": req.query.timeslot_id }, {
     $pull: { "timeslots": { _id: req.query.timeslot_id }}
-    },{new: true}).exec((err, timeslot) => {
-    if (err){
+    }, {new: true}).exec((err, timeslot) => {
+    if (err) {
       return res.status(422).send(err);
      }
      else {
@@ -57,7 +57,7 @@ export function getTimeSlot(req, res){
     if (err) {
       return res.status(422).send(err);
     }
-    else{
+    else {
       return res.json({timeslot});
     }
   });
@@ -68,7 +68,7 @@ export function getUsers(req, res) {
     if (err) {
       return res.status(422).send(err);
     }
-    else{
+    else {
       return res.json({ users });
     }
   });
@@ -107,8 +107,6 @@ export function deleteUser(req, res) {
       let client = new stormpath.Client();
       client.getAccount(user.unique_id, function (err, account) {
         account.delete(function(err, success) {
-          console.log(err)
-          console.log(success)
           res.status(200).send({msg: "User deleted successfully"});
         });
       });
@@ -233,31 +231,37 @@ export function checkAccount(req, res) {
 
 export function Payment(req, res) {
   User.findOne({ email: req.body.email }).exec((err, user) => {
-    Order.findOne({ _id: req.body.order_id }).populate('products').exec((err, order) => {
+    Order.findOne({ _id: req.body.order_id }).populate({
+    path: 'orderitems',
+    model: 'OrderItem',
+    populate: {
+      path: '_product',
+      model: 'Product'
+    }}).exec((err, order) => {
       if (err) {
         return res.status(422).send(err);
       }
       else {
-        if (user.customer_id){
+        if (user.customer_id) {
           stripe.customers.retrieve( user.customer_id,
           function(err, customer) {
             if (err) {
               return res.status(422).send(err);
             }
-            else{
+            else {
               create_card(customer, order, null, req.body, res)
             }
           });
         }
-        else{
+        else {
           stripe.customers.create({
             email: user.email,
             description: "Customer created with email " + user.email
           }, function(err, customer) {
-           if(err){
+           if(err) {
             console.log(err);
            }
-           else{
+           else {
             User.update({_id: user._id}, {$set: {customer_id: customer.id}},function(err) {
             })
             create_card(customer, order, null, req.body, res)
@@ -291,7 +295,9 @@ export function create_card(customer, order, next, req, res){
             console.log(err)
           }
           else{
-            User.findOne({_id: order.products[0]._producer}).exec((err, producer)=>{
+            console.log('order.products[0]._producer')
+            console.log(order.orderitems[0]._product._producer)
+            User.findOne({_id: order.orderitems[0]._product._producer}).exec((err, producer)=>{
               if(err){
                 console.log(err)
               }
@@ -302,12 +308,11 @@ export function create_card(customer, order, next, req, res){
           }
         }
       );
-      }
+    }
   })
 }
 
-
-export  function create_charge(customer, producer, card, order, next, req, res){
+export function create_charge(customer, producer, card, order, next, req, res) {
   let amount = Math.round(order.total_amount.toFixed(2)*100)
   let calculated_app_fee = ((order.total_amount*0.1)+(order.total_qty*3.00))
   let app_fee = Math.round(calculated_app_fee.toFixed(2)*100)
@@ -335,11 +340,11 @@ export  function create_charge(customer, producer, card, order, next, req, res){
             "address.phone_num": req.phone_num,
             "address.phone_num": req.phone_num,
           }
-        },{new: true}
-        ).exec(function(err, updated_order){
+        }, {new: true}
+        ).exec(function(err, updated_order) {
       });
-      MailService.send_email(charge)
       clear_cart(order._buyer)
+      MailService.budmat_order(order)
       update_order_after_paymnt(charge, order)
       return res.json({ charge: charge });
     }
@@ -358,10 +363,9 @@ function clear_cart(user_id) {
 
 export function hideAccount(req, res) {
   User.findOne({ email: req.body.email }).exec((err, user) => {
-    if (user.if_visible == false){
+    if(user.if_visible == false) {
       user.if_visible = true
-    }
-    else{
+    } else {
       user.if_visible = false
     }
     user.save((err, saved) => {
@@ -377,10 +381,10 @@ export function hideAccount(req, res) {
 
 export function disableAccount(req, res) {
   User.findOne({ email: req.body.email }).exec((err, user) => {
-    if (user.if_disable == false){
+    if(user.if_disable == false) {
       user.if_disable = true
     }
-    else{
+    else {
       user.if_disable = false
     }
     user.save((err, saved) => {
@@ -393,7 +397,6 @@ export function disableAccount(req, res) {
     });
   });
 }
-
 
 export function update_order_after_paymnt(charge, order){
   Order.findOneAndUpdate({"_id": order._id},
@@ -408,7 +411,6 @@ export function update_order_after_paymnt(charge, order){
       // Send email to promoter for shipping
   });
 }
-
 
 export function checkUserAccount(req,res){
   User.findOne({email: req.query.email}).exec((err, user) => {
