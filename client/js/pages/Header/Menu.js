@@ -44,9 +44,10 @@ export default class Menu extends React.Component {
     }
     var MessageIcon;
     var reviewIcon
+    var msgIconShow=this.props.allMessages.length
     var userId = this.props.cuid ? this.props.cuid : 'null'
     var profileHead = this.context.authenticated ? "header_rht_menu profile_rht_header dropdown" : "header_rht_menu";
-    if(ismsg == this.props.allMessages.length){
+    if(ismsg >0){
       MessageIcon = ( <span className="msg_qty" id="msg_qty">{ismsg}</span>)
     }
     if(this.state.isReview){

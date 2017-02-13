@@ -2907,7 +2907,7 @@ font-weight:600;
     margin: 0;
 }
 .tot_price_item{
-padding-right: 19px;
+padding-right: 19px;padding-top: 7px;
 }
 .gross_price{padding-right: 12px;}
 .profile_rht_header.header_rht_menu li.next_list .items_list_info ul li:last-child{
@@ -6154,4 +6154,7 @@ input.capitalize {
  .loading_spinner{
  	padding-left:602px;
  	padding-bottom: 35px;
+ }
+ .active_user_msg{
+  
  }
