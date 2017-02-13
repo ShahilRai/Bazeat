@@ -1291,7 +1291,7 @@ height: 435px;
 	border-radius:100%;
 	position:absolute;
 	left:8px;
-	top:43%;
+	top:5%;
 }
 
 .chat_window_left .chat_list{
@@ -2851,7 +2851,7 @@ height:30px;
     float: left;
     width: 70%;
     margin-left: 13px;
-    margin-top:7px; 
+    margin-top:7px;
 }
 .cross_items{
 	line-height: 26px;
@@ -3923,6 +3923,9 @@ button.more_days_btn{
 .rdonly:hover
 {
    cursor: pointer;
+}
+.pickup_row1:hover{
+	    background-color: #00aca2;
 }
 .pick_update .chkout_step1btns {
     padding: 0;
@@ -6157,7 +6160,4 @@ input.capitalize {
  .loading_spinner{
  	padding-left:602px;
  	padding-bottom: 35px;
- }
- .active_user_msg{
-  
  }

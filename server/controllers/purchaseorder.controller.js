@@ -280,11 +280,13 @@ function updated_order_after_ship(packge, next, res){
                 return res.json(order1);
               })
             }
-            if (order.total_qty == ship_qty){
-              order.after_payment_status = "Shipped"
-              order.save((err, order2) => {
-                return res.json(order2);
-              })
+            if(pkg.packageitems.length == indx+1){
+              if (order.total_qty == ship_qty){
+                order.after_payment_status = "Shipped"
+                order.save((err, order2) => {
+                  return res.json(order2);
+                })
+              }
             }
           }
         })
@@ -300,12 +302,12 @@ export  function updateToDeliver(req, res){
       return res.status(422).send(err);
     }
     if(order.after_payment_status == "Fulfilled"){
-      MailService.orderFullfilled(order)
-      MessageService.orderFullfilled(order)
+      // MailService.orderFullfilled(order)
+      // MessageService.orderFullfilled(order)
       stripe.charges.capture(
       order.charge_id,
       function(err, charge) {
-        return res.status(200).send({msg: "Charge has been released"});
+        return res.status(200).send(order);
       });
     }
   })
