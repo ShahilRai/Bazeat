@@ -79,7 +79,7 @@ export default class ReceivedOrder extends React.Component {
           , 'elementHandlers': specialElementHandlers
         },
       function (dispose) {
-        pdf.output('dataurlnewwindow');
+        pdf.save('po-slip');
       }
     )
   }
