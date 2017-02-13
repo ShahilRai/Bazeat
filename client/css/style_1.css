@@ -1032,6 +1032,9 @@ ul.edit_sidbar_list li a:hover, ul.edit_sidbar_list li.active a {
 	width: 100%;
 	;
 }
+.onhover:hover{
+	background-color: #00aca2;
+}
 .visting_hr_fotter {
 	background: #f2f2f2 none repeat scroll 0 0;
 	border-top: 1px solid #cccccc;
