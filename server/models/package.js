@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 import Order from '../models/order'
+import User from '../models/user'
 import OrderItem from '../models/orderitem'
 import PackageItem from '../models/packageitem'
 import autoIncrement from 'mongoose-auto-increment';
@@ -13,6 +14,9 @@ const packageSchema = new Schema({
     delivery_method: String,
     status:{type: 'String', default: "Not Shipped"},
     _order: { type: Schema.ObjectId, ref: 'Order' },
+    _producer: { type: Schema.ObjectId, ref: 'User' },
+    _buyer: { type: Schema.ObjectId, ref: 'User' },
+    carrier: {type: 'String', default: null},
     packageitems: [{ type: Schema.ObjectId, ref: 'PackageItem' }],
     pkg_status: {type: 'String', default: null},
     pkg_date: {type: 'Date'},

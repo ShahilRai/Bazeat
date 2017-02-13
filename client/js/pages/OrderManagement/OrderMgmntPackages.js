@@ -48,7 +48,7 @@ export default class OrderMgmntPackages extends React.Component {
   render(){
     let packageTable;
      if(this.state.packgesList.length > 0){
-      let tableheadValue=['Package date','Package#','Carrier','Sales order#','Status','Shipped date','Customer','Quantity']
+      let tableheadValue=['Package date','Package#','Carrier','Purchase order#','Status','Shipped date','Customer','Quantity']
         packageTable= (
           <div className="table-main">
             <div className="table-wrapper">

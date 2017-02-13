@@ -16,6 +16,8 @@ var _pckdQty =[];
 export default class CreateNewPackage extends React.Component {
 
   static contextTypes = {
+    authenticated: React.PropTypes.bool,
+    user: React.PropTypes.object,
     router: React.PropTypes.object.isRequired
   }
 
@@ -76,7 +78,8 @@ export default class CreateNewPackage extends React.Component {
   }
 
   generatePackageId() {
-    this.newPackageId().then((response) => {
+    let email = this.context.user.email
+    this.newPackageId(email).then((response) => {
       if(response.data) {
         this.setState({
           newPackageDetails: response.data
@@ -87,8 +90,8 @@ export default class CreateNewPackage extends React.Component {
     });
   }
 
-  newPackageId(){
-    return axios.post("/api/create_package");
+  newPackageId(email){
+    return axios.post("/api/create_package?email="+email);
   }
 
   savePackageOrder(){

@@ -51,9 +51,11 @@ export default class WriteReview extends React.Component {
             value : '',
             currentRating : 0
           });
+          $("#rate").find('.active').removeClass("active")
         }
     }).catch((err) => {
         toastr.error('Sorry, your review not submitted');
+         $("#rate").find('.active').removeClass("active")
         console.log(err);
     });
     this. getProducerArray();
@@ -95,7 +97,7 @@ export default class WriteReview extends React.Component {
                 </div>
                 <div className="form-group">
                   <label className="user_rvw_label">Your rating</label>
-                <div className="rvw_by_user">
+                <div className="rvw_by_user" id="rate">
                   <Rating  displayOnly={false} maxRating={5} onSubmit={this.handleClick.bind(this)} ratingSymbol={"\u2605"} />
                 </div>
               </div>

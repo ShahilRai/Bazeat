@@ -47,7 +47,7 @@ export default class DeliveryType extends React.Component {
       });
     }
     else{
-      toastr.success('cart weight is more than 10 kg so choose delivery method hentemat or budmat');
+      toastr.error('cart weight is more than 10 kg so choose delivery method hentemat or budmat');
     }
   }
 
@@ -78,7 +78,6 @@ export default class DeliveryType extends React.Component {
                <tr>
                 <th className="text-left">Delivery alternative</th>
                 <th className="text-left ">Info</th>
-                <th className="">Delivery date</th>
                 <th className="">Price</th>
                 </tr>
               </thead>
@@ -95,9 +94,6 @@ export default class DeliveryType extends React.Component {
                     {product.GuiInformation.DescriptionText}
                   </td>
                   <td>
-                    {product.ExpectedDelivery.WorkingDays}
-                  </td>
-                  <td>
                     {product.Price.PackagePriceWithoutAdditionalServices.AmountWithVAT}
                   </td>
                 </tr>
@@ -109,7 +105,7 @@ export default class DeliveryType extends React.Component {
         </div>
     }
     else if(this.state.sendematSelectedState == 'waiting' && (this.props.cart_detail.total_weight<10)){
-        sendemat_shipping_detail = <div className="table-main mtop40">
+        sendemat_shipping_detail = <div className="loading_spinner">
         <Loading type='spokes' color='#ff0000'/>
         </div>
     }
@@ -144,7 +140,9 @@ export default class DeliveryType extends React.Component {
                <button type="button" className="btn btn-default continue_btn" onClick={ this.goToBackPage.bind(this)}>Back</button>
             </div>
           </div>
+          <div className="table-main mtop40">
           {sendemat_shipping_detail}
+          </div>
         </div>
       </div>
     );

@@ -6,10 +6,6 @@ import Product from '../models/product';
 import async from 'async';
 import cuid from 'cuid';
 import request from 'request';
-import session from 'express-session';
-let LocalStorage = require('node-localstorage').LocalStorage;
-let localStorage = new LocalStorage('./scratch');
-
 
 export function getCart(req, res) {
   if(!req.params.cuid) {

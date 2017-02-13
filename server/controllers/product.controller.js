@@ -34,32 +34,38 @@ export function calculatePrice(req, res){
 }
 
 export function updateProduct(req, res) {
-  Product.findOne({ cuid: req.params.cuid }).exec((err, product) => {
-    Product.update({ cuid: req.params.cuid }, req.body.fieldValues, function(err, model) {
-      ProductCategory.update({ _products: product._id }, {$pullAll: {_products: [product._id]}}, { safe: true, multi: true }, function(err, model) {
-      })
-
-      ProductCategory.findByIdAndUpdate(product.product_category, {$push: {_products: product}} , function(err, model) {
-      })
-
-      Allergen.update({ _products: product._id }, { $pullAll: { _products : [product._id] }},
-        { safe: true, multi: true },
-        function removeConnectionsCB(err, obj) {
-      });
-
-      Allergen.update({_id: {"$in": product.allergens }}, { $pushAll: {_products: [product] }}, {multi: true}, function(err) {
-      });
-
-      Ingredient.update({ _products: product._id }, { $pullAll: { _products : [product._id] }},
-        { safe: true, multi: true },
-        function removeConnectionsCB(err, obj) {
-      });
-
-      Ingredient.update({_id: {"$in": product.ingredients }}, { $pushAll: {_products: [product] }}, {multi: true}, function(err) {
-      });
-
-      res.json({ product });
+  Product.findOneAndUpdate({cuid: req.params.cuid }, {$set: req.body.fieldValues}, {new: true}).exec((err, product) => {
+    ProductCategory.update({ _products: product._id }, {$pullAll: {_products: [product._id]}}, { safe: true, multi: true }, function(err, model) {
     })
+
+    ProductCategory.findByIdAndUpdate(product.product_category, {$push: {_products: product}} , function(err, model) {
+    })
+
+    Allergen.update({ _products: product._id }, { $pullAll: { _products : [product._id] }},
+      { safe: true, multi: true },
+      function removeConnectionsCB(err, obj) {
+    });
+
+    Allergen.update({_id: {"$in": product.allergens }}, { $pushAll: {_products: [product] }}, {multi: true}, function(err) {
+    });
+
+    Ingredient.update({ _products: product._id }, { $pullAll: { _products : [product._id] }},
+      { safe: true, multi: true },
+      function removeConnectionsCB(err, obj) {
+    });
+
+    Ingredient.update({_id: {"$in": product.ingredients }}, { $pushAll: {_products: [product] }}, {multi: true}, function(err) {
+    });
+    if (product.quantity <= 0){
+      Product.findOneAndUpdate({_id: product._id}, {$set: {is_disable: true}}, {new: true}).exec((err, product1) => {
+        return res.json({product1});
+      })
+    }
+    else{
+      Product.findOneAndUpdate({_id: productr._id}, {$set: {is_disable: false}}, {new: true}).exec((err, product2) => {
+        return res.json({product2});
+      })
+    }
   });
 }
 
@@ -100,7 +106,7 @@ export function getProducts(req, res) {
                   items.is_like = ((plikes.length == 0) ? false : true)
                   item_arrays.push(items)
                   if(item_arrays.length == products.length) {
-                    return res.json({ item_arrays });
+                    return res.json({ item_arrays: item_arrays.sort() });
                   }
                 })
               })(i);
@@ -113,7 +119,7 @@ export function getProducts(req, res) {
               items.is_like = false
               item_arrays.push(items)
               if(item_arrays.length == products.length) {
-                return res.json({ item_arrays });
+                return res.json({ item_arrays: item_arrays.sort() });
               }
             })(i);
           }
@@ -159,8 +165,11 @@ export function deleteProduct(req, res) {
 
 export function getIngrdients(req, res){
   let re = new RegExp(req.query.search, 'i');
+  // let re = new RegExp('^'+req.query.search+'$', "i");
   Ingredient.find({ name: re }).sort('name').select("-_products -__v").exec(function
     (err, ingredients) {
+      console.log('ingredients.length > 0')
+      console.log(ingredients.length > 0)
       if (err){
         return res.status(422).send(err);
       }
@@ -319,13 +328,13 @@ export function addRemoveLike(req, res) {
              return res.status(422).send(err);
             }
             else {
-              update_like_count(product)
+              update_like_count(product, 1)
               return res.json({is_like: true, msg: "like product successfully"});
             }
           });
         } else {
           like.remove(() => {
-            update_like_count(product)
+            update_like_count(product, -1)
             return res.status(200).send({is_like: false, msg: "Unlike product successfully"});
           });
         }
@@ -334,9 +343,7 @@ export function addRemoveLike(req, res) {
   });
 }
 
-function update_like_count(product) {
-  Like.find({ _product: product._id }).exec(function(err, like) {
-    product._producer.like_count = like.length
-    product._producer.save();
-  })
+function update_like_count(product, like_length) {
+  product._producer.like_count += like_length
+  product._producer.save();
 }

@@ -2848,6 +2848,7 @@ height:30px;
     float: left;
     width: 70%;
     margin-left: 13px;
+    margin-top:7px; 
 }
 .cross_items{
 	line-height: 26px;
@@ -2906,7 +2907,7 @@ font-weight:600;
     margin: 0;
 }
 .tot_price_item{
-padding-right: 19px;
+padding-right: 19px;padding-top: 7px;
 }
 .gross_price{padding-right: 12px;}
 .profile_rht_header.header_rht_menu li.next_list .items_list_info ul li:last-child{
@@ -3154,7 +3155,7 @@ border: 0;
     color: #808080;
     display: block;
     height: 131px;
-    left: 28%;
+    /*left: 28%;*/
     list-style: outside none none;
     overflow: auto;
     padding: 5px 15px 4px 10px;
@@ -5298,7 +5299,7 @@ margin-bottom: 7px;
 }
 .close_mail{
   float: right;    margin-top: 10px;
-
+}
 /*==================ABOUT US==================*/
 .static_container{padding:0 312px;}
 .about_container{
@@ -5432,7 +5433,6 @@ font-size: 13px;
 }
 .header_rht_menu li a {
  margin: 0 0px;
- padding: 7px 0px;
 }
 .header_search_bar {
  margin-top: 20px;
@@ -5709,12 +5709,12 @@ h3.search_tabbd_heading {
     font-size: 17px;
     text-align: center !important;
 }
-.custom_tab{padding-top: 171px;text-align: center;}
+.custom_tab{padding-top: 105px;text-align: center;}
 .react-tabs .ReactTabs__Tab.ReactTabs__Tab[role="tab"]{
 	margin: 0 20px;
 }
-.range_slider{width:100%;margin-right: 0;}
-.range_slider_col{width:100%;}
+.range_slider{width:100%;margin-right: 0;margin-top: -24px}
+.range_slider_col{width:100%;padding-top: 11px;}
 .prod_tab_section label{margin-bottom: 15px;}
 .bazeater_bg{width:100%;margin-right: 0;}
 
@@ -5738,7 +5738,7 @@ margin-left: 0;}
 .attnding_days li a{padding: 3px 0;}
 .rvw_by_user{width: 70%;}
 
-.items_list_info{left: -2px;right: 0;}
+.items_list_info{left: 11px;right: 0;}
 .chkout_pg {
     padding-left: 10px;
     padding-right: 10px;
@@ -6150,4 +6150,11 @@ input.capitalize {
  .loader_img{
  	padding-left: 364px;
  	zoom:70%;
+ }
+ .loading_spinner{
+ 	padding-left:602px;
+ 	padding-bottom: 35px;
+ }
+ .active_user_msg{
+  
  }
