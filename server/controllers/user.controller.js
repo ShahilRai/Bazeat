@@ -401,11 +401,13 @@ export function disableAccount(req, res) {
 }
 
 export function update_order_after_paymnt(charge, order){
+  console.log('charge')
+  console.log(charge)
   Order.findOneAndUpdate({"_id": order._id},
     {
       "$set": {
         "payment_status": charge.status,
-        "payment_transaction_id": charge.balance_transaction,
+        // "payment_transaction_id": charge.balance_transaction,
         "charge_id": charge.id,
       }
     },{new: true}

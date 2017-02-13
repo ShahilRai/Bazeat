@@ -63,15 +63,14 @@ export function addOrder(req, res) {
                 if(data.cartitems.length == order.orderitems.length) {
                   food_vat_value = (data.total_price-(data.total_price/(1+(0.15)))) ;
                   shipment_vat_value = (parseInt(req.body.shipment_price)-(parseInt(req.body.shipment_price)/(1+(0.25)))) ;
-                  order.total_amount = data.total_price + food_vat_value + shipment_vat_value + parseInt(req.body.shipment_price) ;
+                  order.total_amount = data.total_price + shipment_vat_value + parseInt(req.body.shipment_price) ;
                   order.total_weight = data.total_weight;
                   order.total_qty = data.total_qty;
-                  order.shipment_price = parseInt(req.body.shipment_price);
+                  order.shipment_price = (parseInt(req.body.shipment_price)+ parseInt(shipment_vat_value)).toFixed(2);
                   order.food_vat_value = food_vat_value.toFixed(2);
-                  order.food_vat_value = food_vat_value;
-                  order.shipment_vat_value = shipment_vat_value;
+                  order.shipment_vat_value = shipment_vat_value.toFixed(2);
                   order.net_price = data.total_price;
-                  order.price_with_ship = data.total_price + parseInt(req.body.shipment_price) ;
+                  order.total_mva = (food_vat_value + shipment_vat_value) ;
                   order.save(function (errors, order1) {
                     deduct_product_qty(order1)
                     if (errors){
