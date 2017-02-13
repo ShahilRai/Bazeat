@@ -1,4 +1,6 @@
 import React from 'react';
+import moment from 'moment';
+
 export default class UserPersonalInfo extends React.Component {
 
   static contextTypes = {
@@ -17,6 +19,7 @@ export default class UserPersonalInfo extends React.Component {
           <li className="review_date">
             <a href="javascript:void(0)">Man-Lør: 08-15</a>
           </li>
+          
         </div>
       )
     }
@@ -28,7 +31,7 @@ export default class UserPersonalInfo extends React.Component {
           </li>
             {source}
           <li className="review_cal">
-            <a href="javascript:void(0)">Became a Bazeater<br/>12.11.2016</a>
+            <a href="javascript:void(0)">Became a Bazeater<br/>{moment(this.props.userInfo.date_joined).format('DD-MM-YYYY')}</a>
           </li>
         </ul>
         <div className="product_left_dsc">
