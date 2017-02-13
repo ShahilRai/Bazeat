@@ -3155,7 +3155,7 @@ border: 0;
     color: #808080;
     display: block;
     height: 131px;
-    left: 28%;
+    /*left: 28%;*/
     list-style: outside none none;
     overflow: auto;
     padding: 5px 15px 4px 10px;

@@ -67,7 +67,7 @@ export default class PurchaseOrders extends React.Component {
               </thead>
               <tbody>
                 {this.state.ordersList.map((order, index) =>
-                <PurchaseOrdersList key = {index} index = {index} order={order} />)}
+                <PurchaseOrdersList key = {index} index = {index} order={order._order} customer={order._buyer} />)}
               </tbody>
             </table>
           </div>
