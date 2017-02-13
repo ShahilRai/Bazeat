@@ -47,7 +47,7 @@ export default class DeliveryType extends React.Component {
       });
     }
     else{
-      toastr.success('cart weight is more than 10 kg so choose delivery method hentemat or budmat');
+      toastr.error('cart weight is more than 10 kg so choose delivery method hentemat or budmat');
     }
   }
 
@@ -78,7 +78,6 @@ export default class DeliveryType extends React.Component {
                <tr>
                 <th className="text-left">Delivery alternative</th>
                 <th className="text-left ">Info</th>
-                <th className="">Delivery date</th>
                 <th className="">Price</th>
                 </tr>
               </thead>
@@ -93,9 +92,6 @@ export default class DeliveryType extends React.Component {
                   </td>
                   <td className="text-left">
                     {product.GuiInformation.DescriptionText}
-                  </td>
-                  <td>
-                    {product.ExpectedDelivery.WorkingDays}
                   </td>
                   <td>
                     {product.Price.PackagePriceWithoutAdditionalServices.AmountWithVAT}
