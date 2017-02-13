@@ -156,9 +156,13 @@ export default class AllMessages extends React.Component {
       if(src_receiver==undefined){
         src_receiver=require('../../../images/producer_logo.png')
       }
-
+      var active_msg
+      if(data.unread==true){
+        active_msg="active_user_msg"
+      }
+             
       return(
-        <div className={this.state.activeState === data.conversation_id?"chat_list active_user":"chat_list"} key={index} onClick = {this.showSingleMsgConverstation.bind(this, data.conversation_id)}>
+        <div className={this.state.activeState === data.conversation_id?"chat_list active_user":"chat_list "+active_msg} key={index} onClick = {this.showSingleMsgConverstation.bind(this, data.conversation_id)}>
           <a href="javascript:void(0)">
             <span className="user_img"><img className="user_profile_img" src={(data.sender.full_name == this.context.user.fullName) ? src_receiver : src_sender} /></span>
             <span className="chat_description" >

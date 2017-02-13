@@ -92,7 +92,7 @@ static contextTypes = {
                     <label className="user_rvw_label">Review by<span>{this.props.reviewedBy}</span></label>
                     <div className="rvw_by_user">
                       <span className="user_rvw_txt">{this.props.review_user}</span>
-                         <Rating  displayOnly={true} maxRating={5}  ratingSymbol={"\u2764"} />
+                         <Rating  displayOnly={true} maxRating={5}  ratingSymbol={"\u2605"} />
                     </div>
                   </div>
                   <div className="form-group">

@@ -52,7 +52,7 @@ export default class PurchaseOrders extends React.Component {
   render(){
     let purchaseTable;
     if(this.state.ordersList.length > 0){
-      let thValue=['Date','Package order#','Customer','Status','Packed','Shipped','Amount']
+      let thValue=['Date','Purchase order#','Customer','Status','Packed','Shipped','Amount']
       purchaseTable = (
         <div className="table-main overflow_none">
           <div className="table-wrapper">
@@ -67,7 +67,7 @@ export default class PurchaseOrders extends React.Component {
               </thead>
               <tbody>
                 {this.state.ordersList.map((order, index) =>
-                <PurchaseOrdersList key = {index} index = {index} order={order} />)}
+                <PurchaseOrdersList key = {index} index = {index} order={order._order} customer={order._buyer} />)}
               </tbody>
             </table>
           </div>

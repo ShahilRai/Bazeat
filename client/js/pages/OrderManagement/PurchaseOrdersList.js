@@ -44,7 +44,7 @@ export default class PurchaseOrdersList extends React.Component {
     });
   }
 
-  render(){
+  render() {
     var statusClass = "";
     var statusText = "";
     var pckd = "";
@@ -109,7 +109,7 @@ export default class PurchaseOrdersList extends React.Component {
         <td className="text-left bold">
           <Link to={"/orders/"+(this.props.order.cuid)}>{"SO-"+(this.props.order.orderId)}</Link>
         </td>
-        <td className="bold">{this.props.order._buyer ? this.props.order._buyer.full_name : ""}</td>
+        <td className="bold">{this.props.customer ? this.props.customer.full_name : ""}</td>
         <td className={statusClass}>{statusText}</td>
         <td><span className={pckd}>{pckdSpan}</span></td>
         <td><span className={shppd}>{shppdSpan}</span></td>
