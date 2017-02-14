@@ -10,46 +10,27 @@ export function allConversations(req, res, next) {
     if(err || user == null){
       res.status(422).send({err});
     }
-    else{
+    else {
       Conversation.find({ participants: user._id })
-        .select('_id')
+      .populate({
+        path: 'messages',
+        options: { limit: 1, sort: { 'createdAt': -1 } },
+        populate: {
+          path: 'receiver sender',
+          model: 'User',
+          select: 'full_name photo'
+        }
+      }).sort('-updatedAt')
         .exec(function(err, conversations) {
           if (err) {
             res.send({ error: err });
             return next(err);
           }
-          let fullConversations = [];
-          conversations.forEach(function(conversation) {
-            console.log(conversation)
-            Message.find({ 'conversation_id': conversation._id })
-              .sort('-createdAt')
-              .limit(1)
-              .populate({
-                path: 'sender',
-                select: 'full_name photo'
-              })
-              .populate({
-                path: 'receiver',
-                select: 'full_name photo'
-              })
-              .exec(function(err, message) {
-                if (err) {
-                  console.log('message')
-                  console.log(message)
-                  res.send({ error: err });
-                  return next(err);
-                }
-                fullConversations.push(message);
-                if(fullConversations.length === conversations.length) {
-                  return res.status(200).json({ conversations: fullConversations });
-                }
-              });
-          });
+          return res.status(200).json({ conversations: conversations });
       });
     }
   });
 }
-
 
 export function getConversation(req, res, next) {
   console.log('req.params.conversation_id')

@@ -121,14 +121,6 @@ export default class AllMessages extends React.Component {
     });
   }
 
-    msgBody(result){
-      return result.map((item, i) => {
-        return(
-          <p key={i}>{item.body}</p>
-        )
-      })
-    }
-
     _renderleftMenus(){
       return(
         <ul className="edit_sidbar_list">
@@ -147,10 +139,10 @@ export default class AllMessages extends React.Component {
     } else {
       this.state.select = <NewMessage conversation_id ={this.state.conversation_id} updateConversation={this.updateConversation.bind(this)}  conversation_id={this.state.conversation_id} loaded={this.state.picselected}/>
     }
-    
+
     var _msgConversations = this.state.allMsgConversations ? this.state.allMsgConversations : []
     var _results = _msgConversations.map((result, index) => {
-      var data = result[0];
+      var data = result.messages[0];
       var src_sender=data.sender.photo
       var src_receiver=data.receiver.photo
       if(src_sender==undefined){
@@ -167,9 +159,9 @@ export default class AllMessages extends React.Component {
         active_msg=""
         show_active=<span></span>
       }
-             
+
       return(
-        <Link to={"/message/"+data.conversation_id}>
+        <Link to={"/messages"}>
         {this.state.activeState==data.conversation_id? '': show_active}
         <div className={this.state.activeState === data.conversation_id?"chat_list active_user":"chat_list"} key={index} onClick = {this.showSingleMsgConverstation.bind(this, data.conversation_id)}>
           <a href="javascript:void(0)">
@@ -179,7 +171,8 @@ export default class AllMessages extends React.Component {
                 {(data.sender.full_name==this.context.user.fullName) ? changeCase.titleCase(data.receiver.full_name) : changeCase.titleCase(data.sender.full_name)}
                 <span > {moment(data.createdAt).format('DD-MM-YYYY')}</span>
               </h3>
-               {this.msgBody(result)}
+              <p>{data.body}</p>
+
             </span>
           </a>
         </div>
