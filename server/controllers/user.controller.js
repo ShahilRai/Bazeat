@@ -390,6 +390,10 @@ export function disableAccount(req, res) {
       user.if_disable = false
     }
     user.save((err, saved) => {
+      Product.update({ _producer: user._id }, { $set: { is_disable : saved.if_disable }},{ safe: true, multi: true },
+      function(err, product) {
+        console.log("updated "+product);
+      });
       if (err) {
         return res.status(422).send(err);
       }
