@@ -10,80 +10,51 @@ export function allConversations(req, res, next) {
     if(err || user == null){
       res.status(422).send({err});
     }
-    else{
+    else {
       Conversation.find({ participants: user._id })
-        .select('_id')
+      .populate({
+        path: 'messages',
+        options: { limit: 1, sort: { 'createdAt': -1 } },
+        populate: {
+          path: 'receiver sender',
+          model: 'User',
+          select: 'full_name photo'
+        }
+      }).sort('-updatedAt')
         .exec(function(err, conversations) {
           if (err) {
             res.send({ error: err });
             return next(err);
           }
-          let fullConversations = [];
-          conversations.forEach(function(conversation) {
-            console.log(conversation)
-            Message.find({ 'conversation_id': conversation._id })
-              .sort('-createdAt')
-              .limit(1)
-              .populate({
-                path: 'sender',
-                select: 'full_name photo'
-              })
-              .populate({
-                path: 'receiver',
-                select: 'full_name photo'
-              })
-              .exec(function(err, message) {
-                if (err) {
-                  console.log('message')
-                  console.log(message)
-                  res.send({ error: err });
-                  return next(err);
-                }
-                fullConversations.push(message);
-                if(fullConversations.length === conversations.length) {
-                  return res.status(200).json({ conversations: fullConversations });
-                }
-              });
-          });
+          return res.status(200).json({ conversations: conversations });
       });
     }
   });
 }
 
-
 export function getConversation(req, res, next) {
-  console.log('req.params.conversation_id')
-  console.log(req.params.conversation_id)
-  Message.update({conversation_id: req.params.conversation_id}, {unread: false}, {multi: true, new: true}).exec(function(err, updated_messages) {
+  Conversation.findOne({_id: req.params.conversation_id})
+  .populate({
+    path: 'messages',
+    options: { sort: { 'createdAt': 1 } },
+    populate: {
+      path: 'receiver sender',
+      model: 'User',
+      select: 'full_name photo'
+    }
+  })
+  .exec(function(err, conversation) {
+    console.log(conversation)
+    console.log("messages")
     if(err) {
       return res.status(422).json({ err });
     } else {
-      Message.find({ conversation_id: req.params.conversation_id })
-        .select('createdAt body sender receiver')
-        .sort('createdAt')
-        // .limit(2)
-        .populate({
-          path: 'sender',
-          select: 'full_name photo'
-        })
-        .populate({
-          path: 'receiver',
-          select: 'full_name photo'
-        })
-        .exec(function(err, messages) {
-          if (err) {
-            return res.status(422).json({ err });
-            return next(err);
-          } else {
-            return res.status(200).json({ messages });
-          }
-      });
+      return res.status(200).json({ messages: conversation.messages });
     }
   })
 }
 
 export function newConversation(req, res) {
-  let conv
   if(!req.query.recipient_id) {
     return res.status(422).send({ error: 'Please choose a valid recipient for your message.' });
   }
@@ -92,18 +63,14 @@ export function newConversation(req, res) {
   }
   User.findOne({ email: req.body.email }).exec((err, user) => {
     Conversation.findOne({participants: [user._id, req.query.recipient_id]}).exec(function(err,conversation){
-        console.log("1")
-      console.log(conversation)
-      if(conversation){
+      if(conversation) {
         newMessage(conversation, null, res, user, req)
       }
-      else{
+      else {
         const conversation = new Conversation({
           participants: [user._id, req.query.recipient_id]
         });
         conversation.save(function(err, newConversation) {
-            console.log('2')
-            console.log(newConversation)
           if (err) {
             res.status(422).send({err});
           }
@@ -112,12 +79,11 @@ export function newConversation(req, res) {
           }
         });
       }
-
     })
   });
 }
 
-export  function newMessage(conversation, next, res, user, req){
+export function newMessage(conversation, next, res, user, req){
   const message = new Message({
     conversation_id: conversation._id,
     body: req.body.composedMessage,
@@ -133,7 +99,6 @@ export  function newMessage(conversation, next, res, user, req){
   });
 }
 
-
 export function sendReply(req, res, next) {
   User.findOne({ email: req.body.email }).exec((err, user) => {
     const reply = new Message({
@@ -148,68 +113,46 @@ export function sendReply(req, res, next) {
         return next(err);
       }
       MailService.message_email(sentReply, user)
-        Message.findOne({_id: sentReply._id })
-          .select('createdAt updatedAt body sender receiver conversation_id')
-          .populate({
-            path: 'sender',
-            select: 'full_name photo'
-          })
-          .populate({
-            path: 'receiver',
-            select: 'full_name photo'
-          })
-          .exec(function(err, message) {
-            if (err) {
-              return res.status(422).json({ err });
-            } else {
-              console.log(message)
-              return res.status(200).json(message);
-            }
-        });
-
+      Message.findOne({_id: sentReply._id })
+        .populate({
+          path: 'sender receiver',
+          select: 'full_name photo'
+        })
+        .exec(function(err, message) {
+          if (err) {
+            return res.status(422).json({ err });
+          } else {
+            console.log(message)
+            return res.status(200).json(message);
+          }
+      });
     });
   });
 }
 
-export function msgCount(req, res){
+export function msgCount(req, res) {
   User.findOne({ email: req.query.email }).exec((err, user) => {
-    Conversation.find({ participants: user._id })
-      .sort('-updatedAt')
-      .limit(2)
-      .select('_id')
-      .exec(function(err, conversations) {
-        console.log('conversations')
-        console.log(conversations)
-        if (err) {
-          res.send({ error: err });
-          return next(err);
+    if(err || user == null){
+      res.status(422).send({err});
+    }
+    else {
+      Conversation.find({ participants: user._id })
+      .populate({
+        path: 'messages',
+        options: { unread: true, limit: 1, sort: { 'createdAt': -1 } },
+        populate: {
+          path: 'receiver sender',
+          model: 'User',
+          select: 'full_name photo'
         }
-        // Set up empty array to hold conversations + most recent message
-        let fullConversations = [];
-        conversations.forEach(function(conversation, index) {
-          Message.find({ 'conversation_id': conversation._id, receiver: user._id, unread: true})
-            .sort('-createdAt')
-            .limit(1)
-            .populate({
-              path: 'sender',
-              select: 'full_name photo'
-            })
-            .populate({
-              path: 'receiver',
-              select: 'full_name photo'
-            })
-            .exec(function(err, message) {
-              if (err) {
-                res.send({ error: err });
-                return next(err);
-              }if(message.length>0){
-                fullConversations.push(message);
-              }
-              if(index+1 === conversations.length) {
-                return res.status(200).json({ conversations: fullConversations });
-              }
-            });
-        });
-    });
+      }).limit(2).sort('-updatedAt')
+        .exec(function(err, conversations) {
+          if (err) {
+            res.send({ error: err });
+            return next(err);
+          }
+          return res.status(200).json({ conversations: conversations });
+      });
+    }
   });
 }
