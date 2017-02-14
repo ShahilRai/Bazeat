@@ -57,7 +57,7 @@ export default class ReviewPage extends React.Component {
     this.loadCurrentUserReview(this.context.user.email).then((response) => {
       if(response.data) {
         this.setState({
-          current_user_review : response.data.fullReviews
+          current_user_review : response.data.reviews
         });
       }
     }).catch((err) => {
@@ -67,7 +67,7 @@ export default class ReviewPage extends React.Component {
     this.loadUserReviwData(this.context.user.email).then((response) => {
       if(response.data) {
         this.setState({
-          users_data : response.data.producer_arr
+          users_data : response.data.purchaseorders
         });
       }
     }).catch((err) => {
@@ -124,8 +124,11 @@ export default class ReviewPage extends React.Component {
   }
 
   getUserId(e, i) {
+    console.log("this.state.users_data[i]")
+    console.log(this.state.users_data[i])
     this.setState({
-      user_id : this.state.users_data[i].id,
+      producer_id : this.state.users_data[i]._producer.id,
+      purchase_order_id : this.state.users_data[i].id,
       index : i
     })
   }
@@ -162,7 +165,7 @@ export default class ReviewPage extends React.Component {
     this.loadCurrentUserReview(this.context.user.email).then((response) => {
       if(response.data) {
         this.setState({
-          current_user_review : response.data.fullReviews
+          current_user_review : response.data.reviews
         });
       }
     }).catch((err) => {
@@ -195,8 +198,8 @@ export default class ReviewPage extends React.Component {
        userId = review.cuid
       return(
         <div className="user_reveiw_list">
-          <span className="rvw_user_img"><img src={review.photo} className="profile_image" /></span>
-          <span className="rvw_username"><Link to={"/user/"+userId} className = "rfont_colr">{changeCase.titleCase(review.full_name)}</Link><br/>
+          <span className="rvw_user_img"><img src={review._producer.photo} className="profile_image" /></span>
+          <span className="rvw_username"><Link to={"/user/"+userId} className = "rfont_colr">{changeCase.titleCase(review._producer.full_name)}</Link><br/>
             <span className="prod_review_date">{moment(review.date_joined).format('DD-MM-YYYY')}</span>
           </span>
           <span className="rvw_description">Write a review to share your thoughts and provide helpful feedback to Producer Name. Please bare in mind that reviews are public.</span>
@@ -226,23 +229,23 @@ export default class ReviewPage extends React.Component {
     })
 
     var _allCurrentReview = this.state.current_user_review ? this.state.current_user_review : []
-    _allCurrentReviewResult = _allCurrentReview.map((current_review, index)=>{
-      return current_review.map((item, i)=>{
+    _allCurrentReviewResult = _allCurrentReview.map((item, index)=>{
+      console.log(" current item")
+       console.log(item)
         if(item.reviewed_for.id==this.state.current_user_data){
           this.state.count.push(item);
           cuUserId =item.reviewed_by.cuid
           return(
             <div className="user_reveiw_list f2f2f2_bg">
-              <span className="rvw_user_img"><img src={item.reviewed_by.photo} height="50" width="50"/> </span>
+              <span className="rvw_user_img"><img src={item._review.reviewed_by.photo} height="50" width="50"/> </span>
               <span className="rvw_username"><Link to={"/user/"+cuUserId} className = "rfont_colr">{changeCase.titleCase(item.reviewed_by.full_name)}</Link><br/>
-                <Rating  displayOnly={true} rating={item.rating} maxRating={5}  ratingSymbol={"\u2605"} />
+                <Rating  displayOnly={true} rating={item._review.rating} maxRating={5}  ratingSymbol={"\u2605"} />
               </span>
-              <span className="rvw_description">{item.review}</span>
+              <span className="rvw_description">{item._review.review}</span>
               <button type="submit" className="btn read_btn" data-toggle="modal" data-target={"#user_review" +this.state.review_index}  onClick={(e) => this.getReviewId(e, index)}>Read</button>
             </div>
           )
         }
-      })
     })
 
     if(this.state.count.length>0){
@@ -284,7 +287,7 @@ export default class ReviewPage extends React.Component {
                   {allCurrentWriteReviewResult}
                 </div>
                 <ReviewAboutUser reviewedBy={this.state.reviewedBy} review_index={this.state.review_index} review_id={this.state.review_id} review_user={this.state.review_user} is_replied={this.state.is_replied} updatedComment={this.commentedData.bind(this)} rating_count={this.state.rating_count} />
-               <WriteReview user_id={this.state.user_id} index={this.state.index} updateReviews={this.updateupdateReviews.bind(this)} updateWrittenReviews={this.updateProducerReviews.bind(this)}/>
+               <WriteReview user_id={this.state.user_id} index={this.state.index} updateReviews={this.updateupdateReviews.bind(this)} updateWrittenReviews={this.updateProducerReviews.bind(this)} producer_id={this.state.producer_id} purchase_order_id={this.state.purchase_order_id}/>
                <ReviewsWrittenByUser write_index={this.state.write_index} write_review_user={this.state.write_review_user} write_review_name={this.state.write_review_name} given_rating_count={this.state.given_rating_count}/>
             </div>
           </div>

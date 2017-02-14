@@ -4,54 +4,79 @@ import  Comment from '../models/comment'
 import  User from '../models/user'
 import  Order from '../models/order'
 import  Product from '../models/product'
+import  PurchaseOrder from '../models/purchaseorder'
 import * as MailService from '../services/mailer';
 import * as MessageService from '../services/twillio';
 
 export function allReviews(req, res, next) {
+  // User.findOne({ email: req.query.email }).exec((err, user) => {
+  //   RatingAndReview.find({ participants: user._id })
+  //   .select('_id')
+  //   .exec(function(err, reviews) {
+  //     if (err) {
+  //       res.send({ error: err });
+  //       return next(err);
+  //     }
+  //     else{
+  //       if(reviews.length > 0){
+  //         let fullReviews = [];
+  //         reviews.forEach(function(review) {
+  //           Review.find({ 'rating_and_review_id': review._id })
+  //             .sort('-createdAt')
+  //             .limit(5)
+  //             .populate({
+  //               path: 'reviewed_by',
+  //               select: 'full_name photo cuid'
+  //             })
+  //             .populate({
+  //               path: 'reviewed_for',
+  //               select: 'full_name photo cuid'
+  //             })
+  //             .populate({
+  //               path: 'comment',
+  //               select: 'comment is_commented'
+  //             })
+  //             .exec(function(err, review1) {
+  //               if (err) {
+  //                 res.send({ error: err });
+  //                 return next(err);
+  //               }
+  //               fullReviews.push(review1);
+  //               if(fullReviews.length === reviews.length) {
+  //                 return res.status(200).json({fullReviews });
+  //               }
+  //             });
+  //         });
+  //       }
+  //       else{
+  //         return res.status(200).json({msg: "No reviews to show" });
+  //       }
+  //     }
+  //   });
+  // });
   User.findOne({ email: req.query.email }).exec((err, user) => {
-    RatingAndReview.find({ participants: user._id })
-    .select('_id')
-    .exec(function(err, reviews) {
-      if (err) {
-        res.send({ error: err });
-        return next(err);
-      }
-      else{
-        if(reviews.length > 0){
-          let fullReviews = [];
-          reviews.forEach(function(review) {
-            Review.find({ 'rating_and_review_id': review._id })
-              .sort('-createdAt')
-              .limit(5)
-              .populate({
-                path: 'reviewed_by',
-                select: 'full_name photo cuid'
-              })
-              .populate({
-                path: 'reviewed_for',
-                select: 'full_name photo cuid'
-              })
-              .populate({
-                path: 'comment',
-                select: 'comment is_commented'
-              })
-              .exec(function(err, review1) {
-                if (err) {
-                  res.send({ error: err });
-                  return next(err);
-                }
-                fullReviews.push(review1);
-                if(fullReviews.length === reviews.length) {
-                  return res.status(200).json({fullReviews });
-                }
-              });
-          });
+    if(err || user == null){
+      res.status(422).send({err});
+    }
+    else {
+      RatingAndReview.find({ participants: user._id })
+      .populate({
+        path: '_review',
+        options: { limit: 1, sort: { 'createdAt': -1 } },
+        populate: {
+          path: 'reviewed_by reviewed_for',
+          model: 'User',
+          select: 'full_name photo'
         }
-        else{
-          return res.status(200).json({msg: "No reviews to show" });
-        }
-      }
-    });
+      }).sort('-updatedAt')
+        .exec(function(err, reviews) {
+          if (err) {
+            res.send({ error: err });
+            return next(err);
+          }
+          return res.status(200).json({ reviews: reviews });
+      });
+    }
   });
 }
 
@@ -70,11 +95,7 @@ export function getReview(req, res, next) {
       Review.find({reviewed_for: user._id})
         .sort("-createdAt").limit(per_page).skip(off_set)
         .populate({
-          path: 'reviewed_by',
-          select: 'full_name photo cuid'
-        })
-        .populate({
-          path: 'reviewed_for',
+          path: 'reviewed_by reviewed_for',
           select: 'full_name photo cuid'
         })
         .populate({
@@ -93,7 +114,7 @@ export function getReview(req, res, next) {
 }
 
 export function newReview(req, res, next) {
-   if(!req.query.reviewed_for) {
+  if(!req.query.reviewed_for) {
     res.status(422).send({ error: 'Please choose a valid recipient for your message.' });
     return next();
   }
@@ -116,6 +137,7 @@ export function newReview(req, res, next) {
         reviewed_by: user._id,
         reviewed_for: req.query.reviewed_for,
         is_reviewed: req.body.is_reviewed,
+        _purhase_order: req.body.purchase_order_id,
         rating: req.body.rating
       });
       review.save(function(err, newReview) {
@@ -124,9 +146,8 @@ export function newReview(req, res, next) {
           return next(err);
         }
         MailService.review_email(newReview, user)
-         Review.find({reviewed_for: newReview.reviewed_for}, function(err, model) {
-          let total_count = model.length
-          let reviews = model
+        Review.find({reviewed_for: newReview.reviewed_for}, function(err, reviews) {
+          let total_count = reviews.length
           avg_ratings(reviews, newReview, null, total_count, res)
         })
       });
@@ -138,16 +159,16 @@ export function avg_ratings(reviews, newReview, next, total_count, res){
   let total_rating = 0
   let avg_rating = 0
   reviews.forEach(function(item, index) {
-      total_rating += item.rating
-      avg_rating = (total_rating/total_count)
-      User.findOneAndUpdate({_id: item.reviewed_for}, {$set: {'avg_rating': avg_rating}}, {new: true}).
-      exec(function(err, user) {
-        if (reviews.length == index+1){
-          user.reviews_count = total_count
-          user.save();
-          return res.status(200).json({newReview});
-        }
-      })
+    total_rating += item.rating
+    avg_rating = (total_rating/total_count)
+    User.findOneAndUpdate({_id: item.reviewed_for}, {$set: {'avg_rating': avg_rating}}, {new: true}).
+    exec(function(err, user) {
+      if (reviews.length == index+1){
+        user.reviews_count = total_count
+        user.save();
+        return res.status(200).json({newReview});
+      }
+    })
   })
 }
 
@@ -174,73 +195,108 @@ export function sendReply(req, res, next) {
 }
 
 export function reviewUserList(req, res){
+  // User.findOne({ email: req.query.email }).exec((err, user) => {
+  //   Order.find({_buyer: user._id}).select("products").exec((err, products) => {
+  //     let products_arr = []
+  //     let producer_arr = []
+  //     products.forEach(function(item, index1) {
+  //       products_arr.push(item.products[0])
+  //       if(products.length == index1+1){
+  //         Product.find({_id: {"$in": products_arr }}).populate("_producer").exec((err, producer)=>{
+  //           if(producer){
+  //             producer.forEach(function(item, index) {
+  //               Review.find({reviewed_for: item._producer._id, is_reviewed: true}).exec((err,review) =>{
+  //                 if(review.length == 0){
+  //                   producer_arr.push(item._producer)
+  //                 }
+  //                 if(producer.length == index+1){
+  //                   return res.json({producer_arr});
+  //                 }
+  //               })
+  //             })
+  //           }
+  //         })
+  //       }
+  //     })
+  //   });
+  // });
   User.findOne({ email: req.query.email }).exec((err, user) => {
-    Order.find({_buyer: user._id}).select("products").exec((err, products) => {
-      let products_arr = []
-      let producer_arr = []
-      products.forEach(function(item, index1) {
-        products_arr.push(item.products[0])
-        if(products.length == index1+1){
-          Product.find({_id: {"$in": products_arr }}).populate("_producer").exec((err, producer)=>{
-            if(producer){
-              producer.forEach(function(item, index) {
-                Review.find({reviewed_for: item._producer._id, is_reviewed: true}).exec((err,review) =>{
-                  if(review.length == 0){
-                    producer_arr.push(item._producer)
-                  }
-                  if(producer.length == index+1){
-                    return res.json({producer_arr});
-                  }
-                })
-              })
-            }
-          })
-        }
-      })
-    });
+    PurchaseOrder.find({_buyer: user._id , is_reviewed: false}).populate('_producer').exec((err,purchaseorders) => {
+      if(err) {
+        return res.send({ err });
+      }
+      else {
+        console.log()
+        return res.status(200).json({purchaseorders});
+      }
+    })
   });
 }
 
 export function reviewsCount(req,res){
-  User.findOne({ email: req.query.email }).exec((err, user) => {
-    RatingAndReview.find({ participants: user._id })
-      .sort('-updatedAt')
-      .limit(2)
-      .select('_id')
-      .exec(function(err, ratingreviews) {
-        if (err) {
-          res.send({ error: err });
-          return next(err);
+  // User.findOne({ email: req.query.email }).exec((err, user) => {
+  //   RatingAndReview.find({ participants: user._id })
+  //     .sort('-updatedAt')
+  //     .limit(2)
+  //     .select('_id')
+  //     .exec(function(err, ratingreviews) {
+  //       if (err) {
+  //         res.send({ error: err });
+  //         return next(err);
+  //       }
+  //       let fullReviews = [];
+  //       ratingreviews.forEach(function(ratingreview, index) {
+  //         Review.find({ 'rating_and_review_id': ratingreview._id, reviewed_for: user._id, is_reviewed: true})
+  //           .sort('-createdAt')
+  //           .limit(1)
+  //           .populate({
+  //             path: 'reviewed_by',
+  //             select: 'full_name photo cuid'
+  //           })
+  //           .populate({
+  //             path: 'reviewed_for',
+  //             select: 'full_name photo cuid'
+  //           })
+  //           .populate({
+  //             path: 'comment',
+  //             select: 'comment is_commented'
+  //           })
+  //           .exec(function(err, review) {
+  //             if (err) {
+  //               res.send({ error: err });
+  //               return next(err);
+  //             }if(review.length>0){
+  //               fullReviews.push(review);
+  //             }
+  //             if(index+1 === ratingreviews.length) {
+  //               return res.status(200).json({ reviews: fullReviews });
+  //             }
+  //           });
+  //       });
+  //   });
+  // });
+   User.findOne({ email: req.query.email }).exec((err, user) => {
+    if(err || user == null){
+      res.status(422).send({err});
+    }
+    else {
+      RatingAndReview.find({ participants: user._id })
+      .populate({
+        path: '_review',
+        options: { is_reviewed: true, limit: 1, sort: { 'createdAt': -1 } },
+        populate: {
+          path: 'reviewed_by reviewed_for',
+          model: 'User',
+          select: 'full_name photo'
         }
-        let fullReviews = [];
-        ratingreviews.forEach(function(ratingreview, index) {
-          Review.find({ 'rating_and_review_id': ratingreview._id, reviewed_for: user._id, is_reviewed: true})
-            .sort('-createdAt')
-            .limit(1)
-            .populate({
-              path: 'reviewed_by',
-              select: 'full_name photo cuid'
-            })
-            .populate({
-              path: 'reviewed_for',
-              select: 'full_name photo cuid'
-            })
-            .populate({
-              path: 'comment',
-              select: 'comment is_commented'
-            })
-            .exec(function(err, review) {
-              if (err) {
-                res.send({ error: err });
-                return next(err);
-              }if(review.length>0){
-                fullReviews.push(review);
-              }
-              if(index+1 === ratingreviews.length) {
-                return res.status(200).json({ reviews: fullReviews });
-              }
-            });
-        });
-    });
+      }).limit(2).sort('-updatedAt')
+        .exec(function(err, reviews) {
+          if (err) {
+            res.send({ error: err });
+            return next(err);
+          }
+          return res.status(200).json({ reviews: reviews });
+      });
+    }
   });
 }
