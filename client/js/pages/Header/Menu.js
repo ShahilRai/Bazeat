@@ -7,7 +7,6 @@ import MessageDropdown from '../MessageAndReviews/MessageDropdown';
 import { IndexRoute, Route, browserHistory } from 'react-router';
 import { Router, LoginLink, LogoutLink, NotAuthenticated, Authenticated } from 'react-stormpath';
 var changeCase = require('change-case')
-let ismsg= ''
 export default class Menu extends React.Component {
 
   static contextTypes = {
@@ -22,12 +21,6 @@ export default class Menu extends React.Component {
       isReview : '',
       allMessages:[]
     };
-
-  }
-
-
-  messageIconValue(){
-    ismsg=''
   }
 
   logoutLink() {
@@ -35,8 +28,14 @@ export default class Menu extends React.Component {
   }
 
   render() {
-    ismsg=this.props.allMessages.length
-
+    var ismsg=0
+    var _allMessages = this.props.allMessages ? this.props.allMessages : []
+    _allMessages.map((msg,index) =>{
+     let data = msg.messages[0]
+      if(data.unread && this.props.email==data.receiver.email){
+        ismsg +=1
+      }
+    })
     var cart_icon = <CartModal />
     if((this.context.router.location.pathname == '/checkout')||(this.context.router.location.pathname == '/orders'))
     {
@@ -44,7 +43,6 @@ export default class Menu extends React.Component {
     }
     var MessageIcon;
     var reviewIcon
-    var msgIconShow=this.props.allMessages.length
     var userId = this.props.cuid ? this.props.cuid : 'null'
     var profileHead = this.context.authenticated ? "header_rht_menu profile_rht_header dropdown" : "header_rht_menu";
     if(ismsg >0){
@@ -66,7 +64,7 @@ export default class Menu extends React.Component {
           {cart_icon}
         </NotAuthenticated>
         <Authenticated>
-          <li className="dropbtn" id="dropbtn"><Link to={"/messages"} onClick={this.messageIconValue.bind(this)}>
+          <li className="dropbtn" id="dropbtn"><Link to={"/messages"} >
             <a href="javascript:void(0)" className="message_icon">Messages
               {MessageIcon}
               {reviewIcon}

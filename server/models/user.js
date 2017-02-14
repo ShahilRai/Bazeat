@@ -68,6 +68,7 @@ const userSchema = new Schema({
   producer_info: { type: ifProducer, default: ifProducer },
   user_info: { type: ifUser, default: ifUser },
   products: [{ type: Schema.ObjectId, ref: 'Product' }],
+  purchased_products: [{ type: Schema.ObjectId, ref: 'Product' }],
   orderitems: [{ type: Schema.ObjectId, ref: 'OrderItem' }],
   unique_id: { type: String },
   default_shipping: { type: Number },

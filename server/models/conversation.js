@@ -11,7 +11,9 @@ const conversationSchema = new Schema({
 
 conversationSchema.post('findOne', function(conversation) {
   if(conversation) {
-    Message.update({conversation_id: conversation._id}, {$set: {unread: false}} , function(err, model) {
+    Message.update({conversation_id: conversation._id}, {$set: {unread: false}}, {multi: true} , function(err, model) {
+    	console.log('err')
+    	console.log(err)
     })
   }
 });

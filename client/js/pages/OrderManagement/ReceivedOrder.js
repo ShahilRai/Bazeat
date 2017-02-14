@@ -186,9 +186,6 @@ export default class ReceivedOrder extends React.Component {
                         </li>
                       </ul>
                       <EditPurchaseOrder _updateAddress={this._updateAddress} orderDetails={this.state.orderDetails} orderItems={this.state.orderItems}/>
-                      <div className="modal fade prod_modal order_modal" id="HTMLtoPDF" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                        <PurchaseOrderSlip orderId={this.props.params.orderId}/>
-                      </div>
                       <div className="form-group portion_form custom_select_box portion_select" onClick={this.dropDownOption}>
                         <ToggleDisplay show={this.state.toggle_box}>
                           <ul>
@@ -270,30 +267,33 @@ export default class ReceivedOrder extends React.Component {
                         <div className="order_subtotal order_rcvd_subtot">
                           <div className="inner_order_subtot">
                             <span className="mrht75">Sub total</span>
-                            <span>{this.state.orderDetails.net_price? this.state.orderDetails.net_price.toFixed(2): ""}</span>
+                            <span>{this.state.orderDetails.net_price? this.state.orderDetails.net_price.toFixed(2): "0.00"}</span>
                           </div>
                           <div className="inner_order_subtot">
                             <span className="mrht75 prht15">Where of MVA (15%)</span>
-                            <span>{this.state.orderDetails.food_vat_value? this.state.orderDetails.food_vat_value.toFixed(2): ""}</span>
+                            <span>{this.state.orderDetails.food_vat_value? this.state.orderDetails.food_vat_value.toFixed(2): "0.00"}</span>
                           </div>
                           <div className="inner_order_subtot">
                             <span className="mrht75">Shipment</span>
-                            <span>{this.state.orderDetails.shipment_price ? this.state.orderDetails.shipment_price.toFixed(2): ""}</span>
+                            <span>{this.state.orderDetails.shipment_price ? this.state.orderDetails.shipment_price.toFixed(2): "0.00"}</span>
                           </div>
                           <div className="inner_order_subtot">
                             <span className="mrht75 prht15">Where of MVA (25%)</span>
-                            <span>{this.state.orderDetails.shipment_vat_value? this.state.orderDetails.shipment_vat_value.toFixed(2): ""}</span>
+                            <span>{this.state.orderDetails.shipment_vat_value? this.state.orderDetails.shipment_vat_value.toFixed(2): "0.00"}</span>
                           </div>
                         </div>
                         <div className="gross_order">
                           <span className="mrht40">Total</span>
-                          <span> kr {this.state.orderDetails.total_amount ? this.state.orderDetails.total_amount.toFixed(2): ""}</span>
+                          <span> kr {this.state.orderDetails.total_amount ? this.state.orderDetails.total_amount.toFixed(2): "0.00"}</span>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
             </div>
+          </div>
+          <div className="fade" id="HTMLtoPDF">
+            <PurchaseOrderSlip className="fade" orderId={this.props.params.orderId}/>
           </div>
         </div>
       </div>
