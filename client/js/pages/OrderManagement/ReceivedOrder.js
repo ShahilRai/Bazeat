@@ -6,6 +6,7 @@ import PackagesList from './PackagesList';
 import EditPurchaseOrder from './EditPurchaseOrder';
 import ProfileContainer from '../Profile/ProfileContainer';
 import PurchaseOrders from './PurchaseOrders';
+import PurchaseOrderSlip from './PurchaseOrderSlip';
 import ToggleDisplay from 'react-toggle-display';
 import PubSub from 'pubsub-js';
 
@@ -31,6 +32,7 @@ export default class ReceivedOrder extends React.Component {
     this._showPackage = this._showPackage.bind(this)
     this._updateShpQty = this._updateShpQty.bind(this)
     this.getSingleOrder = this.getSingleOrder.bind(this)
+    this.generatePdf = this.generatePdf.bind(this)
   }
 
   componentDidMount(){
@@ -51,6 +53,35 @@ export default class ReceivedOrder extends React.Component {
   getSingleOrder(orderCuid){
     return axios.get("/api/get_order?cuid="+orderCuid , {
     });
+  }
+
+  generatePdf(){
+    var pdf = new jsPDF('p', 'pt', 'letter');
+    var source = $('#HTMLtoPDF')[0];
+    var specialElementHandlers = {
+      '#bypassme': function(element, renderer) {
+        return true
+      }
+    };
+
+    var margins = {
+      top: 50,
+      left: 60,
+      width: 1000
+    };
+
+    pdf.fromHTML (
+      source
+      , margins.left
+      , margins.top
+      , {
+          'width': margins.width
+          , 'elementHandlers': specialElementHandlers
+        },
+      function (dispose) {
+        pdf.save('po-slip');
+      }
+    )
   }
 
   dropDownOption(){
@@ -148,13 +179,16 @@ export default class ReceivedOrder extends React.Component {
                           <a href="#"></a>
                         </li>
                         <li>
-                          <Link to={"/orders/"+this.props.params.orderId+"/pdf"}><i className="fa fa-file-pdf-o" aria-hidden="true"></i></Link>
+                          <a href="javascript:void(0)" onClick={this.generatePdf}><i className="fa fa-file-pdf-o" aria-hidden="true"></i></a>
                         </li>
                         <li>
                           <Link to={"/orders/"+this.state.orderDetails.id+"/e-mail"}><i className="fa fa-envelope-o" aria-hidden="true"></i></Link>
                         </li>
                       </ul>
                       <EditPurchaseOrder _updateAddress={this._updateAddress} orderDetails={this.state.orderDetails} orderItems={this.state.orderItems}/>
+                      <div className="modal fade prod_modal order_modal" id="HTMLtoPDF" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <PurchaseOrderSlip orderId={this.props.params.orderId}/>
+                      </div>
                       <div className="form-group portion_form custom_select_box portion_select" onClick={this.dropDownOption}>
                         <ToggleDisplay show={this.state.toggle_box}>
                           <ul>

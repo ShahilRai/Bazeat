@@ -458,8 +458,9 @@ export default class ProductPickupDate extends React.Component {
             <div className="chkout_step1btns">
             <button type="button" className="btn btn-default more_days_btn" disabled={this.state.disabled?"disabled":''}onClick={this.showMoreDays.bind(this)}>Show more days</button>
             <button type="button" className="btn btn-default continue_btn" onClick={this.createOrder}>Continue</button>
+             <button type="button" className="btn btn-default back_btn" onClick={ this.goToBackPage.bind(this)}>Back</button>
             </div>
-            <button type="button" className="btn btn-default continue_btn" onClick={ this.goToBackPage.bind(this)}>Back</button>
+
           </div>
         </div>
       </div>

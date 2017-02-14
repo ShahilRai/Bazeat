@@ -36,7 +36,7 @@ export default class Menu extends React.Component {
 
   render() {
     ismsg=this.props.allMessages.length
-    
+
     var cart_icon = <CartModal />
     if((this.context.router.location.pathname == '/checkout')||(this.context.router.location.pathname == '/orders'))
     {
@@ -66,7 +66,7 @@ export default class Menu extends React.Component {
           {cart_icon}
         </NotAuthenticated>
         <Authenticated>
-          <li className="dropbtn" id="dropbtn"><Link to={"/message/"+userId} onClick={this.messageIconValue.bind(this)}>
+          <li className="dropbtn" id="dropbtn"><Link to={"/messages"} onClick={this.messageIconValue.bind(this)}>
             <a href="javascript:void(0)" className="message_icon">Messages
               {MessageIcon}
               {reviewIcon}
@@ -83,6 +83,7 @@ export default class Menu extends React.Component {
               <li id="logout" onClick = {this.logoutLink.bind(this)}><LogoutLink>Log out</LogoutLink></li>
             </ul>
           </li>
+          <li className="cart_icon_after_login"><a href="javascript:void(0)">Cart</a></li>
           {cart_icon}
         </Authenticated>
       </ul>

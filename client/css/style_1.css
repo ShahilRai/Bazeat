@@ -313,7 +313,7 @@ border: 1px solid #cccccc;
 .header_rht_menu li.cart_icon {
 	background: url(../images/cart_icon.png) no-repeat;
 	width: 25px;
-	height: 31px;
+	height: 31px !important;
 	text-indent: -9999px;
 	margin-top: 0;
 	position: relative;
@@ -325,6 +325,16 @@ border: 1px solid #cccccc;
 }
 .header_rht_menu li.cart_icon a:hover {
 	background: transparent
+}
+.header_rht_menu li.cart_icon_after_login {
+    background: url(../images/cart_icon.png) no-repeat;
+    width: 25px;
+    height: 36px !important;
+    text-indent: -9999px;
+    margin-top: 0;
+    position: relative;
+    top: -5px;
+    margin-left: 11px;
 }
 /*:::::::::::::::::::::::::::::::::::::::::::::::::::::
  ===============HEADER END====================
@@ -720,7 +730,7 @@ color:#808080;
 .profile_rht_header.header_rht_menu li.username_text a{
     overflow: hidden;
     float: left;
-    padding-right: 0;
+    padding-right: 43px;
     text-overflow: ellipsis;
     white-space: nowrap;
     width: 100%;}
@@ -2586,7 +2596,7 @@ background: url(../images/clock.png)no-repeat 0 0;
 .prod_pin a {
     background: url(../images/prod_pin.png)no-repeat 0 0;
 }
-
+.img_del_car:hover{background: url(../images/del_car.png)no-repeat 0 0;}
 .open_btn {
     background: #009245;
     float: right;
@@ -2777,11 +2787,30 @@ padding-left:0;
 
 
 /*============index_header===========================*/
+.before_login_cart_modal{
+	right: -9px !important;
+}
+.for_margin{
+	margin-right: 10px;
+}
+.next_list {
+     position: relative;
 
-.next_list{position:relative;}
+}
 .next_list a {
   background: rgba(0, 0, 0, 0) url("../images/next_list.png") no-repeat scroll center center;
   height: 37px;
+}
+.next_after_login{
+	width: 15% !important;
+}
+.for_height{
+  height:48px !important;
+}
+.next_list_after_login a{
+   background: rgba(0, 0, 0, 0) url("../images/next_list.png") no-repeat scroll center center;
+  height: 37px;
+
 }
 .header_rht_menu li.next_list a:hover{
 	  background: #00aca2 url("../images/next_hover_btn.png") no-repeat scroll center center;
@@ -2851,7 +2880,7 @@ height:30px;
     float: left;
     width: 70%;
     margin-left: 13px;
-    margin-top:7px;
+    /*margin-top:7px;*/
 }
 .cross_items{
 	line-height: 26px;
@@ -2910,9 +2939,9 @@ font-weight:600;
     margin: 0;
 }
 .tot_price_item{
-padding-right: 19px;padding-top: 7px;
+padding-right: 39px;;padding-top: 7px;
 }
-.gross_price{padding-right: 12px;}
+.gross_price{padding-right: 40px;}
 .profile_rht_header.header_rht_menu li.next_list .items_list_info ul li:last-child{
 	padding-right: 19px;
 }
@@ -3747,6 +3776,23 @@ display:block;
 	width:auto;
 	padding:9px 12px;
 	line-height:normal;
+}
+.chkout_step1btns .back_btn {
+    width: auto;
+    padding: 9px 12px;
+    line-height: normal;
+    margin-left: 63px;
+    background: #00aca2;
+    border-radius: 2px;
+    color: #FFF;
+    border: none;
+}
+.chkout_step1btns .back_btn:hover{
+    color: #333;
+    background-color: #e6e6e6;
+    border-color: #adadad;
+
+
 }
 .chkout_step1btns {
 	padding: 0 16px;
