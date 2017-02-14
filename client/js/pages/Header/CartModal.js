@@ -177,10 +177,10 @@ export default class CartModal extends React.Component {
     }
     return(
       <span>
-      <li className="next_list" id="demo">
-      <a href="javaScript:void(0)" onClick={this.getCart.bind(this)}></a>
+      <li className={this.context.authenticated ? "next_list next_after_login" : "next_list"} id="demo">
+      <a className={this.context.authenticated ? "for_height" : ''} href="javaScript:void(0)" onClick={this.getCart.bind(this)}></a>
       </li>
-          <div className="items_list_info">
+          <div className={this.context.authenticated ? "items_list_info" : "items_list_info before_login_cart_modal "}>
             <p className="empty_item_text">You have {this.state.items.length} items in your bag • <span  className="empty_bag" onClick={this.removeAllItems.bind(this)} >Empty bag</span></p>
             <ul>
             {this.state.items.map((item, i)=>
@@ -194,7 +194,7 @@ export default class CartModal extends React.Component {
                    <small>{item.product_name}</small>
                 </span>
                 <span className="items_price">{"kr " + item.product_amt}</span>
-                <span className="cross_items"><button className="delete_time" onClick={(e) => this.removeItem(e, i)} >X</button></span>
+                <span className={this.context.authenticated ? "cross_items" : "cross_items for_margin"}><button className="delete_time" onClick={(e) => this.removeItem(e, i)} >X</button></span>
               </li>
             )}
             </ul>
