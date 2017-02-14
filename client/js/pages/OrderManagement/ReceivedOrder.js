@@ -198,7 +198,7 @@ export default class ReceivedOrder extends React.Component {
                         </ToggleDisplay>
                       </div>
                       <span className="close_order">
-                        <a href="#"><img src={require('../../../images/close_order.png')} /></a>
+                        <Link to="/orders"><img src={require('../../../images/close_order.png')} /></Link>
                       </span>
                     </div>
                   </div>

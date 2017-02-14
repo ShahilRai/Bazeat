@@ -123,8 +123,8 @@ export default class DeliveryType extends React.Component {
                 <span>kr. 0,-</span>
                 <p>You pick up the goods at the producer</p>
               </div>
-              <div className="del_step1">
-                <a href="javascript:void(0)" onClick={this.shippingAlternateDetail.bind(this)}><img src="images/del_car.png" /></a>
+              <div className="del_step1 ">
+                <a className="dilvery_method_sendemat"  href="javascript:void(0)" onClick={this.shippingAlternateDetail.bind(this)}>&nbsp;</a>
                 <h4>Sendemat</h4>
                 <span>From kr. 99,-</span>
                 <p>Bring delivers to you with a range of deliverey methods</p>
