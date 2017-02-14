@@ -67,8 +67,11 @@ export function allReviews(req, res, next) {
           path: 'reviewed_by reviewed_for',
           model: 'User',
           select: 'full_name photo'
-        }
-      }).sort('-updatedAt')
+        }})
+        .populate({
+          path: 'comment',
+          select: 'comment is_commented'
+        }).sort('-updatedAt')
         .exec(function(err, reviews) {
           if (err) {
             res.send({ error: err });
