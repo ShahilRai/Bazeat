@@ -17,21 +17,24 @@ export default class MessageDropdown extends React.Component {
 
   	render(){
 	  	var _allMessages = this.props.allMessages ? this.props.allMessages : []
-	  	var results = _allMessages.map((data, index) => {
-	  		var src=data[0].sender.photo
+	  	var results = _allMessages.map((result, index) => {
+        let data = result.messages[0]
+        console.log('data')
+        console.log(data)
+        var src=data.sender.photo
 	  		if(src==undefined){
 	  			src=require('../../../images/producer_logo.png')
 	  		}
 
 		    return(
-		         <div key={index} className={data[0].sender.full_name==this.context.user.fullName?'':"chat_list white_bg"} >
-			 		<span className={data[0].sender.full_name==this.context.user.fullName?'':"user_img"}><img className={data[0].sender.full_name==this.context.user.fullName?'':"user_profile_img"} src={data[0].sender.full_name==this.context.user.fullName?'':src}/></span>
-			 			<span className={data[0].sender.full_name==this.context.user.fullName?'':"chat_description"} key ={index}>
+		         <div key={index} className={data.sender.full_name==this.context.user.fullName?'':"chat_list white_bg"} >
+			 		<span className={data.sender.full_name==this.context.user.fullName?'':"user_img"}><img className={data.sender.full_name==this.context.user.fullName?'':"user_profile_img"} src={data.sender.full_name==this.context.user.fullName?'':src}/></span>
+			 			<span className={data.sender.full_name==this.context.user.fullName?'':"chat_description"} key ={index}>
 			 				<h3 >
-			 					{data[0].sender.full_name==this.context.user.fullName?'':changeCase.titleCase(data[0].sender.full_name)}
-			 					<span>{data[0].sender.full_name==this.context.user.fullName?'': moment(data.createdAt).format('DD-MM-YYYY')} </span>
+			 					{data.sender.full_name==this.context.user.fullName?'':changeCase.titleCase(data.sender.full_name)}
+			 					<span>{data.sender.full_name==this.context.user.fullName?'': moment(data.createdAt).format('DD-MM-YYYY')} </span>
 			 				</h3>
-			 				<p > {data[0].sender.full_name==this.context.user.fullName? '':data[0].body}</p>
+			 				<p > {data.sender.full_name==this.context.user.fullName? '':data.body}</p>
 			 			</span>
 			 	</div>
 			)
