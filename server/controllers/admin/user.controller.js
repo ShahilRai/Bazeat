@@ -1,6 +1,7 @@
 import Admin from '../../models/admin';
 import User from '../../models/user';
 import cuid from 'cuid';
+import stormpath from 'stormpath';
 
 export function addUser(req, res) {
   const newUser = new User(req.body);
@@ -55,7 +56,13 @@ export function deleteUser(req, res) {
       return res.status(422).send({msg: err});
     }
     user.remove(() => {
-      return res.status(200).send({msg: "User deleted successfully"});
+      // MailService.cancel_account_to_user(user)
+      let client = new stormpath.Client();
+      client.getAccount(user.unique_id, function (err, account) {
+        account.delete(function(err, success) {
+          res.status(200).send({msg: "User deleted successfully"});
+        });
+      });
     });
   });
 }
