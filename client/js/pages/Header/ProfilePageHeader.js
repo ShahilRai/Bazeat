@@ -15,7 +15,7 @@ export default class ProfilePageHeader extends React.Component {
     var ordersActive="";
     if(this.context.router){
       if(this.context.router.location.pathname == "/profile" || this.context.router.location.pathname == "/reviews" 
-        || this.context.router.location.pathname == "/add-account" || this.context.router.location.pathname == "/message"){
+        || this.context.router.location.pathname == "/add-account" || this.context.router.location.pathname == "/messages" || this.context.router.location.pathname == "/messages/"){
         profileActive= "active"
       }
       else if(this.context.router.location.pathname == "/notification" || this.context.router.location.pathname == "/setting"){

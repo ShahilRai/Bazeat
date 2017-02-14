@@ -44,8 +44,6 @@ export function getConversation(req, res, next) {
     }
   })
   .exec(function(err, conversation) {
-    console.log(conversation)
-    console.log("messages")
     if(err) {
       return res.status(422).json({ err });
     } else {
@@ -122,7 +120,6 @@ export function sendReply(req, res, next) {
           if (err) {
             return res.status(422).json({ err });
           } else {
-            console.log(message)
             return res.status(200).json(message);
           }
       });
@@ -139,11 +136,11 @@ export function msgCount(req, res) {
       Conversation.find({ participants: user._id })
       .populate({
         path: 'messages',
-        options: { unread: true, limit: 1, sort: { 'createdAt': -1 } },
+        options: { unread: true, receiver: user._id, limit: 1, sort: { 'createdAt': -1 } },
         populate: {
           path: 'receiver sender',
           model: 'User',
-          select: 'full_name photo'
+          select: 'full_name photo email'
         }
       }).limit(2).sort('-updatedAt')
         .exec(function(err, conversations) {
