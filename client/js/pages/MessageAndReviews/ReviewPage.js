@@ -118,7 +118,7 @@ export default class ReviewPage extends React.Component {
         <li><Link to="javascript:void(0)">Verification</Link></li>
         <li className="active"><Link to="/reviews">Reviews</Link></li>
         <li><Link to="/add-account">Bank Account</Link></li>
-        <li><Link to="/message">Messages</Link></li>
+        <li><Link to="/messages">Messages</Link></li>
       </ul>
     )
   }

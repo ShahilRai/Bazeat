@@ -113,7 +113,7 @@ export default class AddAccount extends React.Component {
         <li><Link to="javascript:void(0)">Verification</Link></li>
         <li><Link to="/reviews">Reviews</Link></li>
         <li className="active" onClick={this.addAccountDetails}><Link to="/add-account">Bank Account</Link></li>
-        <li><Link to="/message">Messages</Link></li>
+        <li><Link to="/messages">Messages</Link></li>
       </ul>
     )
   }

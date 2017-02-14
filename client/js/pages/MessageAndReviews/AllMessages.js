@@ -62,7 +62,7 @@ export default class AllMessages extends React.Component {
   showSingleMsgConverstation(conversation_id) {
     this.showMsgConversation(conversation_id).then((response) => {
       if(response.data) {
-        show_active:""
+        show_active=<span></span>        
         this.setState({
           allConversation: response.data.messages,
           conversation_id: conversation_id,
@@ -128,7 +128,7 @@ export default class AllMessages extends React.Component {
           <li><Link to="javascript:void(0)">Verification</Link></li>
           <li><Link to="/reviews">Reviews</Link></li>
           <li><Link to="/add-account">Bank Account</Link></li>
-          <li className="active"><Link to="/message">Messages</Link></li>
+          <li className="active"><Link to="/messages">Messages</Link></li>
         </ul>
       )
     }
@@ -151,28 +151,25 @@ export default class AllMessages extends React.Component {
       if(src_receiver==undefined){
         src_receiver=require('../../../images/producer_logo.png')
       }
-      var active_msg;
-      if(data.unread==true && this.context.user.fullName!==data.sender.full_name){
+      if(data.unread && this.context.user.fullName!==data.sender.full_name){
         show_active=<span className="active_chat"></span>
       }
       else{
-        active_msg=""
         show_active=<span></span>
       }
 
       return(
-        <Link to={"/messages"}>
-        {this.state.activeState==data.conversation_id? '': show_active}
+        <Link to={"/messages/"+data.conversation_id}>
+        {show_active}
         <div className={this.state.activeState === data.conversation_id?"chat_list active_user":"chat_list"} key={index} onClick = {this.showSingleMsgConverstation.bind(this, data.conversation_id)}>
           <a href="javascript:void(0)">
             <span className="user_img"><img className="user_profile_img" src={(data.sender.full_name == this.context.user.fullName) ? src_receiver : src_sender} /></span>
-            <span className="chat_description" >
+            <span className="chat_description">
               <h3 >
                 {(data.sender.full_name==this.context.user.fullName) ? changeCase.titleCase(data.receiver.full_name) : changeCase.titleCase(data.sender.full_name)}
                 <span > {moment(data.createdAt).format('DD-MM-YYYY')}</span>
               </h3>
               <p>{data.body}</p>
-
             </span>
           </a>
         </div>
@@ -192,8 +189,9 @@ export default class AllMessages extends React.Component {
                 <div className="inner_chat_header">
                   <h3>Messages
                   <span className="edit_icon" onClick ={this.showNewMsgTab.bind(this)}>
-                    <a href="javascript:void(0)"><i className="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    <Link to="/messages"><a href="javascript:void(0)"><i className="fa fa-pencil-square-o" aria-hidden="true"></i>
                     </a>
+                    </Link>
                   </span>
                   </h3>
                 </div>
