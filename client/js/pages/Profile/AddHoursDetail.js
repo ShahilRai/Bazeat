@@ -131,7 +131,7 @@ export default class AddHoursDetail extends React.Component {
             </span>
             <ul className="attnding_days">
               {this.state.days.map((days,index) =>
-                <li key = {index} onClick={this.handleDayClick.bind(this,index)} ><a id="week_day" href="javascript:void(0)">{days.name}</a></li>
+                <li className="onhover" key = {index} onClick={this.handleDayClick.bind(this,index)} ><a id="week_day" href="javascript:void(0)">{days.name}</a></li>
                 )}
             </ul>
           </span>

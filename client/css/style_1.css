@@ -1032,6 +1032,9 @@ ul.edit_sidbar_list li a:hover, ul.edit_sidbar_list li.active a {
 	width: 100%;
 	;
 }
+.onhover:hover{
+	background-color: #00aca2;
+}
 .visting_hr_fotter {
 	background: #f2f2f2 none repeat scroll 0 0;
 	border-top: 1px solid #cccccc;
@@ -2848,7 +2851,7 @@ height:30px;
     float: left;
     width: 70%;
     margin-left: 13px;
-    margin-top:7px;
+    /*margin-top:7px;*/
 }
 .cross_items{
 	line-height: 26px;
@@ -2907,9 +2910,9 @@ font-weight:600;
     margin: 0;
 }
 .tot_price_item{
-padding-right: 19px;padding-top: 7px;
+padding-right: 39px;;padding-top: 7px;
 }
-.gross_price{padding-right: 12px;}
+.gross_price{padding-right: 40px;}
 .profile_rht_header.header_rht_menu li.next_list .items_list_info ul li:last-child{
 	padding-right: 19px;
 }
