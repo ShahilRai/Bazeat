@@ -193,6 +193,17 @@ export function getIngrdients(req, res){
   })
 }
 
+export function listIngredients(req, res){
+  Ingredient.find().sort('-dateAdded').exec((err, ingredients) => {
+    if (err) {
+      return res.status(422).send(err);
+    }
+    else {
+      return res.json({ ingredients });
+    }
+  });
+}
+
 export function getDetails(req, res){
   Allergen.find().sort('-dateAdded').select("-_products -__v").exec((err, allergens) => {
     if (err) {
