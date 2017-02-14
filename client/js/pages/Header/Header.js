@@ -45,7 +45,6 @@ export default class Header extends React.Component {
     return axios.get("/api/user?email="+email);
   }
 
-
    loadAllMessages(){
       this.getAllMessages(email).then((response) => {
       if(response.data) {
@@ -107,7 +106,7 @@ export default class Header extends React.Component {
             <SearchInputBox />
             <NearMeIcon />
             <div className="col-lg-5 col-md-5 col-sm-12 col-xs-12 pull-right">
-              <Menu _cartList = {this.state._cartList}  cuid={userId} allMessages={this.state.allMessages} length={this.state.allMessages.length} allReviews={this.state.all_reviews} producer_name={this.state.producer_info} user_info={this.state.user_info}/>
+              <Menu _cartList = {this.state._cartList}  cuid={userId} allMessages={this.state.allMessages} allReviews={this.state.all_reviews} producer_name={this.state.producer_info} user_info={this.state.user_info} email={email}/>
             </div>
           </div>
         </div>

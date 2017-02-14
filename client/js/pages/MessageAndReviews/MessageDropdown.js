@@ -19,13 +19,11 @@ export default class MessageDropdown extends React.Component {
 	  	var _allMessages = this.props.allMessages ? this.props.allMessages : []
 	  	var results = _allMessages.map((result, index) => {
         let data = result.messages[0]
-        console.log('data')
-        console.log(data)
         var src=data.sender.photo
 	  		if(src==undefined){
 	  			src=require('../../../images/producer_logo.png')
 	  		}
-
+	  		if(data.unread){
 		    return(
 		         <div key={index} className={data.sender.full_name==this.context.user.fullName?'':"chat_list white_bg"} >
 			 		<span className={data.sender.full_name==this.context.user.fullName?'':"user_img"}><img className={data.sender.full_name==this.context.user.fullName?'':"user_profile_img"} src={data.sender.full_name==this.context.user.fullName?'':src}/></span>
@@ -38,6 +36,7 @@ export default class MessageDropdown extends React.Component {
 			 			</span>
 			 	</div>
 			)
+		}
 		})
 	    var _allReviews = this.props.allReviews ? this.props.allReviews : []
 	    var reviewResults = _allReviews.map((result, index) => {

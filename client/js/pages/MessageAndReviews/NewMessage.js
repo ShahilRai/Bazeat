@@ -63,7 +63,6 @@ export default class NewMessage extends React.Component {
     }
 
     getUserList() {
-      console.log(this.context.user)
       return this.state.users.map((user,index) => {
         if(this.context.user.email!==user.email){
          return <option ref = "userid" key={index}>{user.full_name}</option>;

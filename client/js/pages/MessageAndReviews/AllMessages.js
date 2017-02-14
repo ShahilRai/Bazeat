@@ -151,13 +151,10 @@ export default class AllMessages extends React.Component {
       if(src_receiver==undefined){
         src_receiver=require('../../../images/producer_logo.png')
       }
-      if(data.unread && this.context.user.fullName!==data.sender.full_name){
+      if(data.unread && this.context.user.fullName==data.receiver.full_name){
         show_active=<span className="active_chat"></span>
       }
-      else{
-        show_active=<span></span>
-      }
-
+     
       return(
         <Link to={"/messages/"+data.conversation_id}>
         {show_active}
