@@ -177,7 +177,6 @@ export default class CartModal extends React.Component {
     }
     return(
       <span>
-      <li className="cart_icon"><a href="#"></a></li>
       <li className="next_list" id="demo">
       <a href="javaScript:void(0)" onClick={this.getCart.bind(this)}></a>
       </li>
