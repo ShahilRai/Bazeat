@@ -173,6 +173,8 @@ export function avg_ratings(reviews, newReview, next, total_count, res){
 }
 
 export function sendReply(req, res, next) {
+  console.log('req.body')
+  console.log(req.body)
   User.findOne({ email: req.body.email }).exec((err, user) => {
     const comment = new Comment({
       comment: req.body.comment_body,
