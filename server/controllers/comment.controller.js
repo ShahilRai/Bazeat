@@ -185,6 +185,10 @@ export function sendReply(req, res, next) {
       is_commented: req.body.is_commented
     });
     comment.save(function(err, newComment) {
+      console.log('err')
+      console.log(err)
+      console.log('newComment')
+      console.log(newComment)
       if (err) {
         res.send({ error: err });
       }
@@ -288,7 +292,7 @@ export function reviewsCount(req,res){
       RatingAndReview.find({ participants: user._id })
       .populate({
         path: '_review',
-        options: { is_reviewed: true, limit: 1, sort: { 'createdAt': -1 } },
+        options: { reviewed_for: user._id, is_reviewed: true, limit: 1, sort: { 'createdAt': -1 } },
         populate: {
           path: 'reviewed_by reviewed_for',
           model: 'User',
@@ -296,6 +300,8 @@ export function reviewsCount(req,res){
         }
       }).limit(2).sort('-updatedAt')
         .exec(function(err, reviews) {
+          console.log('reviews')
+          console.log(reviews)
           if (err) {
             res.send({ error: err });
             return next(err);

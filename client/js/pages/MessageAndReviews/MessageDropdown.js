@@ -40,9 +40,13 @@ export default class MessageDropdown extends React.Component {
 		})
 	    var _allReviews = this.props.allReviews ? this.props.allReviews : []
 	    var reviewResults = _allReviews.map((item, index) => {
+          var show_src = item._review.reviewed_by.photo
+          if(show_src == undefined){
+            show_src =require('../../../images/producer_logo.png')
+          }
 	        	return(
 			      <div className={item._review.reviewed_by.full_name==this.context.user.fullName?'':"chat_list white_bg"} key={index}>
-			        <span className="user_img" ><img src={item._review.reviewed_by.full_name==this.context.user.fullName?'':item._review.reviewed_by.photo} className={item._review.reviewed_by.full_name==this.context.user.fullName?'':"profile_image"} /></span>
+			        <span className="user_img" ><img src={item._review.reviewed_by.full_name==this.context.user.fullName?'':show_src} className={item._review.reviewed_by.full_name==this.context.user.fullName?'':"profile_image"} /></span>
 			        <span className="chat_description" key ={index}>
 			          <h3 >
 			            {item._review.reviewed_by.full_name==this.context.user.fullName?'':changeCase.titleCase(item._review.reviewed_by.full_name)}
