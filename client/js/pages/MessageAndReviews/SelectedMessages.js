@@ -87,21 +87,20 @@ export default class SelectedMessages extends React.Component {
       var currentDate=new Date()
       console.log(currentDate)
         var n = currentDate.getFullYear()
-        console.log(n)
         return(
           <div className="complt_user_chat" key ={index}>
             <div className="chat_msgs">
               <ul>
                 <li>
-                  <span className={results.sender.full_name!==this.context.user.fullName?"chat_dates":''}>{results.sender.full_name!==this.context.user.fullName? dateModified:''}</span>
-                    <span  className={results.sender.full_name!==this.context.user.fullName?"both_chat sender_msg":''}>
-                      {results.sender.full_name==this.context.user.fullName?'':results.body}
+                  <span className={results.sender.email!==this.context.user.email?"chat_dates":''}>{results.sender.email!==this.context.user.email? dateModified:''}</span>
+                    <span  className={results.sender.email!==this.context.user.email?"both_chat sender_msg":''}>
+                      {results.sender.email==this.context.user.email?'':results.body}
                   </span>
                 </li>
                 <li>
-                  <span className={results.sender.full_name==this.context.user.fullName?"chat_dates":''}>{results.sender.full_name==this.context.user.fullName?dateModified:''}</span>
-                    <span  className={results.sender.full_name==this.context.user.fullName?"both_chat receiver_msg":''}>
-                      {results.sender.full_name==this.context.user.fullName?results.body:''}
+                  <span className={results.sender.email==this.context.user.email?"chat_dates":''}>{results.sender.email==this.context.user.email?dateModified:''}</span>
+                    <span  className={results.sender.email==this.context.user.email?"both_chat receiver_msg":''}>
+                      {results.sender.email==this.context.user.email?results.body:''}
                     </span>
                 </li>
               </ul>
