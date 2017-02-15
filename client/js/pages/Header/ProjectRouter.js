@@ -28,7 +28,7 @@ import AddAccount from '../Profile/AddAccount';
 import ProducerPasswordUpdate from '../UserSetting/ProducerPasswordUpdate';
 import Notification from '../UserSetting/Notification';
 import PurchaseOrders from '../OrderManagement/PurchaseOrders';
-import GeneratePdf from '../OrderManagement/GeneratePdf';
+import PackageSlip from '../OrderManagement/PackageSlip';
 import ReceivedOrder from '../OrderManagement/ReceivedOrder';
 import Mail from '../OrderManagement/Mail';
 import CreateNewPackage from '../OrderManagement/CreateNewPackage';
@@ -105,9 +105,9 @@ export default class ProjectRouter extends React.Component {
               <Route path='/add-account' component={AddAccount} />
               <Route path='/orders/:id/e-mail' component={Mail} />
             </HomeRoute>
-            <Route path='/orders/:orderId/pdf' component={GeneratePdf} />
           </AuthenticatedRoute>
         </HomeRoute>
+        <Route path='/orders/:orderId/package/:packageId' component={PackageSlip} />
         <Route path='/admin-login' component={AdminLoginModal} />
         <Route path='/admin-register' component={AdminRegisterModal} />
         <Route path='/admin-dashboard' component={AdminPanel} />
