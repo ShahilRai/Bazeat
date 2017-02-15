@@ -18,7 +18,7 @@ export function allConversations(req, res, next) {
         populate: {
           path: 'receiver sender',
           model: 'User',
-          select: 'full_name photo'
+          select: 'full_name photo email'
         }
       }).sort('-updatedAt')
         .exec(function(err, conversations) {
@@ -40,7 +40,7 @@ export function getConversation(req, res, next) {
     populate: {
       path: 'receiver sender',
       model: 'User',
-      select: 'full_name photo'
+      select: 'full_name photo email'
     }
   })
   .exec(function(err, conversation) {
@@ -114,7 +114,7 @@ export function sendReply(req, res, next) {
       Message.findOne({_id: sentReply._id })
         .populate({
           path: 'sender receiver',
-          select: 'full_name photo'
+          select: 'full_name photo email'
         })
         .exec(function(err, message) {
           if (err) {

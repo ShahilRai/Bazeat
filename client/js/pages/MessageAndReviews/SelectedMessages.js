@@ -81,20 +81,25 @@ export default class SelectedMessages extends React.Component {
       if(src_receiver==undefined){
         src_receiver=require('../../../images/producer_logo.png')
       }
+      var date=results.createdAt
+      var monthNameFormat = d3.timeFormat("%b-%d");
+      var dateModified=monthNameFormat(new Date(date))
+      var currentDate=new Date()
+        var n = currentDate.getFullYear()
         return(
           <div className="complt_user_chat" key ={index}>
             <div className="chat_msgs">
               <ul>
                 <li>
-                  <span className={results.sender.full_name!==this.context.user.fullName?"chat_dates":''}>{results.sender.full_name!==this.context.user.fullName? moment(results.createdAt).format('DD-MM-YYYY'):''}</span>
-                    <span  className={results.sender.full_name!==this.context.user.fullName?"both_chat sender_msg":''}>
-                      {results.sender.full_name==this.context.user.fullName?'':results.body}
+                  <span className={results.sender.email!==this.context.user.email?"chat_dates":''}>{results.sender.email!==this.context.user.email? dateModified:''}</span>
+                    <span  className={results.sender.email!==this.context.user.email?"both_chat sender_msg":''}>
+                      {results.sender.email==this.context.user.email?'':results.body}
                   </span>
                 </li>
                 <li>
-                  <span className={results.sender.full_name==this.context.user.fullName?"chat_dates":''}>{results.sender.full_name==this.context.user.fullName?moment(results.createdAt).format('DD-MM-YYYY'):''}</span>
-                    <span  className={results.sender.full_name==this.context.user.fullName?"both_chat receiver_msg":''}>
-                      {results.sender.full_name==this.context.user.fullName?results.body:''}
+                  <span className={results.sender.email==this.context.user.email?"chat_dates":''}>{results.sender.email==this.context.user.email?dateModified:''}</span>
+                    <span  className={results.sender.email==this.context.user.email?"both_chat receiver_msg":''}>
+                      {results.sender.email==this.context.user.email?results.body:''}
                     </span>
                 </li>
               </ul>

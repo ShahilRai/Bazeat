@@ -12,6 +12,7 @@ autoIncrement.initialize(connection);
 
 const packageSchema = new Schema({
     delivery_method: String,
+    cuid: { type: 'String', required: true },
     status:{type: 'String', default: "Not Shipped"},
     _order: { type: Schema.ObjectId, ref: 'Order' },
     _producer: { type: Schema.ObjectId, ref: 'User' },
