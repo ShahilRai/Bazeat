@@ -67,7 +67,7 @@ export default class ReceivedOrder extends React.Component {
     var margins = {
       top: 50,
       left: 60,
-      width: 1000
+      width: 500
     };
 
     pdf.fromHTML (
