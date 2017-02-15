@@ -2,6 +2,21 @@ import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
 var changeCase = require('change-case')
+let months = new Array(12);
+months[0] = "Jan";
+months[1] = "Feb";
+months[2] = "Mar";
+months[3] = "Apr";
+months[4] = "May";
+months[5] = "Jun";
+months[6] = "July";
+months[7] = "Aug";
+months[8] = "Sept";
+months[9] = "Oct";
+months[10] = "Nov";
+months[11] = "Dec";
+let day_value;
+let month_value;
 
 export default class MessageDropdown extends React.Component {
 	static contextTypes = {
@@ -15,6 +30,7 @@ export default class MessageDropdown extends React.Component {
 		};
   	}
 
+
   	render(){
 	  	var _allMessages = this.props.allMessages ? this.props.allMessages : []
 	  	var results = _allMessages.map((result, index) => {
@@ -24,13 +40,15 @@ export default class MessageDropdown extends React.Component {
 		  		if(src==undefined) {
 		  			src=require('../../../images/producer_logo.png')
 		  		}
+		  		var date=moment(data.createdAt).format('DD-MM-YYYY')
+
 		    return(
 		      <div key={index} className={data.sender.full_name==this.context.user.fullName?'':"chat_list white_bg"} >
 			 		<span className={data.sender.full_name==this.context.user.fullName?'':"user_img"}><img className={data.sender.full_name==this.context.user.fullName?'':"user_profile_img"} src={data.sender.full_name==this.context.user.fullName?'':src}/></span>
 			 			<span className={data.sender.full_name==this.context.user.fullName?'':"chat_description"} key ={index}>
 			 				<h3 >
 			 					{data.sender.full_name==this.context.user.fullName?'':changeCase.titleCase(data.sender.full_name)}
-			 					<span>{data.sender.full_name==this.context.user.fullName?'': moment(data.createdAt).format('DD-MM-YYYY')} </span>
+			 					<span>{data.sender.full_name==this.context.user.fullName?'':  months[month_value]- day_value}</span>
 			 				</h3>
 			 				<p > {data.sender.full_name==this.context.user.fullName? '':data.body}</p>
 			 			</span>
