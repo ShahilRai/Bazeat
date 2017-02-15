@@ -22,6 +22,7 @@ export default class AllProducerReviews extends React.Component {
       total_pages_count: 0
     }
     this.getMoreTextDiv = this.getMoreTextDiv.bind(this);
+    this.reviewPagination = this.reviewPagination.bind(this);
   }
 
   expandedText() {
@@ -38,8 +39,8 @@ export default class AllProducerReviews extends React.Component {
     }
   }
 
-  handlePageClick(data){
-    this.getAllProducerReviews(this.context.user.email,this.state.offset,5).then((response) => {
+  reviewPagination(){
+     this.getAllProducerReviews(this.context.user.email,this.state.offset,5).then((response) => {
       if(response.data) {
         this.setState({
           all_producer_reviews : response.data.reviews,
@@ -49,15 +50,21 @@ export default class AllProducerReviews extends React.Component {
     }).catch((err) => {
         console.log(err);
     });
+  }
+
+
+  handlePageClick(data){
     let selected = data.selected;
     let offset = Math.ceil(selected);
-    this.setState({
-      offset: offset
+    console.log("state offset")
+    console.log(offset)
+     this.setState({offset: offset}, () => {
+      this.reviewPagination();
     });
   }
 
   componentDidMount(){
-    this.handlePageClick();
+    this.reviewPagination()
   }
 
   getAllProducerReviews(email, off_set, per_page){
@@ -65,6 +72,8 @@ export default class AllProducerReviews extends React.Component {
   }
 
   render() {
+    console.log("this.state.offset")
+    console.log(this.state.offset)
     var _allProducerReviewResult
     var expandedDiv = this.getMoreTextDiv();
     var _allProducerReview = this.state.all_producer_reviews ? this.state.all_producer_reviews : []
@@ -109,9 +118,9 @@ export default class AllProducerReviews extends React.Component {
       <div className="review_display_inner">
         <h3 className="plft20">Reviews</h3>
           {_allProducerReviewResult}
-        {this.state.all_producer_reviews.length>5?<ReactPaginate previousLabel={"previous"} nextLabel={"next"} breakLabel={<a href="">...</a>}
+        {this.state.all_producer_reviews.length>4?<ReactPaginate previousLabel={"previous"} nextLabel={"next"} breakLabel={<a href="">...</a>}
             breakClassName={"break-me"} pageCount={this.state.total_pages_count} marginPagesDisplayed={3}
-            pageRangeDisplayed={2} onPageChange={this.handlePageClick.bind(this)} containerClassName={"pagination"}
+            pageRangeDisplayed={3} onPageChange={this.handlePageClick.bind(this)} containerClassName={"pagination"}
             subContainerClassName={"pages pagination"} activeClassName={"active"} />:""}
       </div>
     )
