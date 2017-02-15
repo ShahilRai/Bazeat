@@ -67,7 +67,7 @@ export default class ReceivedOrder extends React.Component {
     var margins = {
       top: 50,
       left: 60,
-      width: 1000
+      width: 500
     };
 
     pdf.fromHTML (
@@ -212,7 +212,7 @@ export default class ReceivedOrder extends React.Component {
                         </div>
                         <div className="full_width_del">
                           <span><strong>Delivery method</strong></span>
-                          <span className="text-left"></span>
+                          <span className="text-left">{this.state.orderDetails.delivery_method}</span>
                         </div>
                       </div>
                     </div>

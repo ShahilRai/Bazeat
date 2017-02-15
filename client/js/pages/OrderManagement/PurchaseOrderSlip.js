@@ -36,12 +36,12 @@ export default class PurchaseOrderSlip extends React.Component {
       <div className="col-lg-9 col-md-9 col-sm-12 col-xs-12 rt_order_mgmnt po_modal_width">
         <div className="received_order_rght">
           <div className="order_information po_slip">
-            <div className="order_info_rt">
-              <img src={require("../../../images/producer_logo.png")} />
+            <div>
+              <img className="order_info_rt" src={require("../../../images/producer_logo.png")} />
             </div>
             <div className="order_info_lt">
               <h3>PURCHASE ORDER SLIP</h3>
-              <h4>{this.state.orderData._buyer? this.state.orderData._buyer.first_name: ""} {this.state.orderData._buyer? this.state.orderData._buyer.last_name: ""}</h4>
+              <h4>{this.state.orderData._buyer? (this.state.orderData._buyer.first_name).toUpperCase(): ""} {this.state.orderData._buyer? (this.state.orderData._buyer.last_name).toUpperCase(): ""}</h4>
               <p>{this.state.orderData._buyer? this.state.orderData._buyer.address: ""},{this.state.orderData._buyer? this.state.orderData._buyer.postal_code: ""},{this.state.orderData._buyer? this.state.orderData._buyer.city: ""}<br/>
                 Tel:{this.state.orderData.address? this.state.orderData.address.phone_num: ""},E-mail:{this.state.orderData._buyer? this.state.orderData._buyer.email: ""}<br/>
                 {this.state.orderData._buyer? this.state.orderData._buyer.producer_info.cmp_web_site: ""}
@@ -105,7 +105,7 @@ export default class PurchaseOrderSlip extends React.Component {
                   })}
                   </tbody>
                 </table>
-                <div className="order_rcvd_subtot">
+                <div className="order_subtotal order_rcvd_subtot">
                   <div className="inner_order_subtot">
                     <span className="mrht75">Sub total </span>
                     <span>{this.state.orderData.net_price? this.state.orderData.net_price.toFixed(2): "0.00"}</span>
@@ -123,7 +123,7 @@ export default class PurchaseOrderSlip extends React.Component {
                     <span>{this.state.orderData.shipment_vat_value? this.state.orderData.shipment_vat_value.toFixed(2): "0.00"}</span>
                   </div>
                 </div>
-                <div className="">
+                <div className="gross_order">
                   <span className="mrht40">Total</span>
                   <span> {"kr "+(this.state.orderData.total_amount ? this.state.orderData.total_amount.toFixed(2): "0.00")}</span>
                 </div>
