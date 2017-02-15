@@ -136,7 +136,8 @@ export function msgCount(req, res) {
       Conversation.find({ participants: user._id })
       .populate({
         path: 'messages',
-        options: { unread: true, receiver: user._id, limit: 1, sort: { 'createdAt': -1 } },
+        match: {unread: true, receiver: user._id},
+        options: { limit: 1, sort: { 'createdAt': -1 } },
         populate: {
           path: 'receiver sender',
           model: 'User',
