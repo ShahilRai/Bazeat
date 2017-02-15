@@ -124,8 +124,6 @@ export default class ReviewPage extends React.Component {
   }
 
   getUserId(e, i) {
-    console.log("this.state.users_data[i]")
-    console.log(this.state.users_data[i])
     this.setState({
       producer_id : this.state.users_data[i]._producer.id,
       purchase_order_id : this.state.users_data[i].id,
@@ -150,14 +148,13 @@ export default class ReviewPage extends React.Component {
     this.setState({
       review_index : index
     })
-    this.state.current_user_review[index].map((current_review, r_index)=>{
+    let current_review = this.state.current_user_review[index]
       this.setState({
-        review_id : current_review.id,
+        review_id : current_review._review.id,
         reviewedBy : current_review._review.reviewed_by.full_name,
         review_user : current_review._review.review,
         is_replied : current_review._review.is_commented,
         rating_count : current_review._review.rating
-      })
     })
   }
 
@@ -192,13 +189,15 @@ export default class ReviewPage extends React.Component {
   }
 
   render() {
-      console.log("is_replied")
-      console.log(this.state.is_replied)
       _allWriteReview = this.state.users_data.map((review, i)=>{
        userId = review.cuid
+       var src_producer = review._producer.photo
+       if(src_producer == undefined){
+        src_producer = require('../../../images/producer_logo.png')
+       }
       return(
         <div className="user_reveiw_list">
-          <span className="rvw_user_img"><img src={review._producer.photo} className="profile_image" /></span>
+          <span className="rvw_user_img"><img src={src_producer} className="profile_image" /></span>
           <span className="rvw_username"><Link to={"/user/"+userId} className = "rfont_colr">{changeCase.titleCase(review._producer.full_name)}</Link><br/>
             <span className="prod_review_date">{moment(review.date_joined).format('DD-MM-YYYY')}</span>
           </span>
@@ -213,9 +212,13 @@ export default class ReviewPage extends React.Component {
         if(item._review.reviewed_by.id==this.state.current_user_data){
           this.state.write_count.push(item);
           writeUserId = item._review.reviewed_for.cuid
+          var src_currntUser = item._review.reviewed_for.photo
+          if(src_currntUser == undefined){
+            src_currntUser = require('../../../images/producer_logo.png')
+          }
           return(
             <div className="user_reveiw_list">
-              <span className="rvw_user_img"><img src={item._review.reviewed_for.photo} className="profile_image"/></span>
+              <span className="rvw_user_img"><img src={src_currntUser} className="profile_image"/></span>
               <span className="rvw_username"><Link to={"/user/"+writeUserId} className = "rfont_colr">{changeCase.titleCase(item._review.reviewed_for.full_name)}</Link><br/>
                  <Rating  displayOnly={true} rating={item._review.rating} maxRating={5}  ratingSymbol={"\u2605"} />
               </span>
@@ -228,14 +231,16 @@ export default class ReviewPage extends React.Component {
 
     var _allCurrentReview = this.state.current_user_review ? this.state.current_user_review : []
     _allCurrentReviewResult = _allCurrentReview.map((item, index)=>{
-      console.log(" current item")
-       console.log(item)
         if(item._review.reviewed_for.id==this.state.current_user_data){
           this.state.count.push(item);
           cuUserId =item._review.reviewed_by.cuid
+          var src_written = item._review.reviewed_by.photo
+          if(src_written == undefined){
+            src_written = require('../../../images/producer_logo.png')
+          }
           return(
             <div className="user_reveiw_list f2f2f2_bg">
-              <span className="rvw_user_img"><img src={item._review.reviewed_by.photo} height="50" width="50"/> </span>
+              <span className="rvw_user_img"><img src={src_written} height="50" width="50"/> </span>
               <span className="rvw_username"><Link to={"/user/"+cuUserId} className = "rfont_colr">{changeCase.titleCase(item._review.reviewed_by.full_name)}</Link><br/>
                 <Rating  displayOnly={true} rating={item._review.rating} maxRating={5}  ratingSymbol={"\u2605"} />
               </span>

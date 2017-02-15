@@ -5,6 +5,7 @@ import { Link } from 'react-router';
 var changeCase = require('change-case')
 
 let userId;
+let user_src;
 export default class AllProducerReviews extends React.Component {
 
   static contextTypes = {
@@ -72,18 +73,26 @@ export default class AllProducerReviews extends React.Component {
     }else {
      _allProducerReviewResult = _allProducerReview.map((item, i)=>{
          userId = item.reviewed_by.cuid
+         var producer_src = item.reviewed_for.photo
+         if(producer_src == undefined){
+            producer_src = require('../../../images/producer_logo.png')
+         }
         if(item.comment){
           var _comment= <div className="rvw_replies">
-                          <span className="rvw_user_img"><img src={item.reviewed_for.photo} className="profile_image"/></span>
+                          <span className="rvw_user_img"><img src={producer_src} className="profile_image"/></span>
                           <span className="">
                             <h5>Answer from {item.reviewed_for.full_name}:</h5>
                             <p>{item.comment.comment}</p>
                           </span>
                         </div>
         }
+        user_src = item.reviewed_by.photo
+        if(user_src == undefined){
+            user_src = require('../../../images/producer_logo.png')
+        }
         return(
           <div className="review_display1">
-            <span className="rvw_user_img"><img src={item.reviewed_by.photo} className="profile_image"/></span>
+            <span className="rvw_user_img"><img src={user_src} className="profile_image"/></span>
             <span className="rvw_user_description">
               <h4><Link to={"/user/"+userId} className = "rfont_colr">{changeCase.titleCase(item.reviewed_by.full_name)}</Link></h4>
               <p>{item.review}</p>
