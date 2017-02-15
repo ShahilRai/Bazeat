@@ -69,9 +69,16 @@ export function getpurchaseOrder(req, res) {
 
 export function getPackage(req, res) {
   Package.findOne({cuid: req.query.cuid})
-    .populate("packageitems -_id _producer")
-    .populate({path: '_order',
-    model: 'Order',
+    .populate(
+      "packageitems -_id")
+    .populate({
+      path: '_producer',
+      select: 'cmp_address cmp_city cmp_postal_code cmp_web_site cmp_phone_number email',
+    })
+    .populate({
+      path: '_order',
+      select: 'address createdAt orderId',
+      model: 'Order',
     populate: {
       path: 'orderitems',
       model: 'OrderItem'
