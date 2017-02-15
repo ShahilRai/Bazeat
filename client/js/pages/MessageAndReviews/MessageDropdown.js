@@ -44,13 +44,10 @@ export default class MessageDropdown extends React.Component {
   var _allReviews = this.props.allReviews ? this.props.allReviews : []
   var reviewResults = _allReviews.map((item, index) => {
     if(item._review != undefined){
-      count += 1
-    }
-    if(count >0){
-      ReviewIcon = ( <span className="msgs_title">({count} new)</span>)
-    }
-
-    if(item._review != undefined){
+       count += 1
+       if(count >0){
+        ReviewIcon = (<span>({count} new ) </span>)
+       }
       var show_src = item._review.reviewed_by.photo
       if(show_src == undefined){
         show_src =require('../../../images/producer_logo.png')
@@ -81,7 +78,7 @@ export default class MessageDropdown extends React.Component {
   		</div>
   			{results}
     	<div className="chat_header" >
-      	<span className="msgs_title">Reviews {ReviewIcon}</span>
+      	<span className="msgs_title"> Reviews {ReviewIcon}  </span>
           	<span className="edit_icon">
             <Link to="/reviews"><h5>all Reviews</h5>
            	</Link>

@@ -1301,7 +1301,7 @@ height: 435px;
 	border-radius:100%;
 	position:absolute;
 	left:8px;
-	top:5%;
+	top:38%;
 }
 
 .chat_window_left .chat_list{
@@ -4738,6 +4738,9 @@ font-size:18px;
 /**********OM-PACKAGES*********/
 .rt_order_mgmnt{
   width: 81%;
+}
+.new_pckg_table .table tr td.red_txt{
+	color:#ED1C24;
 }
 .table.purchase_order_table tr td.red_txt{
   color:#ED1C24;
