@@ -151,10 +151,6 @@ export default class AllMessages extends React.Component {
       if(src_receiver==undefined){
         src_receiver=require('../../../images/producer_logo.png')
       }
-      if(data.unread && this.context.user.fullName==data.sender.full_name){
-        show_active=<span className="active_chat"></span>
-      }
-
       return(
         <Link to={"/messages/"+data.conversation_id}>
         <div className={this.state.activeState === data.conversation_id?"chat_list active_user":"chat_list"} key={index} onClick = {this.showSingleMsgConverstation.bind(this, data.conversation_id)}>
@@ -166,7 +162,6 @@ export default class AllMessages extends React.Component {
                 <span > {moment(data.createdAt).format('DD-MM-YYYY')}</span>
               </h3>
               <p>{data.body}</p>
-              {show_active}
             </span>
           </a>
         </div>
