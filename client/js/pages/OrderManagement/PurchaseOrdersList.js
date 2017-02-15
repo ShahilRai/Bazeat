@@ -115,7 +115,7 @@ export default class PurchaseOrdersList extends React.Component {
         <td className={statusClass}>{statusText}</td>
         <td><span className={pckd}>{pckdSpan}</span></td>
         <td><span className={shppd}>{shppdSpan}</span></td>
-        <td >kr {this.props.order.total_amount.toFixed(2)}</td>
+        <td >kr {this.props.order.net_price.toFixed(2)}</td>
         <td>{dlvr}</td>
       </tr>
     )

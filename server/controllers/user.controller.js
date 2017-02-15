@@ -340,7 +340,6 @@ export function create_charge(customer, producer, card, order, next, req, res) {
             "address.line1": req.line1,
             "address.postal_code": req.postal_code,
             "address.phone_num": req.phone_num,
-            "address.phone_num": req.phone_num,
           }
         }, {new: true}
         ).exec(function(err, updated_order) {

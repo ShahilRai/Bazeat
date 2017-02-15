@@ -33,16 +33,28 @@ export default class DisplayPackageList extends React.Component {
     var statusText='';
     var statusClass='';
     let dltShpmnt;
+    let carrierType;
     if(this.props._pckge){
       if(this.props._pckge.status == "Not Shipped"){
         statusText= "NOT SHIPPED"
-        statusClass= "text-left blue_txt"
+        statusClass= "text-left red_txt"
       }
       else if(this.props._pckge.status == "Shipped"){
         statusText= "SHIPPED"
         statusClass= "text-left blue_txt"
         dltShpmnt= <li><a href="javascript:void(0)" data-index={this.props.index} onClick={(e) => this.props.deleteShipmentConfirm(e, this.props._pckge.id)}>Delete shipment</a></li>
       }
+    }
+    if(this.props._pckge){
+      if(this.props._pckge.carrier== "hentemat"){
+          carrierType = "Henter selv"
+        }
+        else if(this.props._pckge.carrier== "budmat"){
+          carrierType = "Produsent leverer"
+        }
+        else if(this.props._pckge.carrier== "sendemat"){
+          carrierType = "Bring"
+        }
     }
 
     return(
@@ -54,7 +66,7 @@ export default class DisplayPackageList extends React.Component {
           {this.props._pckge.pkg_date ? moment(this.props._pckge.pkg_date).format('DD-MM-YYYY'): ""}
         </td>
         <td className={statusClass}>{statusText}</td>
-        <td className="">Bring</td>
+        <td className="">{carrierType}</td>
         <td className="text-center prht30">{this.props._pckge.shippingdata.ship_date ? moment(this.props._pckge.shippingdata.ship_date).format('DD-MM-YYYY'): "N.A"}</td>
         <td className="text-left prht30 ">
         <span className="shipping_toggle" onClick={this.showDropDownBox}>

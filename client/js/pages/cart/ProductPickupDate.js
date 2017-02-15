@@ -366,7 +366,8 @@ export default class ProductPickupDate extends React.Component {
         phone_num : _phoneNo,
         last_name : _lastName,
         line1 : _address,
-        city : _city
+        city : _city,
+        country : 'Norway'
       });
   }
 
@@ -409,7 +410,8 @@ export default class ProductPickupDate extends React.Component {
         last_name : _lastName,
         line1 : _address,
         city : _city,
-        type: type
+        type: type,
+        country : 'Norway'
       });
   }
 
