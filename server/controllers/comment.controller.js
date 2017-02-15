@@ -67,8 +67,11 @@ export function allReviews(req, res, next) {
           path: 'reviewed_by reviewed_for',
           model: 'User',
           select: 'full_name photo'
-        }
-      }).sort('-updatedAt')
+        }})
+        .populate({
+          path: 'comment',
+          select: 'comment is_commented'
+        }).sort('-updatedAt')
         .exec(function(err, reviews) {
           if (err) {
             res.send({ error: err });
@@ -173,6 +176,8 @@ export function avg_ratings(reviews, newReview, next, total_count, res){
 }
 
 export function sendReply(req, res, next) {
+  console.log('req.body')
+  console.log(req.body)
   User.findOne({ email: req.body.email }).exec((err, user) => {
     const comment = new Comment({
       comment: req.body.comment_body,

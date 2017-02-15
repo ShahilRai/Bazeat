@@ -79,6 +79,8 @@ export default class Header extends React.Component {
   }
 
   render() {
+    console.log("all_reviews")
+    console.log(this.state.all_reviews)
     if(this.context.authenticated) {
       email = this.context.user.email
       if(check_email) {
