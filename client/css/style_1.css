@@ -366,7 +366,7 @@ border: 1px solid #cccccc;
 }
 .footer_menu{
 	list-style:none;
-	float:left;
+	text-align: center;
 	margin-top: 6px;
 }
 .footer_menu li{
@@ -1661,6 +1661,7 @@ border-radius:4px;
 /*:::::::::::::::::::::::::::::::::::::::::::::::::::::
  ========PRODUCER PRODUCT DETAIL STYLE END============
 :::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+.for_last_margin{margin-bottom: 15px;}
 .products_section .wall-column {
 	width: 33.33%;
 }
@@ -1672,10 +1673,11 @@ border-radius:4px;
 .product_detail_lft.prduct_small_icon{    width: 214px;
     margin-top: -48px;}
 
-.product_detail_lft.prduct_small_icon img{
-   width: auto;
-   height: 203px;
-   max-width: 207px;
+.product_detail_lft.prduct_small_icon img {
+    width: 207px;
+    height: 193px;
+    max-width: 207px;
+    border-radius: 10px;
 }
 .prduct_small_icon{width: 203px;
 border: 3px solid #fff;
@@ -1735,6 +1737,7 @@ ul.prod_lft_details li:hover a {
 	float:left;
 	width:100%;
 	margin-top:28px;
+
 }
 .product_detail_lft .product_left_dsc h4 {
 	font-size:18px;
@@ -1751,6 +1754,7 @@ ul.prod_lft_details li:hover a {
 	float:left;
 	width:100%;
 	margin-top:22px;
+	margin-bottom: 59px;
 }
 .category_menu {
 	float: left;
@@ -3835,6 +3839,20 @@ display:block;
 }
 
 /*======checkout step2=================*/
+.dilvery_method_sendemat {
+    background: url(../images/truck.png) no-repeat 0 0;
+    height: 51px;
+    width: 50%;
+    background-size: cover;
+    background-position: center;
+    display: inline-block;
+    margin-bottom: 23px;
+    margin-top: 12px;
+}
+.dilvery_method_sendemat:hover {
+    background: url(../images/del_car.png) no-repeat 0 0;
+    background-size: contain;
+}
 .chkout_pg.chkoutstep2 table th{
 	font-size:14px;
 	font-weight:600;
@@ -3882,7 +3900,7 @@ padding:14px;
   margin-right: 10px;
 }
 .del_step1:last-child{margin-right:0;}
-.del_step1 img{text-align:center; height:73px;   margin-bottom: 12px;}
+.del_step1  img {text-align:center; height:73px;   margin-bottom: 12px;}
 .chkout_pg .del_step1 h4{margin-bottom:0;}
 .del_step1 span{font-size:14px;color:#666666;}
 .chkout_pg .del_step1 p{font-size:12px;color:#666666;padding-bottom:0;margin-top:15px;}
@@ -4330,6 +4348,9 @@ width:17%;
 }
 
 .purchase_order_table tr{border-top:1px solid #999999;}
+.purchase_order_table tr:hover{
+  background: #f2f2f2 !important;
+}
 .table.purchase_order_table>thead>tr>th{
   border-bottom:1px solid #999999;
   padding-left:19px;
@@ -4344,7 +4365,7 @@ width:17%;
   color:#808080;
 }
 .bold{
-  font-weight:700;
+  font-weight:900;
 }
 .table.purchase_order_table tr td.grey_txt{
   color:#5A646D;

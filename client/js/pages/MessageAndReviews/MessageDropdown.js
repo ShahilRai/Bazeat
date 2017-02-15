@@ -39,21 +39,19 @@ export default class MessageDropdown extends React.Component {
 		}
 		})
 	    var _allReviews = this.props.allReviews ? this.props.allReviews : []
-	    var reviewResults = _allReviews.map((result, index) => {
-	    	return result.map((item, i)=>{
+	    var reviewResults = _allReviews.map((item, index) => {
 	        	return(
-			      <div className={item.reviewed_by.full_name==this.context.user.fullName?'':"chat_list white_bg"} key={i}>
-			        <span className="user_img" ><img src={item.reviewed_by.full_name==this.context.user.fullName?'':item.reviewed_by.photo} className={item.reviewed_by.full_name==this.context.user.fullName?'':"profile_image"} /></span>
-			        <span className="chat_description" key ={i}>
+			      <div className={item._review.reviewed_by.full_name==this.context.user.fullName?'':"chat_list white_bg"} key={index}>
+			        <span className="user_img" ><img src={item._review.reviewed_by.full_name==this.context.user.fullName?'':item._review.reviewed_by.photo} className={item._review.reviewed_by.full_name==this.context.user.fullName?'':"profile_image"} /></span>
+			        <span className="chat_description" key ={index}>
 			          <h3 >
-			            {item.reviewed_by.full_name==this.context.user.fullName?'':changeCase.titleCase(item.reviewed_by.full_name)}
-			            <span> {item.reviewed_by.full_name==this.context.user.fullName?'':moment(item.createdAt).format('DD-MM-YYYY')}</span>
+			            {item._review.reviewed_by.full_name==this.context.user.fullName?'':changeCase.titleCase(item._review.reviewed_by.full_name)}
+			            <span> {item._review.reviewed_by.full_name==this.context.user.fullName?'':moment(item._review.createdAt).format('DD-MM-YYYY')}</span>
 			          </h3>
-			          <p> {item.reviewed_by.full_name==this.context.user.fullName?'':item.review}</p>
+			          <p> {item._review.reviewed_by.full_name==this.context.user.fullName?'':item._review.review}</p>
 			        </span>
 			      </div>
 	        	)
-	      	})
 		})
 	return(
 		<div className="msg_dropdown dropdown-content" id="user_message" >

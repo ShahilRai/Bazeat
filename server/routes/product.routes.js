@@ -33,7 +33,9 @@ router.route('/show_product/:cuid').put(ProductController.showProduct);
 router.route('/products/:cuid').delete(ProductController.deleteProduct);
 
 // Get Ingredients
-router.route('/ingredients').get(ProductController.getIngrdients);
+router.route('/ingredient').get(ProductController.getIngrdients);
+
+router.route('/ingredients').get(ProductController.listIngredients);
 
 // Get Product details
 router.route('/details').get(ProductController.getDetails);

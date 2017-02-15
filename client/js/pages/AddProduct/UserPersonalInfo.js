@@ -19,7 +19,7 @@ export default class UserPersonalInfo extends React.Component {
           <li className="review_date">
             <a href="javascript:void(0)">Man-Lør: 08-15</a>
           </li>
-          
+
         </div>
       )
     }
@@ -36,7 +36,7 @@ export default class UserPersonalInfo extends React.Component {
         </ul>
         <div className="product_left_dsc">
           <h4>Presentation </h4>
-          <p>{this.props.userInfo.description}</p>
+          <p className="for_last_margin">{this.props.userInfo.description}</p>
         </div>
       </div>
     )

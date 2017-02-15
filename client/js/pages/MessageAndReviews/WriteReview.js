@@ -42,7 +42,7 @@ export default class WriteReview extends React.Component {
  }
 
   WriteAReview(){
-    this.WriteReviewData(this.context.user.email, this.refs.review.value,this.state.currentRating,this.state.is_reviewed).then((response) => {
+    this.WriteReviewData(this.context.user.email, this.refs.review.value,this.state.currentRating,this.state.is_reviewed,this.props.purchase_order_id).then((response) => {
       this.props.updateReviews(response.data)
         if(response.data) {
           toastr.success('Your review successfully submitted');
@@ -61,12 +61,13 @@ export default class WriteReview extends React.Component {
     this. getProducerArray();
   }
 
-  WriteReviewData(email,review_body,rating,is_reviewed){
-    return axios.post("api/reviews?reviewed_for="+this.props.user_id ,{
+  WriteReviewData(email,review_body,rating,is_reviewed,purchase_order_id){
+    return axios.post("api/reviews?reviewed_for="+this.props.producer_id ,{
       email: email,
       review_body: review_body,
       rating : rating,
-      is_reviewed : is_reviewed
+      is_reviewed : is_reviewed,
+      purchase_order_id : purchase_order_id
     })
   }
 

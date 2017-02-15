@@ -52,10 +52,12 @@ export default class PurchaseOrdersList extends React.Component {
     var pckdSpan = "";
     var orderId = "";
     var shppdSpan= "";
+    var boldText= ";"
     var dlvr="";
       if(this.props.order.after_payment_status == 'Received'){
-        statusClass = "bold grey_txt";
-        statusText  = "RECEIVED";
+        statusClass = " grey_txt";
+        boldText = " bold ";
+        statusText  = " RECEIVED";
         pckd = "active_inactive inactive_grey";
         shppd = "active_inactive inactive_grey";
       }
@@ -102,18 +104,18 @@ export default class PurchaseOrdersList extends React.Component {
           }
       }
     return(
-      <tr key={this.props.index}>
-        <td className="bold">
+      <tr key={this.props.index} className={boldText}>
+        <td >
           {this.props.order.address? moment(this.props.order.address.createdAt).format('DD-MM-YYYY'): ""}
         </td>
-        <td className="text-left bold">
-          <Link to={"/orders/"+(this.props.order.cuid)}>{"SO-"+(this.props.order.orderId)}</Link>
+        <td className="text-left ">
+          <Link to={"/orders/"+(this.props.order.cuid)}>{"PO-"+(this.props.order.orderId)}</Link>
         </td>
-        <td className="bold">{this.props.customer ? this.props.customer.full_name : ""}</td>
+        <td >{this.props.customer ? this.props.customer.full_name : ""}</td>
         <td className={statusClass}>{statusText}</td>
         <td><span className={pckd}>{pckdSpan}</span></td>
         <td><span className={shppd}>{shppdSpan}</span></td>
-        <td className="bold">kr {this.props.order.total_amount.toFixed(2)}</td>
+        <td >kr {this.props.order.total_amount.toFixed(2)}</td>
         <td>{dlvr}</td>
       </tr>
     )
