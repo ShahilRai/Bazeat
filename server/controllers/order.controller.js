@@ -163,7 +163,7 @@ export  function getShippingPrice(req, res){
           ).exec(function(err, updated_cart){
               cart_postcode = updated_cart.address.postal_code;
               cart_weight = updated_cart.total_weight;
-          let options = {uri : "https://api.bring.com/shippingguide/products/all.json?from="+cart_postcode+"&to="+user[0].postal_code+"&clientUrl="+clientUrl+"&weightInGrams="+cart_weight+"",method : 'GET'
+          let options = {uri : "https://api.bring.com/shippingguide/products/all.json?from="+cart_postcode+"&to="+user[0].postal_code+"&clientUrl="+clientUrl+"&weightInGrams="+cart_weight+"&product=pa_doren&product=servicepakke",method : 'GET'
           };
           request(options, function (error, response, body) {
             if (!error && response.statusCode == 200) {
@@ -179,7 +179,7 @@ export  function getShippingPrice(req, res){
       else{
         cart_postcode = cart.address.postal_code;
         cart_weight = cart.total_weight;
-        let options = {uri : "https://api.bring.com/shippingguide/products/all.json?from="+cart_postcode+"&to="+user[0].postal_code+"&clientUrl="+clientUrl+"&weightInGrams="+cart_weight+"", method : 'GET'
+        let options = {uri : "https://api.bring.com/shippingguide/products/all.json?from="+cart_postcode+"&to="+user[0].postal_code+"&clientUrl="+clientUrl+"&weightInGrams="+cart_weight+"&product=pa_doren&product=servicepakke", method : 'GET'
         };
         request(options, function (error, response, body) {
           if (!error && response.statusCode == 200) {

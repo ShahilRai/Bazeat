@@ -49,10 +49,10 @@ export default class DisplayPackageList extends React.Component {
       if(this.props._pckge.carrier== "hentemat"){
           carrierType = "Henter selv"
         }
-        else if(this.props._pckge.carrier== "budmat"){
+        else if(this.props._pckge.carrier== "Budmat"){
           carrierType = "Produsent leverer"
         }
-        else if(this.props._pckge.carrier== "sendemat"){
+        else if(this.props._pckge.carrier== "Sendemat"){
           carrierType = "Bring"
         }
     }

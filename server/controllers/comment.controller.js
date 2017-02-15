@@ -9,51 +9,6 @@ import * as MailService from '../services/mailer';
 import * as MessageService from '../services/twillio';
 
 export function allReviews(req, res, next) {
-  // User.findOne({ email: req.query.email }).exec((err, user) => {
-  //   RatingAndReview.find({ participants: user._id })
-  //   .select('_id')
-  //   .exec(function(err, reviews) {
-  //     if (err) {
-  //       res.send({ error: err });
-  //       return next(err);
-  //     }
-  //     else{
-  //       if(reviews.length > 0){
-  //         let fullReviews = [];
-  //         reviews.forEach(function(review) {
-  //           Review.find({ 'rating_and_review_id': review._id })
-  //             .sort('-createdAt')
-  //             .limit(5)
-  //             .populate({
-  //               path: 'reviewed_by',
-  //               select: 'full_name photo cuid'
-  //             })
-  //             .populate({
-  //               path: 'reviewed_for',
-  //               select: 'full_name photo cuid'
-  //             })
-  //             .populate({
-  //               path: 'comment',
-  //               select: 'comment is_commented'
-  //             })
-  //             .exec(function(err, review1) {
-  //               if (err) {
-  //                 res.send({ error: err });
-  //                 return next(err);
-  //               }
-  //               fullReviews.push(review1);
-  //               if(fullReviews.length === reviews.length) {
-  //                 return res.status(200).json({fullReviews });
-  //               }
-  //             });
-  //         });
-  //       }
-  //       else{
-  //         return res.status(200).json({msg: "No reviews to show" });
-  //       }
-  //     }
-  //   });
-  // });
   User.findOne({ email: req.query.email }).exec((err, user) => {
     if(err || user == null){
       res.status(422).send({err});
@@ -176,8 +131,6 @@ export function avg_ratings(reviews, newReview, next, total_count, res){
 }
 
 export function sendReply(req, res, next) {
-  console.log('req.body')
-  console.log(req.body)
   User.findOne({ email: req.body.email }).exec((err, user) => {
     const comment = new Comment({
       comment: req.body.comment_body,
@@ -185,10 +138,6 @@ export function sendReply(req, res, next) {
       is_commented: req.body.is_commented
     });
     comment.save(function(err, newComment) {
-      console.log('err')
-      console.log(err)
-      console.log('newComment')
-      console.log(newComment)
       if (err) {
         res.send({ error: err });
       }
@@ -204,31 +153,6 @@ export function sendReply(req, res, next) {
 }
 
 export function reviewUserList(req, res){
-  // User.findOne({ email: req.query.email }).exec((err, user) => {
-  //   Order.find({_buyer: user._id}).select("products").exec((err, products) => {
-  //     let products_arr = []
-  //     let producer_arr = []
-  //     products.forEach(function(item, index1) {
-  //       products_arr.push(item.products[0])
-  //       if(products.length == index1+1){
-  //         Product.find({_id: {"$in": products_arr }}).populate("_producer").exec((err, producer)=>{
-  //           if(producer){
-  //             producer.forEach(function(item, index) {
-  //               Review.find({reviewed_for: item._producer._id, is_reviewed: true}).exec((err,review) =>{
-  //                 if(review.length == 0){
-  //                   producer_arr.push(item._producer)
-  //                 }
-  //                 if(producer.length == index+1){
-  //                   return res.json({producer_arr});
-  //                 }
-  //               })
-  //             })
-  //           }
-  //         })
-  //       }
-  //     })
-  //   });
-  // });
   User.findOne({ email: req.query.email }).exec((err, user) => {
     PurchaseOrder.find({_buyer: user._id , is_reviewed: false}).populate('_producer').exec((err,purchaseorders) => {
       if(err) {
@@ -260,8 +184,6 @@ export function reviewsCount(req,res){
         }
       }).limit(2).sort('-updatedAt')
         .exec(function(err, reviews) {
-          console.log('reviews')
-          console.log(reviews)
           if (err) {
             res.send({ error: err });
             return next(err);
