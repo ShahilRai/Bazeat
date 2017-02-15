@@ -135,13 +135,12 @@ export default class ReviewPage extends React.Component {
     this.setState({
       write_index : index
     })
-    this.state.current_user_review[index].map((current_review, r_index)=>{
+    let current_review = this.state.current_user_review[index]
       this.setState({
         write_review_user : current_review._review.review,
         write_review_name : current_review._review.reviewed_for.full_name,
         given_rating_count : current_review._review.rating
       })
-    })
   }
 
   getReviewId(e, index) {
