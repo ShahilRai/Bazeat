@@ -195,7 +195,7 @@ export default class CreateNewPackage extends React.Component {
                   </ul>
                   <div className="order_header_rght">
                     <span className="close_order pckg_close_order">
-                      <a href="#"><img src={require('../../../images/close_order.png')} /></a>
+                      <Link to={"/orders/"+ orderCuid}><img src={require('../../../images/close_order.png')} /></Link>
                     </span>
                   </div>
                 </div>
