@@ -16,6 +16,8 @@ router.route('/send_email').put(PurchaseOrderController.sendOrderEmail);
 
 router.route('/get_packages').get(PurchaseOrderController.getPackages);
 
+router.route('/get_package').get(PurchaseOrderController.getPackage);
+
 router.route('/get_order').get(PurchaseOrderController.getpurchaseOrder);
 
 router.route('/valid_qty').get(PurchaseOrderController.beforePkgcreate);

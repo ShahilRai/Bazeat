@@ -67,10 +67,30 @@ export function getpurchaseOrder(req, res) {
 }
 
 
+export function getPackage(req, res) {
+  Package.findOne({cuid: req.query.cuid})
+    .populate("packageitems -_id _producer")
+    .populate({path: '_order',
+    model: 'Order',
+    populate: {
+      path: 'orderitems',
+      model: 'OrderItem'
+    }}).exec((err, pkg)=>{
+      if (err) {
+        return res.json(422, err);
+      }
+      else{
+        return res.json(pkg);
+      }
+  })
+}
+
+
 export function createPackage(req, res){
   User.findOne({email: req.query.email}).exec((err, producer) =>{
     const newPackage = new Package();
     newPackage._producer = producer._id
+    newPackage.cuid = cuid();
     newPackage.save((err, packed) => {
       return res.json(packed);
     })
