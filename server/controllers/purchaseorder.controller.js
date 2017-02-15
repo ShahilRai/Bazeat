@@ -67,10 +67,37 @@ export function getpurchaseOrder(req, res) {
 }
 
 
+export function getPackage(req, res) {
+  Package.findOne({cuid: req.query.cuid})
+    .populate(
+      "packageitems -_id")
+    .populate({
+      path: '_producer',
+      select: 'cmp_address cmp_city cmp_postal_code cmp_web_site cmp_phone_number email',
+    })
+    .populate({
+      path: '_order',
+      select: 'address createdAt orderId',
+      model: 'Order',
+    populate: {
+      path: 'orderitems',
+      model: 'OrderItem'
+    }}).exec((err, pkg)=>{
+      if (err) {
+        return res.json(422, err);
+      }
+      else{
+        return res.json(pkg);
+      }
+  })
+}
+
+
 export function createPackage(req, res){
   User.findOne({email: req.query.email}).exec((err, producer) =>{
     const newPackage = new Package();
     newPackage._producer = producer._id
+    newPackage.cuid = cuid();
     newPackage.save((err, packed) => {
       return res.json(packed);
     })
