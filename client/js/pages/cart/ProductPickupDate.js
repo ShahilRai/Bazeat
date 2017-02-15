@@ -485,7 +485,7 @@ export default class ProductPickupDate extends React.Component {
             </div>
           </div>
           <button type="button" className="btn btn-default continue_btn" onClick={this.createOrder} ref="myRef">Continue</button>
-          <button type="button" className="btn btn-default continue_btn" onClick={ this.goToBackPage.bind(this)}>Back</button>
+          <button type="button" className="btn btn-default continue_btn mleft" onClick={ this.goToBackPage.bind(this)}>Back</button>
         </div>
       </div>
     );

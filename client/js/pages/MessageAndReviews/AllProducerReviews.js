@@ -6,6 +6,7 @@ var changeCase = require('change-case')
 
 let userId;
 let user_src;
+let commentId;
 export default class AllProducerReviews extends React.Component {
 
   static contextTypes = {
@@ -19,7 +20,8 @@ export default class AllProducerReviews extends React.Component {
       expanded: false,
       all_producer_reviews : [],
       offset: 0,
-      total_pages_count: 0
+      total_pages_count: 0,
+      count_total : 0
     }
     this.getMoreTextDiv = this.getMoreTextDiv.bind(this);
     this.reviewPagination = this.reviewPagination.bind(this);
@@ -44,6 +46,7 @@ export default class AllProducerReviews extends React.Component {
       if(response.data) {
         this.setState({
           all_producer_reviews : response.data.reviews,
+          count_total : response.data.total_count,
           total_pages_count: Math.ceil(response.data.total_count / 5)
         });
       }
@@ -72,8 +75,8 @@ export default class AllProducerReviews extends React.Component {
   }
 
   render() {
-    console.log("this.state.offset")
-    console.log(this.state.offset)
+    console.log("this.state.count_total")
+    console.log(this.state.count_total)
     var _allProducerReviewResult
     var expandedDiv = this.getMoreTextDiv();
     var _allProducerReview = this.state.all_producer_reviews ? this.state.all_producer_reviews : []
@@ -82,6 +85,7 @@ export default class AllProducerReviews extends React.Component {
     }else {
      _allProducerReviewResult = _allProducerReview.map((item, i)=>{
          userId = item.reviewed_by.cuid
+         commentId =item.reviewed_for.cuid
          var producer_src = item.reviewed_for.photo
          if(producer_src == undefined){
             producer_src = require('../../../images/producer_logo.png')
@@ -90,7 +94,7 @@ export default class AllProducerReviews extends React.Component {
           var _comment= <div className="rvw_replies">
                           <span className="rvw_user_img"><img src={producer_src} className="profile_image"/></span>
                           <span className="">
-                            <h5>Answer from {item.reviewed_for.full_name}:</h5>
+                            <h5>Answer from <Link to={"/user/"+commentId} className = "rfont_colr" >{item.reviewed_for.full_name}:</Link></h5>
                             <p>{item.comment.comment}</p>
                           </span>
                         </div>
@@ -118,7 +122,7 @@ export default class AllProducerReviews extends React.Component {
       <div className="review_display_inner">
         <h3 className="plft20">Reviews</h3>
           {_allProducerReviewResult}
-        {this.state.all_producer_reviews.length>4?<ReactPaginate previousLabel={"previous"} nextLabel={"next"} breakLabel={<a href="">...</a>}
+        {this.state.count_total>5?<ReactPaginate previousLabel={"previous"} nextLabel={"next"} breakLabel={<a href="">...</a>}
             breakClassName={"break-me"} pageCount={this.state.total_pages_count} marginPagesDisplayed={3}
             pageRangeDisplayed={3} onPageChange={this.handlePageClick.bind(this)} containerClassName={"pagination"}
             subContainerClassName={"pages pagination"} activeClassName={"active"} />:""}

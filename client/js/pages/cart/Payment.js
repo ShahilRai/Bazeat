@@ -172,7 +172,7 @@ export default class Payment extends React.Component {
                   </div>
                 </div>
                 <div className="form-group row">
-                  <label for="" className="col-sm-4 col-form-label">Valid through
+                  <label for="" className="col-sm-4 col-form-label"><span className="payment_valid">Valid through</span>
                     <small>(Month/Year)</small>
                   </label>
                   <div className="custom_select_box mrht10">
@@ -201,7 +201,7 @@ export default class Payment extends React.Component {
                   </div>
                 </div>
                 <div className="form-group row">
-                  <label for="" className="col-sm-4 col-form-label">Security code
+                  <label for="" className="col-sm-4 col-form-label"><span className="payment_valid">Security code</span>
                     <small>(CVV2)</small>
                   </label>
                   <div className="col-sm-7 prht_zero plft_zero">
