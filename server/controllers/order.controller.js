@@ -63,10 +63,10 @@ export function addOrder(req, res) {
                 if(data.cartitems.length == order.orderitems.length) {
                   food_vat_value = (data.total_price-(data.total_price/(1+(0.15)))) ;
                   shipment_vat_value = (parseInt(req.body.shipment_price)-(parseInt(req.body.shipment_price)/(1+(0.25)))) ;
-                  order.total_amount = data.total_price + shipment_vat_value + parseInt(req.body.shipment_price) ;
+                  order.total_amount = data.total_price  + parseInt(req.body.shipment_price) ;
                   order.total_weight = data.total_weight;
                   order.total_qty = data.total_qty;
-                  order.shipment_price = (parseInt(req.body.shipment_price)+ parseInt(shipment_vat_value)).toFixed(2);
+                  order.shipment_price = (parseInt(req.body.shipment_price)).toFixed(2);
                   order.food_vat_value = food_vat_value.toFixed(2);
                   order.shipment_vat_value = shipment_vat_value.toFixed(2);
                   order.net_price = data.total_price;
@@ -140,43 +140,8 @@ export function getOrder(req, res) {
   });
 }
 
-
-
-
-// export  function cartCheckout (req, res) {
-//   var totalweight = 1000;
-//   Cart.find({cuid: req.params.cuid}).select("cartitems user -_id").exec(function(err,data) {
-//     let cartitems = data[0].cartitems
-//     let user_id = data[0].user
-//     if (err) return handleError(err);
-//     User.findOne({ _id: user_id }).exec((err, user) =>{
-//       // let to_pin = user.postal_code
-//       let to_pin = '7600'
-//       if (cartitems[0] != null){
-//         async.forEach(cartitems,function(item,callback) {
-//           if (item.product_id.length > 0){
-//             Product.findOne({_id: item.product_id}).populate('_producer').exec(function(err, product) {
-
-//               let from_pin = '1407'
-//                 if (err) {
-//                   throw err;
-//                   callback();
-//                 }
-//                 // getShippingPrice(to_pin, from_pin, totalweight)
-//                 return res.status(200).send({msg: "Cart "});
-//             });
-//           }
-//         });
-//       }
-//       else{
-//         return res.json('Cart is empty');
-//       }
-//     });
-//   });
-// }
-
 export  function getShippingPrice(req, res){
-  let clientUrl = 'http://localhost:3000'
+  let clientUrl = process.env.SiteUrl
   let cart_postcode, cart_weight;
   User.find({email: req.query.email}).exec((err, user) =>{
     Cart.findOne({cuid: req.query.cart_cuid}).exec((err, cart) =>{

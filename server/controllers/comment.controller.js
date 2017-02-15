@@ -185,6 +185,10 @@ export function sendReply(req, res, next) {
       is_commented: req.body.is_commented
     });
     comment.save(function(err, newComment) {
+      console.log('err')
+      console.log(err)
+      console.log('newComment')
+      console.log(newComment)
       if (err) {
         res.send({ error: err });
       }
@@ -239,48 +243,7 @@ export function reviewUserList(req, res){
 }
 
 export function reviewsCount(req,res){
-  // User.findOne({ email: req.query.email }).exec((err, user) => {
-  //   RatingAndReview.find({ participants: user._id })
-  //     .sort('-updatedAt')
-  //     .limit(2)
-  //     .select('_id')
-  //     .exec(function(err, ratingreviews) {
-  //       if (err) {
-  //         res.send({ error: err });
-  //         return next(err);
-  //       }
-  //       let fullReviews = [];
-  //       ratingreviews.forEach(function(ratingreview, index) {
-  //         Review.find({ 'rating_and_review_id': ratingreview._id, reviewed_for: user._id, is_reviewed: true})
-  //           .sort('-createdAt')
-  //           .limit(1)
-  //           .populate({
-  //             path: 'reviewed_by',
-  //             select: 'full_name photo cuid'
-  //           })
-  //           .populate({
-  //             path: 'reviewed_for',
-  //             select: 'full_name photo cuid'
-  //           })
-  //           .populate({
-  //             path: 'comment',
-  //             select: 'comment is_commented'
-  //           })
-  //           .exec(function(err, review) {
-  //             if (err) {
-  //               res.send({ error: err });
-  //               return next(err);
-  //             }if(review.length>0){
-  //               fullReviews.push(review);
-  //             }
-  //             if(index+1 === ratingreviews.length) {
-  //               return res.status(200).json({ reviews: fullReviews });
-  //             }
-  //           });
-  //       });
-  //   });
-  // });
-   User.findOne({ email: req.query.email }).exec((err, user) => {
+  User.findOne({ email: req.query.email }).exec((err, user) => {
     if(err || user == null){
       res.status(422).send({err});
     }
@@ -288,7 +251,8 @@ export function reviewsCount(req,res){
       RatingAndReview.find({ participants: user._id })
       .populate({
         path: '_review',
-        options: { is_reviewed: true, limit: 1, sort: { 'createdAt': -1 } },
+        match: {reviewed_for: user._id, is_reviewed: true},
+        options: { limit: 1, sort: { 'createdAt': -1 } },
         populate: {
           path: 'reviewed_by reviewed_for',
           model: 'User',
@@ -296,6 +260,8 @@ export function reviewsCount(req,res){
         }
       }).limit(2).sort('-updatedAt')
         .exec(function(err, reviews) {
+          console.log('reviews')
+          console.log(reviews)
           if (err) {
             res.send({ error: err });
             return next(err);

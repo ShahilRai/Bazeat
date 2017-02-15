@@ -212,7 +212,7 @@ export default class ReceivedOrder extends React.Component {
                         </div>
                         <div className="full_width_del">
                           <span><strong>Delivery method</strong></span>
-                          <span className="text-left"></span>
+                          <span className="text-left">{this.state.orderDetails.delivery_method}</span>
                         </div>
                       </div>
                     </div>

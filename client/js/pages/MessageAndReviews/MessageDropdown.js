@@ -19,13 +19,13 @@ export default class MessageDropdown extends React.Component {
 	  	var _allMessages = this.props.allMessages ? this.props.allMessages : []
 	  	var results = _allMessages.map((result, index) => {
         let data = result.messages[0]
-        var src=data.sender.photo
-	  		if(src==undefined){
-	  			src=require('../../../images/producer_logo.png')
-	  		}
-	  		if(data.unread){
+	  		if(data != undefined) {
+	        var src=data.sender.photo
+		  		if(src==undefined) {
+		  			src=require('../../../images/producer_logo.png')
+		  		}
 		    return(
-		         <div key={index} className={data.sender.full_name==this.context.user.fullName?'':"chat_list white_bg"} >
+		      <div key={index} className={data.sender.full_name==this.context.user.fullName?'':"chat_list white_bg"} >
 			 		<span className={data.sender.full_name==this.context.user.fullName?'':"user_img"}><img className={data.sender.full_name==this.context.user.fullName?'':"user_profile_img"} src={data.sender.full_name==this.context.user.fullName?'':src}/></span>
 			 			<span className={data.sender.full_name==this.context.user.fullName?'':"chat_description"} key ={index}>
 			 				<h3 >
@@ -40,9 +40,13 @@ export default class MessageDropdown extends React.Component {
 		})
 	    var _allReviews = this.props.allReviews ? this.props.allReviews : []
 	    var reviewResults = _allReviews.map((item, index) => {
+          var show_src = item._review.reviewed_by.photo
+          if(show_src == undefined){
+            show_src =require('../../../images/producer_logo.png')
+          }
 	        	return(
 			      <div className={item._review.reviewed_by.full_name==this.context.user.fullName?'':"chat_list white_bg"} key={index}>
-			        <span className="user_img" ><img src={item._review.reviewed_by.full_name==this.context.user.fullName?'':item._review.reviewed_by.photo} className={item._review.reviewed_by.full_name==this.context.user.fullName?'':"profile_image"} /></span>
+			        <span className="user_img" ><img src={item._review.reviewed_by.full_name==this.context.user.fullName?'':show_src} className={item._review.reviewed_by.full_name==this.context.user.fullName?'':"profile_image"} /></span>
 			        <span className="chat_description" key ={index}>
 			          <h3 >
 			            {item._review.reviewed_by.full_name==this.context.user.fullName?'':changeCase.titleCase(item._review.reviewed_by.full_name)}
