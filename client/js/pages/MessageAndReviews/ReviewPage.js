@@ -231,8 +231,6 @@ export default class ReviewPage extends React.Component {
 
     var _allCurrentReview = this.state.current_user_review ? this.state.current_user_review : []
     _allCurrentReviewResult = _allCurrentReview.map((item, index)=>{
-      console.log(" current item")
-       console.log(item)
         if(item._review.reviewed_for.id==this.state.current_user_data){
           this.state.count.push(item);
           cuUserId =item._review.reviewed_by.cuid
