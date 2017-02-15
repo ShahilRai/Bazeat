@@ -85,7 +85,6 @@ export default class SelectedMessages extends React.Component {
       var monthNameFormat = d3.timeFormat("%b-%d");
       var dateModified=monthNameFormat(new Date(date))
       var currentDate=new Date()
-      console.log(currentDate)
         var n = currentDate.getFullYear()
         return(
           <div className="complt_user_chat" key ={index}>
