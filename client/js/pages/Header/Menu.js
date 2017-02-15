@@ -32,8 +32,10 @@ export default class Menu extends React.Component {
     var _allMessages = this.props.allMessages ? this.props.allMessages : []
     _allMessages.map((msg,index) =>{
      let data = msg.messages[0]
-      if(data.unread && this.props.email==data.receiver.email){
-        ismsg +=1
+      if(data != undefined) {
+        if(data.unread && this.props.email==data.receiver.email){
+          ismsg +=1
+        }
       }
     })
     var cart_icon = <CartModal />

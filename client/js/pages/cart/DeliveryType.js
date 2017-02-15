@@ -34,7 +34,7 @@ export default class DeliveryType extends React.Component {
     })
     var cart_cuid = this.props.cart_detail.cuid
     var email = this.context.user.email;
-    if(this.props.cart_detail.total_weight<10){
+    if(this.props.cart_detail.total_weight < 10000){
       this.loadShippingDetail(email, cart_cuid).then((response) => {
       if(response.data.res_body) {
         sendematSelected = 'sendemat';
