@@ -68,6 +68,7 @@ export default class Ingredients extends React.Component {
 	}
 
   addItem() {
+		_PUSHINGREDIENT = this.state.data.ingredients
     var text = this.refs.ingredients.value
     var _exist = false
     this.addIngredients(text).then((response) => {
@@ -88,6 +89,7 @@ export default class Ingredients extends React.Component {
 						ingredients : _PUSHINGREDIENT
 					}
 				})
+				this.refs.ingredients.value = "";
       }
     }).catch((err) => {
     console.log(err);
