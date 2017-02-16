@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
 var changeCase = require('change-case')
+var d3 = require("d3");
+
 let ReviewIcon;
 export default class MessageDropdown extends React.Component {
 	static contextTypes = {
