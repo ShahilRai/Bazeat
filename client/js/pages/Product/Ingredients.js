@@ -101,6 +101,7 @@ export default class Ingredients extends React.Component {
   }
 
   removeTag(e) {
+		_PUSHINGREDIENT = this.state.data.ingredients
     e.preventDefault();
     var ingredientList = _PUSHINGREDIENT;
     var ingredientName = e.target.previousSibling.previousSibling.textContent;
