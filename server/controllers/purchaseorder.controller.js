@@ -55,8 +55,11 @@ export function getpurchaseOrder(req, res) {
     model: 'OrderItem',
     populate: {
       path: '_product',
-      model: 'Product'
-    }}).exec((err, order)=>{
+      model: 'Product',
+    populate:{
+      path: '_producer',
+      model: 'User',
+    }}}).exec((err, order)=>{
       if (err) {
         return res.json(422, err);
       }
@@ -70,19 +73,20 @@ export function getpurchaseOrder(req, res) {
 export function getPackage(req, res) {
   Package.findOne({cuid: req.query.cuid})
     .populate(
-      "packageitems -_id")
-    .populate({
-      path: '_producer',
-      select: '-products',
-    })
+      "packageitems _producer -_id")
     .populate({
       path: '_order',
       select: 'address createdAt orderId orderitems',
       model: 'Order',
     populate: {
       path: 'orderitems',
-      model: 'OrderItem'
-    }}).exec((err, pkg)=>{
+      select: 'address product_qty createdAt orderId orderitems _product',
+      model: 'OrderItem',
+    populate: {
+      path: '_product',
+      select: 'product_name',
+      model: 'Product',
+      }}}).exec((err, pkg)=>{
       if (err) {
         return res.json(422, err);
       }

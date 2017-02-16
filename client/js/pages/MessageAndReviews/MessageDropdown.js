@@ -2,6 +2,10 @@ import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
 var changeCase = require('change-case')
+var ellipsize = require('ellipsize');
+
+var d3 = require("d3");
+
 let ReviewIcon;
 export default class MessageDropdown extends React.Component {
 	static contextTypes = {
@@ -41,7 +45,7 @@ export default class MessageDropdown extends React.Component {
                 {data.sender.email==this.context.user.email?'':changeCase.titleCase(data.sender.full_name)}
                 <span>{data.sender.email==this.context.user.email?'':(YearModified==current_Year)? dateModified:prior_date}</span>
               </h3>
-              <p > {data.sender.email==this.context.user.email? '':data.body}</p>
+              <p > {data.sender.email==this.context.user.email? '':ellipsize(data.body,75)}</p>
             </span>
         </div>
       )

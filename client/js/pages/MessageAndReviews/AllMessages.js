@@ -5,8 +5,11 @@ import SelectedMessages from './SelectedMessages';
 import NewMessage from './NewMessage';
 import axios from 'axios';
 import toastr from 'toastr';
-
-var changeCase = require('change-case')
+import Truncate from 'react-truncate';
+import { Component, PropTypes } from 'react';
+var ellipsize = require('ellipsize');
+var changeCase = require('change-case');
+var d3 = require("d3");
 let picselected;
 let updateSingleMsg
 let show_active;
@@ -37,6 +40,7 @@ export default class AllMessages extends React.Component {
         activeState: '',
         picselected : 'select'
     	};
+    
   	}
     componentDidMount(){
       this.getAllMessagesData()
@@ -143,6 +147,7 @@ export default class AllMessages extends React.Component {
     var _msgConversations = this.state.allMsgConversations ? this.state.allMsgConversations : []
     var _results = _msgConversations.map((result, index) => {
       var data = result.messages[0];
+      if(data!==undefined){
       var src_sender=data.sender.photo
       var src_receiver=data.receiver.photo
       if(src_sender==undefined){
@@ -151,6 +156,7 @@ export default class AllMessages extends React.Component {
       if(src_receiver==undefined){
         src_receiver=require('../../../images/producer_logo.png')
       }
+    }
       var date=data.createdAt
       var prior_date=moment(date).format('DD-MM-YYYY')
       var monthNameFormat = d3.timeFormat("%b-%d");
@@ -163,7 +169,7 @@ export default class AllMessages extends React.Component {
         var show_active=(<span className="active_chat"></span>)
       }
       return(
-        <Link to={"/messages/"+data.conversation_id}>
+        <Link to={"/messages/"+data.conversation_id} key={index}>
         <div className={this.state.activeState === data.conversation_id?"chat_list active_user":"chat_list"} key={index} onClick = {this.showSingleMsgConverstation.bind(this, data.conversation_id)}>
           <a href="javascript:void(0)">
             <span className="user_img"><img className="user_profile_img" src={(data.sender.email == this.context.user.email) ? src_receiver : src_sender} /></span>
@@ -172,7 +178,7 @@ export default class AllMessages extends React.Component {
                 {(data.sender.email==this.context.user.email) ? changeCase.titleCase(data.receiver.full_name) : changeCase.titleCase(data.sender.full_name)}
                 <span >{YearModified==current_Year? dateModified:prior_date}</span>
               </h3>
-              <p>{data.body}</p>
+              <p>{ellipsize(data.body,75)}</p>
               {show_active}
             </span>
           </a>

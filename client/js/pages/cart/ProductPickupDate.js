@@ -233,7 +233,7 @@ export default class ProductPickupDate extends React.Component {
         delivery_method : this.props.method
       });
     }
-    else if(this.props.method == 'Budmat')
+    else if(this.props.method == 'budmat')
     {
       return axios.post("api/orders",
       {
@@ -416,7 +416,7 @@ export default class ProductPickupDate extends React.Component {
   }
 
   OptionalAlternateAddessButton(){
-    if(this.props.method == 'Sendemat')
+    if(this.props.method == 'sendemat')
     {
       return(
         <button type="submit" className="btn btn-default continue_btn" onClick={this.sendematAlternateAddress}>Save</button>
@@ -522,12 +522,12 @@ export default class ProductPickupDate extends React.Component {
       this.pickupdate()
       )
     }
-    if(this.state.method == 'Sendemat'){
+    if(this.state.method == 'sendemat'){
       return(
       this.destination()
       )
     }
-    if(this.state.method == 'Budmat'){
+    if(this.state.method == 'budmat'){
       return(
       this.deliverToPerson()
       )
