@@ -1,6 +1,7 @@
 import nodeMailer from 'nodemailer';
 import mandrillTransport from 'nodemailer-mandrill-transport';
 import User from '../models/user';
+import PurchaseOrder from '../models/purchaseorder';
 const transport = nodeMailer.createTransport(mandrillTransport({
   auth: {
     apiKey: process.env.MandrilKey
@@ -223,96 +224,244 @@ export function replied_review_mail(comment, review, sender){
   })
 }
 
-
-export function budmat_order(order){
-  console.log('order')
-  console.log(order)
-  User.findOne({_id: order._buyer}).exec((err, user) =>{
-      let order_arr = []
-      order.orderitems.forEach(function(orderitem, index){
-        let data = {}
-        data.name = orderitem._product.product_name
-        data.qty = orderitem.product_qty
-        data.description = orderitem._product.description
-        data.price = orderitem._product.base_price
-        data.ordPrice = orderitem.total_price
-        data.img = orderitem._product.photo
-        order_arr.push(data)
-        if (order.orderitems.length == index+1){
-          order_arr
-        }
-      })
-      transport.sendMail({
-            mandrillOptions: {
-              template_name: 'Order verification mail (budmat)',
-              template_content: [],
-              message: {
-                to: [ {email: user.email} ],
-                subject: 'Order successfully placed' ,
-                from_email: 'noreply@bazeat.no',
-                "merge": true,
-                "merge_language": "handlebars",
-                "merge_vars": [
-                {
-                    "rcpt": user.email,
-                    "vars": [
-                        {
-                            "name": "ORDERNUMBER",
-                            "content": "PO" + order.orderId
-                        },
-                        {
-                            "name": "ORDERDATE",
-                            "content": order.createdAt.toDateString()
-                        },
-                        {
-                            "name": "products",
-                            "content": order_arr
-                        },
-                        {
-                            "name": "SUBTOTAL",
-                            "content": (order.net_price).toFixed(2)
-                        },
-                        {
-                            "name": "SHIPPINPRICE",
-                            "content": (order.shipment_vat_value).toFixed(2)
-                        },
-                        {
-                            "name": "ORDTOTAL",
-                            "content": (order.total_amount).toFixed(2)
-                        },
-                        {
-                            "name": "FNAME",
-                            "content": order.address.first_name
-                        },
-                        {
-                            "name": "LNAME",
-                            "content": order.address.last_name
-                        },
-                        {
-                            "name": "ADDRESSLINE1",
-                            "content": order.address.line1
-                        },
-                        {
-                            "name": "POSTNO",
-                            "content": order.address.postal_code
-                        },
-                        {
-                            "name": "CITY",
-                            "content": order.address.city
-                        },
-                    ]
-                }
-            ]
-              }
-            }
-          },
-          function (err, info) {
-            if (err) {
-              console.error(err);
-            } else {
-              console.log(info);
-            }
-          }
-        )
+export function confrim_order_mail(purchaseorder){
+  PurchaseOrder.findOne({cuid: purchaseorder.cuid})
+    .populate({
+      path: '_buyer',
+      select: 'first_name last_name email',
+    })
+    .populate({
+      path: '_producer',
+      select: '-products',
+       model: 'User',
+    })
+    .populate({
+      path: '_order',
+      model: 'Order',
+    populate: {
+      path: 'orderitems',
+      model: 'OrderItem'
+    }}).exec((err, porder)=>{
+    if (err) {
+      console.log(err)
+    }
+    else{
+      if ((porder.delivery_method == 'budmat') || (porder.delivery_method == 'sendemat')) {
+        budmat_sendemat__email(porder)
+      }
+      if (porder.delivery_method == 'hentemat') {
+        hentemat_order(porder)
+      }
+    }
   })
+}
+
+function budmat_sendemat__email(porder){
+  let order_arr = []
+  porder._order.orderitems.forEach(function(orderitem, index){
+    let data = {}
+    data.name = orderitem._product.product_name
+    data.qty = orderitem.product_qty
+    data.description = orderitem._product.description
+    data.price = orderitem._product.base_price
+    data.ordPrice = orderitem.total_price
+    data.img = orderitem._product.photo
+    order_arr.push(data)
+    if (porder._order.orderitems.length == index+1){
+      order_arr
+    }
+  })
+  transport.sendMail({
+    mandrillOptions: {
+      template_name: 'Order verification mail (budmat)',
+      template_content: [],
+      message: {
+        to: [ {email: user.email} ],
+        subject: 'Order successfully placed' ,
+        from_email: 'noreply@bazeat.no',
+        "merge": true,
+        "merge_language": "handlebars",
+        "merge_vars": [
+          {
+            "rcpt": porder._order.address.email,
+            "vars": [
+              {
+                  "name": "ORDERNUMBER",
+                  "content": "PO" + porder._order.orderId
+              },
+              {
+                  "name": "orderdate",
+                  "content": porder._order.createdAt.toDateString()
+              },
+              {
+                  "name": "products",
+                  "content": order_arr
+              },
+              {
+                  "name": "SUBTOTAL",
+                  "content": (porder._order.net_price).toFixed(2)
+              },
+              {
+                  "name": "SHIPPINPRICE",
+                  "content": (porder._order.shipment_price).toFixed(2)
+              },
+              {
+                  "name": "ORDTOTAL",
+                  "content": (porder._order.total_amount).toFixed(2)
+              },
+              {
+                  "name": "FNAME",
+                  "content": porder._order.address.first_name
+              },
+              {
+                  "name": "LNAME",
+                  "content": porder._order.address.last_name
+              },
+              {
+                  "name": "ADDRESSLINE1",
+                  "content": porder._order.address.line1
+              },
+              {
+                  "name": "POSTNO",
+                  "content": porder._order.address.postal_code
+              },
+              {
+                  "name": "CITY",
+                  "content": porder._order.address.city
+              },
+            ]
+          }
+        ]
+      }
+    }
+    },
+    function (err, info) {
+      if (err) {
+        console.error(err);
+      } else {
+        console.log(info);
+      }
+    }
+  )
+}
+
+
+export function hentemat_order(porder){
+  let order_arr = []
+  let p_name, p_address, p_city, p_country, p_post_code, p_ph_no
+  if ((porder._producer.if_producer == true) && (porder._producer.if_user == false)) {
+    p_address = porder._producer.producer_info.cmp_address
+    p_city = porder._producer.producer_info.cmp_city
+    p_country = porder._producer.producer_info.cmp_country
+    p_post_code = porder._producer.producer_info.cmp_postal_code
+    p_ph_no = porder._producer.producer_info.cmp_phone_number
+  }
+  if ((porder._producer.if_user == true) && (porder._producer.if_producer == false)) {
+    p_address = porder._producer.address
+    p_city = porder._producer.city
+    p_country = porder._producer.country
+    p_post_code = porder._producer.postal_code
+    p_ph_no = porder._producer.phone
+  }
+  porder._order.orderitems.forEach(function(orderitem, index){
+    let data = {}
+    data.name = orderitem._product.product_name
+    data.qty = orderitem.product_qty
+    data.description = orderitem._product.description
+    data.price = orderitem._product.base_price
+    data.ordPrice = orderitem.total_price
+    data.img = orderitem._product.photo
+    order_arr.push(data)
+    if (porder._order.orderitems.length == index+1){
+      order_arr
+    }
+  })
+  transport.sendMail({
+    mandrillOptions: {
+      template_name: 'Order verification mail (hentemat)',
+      template_content: [],
+      message: {
+        to: [ {email: user.email} ],
+        subject: 'Order successfully placed' ,
+        from_email: 'noreply@bazeat.no',
+        "merge": true,
+        "merge_language": "handlebars",
+        "merge_vars": [
+          {
+            "rcpt": user.email,
+            "vars": [
+              {
+                "name": "ORDERNUMBER",
+                "content": "PO" + porder._order.orderId
+              },
+              {
+                "name": "orderdate",
+                "content": porder._order.createdAt.toDateString()
+              },
+              {
+                "name": "products",
+                "content": order_arr
+              },
+              {
+                "name": "SUBTOTAL",
+                "content": (porder._order.net_price).toFixed(2)
+              },
+              {
+                "name": "ORDTOTAL",
+                "content": (porder._order.total_amount).toFixed(2)
+              },
+              {
+                "name": "PRODUCERPHONENO",
+                "content": p_ph_no
+              },
+              {
+                "name": "PRODUCERNAME",
+                "content": porder._producer.full_name
+              },
+              {
+                "name": "PRODUCEREMAIL",
+                "content": porder._producer.email
+              },
+              {
+                "name": "ADDRESSLINE1",
+                "content": p_address
+              },
+              {
+                "name": "POSTNO",
+                "content": p_post_code
+              },
+              {
+                "name": "CITY",
+                "content": "need to set"
+              },
+              {
+                "name": "PICKUPDAY",
+                "content": "need to set"
+              },
+              {
+                "name": "PICKUPMONTH",
+                "content": "need to set"
+              },
+              {
+                "name": "PICKUPDAYNO",
+                "content": "need to set"
+              },
+              {
+                "name": "PICKUPTIME",
+                "content": "need to set"
+              },
+            ]
+          }
+        ]
+      }
+    }
+    },
+    function (err, info) {
+      if (err) {
+        console.error(err);
+      } else {
+        console.log(info);
+      }
+    }
+  )
 }

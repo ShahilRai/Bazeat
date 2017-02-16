@@ -73,7 +73,7 @@ export function getPackage(req, res) {
       "packageitems -_id")
     .populate({
       path: '_producer',
-      select: 'full_name cmp_address cmp_city cmp_postal_code cmp_web_site cmp_phone_number email',
+      select: '-products',
     })
     .populate({
       path: '_order',

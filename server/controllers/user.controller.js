@@ -344,7 +344,7 @@ export function create_charge(customer, producer, card, order, next, req, res) {
         ).exec(function(err, updated_order) {
       });
       clear_cart(order._buyer)
-      MailService.budmat_order(order)
+      // MailService.budmat_order(order)
       update_order_after_paymnt(charge, order)
       return res.json({ charge: charge });
     }
@@ -422,7 +422,14 @@ export function update_order_after_paymnt(charge, order){
           newPurchseorder._order = order._id;
           newPurchseorder._producer = product._producer;
           newPurchseorder._buyer = order._buyer;
-          newPurchseorder.save();
+          newPurchseorder.save((err, purchaseorder) => {
+            if (err) {
+              console.log("PurchaseOrder creation falied")
+            }
+            else {
+              MailService.confrim_order_mail(purchaseorder)
+            }
+          })
           // Send email to promoter for shipping
         })
       // })
