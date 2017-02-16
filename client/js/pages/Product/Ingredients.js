@@ -6,6 +6,8 @@ import Tags from './Tags';
 import CheckBoxField from '../components/CheckBoxField';
 import LabelField from '../components/LabelField';
 import NutrtnInputField from '../components/NutrtnInputField';
+import axios from 'axios';
+let _PUSHINGREDIENT = [];
 
 export default class Ingredients extends React.Component {
 	constructor(props) {
@@ -34,7 +36,7 @@ export default class Ingredients extends React.Component {
   }
 
 	SaveAndContinue(){
-		var ingredientsid = this.state.data.ingredients.map((item) => item.id);
+		var ingredientsid = _PUSHINGREDIENT.map((item) => item.id);
 		this.state = {
 		data : {
       ingredients : ingredientsid,
@@ -66,37 +68,40 @@ export default class Ingredients extends React.Component {
 	}
 
   addItem() {
-    var newElement = this.refs.ingredients.value;
-    var ingredientList = this.state.data.ingredients;
-    var ingredient = this.refs.IngredientsList.ingredients(newElement);
-
-    if (ingredientList.length == 0){
-      ingredientList.push(ingredient);
-    } else {
-      var found = false;
-
-      for(var i=0; i < ingredientList.length; i++) {
-        if(ingredientList[i].name == newElement) {
-          found = true;
-        }
+    var text = this.refs.ingredients.value
+    var _exist = false
+    this.addIngredients(text).then((response) => {
+      if(response.data) {
+        if(_PUSHINGREDIENT.length == 0){
+          _PUSHINGREDIENT.push(response.data[0])
+        }else {
+					for(var i=0;i<_PUSHINGREDIENT.length;i++){
+		        if(text==_PUSHINGREDIENT[i].name){
+							_exist = true
+						}
+					}if(!_exist){
+						_PUSHINGREDIENT.push(response.data[0])
+					}
+				}
+        this.setState({
+					data:{
+						ingredients : _PUSHINGREDIENT
+					}
+				})
       }
+    }).catch((err) => {
+    console.log(err);
+    });
+  }
 
-      if(found == false){
-        ingredientList.push(ingredient);
-      }
-    }
-
-    var newState = {data:{}};
-    newState.data.ingredients = ingredientList;
-    this.setState(newState);
-    this.refs.ingredients.value = "";
+  addIngredients(text) {
+		return axios.get("/api/ingredient?search="+text);
   }
 
   removeTag(e) {
     e.preventDefault();
-    var ingredientList = this.state.data.ingredients;
+    var ingredientList = _PUSHINGREDIENT;
     var ingredientName = e.target.previousSibling.previousSibling.textContent;
-
     for(var i=0; i < ingredientList.length; i++) {
       if(ingredientList[i].name == ingredientName) {
         ingredientList.splice(i, 1);
@@ -125,6 +130,7 @@ export default class Ingredients extends React.Component {
 	}
 
 	render() {
+		var _tags = this.state.data.ingredients
     var self = this
     var alrgn= [];
     var chckd;
@@ -163,10 +169,9 @@ export default class Ingredients extends React.Component {
 							<h5>Ingredients</h5>
 							<div className="form-group">
 								<label htmlFor="" className="col-form-label ingrdnt_label">Ingredient</label>
-								<input type="text" className="form-control" name="ingredients" list="ingredientList" ref="ingredients" placeholder=""/>
-								<IngredientsList ref="IngredientsList" />
+								<input type="text" className="form-control" name="ingredients" ref="ingredients" placeholder=""/>
 								<button type="button" className="btn btn-default nxt_btn ingrdnt_btn" onClick={this.SubmitAfterValidate.bind(this)}>Add ingredient</button>
-                <Tags allIngredients={this.state.data.ingredients} onClick={this.removeTag.bind(this)}/>
+                <Tags allIngredients={_tags} onClick={this.removeTag.bind(this)}/>
 							</div>
 						</div>
 						<div className="nutrition_fact_col">
