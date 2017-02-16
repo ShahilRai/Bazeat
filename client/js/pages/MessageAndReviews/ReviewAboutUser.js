@@ -20,7 +20,6 @@ static contextTypes = {
         }
   }
 
-
   updatedCommentData(){
     this.loadCurrentUserReview(this.context.user.email).then((response) => {
       if(response.data) {

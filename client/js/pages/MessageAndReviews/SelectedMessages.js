@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import moment from 'moment';
 var changeCase = require('change-case')
+var d3 = require("d3");
 
 let sender_name;
 let receiver_name;
@@ -81,6 +82,7 @@ export default class SelectedMessages extends React.Component {
       if(src_receiver==undefined){
         src_receiver=require('../../../images/producer_logo.png')
       }
+
       var date=results.createdAt
       var monthNameFormat = d3.timeFormat("%b-%d");
       var dateModified=monthNameFormat(new Date(date))

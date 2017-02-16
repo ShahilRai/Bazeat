@@ -61,10 +61,10 @@ export default class OrderConfirmation extends React.Component {
     if(this.state.method=='hentemat'){
       return(this.changeTextHentemat())
     }
-    if(this.state.method=='Sendemat'){
+    if(this.state.method=='sendemat'){
       return(this.changeTextSendemat())
     }
-    if(this.state.method=='Budmat'){
+    if(this.state.method=='budmat'){
       return(this.changeTextBudmat())
     }
   }
@@ -106,7 +106,7 @@ export default class OrderConfirmation extends React.Component {
     let hentmat_selected;
     var MVA = this.state.orderDetail.total_mva
     MVA = MVA.toFixed(2);
-    if(this.state.method=='Budmat' || this.state.method=='Sendemat'){
+    if(this.state.method=='budmat' || this.state.method=='sendemat'){
       budmat_selected = <div className="cnfrm_price_prod_heading">
                   <span className="pull-left">Price for delivery:</span>
                   <span className="pull-right">kr {this.state.orderDetail.shipment_price}</span>
@@ -118,7 +118,7 @@ export default class OrderConfirmation extends React.Component {
                   <span className="pull-right">kr {this.state.orderDetail.net_price.toFixed(2)}</span>
                 </div>
     }
-    else if(this.state.method=='Budmat' || this.state.method=='Sendemat'){
+    else if(this.state.method=='budmat' || this.state.method=='sendemat'){
       hentmat_selected = <div className="cnfrm_price_prod_heading brdr_btm0">
                   <span className="pull-left">Price for products:</span>
                   <span className="pull-right">kr {this.state.orderDetail.net_price.toFixed(2)}</span>
