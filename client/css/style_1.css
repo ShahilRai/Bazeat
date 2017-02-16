@@ -5473,6 +5473,11 @@ font-size: 18px;
 }
 
 /*=========P.O.Slip===================*/
+ul.pay_top li {
+    display: inline-block;
+    margin-left: 26px;
+}
+
 .po_slip.order_information{
 padding: 17px 43px 39px 38px;
 }

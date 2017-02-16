@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import pubSub from 'pubsub-js';
 import CartModal from './CartModal';
 import axios from 'axios';
 import cookie from 'react-cookie';
@@ -19,12 +20,21 @@ export default class Menu extends React.Component {
     super(props);
     this.state = {
       isReview : '',
-      allMessages:[]
+      allMessages:[],
+      no_of_cart_items : ''
     };
+    this.detailCart = this.detailCart.bind(this);
+    PubSub.subscribe('cart_length', this.detailCart);
   }
 
   logoutLink() {
     cookie.remove('cart_cuid');
+  }
+
+  detailCart(e,items){
+    this.setState({
+      no_of_cart_items : items
+    })
   }
 
   render() {
@@ -62,7 +72,7 @@ export default class Menu extends React.Component {
         <NotAuthenticated>
           <li><a href="" data-toggle="modal" data-target="#register_modal">Join Bazeat</a></li>
           <li><a href="" data-toggle="modal" data-target="#login_modal">Log in</a></li>
-          <li><a className="cart_icon_after_login" href="javascript:void(0)"></a></li>
+          <li><a className="cart_icon_after_login" href="javascript:void(0)">{this.state.no_of_cart_items}</a></li>
           {cart_icon}
         </NotAuthenticated>
         <Authenticated>
@@ -83,7 +93,7 @@ export default class Menu extends React.Component {
               <li id="logout" onClick = {this.logoutLink.bind(this)}><LogoutLink>Log out</LogoutLink></li>
             </ul>
           </li>
-          <li><a className="cart_icon_after_login" href="javascript:void(0)"></a></li>
+          <li><a className="cart_icon_after_login" href="javascript:void(0)">{this.state.no_of_cart_items}</a></li>
           {cart_icon}
         </Authenticated>
       </ul>

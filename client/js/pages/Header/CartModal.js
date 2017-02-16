@@ -1,5 +1,6 @@
 import React from 'react';
 import toastr from 'toastr';
+import pubSub from 'pubsub-js';
 import axios from 'axios';
 import cookie from 'react-cookie';
 import LoginModal from '../Authenticate/LoginModal';
@@ -89,6 +90,7 @@ export default class CartModal extends React.Component {
     cart_id = cookie.load('cart_cuid') ? cookie.load('cart_cuid') : ''
     this.removeCartData(this.state.items[i].id, cart_id).then((response) => {
       if(response.data) {
+        PubSub.publish('cart_length', response.data.doc.cartitems.length);
         toastr.success('Your item successfully removed');
         this.setState({
           items: response.data.doc.cartitems,
@@ -111,19 +113,23 @@ export default class CartModal extends React.Component {
   }
 
   removeAllItems() {
-     cart_id = cookie.load('cart_cuid') ? cookie.load('cart_cuid') : ''
-     this.removeAllCartData(cart_id).then((response) => {
-       if(response.data) {
+    var length = '0'
+    cart_id = cookie.load('cart_cuid') ? cookie.load('cart_cuid') : ''
+    if(cart_id){
+    this.removeAllCartData(cart_id).then((response) => {
+      if(response.data) {
         toastr.success(response.data.msg);
+        PubSub.publish('cart_length',length);
         this.setState({
           items : [],
           total_price: 0.0
         })
-       }
-    }).catch((err) => {
-      toastr.error(err);
-       console.log(err);
-    });
+      }
+      }).catch((err) => {
+        toastr.error(err);
+         console.log(err);
+      });
+    }
   }
 
   removeAllCartData(cart_id) {
@@ -153,6 +159,7 @@ export default class CartModal extends React.Component {
     }
     this.loadCartItem(cart_id).then((response) => {
       if(response.data){
+        PubSub.publish('cart_length', response.data.cart.cartitems.length);
         this.setState({
         item : response.data.cart,
         items : response.data.cart.cartitems,
