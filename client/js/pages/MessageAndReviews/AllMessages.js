@@ -5,8 +5,11 @@ import SelectedMessages from './SelectedMessages';
 import NewMessage from './NewMessage';
 import axios from 'axios';
 import toastr from 'toastr';
+import Truncate from 'react-truncate';
+import { Component, PropTypes } from 'react';
+var ellipsize = require('ellipsize');
+var changeCase = require('change-case');
 var d3 = require("d3");
-var changeCase = require('change-case')
 let picselected;
 let updateSingleMsg
 let show_active;
@@ -37,6 +40,7 @@ export default class AllMessages extends React.Component {
         activeState: '',
         picselected : 'select'
     	};
+    
   	}
     componentDidMount(){
       this.getAllMessagesData()
@@ -174,7 +178,7 @@ export default class AllMessages extends React.Component {
                 {(data.sender.email==this.context.user.email) ? changeCase.titleCase(data.receiver.full_name) : changeCase.titleCase(data.sender.full_name)}
                 <span >{YearModified==current_Year? dateModified:prior_date}</span>
               </h3>
-              <p>{data.body}</p>
+              <p>{ellipsize(data.body,75)}</p>
               {show_active}
             </span>
           </a>
