@@ -1,6 +1,7 @@
 import React from 'react';
 import ToggleDisplay from 'react-toggle-display';
 import NewShipment from './NewShipment';
+import { Link } from 'react-router';
 import toastr from 'toastr';
 import moment from 'moment';
 import axios from 'axios';
@@ -56,7 +57,6 @@ export default class DisplayPackageList extends React.Component {
           carrierType = "Bring"
         }
     }
-
     return(
       <tr>
         <td className="plft30">
@@ -75,7 +75,7 @@ export default class DisplayPackageList extends React.Component {
             <ul>
               <li><a href="#" data-toggle="modal" data-target={"#" + this.props.index}>Ship package</a></li>
               <li><a href="#">Mark for pickup</a></li>
-              <li><a href="#">PDF package slip</a></li>
+              <li><Link to="#">PDF package slip</Link></li>
               <li><a href="#">Print package slip</a></li>
               <li><a href="javascript:void(0)" data-index={this.props.index} onClick={(e) => this.props.deletePackageConfirm(e, this.props._pckge.id)}>Delete package</a></li>
               {dltShpmnt}

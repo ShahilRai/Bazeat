@@ -89,7 +89,7 @@ export default class PackagesList extends React.Component {
               {this.props.packages.map((_pckge, index) => <DisplayPackageList packages= {this.props.packages} orderDetails={this.props.orderDetails} _updateShpQty={this.props._updateShpQty}
                 _showPackage={this.props._showPackage} key = {index} index={index + 2} getSingleOrder={this.props.getSingleOrder}
                 _pckge = {_pckge} deletePackageConfirm= {this.deletePackageConfirm}
-                deleteShipmentConfirm= {this.deleteShipmentConfirm}/> )}
+                deleteShipmentConfirm= {this.deleteShipmentConfirm} order_cuid={this.props.order_cuid} /> )}
               </tbody>
             </table>
           </div>

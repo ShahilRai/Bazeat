@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
 var changeCase = require('change-case')
-
 let ReviewIcon;
 export default class MessageDropdown extends React.Component {
 	static contextTypes = {
@@ -19,27 +18,35 @@ export default class MessageDropdown extends React.Component {
 	render(){
     var count = 0
   	var _allMessages = this.props.allMessages ? this.props.allMessages : []
-  	var results = _allMessages.map((result, index) => {
-      let data = result.messages[0]
-      var src=data.sender.photo
-  		if(src==undefined){
-  			src=require('../../../images/producer_logo.png')
-  		}
-  		if(data.unread){
-	    return(
-       <div key={index} className={data.sender.full_name==this.context.user.fullName?'':"chat_list white_bg"} >
-		 		<span className={data.sender.full_name==this.context.user.fullName?'':"user_img"}><img className={data.sender.full_name==this.context.user.fullName?'':"user_profile_img"} src={data.sender.full_name==this.context.user.fullName?'':src}/></span>
-		 			<span className={data.sender.full_name==this.context.user.fullName?'':"chat_description"} key ={index}>
-		 				<h3 >
-		 					{data.sender.full_name==this.context.user.fullName?'':changeCase.titleCase(data.sender.full_name)}
-		 					<span>{data.sender.full_name==this.context.user.fullName?'': moment(data.createdAt).format('DD-MM-YYYY')} </span>
-		 				</h3>
-		 				<p > {data.sender.full_name==this.context.user.fullName? '':data.body}</p>
-		 			</span>
- 	     </div>
-		  )
-	  }
-	})
+      var results = _allMessages.map((result, index) => {
+        let data = result.messages[0]
+        if(data != undefined) {
+          var src=data.sender.photo
+          if(src==undefined) {
+            src=require('../../../images/producer_logo.png')
+          }
+          var date=data.createdAt
+          var prior_date=moment(date).format('DD-MM-YYYY')
+          var monthNameFormat = d3.timeFormat("%b-%d");
+          var yearNameFormat=d3.timeFormat("%Y");
+          var dateModified=monthNameFormat(new Date(date))
+          var YearModified=yearNameFormat(new Date(date))
+          var currentDate=new Date()
+          var current_Year = currentDate.getFullYear()
+        return(
+          <div key={index} className={data.sender.email==this.context.user.email?'':"chat_list white_bg"} >
+          <span className={data.sender.email==this.context.user.email?'':"user_img"}><img className={data.sender.email==this.context.user.email?'':"user_profile_img"} src={data.sender.email==this.context.user.email?'':src}/></span>
+            <span className={data.sender.email==this.context.user.email?'':"chat_description"} key ={index}>
+              <h3 >
+                {data.sender.email==this.context.user.email?'':changeCase.titleCase(data.sender.full_name)}
+                <span>{data.sender.email==this.context.user.email?'':(YearModified==current_Year)? dateModified:prior_date}</span>
+              </h3>
+              <p > {data.sender.email==this.context.user.email? '':data.body}</p>
+            </span>
+        </div>
+      )
+    }
+    })
 
   var _allReviews = this.props.allReviews ? this.props.allReviews : []
   var reviewResults = _allReviews.map((item, index) => {

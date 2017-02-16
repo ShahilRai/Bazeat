@@ -174,7 +174,7 @@ export default class UserHomePage extends React.Component {
               <div className="product_detail_lft prduct_small_icon">
                 <UserLogo url = {img} p_class="prduct_thumb_lft_img" current_cuid={this.state.current_cuid} />
               </div>
-              <UserPersonalInfo userInfo = {this.state._userInfo} prodInfo={this.state._userInfo.producer_info}/>
+              <UserPersonalInfo userInfo = {this.state._userInfo} time_slot={this.state._userInfo.timeslots} prodInfo={this.state._userInfo.producer_info}/>
             </div>
             <div className="col-lg-8 col-md-8 col-sm-9 col-xs-12 prht43">
               <div className="prduct_detail_rht">

@@ -71,7 +71,7 @@ export default class DeliveryType extends React.Component {
 
   render() {
     if(sendematSelected == 'sendemat'){
-      sendemat_shipping_detail = <div className="table-main mtop40">
+      sendemat_shipping_detail = <div className="table-main mtop40 mbootm">
           <div className="table-wrapper">
             <table className="table table-striped">
               <thead>
