@@ -2,10 +2,12 @@ import React from 'react';
 import axios from 'axios';
 import ReactPaginate from 'react-paginate';
 import { Link } from 'react-router';
+import Truncate from 'react-truncate';
 var changeCase = require('change-case')
 
 let userId;
 let user_src;
+let commentId;
 export default class AllProducerReviews extends React.Component {
 
   static contextTypes = {
@@ -19,7 +21,8 @@ export default class AllProducerReviews extends React.Component {
       expanded: false,
       all_producer_reviews : [],
       offset: 0,
-      total_pages_count: 0
+      total_pages_count: 0,
+      count_total : 0
     }
     this.getMoreTextDiv = this.getMoreTextDiv.bind(this);
     this.reviewPagination = this.reviewPagination.bind(this);
@@ -44,6 +47,7 @@ export default class AllProducerReviews extends React.Component {
       if(response.data) {
         this.setState({
           all_producer_reviews : response.data.reviews,
+          count_total : response.data.total_count,
           total_pages_count: Math.ceil(response.data.total_count / 5)
         });
       }
@@ -56,8 +60,6 @@ export default class AllProducerReviews extends React.Component {
   handlePageClick(data){
     let selected = data.selected;
     let offset = Math.ceil(selected);
-    console.log("state offset")
-    console.log(offset)
      this.setState({offset: offset}, () => {
       this.reviewPagination();
     });
@@ -71,9 +73,11 @@ export default class AllProducerReviews extends React.Component {
     return axios.get("/api/review?email="+email+"&off_set="+(off_set)+"&per_page="+per_page)
   }
 
+  showMore(e, i){
+
+        }
+
   render() {
-    console.log("this.state.offset")
-    console.log(this.state.offset)
     var _allProducerReviewResult
     var expandedDiv = this.getMoreTextDiv();
     var _allProducerReview = this.state.all_producer_reviews ? this.state.all_producer_reviews : []
@@ -82,6 +86,7 @@ export default class AllProducerReviews extends React.Component {
     }else {
      _allProducerReviewResult = _allProducerReview.map((item, i)=>{
          userId = item.reviewed_by.cuid
+         commentId =item.reviewed_for.cuid
          var producer_src = item.reviewed_for.photo
          if(producer_src == undefined){
             producer_src = require('../../../images/producer_logo.png')
@@ -90,7 +95,7 @@ export default class AllProducerReviews extends React.Component {
           var _comment= <div className="rvw_replies">
                           <span className="rvw_user_img"><img src={producer_src} className="profile_image"/></span>
                           <span className="">
-                            <h5>Answer from {item.reviewed_for.full_name}:</h5>
+                            <h5>Answer from <Link to={"/user/"+commentId} className = "rfont_colr" >{item.reviewed_for.full_name}:</Link></h5>
                             <p>{item.comment.comment}</p>
                           </span>
                         </div>
@@ -99,12 +104,15 @@ export default class AllProducerReviews extends React.Component {
         if(user_src == undefined){
             user_src = require('../../../images/producer_logo.png')
         }
+
         return(
           <div className="review_display1">
             <span className="rvw_user_img"><img src={user_src} className="profile_image"/></span>
             <span className="rvw_user_description">
               <h4><Link to={"/user/"+userId} className = "rfont_colr">{changeCase.titleCase(item.reviewed_by.full_name)}</Link></h4>
-              <p>{item.review}</p>
+              <Truncate lines={3} ellipsis={<span>... <a onClick={(e) => this.showMore(e, i)}>Read more</a></span>}>
+                 {item.review}
+              </Truncate>
               <a href="javascript:void(0)" onClick={this.expandedText.bind(this)} className="more_msgs">{this.state.expanded ? ' ' : ''}</a>
               { expandedDiv }
               {_comment}
@@ -118,7 +126,7 @@ export default class AllProducerReviews extends React.Component {
       <div className="review_display_inner">
         <h3 className="plft20">Reviews</h3>
           {_allProducerReviewResult}
-        {this.state.all_producer_reviews.length>4?<ReactPaginate previousLabel={"previous"} nextLabel={"next"} breakLabel={<a href="">...</a>}
+        {this.state.count_total>5?<ReactPaginate previousLabel={"previous"} nextLabel={"next"} breakLabel={<a href="">...</a>}
             breakClassName={"break-me"} pageCount={this.state.total_pages_count} marginPagesDisplayed={3}
             pageRangeDisplayed={3} onPageChange={this.handlePageClick.bind(this)} containerClassName={"pagination"}
             subContainerClassName={"pages pagination"} activeClassName={"active"} />:""}

@@ -155,6 +155,18 @@ export default class ReviewPage extends React.Component {
         is_replied : current_review._review.is_commented,
         rating_count : current_review._review.rating
     })
+
+     this.ReadCurrentUserReview(current_review._review.id).then((response) => {
+      if(response.data) {
+
+      }
+    }).catch((err) => {
+      console.log(err);
+    });
+  }
+
+  ReadCurrentUserReview(review_id) {
+    return axios.put("/api/update_review?review_id="+review_id)
   }
 
   updateupdateReviews(newReviews) {

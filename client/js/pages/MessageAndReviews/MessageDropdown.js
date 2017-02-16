@@ -53,14 +53,14 @@ export default class MessageDropdown extends React.Component {
         show_src =require('../../../images/producer_logo.png')
       }
     	return(
-	      <div className={item._review.reviewed_by.full_name==this.context.user.fullName?'':"chat_list white_bg"} key={index}>
-	        <span className="user_img" ><img src={item._review.reviewed_by.full_name==this.context.user.fullName?'':show_src} className={item._review.reviewed_by.full_name==this.context.user.fullName?'':"profile_image"} /></span>
+	      <div className={item._review.reviewed_by.email==this.context.user.email?'':"chat_list white_bg"} key={index}>
+	        <span className="user_img" ><img src={item._review.reviewed_by.email==this.context.user.email?'':show_src} className={item._review.reviewed_by.email==this.context.user.email?'':"profile_image"} /></span>
 	        <span className="chat_description" key ={index}>
 	          <h3 >
-	            {item._review.reviewed_by.full_name==this.context.user.fullName?'':changeCase.titleCase(item._review.reviewed_by.full_name)}
-	            <span> {item._review.reviewed_by.full_name==this.context.user.fullName?'':moment(item._review.createdAt).format('DD-MM-YYYY')}</span>
+	            {item._review.reviewed_by.email==this.context.user.email?'':changeCase.titleCase(item._review.reviewed_by.email)}
+	            <span> {item._review.reviewed_by.email==this.context.user.email?'':moment(item._review.createdAt).format('DD-MM-YYYY')}</span>
 	          </h3>
-	          <p> {item._review.reviewed_by.full_name==this.context.user.fullName?'':item._review.review}</p>
+	          <p> {item._review.reviewed_by.email==this.context.user.email?'':item._review.review}</p>
 	        </span>
 	      </div>
     	)
