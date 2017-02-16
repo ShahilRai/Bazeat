@@ -57,6 +57,7 @@ export default class WallImageViewer extends React.Component {
                 items : response.data.cart
               })
               PubSub.publish('cart.added', this.state.items);
+              PubSub.publish('cart_length', this.state.items.cartitems.length);
             }
           }).catch((err) => {
             console.log(err);

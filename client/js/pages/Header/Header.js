@@ -1,4 +1,5 @@
 import React from 'react';
+import cookie from 'react-cookie';
 import SearchInputBox from '../common/SearchInputBox';
 import Menu from './Menu';
 import Logo from './Logo';
@@ -6,6 +7,7 @@ import NearMeIcon from './NearMeIcon';
 import axios from 'axios';
 let email;
 let check_email = true;
+let cart_id;
 
 export default class Header extends React.Component {
   static contextTypes = {
@@ -78,13 +80,40 @@ export default class Header extends React.Component {
      return axios.get("/api/reviews_count?email="+email)
   }
 
+  getCart() {
+    if(this.context.authenticated == true) {
+      cart_id = cookie.load('cart_cuid') ? cookie.load('cart_cuid') : this.context.user.email
+      // cart_id = this.context.user.email
+    } else {
+      cart_id = cookie.load('cart_cuid') ? cookie.load('cart_cuid') : ''
+    }
+    this.loadCartItem(cart_id).then((response) => {
+      if(response.data){
+        PubSub.publish('cart_length', response.data.cart.cartitems.length);
+        this.setState({
+        item : response.data.cart,
+        items : response.data.cart.cartitems,
+        total_price : response.data.cart.total_price
+        })
+      }
+    }).catch((err) =>{
+      console.log(err);
+      });
+  }
+
+  loadCartItem(cart_id) {
+    return axios.get("/api/cart/"+cart_id);
+  }
+
   render() {
+
     if(this.context.authenticated) {
       email = this.context.user.email
       if(check_email) {
         this.loadingUser()
         this.loadAllMessages()
         this.loadAllReviews()
+        this.getCart()
         check_email = false;
       }
     }

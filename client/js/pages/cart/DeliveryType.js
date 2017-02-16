@@ -58,7 +58,7 @@ export default class DeliveryType extends React.Component {
   shipping_alternate_selected(){
     if(selectedPrice)
     {
-      this.props.deliveryMethodChange('Sendemat', selectedPrice)
+      this.props.deliveryMethodChange('sendemat', selectedPrice)
     }
     else{
       alert("please select delivery alternative")
@@ -130,7 +130,7 @@ export default class DeliveryType extends React.Component {
                 <p>Bring delivers to you with a range of deliverey methods</p>
               </div>
               <div className="del_step1">
-                <a href="javascript:void(0)" onClick={() =>{this.props.deliveryMethodChange('Budmat')}}><img src="images/budmat.png" /></a>
+                <a href="javascript:void(0)" onClick={() =>{this.props.deliveryMethodChange('budmat')}}><img src="images/budmat.png" /></a>
                 <h4>Budmat</h4>
                 <span>From kr. 99,-</span>
                 <p>The producer delivers to your desired location</p>
