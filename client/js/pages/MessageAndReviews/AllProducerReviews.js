@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import ReactPaginate from 'react-paginate';
 import { Link } from 'react-router';
+import Truncate from 'react-truncate';
 var changeCase = require('change-case')
 
 let userId;
@@ -59,8 +60,6 @@ export default class AllProducerReviews extends React.Component {
   handlePageClick(data){
     let selected = data.selected;
     let offset = Math.ceil(selected);
-    console.log("state offset")
-    console.log(offset)
      this.setState({offset: offset}, () => {
       this.reviewPagination();
     });
@@ -74,9 +73,11 @@ export default class AllProducerReviews extends React.Component {
     return axios.get("/api/review?email="+email+"&off_set="+(off_set)+"&per_page="+per_page)
   }
 
+  showMore(e, i){
+
+        }
+
   render() {
-    console.log("this.state.count_total")
-    console.log(this.state.count_total)
     var _allProducerReviewResult
     var expandedDiv = this.getMoreTextDiv();
     var _allProducerReview = this.state.all_producer_reviews ? this.state.all_producer_reviews : []
@@ -103,12 +104,15 @@ export default class AllProducerReviews extends React.Component {
         if(user_src == undefined){
             user_src = require('../../../images/producer_logo.png')
         }
+
         return(
           <div className="review_display1">
             <span className="rvw_user_img"><img src={user_src} className="profile_image"/></span>
             <span className="rvw_user_description">
               <h4><Link to={"/user/"+userId} className = "rfont_colr">{changeCase.titleCase(item.reviewed_by.full_name)}</Link></h4>
-              <p>{item.review}</p>
+              <Truncate lines={3} ellipsis={<span>... <a onClick={(e) => this.showMore(e, i)}>Read more</a></span>}>
+                 {item.review}
+              </Truncate>
               <a href="javascript:void(0)" onClick={this.expandedText.bind(this)} className="more_msgs">{this.state.expanded ? ' ' : ''}</a>
               { expandedDiv }
               {_comment}

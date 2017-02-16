@@ -175,7 +175,7 @@ export function reviewsCount(req,res){
       RatingAndReview.find({ participants: user._id })
       .populate({
         path: '_review',
-        match: {reviewed_for: user._id, is_reviewed: true},
+        match: {reviewed_for: user._id, unread: true},
         options: { limit: 1, sort: { 'createdAt': -1 } },
         populate: {
           path: 'reviewed_by reviewed_for',
@@ -192,4 +192,20 @@ export function reviewsCount(req,res){
       });
     }
   });
+}
+
+
+export function updateReview(req,res) {
+  Review.findOneAndUpdate({_id: req.query.review_id}, {$set: {'unread': false}}, {new: true}).exec(function(err, review) {
+    if (err){
+      console.log('err')
+      console.log(err)
+      return res.send({err});
+    }
+    else{
+      console.log('review')
+      console.log(review)
+      return res.status(200).json({review});
+    }
+  })
 }

@@ -40,12 +40,9 @@ import Helmet from 'react-helmet';
 // Import required modules
 // import routes from '../client/routes';
 import { fetchComponentData } from './util/fetchData';
-import posts from './routes/post.routes';
 import users from './routes/user.routes';
-import producers from './routes/producer.routes';
 import orders from './routes/order.routes';
 import products from './routes/product.routes';
-import profiles from './routes/profile.routes';
 import search from './routes/search.routes';
 import purchaseorder from './routes/purchaseorder.routes';
 import admin from './routes/admin/authenticate.routes';
@@ -86,12 +83,9 @@ app.use(bodyParser.json({ limit: '20mb' }));
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: true }));
 app.use(Express.static(path.resolve(__dirname, '../dist')));
 
-app.use('/api', posts);
 app.use('/api', users);
-app.use('/api', producers);
 app.use('/api', orders);
 app.use('/api', products);
-app.use('/api', profiles);
 app.use('/api', search);
 app.use('/api', purchaseorder);
 app.use('/api', chat);
@@ -442,30 +436,6 @@ app.post('/api/update_product_image', productupload.single('image'), function (r
 
 // Admin Logout
 app.get('/admin/logouts', logout());
-
-// app.get('/', ExpressStrompath.loginRequired, function(req, res) {
-//   res.send('Welcome back: ' + res.locals.user.email);
-// });
-
-// const transport = nodeMailer.createTransport(mandrillTransport({
-//   auth: {
-//     apiKey: process.env.MandrilKey
-//   }
-// }));
-
-// transport.sendMail({
-//   from: 'sender@example.com',
-//   to: 'user@example.com',
-//   subject: 'Hello',
-//   html: '<p>How are you?</p>'
-// },
-// function (err, info) {
-//   if (err) {
-//     console.error(err);
-//   } else {
-//     console.log(info);
-//   }
-// });
 
 app.get('*', function (req, res) {
   res.sendFile(path.join(__dirname, '../client/html/index.html'));
