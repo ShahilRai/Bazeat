@@ -5,6 +5,7 @@ import { Link } from 'react-router';
 import toastr from 'toastr';
 import moment from 'moment';
 import axios from 'axios';
+import PackageSlip from './PackageSlip';
 import PurchaseOrders from './PurchaseOrders';
 
 var pId;
@@ -21,12 +22,42 @@ export default class DisplayPackageList extends React.Component {
       selectBox: false
     };
     this.showDropDownBox = this.showDropDownBox.bind(this)
+    this.generatePackageSlip = this.generatePackageSlip.bind(this)
   }
 
   showDropDownBox(){
     this.setState({
       selectBox: !this.state.selectBox
     })
+  }
+
+  generatePackageSlip(){
+    var pdf = new jsPDF('p', 'pt', 'letter');
+    var source = $('#packagePdf')[0];
+    var specialElementHandlers = {
+      '#bypassme': function(element, renderer) {
+        return true
+      }
+    };
+
+    var margins = {
+      top: 50,
+      left: 60,
+      width: 500
+    };
+
+    pdf.fromHTML (
+      source
+      , margins.left
+      , margins.top
+      , {
+          'width': margins.width
+          , 'elementHandlers': specialElementHandlers
+        },
+      function (dispose) {
+        pdf.save('package-slip');
+      }
+    )
   }
 
   render(){
@@ -75,7 +106,7 @@ export default class DisplayPackageList extends React.Component {
             <ul>
               <li><a href="#" data-toggle="modal" data-target={"#" + this.props.index}>Ship package</a></li>
               <li><a href="#">Mark for pickup</a></li>
-              <li><Link to="#">PDF package slip</Link></li>
+              <li><a href="javascript:void(0)" onClick={this.generatePackageSlip}>PDF package slip</a></li>
               <li><a href="#">Print package slip</a></li>
               <li><a href="javascript:void(0)" data-index={this.props.index} onClick={(e) => this.props.deletePackageConfirm(e, this.props._pckge.id)}>Delete package</a></li>
               {dltShpmnt}
@@ -83,6 +114,9 @@ export default class DisplayPackageList extends React.Component {
           </ToggleDisplay>
         </span>
           <NewShipment getSingleOrder={this.props.getSingleOrder} _updateShpQty={this.props._updateShpQty} _showPackage={this.props._showPackage} index={this.props.index} _pckge= {this.props._pckge} orderDetails={this.props.orderDetails} />
+          <div className="modal fade" id="packagePdf">
+            <PackageSlip packageId={this.props._pckge.cuid}/>
+          </div>
         </td>
       </tr>
     )
