@@ -366,7 +366,8 @@ export default class ProductPickupDate extends React.Component {
         phone_num : _phoneNo,
         last_name : _lastName,
         line1 : _address,
-        city : _city
+        city : _city,
+        country : 'Norway'
       });
   }
 
@@ -409,7 +410,8 @@ export default class ProductPickupDate extends React.Component {
         last_name : _lastName,
         line1 : _address,
         city : _city,
-        type: type
+        type: type,
+        country : 'Norway'
       });
   }
 
@@ -483,7 +485,7 @@ export default class ProductPickupDate extends React.Component {
             </div>
           </div>
           <button type="button" className="btn btn-default continue_btn" onClick={this.createOrder} ref="myRef">Continue</button>
-          <button type="button" className="btn btn-default continue_btn" onClick={ this.goToBackPage.bind(this)}>Back</button>
+          <button type="button" className="btn btn-default continue_btn mleft" onClick={ this.goToBackPage.bind(this)}>Back</button>
         </div>
       </div>
     );

@@ -7,6 +7,7 @@ let email ;
 let order_id ;
 let payment_month_arr = [1,2,3,4,5,6,7,8,9,10,11,12];
 let payment_year_arr = [2017,2018,2019,2020,2021,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030];
+
 export default class Payment extends React.Component {
 
   static contextTypes = {
@@ -56,7 +57,12 @@ export default class Payment extends React.Component {
     var exp_month = this.state.exp_month
     var exp_year = this.state.exp_year
     var cvc = this.refs._cvv.value
-    this.requestForPayment(email, order_id, card_no, exp_month, exp_year, cvc ).then((response) => {
+    var city = this.props.orderDetail.address.city
+    var country = this.props.orderDetail.address.country
+    var line1 = this.props.orderDetail.address.line1
+    var phone_num = this.props.orderDetail.address.phone_num
+    var postal_code = this.props.orderDetail.address.postal_code
+    this.requestForPayment(email, order_id, card_no, exp_month, exp_year, cvc, city, country, line1, postal_code, phone_num).then((response) => {
       if(response.data) {
         if(this.refs.myRef){
 
@@ -81,7 +87,7 @@ export default class Payment extends React.Component {
   }
 
 // api for checkout process payment
-  requestForPayment(email, order_id, card_no, exp_month, exp_year, cvc){
+  requestForPayment(email, order_id, card_no, exp_month, exp_year, cvc, city, country, line1, postal_code, phone_num){
     return axios.post("api/payment",
       {
         email : email,
@@ -89,10 +95,14 @@ export default class Payment extends React.Component {
         card_number : card_no,
         month : exp_month,
         year : exp_year,
-        cvc : cvc
+        cvc : cvc,
+        city : city,
+        country : country,
+        line1 : line1,
+        postal_code : postal_code,
+        phone_num : phone_num
       });
   }
-
   cancelPayment(){
     toastr.error('You have cancel your Payment');
     this.context.router.push('/');
@@ -162,7 +172,7 @@ export default class Payment extends React.Component {
                   </div>
                 </div>
                 <div className="form-group row">
-                  <label for="" className="col-sm-4 col-form-label">Valid through
+                  <label for="" className="col-sm-4 col-form-label"><span className="payment_valid">Valid through</span>
                     <small>(Month/Year)</small>
                   </label>
                   <div className="custom_select_box mrht10">
@@ -191,7 +201,7 @@ export default class Payment extends React.Component {
                   </div>
                 </div>
                 <div className="form-group row">
-                  <label for="" className="col-sm-4 col-form-label">Security code
+                  <label for="" className="col-sm-4 col-form-label"><span className="payment_valid">Security code</span>
                     <small>(CVV2)</small>
                   </label>
                   <div className="col-sm-7 prht_zero plft_zero">

@@ -6,6 +6,7 @@ import PurchaseOrder from '../models/purchaseorder';
 import * as MailService from '../services/mailer';
 import * as MessageService from '../services/twillio';
 import cuid from 'cuid';
+import stormpath from 'stormpath';
 //Stripe Implementation
 import fs from 'fs';
 const keySecret = process.env.SECRET_KEY;
@@ -96,8 +97,6 @@ export function getUser(req, res) {
     }
   });
 }
-
-import stormpath from 'stormpath';
 
 export function deleteUser(req, res) {
   User.findOne({ email: req.query.email }).exec((err, user) => {
@@ -339,7 +338,6 @@ export function create_charge(customer, producer, card, order, next, req, res) {
             "address.country": req.country,
             "address.line1": req.line1,
             "address.postal_code": req.postal_code,
-            "address.phone_num": req.phone_num,
             "address.phone_num": req.phone_num,
           }
         }, {new: true}

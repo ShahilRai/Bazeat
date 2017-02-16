@@ -124,8 +124,6 @@ export default class ReviewPage extends React.Component {
   }
 
   getUserId(e, i) {
-    console.log("this.state.users_data[i]")
-    console.log(this.state.users_data[i])
     this.setState({
       producer_id : this.state.users_data[i]._producer.id,
       purchase_order_id : this.state.users_data[i].id,
@@ -137,28 +135,38 @@ export default class ReviewPage extends React.Component {
     this.setState({
       write_index : index
     })
-    this.state.current_user_review[index].map((current_review, r_index)=>{
+    let current_review = this.state.current_user_review[index]
       this.setState({
-        write_review_user : current_review.review,
-        write_review_name : current_review.reviewed_for.full_name,
-        given_rating_count : current_review.rating
+        write_review_user : current_review._review.review,
+        write_review_name : current_review._review.reviewed_for.full_name,
+        given_rating_count : current_review._review.rating
       })
-    })
   }
 
   getReviewId(e, index) {
     this.setState({
       review_index : index
     })
-    this.state.current_user_review[index].map((current_review, r_index)=>{
+    let current_review = this.state.current_user_review[index]
       this.setState({
-        review_id : current_review.id,
-        reviewedBy : current_review.reviewed_by.full_name,
-        review_user : current_review.review,
-        is_replied : current_review.is_commented,
-        rating_count : current_review.rating
-      })
+        review_id : current_review._review.id,
+        reviewedBy : current_review._review.reviewed_by.full_name,
+        review_user : current_review._review.review,
+        is_replied : current_review._review.is_commented,
+        rating_count : current_review._review.rating
     })
+
+     this.ReadCurrentUserReview(current_review._review.id).then((response) => {
+      if(response.data) {
+
+      }
+    }).catch((err) => {
+      console.log(err);
+    });
+  }
+
+  ReadCurrentUserReview(review_id) {
+    return axios.put("/api/update_review?review_id="+review_id)
   }
 
   updateupdateReviews(newReviews) {
@@ -177,7 +185,7 @@ export default class ReviewPage extends React.Component {
     this.loadUserReviwData(this.context.user.email).then((response) => {
       if(response.data) {
         this.setState({
-          users_data : response.data.producer_arr
+          users_data : response.data.purchaseorders
         });
       }
     }).catch((err) => {
@@ -187,18 +195,20 @@ export default class ReviewPage extends React.Component {
 
   commentedData(newComment){
     this.setState({
-      current_user_review :newComment.fullReviews
+      current_user_review :newComment.reviews
     })
   }
 
   render() {
-      console.log("current_user_review")
-      console.log(this.state.current_user_review)
       _allWriteReview = this.state.users_data.map((review, i)=>{
        userId = review.cuid
+       var src_producer = review._producer.photo
+       if(src_producer == undefined){
+        src_producer = require('../../../images/producer_logo.png')
+       }
       return(
         <div className="user_reveiw_list">
-          <span className="rvw_user_img"><img src={review._producer.photo} className="profile_image" /></span>
+          <span className="rvw_user_img"><img src={src_producer} className="profile_image" /></span>
           <span className="rvw_username"><Link to={"/user/"+userId} className = "rfont_colr">{changeCase.titleCase(review._producer.full_name)}</Link><br/>
             <span className="prod_review_date">{moment(review.date_joined).format('DD-MM-YYYY')}</span>
           </span>
@@ -209,36 +219,40 @@ export default class ReviewPage extends React.Component {
     })
 
     var _allCurrentWriteReview = this.state.current_user_review ? this.state.current_user_review : []
-    _allCurrentWriteReviewResult = _allCurrentWriteReview.map((current_write_review, index)=>{
-      return current_write_review.map((item, i)=>{
-        if(item.reviewed_by.id==this.state.current_user_data){
+    _allCurrentWriteReviewResult = _allCurrentWriteReview.map((item, index)=>{
+        if(item._review.reviewed_by.id==this.state.current_user_data){
           this.state.write_count.push(item);
-          writeUserId = item.reviewed_for.cuid
+          writeUserId = item._review.reviewed_for.cuid
+          var src_currntUser = item._review.reviewed_for.photo
+          if(src_currntUser == undefined){
+            src_currntUser = require('../../../images/producer_logo.png')
+          }
           return(
             <div className="user_reveiw_list">
-              <span className="rvw_user_img"><img src={item.reviewed_for.photo} className="profile_image"/></span>
-              <span className="rvw_username"><Link to={"/user/"+writeUserId} className = "rfont_colr">{changeCase.titleCase(item.reviewed_for.full_name)}</Link><br/>
-                 <Rating  displayOnly={true} rating={item.rating} maxRating={5}  ratingSymbol={"\u2605"} />
+              <span className="rvw_user_img"><img src={src_currntUser} className="profile_image"/></span>
+              <span className="rvw_username"><Link to={"/user/"+writeUserId} className = "rfont_colr">{changeCase.titleCase(item._review.reviewed_for.full_name)}</Link><br/>
+                 <Rating  displayOnly={true} rating={item._review.rating} maxRating={5}  ratingSymbol={"\u2605"} />
               </span>
-              <span className="rvw_description">{item.review}</span>
+              <span className="rvw_description">{item._review.review}</span>
               <button type="submit" className="btn read_btn" data-toggle="modal" data-target={"#producer_review" +this.state.write_index} onClick={(e) => this.getWriteReviewId(e, index)} >Read</button>
             </div>
           )
         }
-      })
     })
 
     var _allCurrentReview = this.state.current_user_review ? this.state.current_user_review : []
     _allCurrentReviewResult = _allCurrentReview.map((item, index)=>{
-      console.log(" current item")
-       console.log(item)
-        if(item.reviewed_for.id==this.state.current_user_data){
+        if(item._review.reviewed_for.id==this.state.current_user_data){
           this.state.count.push(item);
-          cuUserId =item.reviewed_by.cuid
+          cuUserId =item._review.reviewed_by.cuid
+          var src_written = item._review.reviewed_by.photo
+          if(src_written == undefined){
+            src_written = require('../../../images/producer_logo.png')
+          }
           return(
             <div className="user_reveiw_list f2f2f2_bg">
-              <span className="rvw_user_img"><img src={item._review.reviewed_by.photo} height="50" width="50"/> </span>
-              <span className="rvw_username"><Link to={"/user/"+cuUserId} className = "rfont_colr">{changeCase.titleCase(item.reviewed_by.full_name)}</Link><br/>
+              <span className="rvw_user_img"><img src={src_written} height="50" width="50"/> </span>
+              <span className="rvw_username"><Link to={"/user/"+cuUserId} className = "rfont_colr">{changeCase.titleCase(item._review.reviewed_by.full_name)}</Link><br/>
                 <Rating  displayOnly={true} rating={item._review.rating} maxRating={5}  ratingSymbol={"\u2605"} />
               </span>
               <span className="rvw_description">{item._review.review}</span>

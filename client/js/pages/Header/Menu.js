@@ -32,8 +32,10 @@ export default class Menu extends React.Component {
     var _allMessages = this.props.allMessages ? this.props.allMessages : []
     _allMessages.map((msg,index) =>{
      let data = msg.messages[0]
-      if(data.unread && this.props.email==data.receiver.email){
-        ismsg +=1
+      if(data != undefined) {
+        if(data.unread && this.props.email==data.receiver.email){
+          ismsg +=1
+        }
       }
     })
     var cart_icon = <CartModal />
@@ -60,7 +62,7 @@ export default class Menu extends React.Component {
         <NotAuthenticated>
           <li><a href="" data-toggle="modal" data-target="#register_modal">Join Bazeat</a></li>
           <li><a href="" data-toggle="modal" data-target="#login_modal">Log in</a></li>
-          <li className="cart_icon"><a href="javascript:void(0)">Cart</a></li>
+          <li><a className="cart_icon_after_login" href="javascript:void(0)"></a></li>
           {cart_icon}
         </NotAuthenticated>
         <Authenticated>
@@ -81,7 +83,7 @@ export default class Menu extends React.Component {
               <li id="logout" onClick = {this.logoutLink.bind(this)}><LogoutLink>Log out</LogoutLink></li>
             </ul>
           </li>
-          <li className="cart_icon_after_login"><a href="javascript:void(0)">Cart</a></li>
+          <li><a className="cart_icon_after_login" href="javascript:void(0)"></a></li>
           {cart_icon}
         </Authenticated>
       </ul>

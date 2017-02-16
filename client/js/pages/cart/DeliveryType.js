@@ -34,7 +34,7 @@ export default class DeliveryType extends React.Component {
     })
     var cart_cuid = this.props.cart_detail.cuid
     var email = this.context.user.email;
-    if(this.props.cart_detail.total_weight<10){
+    if(this.props.cart_detail.total_weight < 10000){
       this.loadShippingDetail(email, cart_cuid).then((response) => {
       if(response.data.res_body) {
         sendematSelected = 'sendemat';
@@ -71,7 +71,7 @@ export default class DeliveryType extends React.Component {
 
   render() {
     if(sendematSelected == 'sendemat'){
-      sendemat_shipping_detail = <div className="table-main mtop40">
+      sendemat_shipping_detail = <div className="table-main mtop40 mbootm">
           <div className="table-wrapper">
             <table className="table table-striped">
               <thead>
@@ -123,8 +123,8 @@ export default class DeliveryType extends React.Component {
                 <span>kr. 0,-</span>
                 <p>You pick up the goods at the producer</p>
               </div>
-              <div className="del_step1">
-                <a href="javascript:void(0)" onClick={this.shippingAlternateDetail.bind(this)}><img src="images/del_car.png" /></a>
+              <div className="del_step1 ">
+                <a className="dilvery_method_sendemat"  href="javascript:void(0)" onClick={this.shippingAlternateDetail.bind(this)}>&nbsp;</a>
                 <h4>Sendemat</h4>
                 <span>From kr. 99,-</span>
                 <p>Bring delivers to you with a range of deliverey methods</p>

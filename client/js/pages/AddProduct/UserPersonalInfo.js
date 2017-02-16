@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-
+let time_slot;
 export default class UserPersonalInfo extends React.Component {
 
   static contextTypes = {
@@ -8,8 +8,21 @@ export default class UserPersonalInfo extends React.Component {
     user: React.PropTypes.object
   }
 
+  dayFormat(days){
+    var day=[];
+    var dayLen = days.length
+    for(var i=0;i<dayLen;i++){
+      if(i<dayLen-1)
+        day[i] = days[i]+"-";
+      else
+        day[i] = days[i];
+    }
+    return(day)
+  }
+
   render(){
     var source;
+     time_slot=this.props.time_slot?this.props.time_slot:[]
     if(this.context.user.customData.is_producer == "true"){
       source = (
         <div>
@@ -17,9 +30,11 @@ export default class UserPersonalInfo extends React.Component {
             <a href="javascript:void(0)">{this.props.prodInfo?this.props.prodInfo.cmp_web_site:''}</a>
           </li>
           <li className="review_date">
-            <a href="javascript:void(0)">Man-Lør: 08-15</a>
+            {time_slot.map((result,index)=>{
+               return(<a href="javascript:void(0)" key={index}>{this.dayFormat(result.day)}: {result.start_time}-{result.end_time}</a>)
+              })
+            }
           </li>
-          
         </div>
       )
     }
@@ -36,7 +51,7 @@ export default class UserPersonalInfo extends React.Component {
         </ul>
         <div className="product_left_dsc">
           <h4>Presentation </h4>
-          <p>{this.props.userInfo.description}</p>
+          <p className="for_last_margin">{this.props.userInfo.description}</p>
         </div>
       </div>
     )
