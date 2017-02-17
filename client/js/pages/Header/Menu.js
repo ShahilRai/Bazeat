@@ -84,7 +84,7 @@ export default class Menu extends React.Component {
             </Link>
             <MessageDropdown allMessages={this.props.allMessages} allReviews={this.props.allReviews} />
           </li>
-          <li className="username_text"><Link to={"/user/"+userId}><a href="javascript:void(0)" className="user_icon">{(this.context.user?(this.context.user.customData.is_producer == "true" ?business_name:changeCase.titleCase(this.context.user.givenName)):'')}</a></Link>
+          <li className="username_text"><Link className="m_sec_item2" to={"/user/"+userId}><a  href="javascript:void(0)" className="user_icon">{(this.context.user?(this.context.user.customData.is_producer == "true" ?business_name:changeCase.titleCase(this.context.user.givenName)):'')}</a></Link>
             <ul className="user_toggle_div collapse" id="" >
               <li><Link to="/profile">Edit Profile</Link></li>
               <li><Link to="/setting">Settings</Link></li>

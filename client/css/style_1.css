@@ -1240,7 +1240,8 @@ max-width:780px;
 	width:100%;
 	border-radius: 2px;
 	border: 1px solid #CCCCCC;
-	    margin-top: -168px;
+	margin-top: -168px;
+	margin-bottom: 45px;
 }
 .full_chat_header{
 	background:#F2F2F2;
@@ -5534,6 +5535,12 @@ font-size: 13px;
 /********MEDIA QUERY*********/
 
 @media only screen and (min-width:250px) and (max-width:760px) {
+.header_rht_menu.profile_rht_header li a.m_sec_item2{
+	margin-left:-40px !important;
+}	
+.header_rht_menu li .cart_icon_after_login {
+    margin-left: -10px;
+}
 .user_toggle_div.collapse:hover {
     margin-top: 15px;
 }
@@ -5821,7 +5828,7 @@ h3.search_tabbd_heading {
     font-size: 17px;
     text-align: center !important;
 }
-.custom_tab{padding-top: 105px;text-align: center;}
+.custom_tab{padding-top: 109px;text-align: center;}
 .react-tabs .ReactTabs__Tab.ReactTabs__Tab[role="tab"]{
 	margin: 0 20px;
 }
@@ -5850,7 +5857,7 @@ margin-left: 0;}
 .attnding_days li a{padding: 3px 0;}
 .rvw_by_user{width: 70%;}
 
-.items_list_info{left: 11px;right: 0;}
+.items_list_info{left: 0px;right: 0;}
 .chkout_pg {
     padding-left: 10px;
     padding-right: 10px;
@@ -5890,7 +5897,7 @@ margin-left: 0;}
 	font-size: 16px;
 }
 
-.header_rht_menu.profile_rht_header li{height: 34px;}
+.header_rht_menu.profile_rht_header li{height: 34px;margin-left: -11px;}
 .full_container{padding-bottom:0;}
 .chkout_pg h6 {
 	font-size: 15px;
@@ -5962,7 +5969,7 @@ margin-left: 0;}
 .chat_window_left{height: auto;}
 .chat_window_right{height: auto;}
 .next_list a{height:45px;}
-.profile_rht_header.header_rht_menu li a{padding-left: 0;padding-right: 32px;}
+.profile_rht_header.header_rht_menu li a{padding-left: 0px;padding-right: 32px; }
 .header_rht_menu.profile_rht_header .items_list_info ul li{
 	height:auto;
 }
