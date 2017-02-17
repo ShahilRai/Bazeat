@@ -180,52 +180,51 @@ export function review_email(review, sender){
 export function replied_review_mail(comment, review, sender){
   User.findOne({_id: review.reviewed_by}).exec((err, recipient) => {
     transport.sendMail({
-        mandrillOptions: {
-          template_name: 'Review answer',
-          template_content: [],
-          message: {
-            to: [ {email: recipient.email} ],
-            subject: user.full_name + 'answered your review' ,
-            from_email: 'noreply@bazeat.no',
-            "merge_vars": [
+      mandrillOptions: {
+        template_name: 'Review answer',
+        template_content: [],
+        message: {
+        to: [ {email: recipient.email} ],
+        subject: user.full_name + 'answered your review' ,
+        from_email: 'noreply@bazeat.no',
+        "merge_vars": [
+          {
+            "rcpt": recipient.email,
+            "vars": [
               {
-                "rcpt": recipient.email,
-                "vars": [
-                    {
-                        "name": "FNAME",
-                        "content": sender.full_name
-                    },
-                    {
-                        "name": "COMMENTBODY",
-                        "content": comment.comment
-                    },
-                    {
-                      "name": "SENDERSRC",
-                      "content": sender.photo
-                    },
-                    {
-                      "name": "REPLIEDLINK",
-                      "content": process.env.SiteUrl + 'review'
-                    }
-                ]
+                  "name": "FNAME",
+                  "content": sender.full_name
+              },
+              {
+                  "name": "COMMENTBODY",
+                  "content": comment.comment
+              },
+              {
+                "name": "SENDERSRC",
+                "content": sender.photo
+              },
+              {
+                "name": "REPLIEDLINK",
+                "content": process.env.SiteUrl + 'review'
               }
             ]
           }
-        }
-      },
-      function (err, info) {
-        if (err) {
-          console.error(err);
-        } else {
-          console.log(info);
+        ]
         }
       }
-    )
+    },
+    function (err, info) {
+      if (err) {
+        console.error(err);
+      } else {
+        console.log(info);
+      }
+    })
   })
 }
 
 export function confrim_order_mail(purchaseorder){
-  PurchaseOrder.findOne({cuid: purchaseorder.cuid})
+  PurchaseOrder.findOne({_id: purchaseorder._id})
     .populate({
       path: '_buyer',
       select: 'first_name last_name email',
@@ -240,23 +239,26 @@ export function confrim_order_mail(purchaseorder){
       model: 'Order',
     populate: {
       path: 'orderitems',
-      model: 'OrderItem'
-    }}).exec((err, porder)=>{
+      model: 'OrderItem',
+    populate: {
+      path: '_product',
+      model: 'Product'
+    }}}).exec((err, porder)=>{
     if (err) {
       console.log(err)
     }
     else{
-      if ((porder.delivery_method == 'budmat') || (porder.delivery_method == 'sendemat')) {
-        budmat_sendemat__email(porder)
+      if ((porder._order.delivery_method == 'budmat') || (porder._order.delivery_method == 'sendemat')) {
+        budmat_sendemat_email(porder)
       }
-      if (porder.delivery_method == 'hentemat') {
+      if (porder._order.delivery_method == 'hentemat') {
         hentemat_order(porder)
       }
     }
   })
 }
 
-function budmat_sendemat__email(porder){
+function budmat_sendemat_email(porder){
   let order_arr = []
   porder._order.orderitems.forEach(function(orderitem, index){
     let data = {}
@@ -276,7 +278,7 @@ function budmat_sendemat__email(porder){
       template_name: 'Order verification mail (budmat)',
       template_content: [],
       message: {
-        to: [ {email: user.email} ],
+        to: [ {email: porder._buyer.email} ],
         subject: 'Order successfully placed' ,
         from_email: 'noreply@bazeat.no',
         "merge": true,
@@ -381,14 +383,14 @@ export function hentemat_order(porder){
       template_name: 'Order verification mail (hentemat)',
       template_content: [],
       message: {
-        to: [ {email: user.email} ],
+        to: [ {email: porder._buyer.email} ],
         subject: 'Order successfully placed' ,
         from_email: 'noreply@bazeat.no',
         "merge": true,
         "merge_language": "handlebars",
         "merge_vars": [
           {
-            "rcpt": user.email,
+            "rcpt": porder._buyer.email,
             "vars": [
               {
                 "name": "ORDERNUMBER",
