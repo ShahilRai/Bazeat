@@ -19,6 +19,7 @@ let product_id;
 let start_time;
 let end_time;
 let day = [];
+let year;
 let selected_timeslots ;
 
 export default class ProductPickupDate extends React.Component {
@@ -48,7 +49,8 @@ export default class ProductPickupDate extends React.Component {
         sendematAlternateAddressDetail : {},
         budmatAlternateAddressDetail : {},
         select_input: false,
-        disabled: false
+        disabled: false,
+        leap_year: false
       }
       this.pickupdate = this.pickupdate.bind(this);
       this.destination = this.destination.bind(this);
@@ -62,7 +64,11 @@ export default class ProductPickupDate extends React.Component {
   }
 
   displayDataMonthDay(){
+    if(this.state.leap_year == true){
+      dayInMonth[1]=29
+    }
     let date = new Date();
+    year = date.getFullYear();
     var self = this
     var startingday = 0
     var i;
@@ -114,6 +120,20 @@ export default class ProductPickupDate extends React.Component {
     this.setState({
       _arrayOfMonthDayAndDate: _placeHolderArr
     })
+  }
+
+  findLeapYear(){
+    var d = new Date();
+    var n = d.getFullYear();
+    if(n%4 == 0){
+      this.setState({
+        leap_year:true
+      })
+    }
+  }
+
+  componentWillMount(){
+    this.findLeapYear()
   }
 
   componentDidMount(){
@@ -189,7 +209,8 @@ export default class ProductPickupDate extends React.Component {
     month : selected_month,
     date : selected_date,
     start_time : selected_start_time,
-    end_time : selected_end_time
+    end_time : selected_end_time,
+    year : year
     }
     $(e.target).addClass("input_green_txt");
     this.setState({

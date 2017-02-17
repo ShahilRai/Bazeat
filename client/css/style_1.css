@@ -2321,6 +2321,7 @@ width: 48%;
 }
 .ingrdnt_name {
     color: #5A646D;
+    margin-right: 2px;
     padding: 3px;
     border: 1px;
     border-style: solid;
