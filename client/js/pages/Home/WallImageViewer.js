@@ -52,6 +52,7 @@ export default class WallImageViewer extends React.Component {
           cart_id = cookie.load('cart_cuid') ? cookie.load('cart_cuid') : ''
           this.sendCartData(cartProduct, cart_id).then((response) => {
             if(response.data) {
+              toastr.success("Now this product is in cart");
               cookie.save('cart_cuid', response.data.cart.cuid);
               this.setState({
                 items : response.data.cart
@@ -61,7 +62,7 @@ export default class WallImageViewer extends React.Component {
             }
           }).catch((err) => {
             console.log(err);
-            toastr.success("Sorry you can only Add product of same producer");
+            toastr.error("Sorry you can only Add product of same producer");
             });
         }
         else if(response.data.msg == 'Out of stock'){
