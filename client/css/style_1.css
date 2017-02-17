@@ -748,7 +748,7 @@ color:#808080;
 }
 .header_rht_menu.profile_rht_header li a.message_icon {
 background: url(../images/chat_icon.png) no-repeat right center;
-background-size:29px;}
+background-size:29px;cursor:pointer;}
 .header_rht_menu.profile_rht_header li a.message_icon:hover {
 background: url(../images/chat_icon_hover.png) no-repeat right center;
 	background-size:29px;}
@@ -5474,6 +5474,11 @@ font-size: 18px;
 }
 
 /*=========P.O.Slip===================*/
+ul.pay_top li {
+    display: inline-block;
+    margin-left: 26px;
+}
+
 .po_slip.order_information{
 padding: 17px 43px 39px 38px;
 }

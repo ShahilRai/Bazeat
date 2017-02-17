@@ -32,7 +32,7 @@ export default class ReceivedOrder extends React.Component {
     this._showPackage = this._showPackage.bind(this)
     this._updateShpQty = this._updateShpQty.bind(this)
     this.getSingleOrder = this.getSingleOrder.bind(this)
-    this.generatePdf = this.generatePdf.bind(this)
+    this.generatePoSlip = this.generatePoSlip.bind(this)
   }
 
   componentDidMount(){
@@ -55,9 +55,9 @@ export default class ReceivedOrder extends React.Component {
     });
   }
 
-  generatePdf(){
+  generatePoSlip(){
     var pdf = new jsPDF('p', 'pt', 'letter');
-    var source = $('#HTMLtoPDF')[0];
+    var source = $('#orderPdf')[0];
     var specialElementHandlers = {
       '#bypassme': function(element, renderer) {
         return true
@@ -179,7 +179,7 @@ export default class ReceivedOrder extends React.Component {
                           <a href="#"></a>
                         </li>
                         <li>
-                          <a href="javascript:void(0)" onClick={this.generatePdf}><i className="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+                          <a href="javascript:void(0)" onClick={this.generatePoSlip}><i className="fa fa-file-pdf-o" aria-hidden="true"></i></a>
                         </li>
                         <li>
                           <Link to={"/orders/"+this.state.orderDetails.id+"/e-mail"}><i className="fa fa-envelope-o" aria-hidden="true"></i></Link>
@@ -292,8 +292,8 @@ export default class ReceivedOrder extends React.Component {
                 </div>
             </div>
           </div>
-          <div className="fade" id="HTMLtoPDF">
-            <PurchaseOrderSlip className="fade" orderId={this.props.params.orderId}/>
+          <div className="fade" id="orderPdf">
+            <PurchaseOrderSlip orderId={this.props.params.orderId}/>
           </div>
         </div>
       </div>

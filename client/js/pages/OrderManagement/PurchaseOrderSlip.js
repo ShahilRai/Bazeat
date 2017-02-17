@@ -32,19 +32,45 @@ export default class PurchaseOrderSlip extends React.Component {
   }
 
   render(){
+    let full_name;
+    let photo= "../../../images/producer_logo.png"
+    let email;
+    let cmp_address;
+    let cmp_city;
+    let cmp_phone_number;
+    let cmp_postal_code;
+    let cmp_web_site;
+    {this.state.orderItems.map((order, index) =>{
+      full_name = order._product._producer.full_name;
+      photo = order._product._producer.photo;
+      email = order._product._producer.email;
+      if(order._product._producer.if_producer== false){
+        cmp_address = order._product._producer.address;
+        cmp_phone_number = order._product._producer.phone;
+        cmp_city = order._product._producer.city;
+        cmp_postal_code = order._product._producer.postal_code;
+      }
+      else{
+        cmp_address = order._product._producer.producer_info.cmp_address;
+        cmp_city = order._product._producer.producer_info.cmp_city;
+        cmp_phone_number = order._product._producer.producer_info.cmp_phone_number;
+        cmp_postal_code = order._product._producer.producer_info.cmp_postal_code;
+        cmp_web_site = order._product._producer.producer_info.cmp_web_site;
+      }
+    })}
     return(
       <div className="col-lg-9 col-md-9 col-sm-12 col-xs-12 rt_order_mgmnt po_modal_width">
         <div className="received_order_rght">
           <div className="order_information po_slip">
             <div>
-              <img className="order_info_rt" src={require("../../../images/producer_logo.png")} />
+              <img className="order_info_rt" src={"../../../images/producer_logo.png"} />
             </div>
             <div className="order_info_lt">
               <h3>PURCHASE ORDER SLIP</h3>
-              <h4>{this.state.orderData._buyer? (this.state.orderData._buyer.first_name).toUpperCase(): ""} {this.state.orderData._buyer? (this.state.orderData._buyer.last_name).toUpperCase(): ""}</h4>
-              <p>{this.state.orderData._buyer? this.state.orderData._buyer.address: ""},{this.state.orderData._buyer? this.state.orderData._buyer.postal_code: ""},{this.state.orderData._buyer? this.state.orderData._buyer.city: ""}<br/>
-                Tel:{this.state.orderData.address? this.state.orderData.address.phone_num: ""},E-mail:{this.state.orderData._buyer? this.state.orderData._buyer.email: ""}<br/>
-                {this.state.orderData._buyer? this.state.orderData._buyer.producer_info.cmp_web_site: ""}
+              <h4>{full_name? full_name.toUpperCase(): ""}</h4>
+              <p>{cmp_address},{cmp_postal_code},{cmp_city}<br/>
+                Tel:{cmp_phone_number},E-mail:{email}<br/>
+                {cmp_web_site}
               </p>
             </div>
           </div>

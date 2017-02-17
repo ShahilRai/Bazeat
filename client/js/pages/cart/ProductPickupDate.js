@@ -19,6 +19,7 @@ let product_id;
 let start_time;
 let end_time;
 let day = [];
+let selected_timeslots ;
 
 export default class ProductPickupDate extends React.Component {
 
@@ -195,12 +196,24 @@ export default class ProductPickupDate extends React.Component {
 
   getSelectedDate(e){
     date_value_day = e.target.value
+    var res = date_value_day.split(" ");
+    var selected_day = res[0];
+    var selected_month = res[2];
+    var selected_date = res[3];
+    var selected_start_time = res[6];
+    var selected_end_time = res[8];
+    selected_timeslots ={
+    day : selected_day,
+    month : selected_month,
+    date : selected_date,
+    start_time : selected_start_time,
+    end_time : selected_end_time
+    }
     $(e.target).addClass("input_green_txt");
     this.setState({
       select_input: true
     })
   }
-
   displayTimeSlot(){
     this.loadTimeSlot(product_id).then((response) => {
         if(response.data) {
@@ -219,9 +232,11 @@ export default class ProductPickupDate extends React.Component {
   }
 
   createOrder(){
+
     var cart_cuid = this.props.cart_detail.cuid
     var email=this.context.user ? this.context.user.username : ''
-    this.createOrderRequest(email, cart_cuid).then((response) => {
+    if(this.props.method == 'hentemat'){
+      this.createOrderRequest(email, cart_cuid,selected_timeslots).then((response) => {
       if(response.data) {
         if(this.refs.myRef){
          this.setState({
@@ -236,11 +251,30 @@ export default class ProductPickupDate extends React.Component {
       }
       }).catch((err) => {
           console.log(err);
-          toastr.success('Please add your bank account first');
       });
+
+    }
+    else{
+      this.createOrderRequest(email, cart_cuid).then((response) => {
+      if(response.data) {
+        if(this.refs.myRef){
+         this.setState({
+          orderDetail : response.data
+         });
+        }
+      orderDetailResponse = response.data.order
+      if((orderDetailResponse) || (producer_ifo,date_value_day,time_value_day))
+        {
+          this.props.nextStep(orderDetailResponse,orderDetailResponse,producer_ifo,date_value_day,time_value_day);
+        }
+      }
+      }).catch((err) => {
+          console.log(err);
+      });
+    }
   }
 
-  createOrderRequest(email, cart_cuid){
+  createOrderRequest(email, cart_cuid,selected_timeslots){
     if(this.props.method == 'hentemat')
     {
       return axios.post("api/orders",
@@ -248,10 +282,11 @@ export default class ProductPickupDate extends React.Component {
         email : email,
         cart_cuid : cart_cuid,
         shipment_price : 0,
-        delivery_method : this.props.method
+        delivery_method : this.props.method,
+        timeslot : selected_timeslots
       });
     }
-    else if(this.props.method == 'Budmat')
+    else if(this.props.method == 'budmat')
     {
       return axios.post("api/orders",
       {
@@ -434,7 +469,7 @@ export default class ProductPickupDate extends React.Component {
   }
 
   OptionalAlternateAddessButton(){
-    if(this.props.method == 'Sendemat')
+    if(this.props.method == 'sendemat')
     {
       return(
         <button type="submit" className="btn btn-default continue_btn" onClick={this.sendematAlternateAddress}>Save</button>
@@ -540,12 +575,12 @@ export default class ProductPickupDate extends React.Component {
       this.pickupdate()
       )
     }
-    if(this.state.method == 'Sendemat'){
+    if(this.state.method == 'sendemat'){
       return(
       this.destination()
       )
     }
-    if(this.state.method == 'Budmat'){
+    if(this.state.method == 'budmat'){
       return(
       this.deliverToPerson()
       )

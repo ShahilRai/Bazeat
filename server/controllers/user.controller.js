@@ -344,7 +344,7 @@ export function create_charge(customer, producer, card, order, next, req, res) {
         ).exec(function(err, updated_order) {
       });
       clear_cart(order._buyer)
-      MailService.budmat_order(order)
+      // MailService.budmat_order(order)
       update_order_after_paymnt(charge, order)
       return res.json({ charge: charge });
     }
@@ -422,7 +422,14 @@ export function update_order_after_paymnt(charge, order){
           newPurchseorder._order = order._id;
           newPurchseorder._producer = product._producer;
           newPurchseorder._buyer = order._buyer;
-          newPurchseorder.save();
+          newPurchseorder.save((err, purchaseorder) => {
+            if (err) {
+              console.log("PurchaseOrder creation falied")
+            }
+            else {
+              MailService.confrim_order_mail(purchaseorder)
+            }
+          })
           // Send email to promoter for shipping
         })
       // })
@@ -446,4 +453,36 @@ export function checkUserAccount(req,res){
       }
     }
   })
+}
+
+
+export function addProfile(req, res) {
+  const newUser = new User(req.body);
+  newUser.cuid = cuid();
+  console.log(req.body.producerinfo);
+  console.log(req.body.userinfo);
+  // newOrder.orderitems.create( req.body.orderitems );
+  newUser.save((err, saved) => {
+    if (err) {
+      // res.json(422, { err: err });
+      return res.status(422).send(err);
+    }
+    else{
+      saved.producerInfo.push(req.body.producerinfo);
+      saved.userInfo.push(req.body.userinfo);
+      return res.json({ user: saved });
+    }
+  });
+}
+
+export function getProfile(req, res) {
+  console.log(req.query.email);
+  User.findOne({ email: req.query.email }).exec((err, user) => {
+    if (err) {
+      return res.status(422).send(err);
+    }
+    else{
+      return res.json({ user });
+    }
+  });
 }
