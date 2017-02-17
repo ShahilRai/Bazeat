@@ -231,7 +231,7 @@ export function checkAccount(req, res) {
 }
 
 export function Payment(req, res) {
-  User.findOne({ email: req.body.email }).exec((err, user) => {
+  User.findOne({ email: req.body.current_user_email }).exec((err, user) => {
     Order.findOne({ _id: req.body.order_id }).populate({
     path: 'orderitems',
     model: 'OrderItem',

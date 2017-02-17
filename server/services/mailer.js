@@ -8,8 +8,6 @@ const transport = nodeMailer.createTransport(mandrillTransport({
   }
 }));
 export function send_email(charge) {
-  console.log('charge')
-  console.log(charge.email)
   transport.sendMail({
     from: 'noreply@bazeat.no',
     to: charge.email,
@@ -278,7 +276,7 @@ function budmat_sendemat_email(porder){
       template_name: 'Order verification mail (budmat)',
       template_content: [],
       message: {
-        to: [ {email: porder._buyer.email} ],
+        to: [ {email: porder._order.address.email} ],
         subject: 'Order successfully placed' ,
         from_email: 'noreply@bazeat.no',
         "merge": true,
@@ -358,7 +356,7 @@ export function hentemat_order(porder){
     p_post_code = porder._producer.producer_info.cmp_postal_code
     p_ph_no = porder._producer.producer_info.cmp_phone_number
   }
-  if ((porder._producer.if_user == true) && (porder._producer.if_producer == false)) {
+  if ((porder._producer.if_user == false) && (porder._producer.if_producer == false)) {
     p_address = porder._producer.address
     p_city = porder._producer.city
     p_country = porder._producer.country
@@ -434,23 +432,23 @@ export function hentemat_order(porder){
               },
               {
                 "name": "CITY",
-                "content": "need to set"
+                "content": p_city
               },
               {
                 "name": "PICKUPDAY",
-                "content": "need to set"
+                "content": porder._order.timeslot[0].day
               },
               {
                 "name": "PICKUPMONTH",
-                "content": "need to set"
+                "content": porder._order.timeslot[0].month
               },
               {
                 "name": "PICKUPDAYNO",
-                "content": "need to set"
+                "content": porder._order.timeslot[0].date
               },
               {
                 "name": "PICKUPTIME",
-                "content": "need to set"
+                "content": porder._order.timeslot[0].start_time + "-" + porder._order.timeslot[0].end_time
               },
             ]
           }
