@@ -59,7 +59,7 @@ export default class PurchaseOrderSlip extends React.Component {
       }
     })}
     return(
-      <div className="col-lg-9 col-md-9 col-sm-12 col-xs-12 rt_order_mgmnt po_modal_width">
+      <div id="orderPdf" className="col-lg-9 col-md-9 col-sm-12 col-xs-12 rt_order_mgmnt po_modal_width">
         <div className="received_order_rght">
           <div className="order_information po_slip">
             <div>

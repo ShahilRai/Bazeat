@@ -5480,6 +5480,10 @@ ul.pay_top li {
     margin-left: 26px;
 }
 
+.table-main.tabl_bottom_padding {
+    padding-bottom: 200px;
+}
+
 .po_slip.order_information{
 padding: 17px 43px 39px 38px;
 }

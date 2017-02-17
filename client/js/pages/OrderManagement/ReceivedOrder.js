@@ -9,6 +9,7 @@ import PurchaseOrders from './PurchaseOrders';
 import PurchaseOrderSlip from './PurchaseOrderSlip';
 import ToggleDisplay from 'react-toggle-display';
 import PubSub from 'pubsub-js';
+import PHE  from 'print-html-element';
 
 export default class ReceivedOrder extends React.Component {
 
@@ -32,7 +33,8 @@ export default class ReceivedOrder extends React.Component {
     this._showPackage = this._showPackage.bind(this)
     this._updateShpQty = this._updateShpQty.bind(this)
     this.getSingleOrder = this.getSingleOrder.bind(this)
-    this.generatePoSlip = this.generatePoSlip.bind(this)
+    this.generatePOSlip = this.generatePOSlip.bind(this)
+    this.printPOSlip = this.printPOSlip.bind(this)
   }
 
   componentDidMount(){
@@ -55,7 +57,7 @@ export default class ReceivedOrder extends React.Component {
     });
   }
 
-  generatePoSlip(){
+  generatePOSlip(){
     var pdf = new jsPDF('p', 'pt', 'letter');
     var source = $('#orderPdf')[0];
     var specialElementHandlers = {
@@ -82,6 +84,10 @@ export default class ReceivedOrder extends React.Component {
         pdf.save('po-slip');
       }
     )
+  }
+
+  printPOSlip(){
+    PHE.printElement( document.getElementById('orderPdf') );
   }
 
   dropDownOption(){
@@ -176,10 +182,10 @@ export default class ReceivedOrder extends React.Component {
                           <a href="#" data-toggle="modal" data-target="#edit_purchase"><i className="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                         </li>
                         <li className="fax_icon">
-                          <a href="#"></a>
+                          <a href="javascript:void(0)" onClick={this.printPOSlip}></a>
                         </li>
                         <li>
-                          <a href="javascript:void(0)" onClick={this.generatePoSlip}><i className="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+                          <a href="javascript:void(0)" onClick={this.generatePOSlip}><i className="fa fa-file-pdf-o" aria-hidden="true"></i></a>
                         </li>
                         <li>
                           <Link to={"/orders/"+this.state.orderDetails.id+"/e-mail"}><i className="fa fa-envelope-o" aria-hidden="true"></i></Link>
@@ -292,7 +298,7 @@ export default class ReceivedOrder extends React.Component {
                 </div>
             </div>
           </div>
-          <div className="fade" id="orderPdf">
+          <div className="fade">
             <PurchaseOrderSlip orderId={this.props.params.orderId}/>
           </div>
         </div>

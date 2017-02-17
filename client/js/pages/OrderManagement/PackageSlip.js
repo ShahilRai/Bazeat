@@ -72,7 +72,7 @@ export default class PackageSlip extends React.Component {
       }
     }
     return(
-      <div className="container padd_87">
+      <div className="container padd_87" id="packagePdf">
         <div className="full_width">
           <div className="row">
             <div className="col-lg-9 col-md-9 col-sm-12 col-xs-12 rt_order_mgmnt po_modal_width">
@@ -126,7 +126,7 @@ export default class PackageSlip extends React.Component {
                   </div>
                 </div>
                 <div className="rcvd_order_table">
-                  <div className="table-main">
+                  <div className="table-main tabl_bottom_padding">
                     <div className="table-wrapper">
                       <table className="table">
                         <thead>
