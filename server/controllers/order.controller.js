@@ -72,11 +72,11 @@ export function addOrder(req, res) {
                   order.net_price = data.total_price;
                   order.total_mva = (food_vat_value + shipment_vat_value) ;
                   order.save(function (errors, order1) {
-                    deduct_product_qty(order1)
                     if (errors){
                       return res.status(422).send(errors);
                     }
                     else{
+                      deduct_product_qty(order1)
                       return res.json({ order: order1 });
                     }
                   });
