@@ -19,6 +19,7 @@ let product_id;
 let start_time;
 let end_time;
 let day = [];
+let year;
 let selected_timeslots ;
 
 export default class ProductPickupDate extends React.Component {
@@ -67,6 +68,7 @@ export default class ProductPickupDate extends React.Component {
       dayInMonth[1]=29
     }
     let date = new Date();
+    year = date.getFullYear();
     var self = this
     var startingday = 0
     var i;
@@ -207,7 +209,8 @@ export default class ProductPickupDate extends React.Component {
     month : selected_month,
     date : selected_date,
     start_time : selected_start_time,
-    end_time : selected_end_time
+    end_time : selected_end_time,
+    year : year
     }
     $(e.target).addClass("input_green_txt");
     this.setState({
