@@ -62,7 +62,8 @@ export default class Payment extends React.Component {
     var line1 = this.props.orderDetail.address.line1
     var phone_num = this.props.orderDetail.address.phone_num
     var postal_code = this.props.orderDetail.address.postal_code
-    this.requestForPayment(email, order_id, card_no, exp_month, exp_year, cvc, city, country, line1, postal_code, phone_num).then((response) => {
+    var current_usr_email=this.context.user ? this.context.user.username : ''
+    this.requestForPayment(email, order_id, card_no, exp_month, exp_year, cvc, city, country, line1, postal_code, phone_num,current_usr_email).then((response) => {
       if(response.data) {
         if(this.refs.myRef){
 
@@ -87,10 +88,11 @@ export default class Payment extends React.Component {
   }
 
 // api for checkout process payment
-  requestForPayment(email, order_id, card_no, exp_month, exp_year, cvc, city, country, line1, postal_code, phone_num){
+  requestForPayment(email, order_id, card_no, exp_month, exp_year, cvc, city, country, line1, postal_code, phone_num,current_usr_email){
     return axios.post("api/payment",
       {
         email : email,
+        current_user_email : current_usr_email,
         order_id : order_id,
         card_number : card_no,
         month : exp_month,

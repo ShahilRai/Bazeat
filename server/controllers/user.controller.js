@@ -231,7 +231,7 @@ export function checkAccount(req, res) {
 }
 
 export function Payment(req, res) {
-  User.findOne({ email: req.body.email }).exec((err, user) => {
+  User.findOne({ email: req.body.current_user_email }).exec((err, user) => {
     Order.findOne({ _id: req.body.order_id }).populate({
     path: 'orderitems',
     model: 'OrderItem',
@@ -405,16 +405,13 @@ export function disableAccount(req, res) {
 }
 
 export function update_order_after_paymnt(charge, order){
-  console.log('charge')
-  console.log(charge)
   Order.findOneAndUpdate({"_id": order._id},
     {
-      "$set": {
-        "payment_status": charge.status,
-        // "payment_transaction_id": charge.balance_transaction,
-        "charge_id": charge.id,
-      }
-    },{new: true}
+    "$set": {
+      "payment_status": charge.status,
+      // "payment_transaction_id": charge.balance_transaction,
+      "charge_id": charge.id,
+    }},{new: true}
     ).exec(function(err, updated_order){
       // updated_order.products.forEach(function(item, index){
         Product.findOne({_id: updated_order.products[0]}).exec((err, product) =>{
