@@ -289,15 +289,15 @@ export default class ReviewPage extends React.Component {
             </div>
             <div className="col-lg-9 col-md-9 col-sm-10 col-xs-12 edit_profile_rht_sidebar review_all">
               <div className="user_review_section mtop0">
-                  <h3>Reviews to write<span className="show_all"><a href="">Show all</a></span></h3>
+                  <h3>Reviews to write<span className="show_all"><span>Show all</span></span></h3>
                     {allWriteReview}
                 </div>
                 <div className="user_review_section">
-                  <h3>Reviews about you ({this.state.new_count})<span className="show_all"><a href="javascript:void(0)">Show all</a></span></h3>
+                  <h3>Reviews about you ({this.state.new_count})<span className="show_all"><span>Show all</span></span></h3>
                     {allCurrentReviewResult}
                 </div>
                 <div className="user_review_section">
-                  <h3>Reviews written by you<span className="show_all"><a href="javascript:void(0)">Show all</a></span></h3>
+                  <h3>Reviews written by you<span className="show_all"><span>Show all</span></span></h3>
                   {allCurrentWriteReviewResult}
                 </div>
                 <ReviewAboutUser reviewedBy={this.state.reviewedBy} review_index={this.state.review_index} review_id={this.state.review_id} review_user={this.state.review_user} is_replied={this.state.is_replied} updatedComment={this.commentedData.bind(this)} rating_count={this.state.rating_count} />
