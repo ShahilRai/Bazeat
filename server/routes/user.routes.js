@@ -31,4 +31,8 @@ router.route('/disable_account').put(UserController.disableAccount);
 
 router.route('/check_user').get(UserController.checkUserAccount);
 
+router.route('/create_profile').post(UserController.addProfile);
+
+router.route('/edit').get(UserController.getProfile);
+
 export default router;
