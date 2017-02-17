@@ -227,34 +227,50 @@ export function getUserProducts(req, res) {
   if(req.query.email){
     data.email = req.query.email;
   }
-  User.findOne(data).populate('products').exec((err, user) => {
-    if(err){
-      return res.status(422).send(err);
-    }
-    else {
-      if (user.products.length > 0) {
-        user.products.forEach(function(item, index){
-          Product.findOne({ cuid: item.cuid }).populate('allergens').populate('ingredients').populate('product_category').exec((err, product) =>{
+  // User.findOne(data).populate('products')
+  // User.findOne(data).populate('products').exec((err, user) => {
+  //   if(err){
+  //     return res.status(422).send(err);
+  //   }
+  //   else {
+  //     if (user.products.length > 0) {
+  //       user.products.forEach(function(item, index){
+  //         Product.findOne({ cuid: item.cuid }).populate('allergens').populate('ingredients').populate('product_category').exec((err, product) =>{
 
-            if(err){
-              return res.status(422).send(err);
-            }
-            else{
-              user.products[index].allergens = product.allergens;
-              user.products[index].ingredients = product.ingredients
-              user.products[index].product_category = product.product_category
-              if(user.products.length == index+1){
-                return res.json({producer: user});
-              }
-            }
-          })
-        });
-      }
-      else {
-        res.json({producer: user});
-      }
+  //           if(err){
+  //             return res.status(422).send(err);
+  //           }
+  //           else{
+  //             user.products[index].allergens = product.allergens;
+  //             user.products[index].ingredients = product.ingredients
+  //             user.products[index].product_category = product.product_category
+  //             if(user.products.length == index+1){
+  //               return res.json({producer: user});
+  //             }
+  //           }
+  //         })
+  //       });
+  //     }
+  //     else {
+  //       res.json({producer: user});
+  //     }
+  //   }
+  // });
+
+  User.findOne(data)
+    .populate({
+      path: 'products',
+      model: 'Product',
+    populate: {
+      path: 'allergens ingredients product_category',
+      }}).exec((err, user_products) => {
+    if (err) {
+      console.log(err)
     }
-  });
+    else{
+      return res.json({ user_products });
+    }
+  })
 }
 
 
