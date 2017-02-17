@@ -49,7 +49,8 @@ export default class ProductPickupDate extends React.Component {
         sendematAlternateAddressDetail : {},
         budmatAlternateAddressDetail : {},
         select_input: false,
-        disabled: false
+        disabled: false,
+        leap_year: false
       }
       this.pickupdate = this.pickupdate.bind(this);
       this.destination = this.destination.bind(this);
@@ -63,6 +64,9 @@ export default class ProductPickupDate extends React.Component {
   }
 
   displayDataMonthDay(){
+    if(this.state.leap_year == true){
+      dayInMonth[1]=29
+    }
     let date = new Date();
     year = date.getFullYear();
     var self = this
@@ -116,6 +120,20 @@ export default class ProductPickupDate extends React.Component {
     this.setState({
       _arrayOfMonthDayAndDate: _placeHolderArr
     })
+  }
+
+  findLeapYear(){
+    var d = new Date();
+    var n = d.getFullYear();
+    if(n%4 == 0){
+      this.setState({
+        leap_year:true
+      })
+    }
+  }
+
+  componentWillMount(){
+    this.findLeapYear()
   }
 
   componentDidMount(){
