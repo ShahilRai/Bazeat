@@ -40,9 +40,9 @@ export default class UserHomePage extends React.Component {
     var cuid = this.props.params.userId;
 
     this.loadUserProductsData(cuid).then((response) => {
-      if(response.data.producer) {
+      if(response.data.user_products) {
         this.setState({
-          user: response.data.producer,
+          user: response.data.user_products,
           data_loaded: true
         });
       }
