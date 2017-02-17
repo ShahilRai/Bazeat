@@ -16,8 +16,10 @@ import autoIncrement from 'mongoose-auto-increment';
 const slotSchema = new Schema({
   start_time: { type: 'String', required: true },
   end_time: { type: 'String', required: true },
-  start_day: { type: 'String', required: true },
-  end_day: String
+  day: { type: 'String', required: true },
+  month: { type: 'String', required: true },
+  date: { type: 'String', required: true },
+  year: { type: 'String'}
 });
 
 const orderSchema = new Schema({
